@@ -47,8 +47,16 @@ public class SC_Player : MonoBehaviour
     public GameObject UI_JoystickBD;
     public GameObject UI_JoystickBG;
 
+    public float FDetectionRate = 2f;
+    private float FDetectionLevel;
+    private SC_FieldOfView[] allEnemies;
+    public float FTimeWithoutLooseDetection = 5f;
+    private bool BLooseDetectLevel;
+
     private float[] angles = { -135f, -90f, -45f, 0f, 45f, 90f, 135f, 180f };
     private int currentAngleIndex = 3;
+
+    GameObject[] Enemies1;
 
 
     void OnEnable()
@@ -68,16 +76,20 @@ public class SC_Player : MonoBehaviour
 
     void Start()
     {
+        Enemies1 = GameObject.FindGameObjectsWithTag("Enemies 1");
+        allEnemies = FindObjectsOfType<SC_FieldOfView>();
         FBPS = 60/FBPM;
         FZoneBadTiming = FBadTiming/2;
         FZoneGoodTiming = FGoodTiming/2;
         FZonePerfectTiming = FPerfectTiming/2;
         FWaitTime = FBPS - FZoneBadTiming;
         StartCoroutine(wait());
+        FDetectionRate = 1f;
     }
 
     IEnumerator wait()
     {
+        RotationEnemies();
         yield return new WaitForSeconds(FWaitTime);
         BWait = false;
         StartCoroutine(bad());
@@ -159,6 +171,24 @@ public class SC_Player : MonoBehaviour
         }
 
 
+        
+
+        MouvementClavier();
+        EnemieDetection();
+        Rythme();
+        
+    }
+
+    void RotationEnemies()
+    {
+        foreach (GameObject enemie in Enemies1)
+        {
+            enemie.transform.Rotate(0, 45, 0, Space.Self);
+        }
+    }
+
+    void Rythme()
+    {
         if(BBad == true)
         {
             GOUiBad.SetActive(true);
@@ -191,9 +221,43 @@ public class SC_Player : MonoBehaviour
             GOUiGood.SetActive(false);
             GOUiBad.SetActive(false);
         }
+    }
 
-        MouvementClavier();
-        
+    void EnemieDetection()
+    {
+        bool isDetectedByAnyEnemy = false;
+
+        foreach (SC_FieldOfView enemie in allEnemies)
+        {
+            if (enemie.BCanSee)
+            {
+                FDetectionLevel += FDetectionRate * Time.deltaTime;
+                BLooseDetectLevel = false;
+                isDetectedByAnyEnemy = true;
+            }
+            
+        }
+
+        if (!isDetectedByAnyEnemy && !BLooseDetectLevel)
+        {
+            StartCoroutine(LooseDetectionLevel());
+        }
+
+ 
+        if (BLooseDetectLevel)
+        {
+            FDetectionLevel -= FDetectionRate * Time.deltaTime;
+            FDetectionLevel = Mathf.Max(FDetectionLevel, 0);
+        }
+
+        Debug.Log("Niveau de detection : " + FDetectionLevel);
+        Debug.Log("detection : " + BLooseDetectLevel);
+    }
+
+    IEnumerator LooseDetectionLevel()
+    {
+        yield return new WaitForSeconds(FTimeWithoutLooseDetection);
+        BLooseDetectLevel = true;
     }
 
     void MouvementClavier()
@@ -288,30 +352,18 @@ public class SC_Player : MonoBehaviour
             {
                 currentAngleIndex = 1;
                 PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
+                UIFlase();
                 UI_JoystickG.SetActive(true); // Gauche
-                UI_JoystickBG.SetActive(false);
-                UI_JoystickHG.SetActive(false);
-                UI_JoystickD.SetActive(false);
-                UI_JoystickBD.SetActive(false);
-                UI_JoystickHD.SetActive(false);
-                UI_JoystickB.SetActive(false);
-                UI_JoystickH.SetActive(false);
-                UI_JoystickC.SetActive(false);
+                
             
             }
             else if (Mathf.Sign(lastMoveDirection.x) == 1)
             {
                 currentAngleIndex = 5;
                 PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
+                UIFlase();
                 UI_JoystickD.SetActive(true); // Droite
-                UI_JoystickG.SetActive(false);
-                UI_JoystickBG.SetActive(false);
-                UI_JoystickHG.SetActive(false);
-                UI_JoystickBD.SetActive(false);
-                UI_JoystickHD.SetActive(false);
-                UI_JoystickB.SetActive(false);
-                UI_JoystickH.SetActive(false);
-                UI_JoystickC.SetActive(false);
+            
             }
         }
         else if (Mathf.Abs(lastMoveDirection.z) > tolerance && Mathf.Abs(lastMoveDirection.x) <= tolerance)
@@ -321,29 +373,17 @@ public class SC_Player : MonoBehaviour
             {   
                 currentAngleIndex = 3;
                 PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
+                UIFlase();
                 UI_JoystickH.SetActive(true); // Haut
-                UI_JoystickG.SetActive(false);
-                UI_JoystickBG.SetActive(false);
-                UI_JoystickHG.SetActive(false);
-                UI_JoystickD.SetActive(false);
-                UI_JoystickBD.SetActive(false);
-                UI_JoystickHD.SetActive(false);
-                UI_JoystickB.SetActive(false);
-                UI_JoystickC.SetActive(false);
+              
             }
             else if (Mathf.Sign(lastMoveDirection.z) == -1)
             {
                 currentAngleIndex = 7;
                 PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
+                UIFlase();
                 UI_JoystickB.SetActive(true); // Bas
-                UI_JoystickG.SetActive(false);
-                UI_JoystickBG.SetActive(false);
-                UI_JoystickHG.SetActive(false);
-                UI_JoystickD.SetActive(false);
-                UI_JoystickBD.SetActive(false);
-                UI_JoystickHD.SetActive(false);
-                UI_JoystickH.SetActive(false);
-                UI_JoystickC.SetActive(false);
+             
             }
         }
         else if (Mathf.Abs(lastMoveDirection.x) > tolerance && Mathf.Abs(lastMoveDirection.z) > tolerance)
@@ -353,58 +393,47 @@ public class SC_Player : MonoBehaviour
             {
                 currentAngleIndex = 2;
                 PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
+                UIFlase();
                 UI_JoystickHG.SetActive(true); // HautGauche
-                UI_JoystickG.SetActive(false);
-                UI_JoystickBG.SetActive(false);
-                UI_JoystickD.SetActive(false);
-                UI_JoystickBD.SetActive(false);
-                UI_JoystickHD.SetActive(false);
-                UI_JoystickB.SetActive(false);
-                UI_JoystickH.SetActive(false);
-                UI_JoystickC.SetActive(false);
+              
             }
             else if (Mathf.Sign(lastMoveDirection.x) == 1 && Mathf.Sign(lastMoveDirection.z) == 1)
             {
                 currentAngleIndex = 4;
                 PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
+                UIFlase();
                 UI_JoystickHD.SetActive(true); // Haut-Droite
-                UI_JoystickG.SetActive(false);
-                UI_JoystickBG.SetActive(false);
-                UI_JoystickHG.SetActive(false);
-                UI_JoystickD.SetActive(false);
-                UI_JoystickBD.SetActive(false);
-                UI_JoystickB.SetActive(false);
-                UI_JoystickH.SetActive(false);
-                UI_JoystickC.SetActive(false);
+                
             }
             else if (Mathf.Sign(lastMoveDirection.x) == -1 && Mathf.Sign(lastMoveDirection.z) == -1)
             {
                 currentAngleIndex = 0;
                 PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
+                UIFlase();
                 UI_JoystickBG.SetActive(true); // Bas Gauche
-                UI_JoystickG.SetActive(false);
-                UI_JoystickHG.SetActive(false);
-                UI_JoystickD.SetActive(false);
-                UI_JoystickBD.SetActive(false);
-                UI_JoystickHD.SetActive(false);
-                UI_JoystickB.SetActive(false);
-                UI_JoystickH.SetActive(false);
-                UI_JoystickC.SetActive(false);
+                
             }
             else if (Mathf.Sign(lastMoveDirection.x) == 1 && Mathf.Sign(lastMoveDirection.z) == -1)
             {
                 currentAngleIndex = 6;
                 PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
+                UIFlase();
                 UI_JoystickBD.SetActive(true); // Bas Droite
-                UI_JoystickG.SetActive(false);
-                UI_JoystickBG.SetActive(false);
-                UI_JoystickHG.SetActive(false);
-                UI_JoystickD.SetActive(false);
-                UI_JoystickHD.SetActive(false);
-                UI_JoystickB.SetActive(false);
-                UI_JoystickH.SetActive(false);
-                UI_JoystickC.SetActive(false);
+              
             }
         }
+    }
+
+    void UIFlase()
+    {
+        UI_JoystickG.SetActive(false);
+        UI_JoystickBG.SetActive(false);
+        UI_JoystickHG.SetActive(false);
+        UI_JoystickD.SetActive(false);
+        UI_JoystickBD.SetActive(false);
+        UI_JoystickHD.SetActive(false);
+        UI_JoystickB.SetActive(false);
+        UI_JoystickH.SetActive(false);
+        UI_JoystickC.SetActive(false);
     }
 }
