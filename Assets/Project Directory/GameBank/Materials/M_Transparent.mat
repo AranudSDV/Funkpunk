@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_Opaque
-  m_Shader: {fileID: 4800000, guid: 033931281fc52ca4a9ea36a555933ddc, type: 3}
+  m_Name: M_Transparent
+  m_Shader: {fileID: 4800000, guid: 305c96aec67ea0d4eab82dd13d744fc7, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -40,16 +40,18 @@ Material:
     - _AlphaCutoff: 0.5
     - _EnvironmentReflections: 1
     - _MTL_Pow: 1
+    - _OPA_Pow: 0.392
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _SMH_Pow: 1
     - _SpecularHighlights: 1
     m_Colors:
-    - _ALB: {r: 1, g: 0, b: 0, a: 0}
+    - _ALB: {r: 0, g: 1, b: 0.9291754, a: 1}
     - _AO: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _MTL: {r: 0, g: 0, b: 0, a: 0}
-    - _NRM: {r: 0, g: 0, b: 1, a: 1}
+    - _NRM: {r: 0, g: 0, b: 1, a: 0}
+    - _OPA: {r: 1, g: 1, b: 1, a: 1}
     - _SMH: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
