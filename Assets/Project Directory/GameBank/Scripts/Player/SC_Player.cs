@@ -191,7 +191,45 @@ public class SC_Player : MonoBehaviour
             GOUiGood.SetActive(false);
             GOUiBad.SetActive(false);
         }
+
+        MouvementClavier();
         
+    }
+
+    void MouvementClavier()
+    {
+        if(Input.GetKeyDown(KeyCode.A))
+        {
+            transform.Translate(Vector3.left, Space.World);
+        }
+        if(Input.GetKeyDown(KeyCode.W))
+        {
+            transform.Translate(Vector3.forward, Space.World);
+        }
+        if(Input.GetKeyDown(KeyCode.D))
+        {
+            transform.Translate(Vector3.right, Space.World);
+        }
+        if(Input.GetKeyDown(KeyCode.X))
+        {
+            transform.Translate(Vector3.back, Space.World);
+        }
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            transform.position += new Vector3(-1, 0, 1);
+        }
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            transform.position += new Vector3(1, 0, 1);
+        }
+        if(Input.GetKeyDown(KeyCode.C))
+        {
+            transform.position += new Vector3(1, 0, -1);
+        }
+        if(Input.GetKeyDown(KeyCode.Z))
+        {
+            transform.position += new Vector3(-1, 0, -1);
+        }
     }
 
     Vector3 GetDirectionFromJoystick(Vector2 moveInput)

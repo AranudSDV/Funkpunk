@@ -69,6 +69,6 @@ public class SC_FieldOfView : MonoBehaviour
 
     void Update()
     {
-        
+        Debug.Log(BCanSee);
     }
 }
