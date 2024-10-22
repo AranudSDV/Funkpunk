@@ -22,9 +22,8 @@ public class SC_Player : MonoBehaviour
     public float FGoodTiming;
     float FZoneGoodTiming;
     public float FPerfectTiming;
-     float FZonePerfectTiming;
+    float FZonePerfectTiming;
     float FWaitTime;
-    bool BWait = true;
     bool BBad = false;
     bool BGood = false;
     bool BPerfect = false;
@@ -35,8 +34,6 @@ public class SC_Player : MonoBehaviour
 
     float FScore;
     public TMP_Text TMPScore;
-
-    GameObject newActiveUI = null;
     public GameObject UI_JoystickH;
     public GameObject UI_JoystickHD;
     public GameObject UI_JoystickHG;
@@ -52,9 +49,17 @@ public class SC_Player : MonoBehaviour
     private SC_FieldOfView[] allEnemies;
     public float FTimeWithoutLooseDetection = 5f;
     private bool BLooseDetectLevel;
+    public TMP_Text TMPDetectLevel;
+    bool BisDetectedByAnyEnemy = false;
+
 
     private float[] angles = { -135f, -90f, -45f, 0f, 45f, 90f, 135f, 180f };
     private int currentAngleIndex = 3;
+
+    public float taggingRange = 1f;
+    public Material taggedMaterial; 
+    private RaycastHit hitInfo; 
+
 
     GameObject[] Enemies1;
 
@@ -91,7 +96,6 @@ public class SC_Player : MonoBehaviour
     {
         RotationEnemies();
         yield return new WaitForSeconds(FWaitTime);
-        BWait = false;
         StartCoroutine(bad());
     }
 
@@ -125,6 +129,10 @@ public class SC_Player : MonoBehaviour
     {
         BPerfect = true;
         yield return new WaitForSeconds(FZonePerfectTiming/2);
+        if(BisDetectedByAnyEnemy)
+        {
+            FDetectionLevel += 30f;
+        }
         StartCoroutine(wait());
         yield return new WaitForSeconds(FZonePerfectTiming/2);
         BPerfect = false;
@@ -134,6 +142,7 @@ public class SC_Player : MonoBehaviour
     {
         
         TMPScore.SetText(FScore.ToString());
+        TMPDetectLevel.SetText(FDetectionLevel.ToString());
 
         
         move = control.GamePlay.Orientation.ReadValue<Vector2>();
@@ -176,8 +185,25 @@ public class SC_Player : MonoBehaviour
         MouvementClavier();
         EnemieDetection();
         Rythme();
+        Tagging();
         
     }
+
+    void Tagging()
+    {
+        if (control.GamePlay.Tagging.triggered)
+        {
+            if (Physics.Raycast(transform.position, transform.forward, out hitInfo, taggingRange))
+            {
+                if (hitInfo.transform.CompareTag("Tagging"))
+                {
+                    Renderer wallRenderer = hitInfo.transform.GetComponent<Renderer>();   
+                    wallRenderer.material = taggedMaterial;
+                }
+            }
+        }
+    }
+    
 
     void RotationEnemies()
     {
@@ -225,20 +251,20 @@ public class SC_Player : MonoBehaviour
 
     void EnemieDetection()
     {
-        bool isDetectedByAnyEnemy = false;
+        
 
         foreach (SC_FieldOfView enemie in allEnemies)
         {
             if (enemie.BCanSee)
             {
-                FDetectionLevel += FDetectionRate * Time.deltaTime;
+                
                 BLooseDetectLevel = false;
-                isDetectedByAnyEnemy = true;
+                BisDetectedByAnyEnemy = true;
             }
             
         }
 
-        if (!isDetectedByAnyEnemy && !BLooseDetectLevel)
+        if (!BisDetectedByAnyEnemy && !BLooseDetectLevel)
         {
             StartCoroutine(LooseDetectionLevel());
         }

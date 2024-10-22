@@ -44,6 +44,15 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Tagging"",
+                    ""type"": ""Button"",
+                    ""id"": ""c3cc68f9-6fb2-41d9-8947-d05b870f57ee"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -61,11 +70,22 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""b5af0532-908b-453d-8a6a-10527363abd0"",
-                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ce3f6ec5-804c-4f67-9584-ca84d7164b95"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Tagging"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -78,6 +98,7 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
         m_GamePlay = asset.FindActionMap("GamePlay", throwIfNotFound: true);
         m_GamePlay_Orientation = m_GamePlay.FindAction("Orientation", throwIfNotFound: true);
         m_GamePlay_Move = m_GamePlay.FindAction("Move", throwIfNotFound: true);
+        m_GamePlay_Tagging = m_GamePlay.FindAction("Tagging", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -141,12 +162,14 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
     private List<IGamePlayActions> m_GamePlayActionsCallbackInterfaces = new List<IGamePlayActions>();
     private readonly InputAction m_GamePlay_Orientation;
     private readonly InputAction m_GamePlay_Move;
+    private readonly InputAction m_GamePlay_Tagging;
     public struct GamePlayActions
     {
         private @PlayerControl m_Wrapper;
         public GamePlayActions(@PlayerControl wrapper) { m_Wrapper = wrapper; }
         public InputAction @Orientation => m_Wrapper.m_GamePlay_Orientation;
         public InputAction @Move => m_Wrapper.m_GamePlay_Move;
+        public InputAction @Tagging => m_Wrapper.m_GamePlay_Tagging;
         public InputActionMap Get() { return m_Wrapper.m_GamePlay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -162,6 +185,9 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
+            @Tagging.started += instance.OnTagging;
+            @Tagging.performed += instance.OnTagging;
+            @Tagging.canceled += instance.OnTagging;
         }
 
         private void UnregisterCallbacks(IGamePlayActions instance)
@@ -172,6 +198,9 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
+            @Tagging.started -= instance.OnTagging;
+            @Tagging.performed -= instance.OnTagging;
+            @Tagging.canceled -= instance.OnTagging;
         }
 
         public void RemoveCallbacks(IGamePlayActions instance)
@@ -193,5 +222,6 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
     {
         void OnOrientation(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
+        void OnTagging(InputAction.CallbackContext context);
     }
 }
