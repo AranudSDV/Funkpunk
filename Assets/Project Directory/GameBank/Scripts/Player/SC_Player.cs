@@ -207,9 +207,9 @@ public class SC_Player : MonoBehaviour
 
     void RotationEnemies()
     {
-        foreach (GameObject enemie in Enemies1)
+        foreach (SC_FieldOfView enemy in allEnemies)
         {
-            enemie.transform.Rotate(0, 45, 0, Space.Self);
+            enemy.EnemieRotation();
         }
     }
 
