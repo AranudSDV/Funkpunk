@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
+using System.Globalization;
 
 public class SC_Player : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class SC_Player : MonoBehaviour
     Vector2 move;
     Vector3 lastMoveDirection = Vector3.zero;
     public GameObject PlayerCapsule;
+    [SerializeField] private bool bIsOnComputer = false;
 
     float tolerance = 0.5f;
     bool canMove = true;
@@ -144,14 +146,27 @@ public class SC_Player : MonoBehaviour
         TMPScore.SetText(FScore.ToString());
         TMPDetectLevel.SetText(FDetectionLevel.ToString());
 
-        
-        move = control.GamePlay.Orientation.ReadValue<Vector2>();
-      
-      if (move != Vector2.zero)
-        {
-        
-            Vector3 direction = GetDirectionFromJoystick(move);
 
+        if (bIsOnComputer == false)
+        {
+            move = control.GamePlay.Orientation.ReadValue<Vector2>();
+        }
+        else if(bIsOnComputer == true)
+        {
+            move = new Vector2(1, 0);
+        }
+      
+        if (move != Vector2.zero)
+        {
+            Vector3 direction = Vector3.forward;
+            if (bIsOnComputer == false)
+            {
+                direction = GetDirectionFromJoystick(move);
+            }
+            else if (bIsOnComputer == true)
+            {
+                direction = GetDirectionFromClavier();
+            }
             if (direction != Vector3.zero)
             {
                 lastMoveDirection = direction;
@@ -159,9 +174,9 @@ public class SC_Player : MonoBehaviour
 
             UpdateDirectionUI();
         }
-        
-    
-        if (control.GamePlay.Move.triggered && canMove)
+
+
+        if ((control.GamePlay.Move.triggered && canMove && bIsOnComputer == false) || (Input.GetButtonDown("Jump") && canMove && bIsOnComputer == true))
         {
             if(BBad == true)
             {
@@ -178,11 +193,7 @@ public class SC_Player : MonoBehaviour
             }
             Mouvement();
         }
-
-
-        
-
-        MouvementClavier();
+        //MouvementClavier();
         EnemieDetection();
         Rythme();
         Tagging();
@@ -286,6 +297,46 @@ public class SC_Player : MonoBehaviour
         BLooseDetectLevel = true;
     }
 
+    Vector3 GetDirectionFromClavier()
+    {
+        if (Input.GetKeyDown(KeyCode.A) && Input.GetKeyDown(KeyCode.S))
+        {
+            return new Vector3(-1, 0, -1);
+        }
+        else if (Input.GetKeyDown(KeyCode.A) && Input.GetKeyDown(KeyCode.W))
+        {
+            return new Vector3(-1, 0, 1);
+        }
+        else if (Input.GetKeyDown(KeyCode.W) && Input.GetKeyDown(KeyCode.D))
+        {
+            return new Vector3(1, 0, 1);
+        }
+        else if (Input.GetKeyDown(KeyCode.D) && Input.GetKeyDown(KeyCode.S))
+        {
+            return new Vector3(1, 0, -1);
+        }
+        else if (Input.GetKeyDown(KeyCode.A))
+        {
+            return Vector3.left;
+        }
+        else if (Input.GetKeyDown(KeyCode.W))
+        {
+            return Vector3.forward;
+        }
+        else if (Input.GetKeyDown(KeyCode.D))
+        {
+            return Vector3.right;
+        }
+        else if (Input.GetKeyDown(KeyCode.S))
+        {
+            return Vector3.back;
+        }
+        else
+        {
+            return Vector3.zero;
+        }
+    }
+
     void MouvementClavier()
     {
         if(Input.GetKeyDown(KeyCode.A))
@@ -300,23 +351,23 @@ public class SC_Player : MonoBehaviour
         {
             transform.Translate(Vector3.right, Space.World);
         }
-        if(Input.GetKeyDown(KeyCode.X))
+        if(Input.GetKeyDown(KeyCode.S))
         {
             transform.Translate(Vector3.back, Space.World);
         }
-        if(Input.GetKeyDown(KeyCode.Q))
+        if(Input.GetKeyDown(KeyCode.W) && Input.GetKeyDown(KeyCode.A))
         {
             transform.position += new Vector3(-1, 0, 1);
         }
-        if(Input.GetKeyDown(KeyCode.E))
+        if(Input.GetKeyDown(KeyCode.W) && Input.GetKeyDown(KeyCode.D))
         {
             transform.position += new Vector3(1, 0, 1);
         }
-        if(Input.GetKeyDown(KeyCode.C))
+        if(Input.GetKeyDown(KeyCode.S) && Input.GetKeyDown(KeyCode.D))
         {
             transform.position += new Vector3(1, 0, -1);
         }
-        if(Input.GetKeyDown(KeyCode.Z))
+        if(Input.GetKeyDown(KeyCode.S) && Input.GetKeyDown(KeyCode.A))
         {
             transform.position += new Vector3(-1, 0, -1);
         }
