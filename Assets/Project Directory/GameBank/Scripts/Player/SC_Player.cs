@@ -18,6 +18,7 @@ public class SC_Player : MonoBehaviour
 
     public float FBPM;
     float FBPS;
+    private float FSPB;
 
     public float FBadTiming;
     float FZoneBadTiming;
@@ -85,11 +86,16 @@ public class SC_Player : MonoBehaviour
     {
         Enemies1 = GameObject.FindGameObjectsWithTag("Enemies 1");
         allEnemies = FindObjectsOfType<SC_FieldOfView>();
-        FBPS = 60/FBPM;
+        //FBPS = 60/FBPM;
+        FBPS = FBPM/60f;
+        FSPB = 1f/FBPS;
+        FPerfectTiming = 1/14f * FSPB;
+        FGoodTiming = 4/14f * FSPB;
+        FBadTiming = 7/14f * FSPB;
         FZoneBadTiming = FBadTiming/2;
         FZoneGoodTiming = FGoodTiming/2;
         FZonePerfectTiming = FPerfectTiming/2;
-        FWaitTime = FBPS - FZoneBadTiming;
+        FWaitTime = FSPB - FZoneBadTiming;
         StartCoroutine(wait());
         FDetectionRate = 1f;
     }

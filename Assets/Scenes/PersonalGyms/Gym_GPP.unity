@@ -1467,7 +1467,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerCapsule: {fileID: 428138726}
-  FBPM: 20
+  bIsOnComputer: 1
+  FBPM: 90
   FBadTiming: 1
   FGoodTiming: 0.75
   FPerfectTiming: 0.5
