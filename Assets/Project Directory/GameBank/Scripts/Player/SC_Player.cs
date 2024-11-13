@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
 using System.Globalization;
+using System;
+using Unity.VisualScripting;
 
 public class SC_Player : MonoBehaviour
 {
@@ -150,7 +152,8 @@ public class SC_Player : MonoBehaviour
     {
         
         TMPScore.SetText(FScore.ToString());
-        TMPDetectLevel.SetText(FDetectionLevel.ToString());
+        int iDetectionLevel = Mathf.RoundToInt(FDetectionLevel);
+        TMPDetectLevel.SetText(iDetectionLevel.ToString());
 
 
         if (bIsOnComputer == false)
@@ -221,7 +224,6 @@ public class SC_Player : MonoBehaviour
         }
     }
     
-
     void RotationEnemies()
     {
         foreach (SC_FieldOfView enemy in allEnemies)
@@ -268,33 +270,46 @@ public class SC_Player : MonoBehaviour
 
     void EnemieDetection()
     {
-        
-
+        int i = 0;
+        int y = 0;
         foreach (SC_FieldOfView enemie in allEnemies)
         {
             if (enemie.BCanSee)
             {
-                
                 BLooseDetectLevel = false;
                 BisDetectedByAnyEnemy = true;
+                y++;
             }
-            
+            else if (enemie.BCanSee == false)
+            {
+                i++;
+            }
+            if(i == allEnemies.Length)
+            {
+                BisDetectedByAnyEnemy = false;
+                StartCoroutine(LooseDetectionLevel());
+                i = 0;
+                y = 0;
+            }
+            else if(y + i == allEnemies.Length && i != allEnemies.Length)
+            {
+                i = 0;
+                y = 0;
+            }
         }
 
-        if (!BisDetectedByAnyEnemy && !BLooseDetectLevel)
+        /*if (!BisDetectedByAnyEnemy && !BLooseDetectLevel)
         {
             StartCoroutine(LooseDetectionLevel());
-        }
-
+        }*/
  
         if (BLooseDetectLevel)
         {
-            FDetectionLevel -= FDetectionRate * Time.deltaTime;
+            FDetectionLevel -= FDetectionRate * Time.deltaTime*2;
+            /*int iDetectionLevel = Mathf.RoundToInt(FDetectionLevel);
+            FDetectionLevel = Convert.ToSingle(iDetectionLevel);*/
             FDetectionLevel = Mathf.Max(FDetectionLevel, 0);
         }
-
-        Debug.Log("Niveau de detection : " + FDetectionLevel);
-        Debug.Log("detection : " + BLooseDetectLevel);
     }
 
     IEnumerator LooseDetectionLevel()
@@ -424,7 +439,6 @@ public class SC_Player : MonoBehaviour
 
         canMove = false;
     }
-
 
     void UpdateDirectionUI()
     {
