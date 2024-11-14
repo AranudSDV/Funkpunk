@@ -32,6 +32,7 @@ public class SC_Player : MonoBehaviour
     bool BBad = false;
     bool BGood = false;
     bool BPerfect = false;
+    [SerializeField] private TMP_Text txt_Feedback;
 
     public GameObject GOUiBad;
     public GameObject GOUiGood;
@@ -39,15 +40,7 @@ public class SC_Player : MonoBehaviour
 
     float FScore;
     public TMP_Text TMPScore;
-    public GameObject UI_JoystickH;
-    public GameObject UI_JoystickHD;
-    public GameObject UI_JoystickHG;
-    public GameObject UI_JoystickG;
-    public GameObject UI_JoystickD;
-    public GameObject UI_JoystickC;
-    public GameObject UI_JoystickB;
-    public GameObject UI_JoystickBD;
-    public GameObject UI_JoystickBG;
+    [Tooltip("0 is H, 1 is HD, 2 is HG, 3 is G, 4 is D, 5 is C, 6 is B, 7 is BD, 8 is BG")] public GameObject[] UI_Joystick;
 
     public float FDetectionRate = 2f;
     private float FDetectionLevel;
@@ -63,7 +56,8 @@ public class SC_Player : MonoBehaviour
 
     public float taggingRange = 1f;
     public Material taggedMaterial; 
-    private RaycastHit hitInfo; 
+    private RaycastHit hitInfo;
+    private bool bHasMovedOnce = false;
 
 
     GameObject[] Enemies1;
@@ -113,6 +107,9 @@ public class SC_Player : MonoBehaviour
     {
         canMove = true;
         BBad = true;
+        txt_Feedback.text = "";
+        txt_Feedback.color = new Color32(0, 0, 0, 0);
+        bHasMovedOnce = false;
         yield return new WaitForSeconds(FZoneBadTiming);
         BBad = false;
         StartCoroutine(good());
@@ -121,6 +118,12 @@ public class SC_Player : MonoBehaviour
         yield return new WaitForSeconds(FZoneBadTiming);
         BBad = false;
         canMove = false;
+        if(BBad == false && BGood  == false && BPerfect  == false && bHasMovedOnce == false)
+        {
+            Mouvement();
+            txt_Feedback.text = "Miss";
+            txt_Feedback.color = new Color32(255,0,0, 255);
+        }
     }
 
     IEnumerator good()
@@ -180,7 +183,6 @@ public class SC_Player : MonoBehaviour
             {
                 lastMoveDirection = direction;
             }
-
             UpdateDirectionUI();
         }
 
@@ -190,15 +192,20 @@ public class SC_Player : MonoBehaviour
             if(BBad == true)
             {
                 FScore = FScore + 10f;
+                txt_Feedback.text = "Bad";
+                txt_Feedback.color = new Color32(255, 0, 255, 255);
             }
-
-            if(BGood == true)
+            else if(BGood == true)
             {
                 FScore = FScore + 50f;
+                txt_Feedback.text = "Good";
+                txt_Feedback.color = new Color32(0, 0, 255, 255);
             }
-            if(BPerfect == true)
+            else if(BPerfect == true)
             {
                 FScore = FScore + 100f;
+                txt_Feedback.text = "Perfect!";
+                txt_Feedback.color = new Color32(0, 255, 255, 255);
             }
             Mouvement();
         }
@@ -238,28 +245,23 @@ public class SC_Player : MonoBehaviour
         {
             GOUiBad.SetActive(true);
         }
-
         if(BGood == true)
         {
             GOUiGood.SetActive(true);
         }
-
         if(BPerfect == true)
         {
             GOUiPerfect.SetActive(true);
         }
-
         if(BPerfect == false)
         {
             GOUiPerfect.SetActive(false);
         }
-
         if(BPerfect == false && BGood == false)
         {
             GOUiPerfect.SetActive(false);
             GOUiGood.SetActive(false);
         }
-        
         if(BPerfect == false && BGood == false && BBad == false)
         {
             GOUiPerfect.SetActive(false);
@@ -358,7 +360,7 @@ public class SC_Player : MonoBehaviour
         }
     }
 
-    void MouvementClavier()
+    private void MouvementClavier()
     {
         if(Input.GetKeyDown(KeyCode.A))
         {
@@ -394,7 +396,7 @@ public class SC_Player : MonoBehaviour
         }
     }
 
-    Vector3 GetDirectionFromJoystick(Vector2 moveInput)
+    private Vector3 GetDirectionFromJoystick(Vector2 moveInput)
     {
         //limite joystick
         if (moveInput.x > 0.5f && Mathf.Abs(moveInput.y) <= 0.2f)  // Droite
@@ -419,12 +421,13 @@ public class SC_Player : MonoBehaviour
         return Vector3.zero;
     }
 
-    void Mouvement()
+    private void Mouvement()
     {
         Move(lastMoveDirection);
+        bHasMovedOnce = true;
     }
 
-    void Move(Vector3 direction)
+    private void Move(Vector3 direction)
     {
         // diagonale ?
         if (Mathf.Abs(direction.x) > 0 && Mathf.Abs(direction.z) > 0)
@@ -436,11 +439,10 @@ public class SC_Player : MonoBehaviour
         {
             transform.position += direction;  // mouvement  1 case
         }
-
         canMove = false;
     }
 
-    void UpdateDirectionUI()
+    private void UpdateDirectionUI()
     {
         if (Mathf.Abs(lastMoveDirection.x) > tolerance && Mathf.Abs(lastMoveDirection.z) <= tolerance)
         {
@@ -450,17 +452,14 @@ public class SC_Player : MonoBehaviour
                 currentAngleIndex = 1;
                 PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
                 UIFlase();
-                UI_JoystickG.SetActive(true); // Gauche
-                
-            
+                UI_Joystick[3].SetActive(true); // Gauche
             }
             else if (Mathf.Sign(lastMoveDirection.x) == 1)
             {
                 currentAngleIndex = 5;
                 PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
                 UIFlase();
-                UI_JoystickD.SetActive(true); // Droite
-            
+                UI_Joystick[4].SetActive(true); // Droite
             }
         }
         else if (Mathf.Abs(lastMoveDirection.z) > tolerance && Mathf.Abs(lastMoveDirection.x) <= tolerance)
@@ -471,16 +470,14 @@ public class SC_Player : MonoBehaviour
                 currentAngleIndex = 3;
                 PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
                 UIFlase();
-                UI_JoystickH.SetActive(true); // Haut
-              
+                UI_Joystick[0].SetActive(true); // Haut
             }
             else if (Mathf.Sign(lastMoveDirection.z) == -1)
             {
                 currentAngleIndex = 7;
                 PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
                 UIFlase();
-                UI_JoystickB.SetActive(true); // Bas
-             
+                UI_Joystick[6].SetActive(true); // Bas
             }
         }
         else if (Mathf.Abs(lastMoveDirection.x) > tolerance && Mathf.Abs(lastMoveDirection.z) > tolerance)
@@ -491,46 +488,37 @@ public class SC_Player : MonoBehaviour
                 currentAngleIndex = 2;
                 PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
                 UIFlase();
-                UI_JoystickHG.SetActive(true); // HautGauche
-              
+                UI_Joystick[2].SetActive(true); // HautGauche
             }
             else if (Mathf.Sign(lastMoveDirection.x) == 1 && Mathf.Sign(lastMoveDirection.z) == 1)
             {
                 currentAngleIndex = 4;
                 PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
                 UIFlase();
-                UI_JoystickHD.SetActive(true); // Haut-Droite
-                
+                UI_Joystick[1].SetActive(true); // Haut-Droite
             }
             else if (Mathf.Sign(lastMoveDirection.x) == -1 && Mathf.Sign(lastMoveDirection.z) == -1)
             {
                 currentAngleIndex = 0;
                 PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
                 UIFlase();
-                UI_JoystickBG.SetActive(true); // Bas Gauche
-                
+                UI_Joystick[8].SetActive(true); // Bas Gauche
             }
             else if (Mathf.Sign(lastMoveDirection.x) == 1 && Mathf.Sign(lastMoveDirection.z) == -1)
             {
                 currentAngleIndex = 6;
                 PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
                 UIFlase();
-                UI_JoystickBD.SetActive(true); // Bas Droite
-              
+                UI_Joystick[7].SetActive(true); // Bas Droite
             }
         }
     }
 
-    void UIFlase()
+    private void UIFlase()
     {
-        UI_JoystickG.SetActive(false);
-        UI_JoystickBG.SetActive(false);
-        UI_JoystickHG.SetActive(false);
-        UI_JoystickD.SetActive(false);
-        UI_JoystickBD.SetActive(false);
-        UI_JoystickHD.SetActive(false);
-        UI_JoystickB.SetActive(false);
-        UI_JoystickH.SetActive(false);
-        UI_JoystickC.SetActive(false);
+        for (int i = 0; i < UI_Joystick.Length; i++)
+        {
+            UI_Joystick[i].SetActive(false);
+        }
     }
 }
