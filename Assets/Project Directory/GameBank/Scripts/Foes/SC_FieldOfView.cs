@@ -23,8 +23,6 @@ public class SC_FieldOfView : MonoBehaviour
     private bool isReversing = false; 
 
     
-
-    
     private void Start()
     {
         GOPlayerRef = GameObject.FindGameObjectWithTag("Player");
@@ -58,13 +56,12 @@ public class SC_FieldOfView : MonoBehaviour
                 float distanceToTarget = Vector3.Distance(transform.position, target.position);
                 if(!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, LMObstructionMask))
                 {
-                BCanSee = true;
+                    BCanSee = true;
                 }
                 else
                 {
-                BCanSee = false;
+                    BCanSee = false;
                 }
-
             }
             else
             {
@@ -75,7 +72,6 @@ public class SC_FieldOfView : MonoBehaviour
         {
             BCanSee = false;
         }
-
     }
 
     public void EnemieRotation()

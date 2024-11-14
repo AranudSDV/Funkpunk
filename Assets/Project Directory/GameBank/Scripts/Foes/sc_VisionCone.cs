@@ -6,15 +6,18 @@ using UnityEngine;
 public class sc_VisionCone : MonoBehaviour
 {
     [SerializeField] private Material mVisionCone;
+    [SerializeField] private Material mDetectedCone;
     [SerializeField] private SC_FieldOfView scFieldView;
     private float fVisionAngle;
     [SerializeField] private int iVisionConeResolution = 120; //how the vision cone is made up => with triangles, the +, the neatiest it will look
     private Mesh VisionConeMesh;
     private MeshFilter ConeMeshFilter;
+    private MeshRenderer ConeRenderer;
 
     private void Start()
     {
-        transform.AddComponent<MeshRenderer>().material = mVisionCone;
+        ConeRenderer = transform.AddComponent<MeshRenderer>();
+        ConeRenderer.material = mVisionCone;
         ConeMeshFilter = transform.AddComponent<MeshFilter>();
         VisionConeMesh = new Mesh();
         fVisionAngle = scFieldView.FAngle;
@@ -24,6 +27,14 @@ public class sc_VisionCone : MonoBehaviour
     private void Update()
     {
         DrawVisionCone();
+        if(scFieldView.BCanSee)
+        {
+            ConeRenderer.material = mDetectedCone;
+        }
+        else
+        {
+            ConeRenderer.material = mVisionCone;
+        }
     }
 
     private void DrawVisionCone()
