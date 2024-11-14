@@ -1,0 +1,65 @@
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
+
+public class sc_VisionCone : MonoBehaviour
+{
+    [SerializeField] private Material mVisionCone;
+    [SerializeField] private float fVisionRadius;
+    [SerializeField] private float fVisionAngle;
+    [SerializeField] private LayerMask VisionObstructionLayer; //layers with objectss that obstruct the foe view
+    [SerializeField] private int iVisionConeResolution = 120; //how the vision cone is made up => with triangles, the +, the neatiest it will look
+    private Mesh VisionConeMesh;
+    MeshFilter ConeMeshFilter;
+
+    private void Start()
+    {
+        transform.AddComponent<MeshRenderer>().material = mVisionCone;
+        ConeMeshFilter = transform.AddComponent<MeshFilter>();
+        VisionConeMesh = new Mesh();
+        fVisionAngle *= Mathf.Deg2Rad;
+    }
+
+    private void Update()
+    {
+        DrawVisionCone();
+    }
+
+    private void DrawVisionCone()
+    {
+        int[] triangles = new int[(iVisionConeResolution - 1) * 3];
+        Vector3[] Vertices = new Vector3[iVisionConeResolution + 1];
+        Vertices[0] = Vector3.zero;
+        float fCurrentAngle = -fVisionAngle / 2;
+        float fAngleIcrement = fVisionAngle / (iVisionConeResolution - 1);
+        float Sine;
+        float Cosine;
+        for (int i = 0; i < iVisionConeResolution; i++)
+        {
+            Sine = Mathf.Sin(fCurrentAngle);
+            Cosine = Mathf.Cos(fCurrentAngle);
+            Vector3 RaycastDirection = (transform.forward * Cosine) + (transform.right * Sine);
+            Vector3 VertForward = (Vector3.forward * Cosine) + (Vector3.right * Sine);
+            if(Physics.Raycast(transform.position, RaycastDirection, out RaycastHit hit, fVisionRadius, VisionObstructionLayer))
+            {
+                Vertices[i + 1] = VertForward * hit.distance;
+            }
+            else
+            {
+                Vertices[i + 1] = VertForward * fVisionRadius;
+            }
+            fCurrentAngle += fAngleIcrement;
+        }
+        for(int i = 0, j=0; i<triangles.Length; i+=3, j++)
+        {
+            triangles[i] = 0;
+            triangles[i + 1] = j + 1;
+            triangles[i + 2] = j + 2;
+        }
+        VisionConeMesh.Clear();
+        VisionConeMesh.vertices = Vertices;
+        VisionConeMesh.triangles = triangles;
+        ConeMeshFilter.mesh = VisionConeMesh;
+    }
+}
