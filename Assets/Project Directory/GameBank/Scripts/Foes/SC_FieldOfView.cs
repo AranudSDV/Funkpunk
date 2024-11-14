@@ -15,9 +15,12 @@ public class SC_FieldOfView : MonoBehaviour
     public LayerMask LMObstructionMask;
 
     public bool BCanSee;
+    public bool bSeenOnce;
     public float minRotation = -90f;  
     public float maxRotation = 45f;   
-    public float rotationStep = 45f;  
+    public float rotationStep = 45f;
+
+    private Vector3 vectLastRot;
 
     private float currentRotation;    
     private bool isReversing = false; 
@@ -56,21 +59,51 @@ public class SC_FieldOfView : MonoBehaviour
                 float distanceToTarget = Vector3.Distance(transform.position, target.position);
                 if(!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, LMObstructionMask))
                 {
-                    BCanSee = true;
+                    bSeenOnce = true; //vu une fois
                 }
                 else
                 {
-                    BCanSee = false;
+                    BCanSee = false; //Ne voit pas
                 }
             }
             else
             {
-                BCanSee = false;
+                BCanSee = false; //Ne voit pas
             }
         }
-        else if(BCanSee == true)
+        else if(BCanSee == true) //Si le bool est en true alors que c'est faux
         {
-            BCanSee = false;
+            BCanSee = false; //Il ne voit pas
+        }
+        DetectionChecks();
+    }
+
+    public void PlayerDetected(GameObject GOPlayer)
+    {
+        Vector3 vectToPlayer = GOPlayer.transform.position - this.transform.position;
+        vectToPlayer = vectToPlayer.normalized;
+        Vector3 vectFor = Vector3.forward.normalized;
+        float crossProduct = (vectToPlayer.x * vectFor.z) - (vectToPlayer.z * vectFor.x);
+        if (crossProduct < 0) //si le joueur est à gauche du vecteur de l'ennemi
+        {
+            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y - 20f, 0);
+        }
+        if (crossProduct > 0) //si le joueur est à droite du vecteur de l'ennemi
+        {
+            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y + 20f, 0);
+        }
+    }
+
+    public void DetectionChecks ()
+    {
+        if (bSeenOnce)
+        {
+            BCanSee = true;
+            bSeenOnce = false;
+        }
+        if(BCanSee == false)
+        {
+            transform.eulerAngles = vectLastRot;
         }
     }
 
@@ -95,5 +128,6 @@ public class SC_FieldOfView : MonoBehaviour
         }
         currentRotation = Mathf.Clamp(currentRotation, minRotation, maxRotation);
         transform.eulerAngles = new Vector3(0, currentRotation, 0);
+        vectLastRot = transform.eulerAngles;
     }
 }

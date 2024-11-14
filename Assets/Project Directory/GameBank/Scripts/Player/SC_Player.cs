@@ -235,7 +235,14 @@ public class SC_Player : MonoBehaviour
     {
         foreach (SC_FieldOfView enemy in allEnemies)
         {
-            enemy.EnemieRotation();
+            if(enemy.BCanSee)
+            {
+                enemy.PlayerDetected(this.gameObject);
+            }
+            else
+            {
+                enemy.EnemieRotation(); 
+            }
         }
     }
 
