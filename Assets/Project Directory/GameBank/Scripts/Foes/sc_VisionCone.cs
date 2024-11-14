@@ -6,18 +6,18 @@ using UnityEngine;
 public class sc_VisionCone : MonoBehaviour
 {
     [SerializeField] private Material mVisionCone;
-    [SerializeField] private float fVisionRadius;
-    [SerializeField] private float fVisionAngle;
-    [SerializeField] private LayerMask VisionObstructionLayer; //layers with objectss that obstruct the foe view
+    [SerializeField] private SC_FieldOfView scFieldView;
+    private float fVisionAngle;
     [SerializeField] private int iVisionConeResolution = 120; //how the vision cone is made up => with triangles, the +, the neatiest it will look
     private Mesh VisionConeMesh;
-    MeshFilter ConeMeshFilter;
+    private MeshFilter ConeMeshFilter;
 
     private void Start()
     {
         transform.AddComponent<MeshRenderer>().material = mVisionCone;
         ConeMeshFilter = transform.AddComponent<MeshFilter>();
         VisionConeMesh = new Mesh();
+        fVisionAngle = scFieldView.FAngle;
         fVisionAngle *= Mathf.Deg2Rad;
     }
 
@@ -41,13 +41,13 @@ public class sc_VisionCone : MonoBehaviour
             Cosine = Mathf.Cos(fCurrentAngle);
             Vector3 RaycastDirection = (transform.forward * Cosine) + (transform.right * Sine);
             Vector3 VertForward = (Vector3.forward * Cosine) + (Vector3.right * Sine);
-            if(Physics.Raycast(transform.position, RaycastDirection, out RaycastHit hit, fVisionRadius, VisionObstructionLayer))
+            if(Physics.Raycast(transform.position, RaycastDirection, out RaycastHit hit, scFieldView.FRadius, scFieldView.LMObstructionMask))
             {
                 Vertices[i + 1] = VertForward * hit.distance;
             }
             else
             {
-                Vertices[i + 1] = VertForward * fVisionRadius;
+                Vertices[i + 1] = VertForward * scFieldView.FRadius;
             }
             fCurrentAngle += fAngleIcrement;
         }

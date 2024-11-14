@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class SC_FieldOfViewEditor : Editor
 {
-    
     private void OnSceneGUI()
     {
         SC_FieldOfView fov = (SC_FieldOfView)target;

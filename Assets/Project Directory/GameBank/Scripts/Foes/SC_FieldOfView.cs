@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SC_FieldOfView : MonoBehaviour
@@ -7,7 +8,7 @@ public class SC_FieldOfView : MonoBehaviour
     public float FRadius;
     [Range(0,360)]
     public float FAngle;
-    
+
     public GameObject GOPlayerRef;
 
     public LayerMask LMtargetMask;
@@ -40,7 +41,6 @@ public class SC_FieldOfView : MonoBehaviour
         {
             yield return wait;
             FieldOfViewCheck();
-          
         }
     }
 
@@ -76,11 +76,6 @@ public class SC_FieldOfView : MonoBehaviour
             BCanSee = false;
         }
 
-    }
-    
-    void Update()
-    {
-        
     }
 
     public void EnemieRotation()
