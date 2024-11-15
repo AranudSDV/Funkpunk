@@ -80,17 +80,14 @@ public class SC_FieldOfView : MonoBehaviour
 
     public void PlayerDetected(GameObject GOPlayer)
     {
-        Vector3 vectToPlayer = GOPlayer.transform.position - this.transform.position;
-        vectToPlayer = vectToPlayer.normalized;
-        Vector3 vectFor = Vector3.forward.normalized;
-        float crossProduct = (vectToPlayer.x * vectFor.z) - (vectToPlayer.z * vectFor.x);
-        if (crossProduct < 0) //si le joueur est à gauche du vecteur de l'ennemi
-        {
-            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y - 20f, 0);
-        }
-        if (crossProduct > 0) //si le joueur est à droite du vecteur de l'ennemi
+        float fxDiff = GOPlayer.transform.position.x - this.transform.position.x;
+        if (fxDiff < 0) //si le joueur est à gauche de l'ennemi
         {
             transform.eulerAngles = new Vector3(0, transform.eulerAngles.y + 20f, 0);
+        }
+        if (fxDiff > 0) //si le joueur est à droite de l'ennemi
+        {
+            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y - 20f, 0);
         }
     }
 

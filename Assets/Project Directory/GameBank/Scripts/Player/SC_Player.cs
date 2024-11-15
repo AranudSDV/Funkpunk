@@ -216,6 +216,11 @@ public class SC_Player : MonoBehaviour
         
     }
 
+    public void Baiting()
+    {
+
+    }
+
     void Tagging()
     {
         if (control.GamePlay.Tagging.triggered)
