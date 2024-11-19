@@ -59,7 +59,7 @@ public class SC_Player : MonoBehaviour
     private RaycastHit[] hitInfo = new RaycastHit[4];
     private Vector3 [] vectTransform = new Vector3 [4];
     private bool bHasMovedOnce = false;
-
+    private bool bIsBaiting = false;
 
     GameObject[] Enemies1;
 
@@ -214,16 +214,34 @@ public class SC_Player : MonoBehaviour
             }
             CheckForward();
         }
-        //MouvementClavier();
         EnemieDetection();
         Rythme();
-        //Tagging();
         
     }
 
     public void Baiting()
     {
+        bIsBaiting = true;
 
+        //Lignes de 3 à 5 cubes éloignés du joueur sont en surbrillance devant lui
+        //S'update en fonction de son orientation
+        //Une flèche en arc de cercle va du joueur à la case en question en fonction du beat
+
+        //Si le joueur appuie sur sa touche pour lancer le projectile,
+        //En fonction du good, perfect ou bad, le projectil se lance sur la case correspondante entre 3 et 5
+        //Le joueur gagne des points en fonction de sa précision sur le tempo
+        //Le bait a été instancié sur la case en question : cette instanciation a un nombre de tempo de vie
+        //Enclanche la detection de l'ennemi => EnnemiHasHeardSomething qui est dans l'objet instantié
+        //Le joueur a fait son mouvement dans le tempo
+        //Il n'y a plus les feedback de lancée
+
+        //Si le joueur n'appuie pas sur la touche
+        //Le joueur miss et le bait est lancé à 2 cases de lui dans l'orientation qu'il avait
+        //Le joueur ne gagne pas de points
+        //Le bait a été instancié sur la case en question : cette instanciation a un nombre de tempo de vie
+        // Enclanche la detection de l'ennemi => Ennemi has Heard Somethingqui est dans l'objet instantié
+        //Le joueur a fait son mouvement dans le tempo
+        //Il n'y a plus les feedback de lancée
     }
 
     private void CheckForward()
@@ -281,21 +299,6 @@ public class SC_Player : MonoBehaviour
             }
         }
     }
-
-    /*void Tagging()
-    {
-        if (control.GamePlay.Tagging.triggered)
-        {
-            if (Physics.Raycast(transform.position, transform.forward, out hitInfo, taggingRange))
-            {
-                if (hitInfo.transform.CompareTag("Tagging"))
-                {
-                    Renderer wallRenderer = hitInfo.transform.GetComponent<Renderer>();   
-                    wallRenderer.material = taggedMaterial;
-                }
-            }
-        }
-    }*/
     
     void RotationEnemies()
     {
@@ -430,42 +433,6 @@ public class SC_Player : MonoBehaviour
         else
         {
             return Vector3.zero;
-        }
-    }
-
-    private void MouvementClavier()
-    {
-        if(Input.GetKeyDown(KeyCode.A))
-        {
-            transform.Translate(Vector3.left, Space.World);
-        }
-        if(Input.GetKeyDown(KeyCode.W))
-        {
-            transform.Translate(Vector3.forward, Space.World);
-        }
-        if(Input.GetKeyDown(KeyCode.D))
-        {
-            transform.Translate(Vector3.right, Space.World);
-        }
-        if(Input.GetKeyDown(KeyCode.S))
-        {
-            transform.Translate(Vector3.back, Space.World);
-        }
-        if(Input.GetKeyDown(KeyCode.W) && Input.GetKeyDown(KeyCode.A))
-        {
-            transform.position += new Vector3(-1, 0, 1);
-        }
-        if(Input.GetKeyDown(KeyCode.W) && Input.GetKeyDown(KeyCode.D))
-        {
-            transform.position += new Vector3(1, 0, 1);
-        }
-        if(Input.GetKeyDown(KeyCode.S) && Input.GetKeyDown(KeyCode.D))
-        {
-            transform.position += new Vector3(1, 0, -1);
-        }
-        if(Input.GetKeyDown(KeyCode.S) && Input.GetKeyDown(KeyCode.A))
-        {
-            transform.position += new Vector3(-1, 0, -1);
         }
     }
 
