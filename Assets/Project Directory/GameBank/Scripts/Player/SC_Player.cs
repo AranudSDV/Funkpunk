@@ -56,7 +56,8 @@ public class SC_Player : MonoBehaviour
 
     public float taggingRange = 1f;
     public Material taggedMaterial; 
-    private RaycastHit hitInfo;
+    private RaycastHit[] hitInfo = new RaycastHit[4];
+    private Vector3 [] vectTransform = new Vector3 [4];
     private bool bHasMovedOnce = false;
 
 
@@ -85,15 +86,19 @@ public class SC_Player : MonoBehaviour
         //FBPS = 60/FBPM;
         FBPS = FBPM/60f;
         FSPB = 1f/FBPS;
-        FPerfectTiming = 1/14f * FSPB;
+        FPerfectTiming = 2/14f * FSPB;
         FGoodTiming = 4/14f * FSPB;
-        FBadTiming = 7/14f * FSPB;
+        FBadTiming = 6/14f * FSPB;
         FZoneBadTiming = FBadTiming/2;
         FZoneGoodTiming = FGoodTiming/2;
         FZonePerfectTiming = FPerfectTiming/2;
         FWaitTime = FSPB - FZoneBadTiming;
         StartCoroutine(wait());
         FDetectionRate = 1f;
+        vectTransform[0] = transform.forward;
+        vectTransform[1] = transform.right;
+        vectTransform[2] = Vector3.left;
+        vectTransform[3] = Vector3.back;
     }
 
     IEnumerator wait()
@@ -120,7 +125,7 @@ public class SC_Player : MonoBehaviour
         canMove = false;
         if(BBad == false && BGood  == false && BPerfect  == false && bHasMovedOnce == false)
         {
-            Mouvement();
+            CheckForward();
             txt_Feedback.text = "Miss";
             txt_Feedback.color = new Color32(255,0,0, 255);
         }
@@ -207,12 +212,12 @@ public class SC_Player : MonoBehaviour
                 txt_Feedback.text = "Perfect!";
                 txt_Feedback.color = new Color32(0, 255, 255, 255);
             }
-            Mouvement();
+            CheckForward();
         }
         //MouvementClavier();
         EnemieDetection();
         Rythme();
-        Tagging();
+        //Tagging();
         
     }
 
@@ -221,7 +226,63 @@ public class SC_Player : MonoBehaviour
 
     }
 
-    void Tagging()
+    private void CheckForward()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            if (Physics.Raycast(transform.position, vectTransform[i], out hitInfo[i], taggingRange)) //qqc est devant le joueur
+            {
+                if (hitInfo[i].transform.CompareTag("Tagging")) //c'est un mur à tagger
+                {
+                    Renderer wallRenderer = hitInfo[i].transform.GetComponent<Renderer>();
+                    GameObject wallTagged = hitInfo[i].transform.gameObject;
+                    wallRenderer.material = taggedMaterial; //le joueur tag
+                    wallTagged.tag = "Wall";
+                    bHasMovedOnce = true;
+                    break;
+                }
+                else if (hitInfo[i].transform.CompareTag("Wall"))//ce n'est pas un mur à tagger
+                {
+                    if (i != 3)
+                    {
+                        if (Physics.Raycast(transform.position, vectTransform[i + 1], out hitInfo[i + 1], taggingRange)) //qqc obstrue le mouvement de glissade
+                        {
+                            if (hitInfo[i].transform.CompareTag("Wall") || hitInfo[i].transform.CompareTag("Tagging"))
+                            {
+                                return; //est-ce un mur taggable? Refaire le processus
+                            }
+                            else //il n'y a rien devant le joueur
+                            {
+                                Mouvement(i);
+                                break;
+                            }
+                        }
+                        else //il n'y a rien à cet endroit alors s'y déplace
+                        {
+                            Mouvement(i + 1);
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                else //il n'y a rien devant le joueur
+                {
+                    Mouvement(i);
+                    break;
+                }
+            }
+            else //il n'y a rien devant le joueur, alors s'y déplace
+            {
+                Mouvement(i);
+                break;
+            }
+        }
+    }
+
+    /*void Tagging()
     {
         if (control.GamePlay.Tagging.triggered)
         {
@@ -234,7 +295,7 @@ public class SC_Player : MonoBehaviour
                 }
             }
         }
-    }
+    }*/
     
     void RotationEnemies()
     {
@@ -433,10 +494,35 @@ public class SC_Player : MonoBehaviour
         return Vector3.zero;
     }
 
-    private void Mouvement()
+    private void Mouvement(int i)
     {
-        Move(lastMoveDirection);
-        bHasMovedOnce = true;
+        if (i == 0) //devant le player = forward
+        {
+            Move(lastMoveDirection);
+            bHasMovedOnce = true;
+            return ;
+        }
+        else if (i == 1) // a droite du player
+        {
+            Vector3 newVector = transform.right;
+            Move(newVector);
+            bHasMovedOnce = true;
+            return;
+        }
+        else if (i == 2) //a gauche du player
+        {
+            Vector3 newVector = Vector3.left;
+            Move(newVector);
+            bHasMovedOnce = true;
+            return;
+        }
+        else if(i==3) //derriere le player
+        {
+            Vector3 newVector =  Vector3.back;
+            Move(newVector);
+            bHasMovedOnce = true;
+            return;
+        }
     }
 
     private void Move(Vector3 direction)
