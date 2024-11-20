@@ -26,6 +26,7 @@ public class cs_RF_CustomPostProcess : ScriptableRendererFeature
     {
         m_bloomMaterial = CoreUtils.CreateEngineMaterial(m_bloomShader);
         m_compositeMaterial = CoreUtils.CreateEngineMaterial(m_compositeShader);
+        
         m_customPass = new cs_CustomPostProcessPass();
     }
 
@@ -35,7 +36,7 @@ public class cs_RF_CustomPostProcess : ScriptableRendererFeature
         {
             m_pass.COnfigureInput(ScriptableRenderPassInput.Depth);
             m_pass.COnfigureInput(ScriptableRenderPassInput.Color);
-            m_pass.SetTarget(render.cameraColorTargetHandle, renderer.cameraDepthTargetHandle);
+            m_pass.SetTarget(renderer.cameraColorTargetHandle, renderer.cameraDepthTargetHandle);
 
         }
     }
