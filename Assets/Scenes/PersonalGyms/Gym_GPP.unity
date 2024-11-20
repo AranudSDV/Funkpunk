@@ -1169,7 +1169,7 @@ GameObject:
   - component: {fileID: 349325085}
   m_Layer: 7
   m_Name: Graffiti_wall
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4050,7 +4050,7 @@ GameObject:
   - component: {fileID: 1432530594}
   m_Layer: 7
   m_Name: Graffiti_wall
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6729,7 +6729,7 @@ GameObject:
   - component: {fileID: 2091778985}
   m_Layer: 7
   m_Name: Graffiti_wall
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
