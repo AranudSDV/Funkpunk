@@ -1,5 +1,5 @@
 
-using System.Collections;
+/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -124,4 +124,4 @@ public class cs_CustomPostProcessPass : ScriptableRenderPass
         Blitter.BlitCameraTexture(cmd, source, m_BloomMipDown[0], RenderBufferLoadAction.DontCare, RenderBufferStoreAction.Store, bloomMaterial, 0);
 
     }
-}
+}*/

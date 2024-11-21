@@ -1,4 +1,4 @@
-using System.Collections;
+/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -7,6 +7,7 @@ using UnityEngine.Rendering.Universal;
 [System.Serializable]
 public class cs_RF_CustomPostProcess : ScriptableRendererFeature
 {
+  
     [SerializeField]
     private Shader m_bloomShader;
     [SerializeField]
@@ -46,4 +47,4 @@ public class cs_RF_CustomPostProcess : ScriptableRendererFeature
         CoreUtils.Destroy(m_bloomMaterial);
         CoreUtils.Destroy(m_compositeMaterial);
     }
-}
+}*/
