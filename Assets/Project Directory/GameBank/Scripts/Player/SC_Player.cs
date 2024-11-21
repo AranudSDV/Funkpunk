@@ -29,14 +29,17 @@ public class SC_Player : MonoBehaviour
     public float FPerfectTiming;
     float FZonePerfectTiming;
     float FWaitTime;
-    bool BBad = false;
-    bool BGood = false;
-    bool BPerfect = false;
+    public bool BBad = false;
+    public bool BGood = false;
+    public bool BPerfect = false;
     [SerializeField] private TMP_Text txt_Feedback;
 
     public GameObject GOUiBad;
     public GameObject GOUiGood;
     public GameObject GOUiPerfect;
+
+    [SerializeField] private MeshRectVision scRectVision;
+    public bool bIsBaiting = false;
 
     float FScore;
     public TMP_Text TMPScore;
@@ -57,9 +60,7 @@ public class SC_Player : MonoBehaviour
     public float taggingRange = 1f;
     public Material taggedMaterial; 
     private RaycastHit[] hitInfo = new RaycastHit[4];
-    private Vector3 [] vectTransform = new Vector3 [4];
     private bool bHasMovedOnce = false;
-    private bool bIsBaiting = false;
 
     GameObject[] Enemies1;
 
@@ -95,10 +96,6 @@ public class SC_Player : MonoBehaviour
         FWaitTime = FSPB - FZoneBadTiming;
         StartCoroutine(wait());
         FDetectionRate = 1f;
-        vectTransform[0] = transform.forward;
-        vectTransform[1] = transform.right;
-        vectTransform[2] = Vector3.left;
-        vectTransform[3] = Vector3.back;
     }
 
     IEnumerator wait()
@@ -123,9 +120,9 @@ public class SC_Player : MonoBehaviour
         yield return new WaitForSeconds(FZoneBadTiming);
         BBad = false;
         canMove = false;
-        if(BBad == false && BGood  == false && BPerfect  == false && bHasMovedOnce == false)
+        if(BBad == false && BGood  == false && BPerfect  == false && bHasMovedOnce == false && bIsBaiting == false)
         {
-            CheckForward();
+            CheckForward(lastMoveDirection);
             txt_Feedback.text = "Miss";
             txt_Feedback.color = new Color32(255,0,0, 255);
         }
@@ -212,7 +209,35 @@ public class SC_Player : MonoBehaviour
                 txt_Feedback.text = "Perfect!";
                 txt_Feedback.color = new Color32(0, 255, 255, 255);
             }
-            CheckForward();
+            CheckForward(lastMoveDirection);
+        }
+        if (bIsBaiting)
+        {
+            Debug.Log("is Baiting" + bIsBaiting);
+            scRectVision.DrawVisionBait(lastMoveDirection);
+            if(Input.GetButtonDown("Jump") && canMove && bIsOnComputer == true)
+            {
+                if (BBad == true)
+                {
+                    FScore = FScore + 10f;
+                    txt_Feedback.text = "Bad";
+                    txt_Feedback.color = new Color32(255, 0, 255, 255);
+                }
+                else if (BGood == true)
+                {
+                    FScore = FScore + 50f;
+                    txt_Feedback.text = "Good";
+                    txt_Feedback.color = new Color32(0, 0, 255, 255);
+                }
+                else if (BPerfect == true)
+                {
+                    FScore = FScore + 100f;
+                    txt_Feedback.text = "Perfect!";
+                    txt_Feedback.color = new Color32(0, 255, 255, 255);
+                }
+                Debug.Log("Lancé!");
+                bIsBaiting = false;
+            }
         }
         EnemieDetection();
         Rythme();
@@ -221,7 +246,6 @@ public class SC_Player : MonoBehaviour
 
     public void Baiting()
     {
-        bIsBaiting = true;
 
         //Lignes de 3 à 5 cubes éloignés du joueur sont en surbrillance devant lui
         //S'update en fonction de son orientation
@@ -243,12 +267,11 @@ public class SC_Player : MonoBehaviour
         //Le joueur a fait son mouvement dans le tempo
         //Il n'y a plus les feedback de lancée
     }
-
-    private void CheckForward()
+    private void CheckForward(Vector3 vectDir)
     {
         for (int i = 0; i < 4; i++)
         {
-            if (Physics.Raycast(transform.position, vectTransform[i], out hitInfo[i], taggingRange)) //qqc est devant le joueur
+            if (Physics.Raycast(transform.position, vectDir, out hitInfo[i], taggingRange)) //qqc est devant le joueur
             {
                 if (hitInfo[i].transform.CompareTag("Tagging")) //c'est un mur à tagger
                 {
@@ -263,9 +286,27 @@ public class SC_Player : MonoBehaviour
                 {
                     if (i != 3)
                     {
-                        if (Physics.Raycast(transform.position, vectTransform[i + 1], out hitInfo[i + 1], taggingRange)) //qqc obstrue le mouvement de glissade
+                        Vector3 vectNext = vectDir;
+                        //int rdm = new Random();
+                        if(vectNext == transform.forward)
                         {
-                            if (hitInfo[i].transform.CompareTag("Wall") || hitInfo[i].transform.CompareTag("Tagging"))
+                            vectNext = transform.right;
+                        }
+                        else if(vectNext == transform.right)
+                        {
+                            vectNext = Vector3.back;
+                        }
+                        else if(vectNext == Vector3.back)
+                        {
+                            vectNext = Vector3.left;
+                        }
+                        else if(vectNext == Vector3.left)
+                        {
+                            vectNext = transform.forward;
+                        }
+                        if (Physics.Raycast(transform.position, vectNext, out hitInfo[i + 1], taggingRange)) //qqc obstrue le mouvement de glissade
+                        {
+                            if (hitInfo[i+1].transform.CompareTag("Wall") || hitInfo[i+1].transform.CompareTag("Tagging"))
                             {
                                 return; //est-ce un mur taggable? Refaire le processus
                             }
@@ -586,4 +627,6 @@ public class SC_Player : MonoBehaviour
             UI_Joystick[i].SetActive(false);
         }
     }
+
+    
 }
