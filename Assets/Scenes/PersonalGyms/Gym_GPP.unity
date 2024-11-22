@@ -7189,6 +7189,26 @@ PrefabInstance:
       propertyPath: m_IsTrigger
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4884357669059686057, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4884357669059686057, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4884357669059686057, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4884357669059686057, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: GOUiBad
@@ -7376,7 +7396,9 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 60b0eca5a8bb9d74499cef5db94f818c, type: 2}
   - {fileID: 2100000, guid: c52bc698085ef99459c9fa85e9ae3d85, type: 2}
   - {fileID: 2100000, guid: dfae8deb0084ed8498621f36ef541ed7, type: 2}
+  - {fileID: 2100000, guid: 80b09b81191dd444a93d1588760bc0a0, type: 2}
   iVisionRectResolution: 120
   LMObstructionMask:
     serializedVersion: 2
     m_Bits: 128
+  bIsBaiting: 0

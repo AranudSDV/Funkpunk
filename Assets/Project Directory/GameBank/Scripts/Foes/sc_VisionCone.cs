@@ -9,7 +9,7 @@ public class sc_VisionCone : MonoBehaviour
     [SerializeField] private Material mDetectedCone;
     [SerializeField] private SC_FieldOfView scFieldView;
     private float fVisionAngle;
-    [SerializeField] private int iVisionConeResolution = 120; //how the vision cone is made up => with triangles, the +, the neatiest it will look
+    [SerializeField] private int iVisionConeResolution = 120; 
     private Mesh VisionConeMesh;
     private MeshFilter ConeMeshFilter;
     private MeshRenderer ConeRenderer;
