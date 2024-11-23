@@ -7,6 +7,7 @@ public class sc_VisionCone : MonoBehaviour
 {
     [SerializeField] private Material mVisionCone;
     [SerializeField] private Material mDetectedCone;
+    [SerializeField] private Material mHeardCone;
     [SerializeField] private SC_FieldOfView scFieldView;
     private float fVisionAngle;
     [SerializeField] private int iVisionConeResolution = 120; 
@@ -30,6 +31,10 @@ public class sc_VisionCone : MonoBehaviour
         if(scFieldView.BCanSee)
         {
             ConeRenderer.material = mDetectedCone;
+        }
+        else if(scFieldView.bHasHeard)
+        {
+            ConeRenderer.material = mHeardCone;
         }
         else
         {

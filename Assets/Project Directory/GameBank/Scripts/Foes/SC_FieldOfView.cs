@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -82,28 +83,30 @@ public class SC_FieldOfView : MonoBehaviour
 
     public void PlayerDetected(GameObject GOPlayer)
     {
-        float fxDiff = GOPlayer.transform.position.x - this.transform.position.x;
-        if (fxDiff < 0) //si le joueur est à gauche de l'ennemi
+        //float fxDiff = GOPlayer.transform.position.x - this.transform.position.x;
+        transform.LookAt(GOPlayer.transform);
+        /*if (fxDiff < 0) //si le joueur est à gauche de l'ennemi
         {
             transform.eulerAngles = new Vector3(0, transform.eulerAngles.y + 20f, 0);
         }
         if (fxDiff > 0) //si le joueur est à droite de l'ennemi
         {
             transform.eulerAngles = new Vector3(0, transform.eulerAngles.y - 20f, 0);
-        }
+        }*/
     }
 
     public void BaitHeard(GameObject GOBait)
     {
-        float fxDiff = GOBait.transform.position.x - this.transform.position.x;
-        if (fxDiff < 0) //si le bait est à gauche de l'ennemi
+        //float fxDiff = GOBait.transform.position.x - this.transform.position.x;
+        transform.LookAt(GOBait.transform);
+        /*if (fxDiff < 0) //si le bait est à gauche de l'ennemi
         {
-            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y + 10f, 0);
+            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y + 5f, 0);
         }
         if (fxDiff > 0) //si le bait est à droite de l'ennemi
         {
-            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y - 10f, 0);
-        }
+            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y - 5f, 0);
+        }*/
     }
 
     private void DetectionChecks ()

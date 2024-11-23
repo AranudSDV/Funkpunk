@@ -13,6 +13,7 @@ public class ing_Bait : MonoBehaviour
     private SC_FieldOfView[] allEnemies = null;
     [SerializeField] private Material mThrown;
     [SerializeField] private MeshRenderer mshRdn;
+    private bool bCollision = false;
 
     private void Start()
     {
@@ -37,8 +38,13 @@ public class ing_Bait : MonoBehaviour
                 {
                     ennemy.bHasHeard = false;
                     ennemy.i_EnnemyBeat = 0;
+                    Destroy(this.gameObject);
                 }
             }
+        }
+        if (bCollision && b_BeenThrown == false && scPlayer.newThrow == true)
+        {
+            Destroy(this.gameObject);
         }
     }
 
@@ -55,7 +61,15 @@ public class ing_Bait : MonoBehaviour
         {
             scPlayer = collision.GetComponent<SC_Player>();
             scPlayer.bIsBaiting = true;
-            Destroy(this.gameObject);
+            bCollision = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player") && b_BeenThrown == false)
+        {
+            bCollision = false;
         }
     }
 }
