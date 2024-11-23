@@ -6,6 +6,7 @@ using TMPro;
 using System.Globalization;
 using System;
 using Unity.VisualScripting;
+using UnityEditor.SceneManagement;
 
 public class SC_Player : MonoBehaviour
 {
@@ -39,6 +40,8 @@ public class SC_Player : MonoBehaviour
     public GameObject GOUiPerfect;
 
     [SerializeField] private MeshRectVision scRectVision;
+    [SerializeField] private GameObject GOBait;
+    private GameObject GO_BaitInst;
     public bool bIsBaiting = false;
 
     float FScore;
@@ -211,41 +214,40 @@ public class SC_Player : MonoBehaviour
             }
             CheckForward(lastMoveDirection);
         }
-        if (bIsBaiting)
+        if(bIsBaiting && Input.GetKeyDown(KeyCode.V) && canMove && bIsOnComputer == true)
         {
-            //cRectVision.DrawVisionBait(lastMoveDirection);
-            if(Input.GetButtonDown("Jump") && canMove && bIsOnComputer == true)
+            if (BBad == true)
             {
-                if (BBad == true)
-                {
-                    FScore = FScore + 10f;
-                    txt_Feedback.text = "Bad";
-                    txt_Feedback.color = new Color32(255, 0, 255, 255);
-                }
-                else if (BGood == true)
-                {
-                    FScore = FScore + 50f;
-                    txt_Feedback.text = "Good";
-                    txt_Feedback.color = new Color32(0, 0, 255, 255);
-                }
-                else if (BPerfect == true)
-                {
-                    FScore = FScore + 100f;
-                    txt_Feedback.text = "Perfect!";
-                    txt_Feedback.color = new Color32(0, 255, 255, 255);
-                }
-                Debug.Log("Lancé!");
-                bIsBaiting = false;
+                FScore = FScore + 10f;
+                txt_Feedback.text = "Bad";
+                txt_Feedback.color = new Color32(255, 0, 255, 255);
+                Baiting(lastMoveDirection*3);
             }
+            else if (BGood == true)
+            {
+                FScore = FScore + 50f;
+                txt_Feedback.text = "Good";
+                txt_Feedback.color = new Color32(0, 0, 255, 255);
+                Baiting(lastMoveDirection * 4);
+            }
+            else if (BPerfect == true)
+            {
+                FScore = FScore + 100f;
+                txt_Feedback.text = "Perfect!";
+                txt_Feedback.color = new Color32(0, 255, 255, 255);
+                Baiting(lastMoveDirection * 5);
+            }
+            bIsBaiting = false;
         }
         EnemieDetection();
         Rythme();
-        
     }
 
-    public void Baiting()
+    public void Baiting(Vector3 spawnpos)
     {
-
+        GO_BaitInst = Instantiate(GOBait, spawnpos, Quaternion.identity);
+        ing_Bait scBait = GO_BaitInst.GetComponent< ing_Bait>();
+        scBait.b_BeenThrown = true;
         //Lignes de 3 à 5 cubes éloignés du joueur sont en surbrillance devant lui
         //S'update en fonction de son orientation
         //Une flèche en arc de cercle va du joueur à la case en question en fonction du beat
@@ -347,6 +349,12 @@ public class SC_Player : MonoBehaviour
             if(enemy.BCanSee)
             {
                 enemy.PlayerDetected(this.gameObject);
+                enemy.i_EnnemyBeat =6;
+            }
+            else if(enemy.bHasHeard)
+            {
+                enemy.BaitHeard(GO_BaitInst);
+                enemy.i_EnnemyBeat += 1;
             }
             else
             {
@@ -415,11 +423,6 @@ public class SC_Player : MonoBehaviour
                 y = 0;
             }
         }
-
-        /*if (!BisDetectedByAnyEnemy && !BLooseDetectLevel)
-        {
-            StartCoroutine(LooseDetectionLevel());
-        }*/
  
         if (BLooseDetectLevel)
         {

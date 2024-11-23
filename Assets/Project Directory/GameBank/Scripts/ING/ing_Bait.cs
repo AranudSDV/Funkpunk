@@ -7,9 +7,40 @@ public class ing_Bait : MonoBehaviour
 {
     //Mettre le private void OnCollisionEnter directement dans le player
     //Mettre un tag sur cet objet "Bait" ou qqc du style
-    public bool bEnnemiHasHeard = false;
     public float fTimeLifeBait = 3f;
     private SC_Player scPlayer;
+    public bool b_BeenThrown = false;
+    private SC_FieldOfView[] allEnemies = null;
+    [SerializeField] private Material mThrown;
+    [SerializeField] private MeshRenderer mshRdn;
+
+    private void Start()
+    {
+        allEnemies = FindObjectsOfType<SC_FieldOfView>();
+        if (b_BeenThrown)
+        {
+            foreach (SC_FieldOfView ennemy in allEnemies)
+            {
+                ennemy.bHasHeard = true;
+            }
+            mshRdn.material = mThrown;
+        }
+    }
+
+    private void Update()
+    {
+        if (b_BeenThrown)
+        {
+            foreach (SC_FieldOfView ennemy in allEnemies)
+            {
+                if (ennemy.i_EnnemyBeat > 5)
+                {
+                    ennemy.bHasHeard = false;
+                    ennemy.i_EnnemyBeat = 0;
+                }
+            }
+        }
+    }
 
     //Mettre un bool ici "Ennemi has Heard Something", qui si activé
     //Change le tag de cet objet (pour ne pas que le joueur puisse le reprendre)
@@ -20,13 +51,11 @@ public class ing_Bait : MonoBehaviour
     //if bait == null , retour à la routine normale
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player") && b_BeenThrown == false)
         {
             scPlayer = collision.GetComponent<SC_Player>();
             scPlayer.bIsBaiting = true;
-            this.gameObject.tag = "Untagged";
             Destroy(this.gameObject);
-            //collision.gameObject.GetComponent<ing_Bait>().Baiting();
         }
     }
 }

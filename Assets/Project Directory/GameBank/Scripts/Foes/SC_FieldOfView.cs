@@ -16,6 +16,7 @@ public class SC_FieldOfView : MonoBehaviour
 
     public bool BCanSee;
     public bool bSeenOnce;
+    public bool bHasHeard = false;
     public float minRotation = -90f;  
     public float maxRotation = 45f;   
     public float rotationStep = 45f;
@@ -23,9 +24,10 @@ public class SC_FieldOfView : MonoBehaviour
     private Vector3 vectLastRot;
 
     private float currentRotation;    
-    private bool isReversing = false; 
+    private bool isReversing = false;
+    public int i_EnnemyBeat = 0;
 
-    
+
     private void Start()
     {
         GOPlayerRef = GameObject.FindGameObjectWithTag("Player");
@@ -91,14 +93,27 @@ public class SC_FieldOfView : MonoBehaviour
         }
     }
 
-    public void DetectionChecks ()
+    public void BaitHeard(GameObject GOBait)
+    {
+        float fxDiff = GOBait.transform.position.x - this.transform.position.x;
+        if (fxDiff < 0) //si le bait est à gauche de l'ennemi
+        {
+            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y + 10f, 0);
+        }
+        if (fxDiff > 0) //si le bait est à droite de l'ennemi
+        {
+            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y - 10f, 0);
+        }
+    }
+
+    private void DetectionChecks ()
     {
         if (bSeenOnce)
         {
             BCanSee = true;
             bSeenOnce = false;
         }
-        if(BCanSee == false)
+        if(BCanSee == false && bHasHeard == false)
         {
             transform.eulerAngles = vectLastRot;
         }

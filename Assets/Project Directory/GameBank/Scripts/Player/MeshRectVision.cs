@@ -7,7 +7,6 @@ public class MeshRectVision : MonoBehaviour
 {
     [SerializeField] private SC_Player scPlayer;
     [SerializeField] private Material[] mVisionRect;
-    [SerializeField] private int iVisionRectResolution = 120; //how the vision cone is made up => with triangles, the +, the neatiest it will look
     private Mesh VisionRectMesh;
     private MeshFilter RectMeshFilter;
     private MeshRenderer RectRenderer;
@@ -21,88 +20,6 @@ public class MeshRectVision : MonoBehaviour
         RectMeshFilter = this.gameObject.AddComponent<MeshFilter>();
         VisionRectMesh = new Mesh();
         fVisionAngle *= Mathf.Deg2Rad;
-    }
-    public void DrawVisionBait(UnityEngine.Vector3 orientationVect)
-    {
-        int[] triangles = new int[(iVisionRectResolution - 1) * 3];
-        UnityEngine.Vector3[] Vertices = new UnityEngine.Vector3[iVisionRectResolution + 1];
-        Vertices[0] = UnityEngine.Vector3.zero;
-        float fCurrentAngle = -fVisionAngle / 2;
-        float fAngleIcrement = fVisionAngle / (iVisionRectResolution - 1);
-        float Sine;
-        float Cosine;
-        for (int i = 0; i < iVisionRectResolution; i++)
-        {
-            Sine = Mathf.Sin(fCurrentAngle);
-            Cosine = Mathf.Cos(fCurrentAngle);
-            UnityEngine.Vector3 vectNext = orientationVect;
-            if (orientationVect == transform.forward)
-            {
-                vectNext = transform.right;
-            }
-            else if (orientationVect == transform.right)
-            {
-                vectNext = UnityEngine.Vector3.back;
-            }
-            else if (orientationVect == UnityEngine.Vector3.back)
-            {
-                vectNext = UnityEngine.Vector3.left;
-            }
-            else if (orientationVect == UnityEngine.Vector3.left)
-            {
-                vectNext = transform.forward;
-            }
-            UnityEngine.Vector3 RaycastDirection = (orientationVect * Cosine) + (vectNext * Sine);
-            UnityEngine.Vector3 VertForward = (orientationVect * Cosine) + (vectNext * Sine);
-            float distanceRadius = 2f;
-            if (scPlayer.BBad)
-            {
-                distanceRadius = 4f;
-            }
-            else if (scPlayer.BGood)
-            {
-                distanceRadius = 5f;
-            }
-            else if (scPlayer.BPerfect)
-            {
-                distanceRadius = 6f;
-            }
-            if (Physics.Raycast(transform.position, RaycastDirection, out RaycastHit hit, distanceRadius, LMObstructionMask))
-            {
-                Vertices[i + 1] = VertForward * hit.distance;
-            }
-            else
-            {
-                Vertices[i + 1] = VertForward * distanceRadius;
-            }
-            fCurrentAngle += fAngleIcrement;
-        }
-        for (int i = 0, j = 0; i < triangles.Length; i += 3, j++)
-        {
-            triangles[i] = 0;
-            triangles[i + 1] = j + 1;
-            triangles[i + 2] = j + 2;
-        }
-        VisionRectMesh.Clear();
-        VisionRectMesh.vertices = Vertices;
-        VisionRectMesh.triangles = triangles;
-        RectMeshFilter.mesh = VisionRectMesh;
-        if (scPlayer.BBad)
-        {
-            RectRenderer.material = mVisionRect[0];
-        }
-        else if (scPlayer.BGood)
-        {
-            RectRenderer.material = mVisionRect[1];
-        }
-        else if (scPlayer.BPerfect)
-        {
-            RectRenderer.material = mVisionRect[2];
-        }
-        else
-        {
-            RectRenderer.material = mVisionRect[3];
-        }
     }
 
     private void DrawRectangle(UnityEngine.Vector3 orientationVect)
@@ -218,6 +135,11 @@ public class MeshRectVision : MonoBehaviour
             {
                 RectRenderer.material = mVisionRect[3];
             }
+        }
+        else
+        {
+            VisionRectMesh.Clear();
+            RectMeshFilter.mesh = null;
         }
     }
 }
