@@ -11,7 +11,7 @@ public class SC_Player : MonoBehaviour
 {
     PlayerControl control;
     Vector2 move;
-    Vector3 lastMoveDirection = Vector3.zero;
+    public Vector3 lastMoveDirection = Vector3.zero;
     public GameObject PlayerCapsule;
     [SerializeField] private bool bIsOnComputer = false;
 
@@ -213,8 +213,7 @@ public class SC_Player : MonoBehaviour
         }
         if (bIsBaiting)
         {
-            Debug.Log("is Baiting" + bIsBaiting);
-            scRectVision.DrawVisionBait(lastMoveDirection);
+            //cRectVision.DrawVisionBait(lastMoveDirection);
             if(Input.GetButtonDown("Jump") && canMove && bIsOnComputer == true)
             {
                 if (BBad == true)
