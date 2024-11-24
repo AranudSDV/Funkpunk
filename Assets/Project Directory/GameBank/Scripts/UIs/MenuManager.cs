@@ -11,6 +11,8 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private string sceneToLoad;
     private string currentScene;
     public static bool isLoadingScene = false;
+    [SerializeField] private Slider progressBar;
+    private AsyncOperation loadingOperation;
 
     private void Awake()
     {
@@ -30,6 +32,10 @@ public class MenuManager : MonoBehaviour
         {
             LoadScene(sceneToLoad);
         }
+        if(isLoadingScene)
+        {
+            progressBar.value = Mathf.Clamp01(loadingOperation.progress / 0.9f);
+        }
     }
 
     public void LoadScene(string sceneToLoad)
@@ -41,7 +47,7 @@ public class MenuManager : MonoBehaviour
 
         isLoadingScene = true;
 
-        SceneManager.LoadSceneAsync(sceneToLoad);
+        loadingOperation = SceneManager.LoadSceneAsync(sceneToLoad);
     }
 
     public void QuitGame()
