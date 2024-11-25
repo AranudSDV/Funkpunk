@@ -12,8 +12,7 @@ public class MenuManager : MonoBehaviour
     private GameObject GoMainMenu;
     private GameObject[] GoGameChoose; //0 is GoNewLoadButton, 1 is GoNewLoadText, 2 is GoOptionsButton, 3 is GoExitButton
     private GameObject[] GoLevelsButton;
-    private string sSceneToLoad;
-    private string currentScene;
+    public string sSceneToLoad;
     public static bool isLoadingScene = false;
     [SerializeField] private Slider progressBar;
     [SerializeField] private GameObject loadingScreen;
@@ -22,6 +21,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private GameObject GoPauseMenu;
     private PlayerData _playerData;
     private Button[] btnLevel = null;
+    private Image[] img_button = null;
 
     private void Awake()
     {
@@ -94,7 +94,6 @@ public class MenuManager : MonoBehaviour
                 GoLevelsButton = new GameObject[GoTargetUI.Length];
                 for (int i = 0; i < GoTargetUI.Length; i++)
                 {
-                    GoLevelsButton = new GameObject[GoTargetUI.Length];
                     for (int y = 0; y < GoTargetUI.Length; y++)
                     {
                         if (GoTargetUI[i].name == "LevelButton" + y)
@@ -105,8 +104,8 @@ public class MenuManager : MonoBehaviour
                 }
                 GoMainMenu = null;
                 GoGameChoose = null;
+                sSceneToLoad = "SceneLvl";
             }
-            sSceneToLoad = "SceneLvl";
         }
         else
         {
@@ -135,11 +134,25 @@ public class MenuManager : MonoBehaviour
         }
         else if(SceneManager.GetActiveScene().name == "LevelChoosing")
         {
-            btnLevel= new Button[GoLevelsButton.Length];
+            btnLevel = new Button[GoLevelsButton.Length];
+            img_button = new Image[GoLevelsButton.Length];
             for (int i = 0; i < GoLevelsButton.Length; i++)
             {
                 btnLevel[i] = GoLevelsButton[i].GetComponent<Button>();
-                btnLevel[i].onClick.AddListener(delegate { LoadScene(sSceneToLoad + i); });
+                img_button[i] = GoLevelsButton[i].GetComponent<Image>();
+                if ( _playerData.iLevelPlayer >= i)
+                {
+                    btnLevel[i].onClick.AddListener(delegate { LoadScene(sSceneToLoad + i); });
+                    img_button[i].color = new Color32(0, 135, 0, 255);
+                    TextMeshProUGUI textChild = GoLevelsButton[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+                    textChild.color = new Color32(0, 255, 0, 255);
+                }
+               else if(GoLevelsButton.Length- _playerData.iLevelPlayer > i)
+                {
+                    img_button[i].color = new Color32(54, 64, 134, 255);
+                    TextMeshProUGUI textChild = GoLevelsButton[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+                    textChild.color = new Color32(64, 97, 255, 255);
+                }
             }
         }
     }
@@ -157,6 +170,7 @@ public class MenuManager : MonoBehaviour
     public void LoadScene(string sceneToLoad)
     {
         StartCoroutine(StartLoad(sceneToLoad));
+        Debug.Log(sceneToLoad);
     }
 
     IEnumerator StartLoad(string sceneToLoad)
@@ -173,6 +187,16 @@ public class MenuManager : MonoBehaviour
         isLoadingScene = false;
         loadingScreen.SetActive(false);
     }
+    private void LoaderScene(string sceneToLoad)
+    {
+        Debug.LogWarning("Scene loading attempt");
+        if (isLoadingScene) return;
+        if (!Application.CanStreamedLevelBeLoaded(sceneToLoad)) return;
+
+        isLoadingScene = true;
+
+        loadingOperation = SceneManager.LoadSceneAsync(sceneToLoad);
+    }
 
     IEnumerator FadeLoadingScreen(float targetValue, float duration)
     {
@@ -186,19 +210,6 @@ public class MenuManager : MonoBehaviour
             yield return null;
         }
         canvasGroup.alpha = targetValue;
-    }
-
-    private void LoaderScene(string sceneToLoad)
-    {
-        Debug.LogWarning("Scene loading attempt");
-        if (isLoadingScene) return;
-
-        if (!Application.CanStreamedLevelBeLoaded(sceneToLoad)) return;
-        Debug.Log(sceneToLoad);
-
-        isLoadingScene = true;
-
-        loadingOperation = SceneManager.LoadSceneAsync(sceneToLoad);
     }
 
     public void QuitGame()
