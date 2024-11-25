@@ -6,7 +6,13 @@ Shader "SHR_EmissiveOutlinesTest"
 	{
 		[HideInInspector] _AlphaCutoff("Alpha Cutoff ", Range(0, 1)) = 0.5
 		[HideInInspector] _EmissionColor("Emission Color", Color) = (1,1,1,1)
-		_TextureSample0("Texture Sample 0", 2D) = "white" {}
+		_BaseColor2("BaseColor2", 2D) = "white" {}
+		[HDR]_ColorBig("ColorBig", Color) = (1.008615,0,5.992157,1)
+		[HDR]_ColorSmall("ColorSmall", Color) = (2.996078,0.8553956,0,1)
+		_DisMainTexSTR("DisMainTexSTR", Float) = 0.05
+		_DIS_STR("DIS_STR", Float) = 0.5
+		_TimeValue("TimeValue", Float) = 3
+		_C_ALB_01A("C_ALB_01A", 2D) = "white" {}
 		[HideInInspector] _texcoord( "", 2D ) = "white" {}
 
 
@@ -33,7 +39,7 @@ Shader "SHR_EmissiveOutlinesTest"
 
 		
 
-		Tags { "RenderPipeline"="UniversalPipeline" "RenderType"="Opaque" "Queue"="Geometry" "UniversalMaterialType"="Unlit" }
+		Tags { "RenderPipeline"="UniversalPipeline" "RenderType"="Transparent" "Queue"="Transparent" "UniversalMaterialType"="Unlit" }
 
 		Cull Back
 		AlphaToMask Off
@@ -158,8 +164,8 @@ Shader "SHR_EmissiveOutlinesTest"
 			Name "Forward"
 			Tags { "LightMode"="UniversalForwardOnly" }
 
-			Blend One Zero, One Zero
-			ZWrite On
+			Blend SrcAlpha OneMinusSrcAlpha, One OneMinusSrcAlpha
+			ZWrite Off
 			ZTest LEqual
 			Offset 0 , 0
 			ColorMask RGBA
@@ -173,6 +179,7 @@ Shader "SHR_EmissiveOutlinesTest"
 			#pragma multi_compile _ LOD_FADE_CROSSFADE
 			#pragma multi_compile_fog
 			#define ASE_FOG 1
+			#define _SURFACE_TYPE_TRANSPARENT 1
 			#define ASE_SRP_VERSION 140008
 
 
@@ -223,7 +230,8 @@ Shader "SHR_EmissiveOutlinesTest"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/LODCrossFade.hlsl"
             #endif
 
-			
+			#define ASE_NEEDS_VERT_NORMAL
+
 
 			struct VertexInput
 			{
@@ -251,7 +259,12 @@ Shader "SHR_EmissiveOutlinesTest"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _TextureSample0_ST;
+			float4 _BaseColor2_ST;
+			float4 _ColorSmall;
+			float4 _ColorBig;
+			float _TimeValue;
+			float _DisMainTexSTR;
+			float _DIS_STR;
 			#ifdef ASE_TESSELLATION
 				float _TessPhongStrength;
 				float _TessValue;
@@ -262,10 +275,39 @@ Shader "SHR_EmissiveOutlinesTest"
 			#endif
 			CBUFFER_END
 
-			sampler2D _TextureSample0;
+			sampler2D _BaseColor2;
+			sampler2D _C_ALB_01A;
 
 
+			float3 mod2D289( float3 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float2 mod2D289( float2 x ) { return x - floor( x * ( 1.0 / 289.0 ) ) * 289.0; }
+			float3 permute( float3 x ) { return mod2D289( ( ( x * 34.0 ) + 1.0 ) * x ); }
+			float snoise( float2 v )
+			{
+				const float4 C = float4( 0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439 );
+				float2 i = floor( v + dot( v, C.yy ) );
+				float2 x0 = v - i + dot( i, C.xx );
+				float2 i1;
+				i1 = ( x0.x > x0.y ) ? float2( 1.0, 0.0 ) : float2( 0.0, 1.0 );
+				float4 x12 = x0.xyxy + C.xxzz;
+				x12.xy -= i1;
+				i = mod2D289( i );
+				float3 p = permute( permute( i.y + float3( 0.0, i1.y, 1.0 ) ) + i.x + float3( 0.0, i1.x, 1.0 ) );
+				float3 m = max( 0.5 - float3( dot( x0, x0 ), dot( x12.xy, x12.xy ), dot( x12.zw, x12.zw ) ), 0.0 );
+				m = m * m;
+				m = m * m;
+				float3 x = 2.0 * frac( p * C.www ) - 1.0;
+				float3 h = abs( x ) - 0.5;
+				float3 ox = floor( x + 0.5 );
+				float3 a0 = x - ox;
+				m *= 1.79284291400159 - 0.85373472095314 * ( a0 * a0 + h * h );
+				float3 g;
+				g.x = a0.x * x0.x + h.x * x0.y;
+				g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+				return 130.0 * dot( m, g );
+			}
 			
+
 			VertexOutput VertexFunction( VertexInput v  )
 			{
 				VertexOutput o = (VertexOutput)0;
@@ -273,6 +315,14 @@ Shader "SHR_EmissiveOutlinesTest"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
+				float2 uv_BaseColor2 = v.ase_texcoord.xy * _BaseColor2_ST.xy + _BaseColor2_ST.zw;
+				float2 texCoord14 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float mulTime76 = _TimeParameters.x * _TimeValue;
+				float temp_output_75_0 = sin( mulTime76 );
+				float4 lerpResult72 = lerp( tex2Dlod( _BaseColor2, float4( uv_BaseColor2, 0, 0.0) ) , tex2Dlod( _C_ALB_01A, float4( texCoord14, 0, 0.0) ) , ( ( floor( ( ( ( temp_output_75_0 / 4.0 ) + 0.5 ) * 3.0 ) ) / 3.0 ) * 1.5 ));
+				float4 temp_output_53_0 = saturate( lerpResult72 );
+				float3 normalizeResult137 = normalize( ( v.normalOS * _DIS_STR ) );
+				
 				o.ase_texcoord3.xy = v.ase_texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -284,7 +334,7 @@ Shader "SHR_EmissiveOutlinesTest"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = defaultVertexValue;
+				float3 vertexValue = ( saturate( ( temp_output_53_0 * _DisMainTexSTR ) ) * float4( normalizeResult137 , 0.0 ) ).rgb;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.positionOS.xyz = vertexValue;
@@ -420,14 +470,22 @@ Shader "SHR_EmissiveOutlinesTest"
 					#endif
 				#endif
 
-				float4 color31 = IsGammaSpace() ? float4(0,0,0,0) : float4(0,0,0,0);
-				float4 color12 = IsGammaSpace() ? float4(1.224489,5.992157,0,1) : float4(1.561353,51.36686,0,1);
-				float2 uv_TextureSample0 = IN.ase_texcoord3.xy * _TextureSample0_ST.xy + _TextureSample0_ST.zw;
+				float2 texCoord104 = IN.ase_texcoord3.xy * float2( 1,1 ) + float2( 0,0 );
+				float simplePerlin2D109 = snoise( texCoord104*5.0 );
+				simplePerlin2D109 = simplePerlin2D109*0.5 + 0.5;
+				float4 lerpResult116 = lerp( _ColorSmall , _ColorBig , step( simplePerlin2D109 , 0.7 ));
+				
+				float2 uv_BaseColor2 = IN.ase_texcoord3.xy * _BaseColor2_ST.xy + _BaseColor2_ST.zw;
+				float2 texCoord14 = IN.ase_texcoord3.xy * float2( 1,1 ) + float2( 0,0 );
+				float mulTime76 = _TimeParameters.x * _TimeValue;
+				float temp_output_75_0 = sin( mulTime76 );
+				float4 lerpResult72 = lerp( tex2D( _BaseColor2, uv_BaseColor2 ) , tex2D( _C_ALB_01A, texCoord14 ) , ( ( floor( ( ( ( temp_output_75_0 / 4.0 ) + 0.5 ) * 3.0 ) ) / 3.0 ) * 1.5 ));
+				float4 temp_output_53_0 = saturate( lerpResult72 );
 				
 				float3 BakedAlbedo = 0;
 				float3 BakedEmission = 0;
-				float3 Color = ( color31 + ( color12 * tex2D( _TextureSample0, uv_TextureSample0 ) ) ).rgb;
-				float Alpha = 1;
+				float3 Color = lerpResult116.rgb;
+				float Alpha = temp_output_53_0.r;
 				float AlphaClipThreshold = 0.5;
 				float AlphaClipThresholdShadow = 0.5;
 
@@ -478,6 +536,7 @@ Shader "SHR_EmissiveOutlinesTest"
 			#pragma multi_compile_instancing
 			#pragma multi_compile _ LOD_FADE_CROSSFADE
 			#define ASE_FOG 1
+			#define _SURFACE_TYPE_TRANSPARENT 1
 			#define ASE_SRP_VERSION 140008
 
 
@@ -505,13 +564,14 @@ Shader "SHR_EmissiveOutlinesTest"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/LODCrossFade.hlsl"
             #endif
 
-			
+			#define ASE_NEEDS_VERT_NORMAL
+
 
 			struct VertexInput
 			{
 				float4 positionOS : POSITION;
 				float3 normalOS : NORMAL;
-				
+				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -524,13 +584,18 @@ Shader "SHR_EmissiveOutlinesTest"
 				#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR) && defined(ASE_NEEDS_FRAG_SHADOWCOORDS)
 					float4 shadowCoord : TEXCOORD1;
 				#endif
-				
+				float4 ase_texcoord2 : TEXCOORD2;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _TextureSample0_ST;
+			float4 _BaseColor2_ST;
+			float4 _ColorSmall;
+			float4 _ColorBig;
+			float _TimeValue;
+			float _DisMainTexSTR;
+			float _DIS_STR;
 			#ifdef ASE_TESSELLATION
 				float _TessPhongStrength;
 				float _TessValue;
@@ -541,7 +606,9 @@ Shader "SHR_EmissiveOutlinesTest"
 			#endif
 			CBUFFER_END
 
-			
+			sampler2D _BaseColor2;
+			sampler2D _C_ALB_01A;
+
 
 			
 			float3 _LightDirection;
@@ -554,7 +621,18 @@ Shader "SHR_EmissiveOutlinesTest"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( o );
 
+				float2 uv_BaseColor2 = v.ase_texcoord.xy * _BaseColor2_ST.xy + _BaseColor2_ST.zw;
+				float2 texCoord14 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float mulTime76 = _TimeParameters.x * _TimeValue;
+				float temp_output_75_0 = sin( mulTime76 );
+				float4 lerpResult72 = lerp( tex2Dlod( _BaseColor2, float4( uv_BaseColor2, 0, 0.0) ) , tex2Dlod( _C_ALB_01A, float4( texCoord14, 0, 0.0) ) , ( ( floor( ( ( ( temp_output_75_0 / 4.0 ) + 0.5 ) * 3.0 ) ) / 3.0 ) * 1.5 ));
+				float4 temp_output_53_0 = saturate( lerpResult72 );
+				float3 normalizeResult137 = normalize( ( v.normalOS * _DIS_STR ) );
 				
+				o.ase_texcoord2.xy = v.ase_texcoord.xy;
+				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				o.ase_texcoord2.zw = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.positionOS.xyz;
@@ -562,7 +640,7 @@ Shader "SHR_EmissiveOutlinesTest"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = defaultVertexValue;
+				float3 vertexValue = ( saturate( ( temp_output_53_0 * _DisMainTexSTR ) ) * float4( normalizeResult137 , 0.0 ) ).rgb;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.positionOS.xyz = vertexValue;
@@ -611,7 +689,8 @@ Shader "SHR_EmissiveOutlinesTest"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 normalOS : NORMAL;
-				
+				float4 ase_texcoord : TEXCOORD0;
+
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -628,7 +707,7 @@ Shader "SHR_EmissiveOutlinesTest"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.positionOS;
 				o.normalOS = v.normalOS;
-				
+				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
 
@@ -667,7 +746,7 @@ Shader "SHR_EmissiveOutlinesTest"
 				VertexInput o = (VertexInput) 0;
 				o.positionOS = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
-				
+				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -704,9 +783,15 @@ Shader "SHR_EmissiveOutlinesTest"
 					#endif
 				#endif
 
+				float2 uv_BaseColor2 = IN.ase_texcoord2.xy * _BaseColor2_ST.xy + _BaseColor2_ST.zw;
+				float2 texCoord14 = IN.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
+				float mulTime76 = _TimeParameters.x * _TimeValue;
+				float temp_output_75_0 = sin( mulTime76 );
+				float4 lerpResult72 = lerp( tex2D( _BaseColor2, uv_BaseColor2 ) , tex2D( _C_ALB_01A, texCoord14 ) , ( ( floor( ( ( ( temp_output_75_0 / 4.0 ) + 0.5 ) * 3.0 ) ) / 3.0 ) * 1.5 ));
+				float4 temp_output_53_0 = saturate( lerpResult72 );
 				
 
-				float Alpha = 1;
+				float Alpha = temp_output_53_0.r;
 				float AlphaClipThreshold = 0.5;
 				float AlphaClipThresholdShadow = 0.5;
 
@@ -745,6 +830,7 @@ Shader "SHR_EmissiveOutlinesTest"
 			#pragma multi_compile_instancing
 			#pragma multi_compile _ LOD_FADE_CROSSFADE
 			#define ASE_FOG 1
+			#define _SURFACE_TYPE_TRANSPARENT 1
 			#define ASE_SRP_VERSION 140008
 
 
@@ -768,13 +854,14 @@ Shader "SHR_EmissiveOutlinesTest"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/LODCrossFade.hlsl"
             #endif
 
-			
+			#define ASE_NEEDS_VERT_NORMAL
+
 
 			struct VertexInput
 			{
 				float4 positionOS : POSITION;
 				float3 normalOS : NORMAL;
-				
+				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -787,13 +874,18 @@ Shader "SHR_EmissiveOutlinesTest"
 				#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR) && defined(ASE_NEEDS_FRAG_SHADOWCOORDS)
 				float4 shadowCoord : TEXCOORD1;
 				#endif
-				
+				float4 ase_texcoord2 : TEXCOORD2;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _TextureSample0_ST;
+			float4 _BaseColor2_ST;
+			float4 _ColorSmall;
+			float4 _ColorBig;
+			float _TimeValue;
+			float _DisMainTexSTR;
+			float _DIS_STR;
 			#ifdef ASE_TESSELLATION
 				float _TessPhongStrength;
 				float _TessValue;
@@ -804,7 +896,9 @@ Shader "SHR_EmissiveOutlinesTest"
 			#endif
 			CBUFFER_END
 
-			
+			sampler2D _BaseColor2;
+			sampler2D _C_ALB_01A;
+
 
 			
 			VertexOutput VertexFunction( VertexInput v  )
@@ -814,7 +908,18 @@ Shader "SHR_EmissiveOutlinesTest"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
+				float2 uv_BaseColor2 = v.ase_texcoord.xy * _BaseColor2_ST.xy + _BaseColor2_ST.zw;
+				float2 texCoord14 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float mulTime76 = _TimeParameters.x * _TimeValue;
+				float temp_output_75_0 = sin( mulTime76 );
+				float4 lerpResult72 = lerp( tex2Dlod( _BaseColor2, float4( uv_BaseColor2, 0, 0.0) ) , tex2Dlod( _C_ALB_01A, float4( texCoord14, 0, 0.0) ) , ( ( floor( ( ( ( temp_output_75_0 / 4.0 ) + 0.5 ) * 3.0 ) ) / 3.0 ) * 1.5 ));
+				float4 temp_output_53_0 = saturate( lerpResult72 );
+				float3 normalizeResult137 = normalize( ( v.normalOS * _DIS_STR ) );
 				
+				o.ase_texcoord2.xy = v.ase_texcoord.xy;
+				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				o.ase_texcoord2.zw = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.positionOS.xyz;
@@ -822,7 +927,7 @@ Shader "SHR_EmissiveOutlinesTest"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = defaultVertexValue;
+				float3 vertexValue = ( saturate( ( temp_output_53_0 * _DisMainTexSTR ) ) * float4( normalizeResult137 , 0.0 ) ).rgb;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.positionOS.xyz = vertexValue;
@@ -854,7 +959,8 @@ Shader "SHR_EmissiveOutlinesTest"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 normalOS : NORMAL;
-				
+				float4 ase_texcoord : TEXCOORD0;
+
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -871,7 +977,7 @@ Shader "SHR_EmissiveOutlinesTest"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.positionOS;
 				o.normalOS = v.normalOS;
-				
+				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
 
@@ -910,7 +1016,7 @@ Shader "SHR_EmissiveOutlinesTest"
 				VertexInput o = (VertexInput) 0;
 				o.positionOS = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
-				
+				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -947,9 +1053,15 @@ Shader "SHR_EmissiveOutlinesTest"
 					#endif
 				#endif
 
+				float2 uv_BaseColor2 = IN.ase_texcoord2.xy * _BaseColor2_ST.xy + _BaseColor2_ST.zw;
+				float2 texCoord14 = IN.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
+				float mulTime76 = _TimeParameters.x * _TimeValue;
+				float temp_output_75_0 = sin( mulTime76 );
+				float4 lerpResult72 = lerp( tex2D( _BaseColor2, uv_BaseColor2 ) , tex2D( _C_ALB_01A, texCoord14 ) , ( ( floor( ( ( ( temp_output_75_0 / 4.0 ) + 0.5 ) * 3.0 ) ) / 3.0 ) * 1.5 ));
+				float4 temp_output_53_0 = saturate( lerpResult72 );
 				
 
-				float Alpha = 1;
+				float Alpha = temp_output_53_0.r;
 				float AlphaClipThreshold = 0.5;
 
 				#ifdef _ALPHATEST_ON
@@ -979,6 +1091,7 @@ Shader "SHR_EmissiveOutlinesTest"
 			
 
 			#define ASE_FOG 1
+			#define _SURFACE_TYPE_TRANSPARENT 1
 			#define ASE_SRP_VERSION 140008
 
 
@@ -1005,26 +1118,32 @@ Shader "SHR_EmissiveOutlinesTest"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 
-			
+			#define ASE_NEEDS_VERT_NORMAL
+
 
 			struct VertexInput
 			{
 				float4 positionOS : POSITION;
 				float3 normalOS : NORMAL;
-				
+				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
 			struct VertexOutput
 			{
 				float4 positionCS : SV_POSITION;
-				
+				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _TextureSample0_ST;
+			float4 _BaseColor2_ST;
+			float4 _ColorSmall;
+			float4 _ColorBig;
+			float _TimeValue;
+			float _DisMainTexSTR;
+			float _DIS_STR;
 			#ifdef ASE_TESSELLATION
 				float _TessPhongStrength;
 				float _TessValue;
@@ -1035,7 +1154,9 @@ Shader "SHR_EmissiveOutlinesTest"
 			#endif
 			CBUFFER_END
 
-			
+			sampler2D _BaseColor2;
+			sampler2D _C_ALB_01A;
+
 
 			
 			int _ObjectId;
@@ -1056,7 +1177,18 @@ Shader "SHR_EmissiveOutlinesTest"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
+				float2 uv_BaseColor2 = v.ase_texcoord.xy * _BaseColor2_ST.xy + _BaseColor2_ST.zw;
+				float2 texCoord14 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float mulTime76 = _TimeParameters.x * _TimeValue;
+				float temp_output_75_0 = sin( mulTime76 );
+				float4 lerpResult72 = lerp( tex2Dlod( _BaseColor2, float4( uv_BaseColor2, 0, 0.0) ) , tex2Dlod( _C_ALB_01A, float4( texCoord14, 0, 0.0) ) , ( ( floor( ( ( ( temp_output_75_0 / 4.0 ) + 0.5 ) * 3.0 ) ) / 3.0 ) * 1.5 ));
+				float4 temp_output_53_0 = saturate( lerpResult72 );
+				float3 normalizeResult137 = normalize( ( v.normalOS * _DIS_STR ) );
 				
+				o.ase_texcoord.xy = v.ase_texcoord.xy;
+				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				o.ase_texcoord.zw = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.positionOS.xyz;
@@ -1064,7 +1196,7 @@ Shader "SHR_EmissiveOutlinesTest"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = defaultVertexValue;
+				float3 vertexValue = ( saturate( ( temp_output_53_0 * _DisMainTexSTR ) ) * float4( normalizeResult137 , 0.0 ) ).rgb;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.positionOS.xyz = vertexValue;
@@ -1086,7 +1218,8 @@ Shader "SHR_EmissiveOutlinesTest"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 normalOS : NORMAL;
-				
+				float4 ase_texcoord : TEXCOORD0;
+
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1103,7 +1236,7 @@ Shader "SHR_EmissiveOutlinesTest"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.positionOS;
 				o.normalOS = v.normalOS;
-				
+				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
 
@@ -1142,7 +1275,7 @@ Shader "SHR_EmissiveOutlinesTest"
 				VertexInput o = (VertexInput) 0;
 				o.positionOS = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
-				
+				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -1164,9 +1297,15 @@ Shader "SHR_EmissiveOutlinesTest"
 			{
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 
+				float2 uv_BaseColor2 = IN.ase_texcoord.xy * _BaseColor2_ST.xy + _BaseColor2_ST.zw;
+				float2 texCoord14 = IN.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float mulTime76 = _TimeParameters.x * _TimeValue;
+				float temp_output_75_0 = sin( mulTime76 );
+				float4 lerpResult72 = lerp( tex2D( _BaseColor2, uv_BaseColor2 ) , tex2D( _C_ALB_01A, texCoord14 ) , ( ( floor( ( ( ( temp_output_75_0 / 4.0 ) + 0.5 ) * 3.0 ) ) / 3.0 ) * 1.5 ));
+				float4 temp_output_53_0 = saturate( lerpResult72 );
 				
 
-				surfaceDescription.Alpha = 1;
+				surfaceDescription.Alpha = temp_output_53_0.r;
 				surfaceDescription.AlphaClipThreshold = 0.5;
 
 				#if _ALPHATEST_ON
@@ -1197,6 +1336,7 @@ Shader "SHR_EmissiveOutlinesTest"
 			
 
 			#define ASE_FOG 1
+			#define _SURFACE_TYPE_TRANSPARENT 1
 			#define ASE_SRP_VERSION 140008
 
 
@@ -1228,26 +1368,32 @@ Shader "SHR_EmissiveOutlinesTest"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/LODCrossFade.hlsl"
             #endif
 
-			
+			#define ASE_NEEDS_VERT_NORMAL
+
 
 			struct VertexInput
 			{
 				float4 positionOS : POSITION;
 				float3 normalOS : NORMAL;
-				
+				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
 			struct VertexOutput
 			{
 				float4 positionCS : SV_POSITION;
-				
+				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _TextureSample0_ST;
+			float4 _BaseColor2_ST;
+			float4 _ColorSmall;
+			float4 _ColorBig;
+			float _TimeValue;
+			float _DisMainTexSTR;
+			float _DIS_STR;
 			#ifdef ASE_TESSELLATION
 				float _TessPhongStrength;
 				float _TessValue;
@@ -1258,7 +1404,9 @@ Shader "SHR_EmissiveOutlinesTest"
 			#endif
 			CBUFFER_END
 
-			
+			sampler2D _BaseColor2;
+			sampler2D _C_ALB_01A;
+
 
 			
 			float4 _SelectionID;
@@ -1278,7 +1426,18 @@ Shader "SHR_EmissiveOutlinesTest"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
+				float2 uv_BaseColor2 = v.ase_texcoord.xy * _BaseColor2_ST.xy + _BaseColor2_ST.zw;
+				float2 texCoord14 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float mulTime76 = _TimeParameters.x * _TimeValue;
+				float temp_output_75_0 = sin( mulTime76 );
+				float4 lerpResult72 = lerp( tex2Dlod( _BaseColor2, float4( uv_BaseColor2, 0, 0.0) ) , tex2Dlod( _C_ALB_01A, float4( texCoord14, 0, 0.0) ) , ( ( floor( ( ( ( temp_output_75_0 / 4.0 ) + 0.5 ) * 3.0 ) ) / 3.0 ) * 1.5 ));
+				float4 temp_output_53_0 = saturate( lerpResult72 );
+				float3 normalizeResult137 = normalize( ( v.normalOS * _DIS_STR ) );
 				
+				o.ase_texcoord.xy = v.ase_texcoord.xy;
+				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				o.ase_texcoord.zw = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.positionOS.xyz;
@@ -1286,7 +1445,7 @@ Shader "SHR_EmissiveOutlinesTest"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = defaultVertexValue;
+				float3 vertexValue = ( saturate( ( temp_output_53_0 * _DisMainTexSTR ) ) * float4( normalizeResult137 , 0.0 ) ).rgb;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.positionOS.xyz = vertexValue;
@@ -1306,7 +1465,8 @@ Shader "SHR_EmissiveOutlinesTest"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 normalOS : NORMAL;
-				
+				float4 ase_texcoord : TEXCOORD0;
+
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1323,7 +1483,7 @@ Shader "SHR_EmissiveOutlinesTest"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.positionOS;
 				o.normalOS = v.normalOS;
-				
+				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
 
@@ -1362,7 +1522,7 @@ Shader "SHR_EmissiveOutlinesTest"
 				VertexInput o = (VertexInput) 0;
 				o.positionOS = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
-				
+				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -1384,9 +1544,15 @@ Shader "SHR_EmissiveOutlinesTest"
 			{
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 
+				float2 uv_BaseColor2 = IN.ase_texcoord.xy * _BaseColor2_ST.xy + _BaseColor2_ST.zw;
+				float2 texCoord14 = IN.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float mulTime76 = _TimeParameters.x * _TimeValue;
+				float temp_output_75_0 = sin( mulTime76 );
+				float4 lerpResult72 = lerp( tex2D( _BaseColor2, uv_BaseColor2 ) , tex2D( _C_ALB_01A, texCoord14 ) , ( ( floor( ( ( ( temp_output_75_0 / 4.0 ) + 0.5 ) * 3.0 ) ) / 3.0 ) * 1.5 ));
+				float4 temp_output_53_0 = saturate( lerpResult72 );
 				
 
-				surfaceDescription.Alpha = 1;
+				surfaceDescription.Alpha = temp_output_53_0.r;
 				surfaceDescription.AlphaClipThreshold = 0.5;
 
 				#if _ALPHATEST_ON
@@ -1421,6 +1587,7 @@ Shader "SHR_EmissiveOutlinesTest"
 			#pragma multi_compile_instancing
 			#pragma multi_compile _ LOD_FADE_CROSSFADE
 			#define ASE_FOG 1
+			#define _SURFACE_TYPE_TRANSPARENT 1
 			#define ASE_SRP_VERSION 140008
 
 
@@ -1455,13 +1622,14 @@ Shader "SHR_EmissiveOutlinesTest"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/LODCrossFade.hlsl"
             #endif
 
-			
+			#define ASE_NEEDS_VERT_NORMAL
+
 
 			struct VertexInput
 			{
 				float4 positionOS : POSITION;
 				float3 normalOS : NORMAL;
-				
+				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1469,13 +1637,18 @@ Shader "SHR_EmissiveOutlinesTest"
 			{
 				float4 positionCS : SV_POSITION;
 				float3 normalWS : TEXCOORD0;
-				
+				float4 ase_texcoord1 : TEXCOORD1;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _TextureSample0_ST;
+			float4 _BaseColor2_ST;
+			float4 _ColorSmall;
+			float4 _ColorBig;
+			float _TimeValue;
+			float _DisMainTexSTR;
+			float _DIS_STR;
 			#ifdef ASE_TESSELLATION
 				float _TessPhongStrength;
 				float _TessValue;
@@ -1486,7 +1659,9 @@ Shader "SHR_EmissiveOutlinesTest"
 			#endif
 			CBUFFER_END
 
-			
+			sampler2D _BaseColor2;
+			sampler2D _C_ALB_01A;
+
 
 			
 			struct SurfaceDescription
@@ -1504,7 +1679,18 @@ Shader "SHR_EmissiveOutlinesTest"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
+				float2 uv_BaseColor2 = v.ase_texcoord.xy * _BaseColor2_ST.xy + _BaseColor2_ST.zw;
+				float2 texCoord14 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float mulTime76 = _TimeParameters.x * _TimeValue;
+				float temp_output_75_0 = sin( mulTime76 );
+				float4 lerpResult72 = lerp( tex2Dlod( _BaseColor2, float4( uv_BaseColor2, 0, 0.0) ) , tex2Dlod( _C_ALB_01A, float4( texCoord14, 0, 0.0) ) , ( ( floor( ( ( ( temp_output_75_0 / 4.0 ) + 0.5 ) * 3.0 ) ) / 3.0 ) * 1.5 ));
+				float4 temp_output_53_0 = saturate( lerpResult72 );
+				float3 normalizeResult137 = normalize( ( v.normalOS * _DIS_STR ) );
 				
+				o.ase_texcoord1.xy = v.ase_texcoord.xy;
+				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				o.ase_texcoord1.zw = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.positionOS.xyz;
@@ -1512,7 +1698,7 @@ Shader "SHR_EmissiveOutlinesTest"
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
 
-				float3 vertexValue = defaultVertexValue;
+				float3 vertexValue = ( saturate( ( temp_output_53_0 * _DisMainTexSTR ) ) * float4( normalizeResult137 , 0.0 ) ).rgb;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.positionOS.xyz = vertexValue;
@@ -1536,7 +1722,8 @@ Shader "SHR_EmissiveOutlinesTest"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 normalOS : NORMAL;
-				
+				float4 ase_texcoord : TEXCOORD0;
+
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1553,7 +1740,7 @@ Shader "SHR_EmissiveOutlinesTest"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.positionOS;
 				o.normalOS = v.normalOS;
-				
+				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
 
@@ -1592,7 +1779,7 @@ Shader "SHR_EmissiveOutlinesTest"
 				VertexInput o = (VertexInput) 0;
 				o.positionOS = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.normalOS = patch[0].normalOS * bary.x + patch[1].normalOS * bary.y + patch[2].normalOS * bary.z;
-				
+				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -1619,9 +1806,15 @@ Shader "SHR_EmissiveOutlinesTest"
 			{
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 
+				float2 uv_BaseColor2 = IN.ase_texcoord1.xy * _BaseColor2_ST.xy + _BaseColor2_ST.zw;
+				float2 texCoord14 = IN.ase_texcoord1.xy * float2( 1,1 ) + float2( 0,0 );
+				float mulTime76 = _TimeParameters.x * _TimeValue;
+				float temp_output_75_0 = sin( mulTime76 );
+				float4 lerpResult72 = lerp( tex2D( _BaseColor2, uv_BaseColor2 ) , tex2D( _C_ALB_01A, texCoord14 ) , ( ( floor( ( ( ( temp_output_75_0 / 4.0 ) + 0.5 ) * 3.0 ) ) / 3.0 ) * 1.5 ));
+				float4 temp_output_53_0 = saturate( lerpResult72 );
 				
 
-				surfaceDescription.Alpha = 1;
+				surfaceDescription.Alpha = temp_output_53_0.r;
 				surfaceDescription.AlphaClipThreshold = 0.5;
 
 				#if _ALPHATEST_ON
@@ -1662,25 +1855,47 @@ Shader "SHR_EmissiveOutlinesTest"
 }
 /*ASEBEGIN
 Version=19302
-Node;AmplifyShaderEditor.TextureCoordinatesNode;14;-1161.211,-95.20128;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;17;-167.8366,136.0915;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SamplerNode;10;-632.3267,189.7653;Inherit;True;Property;_Base_base_BaseColor;Base_base_BaseColor;0;0;Create;True;0;0;0;False;0;False;-1;a70cda2607a923443ac75166bb1a4634;a70cda2607a923443ac75166bb1a4634;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RangedFloatNode;15;-1121.672,99.89001;Inherit;False;Constant;_Float0;Float 0;1;0;Create;True;0;0;0;False;0;False;5;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.ColorNode;18;-724.618,-819.9242;Inherit;False;Constant;_Color1;Color 0;1;1;[HDR];Create;True;0;0;0;False;0;False;3.508758,0,16,1;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SmoothstepOpNode;20;-215.7184,-823.0857;Inherit;True;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.StepOpNode;22;-533.8197,-389.5208;Inherit;True;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;23;-815.2561,-371.8638;Inherit;False;Constant;_Float1;Float 1;1;0;Create;True;0;0;0;False;0;False;0.75;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.NoiseGeneratorNode;11;-858.9431,-111.0614;Inherit;True;Simplex2D;True;False;2;0;FLOAT2;0,0;False;1;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;25;-822.2914,-241.2028;Inherit;False;Constant;_Float2;Float 1;1;0;Create;True;0;0;0;False;0;False;0.25;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.StepOpNode;26;-550.1494,-149.6506;Inherit;True;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SamplerNode;27;-640.2105,397.0459;Inherit;True;Property;_Base_base_BaseColor1;Base_base_BaseColor 1;1;0;Create;True;0;0;0;False;0;False;-1;6cde4b37b23f7ce4ab595e095cb7aabe;6cde4b37b23f7ce4ab595e095cb7aabe;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RangedFloatNode;29;-475.7659,628.0731;Inherit;False;Constant;_Float1;Float 1;2;0;Create;True;0;0;0;False;0;False;4;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;28;-303.7659,460.073;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.ColorNode;12;-226.0726,-279.4562;Inherit;False;Constant;_Color0;Color 0;1;1;[HDR];Create;True;0;0;0;False;0;False;1.224489,5.992157,0,1;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SamplerNode;30;-236.3383,-102.9495;Inherit;True;Property;_TextureSample0;Texture Sample 0;2;0;Create;True;0;0;0;False;0;False;-1;5627ca1c740da09408f4a890f7abf139;5627ca1c740da09408f4a890f7abf139;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.ColorNode;31;91.04161,-325.356;Inherit;False;Constant;_Color2;Color 2;3;0;Create;True;0;0;0;False;0;False;0,0,0,0;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;16;90.6942,-125.7414;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SimpleAddOpNode;32;349.9517,-327.267;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RangedFloatNode;77;-1857.002,373.7368;Inherit;False;Property;_TimeValue;TimeValue;6;0;Create;True;0;0;0;False;0;False;3;10;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleTimeNode;76;-1683.977,357.8323;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SinOpNode;75;-1469.366,351.0714;Inherit;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleDivideOpNode;89;-1257.998,416.7869;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;4;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;139;-1340.913,816.0641;Inherit;False;Constant;_Float0;Float 0;7;0;Create;True;0;0;0;False;0;False;3;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;90;-1222.005,429.7469;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0.5;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;140;-1017.095,563.0801;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.FloorOpNode;141;-869.5385,563.3027;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TextureCoordinatesNode;14;-1387.94,-325.3277;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SimpleDivideOpNode;142;-781.8453,728.9568;Inherit;True;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SamplerNode;91;-1023.12,-532.9974;Inherit;True;Property;_C_ALB_01A;C_ALB_01A;7;0;Create;True;0;0;0;False;0;False;-1;5a6995cfabbeabc4697de81dd3caf77e;5a6995cfabbeabc4697de81dd3caf77e;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;71;-1044.651,-315.7842;Inherit;True;Property;_BaseColor2;BaseColor2;1;0;Create;True;0;0;0;False;0;False;-1;5ad82bc74e356e244bd4443a9d766e27;6cde4b37b23f7ce4ab595e095cb7aabe;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;145;-586.3131,725.966;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;1.5;False;1;FLOAT;0
+Node;AmplifyShaderEditor.LerpOp;72;-588.5978,-301.5009;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SaturateNode;53;-332.8146,-301.1809;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RangedFloatNode;48;-4.927277,-97.71294;Inherit;False;Property;_DisMainTexSTR;DisMainTexSTR;4;0;Create;True;0;0;0;False;0;False;0.05;0.02;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.NormalVertexDataNode;34;63.61438,69.41302;Inherit;False;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;55;59.23689,223.9133;Inherit;False;Property;_DIS_STR;DIS_STR;5;0;Create;True;0;0;0;False;0;False;0.5;0.5;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;56;238.3224,69.73703;Inherit;True;2;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;47;196.5783,-196.7975;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.NormalizeNode;137;427.5706,68.79553;Inherit;True;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.SaturateNode;46;469.0626,-196.214;Inherit;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.StepOpNode;78;-572.5213,214.6625;Inherit;True;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TextureCoordinatesNode;104;-1248.603,1328.194;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;107;-784.3122,1230.09;Inherit;False;Constant;_Float6;Float 0;1;0;Create;True;0;0;0;False;0;False;5;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;108;-541.6382,1222.061;Inherit;False;Constant;_Float7;Float 1;1;0;Create;True;0;0;0;False;0;False;0.7;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.NoiseGeneratorNode;109;-618.1093,1000.154;Inherit;True;Simplex2D;True;False;2;0;FLOAT2;0,0;False;1;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.StepOpNode;110;-331.0836,1084.818;Inherit;True;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;74;-317.5818,357.4011;Inherit;False;Constant;_Float3;Float 3;5;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;117;-763.7147,2008.925;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0.5;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleDivideOpNode;118;-908.48,2015.504;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;2;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;119;-1465.465,2038.958;Inherit;False;Constant;_Float9;Float 4;5;0;Create;True;0;0;0;False;0;False;5;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleTimeNode;120;-1292.44,2023.054;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SinOpNode;121;-1077.829,2016.293;Inherit;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;126;369.7659,1054.087;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.LerpOp;116;-41.0149,941.4827;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SamplerNode;138;-1054.046,-43.27837;Inherit;True;Property;_TextureSample0;Texture Sample 0;8;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;131;-87.14853,440.6115;Inherit;True;Property;_BaseColor1;BaseColor;0;0;Create;True;0;0;0;False;0;False;-1;5627ca1c740da09408f4a890f7abf139;6cde4b37b23f7ce4ab595e095cb7aabe;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;125;-393.125,634.4021;Inherit;False;Property;_ColorBig;ColorBig;2;1;[HDR];Create;True;0;0;0;False;0;False;1.008615,0,5.992157,1;1.008615,0,5.992157,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;124;-391.7109,837.41;Inherit;False;Property;_ColorSmall;ColorSmall;3;1;[HDR];Create;True;0;0;0;False;0;False;2.996078,0.8553956,0,1;2.996078,0.8553956,0,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;33;727.5744,-196.4337;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;FLOAT3;0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;1;New Amplify Shader;2992e84f91cbeb14eab234972e07ea9d;True;ExtraPrePass;0;0;ExtraPrePass;5;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Unlit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;0;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;2;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;1;New Amplify Shader;2992e84f91cbeb14eab234972e07ea9d;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Unlit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;3;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;1;New Amplify Shader;2992e84f91cbeb14eab234972e07ea9d;True;DepthOnly;0;3;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Unlit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;True;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;True;1;LightMode=DepthOnly;False;False;0;;0;0;Standard;0;False;0
@@ -1690,26 +1905,46 @@ Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;6;0,0;Float;False;False;-1;
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;7;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;1;New Amplify Shader;2992e84f91cbeb14eab234972e07ea9d;True;ScenePickingPass;0;7;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Unlit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;8;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;1;New Amplify Shader;2992e84f91cbeb14eab234972e07ea9d;True;DepthNormals;0;8;DepthNormals;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Unlit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=DepthNormalsOnly;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;9;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;1;New Amplify Shader;2992e84f91cbeb14eab234972e07ea9d;True;DepthNormalsOnly;0;9;DepthNormalsOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Unlit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=DepthNormalsOnly;False;True;9;d3d11;metal;vulkan;xboxone;xboxseries;playstation;ps4;ps5;switch;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;686.1295,-136.5609;Float;False;True;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;13;SHR_EmissiveOutlinesTest;2992e84f91cbeb14eab234972e07ea9d;True;Forward;0;1;Forward;8;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Unlit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;1;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForwardOnly;False;False;0;;0;0;Standard;21;Surface;0;0;  Blend;0;0;Two Sided;1;0;Forward Only;0;0;Cast Shadows;1;0;  Use Shadow Threshold;0;0;GPU Instancing;1;0;LOD CrossFade;1;0;Built-in Fog;1;0;Meta Pass;0;0;Extra Pre Pass;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Vertex Position,InvertActionOnDeselection;1;0;0;10;False;True;True;True;False;False;True;True;True;False;False;;False;0
-WireConnection;17;0;10;0
-WireConnection;17;1;28;0
-WireConnection;10;1;14;0
-WireConnection;20;0;22;0
-WireConnection;20;1;18;0
-WireConnection;20;2;22;0
-WireConnection;22;0;11;0
-WireConnection;22;1;23;0
-WireConnection;11;0;14;0
-WireConnection;11;1;15;0
-WireConnection;26;0;11;0
-WireConnection;26;1;25;0
-WireConnection;27;1;14;0
-WireConnection;28;0;27;0
-WireConnection;28;1;29;0
-WireConnection;16;0;12;0
-WireConnection;16;1;30;0
-WireConnection;32;0;31;0
-WireConnection;32;1;16;0
-WireConnection;1;2;32;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;1263.272,-314.1759;Float;False;True;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;13;SHR_EmissiveOutlinesTest;2992e84f91cbeb14eab234972e07ea9d;True;Forward;0;1;Forward;8;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;UniversalMaterialType=Unlit;True;5;True;12;all;0;False;True;1;5;False;;10;False;;1;1;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForwardOnly;False;False;0;;0;0;Standard;21;Surface;1;638681491279374028;  Blend;0;0;Two Sided;1;0;Forward Only;0;0;Cast Shadows;1;0;  Use Shadow Threshold;0;0;GPU Instancing;1;0;LOD CrossFade;1;0;Built-in Fog;1;0;Meta Pass;0;0;Extra Pre Pass;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Vertex Position,InvertActionOnDeselection;1;0;0;10;False;True;True;True;False;False;True;True;True;False;False;;False;0
+WireConnection;76;0;77;0
+WireConnection;75;0;76;0
+WireConnection;89;0;75;0
+WireConnection;90;0;89;0
+WireConnection;140;0;90;0
+WireConnection;140;1;139;0
+WireConnection;141;0;140;0
+WireConnection;142;0;141;0
+WireConnection;142;1;139;0
+WireConnection;91;1;14;0
+WireConnection;145;0;142;0
+WireConnection;72;0;71;0
+WireConnection;72;1;91;0
+WireConnection;72;2;145;0
+WireConnection;53;0;72;0
+WireConnection;56;0;34;0
+WireConnection;56;1;55;0
+WireConnection;47;0;53;0
+WireConnection;47;1;48;0
+WireConnection;137;0;56;0
+WireConnection;46;0;47;0
+WireConnection;78;0;75;0
+WireConnection;109;0;104;0
+WireConnection;109;1;107;0
+WireConnection;110;0;109;0
+WireConnection;110;1;108;0
+WireConnection;117;0;118;0
+WireConnection;118;0;121;0
+WireConnection;120;0;119;0
+WireConnection;121;0;120;0
+WireConnection;126;0;116;0
+WireConnection;126;1;131;4
+WireConnection;116;0;124;0
+WireConnection;116;1;125;0
+WireConnection;116;2;110;0
+WireConnection;33;0;46;0
+WireConnection;33;1;137;0
+WireConnection;1;2;116;0
+WireConnection;1;3;53;0
+WireConnection;1;5;33;0
 ASEEND*/
-//CHKSM=B9499B64BD8A74ECB460B36DA2883643A3B7F45F
+//CHKSM=46C76D343802B17378AFC4A6AE03D10DEFFDD410

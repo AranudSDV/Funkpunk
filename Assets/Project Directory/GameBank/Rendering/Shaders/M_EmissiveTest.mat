@@ -23,12 +23,32 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _ALB:
+        m_Texture: {fileID: 2800000, guid: 5a6995cfabbeabc4697de81dd3caf77e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BaseColor:
+        m_Texture: {fileID: 2800000, guid: 9bfcaa8200d709e4e93c01cb67b6a7a6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BaseColor1:
+        m_Texture: {fileID: 2800000, guid: 6cde4b37b23f7ce4ab595e095cb7aabe, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BaseColor2:
+        m_Texture: {fileID: 2800000, guid: 5a6995cfabbeabc4697de81dd3caf77e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Base_base_BaseColor:
         m_Texture: {fileID: 2800000, guid: a70cda2607a923443ac75166bb1a4634, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Base_base_BaseColor1:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _C_ALB_01A:
+        m_Texture: {fileID: 2800000, guid: 9bfcaa8200d709e4e93c01cb67b6a7a6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample0:
@@ -54,9 +74,15 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaCutoff: 0.5
+    - _DIS_STR: 0.01
+    - _DisMainTexSTR: 0.01
+    - _DisSTR: 0.02
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _TimeValue: 4.5
     m_Colors:
+    - _ColorBig: {r: 0.10547089, g: 0, b: 5.992157, a: 1}
+    - _ColorSmall: {r: 2.9960783, g: 0, b: 0.6606609, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
