@@ -21,9 +21,10 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private GameObject GoPauseMenu;
     private PlayerData _playerData;
-    private Level[] _levels;
+    public Level[] _levels;
 
-    public class Level //Les classes du joueur
+    [System.Serializable]
+    public class Level 
     {
         public int i_level;
         public Button button_level;
@@ -31,7 +32,7 @@ public class MenuManager : MonoBehaviour
         public string sScene_Level;
         public Image img_lvl;
 
-        public Level(int i_nb, GameObject[]Go_buttons) //Comment assigner une arme
+        public Level(int i_nb, GameObject[]Go_buttons)
         {
             i_level = i_nb;
             Go_LevelButton = Go_buttons[i_nb];
@@ -159,8 +160,8 @@ public class MenuManager : MonoBehaviour
             {
                 if ( _playerData.iLevelPlayer >= i)
                 {
-                    _levels[i].button_level.onClick.AddListener(delegate { LoadScene(_levels[i].sScene_Level); });
-                    Debug.Log(i);
+                    int captured = i;
+                    _levels[i].button_level.onClick.AddListener(() => LoadScene(_levels[captured].sScene_Level));
                     _levels[i].img_lvl.color = new Color32(0, 135, 0, 255);
                     TextMeshProUGUI textChild = _levels[i].Go_LevelButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
                     textChild.color = new Color32(0, 255, 0, 255);
