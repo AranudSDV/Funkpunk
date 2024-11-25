@@ -65,6 +65,7 @@ public class SC_Player : MonoBehaviour
     public Material taggedMaterial; 
     private RaycastHit[] hitInfo = new RaycastHit[4];
     private bool bHasMovedOnce = false;
+    [SerializeField] private bool bIsTuto = false;
 
     GameObject[] Enemies1;
 
@@ -100,6 +101,11 @@ public class SC_Player : MonoBehaviour
         FWaitTime = FSPB - FZoneBadTiming;
         StartCoroutine(wait());
         FDetectionRate = 1f;
+    }
+
+    public void StartAfterTuto()
+    {
+        StartCoroutine(wait());
     }
 
     IEnumerator wait()
@@ -159,10 +165,12 @@ public class SC_Player : MonoBehaviour
 
     void Update()
     {
-        
-        TMPScore.SetText(FScore.ToString());
-        int iDetectionLevel = Mathf.RoundToInt(FDetectionLevel);
-        TMPDetectLevel.SetText(iDetectionLevel.ToString());
+        if (bIsTuto == false)
+        {
+            TMPScore.SetText(FScore.ToString());
+            int iDetectionLevel = Mathf.RoundToInt(FDetectionLevel);
+            TMPDetectLevel.SetText(iDetectionLevel.ToString());
+        }
 
 
         if (bIsOnComputer == false)
@@ -195,19 +203,19 @@ public class SC_Player : MonoBehaviour
 
         if ((control.GamePlay.Move.triggered && canMove && bIsOnComputer == false) || (Input.GetButtonDown("Jump") && canMove && bIsOnComputer == true))
         {
-            if(BBad == true)
+            if (BBad == true)
             {
                 FScore = FScore + 10f;
                 txt_Feedback.text = "Bad";
                 txt_Feedback.color = new Color32(255, 0, 255, 255);
             }
-            else if(BGood == true)
+            else if (BGood == true)
             {
                 FScore = FScore + 50f;
                 txt_Feedback.text = "Good";
                 txt_Feedback.color = new Color32(0, 0, 255, 255);
             }
-            else if(BPerfect == true)
+            else if (BPerfect == true)
             {
                 FScore = FScore + 100f;
                 txt_Feedback.text = "Perfect!";
@@ -216,7 +224,7 @@ public class SC_Player : MonoBehaviour
             CheckForward(lastMoveDirection);
             bIsBaiting = false;
         }
-        if(bIsBaiting && Input.GetKeyDown(KeyCode.V) && canMove && bIsOnComputer == true)
+        if(bIsBaiting && Input.GetKeyDown(KeyCode.V) && canMove && bIsOnComputer == true && bIsTuto ==false)
         {
             if (BBad == true)
             {

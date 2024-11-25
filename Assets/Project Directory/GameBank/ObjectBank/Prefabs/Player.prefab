@@ -92,6 +92,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4884357669059686057}
+  - component: {fileID: 5661657123015864678}
   m_Layer: 6
   m_Name: RectVision
   m_TagString: Untagged
@@ -114,6 +115,27 @@ Transform:
   m_Father: {fileID: 9121296702372304279}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5661657123015864678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1763213342855712093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a14223de1af49d439a69cba0dc99699, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scPlayer: {fileID: 6830452445873526929}
+  mVisionRect:
+  - {fileID: 2100000, guid: 60b0eca5a8bb9d74499cef5db94f818c, type: 2}
+  - {fileID: 2100000, guid: c52bc698085ef99459c9fa85e9ae3d85, type: 2}
+  - {fileID: 2100000, guid: dfae8deb0084ed8498621f36ef541ed7, type: 2}
+  - {fileID: 2100000, guid: 80b09b81191dd444a93d1588760bc0a0, type: 2}
+  LMObstructionMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &4589980624701841776
 GameObject:
   m_ObjectHideFlags: 0
@@ -315,7 +337,7 @@ Transform:
   - {fileID: 2933500145309475870}
   - {fileID: 4884357669059686057}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &2979385002189901494
 CapsuleCollider:
@@ -352,24 +374,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5358b3d66a5a28a41ad14a253394ddcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lastMoveDirection: {x: 0, y: 0, z: 0}
   PlayerCapsule: {fileID: 4589980624701841776}
   bIsOnComputer: 1
   FBPM: 70
   FBadTiming: 1
   FGoodTiming: 0.75
   FPerfectTiming: 0.5
+  BBad: 0
+  BGood: 0
+  BPerfect: 0
   txt_Feedback: {fileID: 0}
   GOUiBad: {fileID: 0}
   GOUiGood: {fileID: 0}
   GOUiPerfect: {fileID: 0}
-  mVisionRect:
-  - {fileID: 2100000, guid: 60b0eca5a8bb9d74499cef5db94f818c, type: 2}
-  - {fileID: 2100000, guid: c52bc698085ef99459c9fa85e9ae3d85, type: 2}
-  - {fileID: 2100000, guid: dfae8deb0084ed8498621f36ef541ed7, type: 2}
-  iVisionRectResolution: 90
-  LMObstructionMask:
-    serializedVersion: 2
-    m_Bits: 0
+  scRectVision: {fileID: 5661657123015864678}
+  GOBait: {fileID: 6885181872792694492, guid: 481679da37c5830468e32f02138b149a, type: 3}
+  bIsBaiting: 0
+  newThrow: 0
   TMPScore: {fileID: 0}
   UI_Joystick:
   - {fileID: 0}

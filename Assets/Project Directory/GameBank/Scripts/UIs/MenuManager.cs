@@ -6,12 +6,13 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Unity.VisualScripting;
 using TMPro;
+using static MenuManager;
 
 public class MenuManager : MonoBehaviour
 {
     private GameObject GoMainMenu;
     private GameObject[] GoGameChoose; //0 is GoNewLoadButton, 1 is GoNewLoadText, 2 is GoOptionsButton, 3 is GoExitButton
-    private GameObject[] GoLevelsButton;
+    public GameObject[] GoLevelsButton;
     public string sSceneToLoad;
     public static bool isLoadingScene = false;
     [SerializeField] private Slider progressBar;
@@ -20,10 +21,26 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private GameObject GoPauseMenu;
     private PlayerData _playerData;
-    private Button[] btnLevel = null;
-    private Image[] img_button = null;
+    private Level[] _levels;
 
-    private void Awake()
+    public class Level //Les classes du joueur
+    {
+        public int i_level;
+        public Button button_level;
+        public GameObject Go_LevelButton;
+        public string sScene_Level;
+        public Image img_lvl;
+
+        public Level(int i_nb, GameObject[]Go_buttons) //Comment assigner une arme
+        {
+            i_level = i_nb;
+            Go_LevelButton = Go_buttons[i_nb];
+            button_level = Go_buttons[i_nb].GetComponent<Button>();
+            sScene_Level = "SceneLvl" + i_level;
+            img_lvl = Go_buttons[i_nb].GetComponent<Image>();
+        }
+    }
+        private void Awake()
     {
         LoadTargetUIMenus();
         DontDestroyOnLoad(this.gameObject);
@@ -70,6 +87,7 @@ public class MenuManager : MonoBehaviour
                 GoGameChoose = null;
                 GoLevelsButton = null;
                 sSceneToLoad = "GameChoose";
+                _levels = null;
             }
             else if (SceneManager.GetActiveScene().name == "GameChoose")
             {
@@ -87,18 +105,21 @@ public class MenuManager : MonoBehaviour
                 }
                 GoMainMenu = null;
                 GoLevelsButton = null;
+                _levels = null;
                 sSceneToLoad = "LevelChoosing";
             }
             else if (SceneManager.GetActiveScene().name == "LevelChoosing")
             {
                 GoLevelsButton = new GameObject[GoTargetUI.Length];
+                _levels = new Level[GoTargetUI.Length];
                 for (int i = 0; i < GoTargetUI.Length; i++)
                 {
                     for (int y = 0; y < GoTargetUI.Length; y++)
                     {
-                        if (GoTargetUI[i].name == "LevelButton" + y)
+                        if (GoTargetUI[i].name == "SceneLvl" + y)
                         {
                             GoLevelsButton[y] = GoTargetUI[i];
+                            _levels[y] = new Level(y, GoLevelsButton);
                         }
                     }
                 }
@@ -134,23 +155,20 @@ public class MenuManager : MonoBehaviour
         }
         else if(SceneManager.GetActiveScene().name == "LevelChoosing")
         {
-            btnLevel = new Button[GoLevelsButton.Length];
-            img_button = new Image[GoLevelsButton.Length];
             for (int i = 0; i < GoLevelsButton.Length; i++)
             {
-                btnLevel[i] = GoLevelsButton[i].GetComponent<Button>();
-                img_button[i] = GoLevelsButton[i].GetComponent<Image>();
                 if ( _playerData.iLevelPlayer >= i)
                 {
-                    btnLevel[i].onClick.AddListener(delegate { LoadScene(sSceneToLoad + i); });
-                    img_button[i].color = new Color32(0, 135, 0, 255);
-                    TextMeshProUGUI textChild = GoLevelsButton[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+                    _levels[i].button_level.onClick.AddListener(delegate { LoadScene(_levels[i].sScene_Level); });
+                    Debug.Log(i);
+                    _levels[i].img_lvl.color = new Color32(0, 135, 0, 255);
+                    TextMeshProUGUI textChild = _levels[i].Go_LevelButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
                     textChild.color = new Color32(0, 255, 0, 255);
                 }
                else if(GoLevelsButton.Length- _playerData.iLevelPlayer > i)
                 {
-                    img_button[i].color = new Color32(54, 64, 134, 255);
-                    TextMeshProUGUI textChild = GoLevelsButton[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+                    _levels[i].img_lvl.color = new Color32(54, 64, 134, 255);
+                    TextMeshProUGUI textChild = _levels[i].Go_LevelButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
                     textChild.color = new Color32(64, 97, 255, 255);
                 }
             }
