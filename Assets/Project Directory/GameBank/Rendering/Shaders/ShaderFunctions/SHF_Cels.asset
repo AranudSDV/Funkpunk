@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: SHF_Cels
   m_EditorClassIdentifier: 
   m_functionInfo: "// Made with Amplify Shader Editor v1.9.3.2\n// Available at the
-    Unity Asset Store - http://u3d.as/y3X \n/*ASEBEGIN\nVersion=19302\nNode;AmplifyShaderEditor.CustomExpressionNode;1;-405.822,-7.054064;Inherit;False;
-    ;1;File;1;True;In0;FLOAT;0;In;;Inherit;False;My Custom Expression;False;False;0;7e8c8571b40175f45878b779e838bd25;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;0;0,0;Inherit;False;True;-1;Output;0;False;1;0;FLOAT;0;False;1;FLOAT;0\nASEEND*/\n//CHKSM=713740FEFBA8D6A82B8445FE22A2EC6AFE8BA502"
+    Unity Asset Store - http://u3d.as/y3X \n/*ASEBEGIN\nVersion=19302\nNode;AmplifyShaderEditor.CustomExpressionNode;1;-405.822,-4.509977;Inherit;False;
+    ;1;File;1;True;In0;FLOAT;0;In;;Inherit;False;Lights_DATA;False;False;0;7e8c8571b40175f45878b779e838bd25;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;0;0,0;Inherit;False;True;-1;Output;0;False;1;0;FLOAT;0;False;1;FLOAT;0\nASEEND*/\n//CHKSM=4BB33B7D9FD3093CEF3CB9CD7033E07742C37A7F"
   m_functionName: 
   m_description: 
   m_additionalIncludes:

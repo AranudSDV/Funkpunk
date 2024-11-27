@@ -1,9 +1,10 @@
 #ifndef CUSTOM_LIGHTING_INCLUDED
 #define CUSTOM_LIGHTING_INCLUDED
 
+
 void MainLight_float(float3 WorldPos, out float3 Direction, out float3 Color, out float DistanceAtten, out float ShadowAtten)
 {
-#if SHADERGRAPH_PREVIEW
+#if ASE_PREVIEW
     Direction = float3(0.5, 0.5, 0);
     Color = 1;
     DistanceAtten = 1;
