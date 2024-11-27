@@ -11,7 +11,7 @@ public class MeshRectVision : MonoBehaviour
     private MeshFilter RectMeshFilter;
     private MeshRenderer RectRenderer;
     [SerializeField] private LayerMask LMObstructionMask;
-    private float fVisionAngle = 30f;
+    private bool[] bools = new bool[3];
 
     private void Start()
     {
@@ -19,7 +19,9 @@ public class MeshRectVision : MonoBehaviour
         RectRenderer.material = null;
         RectMeshFilter = this.gameObject.AddComponent<MeshFilter>();
         VisionRectMesh = new Mesh();
-        fVisionAngle *= Mathf.Deg2Rad;
+        bools[0] = false;
+        bools[1] = false;
+        bools[2] = false;
     }
 
     private void DrawRectangle(UnityEngine.Vector3 orientationVect)
@@ -29,15 +31,15 @@ public class MeshRectVision : MonoBehaviour
         float height = 1f; // Adjust as needed
         float y = -1f;
         float x = 3f;
-        if (scPlayer.BBad)
+        if (scPlayer.BBad && bools[0])
         {
             x = 3f;
         }
-        else if (scPlayer.BGood)
+        else if (scPlayer.BGood && bools[1])
         {
             x = 4f;
         }
-        else if (scPlayer.BPerfect)
+        else if (scPlayer.BPerfect && bools[2])
         {
             x = 5f;
         }
@@ -117,6 +119,30 @@ public class MeshRectVision : MonoBehaviour
     {
         if (scPlayer.bIsBaiting)
         {
+            if (Physics.Raycast(transform.position, scPlayer.lastMoveDirection,3f, LMObstructionMask))
+            {
+                bools[0] = false;
+                bools[1] = false;
+                bools[2] = false;
+            }
+            else if (Physics.Raycast(transform.position, scPlayer.lastMoveDirection, 4f, LMObstructionMask))
+            {
+                bools[0] = true;
+                bools[1] = false;
+                bools[2] = false;
+            }
+            else if (Physics.Raycast(transform.position, scPlayer.lastMoveDirection, 5f, LMObstructionMask))
+            {
+                bools[0] = true;
+                bools[1] = true;
+                bools[2] = false;
+            }
+            else
+            {
+                bools[0] = true;
+                bools[1] = true;
+                bools[2] = true;
+            }
             DrawRectangle(scPlayer.lastMoveDirection);
 
             if (scPlayer.BBad)

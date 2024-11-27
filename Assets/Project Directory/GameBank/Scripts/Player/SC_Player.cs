@@ -7,6 +7,8 @@ using System.Globalization;
 using System;
 using Unity.VisualScripting;
 using UnityEditor.SceneManagement;
+using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class SC_Player : MonoBehaviour
 {
@@ -23,6 +25,11 @@ public class SC_Player : MonoBehaviour
     float FBPS;
     private float FSPB;
 
+    //FEEDBACK ON TIMING
+    [SerializeField] private Color32 colorMiss;
+    [SerializeField] private Color32 colorBad;
+    [SerializeField] private Color32 colorGood;
+    [SerializeField] private Color32 colorPerfect;
     public float FBadTiming;
     float FZoneBadTiming;
     public float FGoodTiming;
@@ -55,6 +62,7 @@ public class SC_Player : MonoBehaviour
     public float FTimeWithoutLooseDetection = 5f;
     private bool BLooseDetectLevel;
     public TMP_Text TMPDetectLevel;
+    //[SerializeField] private Slider sliderDetection;
     bool BisDetectedByAnyEnemy = false;
 
 
@@ -65,7 +73,8 @@ public class SC_Player : MonoBehaviour
     public Material taggedMaterial; 
     private RaycastHit[] hitInfo = new RaycastHit[4];
     private bool bHasMovedOnce = false;
-    [SerializeField] private bool bIsTuto = false;
+    public bool bIsTuto = false;
+    [SerializeField] private LayerMask LMask;
 
     GameObject[] Enemies1;
 
@@ -130,12 +139,13 @@ public class SC_Player : MonoBehaviour
         yield return new WaitForSeconds(FZoneBadTiming);
         BBad = false;
         canMove = false;
-        if(BBad == false && BGood  == false && BPerfect  == false && bHasMovedOnce == false && bIsBaiting == false)
+        if (BBad == false && BGood  == false && BPerfect  == false && bHasMovedOnce == false)
         {
             CheckForward(lastMoveDirection);
             txt_Feedback.text = "Miss";
-            txt_Feedback.color = new Color32(255,0,0, 255);
+            txt_Feedback.color = colorMiss;
         }
+        bIsBaiting = false;
     }
 
     IEnumerator good()
@@ -169,6 +179,7 @@ public class SC_Player : MonoBehaviour
         {
             TMPScore.SetText(FScore.ToString());
             int iDetectionLevel = Mathf.RoundToInt(FDetectionLevel);
+            //sliderDetection
             TMPDetectLevel.SetText(iDetectionLevel.ToString());
         }
 
@@ -200,57 +211,61 @@ public class SC_Player : MonoBehaviour
             UpdateDirectionUI();
         }
 
+        CheckIfInputOnTempo();
+        EnemieDetection();
+        Rythme();
+    }
 
+    private void CheckIfInputOnTempo()
+    {
         if ((control.GamePlay.Move.triggered && canMove && bIsOnComputer == false) || (Input.GetButtonDown("Jump") && canMove && bIsOnComputer == true))
         {
             if (BBad == true)
             {
                 FScore = FScore + 10f;
                 txt_Feedback.text = "Bad";
-                txt_Feedback.color = new Color32(255, 0, 255, 255);
+                txt_Feedback.color = colorBad;
             }
             else if (BGood == true)
             {
                 FScore = FScore + 50f;
                 txt_Feedback.text = "Good";
-                txt_Feedback.color = new Color32(0, 0, 255, 255);
+                txt_Feedback.color = colorGood;
             }
             else if (BPerfect == true)
             {
                 FScore = FScore + 100f;
                 txt_Feedback.text = "Perfect!";
-                txt_Feedback.color = new Color32(0, 255, 255, 255);
+                txt_Feedback.color = colorPerfect;
             }
             CheckForward(lastMoveDirection);
             bIsBaiting = false;
         }
-        if(bIsBaiting && Input.GetKeyDown(KeyCode.V) && canMove && bIsOnComputer == true && bIsTuto ==false)
+        if (bIsBaiting && Input.GetKeyDown(KeyCode.V) && canMove && bIsOnComputer == true)
         {
             if (BBad == true)
             {
                 FScore = FScore + 10f;
                 txt_Feedback.text = "Bad";
-                txt_Feedback.color = new Color32(255, 0, 255, 255);
+                txt_Feedback.color = colorBad;
                 Baiting(this.transform.position + lastMoveDirection * 3);
             }
             else if (BGood == true)
             {
                 FScore = FScore + 50f;
                 txt_Feedback.text = "Good";
-                txt_Feedback.color = new Color32(0, 0, 255, 255);
+                txt_Feedback.color = colorGood;
                 Baiting(this.transform.position + lastMoveDirection * 4);
             }
             else if (BPerfect == true)
             {
                 FScore = FScore + 100f;
                 txt_Feedback.text = "Perfect!";
-                txt_Feedback.color = new Color32(0, 255, 255, 255);
+                txt_Feedback.color = colorPerfect;
                 Baiting(this.transform.position + lastMoveDirection * 5);
             }
             bIsBaiting = false;
         }
-        EnemieDetection();
-        Rythme();
     }
 
     public void Baiting(Vector3 spawnpos)
@@ -260,25 +275,6 @@ public class SC_Player : MonoBehaviour
         ing_Bait scBait = GO_BaitInst.GetComponent< ing_Bait>();
         scBait.b_BeenThrown = true;
         StartCoroutine (baitDestroy(1f));
-        //Lignes de 3 à 5 cubes éloignés du joueur sont en surbrillance devant lui
-        //S'update en fonction de son orientation
-        //Une flèche en arc de cercle va du joueur à la case en question en fonction du beat
-
-        //Si le joueur appuie sur sa touche pour lancer le projectile,
-        //En fonction du good, perfect ou bad, le projectil se lance sur la case correspondante entre 3 et 5
-        //Le joueur gagne des points en fonction de sa précision sur le tempo
-        //Le bait a été instancié sur la case en question : cette instanciation a un nombre de tempo de vie
-        //Enclanche la detection de l'ennemi => EnnemiHasHeardSomething qui est dans l'objet instantié
-        //Le joueur a fait son mouvement dans le tempo
-        //Il n'y a plus les feedback de lancée
-
-        //Si le joueur n'appuie pas sur la touche
-        //Le joueur miss et le bait est lancé à 2 cases de lui dans l'orientation qu'il avait
-        //Le joueur ne gagne pas de points
-        //Le bait a été instancié sur la case en question : cette instanciation a un nombre de tempo de vie
-        // Enclanche la detection de l'ennemi => Ennemi has Heard Somethingqui est dans l'objet instantié
-        //Le joueur a fait son mouvement dans le tempo
-        //Il n'y a plus les feedback de lancée
     }
 
     private IEnumerator baitDestroy(float waitTime)
@@ -290,7 +286,7 @@ public class SC_Player : MonoBehaviour
     {
         for (int i = 0; i < 4; i++)
         {
-            if (Physics.Raycast(transform.position, vectDir, out hitInfo[i], taggingRange)) //qqc est devant le joueur
+            if (Physics.Raycast(transform.position, vectDir, out hitInfo[i], taggingRange, LMask)) //qqc est devant le joueur
             {
                 if (hitInfo[i].transform.CompareTag("Tagging")) //c'est un mur à tagger
                 {
@@ -448,6 +444,17 @@ public class SC_Player : MonoBehaviour
             /*int iDetectionLevel = Mathf.RoundToInt(FDetectionLevel);
             FDetectionLevel = Convert.ToSingle(iDetectionLevel);*/
             FDetectionLevel = Mathf.Max(FDetectionLevel, 0);
+        }
+
+        if(BisDetectedByAnyEnemy)
+        {
+            GameObject GoChild = this.gameObject.transform.GetChild(2).gameObject;
+            GoChild.SetActive(true);
+        }
+        else
+        {
+            GameObject GoChild = this.gameObject.transform.GetChild(2).gameObject;
+            GoChild.SetActive(false);
         }
     }
 

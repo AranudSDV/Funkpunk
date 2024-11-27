@@ -115,14 +115,10 @@ public class SC_FieldOfView : MonoBehaviour
         {
             BCanSee = true;
             bSeenOnce = false;
-            GameObject GoChild = GOPlayerRef.transform.GetChild(2).gameObject;
-            GoChild.SetActive(true);
         }
         if(BCanSee == false && bHasHeard == false)
         {
             transform.eulerAngles = vectLastRot;
-            GameObject GoChild = GOPlayerRef.transform.GetChild(2).gameObject;
-            GoChild.SetActive(false);
         }
     }
 

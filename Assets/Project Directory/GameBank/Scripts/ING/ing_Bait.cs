@@ -10,14 +10,17 @@ public class ing_Bait : MonoBehaviour
     public float fTimeLifeBait = 3f;
     private SC_Player scPlayer;
     public bool b_BeenThrown = false;
-    private SC_FieldOfView[] allEnemies = null;
+    [SerializeField] private SC_FieldOfView[] allEnemies = null;
     [SerializeField] private Material mThrown;
     [SerializeField] private MeshRenderer mshRdn;
     private bool bCollision = false;
 
     private void Start()
     {
-        allEnemies = FindObjectsOfType<SC_FieldOfView>();
+        if (allEnemies == null)
+        {
+            allEnemies = FindObjectsOfType<SC_FieldOfView>();
+        }
         if (b_BeenThrown)
         {
             foreach (SC_FieldOfView ennemy in allEnemies)
