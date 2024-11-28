@@ -2,7 +2,6 @@ using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(SC_FieldOfView))]
-
 public class SC_FieldOfViewEditor : Editor
 {
     private void OnSceneGUI()
