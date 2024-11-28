@@ -72,7 +72,19 @@ public class MenuManager : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Escape) && GoPauseMenu.activeInHierarchy == false)
         {
-            GoPauseMenu.SetActive(true);
+            PauseMenu();
+        }
+    }
+
+    private void PauseMenu()
+    {
+        GoPauseMenu.SetActive(true);
+        GameObject goPlayer = GameObject.FindGameObjectWithTag("Player");
+        if(goPlayer!=null)
+        {
+            SC_Player scPlayer = goPlayer.GetComponent<SC_Player>();
+            scPlayer.bGameIsPaused = true;
+            scPlayer.PauseGame();
         }
     }
 
@@ -179,6 +191,13 @@ public class MenuManager : MonoBehaviour
     public void ClosePauseMenu()
     {
         GoPauseMenu.SetActive(false);
+        GameObject goPlayer = GameObject.FindGameObjectWithTag("Player");
+        if (goPlayer != null)
+        {
+            SC_Player scPlayer = goPlayer.GetComponent<SC_Player>();
+            scPlayer.bGameIsPaused = false;
+            scPlayer.PauseGame();
+        }
     }
 
     public void OptionsGame()

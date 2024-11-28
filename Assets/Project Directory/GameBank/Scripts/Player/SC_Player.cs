@@ -6,7 +6,9 @@ using TMPro;
 using System.Globalization;
 using System;
 using Unity.VisualScripting;
+#if UNITY_EDITOR 
 using UnityEditor.SceneManagement;
+#endif
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
