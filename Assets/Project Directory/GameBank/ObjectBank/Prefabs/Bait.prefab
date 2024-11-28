@@ -131,10 +131,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fTimeLifeBait: 3
-  b_BeenThrown: 0
+  b_BeenThrown: 1
   allEnemies: []
   mThrown: {fileID: 2100000, guid: 9bfc3b845b751d84ea300b455a171303, type: 2}
   mshRdn: {fileID: 9190476034523916656}
+  targetTag: Enemies 1
 --- !u!65 &378598364566265932
 BoxCollider:
   m_ObjectHideFlags: 0

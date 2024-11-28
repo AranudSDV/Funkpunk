@@ -10,25 +10,60 @@ public class ing_Bait : MonoBehaviour
     public float fTimeLifeBait = 3f;
     private SC_Player scPlayer;
     public bool b_BeenThrown = false;
-    [SerializeField] private SC_FieldOfView[] allEnemies = null;
+    [SerializeField] private SC_FieldOfView[] allEnemies;
     [SerializeField] private Material mThrown;
     [SerializeField] private MeshRenderer mshRdn;
+    private float detectionRadius = 7f;
     private bool bCollision = false;
+    [SerializeField] private string targetTag;
 
     private void Start()
     {
-        if (allEnemies == null)
+        if (allEnemies == null && !b_BeenThrown)
         {
             allEnemies = FindObjectsOfType<SC_FieldOfView>();
         }
         if (b_BeenThrown)
         {
+            GameObject[] allGoEnnemies = DetectObjects();
+            allEnemies = new SC_FieldOfView[allGoEnnemies.Length];
+            for (int i = 0; i< allGoEnnemies.Length; i++)
+            {
+                allEnemies[i]= allGoEnnemies[i].GetComponent<SC_FieldOfView>();
+            }
             foreach (SC_FieldOfView ennemy in allEnemies)
             {
                 ennemy.bHasHeard = true;
+                Debug.Log("Detected object: " + ennemy.name);
             }
             mshRdn.material = mThrown;
         }
+    }
+    GameObject[] DetectObjects()
+    {
+        GameObject[] objectsWithTag = GameObject.FindGameObjectsWithTag(targetTag);
+
+        List<GameObject> objectsInRange = new List<GameObject>();
+
+        foreach (GameObject obj in objectsWithTag)
+        {
+            if (obj != this.gameObject)
+            {
+                float distance = Vector3.Distance(transform.position, obj.transform.position);
+                if (distance <= detectionRadius)
+                {
+                    objectsInRange.Add(obj);
+                }
+            }
+        }
+
+        return objectsInRange.ToArray();
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, detectionRadius);
     }
 
     private void Update()
@@ -65,6 +100,12 @@ public class ing_Bait : MonoBehaviour
             scPlayer = collision.GetComponent<SC_Player>();
             scPlayer.bIsBaiting = true;
             bCollision = true;
+            if(scPlayer.hasAlreadyBaited == false)
+            {
+                sc_tuto tutoriel = GameObject.FindWithTag("Tuto").gameObject.GetComponent<sc_tuto>();
+                tutoriel.StartTutoBait();
+                scPlayer.hasAlreadyBaited = true;
+            }
         }
     }
 

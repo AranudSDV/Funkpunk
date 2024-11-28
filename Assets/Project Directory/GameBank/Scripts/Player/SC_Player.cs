@@ -12,17 +12,21 @@ using UnityEngine.UIElements;
 
 public class SC_Player : MonoBehaviour
 {
+    public bool bIsTuto = false;
+    public bool bGameIsPaused = false;
+
+    //LE PLAYER ET SES MOUVEMENTS
     PlayerControl control;
     Vector2 move;
     public Vector3 lastMoveDirection = Vector3.zero;
     public GameObject PlayerCapsule;
     [SerializeField] private bool bIsOnComputer = false;
+    private float tolerance = 0.5f;
+    private bool canMove = true;
 
-    float tolerance = 0.5f;
-    bool canMove = true;
-
+    //LE BEAT
     public float FBPM;
-    float FBPS;
+    private float FBPS;
     private float FSPB;
 
     //FEEDBACK ON TIMING
@@ -30,53 +34,55 @@ public class SC_Player : MonoBehaviour
     [SerializeField] private Color32 colorBad;
     [SerializeField] private Color32 colorGood;
     [SerializeField] private Color32 colorPerfect;
-    public float FBadTiming;
-    float FZoneBadTiming;
-    public float FGoodTiming;
-    float FZoneGoodTiming;
-    public float FPerfectTiming;
-    float FZonePerfectTiming;
-    float FWaitTime;
+    private float FBadTiming;
+    private float FZoneBadTiming;
+    private float FGoodTiming;
+    private float FZoneGoodTiming;
+    private float FPerfectTiming;
+    private float FZonePerfectTiming;
+    private float FWaitTime;
     public bool BBad = false;
     public bool BGood = false;
     public bool BPerfect = false;
     [SerializeField] private TMP_Text txt_Feedback;
-
     public GameObject GOUiBad;
     public GameObject GOUiGood;
     public GameObject GOUiPerfect;
 
+    //LE BAIT
     [SerializeField] private MeshRectVision scRectVision;
     [SerializeField] private GameObject GOBait;
     private GameObject GO_BaitInst;
     public bool bIsBaiting = false;
     public bool newThrow = false;
+    public bool hasAlreadyBaited = false;
 
-    float FScore;
+    //LE SCORE
+    private float FScore;
     public TMP_Text TMPScore;
+
+    //LE JOYSTICK
     [Tooltip("0 is H, 1 is HD, 2 is HG, 3 is G, 4 is D, 5 is C, 6 is B, 7 is BD, 8 is BG")] public GameObject[] UI_Joystick;
-
-    public float FDetectionRate = 2f;
-    private float FDetectionLevel;
-    private SC_FieldOfView[] allEnemies;
-    public float FTimeWithoutLooseDetection = 5f;
-    private bool BLooseDetectLevel;
-    public TMP_Text TMPDetectLevel;
-    //[SerializeField] private Slider sliderDetection;
-    bool BisDetectedByAnyEnemy = false;
-
-
     private float[] angles = { -135f, -90f, -45f, 0f, 45f, 90f, 135f, 180f };
     private int currentAngleIndex = 3;
 
+    //LA DETECTION
+    public float FDetectionRate = 2f;
+    private float FDetectionLevel = 0f;
+    private float fDetectionLevelMax = 200f;
+    private SC_FieldOfView[] allEnemies;
+    public float FTimeWithoutLooseDetection = 5f;
+    private bool BLooseDetectLevel;
+    [SerializeField] private UnityEngine.UI.Slider sliderDetection;
+    bool BisDetectedByAnyEnemy = false;
+    GameObject[] Enemies1;
+
+    //LE TAG
     public float taggingRange = 1f;
     public Material taggedMaterial; 
     private RaycastHit[] hitInfo = new RaycastHit[4];
     private bool bHasMovedOnce = false;
-    public bool bIsTuto = false;
     [SerializeField] private LayerMask LMask;
-
-    GameObject[] Enemies1;
 
 
     void OnEnable()
@@ -109,13 +115,18 @@ public class SC_Player : MonoBehaviour
         FZonePerfectTiming = FPerfectTiming/2;
         FWaitTime = FSPB - FZoneBadTiming;
         StartCoroutine(wait());
-        FDetectionRate = 1f;
+        if (FDetectionRate == 0f)
+        {
+            FDetectionRate = 1f;
+        }
     }
 
     public void StartAfterTuto()
     {
         StartCoroutine(wait());
     }
+
+    //LE TEMPO
 
     IEnumerator wait()
     {
@@ -166,33 +177,51 @@ public class SC_Player : MonoBehaviour
         yield return new WaitForSeconds(FZonePerfectTiming/2);
         if(BisDetectedByAnyEnemy)
         {
-            FDetectionLevel += 30f;
+            FDetectionLevel += 20f;
         }
         StartCoroutine(wait());
         yield return new WaitForSeconds(FZonePerfectTiming/2);
         BPerfect = false;
     }
+    
+    //L'UPDATE
 
     void Update()
     {
-        if (bIsTuto == false)
+        TMPScore.SetText(FScore.ToString());
+        sliderDetection.value = FDetectionLevel / fDetectionLevelMax;
+
+        UpdateDirAndMovOnJoystickOrPC();
+        CheckIfInputOnTempo();
+        EnemieDetection();
+        Rythme();
+    }
+
+    public void PauseGame()
+    {
+        if(bGameIsPaused)
         {
-            TMPScore.SetText(FScore.ToString());
-            int iDetectionLevel = Mathf.RoundToInt(FDetectionLevel);
-            //sliderDetection
-            TMPDetectLevel.SetText(iDetectionLevel.ToString());
+            Time.timeScale = 0f;
         }
+        else
+        {
+            Time.timeScale = 1f;
+        }
+    }
 
-
+    //CONCERNANT LES CONTROLS
+    private void UpdateDirAndMovOnJoystickOrPC()
+    {
+        //MOUVEMENT SUR CLAVIER OU MANETTE?
         if (bIsOnComputer == false)
         {
             move = control.GamePlay.Orientation.ReadValue<Vector2>();
         }
-        else if(bIsOnComputer == true)
+        else if (bIsOnComputer == true)
         {
             move = new Vector2(1, 0);
         }
-      
+        //UDPATE LA DIRECTION
         if (move != Vector2.zero)
         {
             Vector3 direction = Vector3.forward;
@@ -210,12 +239,7 @@ public class SC_Player : MonoBehaviour
             }
             UpdateDirectionUI();
         }
-
-        CheckIfInputOnTempo();
-        EnemieDetection();
-        Rythme();
     }
-
     private void CheckIfInputOnTempo()
     {
         if ((control.GamePlay.Move.triggered && canMove && bIsOnComputer == false) || (Input.GetButtonDown("Jump") && canMove && bIsOnComputer == true))
@@ -238,7 +262,10 @@ public class SC_Player : MonoBehaviour
                 txt_Feedback.text = "Perfect!";
                 txt_Feedback.color = colorPerfect;
             }
-            CheckForward(lastMoveDirection);
+            if (bIsBaiting == false)
+            {
+                CheckForward(lastMoveDirection);
+            }
             bIsBaiting = false;
         }
         if (bIsBaiting && Input.GetKeyDown(KeyCode.V) && canMove && bIsOnComputer == true)
@@ -267,7 +294,71 @@ public class SC_Player : MonoBehaviour
             bIsBaiting = false;
         }
     }
+    Vector3 GetDirectionFromClavier()
+    {
+        if (Input.GetKeyDown(KeyCode.A) && Input.GetKeyDown(KeyCode.S))
+        {
+            return new Vector3(-1, 0, -1);
+        }
+        else if (Input.GetKeyDown(KeyCode.A) && Input.GetKeyDown(KeyCode.W))
+        {
+            return new Vector3(-1, 0, 1);
+        }
+        else if (Input.GetKeyDown(KeyCode.W) && Input.GetKeyDown(KeyCode.D))
+        {
+            return new Vector3(1, 0, 1);
+        }
+        else if (Input.GetKeyDown(KeyCode.D) && Input.GetKeyDown(KeyCode.S))
+        {
+            return new Vector3(1, 0, -1);
+        }
+        else if (Input.GetKeyDown(KeyCode.A))
+        {
+            return Vector3.left;
+        }
+        else if (Input.GetKeyDown(KeyCode.W))
+        {
+            return Vector3.forward;
+        }
+        else if (Input.GetKeyDown(KeyCode.D))
+        {
+            return Vector3.right;
+        }
+        else if (Input.GetKeyDown(KeyCode.S))
+        {
+            return Vector3.back;
+        }
+        else
+        {
+            return Vector3.zero;
+        }
+    }
+    private Vector3 GetDirectionFromJoystick(Vector2 moveInput)
+    {
+        //limite joystick
+        if (moveInput.x > 0.5f && Mathf.Abs(moveInput.y) <= 0.2f)  // Droite
+            return Vector3.right;  // (1, 0, 0)
+        if (moveInput.x < -0.5f && Mathf.Abs(moveInput.y) <= 0.2f)  // Gauche
+            return Vector3.left;  // (-1, 0, 0)
+        if (moveInput.y > 0.9f && Mathf.Abs(moveInput.x) <= 0.3f)  // Haut
+            return Vector3.forward;  // (0, 0, 1)
+        if (moveInput.y < -0.9f && Mathf.Abs(moveInput.x) <= 0.3f)  // Bas
+            return Vector3.back;  // (0, 0, -1)
 
+        // Diagonales
+        if (moveInput.x > 0.5f && moveInput.y > 0.5f)  // Haut-Droite
+            return new Vector3(1, 0, 1);
+        if (moveInput.x < -0.5f && moveInput.y > 0.5f)  // Haut-Gauche
+            return new Vector3(-1, 0, 1);
+        if (moveInput.x > 0.5f && moveInput.y < -0.5f)  // Bas-Droite
+            return new Vector3(1, 0, -1);
+        if (moveInput.x < -0.5f && moveInput.y < -0.5f)  // Bas-Gauche
+            return new Vector3(-1, 0, -1);
+
+        return Vector3.zero;
+    }
+
+    //CONCERNANT LE BAIT
     public void Baiting(Vector3 spawnpos)
     {
         newThrow = true;
@@ -276,12 +367,13 @@ public class SC_Player : MonoBehaviour
         scBait.b_BeenThrown = true;
         StartCoroutine (baitDestroy(1f));
     }
-
     private IEnumerator baitDestroy(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
         newThrow = false;
     }
+
+    //VERIFIER LE MOUVEMENT
     private void CheckForward(Vector3 vectDir)
     {
         for (int i = 0; i < 4; i++)
@@ -295,6 +387,10 @@ public class SC_Player : MonoBehaviour
                     wallRenderer.material = taggedMaterial; //le joueur tag
                     wallTagged.tag = "Wall";
                     bHasMovedOnce = true;
+                    if(wallTagged.GetComponent<EndingWall>() != null)
+                    {
+                        EndGame();
+                    }
                     break;
                 }
                 else if (hitInfo[i].transform.CompareTag("Wall"))//ce n'est pas un mur à tagger
@@ -355,187 +451,13 @@ public class SC_Player : MonoBehaviour
             }
         }
     }
-    
-    void RotationEnemies()
-    {
-        foreach (SC_FieldOfView enemy in allEnemies)
-        {
-            if(enemy.BCanSee)
-            {
-                enemy.PlayerDetected(this.gameObject);
-                enemy.i_EnnemyBeat =6;
-            }
-            else if(enemy.bHasHeard)
-            {
-                enemy.BaitHeard(GO_BaitInst);
-                enemy.i_EnnemyBeat += 1;
-            }
-            else
-            {
-                enemy.EnemieRotation(); 
-            }
-        }
-    }
-
-    void Rythme()
-    {
-        if(BBad == true)
-        {
-            GOUiBad.SetActive(true);
-        }
-        if(BGood == true)
-        {
-            GOUiGood.SetActive(true);
-        }
-        if(BPerfect == true)
-        {
-            GOUiPerfect.SetActive(true);
-        }
-        if(BPerfect == false)
-        {
-            GOUiPerfect.SetActive(false);
-        }
-        if(BPerfect == false && BGood == false)
-        {
-            GOUiPerfect.SetActive(false);
-            GOUiGood.SetActive(false);
-        }
-        if(BPerfect == false && BGood == false && BBad == false)
-        {
-            GOUiPerfect.SetActive(false);
-            GOUiGood.SetActive(false);
-            GOUiBad.SetActive(false);
-        }
-    }
-
-    void EnemieDetection()
-    {
-        int i = 0;
-        int y = 0;
-        foreach (SC_FieldOfView enemie in allEnemies)
-        {
-            if (enemie.BCanSee)
-            {
-                BLooseDetectLevel = false;
-                BisDetectedByAnyEnemy = true;
-                y++;
-            }
-            else if (enemie.BCanSee == false)
-            {
-                i++;
-            }
-            if(i == allEnemies.Length)
-            {
-                BisDetectedByAnyEnemy = false;
-                StartCoroutine(LooseDetectionLevel());
-                i = 0;
-                y = 0;
-            }
-            else if(y + i == allEnemies.Length && i != allEnemies.Length)
-            {
-                i = 0;
-                y = 0;
-            }
-        }
- 
-        if (BLooseDetectLevel)
-        {
-            FDetectionLevel -= FDetectionRate * Time.deltaTime*2;
-            /*int iDetectionLevel = Mathf.RoundToInt(FDetectionLevel);
-            FDetectionLevel = Convert.ToSingle(iDetectionLevel);*/
-            FDetectionLevel = Mathf.Max(FDetectionLevel, 0);
-        }
-
-        if(BisDetectedByAnyEnemy)
-        {
-            GameObject GoChild = this.gameObject.transform.GetChild(2).gameObject;
-            GoChild.SetActive(true);
-        }
-        else
-        {
-            GameObject GoChild = this.gameObject.transform.GetChild(2).gameObject;
-            GoChild.SetActive(false);
-        }
-    }
-
-    IEnumerator LooseDetectionLevel()
-    {
-        yield return new WaitForSeconds(FTimeWithoutLooseDetection);
-        BLooseDetectLevel = true;
-    }
-
-    Vector3 GetDirectionFromClavier()
-    {
-        if (Input.GetKeyDown(KeyCode.A) && Input.GetKeyDown(KeyCode.S))
-        {
-            return new Vector3(-1, 0, -1);
-        }
-        else if (Input.GetKeyDown(KeyCode.A) && Input.GetKeyDown(KeyCode.W))
-        {
-            return new Vector3(-1, 0, 1);
-        }
-        else if (Input.GetKeyDown(KeyCode.W) && Input.GetKeyDown(KeyCode.D))
-        {
-            return new Vector3(1, 0, 1);
-        }
-        else if (Input.GetKeyDown(KeyCode.D) && Input.GetKeyDown(KeyCode.S))
-        {
-            return new Vector3(1, 0, -1);
-        }
-        else if (Input.GetKeyDown(KeyCode.A))
-        {
-            return Vector3.left;
-        }
-        else if (Input.GetKeyDown(KeyCode.W))
-        {
-            return Vector3.forward;
-        }
-        else if (Input.GetKeyDown(KeyCode.D))
-        {
-            return Vector3.right;
-        }
-        else if (Input.GetKeyDown(KeyCode.S))
-        {
-            return Vector3.back;
-        }
-        else
-        {
-            return Vector3.zero;
-        }
-    }
-
-    private Vector3 GetDirectionFromJoystick(Vector2 moveInput)
-    {
-        //limite joystick
-        if (moveInput.x > 0.5f && Mathf.Abs(moveInput.y) <= 0.2f)  // Droite
-            return Vector3.right;  // (1, 0, 0)
-        if (moveInput.x < -0.5f && Mathf.Abs(moveInput.y) <= 0.2f)  // Gauche
-            return Vector3.left;  // (-1, 0, 0)
-        if (moveInput.y > 0.9f && Mathf.Abs(moveInput.x) <= 0.3f)  // Haut
-            return Vector3.forward;  // (0, 0, 1)
-        if (moveInput.y < -0.9f && Mathf.Abs(moveInput.x) <= 0.3f)  // Bas
-            return Vector3.back;  // (0, 0, -1)
-
-        // Diagonales
-        if (moveInput.x > 0.5f && moveInput.y > 0.5f)  // Haut-Droite
-            return new Vector3(1, 0, 1);
-        if (moveInput.x < -0.5f && moveInput.y > 0.5f)  // Haut-Gauche
-            return new Vector3(-1, 0, 1);
-        if (moveInput.x > 0.5f && moveInput.y < -0.5f)  // Bas-Droite
-            return new Vector3(1, 0, -1);
-        if (moveInput.x < -0.5f && moveInput.y < -0.5f)  // Bas-Gauche
-            return new Vector3(-1, 0, -1);
-
-        return Vector3.zero;
-    }
-
     private void Mouvement(int i)
     {
         if (i == 0) //devant le player = forward
         {
             Move(lastMoveDirection);
             bHasMovedOnce = true;
-            return ;
+            return;
         }
         else if (i == 1) // a droite du player
         {
@@ -551,15 +473,14 @@ public class SC_Player : MonoBehaviour
             bHasMovedOnce = true;
             return;
         }
-        else if(i==3) //derriere le player
+        else if (i == 3) //derriere le player
         {
-            Vector3 newVector =  Vector3.back;
+            Vector3 newVector = Vector3.back;
             Move(newVector);
             bHasMovedOnce = true;
             return;
         }
     }
-
     private void Move(Vector3 direction)
     {
         // diagonale ?
@@ -575,6 +496,7 @@ public class SC_Player : MonoBehaviour
         canMove = false;
     }
 
+    //CONCERNANT L'UI ET LES FEEDBACKS IMPORTANTS
     private void UpdateDirectionUI()
     {
         if (Mathf.Abs(lastMoveDirection.x) > tolerance && Mathf.Abs(lastMoveDirection.z) <= tolerance)
@@ -599,7 +521,7 @@ public class SC_Player : MonoBehaviour
         {
             // Mouvement haut ou bas
             if (Mathf.Sign(lastMoveDirection.z) == 1)
-            {   
+            {
                 currentAngleIndex = 3;
                 PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
                 UIFlase();
@@ -646,7 +568,6 @@ public class SC_Player : MonoBehaviour
             }
         }
     }
-
     private void UIFlase()
     {
         for (int i = 0; i < UI_Joystick.Length; i++)
@@ -655,5 +576,133 @@ public class SC_Player : MonoBehaviour
         }
     }
 
-    
+    //CONCERNANT LE RYTHME
+    void RotationEnemies()
+    {
+        foreach (SC_FieldOfView enemy in allEnemies)
+        {
+            if(enemy.BCanSee)
+            {
+                enemy.PlayerDetected(this.gameObject);
+                enemy.i_EnnemyBeat =6;
+            }
+            else if(enemy.bHasHeard)
+            {
+                enemy.BaitHeard(GO_BaitInst);
+                enemy.i_EnnemyBeat += 1;
+            }
+            else
+            {
+                enemy.EnemieRotation(); 
+            }
+        }
+    }
+    void Rythme()
+    {
+        if(BBad == true)
+        {
+            GOUiBad.SetActive(true);
+        }
+        if(BGood == true)
+        {
+            GOUiGood.SetActive(true);
+        }
+        if(BPerfect == true)
+        {
+            GOUiPerfect.SetActive(true);
+        }
+        if(BPerfect == false)
+        {
+            GOUiPerfect.SetActive(false);
+        }
+        if(BPerfect == false && BGood == false)
+        {
+            GOUiPerfect.SetActive(false);
+            GOUiGood.SetActive(false);
+        }
+        if(BPerfect == false && BGood == false && BBad == false)
+        {
+            GOUiPerfect.SetActive(false);
+            GOUiGood.SetActive(false);
+            GOUiBad.SetActive(false);
+        }
+    }
+
+    //CONCERNANT LA DETECTION
+    void EnemieDetection()
+    {
+        int i = 0;
+        int y = 0;
+        foreach (SC_FieldOfView enemie in allEnemies)
+        {
+            if (enemie.BCanSee)
+            {
+                BLooseDetectLevel = false;
+                BisDetectedByAnyEnemy = true;
+                y++;
+            }
+            else if (enemie.BCanSee == false)
+            {
+                i++;
+            }
+            if(i == allEnemies.Length)
+            {
+                BisDetectedByAnyEnemy = false;
+                StartCoroutine(LooseDetectionLevel());
+                i = 0;
+                y = 0;
+            }
+            else if(y + i == allEnemies.Length && i != allEnemies.Length)
+            {
+                i = 0;
+                y = 0;
+            }
+        }
+ 
+        if (BLooseDetectLevel)
+        {
+            FDetectionLevel -= FDetectionRate * Time.deltaTime*2;
+            FDetectionLevel = Mathf.Max(FDetectionLevel, 0);
+        }
+
+        if(BisDetectedByAnyEnemy)
+        {
+            GameObject GoChild = this.gameObject.transform.GetChild(2).gameObject;
+            GoChild.SetActive(true);
+        }
+        else
+        {
+            GameObject GoChild = this.gameObject.transform.GetChild(2).gameObject;
+            GoChild.SetActive(false);
+        }
+    }
+    IEnumerator LooseDetectionLevel()
+    {
+        yield return new WaitForSeconds(FTimeWithoutLooseDetection);
+        BLooseDetectLevel = true;
+    }
+
+    //LA FIN DU NIVEAU
+    private void EndGame()
+    {
+        bGameIsPaused = true;
+        PauseGame();
+        GameObject targetObject = GameObject.Find("Manager");
+        PlayerData data = targetObject.GetComponent<PlayerData>();
+        GameObject ScoringGo = targetObject.transform.GetChild(2).gameObject;
+        ScoringGo.SetActive(true);
+        TMP_Text textScoring = ScoringGo.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>();
+        textScoring.text = "Your score is : " + FScore.ToString();
+        UnityEngine.UI.Button btn = targetObject.transform.GetChild(0).gameObject.transform.GetChild(2).gameObject.transform.GetChild(2).gameObject.GetComponent<UnityEngine.UI.Button>();
+        btn.onClick.AddListener(()=> data.SaveGame());
+        PlayerDataUpdate();
+    }
+
+    private void PlayerDataUpdate()
+    {
+        GameObject targetObject = GameObject.Find("Manager");
+        PlayerData data = targetObject.GetComponent<PlayerData>();
+        data.iScorePerLvPlayerl[data.iLevelPlayer] = Convert.ToInt32(FScore);
+        data.iLevelPlayer += 1;
+    }
 }
