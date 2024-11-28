@@ -256,9 +256,11 @@ public class sc_tuto : MonoBehaviour
     private void StartForth()
     {
         bWaitSpace = false;
+        goCameraMain[0].transform.GetChild(1).gameObject.SetActive(true);
         goCameraMain[0].transform.GetChild(2).gameObject.SetActive(true);
         GoTuto[3].SetActive(false);
         scPlayer.bGameIsPaused = false;
+        scPlayer.bcanRotate = true;
         scPlayer.PauseGame();
     }
 
@@ -299,6 +301,7 @@ public class sc_tuto : MonoBehaviour
             scPlayer.bIsTuto = false;
             sc_tuto tutoriel = GameObject.FindWithTag("Tuto").gameObject.GetComponent<sc_tuto>();
             tutoriel.TutoScraffi();
+            Destroy(this.gameObject);
         }
         else if (collision.gameObject.CompareTag("Player") && isMeshable && isEnnemiTuto == true)
         {

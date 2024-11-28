@@ -9,6 +9,7 @@ using Unity.VisualScripting;
 using UnityEditor.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 
 public class SC_Player : MonoBehaviour
 {
@@ -23,6 +24,7 @@ public class SC_Player : MonoBehaviour
     [SerializeField] private bool bIsOnComputer = false;
     private float tolerance = 0.5f;
     private bool canMove = true;
+    public bool bcanRotate = false;
 
     //LE BEAT
     public float FBPM;
@@ -190,8 +192,14 @@ public class SC_Player : MonoBehaviour
     {
         TMPScore.SetText(FScore.ToString());
         sliderDetection.value = FDetectionLevel / fDetectionLevelMax;
-
-        UpdateDirAndMovOnJoystickOrPC();
+        if(FDetectionLevel>= fDetectionLevelMax)
+        {
+            EndGame(false);
+        }
+        if (bcanRotate == true)
+        {
+            UpdateDirAndMovOnJoystickOrPC();
+        }
         CheckIfInputOnTempo();
         EnemieDetection();
         Rythme();
@@ -387,9 +395,9 @@ public class SC_Player : MonoBehaviour
                     wallRenderer.material = taggedMaterial; //le joueur tag
                     wallTagged.tag = "Wall";
                     bHasMovedOnce = true;
-                    if(wallTagged.GetComponent<EndingWall>() != null)
+                    if(wallTagged.gameObject.name == "EndingWall")
                     {
-                        EndGame();
+                        EndGame(true);
                     }
                     break;
                 }
@@ -683,25 +691,39 @@ public class SC_Player : MonoBehaviour
     }
 
     //LA FIN DU NIVEAU
-    private void EndGame()
+    private void EndGame(bool hasWon)
     {
         bGameIsPaused = true;
         PauseGame();
-        GameObject targetObject = GameObject.Find("Manager");
+        GameObject targetObject = GameObject.FindWithTag("Manager");
         PlayerData data = targetObject.GetComponent<PlayerData>();
+        MenuManager manager = targetObject.GetComponent<MenuManager>();
         GameObject ScoringGo = targetObject.transform.GetChild(2).gameObject;
         ScoringGo.SetActive(true);
         TMP_Text textScoring = ScoringGo.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>();
-        textScoring.text = "Your score is : " + FScore.ToString();
-        UnityEngine.UI.Button btn = targetObject.transform.GetChild(0).gameObject.transform.GetChild(2).gameObject.transform.GetChild(2).gameObject.GetComponent<UnityEngine.UI.Button>();
-        btn.onClick.AddListener(()=> data.SaveGame());
-        PlayerDataUpdate();
+        TMP_Text textTitle = ScoringGo.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject.GetComponent<TMP_Text>();
+        TMP_Text textButton = ScoringGo.transform.GetChild(0).gameObject.transform.GetChild(2).gameObject.transform.GetChild(2).gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>();
+        if (hasWon)
+        {
+            textScoring.text = "Your score is : " + FScore.ToString();
+            textTitle.text = "Congratulations!";
+            textButton.text = "Save";
+            UnityEngine.UI.Button btn = targetObject.transform.GetChild(2).gameObject.transform.GetChild(0).gameObject.transform.GetChild(2).gameObject.transform.GetChild(2).gameObject.GetComponent<UnityEngine.UI.Button>();
+            btn.onClick.AddListener(() => data.SaveGame());
+            PlayerDataUpdate(data);
+        }
+        else
+        {
+            textScoring.text = "Your score could have been higher than : " + FScore.ToString();
+            textTitle.text = "You've been detected...";
+            textButton.text = "Replay";
+            UnityEngine.UI.Button btn = targetObject.transform.GetChild(2).gameObject.transform.GetChild(0).gameObject.transform.GetChild(2).gameObject.transform.GetChild(2).gameObject.GetComponent<UnityEngine.UI.Button>();
+            btn.onClick.AddListener(() => manager.LoadScene(SceneManager.GetActiveScene().name));
+        }
     }
 
-    private void PlayerDataUpdate()
+    private void PlayerDataUpdate(PlayerData data)
     {
-        GameObject targetObject = GameObject.Find("Manager");
-        PlayerData data = targetObject.GetComponent<PlayerData>();
         data.iScorePerLvPlayerl[data.iLevelPlayer] = Convert.ToInt32(FScore);
         data.iLevelPlayer += 1;
     }

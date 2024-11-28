@@ -1112,6 +1112,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: LoadScreen
       objectReference: {fileID: 0}
+    - target: {fileID: 179568958092481075, guid: 45351d2d758839e409953a510c2e4a78,
+        type: 3}
+      propertyPath: m_TagString
+      value: Manager
+      objectReference: {fileID: 0}
     - target: {fileID: 269850063720091022, guid: 45351d2d758839e409953a510c2e4a78,
         type: 3}
       propertyPath: sSceneToLoad
@@ -1120,6 +1125,26 @@ PrefabInstance:
     - target: {fileID: 1165491372627732135, guid: 45351d2d758839e409953a510c2e4a78,
         type: 3}
       propertyPath: iLevelPlayer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1165491372627732135, guid: 45351d2d758839e409953a510c2e4a78,
+        type: 3}
+      propertyPath: iScorePerLvPlayerl.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1165491372627732135, guid: 45351d2d758839e409953a510c2e4a78,
+        type: 3}
+      propertyPath: iScorePerHardLvlPlayer.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1165491372627732135, guid: 45351d2d758839e409953a510c2e4a78,
+        type: 3}
+      propertyPath: iTaggsPerHardLvlPlayer.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4275264178835127054, guid: 45351d2d758839e409953a510c2e4a78,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8814022224180311209, guid: 45351d2d758839e409953a510c2e4a78,

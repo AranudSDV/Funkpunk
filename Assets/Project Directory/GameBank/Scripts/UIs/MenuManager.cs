@@ -195,14 +195,14 @@ public class MenuManager : MonoBehaviour
     IEnumerator StartLoad(string sceneToLoad)
     {
         loadingScreen.SetActive(true);
-        yield return StartCoroutine(FadeLoadingScreen(1, 1));
+        yield return StartCoroutine(FadeLoadingScreen(1, 0.5f));
         LoaderScene(sceneToLoad);
         while (!loadingOperation.isDone)
         {
             yield return null;
         }
         LoadTargetUIMenus();
-        yield return StartCoroutine(FadeLoadingScreen(0, 1));
+        yield return StartCoroutine(FadeLoadingScreen(0, 0.001f));
         isLoadingScene = false;
         loadingScreen.SetActive(false);
     }
