@@ -15,17 +15,17 @@ using UnityEngine.SceneManagement;
 
 public class SC_Player : MonoBehaviour
 {
-    public bool bIsTuto = false;
+    public bool bisTuto = false;
     public bool bGameIsPaused = false;
 
     //LE PLAYER ET SES MOUVEMENTS
     PlayerControl control;
     Vector2 move;
-    public Vector3 lastMoveDirection = Vector3.zero;
+    public Vector3 lastMoveDirection;
     public GameObject PlayerCapsule;
     [SerializeField] private bool bIsOnComputer = false;
     private float tolerance = 0.5f;
-    private bool canMove = true;
+    public bool canMove = false;
     public bool bcanRotate = false;
 
     //LE BEAT
@@ -85,7 +85,6 @@ public class SC_Player : MonoBehaviour
     public float taggingRange = 1f;
     public Material taggedMaterial; 
     private RaycastHit[] hitInfo = new RaycastHit[4];
-    private bool bHasMovedOnce = false;
     [SerializeField] private LayerMask LMask;
 
 
@@ -114,9 +113,9 @@ public class SC_Player : MonoBehaviour
         FPerfectTiming = 2/14f * FSPB;
         FGoodTiming = 4/14f * FSPB;
         FBadTiming = 6/14f * FSPB;
-        FZoneBadTiming = FBadTiming/2;
-        FZoneGoodTiming = FGoodTiming/2;
-        FZonePerfectTiming = FPerfectTiming/2;
+        FZoneBadTiming = FBadTiming;
+        FZoneGoodTiming = FGoodTiming;
+        FZonePerfectTiming = FPerfectTiming;
         FWaitTime = FSPB - FZoneBadTiming;
         StartCoroutine(wait());
         if (FDetectionRate == 0f)
@@ -134,6 +133,10 @@ public class SC_Player : MonoBehaviour
 
     IEnumerator wait()
     {
+        if (!bisTuto)
+        {
+            bcanRotate = true;
+        }
         RotationEnemies();
         yield return new WaitForSeconds(FWaitTime);
         StartCoroutine(bad());
@@ -142,25 +145,13 @@ public class SC_Player : MonoBehaviour
     IEnumerator bad()
     {
         canMove = true;
-        BBad = true;
         txt_Feedback.text = "";
         txt_Feedback.color = new Color32(0, 0, 0, 0);
-        bHasMovedOnce = false;
+        BBad = true;
         yield return new WaitForSeconds(FZoneBadTiming);
         BBad = false;
         StartCoroutine(good());
         yield return new WaitForSeconds(FZoneGoodTiming + FZonePerfectTiming + FZoneGoodTiming);
-        BBad = true;
-        yield return new WaitForSeconds(FZoneBadTiming);
-        BBad = false;
-        canMove = false;
-        if (BBad == false && BGood  == false && BPerfect  == false && bHasMovedOnce == false)
-        {
-            CheckForward(lastMoveDirection);
-            txt_Feedback.text = "Miss";
-            txt_Feedback.color = colorMiss;
-        }
-        bIsBaiting = false;
     }
 
     IEnumerator good()
@@ -170,22 +161,26 @@ public class SC_Player : MonoBehaviour
         BGood = false;
         StartCoroutine(perfect());
         yield return new WaitForSeconds(FZonePerfectTiming);
-        BGood = true;
-        yield return new WaitForSeconds(FZoneGoodTiming);
-        BGood = false;
     }
 
     IEnumerator perfect()
     {
         BPerfect = true;
-        yield return new WaitForSeconds(FZonePerfectTiming/2);
+        yield return new WaitForSeconds(FZonePerfectTiming);
         if(BisDetectedByAnyEnemy)
         {
             FDetectionLevel += 20f;
         }
-        StartCoroutine(wait());
-        yield return new WaitForSeconds(FZonePerfectTiming/2);
         BPerfect = false;
+        canMove = false;
+        if (BBad == false && BGood == false && BPerfect == false && bcanRotate == true)
+        {
+            txt_Feedback.text = "Miss";
+            txt_Feedback.color = colorMiss;
+        }
+        CheckForward(lastMoveDirection);
+        bIsBaiting = false;
+        StartCoroutine(wait());
     }
     
     //L'UPDATE
@@ -272,11 +267,12 @@ public class SC_Player : MonoBehaviour
                 txt_Feedback.text = "Perfect!";
                 txt_Feedback.color = colorPerfect;
             }
-            if (bIsBaiting == false)
+            /*if (bIsBaiting == false)
             {
                 CheckForward(lastMoveDirection);
-            }
+            }*/
             bIsBaiting = false;
+            bcanRotate = false;
         }
         if (bIsBaiting && Input.GetKeyDown(KeyCode.V) && canMove && bIsOnComputer == true)
         {
@@ -396,7 +392,6 @@ public class SC_Player : MonoBehaviour
                     GameObject wallTagged = hitInfo[i].transform.gameObject;
                     wallRenderer.material = taggedMaterial; //le joueur tag
                     wallTagged.tag = "Wall";
-                    bHasMovedOnce = true;
                     if(wallTagged.gameObject.name == "EndingWall")
                     {
                         EndGame(true);
@@ -466,28 +461,24 @@ public class SC_Player : MonoBehaviour
         if (i == 0) //devant le player = forward
         {
             Move(lastMoveDirection);
-            bHasMovedOnce = true;
             return;
         }
         else if (i == 1) // a droite du player
         {
             Vector3 newVector = transform.right;
             Move(newVector);
-            bHasMovedOnce = true;
             return;
         }
         else if (i == 2) //a gauche du player
         {
             Vector3 newVector = Vector3.left;
             Move(newVector);
-            bHasMovedOnce = true;
             return;
         }
         else if (i == 3) //derriere le player
         {
             Vector3 newVector = Vector3.back;
-            Move(newVector);
-            bHasMovedOnce = true;
+            Move(newVector); 
             return;
         }
     }

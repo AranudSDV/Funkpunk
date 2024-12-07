@@ -66,7 +66,7 @@ public class sc_tuto : MonoBehaviour
             {
                 StartForth();
             }
-            if(GoTuto[4].activeInHierarchy && Input.GetKeyDown(KeyCode.V))
+            if(GoTuto[4].activeInHierarchy && (Input.GetKeyDown(KeyCode.V) || Input.GetButtonDown("Jump")))
             {
                 scPlayer.bGameIsPaused = false;
                 scPlayer.PauseGame();
@@ -260,7 +260,8 @@ public class sc_tuto : MonoBehaviour
         goCameraMain[0].transform.GetChild(2).gameObject.SetActive(true);
         GoTuto[3].SetActive(false);
         scPlayer.bGameIsPaused = false;
-        scPlayer.bcanRotate = true;
+        scPlayer.lastMoveDirection = Vector3.left;
+        scPlayer.bisTuto = false;
         scPlayer.PauseGame();
     }
 
@@ -278,7 +279,7 @@ public class sc_tuto : MonoBehaviour
         GoTuto[6].transform.GetChild(0).gameObject.SetActive(true);
         scPlayer.bGameIsPaused = true;
         scPlayer.PauseGame();
-        StartCoroutine(ScraffiTime());
+        StartCoroutine(ScraffiTime()); 
     }
 
     public void StartTutoDetection()
@@ -298,7 +299,6 @@ public class sc_tuto : MonoBehaviour
         if (collision.gameObject.CompareTag("Player") && isMeshable && isEnnemiTuto ==false)
         {
             scPlayer = collision.GetComponent<SC_Player>();
-            scPlayer.bIsTuto = false;
             sc_tuto tutoriel = GameObject.FindWithTag("Tuto").gameObject.GetComponent<sc_tuto>();
             tutoriel.TutoScraffi();
             Destroy(this.gameObject);
