@@ -41,9 +41,12 @@ public class ing_Bait : MonoBehaviour
                 }
                 foreach (SC_FieldOfView ennemy in allEnemies)
                 {
-                    ennemy.bHasHeard = true;
-                    ennemy.i_EnnemyBeat = 0;
-                    Debug.Log("Detected object: " + ennemy.name);
+                    if (!ennemy.bIsDisabled)
+                    {
+                        ennemy.bHasHeard = true;
+                        ennemy.i_EnnemyBeat = 0;
+                        Debug.Log("Detected object: " + ennemy.name);
+                    }
                 }
                 mshRdn.material = mThrown;
             }

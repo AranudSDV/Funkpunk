@@ -12,6 +12,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class SC_Player : MonoBehaviour
 {
@@ -471,7 +472,11 @@ public class SC_Player : MonoBehaviour
                     else if (hitInfo1.transform.CompareTag("Enemies 1")) //il y a un ennemi devant le joueur
                     {
                         fThrowMultiplier = floatNumber -1f;
+                        SC_FieldOfView scEnemy = hitInfo1.transform.gameObject.GetComponent<SC_FieldOfView>();
                         Debug.Log("ennemi");
+                        scEnemy.bIsDisabled = true;
+                        scEnemy.FoeDisabled(scEnemy.bIsDisabled);
+                        scEnemy.i_EnnemyBeat = -5;
                         //Unable l'ennemi
                         return;
                     }
@@ -618,7 +623,16 @@ public class SC_Player : MonoBehaviour
     {
         foreach (SC_FieldOfView enemy in allEnemies)
         {
-            if(enemy.BCanSee)
+            if (enemy.bIsDisabled)
+            {
+                enemy.i_EnnemyBeat += 1;
+                if(enemy.i_EnnemyBeat >= 0)
+                {
+                    enemy.bIsDisabled = false;
+                    enemy.FoeDisabled(enemy.bIsDisabled);
+                }
+            }
+            else if (enemy.BCanSee)
             {
                 enemy.PlayerDetected(this.gameObject);
                 enemy.i_EnnemyBeat =6;

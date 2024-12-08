@@ -18,6 +18,7 @@ public class SC_FieldOfView : MonoBehaviour
     public bool BCanSee;
     public bool bSeenOnce;
     public bool bHasHeard = false;
+    public bool bIsDisabled = false;
     public float minRotation = -90f;  
     public float maxRotation = 45f;   
     public float rotationStep = 45f;
@@ -50,65 +51,54 @@ public class SC_FieldOfView : MonoBehaviour
 
     private void FieldOfViewCheck()
     {
-        Collider[] rangeChecks = Physics.OverlapSphere(transform.position, FRadius, LMtargetMask);
-
-        if(rangeChecks.Length != 0)
+        if (bIsDisabled == false)
         {
-            Transform target = rangeChecks[0].transform;
-            Vector3 directionToTarget = (target.position - transform.position).normalized;
+            Collider[] rangeChecks = Physics.OverlapSphere(transform.position, FRadius, LMtargetMask);
 
-            if(Vector3.Angle(transform.forward, directionToTarget) < FAngle /2 )
+            if (rangeChecks.Length != 0)
             {
-                float distanceToTarget = Vector3.Distance(transform.position, target.position);
-                if(!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, LMObstructionMask))
+                Transform target = rangeChecks[0].transform;
+                Vector3 directionToTarget = (target.position - transform.position).normalized;
+
+                if (Vector3.Angle(transform.forward, directionToTarget) < FAngle / 2)
                 {
-                    bSeenOnce = true; //vu une fois
+                    float distanceToTarget = Vector3.Distance(transform.position, target.position);
+                    if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, LMObstructionMask))
+                    {
+                        bSeenOnce = true; //vu une fois
+                    }
+                    else
+                    {
+                        BCanSee = false; //Ne voit pas
+                    }
                 }
                 else
                 {
                     BCanSee = false; //Ne voit pas
                 }
             }
-            else
+            else if (BCanSee == true) //Si le bool est en true alors que c'est faux
             {
-                BCanSee = false; //Ne voit pas
+                BCanSee = false; //Il ne voit pas
             }
+            DetectionChecks();
         }
-        else if(BCanSee == true) //Si le bool est en true alors que c'est faux
-        {
-            BCanSee = false; //Il ne voit pas
-        }
-        DetectionChecks();
     }
 
     public void PlayerDetected(GameObject GOPlayer)
     {
-        //float fxDiff = GOPlayer.transform.position.x - this.transform.position.x;
         transform.LookAt(GOPlayer.transform);
-        /*if (fxDiff < 0) //si le joueur est à gauche de l'ennemi
-        {
-            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y + 20f, 0);
-        }
-        if (fxDiff > 0) //si le joueur est à droite de l'ennemi
-        {
-            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y - 20f, 0);
-        }*/
     }
 
     public void BaitHeard(GameObject GOBait)
     {
-        //float fxDiff = GOBait.transform.position.x - this.transform.position.x;
         transform.LookAt(GOBait.transform);
-        /*if (fxDiff < 0) //si le bait est à gauche de l'ennemi
-        {
-            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y + 5f, 0);
-        }
-        if (fxDiff > 0) //si le bait est à droite de l'ennemi
-        {
-            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y - 5f, 0);
-        }*/
     }
-
+    public void FoeDisabled(bool _isDisable)
+    {
+        GameObject Go_Child = this.transform.GetChild(1).gameObject;
+        Go_Child.SetActive(!_isDisable);
+    }
     private void DetectionChecks ()
     {
         if (bSeenOnce)
