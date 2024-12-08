@@ -1951,59 +1951,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!1 &1763213342855712093
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4884357669059686057}
-  - component: {fileID: 5661657123015864678}
-  m_Layer: 6
-  m_Name: RectVision
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4884357669059686057
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1763213342855712093}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 9121296702372304279}
-  m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5661657123015864678
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1763213342855712093}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a14223de1af49d439a69cba0dc99699, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scPlayer: {fileID: 6830452445873526929}
-  mVisionRect:
-  - {fileID: 2100000, guid: 60b0eca5a8bb9d74499cef5db94f818c, type: 2}
-  - {fileID: 2100000, guid: c52bc698085ef99459c9fa85e9ae3d85, type: 2}
-  - {fileID: 2100000, guid: dfae8deb0084ed8498621f36ef541ed7, type: 2}
-  - {fileID: 2100000, guid: 80b09b81191dd444a93d1588760bc0a0, type: 2}
-  LMObstructionMask:
-    serializedVersion: 2
-    m_Bits: 128
 --- !u!1 &3330199306636116483
 GameObject:
   m_ObjectHideFlags: 0
@@ -4313,7 +4260,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2933500145309475870}
-  - {fileID: 4884357669059686057}
   - {fileID: 696468017214734184}
   - {fileID: 7646686155165706847}
   - {fileID: 408497289237724575}
@@ -4355,11 +4301,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5358b3d66a5a28a41ad14a253394ddcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bIsTuto: 0
+  bisTuto: 0
   bGameIsPaused: 0
   lastMoveDirection: {x: 0, y: 0, z: 0}
   PlayerCapsule: {fileID: 4589980624701841776}
   bIsOnComputer: 1
+  canMove: 0
+  bcanRotate: 0
   FBPM: 70
   colorMiss:
     serializedVersion: 2
@@ -4380,9 +4328,8 @@ MonoBehaviour:
   GOUiBad: {fileID: 0}
   GOUiGood: {fileID: 0}
   GOUiPerfect: {fileID: 0}
-  scRectVision: {fileID: 5661657123015864678}
+  scRectVision: {fileID: 0}
   GOBait: {fileID: 6885181872792694492, guid: 481679da37c5830468e32f02138b149a, type: 3}
-  bIsBaiting: 0
   newThrow: 0
   hasAlreadyBaited: 0
   TMPScore: {fileID: 0}

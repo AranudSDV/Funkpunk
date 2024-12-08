@@ -62,6 +62,7 @@ public class SC_Player : MonoBehaviour
     private GameObject GO_BaitInst;
     public bool newThrow = false;
     public bool hasAlreadyBaited = false;
+    private float fThrowMultiplier = 1f;
 
     //LE SCORE
     private float FScore;
@@ -84,7 +85,7 @@ public class SC_Player : MonoBehaviour
     GameObject[] Enemies1;
 
     //LE TAG
-    public float taggingRange = 1f;
+    public float taggingRange = 1.1f;
     public Material taggedMaterial; 
     private RaycastHit[] hitInfo = new RaycastHit[4];
     [SerializeField] private LayerMask LMask;
@@ -183,7 +184,7 @@ public class SC_Player : MonoBehaviour
             bBaitGood = false;
             bBaitPerfect = false;
         }
-        CheckForward(lastMoveDirection);
+        CheckForward(lastMoveDirection, taggingRange);
         StartCoroutine(wait());
     }
     
@@ -351,27 +352,21 @@ public class SC_Player : MonoBehaviour
 
     public void ShootBait()
     {
-        if (bBaitBad == true)
+        CheckForward(lastMoveDirection, 0f);
+        if (fThrowMultiplier == 0f)
         {
-            Baiting(this.transform.position + lastMoveDirection * 3);
-        }
-        else if (bBaitGood == true)
-        {
-            Baiting(this.transform.position + lastMoveDirection * 4);
-        }
-        else if (bBaitPerfect == true)
-        {
-            Baiting(this.transform.position + lastMoveDirection * 5);
+            //nothing
         }
         else
         {
-            Baiting(this.transform.position + lastMoveDirection * 2);
+            Baiting(new Vector3(this.transform.position.x, 0.5f, this.transform.position.z) + lastMoveDirection * fThrowMultiplier);
+            Debug.Log(fThrowMultiplier);
         }
     }
-    private void Baiting(Vector3 spawnpos)
+    private void Baiting(Vector3 _spawnpos)
     {
         newThrow = true;
-        GO_BaitInst = Instantiate(GOBait, spawnpos, Quaternion.identity);
+        GO_BaitInst = Instantiate(GOBait, _spawnpos, Quaternion.identity);
         ing_Bait scBait = GO_BaitInst.GetComponent< ing_Bait>();
         scBait.b_BeenThrown = true;
         StartCoroutine (baitChange(1f));
@@ -383,51 +378,70 @@ public class SC_Player : MonoBehaviour
     }
 
     //VERIFIER LE MOUVEMENT
-    private void CheckForward(Vector3 vectDir)
+    private void CheckForward(Vector3 vectDir, float fRange)
     {
-        for (int i = 0; i < 4; i++)
+        if(fRange == taggingRange)
         {
-            if (Physics.Raycast(transform.position, vectDir, out hitInfo[i], taggingRange, LMask)) //qqc est devant le joueur
-            {
-                if (hitInfo[i].transform.CompareTag("Tagging")) //c'est un mur à tagger
-                {
-                    Renderer wallRenderer = hitInfo[i].transform.GetComponent<Renderer>();
-                    GameObject wallTagged = hitInfo[i].transform.gameObject;
-                    wallRenderer.material = taggedMaterial; //le joueur tag
-                    wallTagged.tag = "Wall";
-                    if(wallTagged.gameObject.name == "EndingWall")
+            for (int i = 0; i < 4; i++)
                     {
-                        EndGame(true);
-                    }
-                    break;
-                }
-                else if (hitInfo[i].transform.CompareTag("Wall"))//ce n'est pas un mur à tagger
-                {
-                    if (i != 3)
-                    {
-                        Vector3 vectNext = vectDir;
-                        //int rdm = new Random();
-                        if(vectNext == transform.forward)
+                        if (Physics.Raycast(transform.position, vectDir, out hitInfo[i], fRange, LMask)) //qqc est devant le joueur
                         {
-                            vectNext = transform.right;
-                        }
-                        else if(vectNext == transform.right)
-                        {
-                            vectNext = Vector3.back;
-                        }
-                        else if(vectNext == Vector3.back)
-                        {
-                            vectNext = Vector3.left;
-                        }
-                        else if(vectNext == Vector3.left)
-                        {
-                            vectNext = transform.forward;
-                        }
-                        if (Physics.Raycast(transform.position, vectNext, out hitInfo[i + 1], taggingRange)) //qqc obstrue le mouvement de glissade
-                        {
-                            if (hitInfo[i+1].transform.CompareTag("Wall") || hitInfo[i+1].transform.CompareTag("Tagging"))
+                            if (hitInfo[i].transform.CompareTag("Tagging")) //c'est un mur à tagger
                             {
-                                return; //est-ce un mur taggable? Refaire le processus
+                                Renderer wallRenderer = hitInfo[i].transform.GetComponent<Renderer>();
+                                GameObject wallTagged = hitInfo[i].transform.gameObject;
+                                wallRenderer.material = taggedMaterial; //le joueur tag
+                                wallTagged.tag = "Wall";
+                                if(wallTagged.gameObject.name == "EndingWall")
+                                {
+                                    EndGame(true);
+                                }
+                                break;
+                            }
+                            else if (hitInfo[i].transform.CompareTag("Wall"))//ce n'est pas un mur à tagger
+                            {
+                                if (i != 3)
+                                {
+                                    Vector3 vectNext = vectDir;
+                                    //int rdm = new Random();
+                                    if(vectNext == transform.forward)
+                                    {
+                                        vectNext = transform.right;
+                                    }
+                                    else if(vectNext == transform.right)
+                                    {
+                                        vectNext = Vector3.back;
+                                    }
+                                    else if(vectNext == Vector3.back)
+                                    {
+                                        vectNext = Vector3.left;
+                                    }
+                                    else if(vectNext == Vector3.left)
+                                    {
+                                        vectNext = transform.forward;
+                                    }
+                                    if (Physics.Raycast(transform.position, vectNext, out hitInfo[i + 1], fRange)) //qqc obstrue le mouvement de glissade
+                                    {
+                                        if (hitInfo[i+1].transform.CompareTag("Wall") || hitInfo[i+1].transform.CompareTag("Tagging"))
+                                        {
+                                            return; //est-ce un mur taggable? Refaire le processus
+                                        }
+                                        else //il n'y a rien devant le joueur
+                                        {
+                                            Mouvement(i);
+                                            break;
+                                        }
+                                    }
+                                    else //il n'y a rien à cet endroit alors s'y déplace
+                                    {
+                                        Mouvement(i + 1);
+                                        break;
+                                    }
+                                }
+                                else
+                                {
+                                    break;
+                                }
                             }
                             else //il n'y a rien devant le joueur
                             {
@@ -435,27 +449,46 @@ public class SC_Player : MonoBehaviour
                                 break;
                             }
                         }
-                        else //il n'y a rien à cet endroit alors s'y déplace
+                        else //il n'y a rien devant le joueur, alors s'y déplace
                         {
-                            Mouvement(i + 1);
+                            Mouvement(i);
                             break;
                         }
                     }
-                    else
+        }
+        else
+        {
+            for (int i = 1; i < 6; i ++)
+            {
+                float floatNumber = Convert.ToSingle(i);
+                if (Physics.Raycast(transform.position, vectDir, out RaycastHit hitInfo1, floatNumber + 0.1f, LMask)&&((!bBaitPerfect && !bBaitGood && !bBaitBad && i <= 2) || ( bBaitBad&&i<=3)|| (bBaitGood && i <= 4) || (bBaitPerfect && i <= 5))) //qqc est devant le joueur au plus près
+                {
+                    if (hitInfo1.transform.CompareTag("Wall") || hitInfo1.transform.CompareTag("Tagging") || hitInfo1.transform.CompareTag("Bait"))//il y a un mur devant le joueur
                     {
-                        break;
+                        fThrowMultiplier = floatNumber -1f;
+                        return;
+                    }
+                    else if (hitInfo1.transform.CompareTag("Enemies 1")) //il y a un ennemi devant le joueur
+                    {
+                        fThrowMultiplier = floatNumber -1f;
+                        Debug.Log("ennemi");
+                        //Unable l'ennemi
+                        return;
+                    }
+                    else //nothing in front of the player
+                    {
+                        //nothing
                     }
                 }
-                else //il n'y a rien devant le joueur
+                else if((!bBaitPerfect && !bBaitGood && !bBaitBad && i ==3) || (bBaitBad && i ==4) || (bBaitGood && i ==5) || (bBaitPerfect && i ==6))
                 {
-                    Mouvement(i);
-                    break;
+                    fThrowMultiplier = floatNumber - 1f;
+                    return;
                 }
-            }
-            else //il n'y a rien devant le joueur, alors s'y déplace
-            {
-                Mouvement(i);
-                break;
+                else
+                {
+                    //nothing
+                }
             }
         }
     }

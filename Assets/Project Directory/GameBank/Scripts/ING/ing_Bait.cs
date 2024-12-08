@@ -31,7 +31,6 @@ public class ing_Bait : MonoBehaviour
             if (allEnemies.Length == 0)
             {
                 b_BeenThrown = false;
-                Debug.Log("0");
                 mshRdn.material = mNotThrown;
             }
             else
@@ -43,6 +42,7 @@ public class ing_Bait : MonoBehaviour
                 foreach (SC_FieldOfView ennemy in allEnemies)
                 {
                     ennemy.bHasHeard = true;
+                    ennemy.i_EnnemyBeat = 0;
                     Debug.Log("Detected object: " + ennemy.name);
                 }
                 mshRdn.material = mThrown;
