@@ -97,7 +97,9 @@ public class SC_FieldOfView : MonoBehaviour
     public void FoeDisabled(bool _isDisable)
     {
         GameObject Go_Child = this.transform.GetChild(1).gameObject;
+        GameObject Go_Child1 = this.transform.GetChild(2).gameObject;
         Go_Child.SetActive(!_isDisable);
+        Go_Child1.SetActive(_isDisable);
     }
     private void DetectionChecks ()
     {
