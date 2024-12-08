@@ -12,12 +12,13 @@ public class ing_Bait : MonoBehaviour
     public bool b_BeenThrown = false;
     [SerializeField] private SC_FieldOfView[] allEnemies;
     [SerializeField] private Material mThrown;
+    [SerializeField] private Material mNotThrown;
     [SerializeField] private MeshRenderer mshRdn;
     private float detectionRadius = 7f;
     private bool bCollision = false;
     [SerializeField] private string targetTag;
 
-    private void Start()
+    private void Awake()
     {
         if (allEnemies == null && !b_BeenThrown)
         {
@@ -27,16 +28,25 @@ public class ing_Bait : MonoBehaviour
         {
             GameObject[] allGoEnnemies = DetectObjects();
             allEnemies = new SC_FieldOfView[allGoEnnemies.Length];
-            for (int i = 0; i< allGoEnnemies.Length; i++)
+            if (allEnemies.Length == 0)
             {
-                allEnemies[i]= allGoEnnemies[i].GetComponent<SC_FieldOfView>();
+                b_BeenThrown = false;
+                Debug.Log("0");
+                mshRdn.material = mNotThrown;
             }
-            foreach (SC_FieldOfView ennemy in allEnemies)
+            else
             {
-                ennemy.bHasHeard = true;
-                Debug.Log("Detected object: " + ennemy.name);
+                for (int i = 0; i < allGoEnnemies.Length; i++)
+                {
+                    allEnemies[i] = allGoEnnemies[i].GetComponent<SC_FieldOfView>();
+                }
+                foreach (SC_FieldOfView ennemy in allEnemies)
+                {
+                    ennemy.bHasHeard = true;
+                    Debug.Log("Detected object: " + ennemy.name);
+                }
+                mshRdn.material = mThrown;
             }
-            mshRdn.material = mThrown;
         }
     }
     GameObject[] DetectObjects()
@@ -76,9 +86,14 @@ public class ing_Bait : MonoBehaviour
                 {
                     ennemy.bHasHeard = false;
                     ennemy.i_EnnemyBeat = 0;
-                    Destroy(this.gameObject);
+                    b_BeenThrown = false;
+                    mshRdn.material = mNotThrown;
                 }
             }
+        }
+        if (allEnemies.Length == 0)
+        {
+            b_BeenThrown = false;
         }
         if (bCollision && b_BeenThrown == false && scPlayer.newThrow == true)
         {
@@ -98,7 +113,7 @@ public class ing_Bait : MonoBehaviour
         if (collision.gameObject.CompareTag("Player") && b_BeenThrown == false)
         {
             scPlayer = collision.GetComponent<SC_Player>();
-            scPlayer.bIsBaiting = true;
+            scPlayer.ShootBait();
             bCollision = true;
             if(scPlayer.hasAlreadyBaited == false)
             {

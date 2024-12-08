@@ -48,6 +48,9 @@ public class SC_Player : MonoBehaviour
     public bool BBad = false;
     public bool BGood = false;
     public bool BPerfect = false;
+    private bool bBaitBad = false;
+    private bool bBaitGood = false;
+    private bool bBaitPerfect = false;
     [SerializeField] private TMP_Text txt_Feedback;
     public GameObject GOUiBad;
     public GameObject GOUiGood;
@@ -57,7 +60,6 @@ public class SC_Player : MonoBehaviour
     [SerializeField] private MeshRectVision scRectVision;
     [SerializeField] private GameObject GOBait;
     private GameObject GO_BaitInst;
-    public bool bIsBaiting = false;
     public bool newThrow = false;
     public bool hasAlreadyBaited = false;
 
@@ -177,9 +179,11 @@ public class SC_Player : MonoBehaviour
         {
             txt_Feedback.text = "Miss";
             txt_Feedback.color = colorMiss;
+            bBaitBad = false;
+            bBaitGood = false;
+            bBaitPerfect = false;
         }
         CheckForward(lastMoveDirection);
-        bIsBaiting = false;
         StartCoroutine(wait());
     }
     
@@ -254,50 +258,29 @@ public class SC_Player : MonoBehaviour
                 FScore = FScore + 10f;
                 txt_Feedback.text = "Bad";
                 txt_Feedback.color = colorBad;
+                bBaitBad = true;
+                bBaitGood = false;
+                bBaitPerfect = false;
             }
             else if (BGood == true)
             {
                 FScore = FScore + 50f;
                 txt_Feedback.text = "Good";
                 txt_Feedback.color = colorGood;
+                bBaitBad = false;
+                bBaitGood = true;
+                bBaitPerfect = false;
             }
             else if (BPerfect == true)
             {
                 FScore = FScore + 100f;
                 txt_Feedback.text = "Perfect!";
                 txt_Feedback.color = colorPerfect;
+                bBaitBad = false;
+                bBaitGood = false;
+                bBaitPerfect = true;
             }
-            /*if (bIsBaiting == false)
-            {
-                CheckForward(lastMoveDirection);
-            }*/
-            bIsBaiting = false;
             bcanRotate = false;
-        }
-        if (bIsBaiting && Input.GetKeyDown(KeyCode.V) && canMove && bIsOnComputer == true)
-        {
-            if (BBad == true)
-            {
-                FScore = FScore + 10f;
-                txt_Feedback.text = "Bad";
-                txt_Feedback.color = colorBad;
-                Baiting(this.transform.position + lastMoveDirection * 3);
-            }
-            else if (BGood == true)
-            {
-                FScore = FScore + 50f;
-                txt_Feedback.text = "Good";
-                txt_Feedback.color = colorGood;
-                Baiting(this.transform.position + lastMoveDirection * 4);
-            }
-            else if (BPerfect == true)
-            {
-                FScore = FScore + 100f;
-                txt_Feedback.text = "Perfect!";
-                txt_Feedback.color = colorPerfect;
-                Baiting(this.transform.position + lastMoveDirection * 5);
-            }
-            bIsBaiting = false;
         }
     }
     Vector3 GetDirectionFromClavier()
@@ -365,15 +348,35 @@ public class SC_Player : MonoBehaviour
     }
 
     //CONCERNANT LE BAIT
-    public void Baiting(Vector3 spawnpos)
+
+    public void ShootBait()
+    {
+        if (bBaitBad == true)
+        {
+            Baiting(this.transform.position + lastMoveDirection * 3);
+        }
+        else if (bBaitGood == true)
+        {
+            Baiting(this.transform.position + lastMoveDirection * 4);
+        }
+        else if (bBaitPerfect == true)
+        {
+            Baiting(this.transform.position + lastMoveDirection * 5);
+        }
+        else
+        {
+            Baiting(this.transform.position + lastMoveDirection * 2);
+        }
+    }
+    private void Baiting(Vector3 spawnpos)
     {
         newThrow = true;
         GO_BaitInst = Instantiate(GOBait, spawnpos, Quaternion.identity);
         ing_Bait scBait = GO_BaitInst.GetComponent< ing_Bait>();
         scBait.b_BeenThrown = true;
-        StartCoroutine (baitDestroy(1f));
+        StartCoroutine (baitChange(1f));
     }
-    private IEnumerator baitDestroy(float waitTime)
+    private IEnumerator baitChange(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
         newThrow = false;

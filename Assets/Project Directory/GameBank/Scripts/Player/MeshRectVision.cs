@@ -6,7 +6,7 @@ using UnityEngine;
 public class MeshRectVision : MonoBehaviour
 {
     [SerializeField] private SC_Player scPlayer;
-    [SerializeField] private Material[] mVisionRect;
+    /*[SerializeField] private Material[] mVisionRect;
     private Mesh VisionRectMesh;
     private MeshFilter RectMeshFilter;
     private MeshRenderer RectRenderer;
@@ -167,5 +167,5 @@ public class MeshRectVision : MonoBehaviour
             VisionRectMesh.Clear();
             RectMeshFilter.mesh = null;
         }
-    }
+    }*/
 }

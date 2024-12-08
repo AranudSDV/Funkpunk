@@ -34265,10 +34265,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'You found an object !
+  m_text: 'You smashed an object !
 
-    You can use it as a bait if you throw it with
-    "V".'
+    It makes a lot of noise...'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
@@ -39459,7 +39458,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1995991496}
-  m_LocalRotation: {x: 0.54043984, y: -0.00000002609905, z: 0.000000016764032, w: 0.8413827}
+  m_LocalRotation: {x: 0.54043984, y: 0.00000002609905, z: -0.000000016764032, w: 0.8413827}
   m_LocalPosition: {x: 8.13, y: 13, z: 47.96}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -40931,7 +40930,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2061718096}
-  m_LocalRotation: {x: 0.54043984, y: -0.00000002609905, z: 0.000000016764032, w: 0.8413827}
+  m_LocalRotation: {x: 0.54043984, y: 0.00000002609905, z: -0.000000016764032, w: 0.8413827}
   m_LocalPosition: {x: 8.13, y: 13, z: 47.96}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

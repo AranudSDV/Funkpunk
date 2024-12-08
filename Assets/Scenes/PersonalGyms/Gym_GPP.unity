@@ -2957,6 +2957,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4689554887212002435, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
+      propertyPath: mNotThrown
+      value: 
+      objectReference: {fileID: 2100000, guid: 60b0eca5a8bb9d74499cef5db94f818c, type: 2}
+    - target: {fileID: 4689554887212002435, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
+      propertyPath: b_BeenThrown
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6885181872792694492, guid: 481679da37c5830468e32f02138b149a,
         type: 3}
       propertyPath: m_Name
@@ -3420,6 +3430,16 @@ PrefabInstance:
     - target: {fileID: 2089493221176347592, guid: 481679da37c5830468e32f02138b149a,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4689554887212002435, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
+      propertyPath: mNotThrown
+      value: 
+      objectReference: {fileID: 2100000, guid: 60b0eca5a8bb9d74499cef5db94f818c, type: 2}
+    - target: {fileID: 4689554887212002435, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
+      propertyPath: b_BeenThrown
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6885181872792694492, guid: 481679da37c5830468e32f02138b149a,
@@ -5521,6 +5541,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4689554887212002435, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
+      propertyPath: mNotThrown
+      value: 
+      objectReference: {fileID: 2100000, guid: 60b0eca5a8bb9d74499cef5db94f818c, type: 2}
+    - target: {fileID: 4689554887212002435, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
+      propertyPath: b_BeenThrown
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6885181872792694492, guid: 481679da37c5830468e32f02138b149a,
         type: 3}
       propertyPath: m_Name
@@ -5772,6 +5802,11 @@ PrefabInstance:
       propertyPath: sliderDetection
       value: 
       objectReference: {fileID: 859682510}
+    - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: hasAlreadyBaited
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: colorPerfect.rgba

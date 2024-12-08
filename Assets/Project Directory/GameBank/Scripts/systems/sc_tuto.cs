@@ -48,13 +48,11 @@ public class sc_tuto : MonoBehaviour
         {
             Time.timeScale = 1f;
             goEmptyToFollw.transform.position -= new Vector3(0f, 0f, 5f * Time.unscaledDeltaTime);
-           /* TutoArrows();
-            TutoKey();*/
+           // TutoArrows();
         }
         if(b_tutoFinished == true && goEmptyToFollw.transform.position.z <=5 && isMeshable == false)
         {
             TutoArrows();
-            TutoKey();
             if (bOnce == false)
             {
                 StartCoroutine(StartThird());
@@ -87,22 +85,6 @@ public class sc_tuto : MonoBehaviour
                 GoTuto[6].SetActive(false);
                 bWaitSpace = false;
             }
-        }
-    }
-
-    private void TutoKey()
-    {
-        if (scPlayer.bIsBaiting)
-        {
-            GameObject goInputs = goPlayer.transform.GetChild(4).gameObject;
-            goInputs.transform.GetChild(0).gameObject.SetActive(false);
-            goInputs.transform.GetChild(1).gameObject.SetActive(true);
-        }
-        else
-        {
-            GameObject goInputs = goPlayer.transform.GetChild(4).gameObject;
-            goInputs.transform.GetChild(0).gameObject.SetActive(true);
-            goInputs.transform.GetChild(1).gameObject.SetActive(false);
         }
     }
     private void TutoArrows()

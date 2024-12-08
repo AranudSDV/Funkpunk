@@ -134,6 +134,7 @@ MonoBehaviour:
   b_BeenThrown: 1
   allEnemies: []
   mThrown: {fileID: 2100000, guid: 9bfc3b845b751d84ea300b455a171303, type: 2}
+  mNotThrown: {fileID: 2100000, guid: 60b0eca5a8bb9d74499cef5db94f818c, type: 2}
   mshRdn: {fileID: 9190476034523916656}
   targetTag: Enemies 1
 --- !u!65 &378598364566265932
