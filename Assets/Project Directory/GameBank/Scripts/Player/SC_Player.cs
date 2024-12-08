@@ -361,7 +361,6 @@ public class SC_Player : MonoBehaviour
         else
         {
             Baiting(new Vector3(this.transform.position.x, 0.5f, this.transform.position.z) + lastMoveDirection * fThrowMultiplier);
-            Debug.Log(fThrowMultiplier);
         }
     }
     private void Baiting(Vector3 _spawnpos)
@@ -473,7 +472,6 @@ public class SC_Player : MonoBehaviour
                     {
                         fThrowMultiplier = floatNumber -1f;
                         SC_FieldOfView scEnemy = hitInfo1.transform.gameObject.GetComponent<SC_FieldOfView>();
-                        Debug.Log("ennemi");
                         scEnemy.bIsDisabled = true;
                         scEnemy.FoeDisabled(scEnemy.bIsDisabled);
                         scEnemy.i_EnnemyBeat = -5;
