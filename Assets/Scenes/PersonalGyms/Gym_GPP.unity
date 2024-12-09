@@ -5997,6 +5997,21 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 1965175644069172868, guid: 68808927f9aacd1419714efe98e3e0c5,
+        type: 3}
+      propertyPath: ShapeModule.radius.value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1965175644069172868, guid: 68808927f9aacd1419714efe98e3e0c5,
+        type: 3}
+      propertyPath: ShapeModule.radiusThickness
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1965175644069172868, guid: 68808927f9aacd1419714efe98e3e0c5,
+        type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 3317212076423122612, guid: 68808927f9aacd1419714efe98e3e0c5,
         type: 3}
       propertyPath: m_Layer
@@ -6060,6 +6075,11 @@ PrefabInstance:
     - target: {fileID: 4557529767917046153, guid: 68808927f9aacd1419714efe98e3e0c5,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6882484700896804385, guid: 68808927f9aacd1419714efe98e3e0c5,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

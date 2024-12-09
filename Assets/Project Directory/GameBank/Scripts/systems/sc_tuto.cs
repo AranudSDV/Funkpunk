@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting;
+using Cinemachine;
+using static Cinemachine.CinemachinePathBase;
 
 public class sc_tuto : MonoBehaviour
 {
@@ -17,12 +19,17 @@ public class sc_tuto : MonoBehaviour
     private GameObject goPlayer;
     [SerializeField]private bool isMeshable = false;
     [SerializeField] private bool isEnnemiTuto = false;
-    [SerializeField] private GameObject goEmptyToFollw;
-    [SerializeField] private GameObject[] goCameraBackTrack = new GameObject[2];
+    //[SerializeField] private GameObject goEmptyToFollw;
+    [SerializeField] private GameObject[] goCameraBackTrack = new GameObject[3];
     [SerializeField] private GameObject[] goCameraMain = new GameObject[3];
     bool bOnce = false;
     private bool bWaitSpace = false;
     public bool bKnowEnnemy= false;
+    private bool bCamTuto = false;
+    [SerializeField] private CinemachinePathBase m_Path;
+    [SerializeField] private float m_Speed;
+    private float m_Position;
+    [SerializeField] private CinemachinePathBase.PositionUnits m_PositionUnits = CinemachinePathBase.PositionUnits.Distance;
 
     private void Start()
     {
@@ -44,13 +51,12 @@ public class sc_tuto : MonoBehaviour
 
     private void Update()
     {
-        if(b_tutoFinished == true && isMeshable ==false && goEmptyToFollw.transform.position.z > 5)
+        if(b_tutoFinished == true && isMeshable ==false && goCameraBackTrack[2].transform.position.z > 0.5f)
         {
             Time.timeScale = 1f;
-            goEmptyToFollw.transform.position -= new Vector3(0f, 0f, 5f * Time.unscaledDeltaTime);
-           // TutoArrows();
+            SetCartPosition(m_Position + m_Speed * Time.unscaledDeltaTime);
         }
-        if(b_tutoFinished == true && goEmptyToFollw.transform.position.z <=5 && isMeshable == false)
+        if(b_tutoFinished == true && goCameraBackTrack[2].transform.position.z <=1f && isMeshable == false)
         {
             TutoArrows();
             if (bOnce == false)
@@ -87,73 +93,63 @@ public class sc_tuto : MonoBehaviour
             }
         }
     }
+    private void SetCartPosition(float distanceAlongPath)
+    {
+        if (m_Path != null)
+        {
+            m_Position = m_Path.StandardizeUnit(distanceAlongPath, m_PositionUnits); //goCameraBackTrack[0].
+            goCameraBackTrack[2].transform.position = m_Path.EvaluatePositionAtUnit(m_Position, m_PositionUnits);
+            goCameraBackTrack[2].transform.rotation = m_Path.EvaluateOrientationAtUnit(m_Position, m_PositionUnits);
+        }
+    }
+
     private void TutoArrows()
     {
         if (scPlayer.UI_Joystick[3].activeInHierarchy) //0 is H, 1 is HD, 2 is HG, 3 is G, 4 is D, 5 is C, 6 is B, 7 is BD, 8 is BG
         {
             for (int i = 0; i < 6; i++)
             {
-                //GoTuto[0].transform.GetChild(i).gameObject.SetActive(false);
                 render[i].material = materials[0];
             }
-            //GoTuto[0].transform.GetChild(0).gameObject.SetActive(true);
-            render[0].material = materials[1];
+            render[0].material = materials[1]; //GAUCHE
         }
         else if (scPlayer.UI_Joystick[0].activeInHierarchy) //0 is H, 1 is HD, 2 is HG, 3 is G, 4 is D, 5 is C, 6 is B, 7 is BD, 8 is BG
         {
             for (int i = 0; i < 6; i++)
             {
-               // GoTuto[0].transform.GetChild(i).gameObject.SetActive(false);
                 render[i].material = materials[0];
             }
-            //GoTuto[0].transform.GetChild(1).gameObject.SetActive(true);
-            render[1].material = materials[1];
+            render[1].material = materials[1]; //HAUT
         }
         else if (scPlayer.UI_Joystick[4].activeInHierarchy) //0 is H, 1 is HD, 2 is HG, 3 is G, 4 is D, 5 is C, 6 is B, 7 is BD, 8 is BG
         {
             for (int i = 0; i < 6; i++)
             {
-                //GoTuto[0].transform.GetChild(i).gameObject.SetActive(false);
                 render[i].material = materials[0];
             }
-            //GoTuto[0].transform.GetChild(2).gameObject.SetActive(true);
-            render[2].material = materials[1];
+            render[2].material = materials[1]; //DROITE
         }
         else if (scPlayer.UI_Joystick[7].activeInHierarchy) //0 is H, 1 is HD, 2 is HG, 3 is G, 4 is D, 5 is C, 6 is B, 7 is BD, 8 is BG
         {
             for (int i = 0; i < 6; i++)
             {
-                //GoTuto[0].transform.GetChild(i).gameObject.SetActive(false);
                 render[i].material = materials[0];
             }
-            //GoTuto[0].transform.GetChild(3).gameObject.SetActive(true);
-            render[3].material = materials[1];
+            render[4].material = materials[1]; //BAS DROITE
         }
         else if (scPlayer.UI_Joystick[1].activeInHierarchy) //0 is H, 1 is HD, 2 is HG, 3 is G, 4 is D, 5 is C, 6 is B, 7 is BD, 8 is BG
         {
             for (int i = 0; i < 6; i++)
             {
-                //GoTuto[0].transform.GetChild(i).gameObject.SetActive(false);
                 render[i].material = materials[0];
             }
-            //GoTuto[0].transform.GetChild(4).gameObject.SetActive(true);
-            render[4].material = materials[1];
-        }
-        else if (scPlayer.UI_Joystick[2].activeInHierarchy) //0 is H, 1 is HD, 2 is HG, 3 is G, 4 is D, 5 is C, 6 is B, 7 is BD, 8 is BG
-        {
-            for (int i = 0; i < 6; i++)
-            {
-                //GoTuto[0].transform.GetChild(i).gameObject.SetActive(false);
-                render[i].material = materials[0];
-            }
-            //GoTuto[0].transform.GetChild(5).gameObject.SetActive(true);
+            render[3].material = materials[1]; //HAUT DROITE
             render[5].material = materials[1];
         }
         else
         {
             for (int i = 0; i < 6; i++)
             {
-                //GoTuto[0].transform.GetChild(i).gameObject.SetActive(false);
                 render[i].material = materials[0];
             }
         }
@@ -192,7 +188,7 @@ public class sc_tuto : MonoBehaviour
         {
             goCameraMain[i].SetActive(true);
         }
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 3; i++)
         {
             goCameraBackTrack[i].SetActive(false);
         }
