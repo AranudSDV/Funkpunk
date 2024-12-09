@@ -74,8 +74,8 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaCutoff: 0.5
-    - _DIS_STR: 0.01
-    - _DisMainTexSTR: 0.01
+    - _DIS_STR: 2.69
+    - _DisMainTexSTR: 0.02
     - _DisSTR: 0.02
     - _QueueControl: 0
     - _QueueOffset: 0

@@ -1695,7 +1695,7 @@ Node;AmplifyShaderEditor.SimpleMultiplyOpNode;20;236.2335,-207.5905;Inherit;True
 Node;AmplifyShaderEditor.SimpleAddOpNode;15;-803.2454,6.557007;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.WorldSpaceLightDirHlpNode;16;-1175.834,-100.5375;Inherit;False;False;1;0;FLOAT;0;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.WorldNormalVector;17;-1136.055,-356.8126;Inherit;False;False;1;0;FLOAT3;0,0,1;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
-Node;AmplifyShaderEditor.FunctionNode;10;-1144.633,98.06253;Inherit;False;SRP Additional Light;-1;;1;6c86746ad131a0a408ca599df5f40861;8,212,1,6,1,9,0,23,1,24,1,142,1,168,1,154,1;6;2;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;15;FLOAT3;0,0,0;False;14;FLOAT3;0,0,0;False;18;FLOAT;0.5;False;32;FLOAT4;0,0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.FunctionNode;10;-1144.633,98.06253;Inherit;False;SRP Additional Light;-1;;4;6c86746ad131a0a408ca599df5f40861;8,212,1,6,1,9,0,23,1,24,1,142,1,168,1,154,1;6;2;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;15;FLOAT3;0,0,0;False;14;FLOAT3;0,0,0;False;18;FLOAT;0.5;False;32;FLOAT4;0,0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.StaticSwitch;25;-24.97619,-87.44253;Inherit;False;Property;_COLORORTEX;COLOR OR TEX;4;0;Create;True;0;0;0;False;0;False;0;1;1;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;COLOR;0,0,0,0;False;0;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;5;COLOR;0,0,0,0;False;6;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.RangedFloatNode;21;-420.8337,-180.3641;Inherit;False;Constant;_Float0;Float 0;2;0;Create;True;0;0;0;False;0;False;70;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.DotProductOpNode;19;-618.5784,-276.4412;Inherit;True;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT;0
@@ -1728,4 +1728,4 @@ WireConnection;19;0;17;0
 WireConnection;19;1;16;0
 WireConnection;1;2;20;0
 ASEEND*/
-//CHKSM=4CF2888EF001A352BCF53EC4F41C4F3D5ADA5819
+//CHKSM=6BC6FCD663D74137058BBFACEF91FF3A5C663B9E
