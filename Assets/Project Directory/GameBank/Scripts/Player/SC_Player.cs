@@ -13,6 +13,8 @@ using UnityEngine.UI;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
 using static UnityEngine.EventSystems.EventTrigger;
+using Cinemachine;
+using UnityEngine.Rendering.PostProcessing;
 
 public class SC_Player : MonoBehaviour
 {
@@ -33,6 +35,9 @@ public class SC_Player : MonoBehaviour
     public float FBPM;
     private float FBPS;
     private float FSPB;
+    [SerializeField] private CinemachineFollowZoom FOVS;
+    private bool b_more = false;
+    private bool b_less = false;
 
     //FEEDBACK ON TIMING
     [SerializeField] private Color32 colorMiss;
@@ -58,7 +63,6 @@ public class SC_Player : MonoBehaviour
     public GameObject GOUiPerfect;
 
     //LE BAIT
-    [SerializeField] private MeshRectVision scRectVision;
     [SerializeField] private GameObject GOBait;
     private GameObject GO_BaitInst;
     public bool newThrow = false;
@@ -206,6 +210,7 @@ public class SC_Player : MonoBehaviour
         CheckIfInputOnTempo();
         EnemieDetection();
         Rythme();
+        CameraRythm(Time.deltaTime);
     }
 
     public void PauseGame()
@@ -360,7 +365,7 @@ public class SC_Player : MonoBehaviour
         }
         else
         {
-            Baiting(new Vector3(this.transform.position.x, 0.5f, this.transform.position.z) + lastMoveDirection * fThrowMultiplier);
+            Baiting(new Vector3(this.transform.position.x, this.transform.position.y-0.5f, this.transform.position.z) + lastMoveDirection * fThrowMultiplier);
         }
     }
     private void Baiting(Vector3 _spawnpos)
@@ -617,7 +622,7 @@ public class SC_Player : MonoBehaviour
     }
 
     //CONCERNANT LE RYTHME
-    void RotationEnemies()
+    private void RotationEnemies()
     {
         foreach (SC_FieldOfView enemy in allEnemies)
         {
@@ -646,7 +651,7 @@ public class SC_Player : MonoBehaviour
             }
         }
     }
-    void Rythme()
+    private void Rythme()
     {
         if(BBad == true)
         {
@@ -674,6 +679,31 @@ public class SC_Player : MonoBehaviour
             GOUiPerfect.SetActive(false);
             GOUiGood.SetActive(false);
             GOUiBad.SetActive(false);
+        }
+    }
+
+    private void CameraRythm(float f_time)
+    {
+        float fov = FOVS.m_MinFOV;
+        if(BPerfect == true)
+        {
+            b_more = true;
+            b_less = false;
+        }
+        else if(BBad == true)
+        {
+            b_more = false;
+            b_less = true;
+        }
+        if (b_less)
+        {
+            fov = Mathf.Lerp(10.6f, 10f, -f_time);
+            FOVS.m_Width = fov;
+        }
+        else if(b_more)
+        {
+            fov = Mathf.Lerp(10f, 10.6f, f_time);
+            FOVS.m_Width = fov;
         }
     }
 
