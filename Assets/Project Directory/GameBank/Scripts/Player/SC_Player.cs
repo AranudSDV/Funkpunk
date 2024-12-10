@@ -22,6 +22,7 @@ public class SC_Player : MonoBehaviour
     public bool bGameIsPaused = false;
 
     //LE PLAYER ET SES MOUVEMENTS
+    [Header("Player and movement")]
     PlayerControl control;
     Vector2 move;
     public Vector3 lastMoveDirection;
@@ -32,6 +33,7 @@ public class SC_Player : MonoBehaviour
     public bool bcanRotate = false;
 
     //LE BEAT
+    [Header("Beat")]
     public float FBPM;
     private float FBPS;
     private float FSPB;
@@ -40,6 +42,7 @@ public class SC_Player : MonoBehaviour
     private bool b_less = false;
 
     //FEEDBACK ON TIMING
+    [Header("Timing Feedbacks")]
     [SerializeField] private Color32 colorMiss;
     [SerializeField] private Color32 colorBad;
     [SerializeField] private Color32 colorGood;
@@ -63,6 +66,7 @@ public class SC_Player : MonoBehaviour
     public GameObject GOUiPerfect;
 
     //LE BAIT
+    [Header("Bait")]
     [SerializeField] private GameObject GOBait;
     private GameObject GO_BaitInst;
     public bool newThrow = false;
@@ -70,15 +74,18 @@ public class SC_Player : MonoBehaviour
     private float fThrowMultiplier = 1f;
 
     //LE SCORE
+    [Header("Score")]
     private float FScore;
     public TMP_Text TMPScore;
 
     //LE JOYSTICK
+    [Header("Joystick")]
     [Tooltip("0 is H, 1 is HD, 2 is HG, 3 is G, 4 is D, 5 is C, 6 is B, 7 is BD, 8 is BG")] public GameObject[] UI_Joystick;
     private float[] angles = { -135f, -90f, -45f, 0f, 45f, 90f, 135f, 180f };
     private int currentAngleIndex = 3;
 
     //LA DETECTION
+    [Header("Detection")]
     public float FDetectionRate = 2f;
     private float FDetectionLevel = 0f;
     private float fDetectionLevelMax = 200f;
@@ -90,10 +97,13 @@ public class SC_Player : MonoBehaviour
     GameObject[] Enemies1;
 
     //LE TAG
+    [Header("Tag")]
     public float taggingRange = 1.1f;
     public Material taggedMaterial; 
     private RaycastHit[] hitInfo = new RaycastHit[4];
     [SerializeField] private LayerMask LMask;
+    [SerializeField] private float fFOVmin = 10f;
+    [SerializeField] private float fFOVmax = 10.6f;
 
 
     void OnEnable()
@@ -210,7 +220,7 @@ public class SC_Player : MonoBehaviour
         CheckIfInputOnTempo();
         EnemieDetection();
         Rythme();
-        CameraRythm(Time.deltaTime);
+        CameraRythm(Time.deltaTime, fFOVmax, fFOVmin);
     }
 
     public void PauseGame()
@@ -258,7 +268,7 @@ public class SC_Player : MonoBehaviour
     }
     private void CheckIfInputOnTempo()
     {
-        if ((control.GamePlay.Move.triggered && canMove && bIsOnComputer == false) || (Input.GetButtonDown("Jump") && canMove && bIsOnComputer == true))
+        if (bcanRotate && ((control.GamePlay.Move.triggered && canMove && bIsOnComputer == false) || (Input.GetButtonDown("Jump") && canMove && bIsOnComputer == true)))
         {
             if (BBad == true)
             {
@@ -387,79 +397,95 @@ public class SC_Player : MonoBehaviour
     {
         if(fRange == taggingRange)
         {
-            for (int i = 0; i < 4; i++)
+            if (vectDir.x !=0f && vectDir.z !=0) //si diagonal
+            {
+                Collider[] intersecting = Physics.OverlapSphere(new Vector3(transform.position.x + vectDir.x, transform.position.y, transform.position.z + vectDir.z), 0.02f);
+                if (intersecting.Length == 0)
+                {
+                    Move(vectDir);
+                    //code to run if nothing is intersecting as the length is 0
+                }
+                else
+                {
+                    vectDir = transform.forward;
+                }
+            }
+            else //sinon
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    if (Physics.Raycast(transform.position, vectDir, out hitInfo[i], fRange, LMask)) //qqc est devant le joueur
                     {
-                        if (Physics.Raycast(transform.position, vectDir, out hitInfo[i], fRange, LMask)) //qqc est devant le joueur
+                        if (hitInfo[i].transform.CompareTag("Tagging")) //c'est un mur à tagger
                         {
-                            if (hitInfo[i].transform.CompareTag("Tagging")) //c'est un mur à tagger
+                            Renderer wallRenderer = hitInfo[i].transform.GetComponent<Renderer>();
+                            GameObject wallTagged = hitInfo[i].transform.gameObject;
+                            wallRenderer.material = taggedMaterial; //le joueur tag
+                            wallTagged.tag = "Wall";
+                            if (wallTagged.gameObject.name == "EndingWall")
                             {
-                                Renderer wallRenderer = hitInfo[i].transform.GetComponent<Renderer>();
-                                GameObject wallTagged = hitInfo[i].transform.gameObject;
-                                wallRenderer.material = taggedMaterial; //le joueur tag
-                                wallTagged.tag = "Wall";
-                                if(wallTagged.gameObject.name == "EndingWall")
-                                {
-                                    EndGame(true);
-                                }
-                                break;
+                                EndGame(true);
                             }
-                            else if (hitInfo[i].transform.CompareTag("Wall"))//ce n'est pas un mur à tagger
+                            break;
+                        }
+                        else if (hitInfo[i].transform.CompareTag("Wall"))//ce n'est pas un mur à tagger
+                        {
+                            if (i != 3)
                             {
-                                if (i != 3)
+                                Vector3 vectNext = vectDir;
+                                //int rdm = new Random();
+                                if (vectNext == transform.forward)
                                 {
-                                    Vector3 vectNext = vectDir;
-                                    //int rdm = new Random();
-                                    if(vectNext == transform.forward)
+                                    vectNext = transform.right;
+                                }
+                                else if (vectNext == transform.right)
+                                {
+                                    vectNext = Vector3.back;
+                                }
+                                else if (vectNext == Vector3.back)
+                                {
+                                    vectNext = Vector3.left;
+                                }
+                                else if (vectNext == Vector3.left)
+                                {
+                                    vectNext = transform.forward;
+                                }
+                                if (Physics.Raycast(transform.position, vectNext, out hitInfo[i + 1], fRange)) //qqc obstrue le mouvement de glissade
+                                {
+                                    if (hitInfo[i + 1].transform.CompareTag("Wall") || hitInfo[i + 1].transform.CompareTag("Tagging"))
                                     {
-                                        vectNext = transform.right;
+                                        //est-ce un mur taggable? Refaire le processus
                                     }
-                                    else if(vectNext == transform.right)
+                                    else //il n'y a rien devant le joueur
                                     {
-                                        vectNext = Vector3.back;
-                                    }
-                                    else if(vectNext == Vector3.back)
-                                    {
-                                        vectNext = Vector3.left;
-                                    }
-                                    else if(vectNext == Vector3.left)
-                                    {
-                                        vectNext = transform.forward;
-                                    }
-                                    if (Physics.Raycast(transform.position, vectNext, out hitInfo[i + 1], fRange)) //qqc obstrue le mouvement de glissade
-                                    {
-                                        if (hitInfo[i+1].transform.CompareTag("Wall") || hitInfo[i+1].transform.CompareTag("Tagging"))
-                                        {
-                                            return; //est-ce un mur taggable? Refaire le processus
-                                        }
-                                        else //il n'y a rien devant le joueur
-                                        {
-                                            Mouvement(i);
-                                            break;
-                                        }
-                                    }
-                                    else //il n'y a rien à cet endroit alors s'y déplace
-                                    {
-                                        Mouvement(i + 1);
+                                        Mouvement(i);
                                         break;
                                     }
                                 }
-                                else
+                                else //il n'y a rien à cet endroit alors s'y déplace
                                 {
+                                    Mouvement(i + 1);
                                     break;
                                 }
                             }
-                            else //il n'y a rien devant le joueur
+                            else
                             {
-                                Mouvement(i);
                                 break;
                             }
                         }
-                        else //il n'y a rien devant le joueur, alors s'y déplace
+                        else //il n'y a rien devant le joueur
                         {
                             Mouvement(i);
                             break;
                         }
                     }
+                    else //il n'y a rien devant le joueur, alors s'y déplace
+                    {
+                        Mouvement(i);
+                        break;
+                    }
+                }
+            }
         }
         else
         {
@@ -681,8 +707,7 @@ public class SC_Player : MonoBehaviour
             GOUiBad.SetActive(false);
         }
     }
-
-    private void CameraRythm(float f_time)
+    private void CameraRythm(float f_time, float f_max, float f_min)
     {
         float fov = FOVS.m_MinFOV;
         if(BPerfect == true)
@@ -697,12 +722,12 @@ public class SC_Player : MonoBehaviour
         }
         if (b_less)
         {
-            fov = Mathf.Lerp(10.6f, 10f, -f_time);
+            fov = Mathf.Lerp(f_max, f_min, -f_time);
             FOVS.m_Width = fov;
         }
         else if(b_more)
         {
-            fov = Mathf.Lerp(10f, 10.6f, f_time);
+            fov = Mathf.Lerp(f_min, f_max, f_time);
             FOVS.m_Width = fov;
         }
     }
