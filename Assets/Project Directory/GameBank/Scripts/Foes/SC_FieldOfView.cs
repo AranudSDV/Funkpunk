@@ -11,6 +11,11 @@ public class SC_FieldOfView : MonoBehaviour
     public float FAngle;
 
     public GameObject GOPlayerRef;
+    [SerializeField] private GameObject Go_vfx_detected;
+    [SerializeField] private GameObject Go_vfx_disable;
+    [SerializeField] private GameObject Go_vfx_coneVision;
+
+    private ParticleSystem PS_detected;
 
     public LayerMask LMtargetMask;
     public LayerMask LMObstructionMask;
@@ -32,7 +37,11 @@ public class SC_FieldOfView : MonoBehaviour
 
     private void Start()
     {
-        GOPlayerRef = GameObject.FindGameObjectWithTag("Player");
+        if (GOPlayerRef == null)
+        {
+            GOPlayerRef = GameObject.FindGameObjectWithTag("Player");
+        }
+        PS_detected = Go_vfx_detected.transform.GetChild(0).gameObject.GetComponent<ParticleSystem>();
         StartCoroutine(FOVRoutine());
         currentRotation = minRotation;
         transform.eulerAngles = new Vector3(0, currentRotation, 0);
@@ -85,6 +94,24 @@ public class SC_FieldOfView : MonoBehaviour
         }
     }
 
+    IEnumerator NumDetectedVFX(bool bNewDetected, bool isactive)
+    {
+        if (bNewDetected && !isactive)
+        {
+            Go_vfx_detected.SetActive(true); 
+            PS_detected.Play();
+            yield return new WaitForSeconds(0.5f);
+            PS_detected.Pause();
+        }
+        else if(!bNewDetected && isactive)
+        {
+            Go_vfx_detected.SetActive(false);
+            PS_detected.Play();
+            yield return new WaitForSeconds(0.5f);
+            PS_detected.Stop();
+        }
+    }
+
     public void PlayerDetected(GameObject GOPlayer)
     {
         transform.LookAt(GOPlayer.transform);
@@ -96,10 +123,8 @@ public class SC_FieldOfView : MonoBehaviour
     }
     public void FoeDisabled(bool _isDisable)
     {
-        GameObject Go_Child = this.transform.GetChild(1).gameObject;
-        GameObject Go_Child1 = this.transform.GetChild(2).gameObject;
-        Go_Child.SetActive(!_isDisable);
-        Go_Child1.SetActive(_isDisable);
+        Go_vfx_coneVision.SetActive(!_isDisable);
+        Go_vfx_disable.SetActive(_isDisable);
     }
     private void DetectionChecks ()
     {
@@ -107,10 +132,12 @@ public class SC_FieldOfView : MonoBehaviour
         {
             BCanSee = true;
             bSeenOnce = false;
+            StartCoroutine(NumDetectedVFX(true, Go_vfx_detected.activeInHierarchy));
         }
         if(BCanSee == false && bHasHeard == false)
         {
             transform.eulerAngles = vectLastRot;
+            StartCoroutine(NumDetectedVFX(false, Go_vfx_detected.activeInHierarchy));
         }
     }
 
