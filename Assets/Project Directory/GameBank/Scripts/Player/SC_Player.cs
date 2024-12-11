@@ -86,6 +86,8 @@ public class SC_Player : MonoBehaviour
 
     //LA DETECTION
     [Header("Detection")]
+    [SerializeField] private float fDetectionDangerosity = 20f;
+    [SerializeField] private float fDetectionLessers = 2f;
     public float FDetectionRate = 2f;
     private float FDetectionLevel = 0f;
     private float fDetectionLevelMax = 200f;
@@ -187,7 +189,7 @@ public class SC_Player : MonoBehaviour
         yield return new WaitForSeconds(FZonePerfectTiming);
         if(BisDetectedByAnyEnemy)
         {
-            FDetectionLevel += 20f;
+            FDetectionLevel += fDetectionDangerosity;
         }
         BPerfect = false;
         canMove = false;
@@ -765,7 +767,7 @@ public class SC_Player : MonoBehaviour
  
         if (BLooseDetectLevel)
         {
-            FDetectionLevel -= FDetectionRate * Time.deltaTime*2;
+            FDetectionLevel -= FDetectionRate * Time.deltaTime* fDetectionLessers;
             FDetectionLevel = Mathf.Max(FDetectionLevel, 0);
         }
 
