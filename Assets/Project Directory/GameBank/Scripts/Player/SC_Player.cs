@@ -20,6 +20,7 @@ public class SC_Player : MonoBehaviour
 {
     public bool bisTuto = false;
     public bool bGameIsPaused = false;
+    [SerializeField] private SoundManager soundManager;
 
     //LE PLAYER ET SES MOUVEMENTS
     [Header("Player and movement")]
@@ -125,6 +126,7 @@ public class SC_Player : MonoBehaviour
 
     void Start()
     {
+        soundManager.PlayMusic("lvl0_Tambour");
         Enemies1 = GameObject.FindGameObjectsWithTag("Enemies 1");
         allEnemies = FindObjectsOfType<SC_FieldOfView>();
         //FBPS = 60/FBPM;
