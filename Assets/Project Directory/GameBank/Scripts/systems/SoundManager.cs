@@ -5,12 +5,14 @@ using UnityEngine.Audio;
 using System;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using FMODUnity;
 
 public class SoundManager : MonoBehaviour
 {
     [SerializeField] private AudioClip[] sfxSounds;
     [SerializeField] private AudioClip[] musicSounds;
     [SerializeField] private AudioSource sfxSource, musicSource;
+    public FMODUnity.EventReference fmodEvent;
     static int Hasard(int a, int b) //Choisi un random.
     {
         System.Random rdm = new System.Random();

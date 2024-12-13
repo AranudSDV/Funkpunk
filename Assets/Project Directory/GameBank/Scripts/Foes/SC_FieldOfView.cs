@@ -14,12 +14,12 @@ public class SC_FieldOfView : MonoBehaviour
     [SerializeField] private GameObject Go_vfx_detected;
     [SerializeField] private GameObject Go_vfx_disable;
     [SerializeField] private GameObject Go_vfx_coneVision;
+    [SerializeField] private GameObject Go_vfx_Suspicious;
 
     private ParticleSystem PS_detected;
 
     public LayerMask LMtargetMask;
     public LayerMask LMObstructionMask;
-
     public bool BCanSee;
     public bool bSeenOnce;
     public bool bHasHeard = false;
@@ -138,6 +138,14 @@ public class SC_FieldOfView : MonoBehaviour
         {
             transform.eulerAngles = vectLastRot;
             StartCoroutine(NumDetectedVFX(false, Go_vfx_detected.activeInHierarchy));
+        }
+        if(bHasHeard==true)
+        {
+            Go_vfx_Suspicious.SetActive(true);
+        }
+        else
+        {
+            Go_vfx_Suspicious.SetActive(false);
         }
     }
 

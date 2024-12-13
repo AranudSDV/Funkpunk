@@ -15,6 +15,7 @@ using UnityEngine.SceneManagement;
 using static UnityEngine.EventSystems.EventTrigger;
 using Cinemachine;
 using UnityEngine.Rendering.PostProcessing;
+using FMODUnity;
 
 public class SC_Player : MonoBehaviour
 {
@@ -41,6 +42,8 @@ public class SC_Player : MonoBehaviour
     [SerializeField] private CinemachineFollowZoom FOVS;
     private bool b_more = false;
     private bool b_less = false;
+    [SerializeField] private EventReference playerLoop;
+    private FMOD.Studio.EventInstance playerLoopInstance;
 
     //FEEDBACK ON TIMING
     [Header("Timing Feedbacks")]
@@ -137,6 +140,8 @@ public class SC_Player : MonoBehaviour
         {
             FDetectionRate = 1f;
         }
+        playerLoopInstance = RuntimeManager.CreateInstance(playerLoop);
+        playerLoopInstance.start();
     }
     public void StartAfterTuto()
     {
@@ -218,10 +223,15 @@ public class SC_Player : MonoBehaviour
         if(bGameIsPaused)
         {
             Time.timeScale = 0f;
+            if(bisTuto == false)
+            {
+                playerLoopInstance.setPaused(true);
+            }
         }
         else
         {
             Time.timeScale = 1f;
+            playerLoopInstance.setPaused(false);
         }
     }
 
