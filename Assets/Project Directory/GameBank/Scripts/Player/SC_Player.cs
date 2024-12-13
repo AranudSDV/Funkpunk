@@ -92,12 +92,11 @@ public class SC_Player : MonoBehaviour
     public float FDetectionRate = 2f;
     private float FDetectionLevel = 0f;
     private float fDetectionLevelMax = 200f;
-    private SC_FieldOfView[] allEnemies;
+    [SerializeField] private SC_FieldOfView[] allEnemies;
     public float FTimeWithoutLooseDetection = 5f;
     private bool BLooseDetectLevel;
     [SerializeField] private UnityEngine.UI.Slider sliderDetection;
     bool BisDetectedByAnyEnemy = false;
-    GameObject[] Enemies1;
 
     //LE TAG
     [Header("Tag")]
@@ -108,27 +107,21 @@ public class SC_Player : MonoBehaviour
     [SerializeField] private float fFOVmin = 10f;
     [SerializeField] private float fFOVmax = 10.6f;
 
-
     void OnEnable()
     {
         control.GamePlay.Enable();
     }
-
     void OnDisable()
     {
         control.GamePlay.Disable();
     }
-
     void Awake()
     {
         control = new PlayerControl();
     }
-
     void Start()
     {
-        soundManager.PlayMusic("lvl0_Tambour");
-        Enemies1 = GameObject.FindGameObjectsWithTag("Enemies 1");
-        allEnemies = FindObjectsOfType<SC_FieldOfView>();
+        //soundManager.PlayMusic("lvl0_Tambour");
         //FBPS = 60/FBPM;
         FBPS = FBPM/60f;
         FSPB = 1f/FBPS;
@@ -145,14 +138,12 @@ public class SC_Player : MonoBehaviour
             FDetectionRate = 1f;
         }
     }
-
     public void StartAfterTuto()
     {
         StartCoroutine(wait());
     }
 
     //LE TEMPO
-
     IEnumerator wait()
     {
         if (!bisTuto)
@@ -163,7 +154,6 @@ public class SC_Player : MonoBehaviour
         yield return new WaitForSeconds(FWaitTime);
         StartCoroutine(bad());
     }
-
     IEnumerator bad()
     {
         canMove = true;
@@ -175,7 +165,6 @@ public class SC_Player : MonoBehaviour
         StartCoroutine(good());
         yield return new WaitForSeconds(FZoneGoodTiming + FZonePerfectTiming + FZoneGoodTiming);
     }
-
     IEnumerator good()
     {
         BGood = true;
@@ -184,7 +173,6 @@ public class SC_Player : MonoBehaviour
         StartCoroutine(perfect());
         yield return new WaitForSeconds(FZonePerfectTiming);
     }
-
     IEnumerator perfect()
     {
         BPerfect = true;
@@ -208,7 +196,6 @@ public class SC_Player : MonoBehaviour
     }
     
     //L'UPDATE
-
     void Update()
     {
         TMPScore.SetText(FScore.ToString());
@@ -226,7 +213,6 @@ public class SC_Player : MonoBehaviour
         Rythme();
         CameraRythm(Time.deltaTime, fFOVmax, fFOVmin);
     }
-
     public void PauseGame()
     {
         if(bGameIsPaused)
@@ -369,7 +355,6 @@ public class SC_Player : MonoBehaviour
     }
 
     //CONCERNANT LE BAIT
-
     public void ShootBait()
     {
         CheckForward(lastMoveDirection, 0f);
@@ -821,7 +806,6 @@ public class SC_Player : MonoBehaviour
             btn.onClick.AddListener(() => manager.LoadScene(SceneManager.GetActiveScene().name));
         }
     }
-
     private void PlayerDataUpdate(PlayerData data)
     {
         data.iScorePerLvPlayerl[data.iLevelPlayer] = Convert.ToInt32(FScore);

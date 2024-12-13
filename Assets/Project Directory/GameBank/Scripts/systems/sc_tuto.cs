@@ -11,12 +11,11 @@ public class sc_tuto : MonoBehaviour
 {
      [SerializeField]private GameObject[] GoTuto = new GameObject[7];
     private bool b_tutoFinished = false;
-    private Image img;
-    private SC_Player scPlayer;
+    [SerializeField] private Sprite[] spriteBubbleTuto1;
+    [SerializeField] private SC_Player scPlayer;
     [Tooltip("0 is toLeft, 1 is toUp, 2 is toRight, 3 is toRightDown, 4 is toRightUp, 5 is toLeftUp")][SerializeField] private GameObject[] fo_arrow = new GameObject[6];
     [SerializeField] private Material[] materials = new Material[2];
     private MeshRenderer[] render = new MeshRenderer[6];
-    private GameObject goPlayer;
     [SerializeField]private bool isMeshable = false;
     [SerializeField] private bool isEnnemiTuto = false;
     //[SerializeField] private GameObject goEmptyToFollw;
@@ -33,8 +32,11 @@ public class sc_tuto : MonoBehaviour
 
     private void Start()
     {
-        goPlayer = GameObject.FindWithTag("Player");
-        scPlayer = goPlayer.GetComponent<SC_Player>();
+        if (scPlayer == null)
+        {
+            GameObject goPlayer = GameObject.FindWithTag("Player");
+            scPlayer = goPlayer.GetComponent<SC_Player>();
+        }
         if (isMeshable == false)
         {
             scPlayer.bGameIsPaused = true;
@@ -64,8 +66,17 @@ public class sc_tuto : MonoBehaviour
                 StartCoroutine(StartThird());
             }
         }
+        if(isMeshable == false && b_tutoFinished == false && GoTuto[0].transform.GetChild(6).gameObject.transform.GetChild(0).gameObject.activeInHierarchy && Input.GetButtonDown("Jump"))
+        {
+            StartCoroutine(SkipFirstTuto());
+        }
         if(bWaitSpace)
         {
+            if(GoTuto[0].transform.GetChild(6).gameObject.transform.GetChild(1).gameObject.activeInHierarchy && Input.GetButtonDown("Jump") && isMeshable == false)
+            {
+                StartCoroutine(StartSecond());
+                bWaitSpace = false;
+            }
             if(GoTuto[3].activeInHierarchy && Input.GetButtonDown("Jump"))
             {
                 StartForth();
@@ -103,6 +114,21 @@ public class sc_tuto : MonoBehaviour
         }
     }
 
+    private IEnumerator SkipFirstTuto()
+    {
+        StopCoroutine(StartFirst());
+        Image[] img = new Image[6];
+        for (int i = 0; i<6; i++)
+        {
+            GoTuto[0].transform.GetChild(i).gameObject.SetActive(true);
+            img[i] = GoTuto[0].transform.GetChild(i).gameObject.GetComponent<Image>();
+            img[i].sprite = spriteBubbleTuto1[i];
+        }
+        GoTuto[0].transform.GetChild(6).gameObject.transform.GetChild(0).gameObject.SetActive(false);
+        GoTuto[0].transform.GetChild(6).gameObject.transform.GetChild(1).gameObject.SetActive(true);
+        yield return new WaitForSecondsRealtime(0.5f);
+        bWaitSpace = true;
+    }
     private void TutoArrows()
     {
         if (scPlayer.UI_Joystick[3].activeInHierarchy) //0 is H, 1 is HD, 2 is HG, 3 is G, 4 is D, 5 is C, 6 is B, 7 is BD, 8 is BG
@@ -154,20 +180,43 @@ public class sc_tuto : MonoBehaviour
             }
         }
     }
-
     IEnumerator StartFirst()
     {
         yield return new WaitForSecondsRealtime(1f);
         GoTuto[0].transform.GetChild(0).gameObject.SetActive(true);
-        yield return new WaitForSecondsRealtime(1.5f);
+        yield return new WaitForSecondsRealtime(2f);
+        Image img1 = GoTuto[0].transform.GetChild(0).gameObject.GetComponent<Image>();
+        img1.sprite = spriteBubbleTuto1[0];
         GoTuto[0].transform.GetChild(1).gameObject.SetActive(true);
         yield return new WaitForSecondsRealtime(0.5f);
         GoTuto[0].transform.GetChild(2).gameObject.SetActive(true);
-        yield return new WaitForSecondsRealtime(1.6f);
+        yield return new WaitForSecondsRealtime(2.5f);
+        Image img2 = GoTuto[0].transform.GetChild(1).gameObject.GetComponent<Image>();
+        img2.sprite = spriteBubbleTuto1[1];
+        Image img3 = GoTuto[0].transform.GetChild(2).gameObject.GetComponent<Image>();
+        img3.sprite = spriteBubbleTuto1[2];
         GoTuto[0].transform.GetChild(3).gameObject.SetActive(true);
-        yield return new WaitForSecondsRealtime(1.2f);
+        yield return new WaitForSecondsRealtime(0.5f);
         GoTuto[0].transform.GetChild(4).gameObject.SetActive(true);
-        yield return new WaitForSecondsRealtime(2f);
+        yield return new WaitForSecondsRealtime(2.5f);
+        Image img4 = GoTuto[0].transform.GetChild(3).gameObject.GetComponent<Image>();
+        img4.sprite = spriteBubbleTuto1[3];
+        Image img5 = GoTuto[0].transform.GetChild(4).gameObject.GetComponent<Image>();
+        img5.sprite = spriteBubbleTuto1[4];
+        GoTuto[0].transform.GetChild(5).gameObject.SetActive(true);
+        yield return new WaitForSecondsRealtime(1f);
+        Image img6 = GoTuto[0].transform.GetChild(5).gameObject.GetComponent<Image>();
+        img6.sprite = spriteBubbleTuto1[5];
+        GoTuto[0].transform.GetChild(6).gameObject.transform.GetChild(0).gameObject.SetActive(false);
+        GoTuto[0].transform.GetChild(6).gameObject.transform.GetChild(1).gameObject.SetActive(true);
+        bWaitSpace = true;
+        /*scPlayer.bGameIsPaused = false;
+        scPlayer.PauseGame(); */
+    }
+
+    IEnumerator StartSecond()
+    {
+        GoTuto[0].transform.GetChild(6).gameObject.transform.GetChild(1).gameObject.SetActive(false);
         GoTuto[0].gameObject.SetActive(false);
         yield return new WaitForSecondsRealtime(1f);
         GoTuto[1].transform.GetChild(0).gameObject.SetActive(true);
@@ -176,8 +225,6 @@ public class sc_tuto : MonoBehaviour
         yield return new WaitForSecondsRealtime(2f);
         GoTuto[1].transform.GetChild(0).gameObject.SetActive(false);
         b_tutoFinished = true;
-        /*scPlayer.bGameIsPaused = false;
-        scPlayer.PauseGame(); */
     }
 
     IEnumerator StartThird()
