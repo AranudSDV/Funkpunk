@@ -10,6 +10,7 @@ public class SC_FieldOfView : MonoBehaviour
     [Range(0,360)]
     public float FAngle;
 
+    public bool bIsFakeEnemy = false;
     public GameObject GOPlayerRef;
     [SerializeField] private GameObject Go_vfx_detected;
     [SerializeField] private GameObject Go_vfx_disable;
@@ -17,6 +18,7 @@ public class SC_FieldOfView : MonoBehaviour
     [SerializeField] private GameObject Go_vfx_Suspicious;
 
     private ParticleSystem PS_detected;
+    private ParticleSystem PS_Suspicious;
 
     public LayerMask LMtargetMask;
     public LayerMask LMObstructionMask;
@@ -42,6 +44,7 @@ public class SC_FieldOfView : MonoBehaviour
             GOPlayerRef = GameObject.FindGameObjectWithTag("Player");
         }
         PS_detected = Go_vfx_detected.transform.GetChild(0).gameObject.GetComponent<ParticleSystem>();
+        PS_Suspicious = Go_vfx_Suspicious.transform.GetChild(0).gameObject.GetComponent<ParticleSystem>();
         StartCoroutine(FOVRoutine());
         currentRotation = minRotation;
         transform.eulerAngles = new Vector3(0, currentRotation, 0);
@@ -111,6 +114,23 @@ public class SC_FieldOfView : MonoBehaviour
             PS_detected.Stop();
         }
     }
+    IEnumerator NumSuspiciousVFX(bool bNewDetected, bool isactive)
+    {
+        if (bNewDetected && !isactive)
+        {
+            Go_vfx_Suspicious.SetActive(true);
+            PS_Suspicious.Play();
+            yield return new WaitForSeconds(0.5f);
+            PS_Suspicious.Pause();
+        }
+        else if (!bNewDetected && isactive)
+        {
+            Go_vfx_Suspicious.SetActive(false);
+            PS_Suspicious.Play();
+            yield return new WaitForSeconds(0.5f);
+            PS_Suspicious.Stop();
+        }
+    }
 
     public void PlayerDetected(GameObject GOPlayer)
     {
@@ -128,11 +148,20 @@ public class SC_FieldOfView : MonoBehaviour
     }
     private void DetectionChecks ()
     {
-        if (bSeenOnce)
+        if (bIsDisabled)
+        {
+            Go_vfx_Suspicious.SetActive(false);
+            PS_Suspicious.Stop();
+            Go_vfx_detected.SetActive(false);
+            PS_detected.Stop();
+        }
+        else if (bSeenOnce)
         {
             BCanSee = true;
             bSeenOnce = false;
             StartCoroutine(NumDetectedVFX(true, Go_vfx_detected.activeInHierarchy));
+            Go_vfx_Suspicious.SetActive(false);
+            PS_Suspicious.Stop();
         }
         if(BCanSee == false && bHasHeard == false)
         {
@@ -141,11 +170,11 @@ public class SC_FieldOfView : MonoBehaviour
         }
         if(bHasHeard==true)
         {
-            Go_vfx_Suspicious.SetActive(true);
+            StartCoroutine(NumSuspiciousVFX(true, Go_vfx_Suspicious.activeInHierarchy));
         }
         else
         {
-            Go_vfx_Suspicious.SetActive(false);
+            StartCoroutine(NumSuspiciousVFX(false, Go_vfx_Suspicious.activeInHierarchy));
         }
     }
 

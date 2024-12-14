@@ -104,6 +104,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FRadius: 6
   FAngle: 60
+  bIsFakeEnemy: 0
   GOPlayerRef: {fileID: 0}
   Go_vfx_detected: {fileID: 8596425174089619149}
   Go_vfx_disable: {fileID: 6882484700896804385}
@@ -115,7 +116,6 @@ MonoBehaviour:
   LMObstructionMask:
     serializedVersion: 2
     m_Bits: 128
-  bisNoEnemi: 0
   BCanSee: 0
   bSeenOnce: 0
   bHasHeard: 0

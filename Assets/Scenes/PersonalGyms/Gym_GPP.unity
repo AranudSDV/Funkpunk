@@ -681,6 +681,18 @@ Transform:
   - {fileID: 1736481364}
   m_Father: {fileID: 1452729517}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &117177242 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 192196032585685232, guid: 68808927f9aacd1419714efe98e3e0c5,
+    type: 3}
+  m_PrefabInstance: {fileID: 1062568524332895849}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3043e623405e03b4fa1e1f70bff1c9be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &141224356
 GameObject:
   m_ObjectHideFlags: 0
@@ -1023,6 +1035,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4689554887212002435, guid: 481679da37c5830468e32f02138b149a,
         type: 3}
+      propertyPath: scPlayer
+      value: 
+      objectReference: {fileID: 460384137}
+    - target: {fileID: 4689554887212002435, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
       propertyPath: mNotThrown
       value: 
       objectReference: {fileID: 2100000, guid: 60b0eca5a8bb9d74499cef5db94f818c, type: 2}
@@ -1031,11 +1048,26 @@ PrefabInstance:
       propertyPath: b_BeenThrown
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4855390624954444138, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6885181872792694492, guid: 481679da37c5830468e32f02138b149a,
         type: 3}
       propertyPath: m_Name
       value: Bait (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 6885181872792694492, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7769575704157368480, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
+      propertyPath: scPlayer
+      value: 
+      objectReference: {fileID: 460384137}
     - target: {fileID: 9117980191710069764, guid: 481679da37c5830468e32f02138b149a,
         type: 3}
       propertyPath: Loop
@@ -1983,6 +2015,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8093666005099264633}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &460384137 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+    type: 3}
+  m_PrefabInstance: {fileID: 8093666005099264633}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 460384133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5358b3d66a5a28a41ad14a253394ddcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &466454258
 GameObject:
   m_ObjectHideFlags: 0
@@ -2744,6 +2788,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4689554887212002435, guid: 481679da37c5830468e32f02138b149a,
         type: 3}
+      propertyPath: scPlayer
+      value: 
+      objectReference: {fileID: 460384137}
+    - target: {fileID: 4689554887212002435, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
       propertyPath: mNotThrown
       value: 
       objectReference: {fileID: 2100000, guid: 60b0eca5a8bb9d74499cef5db94f818c, type: 2}
@@ -2757,6 +2806,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bait (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 7769575704157368480, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
+      propertyPath: scPlayer
+      value: 
+      objectReference: {fileID: 460384137}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4357,6 +4411,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4689554887212002435, guid: 481679da37c5830468e32f02138b149a,
         type: 3}
+      propertyPath: scPlayer
+      value: 
+      objectReference: {fileID: 460384137}
+    - target: {fileID: 4689554887212002435, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
       propertyPath: mNotThrown
       value: 
       objectReference: {fileID: 2100000, guid: 60b0eca5a8bb9d74499cef5db94f818c, type: 2}
@@ -4370,6 +4429,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bait (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 7769575704157368480, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
+      propertyPath: scPlayer
+      value: 
+      objectReference: {fileID: 460384137}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4833,6 +4897,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4689554887212002435, guid: 481679da37c5830468e32f02138b149a,
         type: 3}
+      propertyPath: scPlayer
+      value: 
+      objectReference: {fileID: 460384137}
+    - target: {fileID: 4689554887212002435, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
       propertyPath: mNotThrown
       value: 
       objectReference: {fileID: 2100000, guid: 60b0eca5a8bb9d74499cef5db94f818c, type: 2}
@@ -4846,6 +4915,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bait (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 7769575704157368480, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
+      propertyPath: scPlayer
+      value: 
+      objectReference: {fileID: 460384137}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5268,6 +5342,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4689554887212002435, guid: 481679da37c5830468e32f02138b149a,
         type: 3}
+      propertyPath: scPlayer
+      value: 
+      objectReference: {fileID: 460384137}
+    - target: {fileID: 4689554887212002435, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
       propertyPath: mNotThrown
       value: 
       objectReference: {fileID: 2100000, guid: 60b0eca5a8bb9d74499cef5db94f818c, type: 2}
@@ -5281,6 +5360,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bait (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7769575704157368480, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
+      propertyPath: scPlayer
+      value: 
+      objectReference: {fileID: 460384137}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5430,7 +5514,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -6348,6 +6432,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4689554887212002435, guid: 481679da37c5830468e32f02138b149a,
         type: 3}
+      propertyPath: scPlayer
+      value: 
+      objectReference: {fileID: 460384137}
+    - target: {fileID: 4689554887212002435, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
       propertyPath: mNotThrown
       value: 
       objectReference: {fileID: 2100000, guid: 60b0eca5a8bb9d74499cef5db94f818c, type: 2}
@@ -6361,6 +6450,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bait (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 7769575704157368480, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
+      propertyPath: scPlayer
+      value: 
+      objectReference: {fileID: 460384137}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7683,6 +7777,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4689554887212002435, guid: 481679da37c5830468e32f02138b149a,
         type: 3}
+      propertyPath: scPlayer
+      value: 
+      objectReference: {fileID: 460384137}
+    - target: {fileID: 4689554887212002435, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
       propertyPath: mNotThrown
       value: 
       objectReference: {fileID: 2100000, guid: 60b0eca5a8bb9d74499cef5db94f818c, type: 2}
@@ -7696,6 +7795,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bait
       objectReference: {fileID: 0}
+    - target: {fileID: 7769575704157368480, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
+      propertyPath: scPlayer
+      value: 
+      objectReference: {fileID: 460384137}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7889,6 +7993,11 @@ PrefabInstance:
       objectReference: {fileID: 687403015}
     - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
+      propertyPath: FSPB
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
       propertyPath: GOUiBad
       value: 
       objectReference: {fileID: 242042680}
@@ -7964,6 +8073,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
+      propertyPath: playerLoop.Path
+      value: event:/PlayerLine
+      objectReference: {fileID: 0}
+    - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
       propertyPath: sliderDetection
       value: 
       objectReference: {fileID: 859682510}
@@ -7977,6 +8091,36 @@ PrefabInstance:
       propertyPath: colorPerfect.rgba
       value: 4294574334
       objectReference: {fileID: 0}
+    - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: allEnemies.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: playerLoop.Guid.Data1
+      value: -614446280
+      objectReference: {fileID: 0}
+    - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: playerLoop.Guid.Data2
+      value: 1240363282
+      objectReference: {fileID: 0}
+    - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: playerLoop.Guid.Data3
+      value: 1274195589
+      objectReference: {fileID: 0}
+    - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: playerLoop.Guid.Data4
+      value: -1716480763
+      objectReference: {fileID: 0}
+    - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: allEnemies.Array.data[0]
+      value: 
+      objectReference: {fileID: 117177242}
     - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: UI_Joystick.Array.data[0]

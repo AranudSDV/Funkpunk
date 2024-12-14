@@ -1,6 +1,8 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Properties;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ing_Bait : MonoBehaviour
@@ -8,7 +10,7 @@ public class ing_Bait : MonoBehaviour
     //Mettre le private void OnCollisionEnter directement dans le player
     //Mettre un tag sur cet objet "Bait" ou qqc du style
     public float fTimeLifeBait = 3f;
-    private SC_Player scPlayer;
+    public SC_Player scPlayer;
     public bool b_BeenThrown = false;
     [SerializeField] private SC_FieldOfView[] allEnemies;
     [SerializeField] private Material mThrown;
@@ -20,6 +22,7 @@ public class ing_Bait : MonoBehaviour
 
     private void Awake()
     {
+        scPlayer = GameObject.FindWithTag("Player").GetComponent<SC_Player>();
         if (allEnemies == null && !b_BeenThrown)
         {
             allEnemies = FindObjectsOfType<SC_FieldOfView>();
@@ -72,13 +75,11 @@ public class ing_Bait : MonoBehaviour
 
         return objectsInRange.ToArray();
     }
-
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, detectionRadius);
     }
-
     private void Update()
     {
         if (b_BeenThrown)
@@ -103,19 +104,10 @@ public class ing_Bait : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
-
-    //Mettre un bool ici "Ennemi has Heard Something", qui si activé
-    //Change le tag de cet objet (pour ne pas que le joueur puisse le reprendre)
-    //Démarre le temps de vie en tempo de cet objet
-    //Oblige l'ennemi a regardé par ici, jusqu'à ce que le temps de vie en tempo de cet obet soit à sa fin
-    // Dans l'update de l'ennemi => Check bait == null ou pas
-    //Donc dans l'ennemi => if bait != null [Freeze l'ennemi dans la direction d'envoi de ce bait]
-    //if bait == null , retour à la routine normale
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.CompareTag("Player") && b_BeenThrown == false)
         {
-            scPlayer = collision.GetComponent<SC_Player>();
             scPlayer.ShootBait();
             bCollision = true;
             if(scPlayer.hasAlreadyBaited == false)
@@ -126,7 +118,6 @@ public class ing_Bait : MonoBehaviour
             }
         }
     }
-
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.CompareTag("Player") && b_BeenThrown == false)

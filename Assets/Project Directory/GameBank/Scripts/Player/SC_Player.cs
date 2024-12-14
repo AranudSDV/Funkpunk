@@ -38,7 +38,7 @@ public class SC_Player : MonoBehaviour
     [Header("Beat")]
     public float FBPM;
     private float FBPS;
-    private float FSPB;
+    public float FSPB;
     [SerializeField] private CinemachineFollowZoom FOVS;
     private bool b_more = false;
     private bool b_less = false;
@@ -99,7 +99,7 @@ public class SC_Player : MonoBehaviour
     public float FTimeWithoutLooseDetection = 5f;
     private bool BLooseDetectLevel;
     [SerializeField] private UnityEngine.UI.Slider sliderDetection;
-    bool BisDetectedByAnyEnemy = false;
+    private bool BisDetectedByAnyEnemy = false;
 
     //LE TAG
     [Header("Tag")]
@@ -381,6 +381,7 @@ public class SC_Player : MonoBehaviour
     {
         newThrow = true;
         GO_BaitInst = Instantiate(GOBait, _spawnpos, Quaternion.identity);
+        GO_BaitInst.transform.GetChild(0).transform.gameObject.GetComponent<bait_juicy>().enabled = true;
         ing_Bait scBait = GO_BaitInst.GetComponent< ing_Bait>();
         scBait.b_BeenThrown = true;
         StartCoroutine (baitChange(1f));
@@ -740,8 +741,11 @@ public class SC_Player : MonoBehaviour
         {
             if (enemie.BCanSee)
             {
-                BLooseDetectLevel = false;
-                BisDetectedByAnyEnemy = true;
+                if(enemie.bIsFakeEnemy == false)
+                {
+                    BLooseDetectLevel = false;
+                    BisDetectedByAnyEnemy = true;
+                }
                 y++;
             }
             else if (enemie.BCanSee == false)
