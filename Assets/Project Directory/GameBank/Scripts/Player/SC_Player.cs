@@ -196,7 +196,10 @@ public class SC_Player : MonoBehaviour
             bBaitGood = false;
             bBaitPerfect = false;
         }
-        CheckForward(lastMoveDirection, taggingRange);
+        if (bisTuto ==false)
+        {
+            CheckForward(lastMoveDirection, taggingRange);
+        }
         StartCoroutine(wait());
     }
     
@@ -395,113 +398,106 @@ public class SC_Player : MonoBehaviour
     //VERIFIER LE MOUVEMENT
     private void CheckForward(Vector3 vectDir, float fRange)
     {
-        if(fRange == taggingRange)
+        if (fRange == taggingRange)
         {
-            if (vectDir.x !=0f && vectDir.z !=0) //si diagonal
+            // 1. Check for diagonal movement first
+            if (vectDir.x != 0f && vectDir.z != 0f) // Diagonal movement
             {
-                Collider[] intersecting = Physics.OverlapSphere(new Vector3(transform.position.x + vectDir.x, transform.position.y, transform.position.z + vectDir.z), 0.02f);
-                if (intersecting.Length == 0)
+                Vector3 diagonalCheckPosition = transform.position + vectDir.normalized * fRange;
+
+                // Use OverlapSphere to check for colliders at the diagonal position
+                Collider[] intersecting = Physics.OverlapSphere(diagonalCheckPosition, 0.1f, LMask);
+                bool canMoveDiagonally = true;
+
+                if (intersecting.Length > 0)
                 {
+                    // Loop through colliders to check tags
+                    foreach (Collider collider in intersecting)
+                    {
+                        if (!collider.CompareTag("Bait"))
+                        {
+                            canMoveDiagonally = false; // Block movement if an unpassable object is found
+                            break;
+                        }
+                    }
+                }
+
+                if (canMoveDiagonally)
+                {
+                    // Move diagonally if no blocking objects or only passable ones
                     Move(vectDir);
-                    //code to run if nothing is intersecting as the length is 0
+                    return;
                 }
                 else
                 {
-                    vectDir = transform.forward;
+                    Debug.Log("Diagonal blocked, finding new direction...");
+                    Vector3 newDirection = FindNewDirection(vectDir, fRange);
+                    if (newDirection != Vector3.zero)
+                    {
+                        Move(newDirection);
+                    }
+                    return;
                 }
             }
-            else //sinon
+            // Check for walls in the current direction
+            else
             {
-                for (int i = 0; i < 4; i++)
+                if (Physics.Raycast(transform.position, vectDir, out RaycastHit hitInfo, fRange + 0.2f, LMask))
                 {
-                    if (Physics.Raycast(transform.position, vectDir, out hitInfo[i], fRange, LMask)) //qqc est devant le joueur
+                    if (hitInfo.transform.CompareTag("Tagging")) //c'est un mur à tagger
                     {
-                        if (hitInfo[i].transform.CompareTag("Tagging")) //c'est un mur à tagger
+                        Renderer wallRenderer = hitInfo.transform.GetComponent<Renderer>();
+                        GameObject wallTagged = hitInfo.transform.gameObject;
+                        wallRenderer.material = taggedMaterial; //le joueur tag
+                        wallTagged.tag = "Wall";
+                        if (wallTagged.gameObject.name == "EndingWall")
                         {
-                            Renderer wallRenderer = hitInfo[i].transform.GetComponent<Renderer>();
-                            GameObject wallTagged = hitInfo[i].transform.gameObject;
-                            wallRenderer.material = taggedMaterial; //le joueur tag
-                            wallTagged.tag = "Wall";
-                            if (wallTagged.gameObject.name == "EndingWall")
-                            {
-                                EndGame(true);
-                            }
-                            break;
+                            EndGame(true);
                         }
-                        else if (hitInfo[i].transform.CompareTag("Wall"))//ce n'est pas un mur à tagger
+                        return;
+                    }
+                    else if (hitInfo.transform.CompareTag("Wall"))
+                    {
+                        // Wall detected, find a new direction
+                        Vector3 newDirection = FindNewDirection(vectDir, fRange);
+                        if (newDirection != Vector3.zero)
                         {
-                            if (i != 3)
-                            {
-                                Vector3 vectNext = vectDir;
-                                //int rdm = new Random();
-                                if (vectNext == transform.forward)
-                                {
-                                    vectNext = transform.right;
-                                }
-                                else if (vectNext == transform.right)
-                                {
-                                    vectNext = Vector3.back;
-                                }
-                                else if (vectNext == Vector3.back)
-                                {
-                                    vectNext = Vector3.left;
-                                }
-                                else if (vectNext == Vector3.left)
-                                {
-                                    vectNext = transform.forward;
-                                }
-                                if (Physics.Raycast(transform.position, vectNext, out hitInfo[i + 1], fRange)) //qqc obstrue le mouvement de glissade
-                                {
-                                    if (hitInfo[i + 1].transform.CompareTag("Wall") || hitInfo[i + 1].transform.CompareTag("Tagging"))
-                                    {
-                                        //est-ce un mur taggable? Refaire le processus
-                                    }
-                                    else //il n'y a rien devant le joueur
-                                    {
-                                        Mouvement(i);
-                                        break;
-                                    }
-                                }
-                                else //il n'y a rien à cet endroit alors s'y déplace
-                                {
-                                    Mouvement(i + 1);
-                                    break;
-                                }
-                            }
-                            else
-                            {
-                                break;
-                            }
-                        }
-                        else //il n'y a rien devant le joueur
-                        {
-                            Mouvement(i);
-                            break;
+                            Move(newDirection);
                         }
                     }
-                    else //il n'y a rien devant le joueur, alors s'y déplace
+                    else if (hitInfo.transform.CompareTag("Untagged"))
                     {
-                        Mouvement(i);
-                        break;
+                        // No wall, move forward
+                        Move(vectDir);
                     }
+                    else
+                    {
+                        // No wall, move forward
+                        Move(vectDir);
+                    }
+                }
+                else
+                {
+                    // Nothing in front, move forward
+                    Move(vectDir);
                 }
             }
         }
         else
         {
-            for (int i = 1; i < 6; i ++)
+            for (int i = 1; i < 6; i++)
             {
                 float floatNumber = Convert.ToSingle(i);
-                if (Physics.Raycast(transform.position, vectDir, out RaycastHit hitInfo1, floatNumber + 0.1f, LMask)&&((!bBaitPerfect && !bBaitGood && !bBaitBad && i <= 2) || ( bBaitBad&&i<=3)|| (bBaitGood && i <= 4) || (bBaitPerfect && i <= 5))) //qqc est devant le joueur au plus près
+                if (Physics.Raycast(transform.position, vectDir, out RaycastHit hitInfo1, floatNumber + 0.1f, LMask) && ((!bBaitPerfect && !bBaitGood && !bBaitBad && i <= 2) || (bBaitBad && i <= 3) || (bBaitGood && i <= 4) || (bBaitPerfect && i <= 5))) //qqc est devant le joueur au plus près
                 {
                     if (hitInfo1.transform.CompareTag("Wall") || hitInfo1.transform.CompareTag("Tagging") || hitInfo1.transform.CompareTag("Bait"))//il y a un mur devant le joueur
                     {
-                        fThrowMultiplier = floatNumber -1f;
+                        fThrowMultiplier = floatNumber - 1f;
                         return;
                     }
                     else if (hitInfo1.transform.CompareTag("Enemies 1")) //il y a un ennemi devant le joueur
                     {
-                        fThrowMultiplier = floatNumber -1f;
+                        fThrowMultiplier = floatNumber - 1f;
                         SC_FieldOfView scEnemy = hitInfo1.transform.gameObject.GetComponent<SC_FieldOfView>();
                         scEnemy.bIsDisabled = true;
                         scEnemy.FoeDisabled(scEnemy.bIsDisabled);
@@ -514,7 +510,7 @@ public class SC_Player : MonoBehaviour
                         //nothing
                     }
                 }
-                else if((!bBaitPerfect && !bBaitGood && !bBaitBad && i ==3) || (bBaitBad && i ==4) || (bBaitGood && i ==5) || (bBaitPerfect && i ==6))
+                else if ((!bBaitPerfect && !bBaitGood && !bBaitBad && i == 3) || (bBaitBad && i == 4) || (bBaitGood && i == 5) || (bBaitPerfect && i == 6))
                 {
                     fThrowMultiplier = floatNumber - 1f;
                     return;
@@ -526,31 +522,33 @@ public class SC_Player : MonoBehaviour
             }
         }
     }
-    private void Mouvement(int i)
+
+    private Vector3 FindNewDirection(Vector3 currentDirection, float range)
     {
-        if (i == 0) //devant le player = forward
+        // Define possible directions in order of preference
+        Vector3[] directions = {
+            transform.right, Vector3.left, Vector3.back, transform.forward,
+            transform.forward + transform.right,   // Diagonal Top-Right
+            transform.forward + Vector3.left,      // Diagonal Top-Left
+            Vector3.back + transform.right,        // Diagonal Bottom-Right
+            Vector3.back + Vector3.left            // Diagonal Bottom-Left
+        };
+
+        foreach (var dir in directions)
         {
-            Move(lastMoveDirection);
-            return;
+            // Skip current direction
+            if (dir == currentDirection)
+                continue;
+
+            // Check for walls in the new direction
+            if (!Physics.Raycast(transform.position, dir, out RaycastHit hitInfo, range + 0.2f, LMask))
+            {
+                return dir; // Return the first valid direction
+            }
         }
-        else if (i == 1) // a droite du player
-        {
-            Vector3 newVector = transform.right;
-            Move(newVector);
-            return;
-        }
-        else if (i == 2) //a gauche du player
-        {
-            Vector3 newVector = Vector3.left;
-            Move(newVector);
-            return;
-        }
-        else if (i == 3) //derriere le player
-        {
-            Vector3 newVector = Vector3.back;
-            Move(newVector); 
-            return;
-        }
+
+        // If all directions are blocked, return Vector3.zero
+        return Vector3.zero;
     }
     private void Move(Vector3 direction)
     {
