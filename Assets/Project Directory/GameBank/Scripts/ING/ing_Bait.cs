@@ -16,12 +16,20 @@ public class ing_Bait : MonoBehaviour
     [SerializeField] private Material mThrown;
     [SerializeField] private Material mNotThrown;
     [SerializeField] private MeshRenderer mshRdn;
-    private float detectionRadius = 7f;
+    public float detectionRadius = 7f;
     private bool bCollision = false;
     [SerializeField] private string targetTag;
+    [SerializeField] private GameObject Go_vfx_Smash;
+    [SerializeField] private GameObject Go_vfx_Impact;
+    private ParticleSystem PS_smash;
+    private ParticleSystem PS_Impact;
+    private bool bOnce = false;
 
     private void Awake()
     {
+        PS_smash = Go_vfx_Smash.transform.gameObject.GetComponent<ParticleSystem>();
+        PS_Impact = Go_vfx_Impact.transform.gameObject.GetComponent<ParticleSystem>();
+        bOnce = false;
         scPlayer = GameObject.FindWithTag("Player").GetComponent<SC_Player>();
         if (allEnemies == null && !b_BeenThrown)
         {
@@ -29,6 +37,7 @@ public class ing_Bait : MonoBehaviour
         }
         if (b_BeenThrown)
         {
+            StartCoroutine(NumImpactVFX());
             GameObject[] allGoEnnemies = DetectObjects();
             allEnemies = new SC_FieldOfView[allGoEnnemies.Length];
             if (allEnemies.Length == 0)
@@ -101,8 +110,10 @@ public class ing_Bait : MonoBehaviour
         }
         if (bCollision && b_BeenThrown == false && scPlayer.newThrow == true)
         {
-            DOTween.Kill(this.transform.GetChild(0).gameObject.GetComponent<bait_juicy>());
-            Destroy(this.gameObject);
+            if (!bOnce)
+            {
+                StartCoroutine(NumSmashVFX());
+            }
         }
     }
     private void OnTriggerEnter(Collider collision)
@@ -130,5 +141,27 @@ public class ing_Bait : MonoBehaviour
         {
             bCollision = false;
         }
+    }
+    IEnumerator NumSmashVFX()
+    {
+        bOnce = true;
+        Go_vfx_Smash.transform.LookAt(scPlayer.gameObject.transform, Vector3.down);
+        Go_vfx_Smash.transform.position += scPlayer.lastMoveDirection;
+        Go_vfx_Smash.SetActive(true);
+        //Go_vfx_Smash.transform.LookAt(scPlayer.gameObject.transform, Vector3.down);
+        PS_smash.Play();
+        yield return new WaitForSeconds(0.5f);
+        PS_smash.Stop();
+        Go_vfx_Smash.SetActive(false); 
+        DOTween.Kill(this.transform.GetChild(0).gameObject.GetComponent<bait_juicy>());
+        Destroy(this.gameObject);
+    }
+    IEnumerator NumImpactVFX()
+    {
+        Go_vfx_Impact.SetActive(true);
+        PS_Impact.Play();
+        yield return new WaitForSeconds(0.5f);
+        PS_Impact.Stop();
+        Go_vfx_Impact.SetActive(false);
     }
 }

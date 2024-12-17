@@ -4,11 +4,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FoesJuice : MonoBehaviour
+public class player_juicy : MonoBehaviour
 {
     [SerializeField] private float bounceHeight = 0.1f; // How high to bounce
-    [SerializeField] private float scaleMultiplier = 1.2f; // Maximum scale during the pulse
-    private float rotationAngle = 10f; // Tilt angle
+    [SerializeField] private float scaleMultiplier = 1.25f; // Maximum scale during the pulse
     static int Hasard(int a, int b) //Choisi un random.
     {
         System.Random rdm = new System.Random();
@@ -17,10 +16,7 @@ public class FoesJuice : MonoBehaviour
     }
     private void Awake()
     {
-        scaleMultiplier = 1f + (0.15f / 0.85f);
-        int hasard = Hasard(-20, 20);
-        rotationAngle = Convert.ToSingle(hasard);
-        SC_Player scPlayer = this.transform.parent.GetComponent<SC_FieldOfView>().GOPlayerRef.GetComponent<SC_Player>();
+        SC_Player scPlayer = this.transform.parent.GetComponent<SC_Player>();
         BaitRythm(scPlayer.FSPB);
     }
     private void BaitRythm(float f_beat)
@@ -28,7 +24,6 @@ public class FoesJuice : MonoBehaviour
         // Combine effects
         AnimateBounce(f_beat);
         AnimateScale(f_beat);
-        AnimateRotation(f_beat);
     }
 
     private void AnimateBounce(float beatDuration)
@@ -46,13 +41,6 @@ public class FoesJuice : MonoBehaviour
         transform.DOScale(originalScale * scaleMultiplier, beatDuration / 2)
             .SetEase(Ease.InOutSine)
             .SetLoops(-1, LoopType.Yoyo)// Scale up and back down
-            .Play();
-    }
-    private void AnimateRotation(float beatDuration)
-    {
-        transform.DOLocalRotate(new Vector3(0, 0, rotationAngle), beatDuration, RotateMode.WorldAxisAdd)
-            .SetEase(Ease.InOutSine)
-            .SetLoops(-1, LoopType.Yoyo) // Slight tilt on X and Z
             .Play();
     }
     private void OnDestroy()
