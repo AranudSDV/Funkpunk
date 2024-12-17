@@ -56,7 +56,6 @@ public class sc_tuto : MonoBehaviour
             tutoCoroutine[0] = StartCoroutine(StartFirst());
         }
     }
-
     private void Update()
     {
         if(b_tutoFinished == true && isMeshable ==false && goCameraBackTrack[2].transform.position.z > 0.5f)
@@ -70,6 +69,7 @@ public class sc_tuto : MonoBehaviour
             if (bOnce == false)
             {
                 tutoCoroutine[1] = StartCoroutine(StartThird());
+                GoTuto[1].transform.GetChild(2).gameObject.SetActive(false);
                 coroutineIsRunning = true;
             }
         }
@@ -132,7 +132,6 @@ public class sc_tuto : MonoBehaviour
             goCameraBackTrack[2].transform.rotation = m_Path.EvaluateOrientationAtUnit(m_Position, m_PositionUnits);
         }
     }
-
     private IEnumerator SkipFirstTuto()
     {
         StopCoroutine(tutoCoroutine[0]);
@@ -232,7 +231,6 @@ public class sc_tuto : MonoBehaviour
         /*scPlayer.bGameIsPaused = false;
         scPlayer.PauseGame(); */
     }
-
     IEnumerator StartSecond()
     {
         GoTuto[0].transform.GetChild(6).gameObject.transform.GetChild(1).gameObject.SetActive(false);
@@ -259,12 +257,12 @@ public class sc_tuto : MonoBehaviour
         GoTuto[1].transform.GetChild(1).gameObject.SetActive(true);
         Image img1 = GoTuto[1].transform.GetChild(1).gameObject.GetComponent<Image>();
         img1.sprite = spriteBubbleTuto2;
-        GoTuto[1].transform.GetChild(2).gameObject.SetActive(false);
+        GoTuto[1].transform.GetChild(2).gameObject.transform.GetChild(0).gameObject.SetActive(false);
+        GoTuto[1].transform.GetChild(2).gameObject.transform.GetChild(1).gameObject.SetActive(true);
         m_Speed = 10f;
         b_tutoFinished = true;
         //Il faut augmenter la vitesse du tuto
     }
-
     IEnumerator StartThird()
     {
         bOnce = true;
@@ -287,11 +285,11 @@ public class sc_tuto : MonoBehaviour
         GoTuto[2].transform.GetChild(1).gameObject.SetActive(true);
         yield return new WaitForSecondsRealtime(1f);
         Image img2 = GoTuto[2].transform.GetChild(1).gameObject.GetComponent<Image>();
-        img1.sprite = spriteBubbleTuto3[1];
+        img2.sprite = spriteBubbleTuto3[1];
         GoTuto[2].transform.GetChild(2).gameObject.SetActive(true);
         yield return new WaitForSecondsRealtime(2f);
         Image img3 = GoTuto[2].transform.GetChild(2).gameObject.GetComponent<Image>();
-        img1.sprite = spriteBubbleTuto3[2];
+        img3.sprite = spriteBubbleTuto3[2];
         GoTuto[2].SetActive(false);
         GoTuto[3].SetActive(true);
         goCameraMain[0].SetActive(true);
@@ -345,7 +343,6 @@ public class sc_tuto : MonoBehaviour
         GoTuto[5].transform.GetChild(3).gameObject.transform.GetChild(0).gameObject.SetActive(false);
         bWaitSpace = true;
     }
-
     IEnumerator ScraffiTime()
     {
         yield return new WaitForSecondsRealtime(2f);
@@ -358,12 +355,11 @@ public class sc_tuto : MonoBehaviour
         GoTuto[6].transform.GetChild(2).gameObject.SetActive(true);
         yield return new WaitForSecondsRealtime(1.5f);
         Image img3 = GoTuto[6].transform.GetChild(2).gameObject.GetComponent<Image>();
-        img1.sprite = spriteBubbleTuto7[2];
+        img3.sprite = spriteBubbleTuto7[2];
         GoTuto[6].transform.GetChild(3).gameObject.transform.GetChild(1).gameObject.SetActive(true);
         GoTuto[6].transform.GetChild(3).gameObject.transform.GetChild(0).gameObject.SetActive(false);
         bWaitSpace = true;
     }
-
     private void StartForth()
     {
         goCameraMain[0].transform.GetChild(1).gameObject.SetActive(true);
@@ -374,7 +370,6 @@ public class sc_tuto : MonoBehaviour
         scPlayer.bisTuto = false;
         scPlayer.PauseGame();
     }
-
     public void StartTutoBait()
     {
         GoTuto[4].SetActive(true);
@@ -395,7 +390,6 @@ public class sc_tuto : MonoBehaviour
         scPlayer.PauseGame();
         StartCoroutine(ScraffiTime()); 
     }
-
     public void StartTutoDetection()
     {
         bKnowEnnemy = true;
@@ -407,7 +401,6 @@ public class sc_tuto : MonoBehaviour
         GoTuto[5].transform.GetChild(2).gameObject.SetActive(false);
         StartCoroutine(StartFith());
     }
-
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.CompareTag("Player") && isMeshable && isEnnemiTuto ==false)

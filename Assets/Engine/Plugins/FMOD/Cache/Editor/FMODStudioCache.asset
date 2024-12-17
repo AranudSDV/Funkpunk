@@ -15,10 +15,10 @@ MonoBehaviour:
   Path: Assets/Project Directory/GameBank/SFX/FMODBanks/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638699361806317084
+  lastModified: 638699988000257617
   FileSizes:
   - Name: Desktop
-    Value: 2466976
+    Value: 2467552
   Exists: 1
 --- !u!114 &-616754295764632490
 MonoBehaviour:
@@ -43,7 +43,8 @@ MonoBehaviour:
   IsStream: 1
   Is3D: 0
   IsOneShot: 0
-  Parameters: []
+  Parameters:
+  - {fileID: 8999535600789177301}
   MinDistance: 1
   MaxDistance: 20
   Length: 171807
@@ -69,7 +70,7 @@ MonoBehaviour:
   - {fileID: -817781120351404329}
   StringsBanks:
   - {fileID: 7767606326462334856}
-  cacheTime: 638699361806327068
+  cacheTime: 638699988000303031
   cacheVersion: 131603
 --- !u!114 &7767606326462334856
 MonoBehaviour:
@@ -86,8 +87,32 @@ MonoBehaviour:
   Path: Assets/Project Directory/GameBank/SFX/FMODBanks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638699361806327068
+  lastModified: 638699988000303031
   FileSizes:
   - Name: Desktop
-    Value: 760
+    Value: 814
+  Exists: 1
+--- !u!114 &8999535600789177301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/PlayerLine/fPausedVolume
+  m_EditorClassIdentifier: 
+  Name: fPausedVolume
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 3239220881
+    data2: 910506264
+  Type: 0
+  IsGlobal: 0
+  Labels: []
   Exists: 1

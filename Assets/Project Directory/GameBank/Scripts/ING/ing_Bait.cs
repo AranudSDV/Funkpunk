@@ -101,6 +101,7 @@ public class ing_Bait : MonoBehaviour
         }
         if (bCollision && b_BeenThrown == false && scPlayer.newThrow == true)
         {
+            DOTween.Kill(this.transform.GetChild(0).gameObject.GetComponent<bait_juicy>());
             Destroy(this.gameObject);
         }
     }
@@ -116,6 +117,11 @@ public class ing_Bait : MonoBehaviour
                 tutoriel.StartTutoBait();
                 scPlayer.hasAlreadyBaited = true;
             }
+        }
+        if (collision.gameObject.CompareTag("Bait"))
+        {
+            DOTween.Kill(this.transform.GetChild(0).gameObject.GetComponent<bait_juicy>());
+            Destroy(this.gameObject);
         }
     }
     private void OnTriggerExit(Collider other)

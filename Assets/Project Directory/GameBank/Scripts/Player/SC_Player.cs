@@ -16,6 +16,7 @@ using static UnityEngine.EventSystems.EventTrigger;
 using Cinemachine;
 using UnityEngine.Rendering.PostProcessing;
 using FMODUnity;
+using UnityEditor.PackageManager;
 
 public class SC_Player : MonoBehaviour
 {
@@ -141,7 +142,8 @@ public class SC_Player : MonoBehaviour
             FDetectionRate = 1f;
         }
         playerLoopInstance = RuntimeManager.CreateInstance(playerLoop);
-        playerLoopInstance.start();
+        playerLoopInstance.start(); 
+        playerLoopInstance.setParameterByName("fPausedVolume", 0.8f);
     }
     public void StartAfterTuto()
     {
@@ -228,13 +230,13 @@ public class SC_Player : MonoBehaviour
             Time.timeScale = 0f;
             if(bisTuto == false)
             {
-                playerLoopInstance.setPaused(true);
+                playerLoopInstance.setParameterByName("fPausedVolume", 0.8f);
             }
         }
         else
         {
             Time.timeScale = 1f;
-            playerLoopInstance.setPaused(false);
+            playerLoopInstance.setParameterByName("fPausedVolume", 1f);
         }
     }
 
@@ -456,7 +458,7 @@ public class SC_Player : MonoBehaviour
                         }
                         return;
                     }
-                    else if (hitInfo.transform.CompareTag("Wall"))
+                    else if (hitInfo.transform.CompareTag("Wall") || hitInfo.transform.CompareTag("Enemies 1"))
                     {
                         // Wall detected, find a new direction
                         Vector3 newDirection = FindNewDirection(vectDir, fRange);
@@ -485,10 +487,52 @@ public class SC_Player : MonoBehaviour
         }
         else
         {
-            for (int i = 1; i < 6; i++)
+            for (int i = 1; i < 12; i++)
             {
                 float floatNumber = Convert.ToSingle(i);
-                if (Physics.Raycast(transform.position, vectDir, out RaycastHit hitInfo1, floatNumber + 0.1f, LMask) && ((!bBaitPerfect && !bBaitGood && !bBaitBad && i <= 2) || (bBaitBad && i <= 3) || (bBaitGood && i <= 4) || (bBaitPerfect && i <= 5))) //qqc est devant le joueur au plus près
+                // 1. Check for diagonal movement first
+                if (vectDir.x != 0f && vectDir.z != 0f) // Diagonal movement
+                {
+                    Vector3 diagonalCheckPosition = transform.position + vectDir.normalized * floatNumber;
+                    // Use OverlapSphere to check for colliders at the diagonal position
+                    Collider[] intersecting = Physics.OverlapSphere(diagonalCheckPosition, 0.1f, LMask);
+                    if (intersecting.Length > 0 && ((!bBaitPerfect && !bBaitGood && !bBaitBad && i <= 5) || (bBaitBad && i <= 7) || (bBaitGood && i <= 9) || (bBaitPerfect && i <= 11)))
+                    {
+                        foreach(Collider col in intersecting)
+                        {
+                            if (col.transform.CompareTag("Wall") || col.transform.CompareTag("Tagging") || col.transform.CompareTag("Bait"))
+                            {
+                                fThrowMultiplier = floatNumber - 1f;
+                                return;
+                            }
+                            else if (col.transform.CompareTag("Enemies 1")) //il y a un ennemi devant le joueur
+                            {
+                                fThrowMultiplier = floatNumber - 1f;
+                                SC_FieldOfView scEnemy = col.transform.gameObject.GetComponent<SC_FieldOfView>();
+                                scEnemy.bIsDisabled = true;
+                                scEnemy.FoeDisabled(scEnemy.bIsDisabled);
+                                scEnemy.i_EnnemyBeat = -5;
+                                //Unable l'ennemi
+                                return;
+                            }
+                            else //nothing in front of the player
+                            {
+                                //nothing
+                            }
+                        }
+                    }
+                    else if ((!bBaitPerfect && !bBaitGood && !bBaitBad && i == 6) || (bBaitBad && i == 8) || (bBaitGood && i == 10) || (bBaitPerfect && i == 12))
+                    {
+                        fThrowMultiplier = floatNumber - 1f;
+                        return;
+                    }
+                    else
+                    {
+                        //nothing
+                    }
+                }
+                // Check for walls in the current direction
+                else if (Physics.Raycast(transform.position, vectDir, out RaycastHit hitInfo1, floatNumber + 0.1f, LMask) && ((!bBaitPerfect && !bBaitGood && !bBaitBad && i <= 5) || (bBaitBad && i <= 7) || (bBaitGood && i <= 9) || (bBaitPerfect && i <= 11))) //qqc est devant le joueur au plus près
                 {
                     if (hitInfo1.transform.CompareTag("Wall") || hitInfo1.transform.CompareTag("Tagging") || hitInfo1.transform.CompareTag("Bait"))//il y a un mur devant le joueur
                     {
@@ -510,7 +554,7 @@ public class SC_Player : MonoBehaviour
                         //nothing
                     }
                 }
-                else if ((!bBaitPerfect && !bBaitGood && !bBaitBad && i == 3) || (bBaitBad && i == 4) || (bBaitGood && i == 5) || (bBaitPerfect && i == 6))
+                else if ((!bBaitPerfect && !bBaitGood && !bBaitBad && i == 6) || (bBaitBad && i == 8) || (bBaitGood && i == 10) || (bBaitPerfect && i == 12))
                 {
                     fThrowMultiplier = floatNumber - 1f;
                     return;
@@ -522,7 +566,6 @@ public class SC_Player : MonoBehaviour
             }
         }
     }
-
     private Vector3 FindNewDirection(Vector3 currentDirection, float range)
     {
         // Define possible directions in order of preference
