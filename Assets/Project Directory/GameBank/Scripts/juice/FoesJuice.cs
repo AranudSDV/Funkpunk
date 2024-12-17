@@ -7,7 +7,7 @@ using UnityEngine;
 public class FoesJuice : MonoBehaviour
 {
     [SerializeField] private float bounceHeight = 0.1f; // How high to bounce
-    [SerializeField] private float scaleMultiplier = 1f; // Maximum scale during the pulse
+    [SerializeField] private float scaleMultiplier = 1.2f; // Maximum scale during the pulse
     private float rotationAngle = 10f; // Tilt angle
     static int Hasard(int a, int b) //Choisi un random.
     {
@@ -17,7 +17,8 @@ public class FoesJuice : MonoBehaviour
     }
     private void Awake()
     {
-        int hasard = Hasard(-30, 30);
+        scaleMultiplier = 1f + (0.15f / 0.85f);
+        int hasard = Hasard(-20, 20);
         rotationAngle = Convert.ToSingle(hasard);
         SC_Player scPlayer = this.transform.parent.GetComponent<SC_FieldOfView>().GOPlayerRef.GetComponent<SC_Player>();
         BaitRythm(scPlayer.FSPB);
@@ -49,7 +50,7 @@ public class FoesJuice : MonoBehaviour
     }
     private void AnimateRotation(float beatDuration)
     {
-        transform.DORotate(new Vector3(0, 0, rotationAngle), beatDuration, RotateMode.WorldAxisAdd)
+        transform.DOLocalRotate(new Vector3(0, 0, rotationAngle), beatDuration, RotateMode.WorldAxisAdd)
             .SetEase(Ease.InOutSine)
             .SetLoops(-1, LoopType.Yoyo) // Slight tilt on X and Z
             .Play();
