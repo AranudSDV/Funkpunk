@@ -2,13 +2,12 @@ using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class bait_juicy : MonoBehaviour
+public class FoesJuice : MonoBehaviour
 {
-    [SerializeField] private float bounceHeight = 0.5f; // How high to bounce
-    [SerializeField] private float scaleMultiplier = 0.9f; // Maximum scale during the pulse
+    [SerializeField] private float bounceHeight = 0.1f; // How high to bounce
+    [SerializeField] private float scaleMultiplier = 1f; // Maximum scale during the pulse
     private float rotationAngle = 10f; // Tilt angle
     static int Hasard(int a, int b) //Choisi un random.
     {
@@ -18,9 +17,9 @@ public class bait_juicy : MonoBehaviour
     }
     private void Awake()
     {
-        int hasard = Hasard(-90, 90);
+        int hasard = Hasard(-30, 30);
         rotationAngle = Convert.ToSingle(hasard);
-        SC_Player scPlayer = this.transform.parent.GetComponent<ing_Bait>().scPlayer;
+        SC_Player scPlayer = this.transform.parent.GetComponent<SC_FieldOfView>().GOPlayerRef.GetComponent<SC_Player>();
         BaitRythm(scPlayer.FSPB);
     }
     private void BaitRythm(float f_beat)
@@ -50,7 +49,7 @@ public class bait_juicy : MonoBehaviour
     }
     private void AnimateRotation(float beatDuration)
     {
-        transform.DORotate(new Vector3(rotationAngle, rotationAngle, 0), beatDuration, RotateMode.LocalAxisAdd)
+        transform.DORotate(new Vector3(0, 0, rotationAngle), beatDuration, RotateMode.WorldAxisAdd)
             .SetEase(Ease.InOutSine)
             .SetLoops(-1, LoopType.Yoyo) // Slight tilt on X and Z
             .Play();
