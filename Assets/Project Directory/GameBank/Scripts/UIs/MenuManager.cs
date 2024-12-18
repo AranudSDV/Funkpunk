@@ -7,10 +7,12 @@ using UnityEngine.SceneManagement;
 using Unity.VisualScripting;
 using TMPro;
 using static MenuManager;
+using UnityEngine.EventSystems;
 
 public class MenuManager : MonoBehaviour
 {
     public PlayerControl control;
+    private EventSystem EventSystem;
     private GameObject GoMainMenu;
     private GameObject[] GoGameChoose; //0 is GoNewLoadButton, 1 is GoNewLoadText, 2 is GoOptionsButton, 3 is GoExitButton
     public GameObject[] GoLevelsButton;
@@ -21,6 +23,7 @@ public class MenuManager : MonoBehaviour
     private AsyncOperation loadingOperation;
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private GameObject GoPauseMenu;
+    [SerializeField] private GameObject GoScoring;
     private PlayerData _playerData;
     public Level[] _levels;
     public bool controllerConnected = false;
@@ -43,22 +46,43 @@ public class MenuManager : MonoBehaviour
             img_lvl = Go_buttons[i_nb].GetComponent<Image>();
         }
     }
+    void OnEnable()
+    {
+        if (controllerConnected)
+        {
+            control = new PlayerControl();
+            control.GamePlay.Enable();
+        }
+    }
+    void OnDisable()
+    {
+        if (controllerConnected)
+        {
+            control.GamePlay.Disable();
+        }
+    }
     private void Awake()
     {
+        CheckControllerStatus();
         LoadTargetUIMenus();
         DontDestroyOnLoad(this.gameObject);
         if (FindObjectsOfType<MenuManager>().Length > 1)
         {
             Destroy(this);
         }
-        control = new PlayerControl();
+        //control = new PlayerControl();
+        EventSystem = GameObject.FindObjectOfType<EventSystem>();
         isLoadingScene = false;
     }
     // Update is called once per frame
     void Update()
     {
         CheckControllerStatus();
-        if (GoMainMenu != null && Input.anyKey)
+        if(control.GamePlay.Move.triggered)
+        {
+            Debug.Log("ok");
+        }
+        if (GoMainMenu != null && ((Input.anyKey&&!controllerConnected) || (control.GamePlay.Move.triggered && controllerConnected)))
         {
             LoadScene(sSceneToLoad);
         }
@@ -90,10 +114,12 @@ public class MenuManager : MonoBehaviour
             if (controllerConnected)
             {
                 Debug.Log("Controller connected!");
+                Cursor.lockState = CursorLockMode.Locked;
             }
             else
             {
                 Debug.Log("No controllers connected!");
+                Cursor.lockState = CursorLockMode.None;
             }
         }
     }
@@ -101,8 +127,27 @@ public class MenuManager : MonoBehaviour
     {
         if ((Input.GetKey(KeyCode.Escape)|| control.GamePlay.Pausing.triggered) && GoPauseMenu.activeInHierarchy == false)
         {
+            if (SceneManager.GetActiveScene().name != "GameChoose" && SceneManager.GetActiveScene().name != "LevelChoosing")
+            {
+                EventSystem.firstSelectedGameObject = GoPauseMenu.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
+            }
             PauseMenu();
         }
+        else if ((Input.GetKey(KeyCode.Escape) || control.GamePlay.Pausing.triggered) && GoPauseMenu.activeInHierarchy == true)
+        {
+            ClosePauseMenu();
+        }
+        /*else if((GoPauseMenu.activeInHierarchy == false && GoScoring == null) || (GoPauseMenu.activeInHierarchy==false && GoScoring.activeInHierarchy == false))
+        {
+            if(SceneManager.GetActiveScene().name == "GameChoose")
+            {
+                EventSystem.firstSelectedGameObject = GoGameChoose[0];
+            }
+            else if (SceneManager.GetActiveScene().name == "LevelChoosing")
+            {
+                EventSystem.firstSelectedGameObject = GoLevelsButton[0];
+            }
+        }*/
     }
     private void PauseMenu()
     {
@@ -224,6 +269,10 @@ public class MenuManager : MonoBehaviour
             scPlayer.bGameIsPaused = false;
             scPlayer.PauseGame();
         }
+        if (SceneManager.GetActiveScene().name != "GameChoose" && SceneManager.GetActiveScene().name != "LevelChoosing")
+        {
+            EventSystem.firstSelectedGameObject = GoScoring.transform.GetChild(0).gameObject.transform.GetChild(2).gameObject.transform.GetChild(1).gameObject;
+        }
     }
     public void OptionsGame()
     {
@@ -270,6 +319,7 @@ public class MenuManager : MonoBehaviour
             yield return null;
         }
         canvasGroup.alpha = targetValue;
+        EventSystem = GameObject.FindObjectOfType<EventSystem>();
     }
     public void QuitGame()
     {

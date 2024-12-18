@@ -16,14 +16,16 @@ using static UnityEngine.EventSystems.EventTrigger;
 using Cinemachine;
 using UnityEngine.Rendering.PostProcessing;
 using FMODUnity;
-using UnityEditor.PackageManager;
+//using UnityEditor.PackageManager;
 
 public class SC_Player : MonoBehaviour
 {
     public bool bisTuto = false;
     public bool bGameIsPaused = false;
     [SerializeField] private SoundManager soundManager;
-    private MenuManager menuManager;
+    public MenuManager menuManager;
+    public bool bIsOnComputer = true;
+    [SerializeField] private bool bOnControllerConstraint = false;
 
     //LE PLAYER ET SES MOUVEMENTS
     [Header("Player and movement")]
@@ -113,16 +115,48 @@ public class SC_Player : MonoBehaviour
 
     void OnEnable()
     {
-        control.GamePlay.Enable();
+        if (!bIsOnComputer)
+        {
+            control = new PlayerControl();
+            control.GamePlay.Enable();
+        }
     }
     void OnDisable()
     {
-        control.GamePlay.Disable();
+        if (!bIsOnComputer)
+        {
+            control.GamePlay.Disable();
+        }
+    }
+    private void Awake()
+    {
+        CheckControllerStatus();
+        if(bIsOnComputer)
+        {
+
+        }
     }
     void Start()
     {
-        menuManager = GameObject.FindWithTag("Manager").GetComponent<MenuManager>();
-        control = menuManager.control;
+        if (menuManager == null)
+        {
+            GameObject goMenu = GameObject.FindWithTag("Manager");
+            if (goMenu == null)
+            {
+                bIsOnComputer = true;
+            }
+            else
+            {
+                menuManager = goMenu.GetComponent<MenuManager>();
+                control = menuManager.control;
+                bIsOnComputer = !menuManager.controllerConnected;
+            }
+        }
+        else
+        {
+            control = menuManager.control;
+            bIsOnComputer = !menuManager.controllerConnected;
+        }
         //soundManager.PlayMusic("lvl0_Tambour");
         //FBPS = 60/FBPM;
         FBPS = FBPM/60f;
@@ -206,6 +240,7 @@ public class SC_Player : MonoBehaviour
     //L'UPDATE
     void Update()
     {
+        CheckControllerStatus();
         TMPScore.SetText(FScore.ToString());
         sliderDetection.value = FDetectionLevel / fDetectionLevelMax;
         if(FDetectionLevel>= fDetectionLevelMax)
@@ -242,11 +277,11 @@ public class SC_Player : MonoBehaviour
     private void UpdateDirAndMovOnJoystickOrPC()
     {
         //MOUVEMENT SUR CLAVIER OU MANETTE?
-        if (menuManager.controllerConnected == true)
+        if (!bIsOnComputer || bOnControllerConstraint)
         {
             move = control.GamePlay.Orientation.ReadValue<Vector2>();
         }
-        else if (menuManager.controllerConnected == false)
+        else if (bIsOnComputer)
         {
             move = new Vector2(1, 0);
         }
@@ -254,11 +289,11 @@ public class SC_Player : MonoBehaviour
         if (move != Vector2.zero)
         {
             Vector3 direction = Vector3.forward;
-            if (menuManager.controllerConnected == true)
+            if (!bIsOnComputer || bOnControllerConstraint)
             {
                 direction = GetDirectionFromJoystick(move);
             }
-            else if (menuManager.controllerConnected == false)
+            else if (bIsOnComputer)
             {
                 direction = GetDirectionFromClavier();
             }
@@ -271,7 +306,7 @@ public class SC_Player : MonoBehaviour
     }
     private void CheckIfInputOnTempo()
     {
-        if (bcanRotate && canMove && (control.GamePlay.Move.triggered || Input.GetButtonDown("Jump")))
+        if (bcanRotate && canMove && (((!bIsOnComputer|| bOnControllerConstraint) && control.GamePlay.Move.triggered)|| (bIsOnComputer && !bOnControllerConstraint &&Input.GetButtonDown("Jump"))))
         {
             if (BBad == true)
             {
@@ -363,7 +398,6 @@ public class SC_Player : MonoBehaviour
             return new Vector3(1, 0, -1);
         if (moveInput.x < -0.5f && moveInput.y < -0.5f)  // Bas-Gauche
             return new Vector3(-1, 0, -1);
-
         return Vector3.zero;
     }
 
@@ -861,5 +895,35 @@ public class SC_Player : MonoBehaviour
     {
         data.iScorePerLvPlayerl[data.iLevelPlayer] = Convert.ToInt32(FScore);
         data.iLevelPlayer += 1;
+    }
+
+    private void CheckControllerStatus()
+    {
+        string[] controllers = Input.GetJoystickNames();
+
+        // Check if at least one controller is connected
+        bool isConnected = false;
+        foreach (string controller in controllers)
+        {
+            if (!string.IsNullOrEmpty(controller)) // Check for valid controller name
+            {
+                isConnected = true;
+                break;
+            }
+        }
+        // Detect changes in connection status
+        if (isConnected == bIsOnComputer)
+        {
+            bIsOnComputer = !isConnected;
+
+            if (!bIsOnComputer)
+            {
+                Debug.Log("Controller connected!");
+            }
+            else
+            {
+                Debug.Log("No controllers connected!");
+            }
+        }
     }
 }
