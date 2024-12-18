@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_Palette
+  m_Name: M_BAril001_B 1
   m_Shader: {fileID: 4800000, guid: 033931281fc52ca4a9ea36a555933ddc, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -29,7 +29,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Albedo:
-        m_Texture: {fileID: 2800000, guid: 00d21000a4ddacd4796b871479896ffc, type: 3}
+        m_Texture: {fileID: 2800000, guid: cd84841ac25db57499e19deeaff1f389, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Metallic:
