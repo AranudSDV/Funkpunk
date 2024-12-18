@@ -17,7 +17,6 @@ public class FoesJuice : MonoBehaviour
     }
     private void Awake()
     {
-        scaleMultiplier = 1f + (0.15f / 0.85f);
         int hasard = Hasard(-20, 20);
         rotationAngle = Convert.ToSingle(hasard);
         SC_Player scPlayer = this.transform.parent.GetComponent<SC_FieldOfView>().GOPlayerRef.GetComponent<SC_Player>();
