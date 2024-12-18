@@ -23,14 +23,14 @@ public class SC_Player : MonoBehaviour
     public bool bisTuto = false;
     public bool bGameIsPaused = false;
     [SerializeField] private SoundManager soundManager;
+    private MenuManager menuManager;
 
     //LE PLAYER ET SES MOUVEMENTS
     [Header("Player and movement")]
-    PlayerControl control;
+    public PlayerControl control;
     Vector2 move;
     public Vector3 lastMoveDirection;
     public GameObject PlayerCapsule;
-    [SerializeField] private bool bIsOnComputer = false;
     private float tolerance = 0.5f;
     public bool canMove = false;
     public bool bcanRotate = false;
@@ -119,12 +119,10 @@ public class SC_Player : MonoBehaviour
     {
         control.GamePlay.Disable();
     }
-    void Awake()
-    {
-        control = new PlayerControl();
-    }
     void Start()
     {
+        menuManager = GameObject.FindWithTag("Manager").GetComponent<MenuManager>();
+        control = menuManager.control;
         //soundManager.PlayMusic("lvl0_Tambour");
         //FBPS = 60/FBPM;
         FBPS = FBPM/60f;
@@ -244,11 +242,11 @@ public class SC_Player : MonoBehaviour
     private void UpdateDirAndMovOnJoystickOrPC()
     {
         //MOUVEMENT SUR CLAVIER OU MANETTE?
-        if (bIsOnComputer == false)
+        if (menuManager.controllerConnected == true)
         {
             move = control.GamePlay.Orientation.ReadValue<Vector2>();
         }
-        else if (bIsOnComputer == true)
+        else if (menuManager.controllerConnected == false)
         {
             move = new Vector2(1, 0);
         }
@@ -256,11 +254,11 @@ public class SC_Player : MonoBehaviour
         if (move != Vector2.zero)
         {
             Vector3 direction = Vector3.forward;
-            if (bIsOnComputer == false)
+            if (menuManager.controllerConnected == true)
             {
                 direction = GetDirectionFromJoystick(move);
             }
-            else if (bIsOnComputer == true)
+            else if (menuManager.controllerConnected == false)
             {
                 direction = GetDirectionFromClavier();
             }
@@ -273,7 +271,7 @@ public class SC_Player : MonoBehaviour
     }
     private void CheckIfInputOnTempo()
     {
-        if (bcanRotate && ((control.GamePlay.Move.triggered && canMove && bIsOnComputer == false) || (Input.GetButtonDown("Jump") && canMove && bIsOnComputer == true)))
+        if (bcanRotate && canMove && (control.GamePlay.Move.triggered || Input.GetButtonDown("Jump")))
         {
             if (BBad == true)
             {
@@ -389,9 +387,9 @@ public class SC_Player : MonoBehaviour
         GO_BaitInst.transform.GetChild(0).transform.gameObject.GetComponent<bait_juicy>().enabled = true;
         ing_Bait scBait = GO_BaitInst.GetComponent< ing_Bait>();
         scBait.b_BeenThrown = true;
-        StartCoroutine (baitChange(1f));
+        StartCoroutine (BaitChange(1f));
     }
-    private IEnumerator baitChange(float waitTime)
+    private IEnumerator BaitChange(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
         newThrow = false;
@@ -835,10 +833,8 @@ public class SC_Player : MonoBehaviour
     {
         bGameIsPaused = true;
         PauseGame();
-        GameObject targetObject = GameObject.FindWithTag("Manager");
-        PlayerData data = targetObject.GetComponent<PlayerData>();
-        MenuManager manager = targetObject.GetComponent<MenuManager>();
-        GameObject ScoringGo = targetObject.transform.GetChild(2).gameObject;
+        PlayerData data = menuManager.gameObject.GetComponent<PlayerData>();
+        GameObject ScoringGo = menuManager.gameObject.transform.GetChild(2).gameObject;
         ScoringGo.SetActive(true);
         TMP_Text textScoring = ScoringGo.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>();
         TMP_Text textTitle = ScoringGo.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject.GetComponent<TMP_Text>();
@@ -848,7 +844,7 @@ public class SC_Player : MonoBehaviour
             textScoring.text = "Your score is : " + FScore.ToString();
             textTitle.text = "Congratulations!";
             textButton.text = "Save";
-            UnityEngine.UI.Button btn = targetObject.transform.GetChild(2).gameObject.transform.GetChild(0).gameObject.transform.GetChild(2).gameObject.transform.GetChild(2).gameObject.GetComponent<UnityEngine.UI.Button>();
+            UnityEngine.UI.Button btn = menuManager.gameObject.transform.GetChild(2).gameObject.transform.GetChild(0).gameObject.transform.GetChild(2).gameObject.transform.GetChild(2).gameObject.GetComponent<UnityEngine.UI.Button>();
             btn.onClick.AddListener(() => data.SaveGame());
             PlayerDataUpdate(data);
         }
@@ -857,8 +853,8 @@ public class SC_Player : MonoBehaviour
             textScoring.text = "Your score could have been higher than : " + FScore.ToString();
             textTitle.text = "You've been detected...";
             textButton.text = "Replay";
-            UnityEngine.UI.Button btn = targetObject.transform.GetChild(2).gameObject.transform.GetChild(0).gameObject.transform.GetChild(2).gameObject.transform.GetChild(2).gameObject.GetComponent<UnityEngine.UI.Button>();
-            btn.onClick.AddListener(() => manager.LoadScene(SceneManager.GetActiveScene().name));
+            UnityEngine.UI.Button btn = menuManager.gameObject.transform.GetChild(2).gameObject.transform.GetChild(0).gameObject.transform.GetChild(2).gameObject.transform.GetChild(2).gameObject.GetComponent<UnityEngine.UI.Button>();
+            btn.onClick.AddListener(() => menuManager.LoadScene(SceneManager.GetActiveScene().name));
         }
     }
     private void PlayerDataUpdate(PlayerData data)

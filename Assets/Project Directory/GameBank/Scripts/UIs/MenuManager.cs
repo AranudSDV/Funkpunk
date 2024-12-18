@@ -10,6 +10,7 @@ using static MenuManager;
 
 public class MenuManager : MonoBehaviour
 {
+    public PlayerControl control;
     private GameObject GoMainMenu;
     private GameObject[] GoGameChoose; //0 is GoNewLoadButton, 1 is GoNewLoadText, 2 is GoOptionsButton, 3 is GoExitButton
     public GameObject[] GoLevelsButton;
@@ -22,6 +23,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private GameObject GoPauseMenu;
     private PlayerData _playerData;
     public Level[] _levels;
+    public bool controllerConnected = false;
 
     [System.Serializable]
     public class Level 
@@ -41,7 +43,7 @@ public class MenuManager : MonoBehaviour
             img_lvl = Go_buttons[i_nb].GetComponent<Image>();
         }
     }
-        private void Awake()
+    private void Awake()
     {
         LoadTargetUIMenus();
         DontDestroyOnLoad(this.gameObject);
@@ -49,14 +51,13 @@ public class MenuManager : MonoBehaviour
         {
             Destroy(this);
         }
-
+        control = new PlayerControl();
         isLoadingScene = false;
     }
-
-
     // Update is called once per frame
     void Update()
     {
+        CheckControllerStatus();
         if (GoMainMenu != null && Input.anyKey)
         {
             LoadScene(sSceneToLoad);
@@ -67,15 +68,42 @@ public class MenuManager : MonoBehaviour
             progressBar.value = Mathf.Clamp01(loadingOperation.progress / 0.9f);
         }
     }
+    private void CheckControllerStatus()
+    {
+        string[] controllers = Input.GetJoystickNames();
 
+        // Check if at least one controller is connected
+        bool isConnected = false;
+        foreach (string controller in controllers)
+        {
+            if (!string.IsNullOrEmpty(controller)) // Check for valid controller name
+            {
+                isConnected = true;
+                break;
+            }
+        }
+        // Detect changes in connection status
+        if (isConnected != controllerConnected)
+        {
+            controllerConnected = isConnected;
+
+            if (controllerConnected)
+            {
+                Debug.Log("Controller connected!");
+            }
+            else
+            {
+                Debug.Log("No controllers connected!");
+            }
+        }
+    }
     private void UXNavigation()
     {
-        if (Input.GetKey(KeyCode.Escape) && GoPauseMenu.activeInHierarchy == false)
+        if ((Input.GetKey(KeyCode.Escape)|| control.GamePlay.Pausing.triggered) && GoPauseMenu.activeInHierarchy == false)
         {
             PauseMenu();
         }
     }
-
     private void PauseMenu()
     {
         GoPauseMenu.SetActive(true);
@@ -87,7 +115,6 @@ public class MenuManager : MonoBehaviour
             scPlayer.PauseGame();
         }
     }
-
     private void LoadTargetUIMenus()
     {
         _playerData = this.gameObject.GetComponent<PlayerData>();
@@ -187,7 +214,6 @@ public class MenuManager : MonoBehaviour
             }
         }
     }
-
     public void ClosePauseMenu()
     {
         GoPauseMenu.SetActive(false);
@@ -199,18 +225,15 @@ public class MenuManager : MonoBehaviour
             scPlayer.PauseGame();
         }
     }
-
     public void OptionsGame()
     {
         Debug.Log("OptionsOpen");
     }
-
     public void LoadScene(string sceneToLoad)
     {
         StartCoroutine(StartLoad(sceneToLoad));
         Debug.Log(sceneToLoad);
     }
-
     IEnumerator StartLoad(string sceneToLoad)
     {
         loadingScreen.SetActive(true);
@@ -235,7 +258,6 @@ public class MenuManager : MonoBehaviour
 
         loadingOperation = SceneManager.LoadSceneAsync(sceneToLoad);
     }
-
     IEnumerator FadeLoadingScreen(float targetValue, float duration)
     {
         float startValue = canvasGroup.alpha;
@@ -249,7 +271,6 @@ public class MenuManager : MonoBehaviour
         }
         canvasGroup.alpha = targetValue;
     }
-
     public void QuitGame()
     {
 #if UNITY_EDITOR

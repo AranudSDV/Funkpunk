@@ -2,14 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using Unity.VisualScripting;
 using Cinemachine;
 using static Cinemachine.CinemachinePathBase;
+using TMPro;
 
 public class sc_tuto : MonoBehaviour
 {
-     [SerializeField]private GameObject[] GoTuto = new GameObject[7];
+    private MenuManager menuManager;
+    PlayerControl control;
+    [SerializeField]private GameObject[] GoTuto = new GameObject[7];
     private bool b_tutoFinished = false;
     [SerializeField] private Sprite[] spriteBubbleTuto1;
     [SerializeField] private Sprite spriteBubbleTuto2;
@@ -28,16 +30,16 @@ public class sc_tuto : MonoBehaviour
     bool bOnce = false;
     [SerializeField] private bool bWaitSpace = false;
     public bool bKnowEnnemy= false;
-    private bool bCamTuto = false;
     [SerializeField] private CinemachinePathBase m_Path;
     [SerializeField] private float m_Speed = 5f;
     private float m_Position;
     [SerializeField] private CinemachinePathBase.PositionUnits m_PositionUnits = CinemachinePathBase.PositionUnits.Distance;
     private Coroutine[] tutoCoroutine = new Coroutine[5];
-    private bool coroutineIsRunning = false;
+    private bool coroutineIsRunning = false; 
 
     private void Start()
     {
+        menuManager = GameObject.FindWithTag("Manager").GetComponent<MenuManager>();
         if (scPlayer == null)
         {
             GameObject goPlayer = GameObject.FindWithTag("Player");
@@ -53,11 +55,17 @@ public class sc_tuto : MonoBehaviour
                 //GoTuto[0].transform.GetChild(i).gameObject.SetActive(false);
                 render[i] = fo_arrow[i].GetComponent<MeshRenderer>();
             }
+            ChangeTutoController();
             tutoCoroutine[0] = StartCoroutine(StartFirst());
         }
+        control = scPlayer.control;
     }
     private void Update()
     {
+        if(isMeshable==false)
+        {
+            ChangeTutoController();
+        }
         if(b_tutoFinished == true && isMeshable ==false && goCameraBackTrack[2].transform.position.z > 0.5f)
         {
             Time.timeScale = 1f;
@@ -73,58 +81,58 @@ public class sc_tuto : MonoBehaviour
                 coroutineIsRunning = true;
             }
         }
-        if(isMeshable == false && b_tutoFinished == false && GoTuto[0].transform.GetChild(6).gameObject.transform.GetChild(0).gameObject.activeInHierarchy && Input.GetButtonDown("Jump"))
+        if(isMeshable == false && b_tutoFinished == false && GoTuto[0].transform.GetChild(6).gameObject.transform.GetChild(0).gameObject.activeInHierarchy && (control.GamePlay.Move.triggered || Input.GetButtonDown("Jump")))
         {
             StartCoroutine(SkipFirstTuto());
         }
         if(bWaitSpace)
         {
-            if(GoTuto[0].transform.GetChild(6).gameObject.transform.GetChild(1).gameObject.activeInHierarchy && Input.GetButtonDown("Jump") && isMeshable == false)
+            if(GoTuto[0].transform.GetChild(6).gameObject.transform.GetChild(1).gameObject.activeInHierarchy && (control.GamePlay.Move.triggered || Input.GetButtonDown("Jump")) && isMeshable == false)
             {
                 bWaitSpace = false;
                 tutoCoroutine[2] = StartCoroutine(StartSecond());
             }
-            if(GoTuto[1].transform.GetChild(0).gameObject.activeInHierarchy && Input.GetButtonDown("Jump"))
+            if(GoTuto[1].transform.GetChild(0).gameObject.activeInHierarchy && (control.GamePlay.Move.triggered || Input.GetButtonDown("Jump")))
             {
                 bWaitSpace = false;
                 StartCoroutine(SkipTutoSecond());
             }
-            if(GoTuto[2].transform.GetChild(0).gameObject.activeInHierarchy && Input.GetButtonDown("Jump"))
+            if(GoTuto[2].transform.GetChild(0).gameObject.activeInHierarchy && (control.GamePlay.Move.triggered || Input.GetButtonDown("Jump")))
             {
                 bWaitSpace = false;
                 StartCoroutine(ThirdSkip());
             }
-            if(GoTuto[3].gameObject.activeInHierarchy && Input.GetButtonDown("Jump") && coroutineIsRunning==false)
+            if(GoTuto[3].gameObject.activeInHierarchy && (control.GamePlay.Move.triggered || Input.GetButtonDown("Jump")) && coroutineIsRunning==false)
             {
                 bWaitSpace = false;
                 Debug.Log("passer le tuto de rythme");
                 StartForth();
             }
-            if(GoTuto[4].activeInHierarchy &&  Input.GetButtonDown("Jump"))
+            if(GoTuto[4].activeInHierarchy &&  (control.GamePlay.Move.triggered || Input.GetButtonDown("Jump")))
             {
                 bWaitSpace = false;
                 scPlayer.bGameIsPaused = false;
                 scPlayer.PauseGame();
                 GoTuto[4].SetActive(false);
             }
-            if(GoTuto[5].transform.GetChild(3).gameObject.transform.GetChild(0).gameObject.activeInHierarchy && Input.GetButtonDown("Jump"))
+            if(GoTuto[5].transform.GetChild(3).gameObject.transform.GetChild(0).gameObject.activeInHierarchy && (control.GamePlay.Move.triggered || Input.GetButtonDown("Jump")))
             {
                 bWaitSpace = false;
                 StartCoroutine(SkipFifth());
             }
-            if (GoTuto[5].transform.GetChild(3).gameObject.transform.GetChild(1).gameObject.activeInHierarchy && Input.GetButtonDown("Jump"))
+            if (GoTuto[5].transform.GetChild(3).gameObject.transform.GetChild(1).gameObject.activeInHierarchy && (control.GamePlay.Move.triggered || Input.GetButtonDown("Jump")))
             {
                 bWaitSpace = false;
                 scPlayer.bGameIsPaused = false;
                 scPlayer.PauseGame();
                 GoTuto[5].SetActive(false);
             }
-            if(GoTuto[6].transform.GetChild(3).gameObject.transform.GetChild(0).gameObject.activeInHierarchy && Input.GetButtonDown("Jump"))
+            if(GoTuto[6].transform.GetChild(3).gameObject.transform.GetChild(0).gameObject.activeInHierarchy && (control.GamePlay.Move.triggered || Input.GetButtonDown("Jump")))
             {
                 bWaitSpace = false;
                 StartCoroutine(SkipScraffiTime());
             }
-            if(GoTuto[6].transform.GetChild(3).gameObject.transform.GetChild(1).gameObject.activeInHierarchy && Input.GetButtonDown("Jump"))
+            if(GoTuto[6].transform.GetChild(3).gameObject.transform.GetChild(1).gameObject.activeInHierarchy && (control.GamePlay.Move.triggered || Input.GetButtonDown("Jump")))
             {
                 bWaitSpace = false;
                 scPlayer.bGameIsPaused = false;
@@ -460,6 +468,38 @@ public class sc_tuto : MonoBehaviour
             {
                 tutoriel.StartTutoDetection();
             }
+        }
+    }
+
+    private void ChangeTutoController()
+    {
+        if (menuManager.controllerConnected)
+        {
+            GoTuto[0].transform.GetChild(6).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "A to skip";
+            GoTuto[0].transform.GetChild(6).gameObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "A to continue";
+            GoTuto[1].transform.GetChild(2).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "A to skip";
+            GoTuto[2].transform.GetChild(3).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "A to skip";
+            GoTuto[3].transform.GetChild(1).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "A to continue";
+            GoTuto[3].transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Use your joystick for directions, then \"A\" on the rythm in order to move.";
+            GoTuto[4].transform.GetChild(1).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "A to continue";
+            GoTuto[5].transform.GetChild(3).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "A to skip";
+            GoTuto[5].transform.GetChild(3).gameObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "A to continue";
+            GoTuto[6].transform.GetChild(3).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "A to skip";
+            GoTuto[6].transform.GetChild(3).gameObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "A to continue";
+        }
+        else
+        {
+            GoTuto[0].transform.GetChild(6).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Space to skip";
+            GoTuto[0].transform.GetChild(6).gameObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Space to continue";
+            GoTuto[1].transform.GetChild(2).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Space to skip";
+            GoTuto[2].transform.GetChild(3).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Space to skip";
+            GoTuto[3].transform.GetChild(1).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Space to continue";
+            GoTuto[3].transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Use \"WASD\" for directions, then \"space\" on the rythm in order to move.";
+            GoTuto[4].transform.GetChild(1).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Space to continue";
+            GoTuto[5].transform.GetChild(3).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Space to skip";
+            GoTuto[5].transform.GetChild(3).gameObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Space to continue";
+            GoTuto[6].transform.GetChild(3).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Space to skip";
+            GoTuto[6].transform.GetChild(3).gameObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Space to continue";
         }
     }
 }
