@@ -16,7 +16,7 @@ using static UnityEngine.EventSystems.EventTrigger;
 using Cinemachine;
 using UnityEngine.Rendering.PostProcessing;
 using FMODUnity;
-using UnityEditor.PackageManager;
+//using UnityEditor.PackageManager;
 
 public class SC_Player : MonoBehaviour
 {
