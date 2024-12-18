@@ -2,27 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MainMenuNameChanging : MonoBehaviour
 {
     [SerializeField]private MenuManager menuManager;
-    [SerializeField] private TextMeshProUGUI txtAnyKey;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
+    [SerializeField] private Image imgAnyKey;
+    [SerializeField] private Sprite[] spriteKey = new Sprite[2];
     // Update is called once per frame
     void Update()
     {
         if(menuManager.controllerConnected)
         {
-            txtAnyKey.text = "Press A";
+            imgAnyKey.sprite = spriteKey[1];
         }
         else
         {
-            txtAnyKey.text = "Press any key";
+            imgAnyKey.sprite = spriteKey[0];
         }
     }
 }

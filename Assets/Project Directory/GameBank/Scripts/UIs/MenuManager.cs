@@ -8,6 +8,9 @@ using Unity.VisualScripting;
 using TMPro;
 using static MenuManager;
 using UnityEngine.EventSystems;
+using FMODUnity;
+using UnityEngine.LowLevel;
+using FMOD.Studio;
 
 public class MenuManager : MonoBehaviour
 {
@@ -15,6 +18,7 @@ public class MenuManager : MonoBehaviour
     private EventSystem EventSystem;
     private GameObject GoMainMenu;
     private GameObject[] GoGameChoose; //0 is GoNewLoadButton, 1 is GoNewLoadText, 2 is GoOptionsButton, 3 is GoExitButton
+    [SerializeField] private Sprite[] buttonSpriteGameChoose = new Sprite[2];
     public GameObject[] GoLevelsButton;
     public string sSceneToLoad;
     public static bool isLoadingScene = false;
@@ -27,6 +31,8 @@ public class MenuManager : MonoBehaviour
     private PlayerData _playerData;
     public Level[] _levels;
     public bool controllerConnected = false;
+    [SerializeField] private EventReference menuLoop;
+    private FMOD.Studio.EventInstance menuLoopInstance;
 
     [System.Serializable]
     public class Level 
@@ -74,14 +80,15 @@ public class MenuManager : MonoBehaviour
         EventSystem = GameObject.FindObjectOfType<EventSystem>();
         isLoadingScene = false;
     }
+    private void Start()
+    {
+        menuLoopInstance = RuntimeManager.CreateInstance(menuLoop);
+        menuLoopInstance.start();
+    }
     // Update is called once per frame
     void Update()
     {
         CheckControllerStatus();
-        if(control.GamePlay.Move.triggered)
-        {
-            Debug.Log("ok");
-        }
         if (GoMainMenu != null && ((Input.anyKey&&!controllerConnected) || (control.GamePlay.Move.triggered && controllerConnected)))
         {
             LoadScene(sSceneToLoad);
@@ -133,7 +140,7 @@ public class MenuManager : MonoBehaviour
             }
             PauseMenu();
         }
-        else if ((Input.GetKey(KeyCode.Escape) || control.GamePlay.Pausing.triggered) && GoPauseMenu.activeInHierarchy == true)
+        else if ((Input.GetKey(KeyCode.Escape) || control.GamePlay.Pausing.triggered) && GoPauseMenu.activeInHierarchy == true && GoScoring.activeInHierarchy == false)
         {
             ClosePauseMenu();
         }
@@ -225,17 +232,17 @@ public class MenuManager : MonoBehaviour
             btnNewLoad.onClick.AddListener(delegate { LoadScene(sSceneToLoad); });
             if (_playerData.iLevelPlayer > 0)
             {
-                TextMeshProUGUI text = GoGameChoose[1].GetComponent<TextMeshProUGUI>();
-                text.text = "Load Game";
+                Image img = GoGameChoose[0].GetComponent<Image>();
+                img.sprite = buttonSpriteGameChoose[1];
             }
             else
             {
-                TextMeshProUGUI text = GoGameChoose[1].GetComponent<TextMeshProUGUI>();
-                text.text = "New Game";
+                Image img = GoGameChoose[0].GetComponent<Image>();
+                img.sprite = buttonSpriteGameChoose[0];
             }
-            Button btnExit = GoGameChoose[3].GetComponent<Button>();
+            Button btnExit = GoGameChoose[2].GetComponent<Button>();
             btnExit.onClick.AddListener(QuitGame);
-            Button btnOptions = GoGameChoose[2].GetComponent<Button>();
+            Button btnOptions = GoGameChoose[1].GetComponent<Button>();
             btnOptions.onClick.AddListener(OptionsGame);
         }
         else if(SceneManager.GetActiveScene().name == "LevelChoosing")
@@ -280,8 +287,12 @@ public class MenuManager : MonoBehaviour
     }
     public void LoadScene(string sceneToLoad)
     {
+        if(sceneToLoad == "SceneLvl0")
+        {
+            menuLoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            menuLoopInstance.release();
+        }
         StartCoroutine(StartLoad(sceneToLoad));
-        Debug.Log(sceneToLoad);
     }
     IEnumerator StartLoad(string sceneToLoad)
     {
