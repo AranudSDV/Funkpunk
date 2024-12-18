@@ -43,22 +43,42 @@ public class MenuManager : MonoBehaviour
             img_lvl = Go_buttons[i_nb].GetComponent<Image>();
         }
     }
+    void OnEnable()
+    {
+        if (controllerConnected)
+        {
+            control = new PlayerControl();
+            control.GamePlay.Enable();
+        }
+    }
+    void OnDisable()
+    {
+        if (controllerConnected)
+        {
+            control.GamePlay.Disable();
+        }
+    }
     private void Awake()
     {
+        CheckControllerStatus();
         LoadTargetUIMenus();
         DontDestroyOnLoad(this.gameObject);
         if (FindObjectsOfType<MenuManager>().Length > 1)
         {
             Destroy(this);
         }
-        control = new PlayerControl();
+        //control = new PlayerControl();
         isLoadingScene = false;
     }
     // Update is called once per frame
     void Update()
     {
         CheckControllerStatus();
-        if (GoMainMenu != null && Input.anyKey)
+        if(control.GamePlay.Move.triggered)
+        {
+            Debug.Log("ok");
+        }
+        if (GoMainMenu != null && ((Input.anyKey&&!controllerConnected) || (control.GamePlay.Move.triggered && controllerConnected)))
         {
             LoadScene(sSceneToLoad);
         }

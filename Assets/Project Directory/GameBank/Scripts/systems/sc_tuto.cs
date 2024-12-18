@@ -9,8 +9,6 @@ using TMPro;
 
 public class sc_tuto : MonoBehaviour
 {
-    private MenuManager menuManager;
-    PlayerControl control;
     [SerializeField]private GameObject[] GoTuto = new GameObject[7];
     private bool b_tutoFinished = false;
     [SerializeField] private Sprite[] spriteBubbleTuto1;
@@ -39,7 +37,6 @@ public class sc_tuto : MonoBehaviour
 
     private void Start()
     {
-        menuManager = GameObject.FindWithTag("Manager").GetComponent<MenuManager>();
         if (scPlayer == null)
         {
             GameObject goPlayer = GameObject.FindWithTag("Player");
@@ -58,7 +55,6 @@ public class sc_tuto : MonoBehaviour
             ChangeTutoController();
             tutoCoroutine[0] = StartCoroutine(StartFirst());
         }
-        control = scPlayer.control;
     }
     private void Update()
     {
@@ -81,58 +77,58 @@ public class sc_tuto : MonoBehaviour
                 coroutineIsRunning = true;
             }
         }
-        if(isMeshable == false && b_tutoFinished == false && GoTuto[0].transform.GetChild(6).gameObject.transform.GetChild(0).gameObject.activeInHierarchy && (control.GamePlay.Move.triggered || Input.GetButtonDown("Jump")))
+        if(isMeshable == false && b_tutoFinished == false && GoTuto[0].transform.GetChild(6).gameObject.transform.GetChild(0).gameObject.activeInHierarchy && ((scPlayer.bIsOnComputer ==false && scPlayer.control.GamePlay.Move.triggered) || (scPlayer.bIsOnComputer && Input.GetButtonDown("Jump"))))
         {
             StartCoroutine(SkipFirstTuto());
         }
         if(bWaitSpace)
         {
-            if(GoTuto[0].transform.GetChild(6).gameObject.transform.GetChild(1).gameObject.activeInHierarchy && (control.GamePlay.Move.triggered || Input.GetButtonDown("Jump")) && isMeshable == false)
+            if(GoTuto[0].transform.GetChild(6).gameObject.transform.GetChild(1).gameObject.activeInHierarchy && ((scPlayer.bIsOnComputer == false && scPlayer.control.GamePlay.Move.triggered) || Input.GetButtonDown("Jump")) && isMeshable == false)
             {
                 bWaitSpace = false;
                 tutoCoroutine[2] = StartCoroutine(StartSecond());
             }
-            if(GoTuto[1].transform.GetChild(0).gameObject.activeInHierarchy && (control.GamePlay.Move.triggered || Input.GetButtonDown("Jump")))
+            if(GoTuto[1].transform.GetChild(0).gameObject.activeInHierarchy && ((scPlayer.bIsOnComputer == false && scPlayer.control.GamePlay.Move.triggered) || Input.GetButtonDown("Jump")))
             {
                 bWaitSpace = false;
                 StartCoroutine(SkipTutoSecond());
             }
-            if(GoTuto[2].transform.GetChild(0).gameObject.activeInHierarchy && (control.GamePlay.Move.triggered || Input.GetButtonDown("Jump")))
+            if(GoTuto[2].transform.GetChild(0).gameObject.activeInHierarchy && ((scPlayer.bIsOnComputer == false && scPlayer.control.GamePlay.Move.triggered) || Input.GetButtonDown("Jump")))
             {
                 bWaitSpace = false;
                 StartCoroutine(ThirdSkip());
             }
-            if(GoTuto[3].gameObject.activeInHierarchy && (control.GamePlay.Move.triggered || Input.GetButtonDown("Jump")) && coroutineIsRunning==false)
+            if(GoTuto[3].gameObject.activeInHierarchy && ((scPlayer.bIsOnComputer == false && scPlayer.control.GamePlay.Move.triggered) || Input.GetButtonDown("Jump")) && coroutineIsRunning==false)
             {
                 bWaitSpace = false;
                 Debug.Log("passer le tuto de rythme");
                 StartForth();
             }
-            if(GoTuto[4].activeInHierarchy &&  (control.GamePlay.Move.triggered || Input.GetButtonDown("Jump")))
+            if(GoTuto[4].activeInHierarchy &&  ((scPlayer.bIsOnComputer == false && scPlayer.control.GamePlay.Move.triggered) || Input.GetButtonDown("Jump")))
             {
                 bWaitSpace = false;
                 scPlayer.bGameIsPaused = false;
                 scPlayer.PauseGame();
                 GoTuto[4].SetActive(false);
             }
-            if(GoTuto[5].transform.GetChild(3).gameObject.transform.GetChild(0).gameObject.activeInHierarchy && (control.GamePlay.Move.triggered || Input.GetButtonDown("Jump")))
+            if(GoTuto[5].transform.GetChild(3).gameObject.transform.GetChild(0).gameObject.activeInHierarchy && ((scPlayer.bIsOnComputer == false && scPlayer.control.GamePlay.Move.triggered) || Input.GetButtonDown("Jump")))
             {
                 bWaitSpace = false;
                 StartCoroutine(SkipFifth());
             }
-            if (GoTuto[5].transform.GetChild(3).gameObject.transform.GetChild(1).gameObject.activeInHierarchy && (control.GamePlay.Move.triggered || Input.GetButtonDown("Jump")))
+            if (GoTuto[5].transform.GetChild(3).gameObject.transform.GetChild(1).gameObject.activeInHierarchy && ((scPlayer.bIsOnComputer == false && scPlayer.control.GamePlay.Move.triggered) || Input.GetButtonDown("Jump")))
             {
                 bWaitSpace = false;
                 scPlayer.bGameIsPaused = false;
                 scPlayer.PauseGame();
                 GoTuto[5].SetActive(false);
             }
-            if(GoTuto[6].transform.GetChild(3).gameObject.transform.GetChild(0).gameObject.activeInHierarchy && (control.GamePlay.Move.triggered || Input.GetButtonDown("Jump")))
+            if(GoTuto[6].transform.GetChild(3).gameObject.transform.GetChild(0).gameObject.activeInHierarchy && ((scPlayer.bIsOnComputer == false && scPlayer.control.GamePlay.Move.triggered) || Input.GetButtonDown("Jump")))
             {
                 bWaitSpace = false;
                 StartCoroutine(SkipScraffiTime());
             }
-            if(GoTuto[6].transform.GetChild(3).gameObject.transform.GetChild(1).gameObject.activeInHierarchy && (control.GamePlay.Move.triggered || Input.GetButtonDown("Jump")))
+            if(GoTuto[6].transform.GetChild(3).gameObject.transform.GetChild(1).gameObject.activeInHierarchy && ((scPlayer.bIsOnComputer == false && scPlayer.control.GamePlay.Move.triggered) || Input.GetButtonDown("Jump")))
             {
                 bWaitSpace = false;
                 scPlayer.bGameIsPaused = false;
@@ -473,7 +469,7 @@ public class sc_tuto : MonoBehaviour
 
     private void ChangeTutoController()
     {
-        if (menuManager.controllerConnected)
+        if (scPlayer.bIsOnComputer==false)
         {
             GoTuto[0].transform.GetChild(6).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "A to skip";
             GoTuto[0].transform.GetChild(6).gameObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "A to continue";
