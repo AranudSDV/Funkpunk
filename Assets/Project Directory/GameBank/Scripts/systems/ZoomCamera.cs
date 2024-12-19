@@ -9,7 +9,7 @@ public class ZoomCamera : MonoBehaviour
     public float zoomSpeed = 10f;
 
     [Tooltip("Distance minimale du zoom.")]
-    public float minZoom = 5f;
+    public float minZoom = 1f;
 
     [Tooltip("Distance maximale du zoom.")]
     public float maxZoom = 50f;
