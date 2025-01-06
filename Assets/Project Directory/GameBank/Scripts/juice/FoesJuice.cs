@@ -8,6 +8,7 @@ public class FoesJuice : MonoBehaviour
 {
     [SerializeField] private float bounceHeight = 0.1f; // How high to bounce
     [SerializeField] private float scaleMultiplier = 1.2f; // Maximum scale during the pulse
+    [SerializeField] private BPM_Manager bpmManager;
     private float rotationAngle = 10f; // Tilt angle
     static int Hasard(int a, int b) //Choisi un random.
     {
@@ -19,8 +20,7 @@ public class FoesJuice : MonoBehaviour
     {
         int hasard = Hasard(-20, 20);
         rotationAngle = Convert.ToSingle(hasard);
-        SC_Player scPlayer = this.transform.parent.GetComponent<SC_FieldOfView>().GOPlayerRef.GetComponent<SC_Player>();
-        BaitRythm(scPlayer.FSPB);
+        BaitRythm(bpmManager.FSPB);
     }
     private void BaitRythm(float f_beat)
     {

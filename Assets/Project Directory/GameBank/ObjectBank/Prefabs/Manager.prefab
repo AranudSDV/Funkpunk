@@ -118,13 +118,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7740000a65e35c348bf7957b79ddd07f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonSpriteGameChoose:
+  - {fileID: 0}
+  - {fileID: 0}
   GoLevelsButton: []
   sSceneToLoad: 
   progressBar: {fileID: 5376875976944638836}
   loadingScreen: {fileID: 815679502645142706}
   canvasGroup: {fileID: 2307437532454967113}
   GoPauseMenu: {fileID: 3498886556833193360}
+  GoScoring: {fileID: 4275264178835127054}
   _levels: []
+  controllerConnected: 0
+  menuLoop:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!114 &1165491372627732135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,6 +154,7 @@ MonoBehaviour:
   iTaggsPerHardLvlPlayer: 000000000000000000000000
   iScorePerLvPlayerl: 000000000000000000000000
   iScorePerHardLvlPlayer: 000000000000000000000000
+  iLanguageNbPlayer: 0
 --- !u!1 &204593627366668587
 GameObject:
   m_ObjectHideFlags: 0

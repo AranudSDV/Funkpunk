@@ -25,7 +25,8 @@ public class SC_Player : MonoBehaviour
     [SerializeField] private SoundManager soundManager;
     public MenuManager menuManager;
     public bool bIsOnComputer = true;
-    [SerializeField] private bool bOnControllerConstraint = false;
+    public bool bOnControllerConstraint = false;
+    [SerializeField] private BPM_Manager bpmManager;
 
     //LE PLAYER ET SES MOUVEMENTS
     [Header("Player and movement")]
@@ -36,7 +37,7 @@ public class SC_Player : MonoBehaviour
     private float tolerance = 0.5f;
     public bool canMove = false;
     public bool bcanRotate = false;
-
+    /*
     //LE BEAT
     [Header("Beat")]
     public float FBPM;
@@ -71,7 +72,7 @@ public class SC_Player : MonoBehaviour
     public GameObject GOUiBad;
     public GameObject GOUiGood;
     public GameObject GOUiPerfect;
-
+    */
     //LE BAIT
     [Header("Bait")]
     [SerializeField] private GameObject GOBait;
@@ -82,7 +83,7 @@ public class SC_Player : MonoBehaviour
 
     //LE SCORE
     [Header("Score")]
-    private float FScore;
+    public float FScore;
     public TMP_Text TMPScore;
 
     //LE JOYSTICK
@@ -93,16 +94,16 @@ public class SC_Player : MonoBehaviour
 
     //LA DETECTION
     [Header("Detection")]
-    [SerializeField] private float fDetectionDangerosity = 20f;
+    public float fDetectionDangerosity = 20f;
     [SerializeField] private float fDetectionLessers = 2f;
     public float FDetectionRate = 2f;
-    private float FDetectionLevel = 0f;
+    public float FDetectionLevel = 0f;
     private float fDetectionLevelMax = 200f;
     [SerializeField] private SC_FieldOfView[] allEnemies;
     public float FTimeWithoutLooseDetection = 5f;
     private bool BLooseDetectLevel;
     [SerializeField] private UnityEngine.UI.Slider sliderDetection;
-    private bool BisDetectedByAnyEnemy = false;
+    public bool BisDetectedByAnyEnemy = false;
 
     //LE TAG
     [Header("Tag")]
@@ -110,8 +111,8 @@ public class SC_Player : MonoBehaviour
     public Material taggedMaterial; 
     private RaycastHit[] hitInfo = new RaycastHit[4];
     [SerializeField] private LayerMask LMask;
-    [SerializeField] private float fFOVmin = 10f;
-    [SerializeField] private float fFOVmax = 10.6f;
+    /*[SerializeField] private float fFOVmin = 10f;
+    [SerializeField] private float fFOVmax = 10.6f;*/
 
     void OnEnable()
     {
@@ -131,13 +132,10 @@ public class SC_Player : MonoBehaviour
     private void Awake()
     {
         CheckControllerStatus();
-        if(bIsOnComputer)
-        {
-
-        }
     }
     void Start()
     {
+        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         if (menuManager == null)
         {
             GameObject goMenu = GameObject.FindWithTag("Manager");
@@ -157,9 +155,13 @@ public class SC_Player : MonoBehaviour
             control = menuManager.control;
             bIsOnComputer = !menuManager.controllerConnected;
         }
+        if (FDetectionRate == 0f)
+        {
+            FDetectionRate = 1f;
+        }
         //soundManager.PlayMusic("lvl0_Tambour");
         //FBPS = 60/FBPM;
-        FBPS = FBPM/60f;
+        /*FBPS = FBPM/60f;
         FSPB = 1f/FBPS;
         FPerfectTiming = 2/14f * FSPB;
         FGoodTiming = 4/14f * FSPB;
@@ -169,19 +171,15 @@ public class SC_Player : MonoBehaviour
         FZonePerfectTiming = FPerfectTiming;
         FWaitTime = FSPB - FZoneBadTiming;
         StartCoroutine(wait());
-        if (FDetectionRate == 0f)
-        {
-            FDetectionRate = 1f;
-        }
         playerLoopInstance = RuntimeManager.CreateInstance(playerLoop);
         playerLoopInstance.start(); 
-        playerLoopInstance.setParameterByName("fPausedVolume", 0.8f);
+        playerLoopInstance.setParameterByName("fPausedVolume", 0.8f);*/
     }
-    public void StartAfterTuto()
+    /*public void StartAfterTuto()
     {
         StartCoroutine(wait());
-    }
-
+    }*/
+    /*
     //LE TEMPO
     IEnumerator wait()
     {
@@ -235,7 +233,7 @@ public class SC_Player : MonoBehaviour
             CheckForward(lastMoveDirection, taggingRange);
         }
         StartCoroutine(wait());
-    }
+    }*/
     
     //L'UPDATE
     void Update()
@@ -251,10 +249,10 @@ public class SC_Player : MonoBehaviour
         {
             UpdateDirAndMovOnJoystickOrPC();
         }
-        CheckIfInputOnTempo();
+        //CheckIfInputOnTempo();
         EnemieDetection();
-        Rythme();
-        CameraRythm(Time.deltaTime, fFOVmax, fFOVmin);
+        /*Rythme();
+        CameraRythm(Time.deltaTime, fFOVmax, fFOVmin);*/
     }
     public void PauseGame()
     {
@@ -263,13 +261,13 @@ public class SC_Player : MonoBehaviour
             Time.timeScale = 0f;
             if(bisTuto == false)
             {
-                playerLoopInstance.setParameterByName("fPausedVolume", 0.8f);
+                bpmManager.playerLoopInstance.setParameterByName("fPausedVolume", 0.8f);
             }
         }
         else
         {
             Time.timeScale = 1f;
-            playerLoopInstance.setParameterByName("fPausedVolume", 1f);
+            bpmManager.playerLoopInstance.setParameterByName("fPausedVolume", 1f);
         }
     }
 
@@ -304,7 +302,7 @@ public class SC_Player : MonoBehaviour
             UpdateDirectionUI();
         }
     }
-    private void CheckIfInputOnTempo()
+    /*private void CheckIfInputOnTempo()
     {
         if (bcanRotate && canMove && (((!bIsOnComputer|| bOnControllerConstraint) && control.GamePlay.Move.triggered)|| (bIsOnComputer && !bOnControllerConstraint &&Input.GetButtonDown("Jump"))))
         {
@@ -337,7 +335,7 @@ public class SC_Player : MonoBehaviour
             }
             bcanRotate = false;
         }
-    }
+    }*/
     Vector3 GetDirectionFromClavier()
     {
         if (Input.GetKeyDown(KeyCode.A) && Input.GetKeyDown(KeyCode.S))
@@ -430,7 +428,7 @@ public class SC_Player : MonoBehaviour
     }
 
     //VERIFIER LE MOUVEMENT
-    private void CheckForward(Vector3 vectDir, float fRange)
+    public void CheckForward(Vector3 vectDir, float fRange)
     {
         if (fRange == taggingRange)
         {
@@ -528,7 +526,7 @@ public class SC_Player : MonoBehaviour
                     Vector3 diagonalCheckPosition = transform.position + vectDir.normalized * floatNumber;
                     // Use OverlapSphere to check for colliders at the diagonal position
                     Collider[] intersecting = Physics.OverlapSphere(diagonalCheckPosition, 0.1f, LMask);
-                    if (intersecting.Length > 0 && ((!bBaitPerfect && !bBaitGood && !bBaitBad && i <= 5) || (bBaitBad && i <= 7) || (bBaitGood && i <= 9) || (bBaitPerfect && i <= 11)))
+                    if (intersecting.Length > 0 && ((!bpmManager.bBaitPerfect && !bpmManager.bBaitGood && !bpmManager.bBaitBad && i <= 5) || (bpmManager.bBaitBad && i <= 7) || (bpmManager.bBaitGood && i <= 9) || (bpmManager.bBaitPerfect && i <= 11)))
                     {
                         foreach(Collider col in intersecting)
                         {
@@ -553,7 +551,7 @@ public class SC_Player : MonoBehaviour
                             }
                         }
                     }
-                    else if ((!bBaitPerfect && !bBaitGood && !bBaitBad && i == 6) || (bBaitBad && i == 8) || (bBaitGood && i == 10) || (bBaitPerfect && i == 12))
+                    else if ((!bpmManager.bBaitPerfect && !bpmManager.bBaitGood && !bpmManager.bBaitBad && i == 6) || (bpmManager.bBaitBad && i == 8) || (bpmManager.bBaitGood && i == 10) || (bpmManager.bBaitPerfect && i == 12))
                     {
                         fThrowMultiplier = floatNumber - 1f;
                         return;
@@ -564,7 +562,7 @@ public class SC_Player : MonoBehaviour
                     }
                 }
                 // Check for walls in the current direction
-                else if (Physics.Raycast(transform.position, vectDir, out RaycastHit hitInfo1, floatNumber + 0.1f, LMask) && ((!bBaitPerfect && !bBaitGood && !bBaitBad && i <= 5) || (bBaitBad && i <= 7) || (bBaitGood && i <= 9) || (bBaitPerfect && i <= 11))) //qqc est devant le joueur au plus près
+                else if (Physics.Raycast(transform.position, vectDir, out RaycastHit hitInfo1, floatNumber + 0.1f, LMask) && ((!bpmManager.bBaitPerfect && !bpmManager.bBaitGood && !bpmManager.bBaitBad && i <= 5) || (bpmManager.bBaitBad && i <= 7) || (bpmManager.bBaitGood && i <= 9) || (bpmManager.bBaitPerfect && i <= 11))) //qqc est devant le joueur au plus près
                 {
                     if (hitInfo1.transform.CompareTag("Wall") || hitInfo1.transform.CompareTag("Tagging") || hitInfo1.transform.CompareTag("Bait"))//il y a un mur devant le joueur
                     {
@@ -586,7 +584,7 @@ public class SC_Player : MonoBehaviour
                         //nothing
                     }
                 }
-                else if ((!bBaitPerfect && !bBaitGood && !bBaitBad && i == 6) || (bBaitBad && i == 8) || (bBaitGood && i == 10) || (bBaitPerfect && i == 12))
+                else if ((!bpmManager.bBaitPerfect && !bpmManager.bBaitGood && !bpmManager.bBaitBad && i == 6) || (bpmManager.bBaitBad && i == 8) || (bpmManager.bBaitGood && i == 10) || (bpmManager.bBaitPerfect && i == 12))
                 {
                     fThrowMultiplier = floatNumber - 1f;
                     return;
@@ -721,7 +719,7 @@ public class SC_Player : MonoBehaviour
     }
 
     //CONCERNANT LE RYTHME
-    private void RotationEnemies()
+    public void RotationEnemies()
     {
         foreach (SC_FieldOfView enemy in allEnemies)
         {
@@ -750,7 +748,7 @@ public class SC_Player : MonoBehaviour
             }
         }
     }
-    private void Rythme()
+    /*private void Rythme()
     {
         if(BBad == true)
         {
@@ -803,7 +801,7 @@ public class SC_Player : MonoBehaviour
             fov = Mathf.Lerp(f_min, f_max, f_time);
             FOVS.m_Width = fov;
         }
-    }
+    }*/
 
     //CONCERNANT LA DETECTION
     void EnemieDetection()

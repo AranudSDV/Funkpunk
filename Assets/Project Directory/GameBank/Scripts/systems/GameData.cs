@@ -11,15 +11,18 @@ public class GameData
     public int[] iTaggsPerHardLvlPlayer;
     public int[] iScorePerLvPlayerl;
     public int[] iScorePerHardLvlPlayer;
+    public int iLanguageNbPlayer;
 
     public int iLevel;
     public int iHardLevel;
     public int[] iTaggsPerHardLvl;
     public int[] iScorePerLvl;
     public int[] iScorePerHardLvl;
+    public int iLanguageNb;
 
     public GameData(PlayerData player)
     {
+        iLanguageNb = player.iLanguageNbPlayer;
         iLevel = player.iLevelPlayer;
         iHardLevel = player.iHardLevelPlayer;
         iTaggsPerHardLvl = new int[player.iTaggsPerHardLvlPlayer.Length];

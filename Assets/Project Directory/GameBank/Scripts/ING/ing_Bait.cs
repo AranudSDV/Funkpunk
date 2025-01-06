@@ -11,6 +11,7 @@ public class ing_Bait : MonoBehaviour
     //Mettre un tag sur cet objet "Bait" ou qqc du style
     public float fTimeLifeBait = 3f;
     public SC_Player scPlayer;
+    public BPM_Manager bpmManager;
     public bool b_BeenThrown = false;
     [SerializeField] private SC_FieldOfView[] allEnemies;
     [SerializeField] private Material mThrown;
@@ -31,6 +32,7 @@ public class ing_Bait : MonoBehaviour
         PS_Impact = Go_vfx_Impact.transform.gameObject.GetComponent<ParticleSystem>();
         bOnce = false;
         scPlayer = GameObject.FindWithTag("Player").GetComponent<SC_Player>();
+        bpmManager = scPlayer.transform.gameObject.GetComponent<BPM_Manager>();
         if (allEnemies == null && !b_BeenThrown)
         {
             allEnemies = FindObjectsOfType<SC_FieldOfView>();

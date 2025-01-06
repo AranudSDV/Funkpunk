@@ -10,6 +10,7 @@ public class PlayerData : MonoBehaviour
     public int[] iTaggsPerHardLvlPlayer;
     public int[] iScorePerLvPlayerl;
     public int[] iScorePerHardLvlPlayer;
+    public int iLanguageNbPlayer;
 
     public void SaveGame()
     {
@@ -25,5 +26,6 @@ public class PlayerData : MonoBehaviour
         iTaggsPerHardLvlPlayer = data.iTaggsPerHardLvl;
         iScorePerLvPlayerl = data.iScorePerLvl;
         iScorePerHardLvlPlayer = data.iScorePerHardLvl;
+        iLanguageNbPlayer = data.iLanguageNb;
     }
 }

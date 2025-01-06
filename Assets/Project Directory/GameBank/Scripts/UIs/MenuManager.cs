@@ -89,7 +89,7 @@ public class MenuManager : MonoBehaviour
     void Update()
     {
         CheckControllerStatus();
-        if (GoMainMenu != null && ((Input.anyKey&&!controllerConnected) || (control.GamePlay.Move.triggered && controllerConnected)))
+        if (GoMainMenu != null && ((Input.anyKeyDown && !(Input.GetMouseButtonDown(0)|| Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2)) && !controllerConnected) || (controllerConnected && control.GamePlay.Move.triggered)))
         {
             LoadScene(sSceneToLoad);
         }
@@ -132,7 +132,7 @@ public class MenuManager : MonoBehaviour
     }
     private void UXNavigation()
     {
-        if ((Input.GetKey(KeyCode.Escape)|| control.GamePlay.Pausing.triggered) && GoPauseMenu.activeInHierarchy == false)
+        if ((Input.GetKey(KeyCode.Escape)|| (controllerConnected && control.GamePlay.Pausing.triggered)) && GoPauseMenu.activeInHierarchy == false)
         {
             if (SceneManager.GetActiveScene().name != "GameChoose" && SceneManager.GetActiveScene().name != "LevelChoosing")
             {
@@ -140,7 +140,7 @@ public class MenuManager : MonoBehaviour
             }
             PauseMenu();
         }
-        else if ((Input.GetKey(KeyCode.Escape) || control.GamePlay.Pausing.triggered) && GoPauseMenu.activeInHierarchy == true && GoScoring.activeInHierarchy == false)
+        else if ((Input.GetKey(KeyCode.Escape) || (controllerConnected && control.GamePlay.Pausing.triggered)) && GoPauseMenu.activeInHierarchy == true && GoScoring.activeInHierarchy == false)
         {
             ClosePauseMenu();
         }
@@ -159,6 +159,10 @@ public class MenuManager : MonoBehaviour
     private void PauseMenu()
     {
         GoPauseMenu.SetActive(true);
+        if(!controllerConnected)
+        {
+            Cursor.lockState = CursorLockMode.None;
+        }
         GameObject goPlayer = GameObject.FindGameObjectWithTag("Player");
         if(goPlayer!=null)
         {
@@ -276,9 +280,13 @@ public class MenuManager : MonoBehaviour
             scPlayer.bGameIsPaused = false;
             scPlayer.PauseGame();
         }
-        if (SceneManager.GetActiveScene().name != "GameChoose" && SceneManager.GetActiveScene().name != "LevelChoosing")
+        if (controllerConnected && SceneManager.GetActiveScene().name != "GameChoose" && SceneManager.GetActiveScene().name != "LevelChoosing")
         {
             EventSystem.firstSelectedGameObject = GoScoring.transform.GetChild(0).gameObject.transform.GetChild(2).gameObject.transform.GetChild(1).gameObject;
+        }
+        if (!controllerConnected && SceneManager.GetActiveScene().name != "GameChoose" && SceneManager.GetActiveScene().name != "LevelChoosing")
+        {
+            Cursor.lockState = CursorLockMode.Locked;
         }
     }
     public void OptionsGame()
@@ -313,9 +321,7 @@ public class MenuManager : MonoBehaviour
         Debug.LogWarning("Scene loading attempt");
         if (isLoadingScene) return;
         if (!Application.CanStreamedLevelBeLoaded(sceneToLoad)) return;
-
         isLoadingScene = true;
-
         loadingOperation = SceneManager.LoadSceneAsync(sceneToLoad);
     }
     IEnumerator FadeLoadingScreen(float targetValue, float duration)

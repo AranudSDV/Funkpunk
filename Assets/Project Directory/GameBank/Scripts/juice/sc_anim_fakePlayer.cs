@@ -6,13 +6,13 @@ using UnityEngine;
 public class sc_anim_fakePlayer : MonoBehaviour
 {
     private float beatDuration = 0.5f;
-    [SerializeField] private SC_Player scplayer;
+    [SerializeField] private BPM_Manager bpmManager;
     [SerializeField] private Material objectMaterial;
     [SerializeField] private Color pulseColor = Color.red;
     [SerializeField] private Color originalColor;
     private void Start()
     {
-        beatDuration = scplayer.FSPB;
+        beatDuration = bpmManager.FSPB;
         AnimateMaterialPulse();
     }
 

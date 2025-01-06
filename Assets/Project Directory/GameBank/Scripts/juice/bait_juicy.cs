@@ -20,8 +20,8 @@ public class bait_juicy : MonoBehaviour
     {
         int hasard = Hasard(-90, 90);
         rotationAngle = Convert.ToSingle(hasard);
-        SC_Player scPlayer = this.transform.parent.GetComponent<ing_Bait>().scPlayer;
-        BaitRythm(scPlayer.FSPB);
+        BPM_Manager bpmManager = this.transform.parent.GetComponent<ing_Bait>().bpmManager;
+        BaitRythm(bpmManager.FSPB);
     }
     private void BaitRythm(float f_beat)
     {

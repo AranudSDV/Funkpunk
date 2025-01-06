@@ -9,6 +9,8 @@ public class MainMenuNameChanging : MonoBehaviour
     [SerializeField]private MenuManager menuManager;
     [SerializeField] private Image imgAnyKey;
     [SerializeField] private Sprite[] spriteKey = new Sprite[2];
+    [SerializeField] private PlayerData playerData;
+    [SerializeField] private GameObject GoLanguage;
     // Update is called once per frame
     void Update()
     {
@@ -20,5 +22,18 @@ public class MainMenuNameChanging : MonoBehaviour
         {
             imgAnyKey.sprite = spriteKey[0];
         }
+    }
+
+    public void LanguageButton(int i)
+    {
+        if(i==0)
+        {
+            playerData.iLanguageNbPlayer = 0;
+        }
+        else if(i==1)
+        {
+            playerData.iLanguageNbPlayer = 1;
+        }
+        GoLanguage.SetActive(false);
     }
 }

@@ -8,6 +8,7 @@ public class player_juicy : MonoBehaviour
 {
     [SerializeField] private float bounceHeight = 0.1f; // How high to bounce
     [SerializeField] private float scaleMultiplier = 1.1f; // Maximum scale during the pulse
+    [SerializeField] private BPM_Manager bpmManager;
     static int Hasard(int a, int b) //Choisi un random.
     {
         System.Random rdm = new System.Random();
@@ -16,8 +17,8 @@ public class player_juicy : MonoBehaviour
     }
     private void Awake()
     {
-        SC_Player scPlayer = this.transform.parent.GetComponent<SC_Player>();
-        BaitRythm(scPlayer.FSPB);
+        BPM_Manager bpmManager = this.transform.parent.GetComponent<BPM_Manager>();
+        BaitRythm(bpmManager.FSPB);
     }
     private void BaitRythm(float f_beat)
     {

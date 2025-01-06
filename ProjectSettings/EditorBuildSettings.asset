@@ -5,19 +5,19 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/World/MainMenu.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/World/GameChoose.unity
     guid: 70a497625976eb343bcf12a7f5fdd78c
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/World/LevelChoosing.unity
     guid: ab4af622eec3c0944bf06d790fa3feb2
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/World/SceneLvl0.unity
     guid: 375213f194983c742af1c56dbd42b7c9
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/PersonalGyms/ShowRoomVisual.unity
     guid: 0607677dce343d041bfb1841a69d8f60
   m_configObjects: {}
