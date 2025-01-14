@@ -517,7 +517,7 @@ public class SC_Player : MonoBehaviour
         }
         else
         {
-            for (int i = 1; i < 12; i++)
+            for (int i = 1; i < 10; i++)
             {
                 float floatNumber = Convert.ToSingle(i);
                 // 1. Check for diagonal movement first
@@ -526,7 +526,7 @@ public class SC_Player : MonoBehaviour
                     Vector3 diagonalCheckPosition = transform.position + vectDir.normalized * floatNumber;
                     // Use OverlapSphere to check for colliders at the diagonal position
                     Collider[] intersecting = Physics.OverlapSphere(diagonalCheckPosition, 0.1f, LMask);
-                    if (intersecting.Length > 0 && ((!bpmManager.bBaitPerfect && !bpmManager.bBaitGood && !bpmManager.bBaitBad && i <= 5) || (bpmManager.bBaitBad && i <= 7) || (bpmManager.bBaitGood && i <= 9) || (bpmManager.bBaitPerfect && i <= 11)))
+                    if (intersecting.Length > 0 && ((!bpmManager.bBaitPerfect && !bpmManager.bBaitGood && !bpmManager.bBaitBad && i <= 5) || (bpmManager.bBaitBad && i <= 7) || (bpmManager.bBaitGood && i <= 8) || (bpmManager.bBaitPerfect && i <= 9)))
                     {
                         foreach(Collider col in intersecting)
                         {
@@ -551,7 +551,7 @@ public class SC_Player : MonoBehaviour
                             }
                         }
                     }
-                    else if ((!bpmManager.bBaitPerfect && !bpmManager.bBaitGood && !bpmManager.bBaitBad && i == 6) || (bpmManager.bBaitBad && i == 8) || (bpmManager.bBaitGood && i == 10) || (bpmManager.bBaitPerfect && i == 12))
+                    else if ((!bpmManager.bBaitPerfect && !bpmManager.bBaitGood && !bpmManager.bBaitBad && i == 6) || (bpmManager.bBaitBad && i == 8) || (bpmManager.bBaitGood && i == 9) || (bpmManager.bBaitPerfect && i == 10))
                     {
                         fThrowMultiplier = floatNumber - 1f;
                         return;
@@ -562,7 +562,7 @@ public class SC_Player : MonoBehaviour
                     }
                 }
                 // Check for walls in the current direction
-                else if (Physics.Raycast(transform.position, vectDir, out RaycastHit hitInfo1, floatNumber + 0.1f, LMask) && ((!bpmManager.bBaitPerfect && !bpmManager.bBaitGood && !bpmManager.bBaitBad && i <= 5) || (bpmManager.bBaitBad && i <= 7) || (bpmManager.bBaitGood && i <= 9) || (bpmManager.bBaitPerfect && i <= 11))) //qqc est devant le joueur au plus près
+                else if (Physics.Raycast(transform.position, vectDir, out RaycastHit hitInfo1, floatNumber + 0.1f, LMask) && ((!bpmManager.bBaitPerfect && !bpmManager.bBaitGood && !bpmManager.bBaitBad && i <= 5) || (bpmManager.bBaitBad && i <= 7) || (bpmManager.bBaitGood && i <= 8) || (bpmManager.bBaitPerfect && i <= 9))) //qqc est devant le joueur au plus près
                 {
                     if (hitInfo1.transform.CompareTag("Wall") || hitInfo1.transform.CompareTag("Tagging") || hitInfo1.transform.CompareTag("Bait"))//il y a un mur devant le joueur
                     {
@@ -584,7 +584,7 @@ public class SC_Player : MonoBehaviour
                         //nothing
                     }
                 }
-                else if ((!bpmManager.bBaitPerfect && !bpmManager.bBaitGood && !bpmManager.bBaitBad && i == 6) || (bpmManager.bBaitBad && i == 8) || (bpmManager.bBaitGood && i == 10) || (bpmManager.bBaitPerfect && i == 12))
+                else if ((!bpmManager.bBaitPerfect && !bpmManager.bBaitGood && !bpmManager.bBaitBad && i == 6) || (bpmManager.bBaitBad && i == 8) || (bpmManager.bBaitGood && i == 9) || (bpmManager.bBaitPerfect && i == 10))
                 {
                     fThrowMultiplier = floatNumber - 1f;
                     return;

@@ -17,9 +17,9 @@ public class sc_tuto : MonoBehaviour
     [SerializeField] private Sprite[] spriteBubbleTuto6;
     [SerializeField] private Sprite[] spriteBubbleTuto7;
     [SerializeField] private SC_Player scPlayer;
-    [Tooltip("0 is toLeft, 1 is toUp, 2 is toRight, 3 is toRightDown, 4 is toRightUp, 5 is toLeftUp")][SerializeField] private GameObject[] fo_arrow = new GameObject[6];
+    [Tooltip("0 is toLeft, 1 is toUp, 2 is toRight, 3 is toRightDown, 4 is toRightUp, 5 is toLeftUp")][SerializeField] private GameObject[] fo_arrow = new GameObject[4];
     [SerializeField] private Material[] materials = new Material[2];
-    private MeshRenderer[] render = new MeshRenderer[6];
+    private MeshRenderer[] render = new MeshRenderer[4];
     [SerializeField]private bool isMeshable = false;
     [SerializeField] private bool isEnnemiTuto = false;
     //[SerializeField] private GameObject goEmptyToFollw;
@@ -47,7 +47,7 @@ public class sc_tuto : MonoBehaviour
             scPlayer.bGameIsPaused = true;
             scPlayer.PauseGame();
             GoTuto[0].gameObject.SetActive(true);
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 4; i++)
             {
                 //GoTuto[0].transform.GetChild(i).gameObject.SetActive(false);
                 render[i] = fo_arrow[i].GetComponent<MeshRenderer>();
@@ -165,7 +165,7 @@ public class sc_tuto : MonoBehaviour
     {
         if (scPlayer.UI_Joystick[3].activeInHierarchy) //0 is H, 1 is HD, 2 is HG, 3 is G, 4 is D, 5 is C, 6 is B, 7 is BD, 8 is BG
         {
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 4; i++)
             {
                 render[i].material = materials[0];
             }
@@ -173,7 +173,7 @@ public class sc_tuto : MonoBehaviour
         }
         else if (scPlayer.UI_Joystick[0].activeInHierarchy) //0 is H, 1 is HD, 2 is HG, 3 is G, 4 is D, 5 is C, 6 is B, 7 is BD, 8 is BG
         {
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 4; i++)
             {
                 render[i].material = materials[0];
             }
@@ -181,32 +181,23 @@ public class sc_tuto : MonoBehaviour
         }
         else if (scPlayer.UI_Joystick[4].activeInHierarchy) //0 is H, 1 is HD, 2 is HG, 3 is G, 4 is D, 5 is C, 6 is B, 7 is BD, 8 is BG
         {
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 4; i++)
             {
                 render[i].material = materials[0];
             }
             render[2].material = materials[1]; //DROITE
         }
-        else if (scPlayer.UI_Joystick[7].activeInHierarchy) //0 is H, 1 is HD, 2 is HG, 3 is G, 4 is D, 5 is C, 6 is B, 7 is BD, 8 is BG
-        {
-            for (int i = 0; i < 6; i++)
-            {
-                render[i].material = materials[0];
-            }
-            render[4].material = materials[1]; //BAS DROITE
-        }
         else if (scPlayer.UI_Joystick[1].activeInHierarchy) //0 is H, 1 is HD, 2 is HG, 3 is G, 4 is D, 5 is C, 6 is B, 7 is BD, 8 is BG
         {
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 4; i++)
             {
                 render[i].material = materials[0];
             }
-            render[3].material = materials[1]; //HAUT DROITE
-            render[5].material = materials[1];
+            render[3].material = materials[1];
         }
         else
         {
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 4; i++)
             {
                 render[i].material = materials[0];
             }
