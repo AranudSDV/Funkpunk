@@ -259,6 +259,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceHeight: 0.1
   scaleMultiplier: 1
+  bpmManager: {fileID: 0}
 --- !u!1 &5537023878201352933
 GameObject:
   m_ObjectHideFlags: 0
@@ -480,43 +481,19 @@ MonoBehaviour:
   bisTuto: 0
   bGameIsPaused: 0
   soundManager: {fileID: 0}
+  menuManager: {fileID: 0}
+  bIsOnComputer: 1
+  bOnControllerConstraint: 0
+  bpmManager: {fileID: 0}
   lastMoveDirection: {x: 0, y: 0, z: 0}
   PlayerCapsule: {fileID: 4589980624701841776}
-  bIsOnComputer: 1
   canMove: 0
   bcanRotate: 0
-  FBPM: 70
-  FSPB: 0
-  FOVS: {fileID: 0}
-  playerLoop:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  colorMiss:
-    serializedVersion: 2
-    rgba: 0
-  colorBad:
-    serializedVersion: 2
-    rgba: 0
-  colorGood:
-    serializedVersion: 2
-    rgba: 0
-  colorPerfect:
-    serializedVersion: 2
-    rgba: 0
-  BBad: 0
-  BGood: 0
-  BPerfect: 0
-  txt_Feedback: {fileID: 0}
-  GOUiBad: {fileID: 0}
-  GOUiGood: {fileID: 0}
-  GOUiPerfect: {fileID: 0}
   GOBait: {fileID: 6885181872792694492, guid: 481679da37c5830468e32f02138b149a, type: 3}
   newThrow: 0
   hasAlreadyBaited: 0
+  FScore: 0
+  fNbBeat: 0
   TMPScore: {fileID: 0}
   UI_Joystick:
   - {fileID: 0}
@@ -531,16 +508,16 @@ MonoBehaviour:
   fDetectionDangerosity: 20
   fDetectionLessers: 2
   FDetectionRate: 0
+  FDetectionLevel: 0
   allEnemies: []
   FTimeWithoutLooseDetection: 5
   sliderDetection: {fileID: 0}
+  BisDetectedByAnyEnemy: 0
   taggingRange: 1
   taggedMaterial: {fileID: 2100000, guid: d7db875ac1c472b45a0bd473bfe1ff3f, type: 2}
   LMask:
     serializedVersion: 2
     m_Bits: 0
-  fFOVmin: 10
-  fFOVmax: 10.6
 --- !u!1 &7848160628830169904
 GameObject:
   m_ObjectHideFlags: 0

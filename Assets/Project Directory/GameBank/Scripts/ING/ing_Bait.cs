@@ -7,64 +7,40 @@ using UnityEngine;
 
 public class ing_Bait : MonoBehaviour
 {
-    //Mettre le private void OnCollisionEnter directement dans le player
-    //Mettre un tag sur cet objet "Bait" ou qqc du style
-    public float fTimeLifeBait = 3f;
     public SC_Player scPlayer;
     public BPM_Manager bpmManager;
-    public bool b_BeenThrown = false;
-    [SerializeField] private SC_FieldOfView[] allEnemies;
+
+    //THROWN 
+    private float elapsedseconds = 0;
+    public Vector3 newPos = new Vector3(0,0,0);
+    public bool bIsBeingThrown = false;
+
+    //MESH
     [SerializeField] private Material mThrown;
     [SerializeField] private Material mNotThrown;
     [SerializeField] private MeshRenderer mshRdn;
+
+    //DETECTED
+    [SerializeField] private SC_FieldOfView[] allEnemies;
     public float detectionRadius = 7f;
-    private bool bCollision = false;
     [SerializeField] private string targetTag;
+
+    //FEEDBACK
     [SerializeField] private GameObject Go_vfx_Smash;
     [SerializeField] private GameObject Go_vfx_Impact;
     private ParticleSystem PS_smash;
     private ParticleSystem PS_Impact;
+
+    //ONE TIME ONLY
+    private bool b_BeenThrown = false;
     private bool bOnce = false;
+    private bool bIsHeard = false;
 
     private void Awake()
     {
         PS_smash = Go_vfx_Smash.transform.gameObject.GetComponent<ParticleSystem>();
         PS_Impact = Go_vfx_Impact.transform.gameObject.GetComponent<ParticleSystem>();
         bOnce = false;
-        scPlayer = GameObject.FindWithTag("Player").GetComponent<SC_Player>();
-        bpmManager = scPlayer.transform.gameObject.GetComponent<BPM_Manager>();
-        if (allEnemies == null && !b_BeenThrown)
-        {
-            allEnemies = FindObjectsOfType<SC_FieldOfView>();
-        }
-        if (b_BeenThrown)
-        {
-            StartCoroutine(NumImpactVFX());
-            GameObject[] allGoEnnemies = DetectObjects();
-            allEnemies = new SC_FieldOfView[allGoEnnemies.Length];
-            if (allEnemies.Length == 0)
-            {
-                b_BeenThrown = false;
-                mshRdn.material = mNotThrown;
-            }
-            else
-            {
-                for (int i = 0; i < allGoEnnemies.Length; i++)
-                {
-                    allEnemies[i] = allGoEnnemies[i].GetComponent<SC_FieldOfView>();
-                }
-                foreach (SC_FieldOfView ennemy in allEnemies)
-                {
-                    if (!ennemy.bIsDisabled)
-                    {
-                        ennemy.bHasHeard = true;
-                        ennemy.i_EnnemyBeat = 0;
-                        Debug.Log("Detected object: " + ennemy.name);
-                    }
-                }
-                mshRdn.material = mThrown;
-            }
-        }
     }
     GameObject[] DetectObjects()
     {
@@ -86,6 +62,37 @@ public class ing_Bait : MonoBehaviour
 
         return objectsInRange.ToArray();
     }
+
+    private void ThrownAway()
+    {
+        bIsBeingThrown = false;
+        StartCoroutine(NumImpactVFX());
+        GameObject[] allGoEnnemies = DetectObjects();
+        allEnemies = new SC_FieldOfView[allGoEnnemies.Length];
+        if (allEnemies.Length == 0)
+        {
+            b_BeenThrown = false;
+            mshRdn.material = mNotThrown;
+            bIsHeard = false;
+        }
+        else
+        {
+            bIsHeard = true;
+            mshRdn.material = mThrown;
+            for (int i = 0; i < allGoEnnemies.Length; i++)
+            {
+                allEnemies[i] = allGoEnnemies[i].GetComponent<SC_FieldOfView>();
+            }
+            foreach (SC_FieldOfView ennemy in allEnemies)
+            {
+                if (!ennemy.bIsDisabled)
+                {
+                    ennemy.bHasHeard = true;
+                    ennemy.i_EnnemyBeat = 0;
+                }
+            }
+        }
+    }
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
@@ -102,7 +109,18 @@ public class ing_Bait : MonoBehaviour
                     ennemy.bHasHeard = false;
                     ennemy.i_EnnemyBeat = 0;
                     b_BeenThrown = false;
+                    bIsHeard = false;
                     mshRdn.material = mNotThrown;
+                }
+                if(ennemy.goBaitHearing != this.transform.gameObject || ennemy.i_EnnemyBeat == 0)
+                {
+                    mshRdn.material = mNotThrown;
+                    Debug.Log("not this one");
+                }
+                else if(ennemy.goBaitHearing == this.transform.gameObject && ennemy.i_EnnemyBeat > 0)
+                {
+                    mshRdn.material = mThrown;
+                    Debug.Log("this one");
                 }
             }
         }
@@ -110,11 +128,20 @@ public class ing_Bait : MonoBehaviour
         {
             b_BeenThrown = false;
         }
-        if (bCollision && b_BeenThrown == false && scPlayer.newThrow == true)
+        if (bIsBeingThrown == true)
         {
             if (!bOnce)
             {
                 StartCoroutine(NumSmashVFX());
+            }
+            elapsedseconds += Time.deltaTime;
+            float interpolationRatio = elapsedseconds / bpmManager.FSPB;
+            transform.position = Vector3.Lerp(this.transform.position, newPos, interpolationRatio);
+            if(interpolationRatio >=1 )
+            {
+                b_BeenThrown = true;
+                ThrownAway();
+                elapsedseconds = 0f;
             }
         }
     }
@@ -122,26 +149,13 @@ public class ing_Bait : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player") && b_BeenThrown == false)
         {
-            scPlayer.ShootBait();
-            bCollision = true;
+            scPlayer.ShootBait(this.GetComponent<ing_Bait>());
             if(scPlayer.hasAlreadyBaited == false)
             {
                 sc_tuto tutoriel = GameObject.FindWithTag("Tuto").gameObject.GetComponent<sc_tuto>();
                 tutoriel.StartTutoBait();
                 scPlayer.hasAlreadyBaited = true;
             }
-        }
-        if (collision.gameObject.CompareTag("Bait"))
-        {
-            DOTween.Kill(this.transform.GetChild(0).gameObject.GetComponent<bait_juicy>());
-            Destroy(this.gameObject);
-        }
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.CompareTag("Player") && b_BeenThrown == false)
-        {
-            bCollision = false;
         }
     }
     IEnumerator NumSmashVFX()
@@ -150,13 +164,12 @@ public class ing_Bait : MonoBehaviour
         Go_vfx_Smash.transform.LookAt(scPlayer.gameObject.transform, Vector3.down);
         Go_vfx_Smash.transform.position += scPlayer.lastMoveDirection;
         Go_vfx_Smash.SetActive(true);
-        //Go_vfx_Smash.transform.LookAt(scPlayer.gameObject.transform, Vector3.down);
         PS_smash.Play();
         yield return new WaitForSeconds(0.5f);
         PS_smash.Stop();
-        Go_vfx_Smash.SetActive(false); 
-        DOTween.Kill(this.transform.GetChild(0).gameObject.GetComponent<bait_juicy>());
-        Destroy(this.gameObject);
+        Go_vfx_Smash.SetActive(false);
+        yield return new WaitForSeconds(0.5f);
+        bOnce = false;
     }
     IEnumerator NumImpactVFX()
     {

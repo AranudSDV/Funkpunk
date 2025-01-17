@@ -35,6 +35,7 @@ public class SC_FieldOfView : MonoBehaviour
     private float currentRotation;    
     private bool isReversing = false;
     public int i_EnnemyBeat = 0;
+    public GameObject goBaitHearing;
 
 
     private void Start()
@@ -140,6 +141,7 @@ public class SC_FieldOfView : MonoBehaviour
     public void BaitHeard(GameObject GOBait)
     {
         transform.LookAt(GOBait.transform);
+        goBaitHearing = GOBait;
     }
     public void FoeDisabled(bool _isDisable)
     {

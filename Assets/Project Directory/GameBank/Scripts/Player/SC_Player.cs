@@ -42,7 +42,6 @@ public class SC_Player : MonoBehaviour
     [Header("Bait")]
     [SerializeField] private GameObject GOBait;
     private GameObject GO_BaitInst;
-    public bool newThrow = false;
     public bool hasAlreadyBaited = false;
     private float fThrowMultiplier = 1f;
 
@@ -255,8 +254,9 @@ public class SC_Player : MonoBehaviour
     }
 
     //CONCERNANT LE BAIT
-    public void ShootBait()
+    public void ShootBait(ing_Bait bait)
     {
+        GO_BaitInst = bait.transform.gameObject;
         CheckForward(lastMoveDirection, 0f);
         if (fThrowMultiplier == 0f)
         {
@@ -264,22 +264,10 @@ public class SC_Player : MonoBehaviour
         }
         else
         {
-            Baiting(new Vector3(this.transform.position.x, this.transform.position.y-0.5f, this.transform.position.z) + lastMoveDirection * fThrowMultiplier);
+            Vector3 _spawnpos = new Vector3(this.transform.position.x, this.transform.position.y - 0.5f, this.transform.position.z) + (lastMoveDirection * fThrowMultiplier);
+            bait.newPos = _spawnpos;
+            bait.bIsBeingThrown = true;
         }
-    }
-    private void Baiting(Vector3 _spawnpos)
-    {
-        newThrow = true;
-        GO_BaitInst = Instantiate(GOBait, _spawnpos, Quaternion.identity);
-        GO_BaitInst.transform.GetChild(0).transform.gameObject.GetComponent<bait_juicy>().enabled = true;
-        ing_Bait scBait = GO_BaitInst.GetComponent< ing_Bait>();
-        scBait.b_BeenThrown = true;
-        StartCoroutine (BaitChange(1f));
-    }
-    private IEnumerator BaitChange(float waitTime)
-    {
-        yield return new WaitForSeconds(waitTime);
-        newThrow = false;
     }
 
     //VERIFIER LE MOUVEMENT
