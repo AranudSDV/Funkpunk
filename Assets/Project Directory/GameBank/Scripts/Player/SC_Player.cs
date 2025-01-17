@@ -37,42 +37,7 @@ public class SC_Player : MonoBehaviour
     private float tolerance = 0.5f;
     public bool canMove = false;
     public bool bcanRotate = false;
-    /*
-    //LE BEAT
-    [Header("Beat")]
-    public float FBPM;
-    private float FBPS;
-    public float FSPB;
-    [SerializeField] private CinemachineFollowZoom FOVS;
-    private bool b_more = false;
-    private bool b_less = false;
-    [SerializeField] private EventReference playerLoop;
-    private FMOD.Studio.EventInstance playerLoopInstance;
 
-    //FEEDBACK ON TIMING
-    [Header("Timing Feedbacks")]
-    [SerializeField] private Color32 colorMiss;
-    [SerializeField] private Color32 colorBad;
-    [SerializeField] private Color32 colorGood;
-    [SerializeField] private Color32 colorPerfect;
-    private float FBadTiming;
-    private float FZoneBadTiming;
-    private float FGoodTiming;
-    private float FZoneGoodTiming;
-    private float FPerfectTiming;
-    private float FZonePerfectTiming;
-    private float FWaitTime;
-    public bool BBad = false;
-    public bool BGood = false;
-    public bool BPerfect = false;
-    private bool bBaitBad = false;
-    private bool bBaitGood = false;
-    private bool bBaitPerfect = false;
-    [SerializeField] private TMP_Text txt_Feedback;
-    public GameObject GOUiBad;
-    public GameObject GOUiGood;
-    public GameObject GOUiPerfect;
-    */
     //LE BAIT
     [Header("Bait")]
     [SerializeField] private GameObject GOBait;
@@ -84,6 +49,8 @@ public class SC_Player : MonoBehaviour
     //LE SCORE
     [Header("Score")]
     public float FScore;
+    public float fNbBeat;
+    private float fPercentScore;
     public TMP_Text TMPScore;
 
     //LE JOYSTICK
@@ -111,8 +78,6 @@ public class SC_Player : MonoBehaviour
     public Material taggedMaterial; 
     private RaycastHit[] hitInfo = new RaycastHit[4];
     [SerializeField] private LayerMask LMask;
-    /*[SerializeField] private float fFOVmin = 10f;
-    [SerializeField] private float fFOVmax = 10.6f;*/
 
     void OnEnable()
     {
@@ -159,87 +124,14 @@ public class SC_Player : MonoBehaviour
         {
             FDetectionRate = 1f;
         }
-        //soundManager.PlayMusic("lvl0_Tambour");
-        //FBPS = 60/FBPM;
-        /*FBPS = FBPM/60f;
-        FSPB = 1f/FBPS;
-        FPerfectTiming = 2/14f * FSPB;
-        FGoodTiming = 4/14f * FSPB;
-        FBadTiming = 6/14f * FSPB;
-        FZoneBadTiming = FBadTiming;
-        FZoneGoodTiming = FGoodTiming;
-        FZonePerfectTiming = FPerfectTiming;
-        FWaitTime = FSPB - FZoneBadTiming;
-        StartCoroutine(wait());
-        playerLoopInstance = RuntimeManager.CreateInstance(playerLoop);
-        playerLoopInstance.start(); 
-        playerLoopInstance.setParameterByName("fPausedVolume", 0.8f);*/
     }
-    /*public void StartAfterTuto()
-    {
-        StartCoroutine(wait());
-    }*/
-    /*
-    //LE TEMPO
-    IEnumerator wait()
-    {
-        if (!bisTuto)
-        {
-            bcanRotate = true;
-        }
-        RotationEnemies();
-        yield return new WaitForSeconds(FWaitTime);
-        StartCoroutine(bad());
-    }
-    IEnumerator bad()
-    {
-        canMove = true;
-        txt_Feedback.text = "";
-        txt_Feedback.color = new Color32(0, 0, 0, 0);
-        BBad = true;
-        yield return new WaitForSeconds(FZoneBadTiming);
-        BBad = false;
-        StartCoroutine(good());
-        yield return new WaitForSeconds(FZoneGoodTiming + FZonePerfectTiming + FZoneGoodTiming);
-    }
-    IEnumerator good()
-    {
-        BGood = true;
-        yield return new WaitForSeconds(FZoneGoodTiming);
-        BGood = false;
-        StartCoroutine(perfect());
-        yield return new WaitForSeconds(FZonePerfectTiming);
-    }
-    IEnumerator perfect()
-    {
-        BPerfect = true;
-        yield return new WaitForSeconds(FZonePerfectTiming);
-        if(BisDetectedByAnyEnemy)
-        {
-            FDetectionLevel += fDetectionDangerosity;
-        }
-        BPerfect = false;
-        canMove = false;
-        if (BBad == false && BGood == false && BPerfect == false && bcanRotate == true)
-        {
-            txt_Feedback.text = "Miss";
-            txt_Feedback.color = colorMiss;
-            bBaitBad = false;
-            bBaitGood = false;
-            bBaitPerfect = false;
-        }
-        if (bisTuto ==false)
-        {
-            CheckForward(lastMoveDirection, taggingRange);
-        }
-        StartCoroutine(wait());
-    }*/
     
     //L'UPDATE
     void Update()
     {
         CheckControllerStatus();
-        TMPScore.SetText(FScore.ToString());
+        fPercentScore = FScore / fNbBeat;
+        TMPScore.SetText(Mathf.Round(fPercentScore).ToString() + "%");
         sliderDetection.value = FDetectionLevel / fDetectionLevelMax;
         if(FDetectionLevel>= fDetectionLevelMax)
         {
@@ -249,10 +141,7 @@ public class SC_Player : MonoBehaviour
         {
             UpdateDirAndMovOnJoystickOrPC();
         }
-        //CheckIfInputOnTempo();
         EnemieDetection();
-        /*Rythme();
-        CameraRythm(Time.deltaTime, fFOVmax, fFOVmin);*/
     }
     public void PauseGame()
     {
@@ -302,40 +191,6 @@ public class SC_Player : MonoBehaviour
             UpdateDirectionUI();
         }
     }
-    /*private void CheckIfInputOnTempo()
-    {
-        if (bcanRotate && canMove && (((!bIsOnComputer|| bOnControllerConstraint) && control.GamePlay.Move.triggered)|| (bIsOnComputer && !bOnControllerConstraint &&Input.GetButtonDown("Jump"))))
-        {
-            if (BBad == true)
-            {
-                FScore = FScore + 10f;
-                txt_Feedback.text = "Bad";
-                txt_Feedback.color = colorBad;
-                bBaitBad = true;
-                bBaitGood = false;
-                bBaitPerfect = false;
-            }
-            else if (BGood == true)
-            {
-                FScore = FScore + 50f;
-                txt_Feedback.text = "Good";
-                txt_Feedback.color = colorGood;
-                bBaitBad = false;
-                bBaitGood = true;
-                bBaitPerfect = false;
-            }
-            else if (BPerfect == true)
-            {
-                FScore = FScore + 100f;
-                txt_Feedback.text = "Perfect!";
-                txt_Feedback.color = colorPerfect;
-                bBaitBad = false;
-                bBaitGood = false;
-                bBaitPerfect = true;
-            }
-            bcanRotate = false;
-        }
-    }*/
     Vector3 GetDirectionFromClavier()
     {
         if (Input.GetKeyDown(KeyCode.A) && Input.GetKeyDown(KeyCode.S))
@@ -748,60 +603,6 @@ public class SC_Player : MonoBehaviour
             }
         }
     }
-    /*private void Rythme()
-    {
-        if(BBad == true)
-        {
-            GOUiBad.SetActive(true);
-        }
-        if(BGood == true)
-        {
-            GOUiGood.SetActive(true);
-        }
-        if(BPerfect == true)
-        {
-            GOUiPerfect.SetActive(true);
-        }
-        if(BPerfect == false)
-        {
-            GOUiPerfect.SetActive(false);
-        }
-        if(BPerfect == false && BGood == false)
-        {
-            GOUiPerfect.SetActive(false);
-            GOUiGood.SetActive(false);
-        }
-        if(BPerfect == false && BGood == false && BBad == false)
-        {
-            GOUiPerfect.SetActive(false);
-            GOUiGood.SetActive(false);
-            GOUiBad.SetActive(false);
-        }
-    }
-    private void CameraRythm(float f_time, float f_max, float f_min)
-    {
-        float fov = FOVS.m_MinFOV;
-        if(BPerfect == true)
-        {
-            b_more = true;
-            b_less = false;
-        }
-        else if(BBad == true)
-        {
-            b_more = false;
-            b_less = true;
-        }
-        if (b_less)
-        {
-            fov = Mathf.Lerp(f_max, f_min, -f_time);
-            FOVS.m_Width = fov;
-        }
-        else if(b_more)
-        {
-            fov = Mathf.Lerp(f_min, f_max, f_time);
-            FOVS.m_Width = fov;
-        }
-    }*/
 
     //CONCERNANT LA DETECTION
     void EnemieDetection()
@@ -873,7 +674,7 @@ public class SC_Player : MonoBehaviour
         TMP_Text textButton = ScoringGo.transform.GetChild(0).gameObject.transform.GetChild(2).gameObject.transform.GetChild(2).gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>();
         if (hasWon)
         {
-            textScoring.text = "Your score is : " + FScore.ToString();
+            textScoring.text = "Your score is : " + Mathf.Round(fPercentScore).ToString() + "%";
             textTitle.text = "Congratulations!";
             textButton.text = "Save";
             UnityEngine.UI.Button btn = menuManager.gameObject.transform.GetChild(2).gameObject.transform.GetChild(0).gameObject.transform.GetChild(2).gameObject.transform.GetChild(2).gameObject.GetComponent<UnityEngine.UI.Button>();
@@ -882,7 +683,7 @@ public class SC_Player : MonoBehaviour
         }
         else
         {
-            textScoring.text = "Your score could have been higher than : " + FScore.ToString();
+            textScoring.text = "Your score could have been higher than : " + Mathf.Round(fPercentScore).ToString() + "%";
             textTitle.text = "You've been detected...";
             textButton.text = "Replay";
             UnityEngine.UI.Button btn = menuManager.gameObject.transform.GetChild(2).gameObject.transform.GetChild(0).gameObject.transform.GetChild(2).gameObject.transform.GetChild(2).gameObject.GetComponent<UnityEngine.UI.Button>();

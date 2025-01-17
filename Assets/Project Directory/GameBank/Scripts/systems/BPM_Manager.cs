@@ -119,6 +119,7 @@ public class BPM_Manager : MonoBehaviour
         if (BBad == false && BGood == false && BPerfect == false && scPlayer.bcanRotate == true)
         {
             txt_Feedback.text = "Miss";
+            scPlayer.fNbBeat += 1f;
             txt_Feedback.color = colorMiss;
             bBaitBad = false;
             bBaitGood = false;
@@ -136,7 +137,8 @@ public class BPM_Manager : MonoBehaviour
         {
             if (BBad == true)
             {
-                scPlayer.FScore = scPlayer.FScore + 10f;
+                scPlayer.FScore = scPlayer.FScore + 35f;
+                scPlayer.fNbBeat += 1f;
                 txt_Feedback.text = "Bad";
                 txt_Feedback.color = colorBad;
                 bBaitBad = true;
@@ -145,7 +147,8 @@ public class BPM_Manager : MonoBehaviour
             }
             else if (BGood == true)
             {
-                scPlayer.FScore = scPlayer.FScore + 50f;
+                scPlayer.FScore = scPlayer.FScore + 65f;
+                scPlayer.fNbBeat += 1f;
                 txt_Feedback.text = "Good";
                 txt_Feedback.color = colorGood;
                 bBaitBad = false;
@@ -155,6 +158,7 @@ public class BPM_Manager : MonoBehaviour
             else if (BPerfect == true)
             {
                 scPlayer.FScore = scPlayer.FScore + 100f;
+                scPlayer.fNbBeat += 1f;
                 txt_Feedback.text = "Perfect!";
                 txt_Feedback.color = colorPerfect;
                 bBaitBad = false;
