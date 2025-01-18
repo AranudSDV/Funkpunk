@@ -147,7 +147,7 @@ public class BPM_Manager : MonoBehaviour
             }
             else if (BGood == true)
             {
-                scPlayer.FScore = scPlayer.FScore + 65f;
+                scPlayer.FScore = scPlayer.FScore + 75f;
                 scPlayer.fNbBeat += 1f;
                 txt_Feedback.text = "Good";
                 txt_Feedback.color = colorGood;

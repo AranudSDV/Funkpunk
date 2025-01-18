@@ -120,6 +120,10 @@ public class ing_Bait : MonoBehaviour
                 {
                     mshRdn.material = mThrown;
                 }
+                if(ennemy.i_EnnemyBeat == -5)
+                {
+                    b_BeenThrown = false;
+                }
             }
         }
         if (allEnemies.Length == 0)
