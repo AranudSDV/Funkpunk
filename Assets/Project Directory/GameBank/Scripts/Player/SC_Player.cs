@@ -320,6 +320,7 @@ public class SC_Player : MonoBehaviour
                     {
                         Renderer wallRenderer = hitInfo.transform.GetComponent<Renderer>();
                         GameObject wallTagged = hitInfo.transform.gameObject;
+                        wallTagged.transform.GetChild(0).gameObject.SetActive(true);
                         TextMeshPro textOnWall = wallTagged.transform.GetChild(0).GetComponent<TextMeshPro>();
                         for(int i = 0;i<4; i++)
                         {
@@ -361,8 +362,17 @@ public class SC_Player : MonoBehaviour
                                 return ;
                             }
                         }
-                        if (textOnWall.text == "3/3")
+                        if (textOnWall.text == "1/3")
                         {
+                            textOnWall.color = bpmManager.colorBad;
+                        }
+                        else if(textOnWall.text == "2/3")
+                        {
+                            textOnWall.color = bpmManager.colorGood;
+                        }
+                        else if (textOnWall.text == "3/3")
+                        {
+                            textOnWall.color = bpmManager.colorPerfect;
                             wallRenderer.material = taggedMaterial; //le joueur tag
                             wallTagged.tag = "Wall";
 

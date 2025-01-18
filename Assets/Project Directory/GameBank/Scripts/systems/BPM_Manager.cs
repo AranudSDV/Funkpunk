@@ -22,10 +22,10 @@ public class BPM_Manager : MonoBehaviour
 
     //FEEDBACK ON TIMING
     [Header("Timing Feedbacks")]
-    [SerializeField] private Color32 colorMiss;
-    [SerializeField] private Color32 colorBad;
-    [SerializeField] private Color32 colorGood;
-    [SerializeField] private Color32 colorPerfect;
+    public Color32 colorMiss;
+    public Color32 colorBad;
+    public Color32 colorGood;
+    public Color32 colorPerfect;
     private float FBadTiming;
     private float FZoneBadTiming;
     private float FGoodTiming;
