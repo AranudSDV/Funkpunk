@@ -296,12 +296,10 @@ public class SC_Player : MonoBehaviour
                         }
                     }
                 }
-
                 if (canMoveDiagonally)
                 {
                     // Move diagonally if no blocking objects or only passable ones
                     Move(vectDir);
-                    return;
                 }
                 else
                 {
@@ -311,7 +309,6 @@ public class SC_Player : MonoBehaviour
                     {
                         Move(newDirection);
                     }
-                    return;
                 }
             }
             // Check for walls in the current direction
@@ -323,13 +320,58 @@ public class SC_Player : MonoBehaviour
                     {
                         Renderer wallRenderer = hitInfo.transform.GetComponent<Renderer>();
                         GameObject wallTagged = hitInfo.transform.gameObject;
-                        wallRenderer.material = taggedMaterial; //le joueur tag
-                        wallTagged.tag = "Wall";
-                        if (wallTagged.gameObject.name == "EndingWall")
+                        TextMeshPro textOnWall = wallTagged.transform.GetChild(0).GetComponent<TextMeshPro>();
+                        for(int i = 0;i<4; i++)
                         {
-                            EndGame(true);
+                            if(bpmManager.bPlayBad)
+                            {
+                                if(textOnWall.text == i.ToString() + "/3")
+                                {
+                                    textOnWall.text = (i + 1).ToString() + "/3";
+                                    break;
+                                }
+                            }
+                            else if (bpmManager.bPlayGood)
+                            {
+                               if(textOnWall.text == i.ToString() + "/3")
+                                {
+                                    if (i < 2)
+                                    {
+                                        textOnWall.text = (i + 2).ToString() + "/3";
+                                    }
+                                    else
+                                    {
+                                        textOnWall.text = "3/3";
+                                    }
+                                    break;
+                                }
+                            }
+                            else if(bpmManager.bPlayPerfect)
+                            {
+                                textOnWall.text = "3/3";
+                                break;
+                            }
+                            else if(!bpmManager.bPlayPerfect && !bpmManager.bPlayGood && !bpmManager.bPlayBad)
+                            {
+                                Vector3 newDirection = FindNewDirection(vectDir, fRange);
+                                if (newDirection != Vector3.zero)
+                                {
+                                    Move(newDirection);
+                                }
+                                return ;
+                            }
                         }
-                        return;
+                        if (textOnWall.text == "3/3")
+                        {
+                            wallRenderer.material = taggedMaterial; //le joueur tag
+                            wallTagged.tag = "Wall";
+
+                            if (wallTagged.gameObject.name == "EndingWall")
+                            {
+                                EndGame(true);
+                            }
+                            return;
+                        }
                     }
                     else if (hitInfo.transform.CompareTag("Wall") || hitInfo.transform.CompareTag("Enemies 1"))
                     {
@@ -369,7 +411,7 @@ public class SC_Player : MonoBehaviour
                     Vector3 diagonalCheckPosition = transform.position + vectDir.normalized * floatNumber;
                     // Use OverlapSphere to check for colliders at the diagonal position
                     Collider[] intersecting = Physics.OverlapSphere(diagonalCheckPosition, 0.1f, LMask);
-                    if (intersecting.Length > 0 && ((!bpmManager.bBaitPerfect && !bpmManager.bBaitGood && !bpmManager.bBaitBad && i <= 5) || (bpmManager.bBaitBad && i <= 7) || (bpmManager.bBaitGood && i <= 8) || (bpmManager.bBaitPerfect && i <= 9)))
+                    if (intersecting.Length > 0 && ((!bpmManager.bPlayPerfect && !bpmManager.bPlayGood && !bpmManager.bPlayBad && i <= 5) || (bpmManager.bPlayBad && i <= 7) || (bpmManager.bPlayGood && i <= 8) || (bpmManager.bPlayPerfect && i <= 9)))
                     {
                         foreach(Collider col in intersecting)
                         {
@@ -394,7 +436,7 @@ public class SC_Player : MonoBehaviour
                             }
                         }
                     }
-                    else if ((!bpmManager.bBaitPerfect && !bpmManager.bBaitGood && !bpmManager.bBaitBad && i == 6) || (bpmManager.bBaitBad && i == 8) || (bpmManager.bBaitGood && i == 9) || (bpmManager.bBaitPerfect && i == 10))
+                    else if ((!bpmManager.bPlayPerfect && !bpmManager.bPlayGood && !bpmManager.bPlayBad && i == 6) || (bpmManager.bPlayBad && i == 8) || (bpmManager.bPlayGood && i == 9) || (bpmManager.bPlayPerfect && i == 10))
                     {
                         fThrowMultiplier = floatNumber - 1f;
                         return;
@@ -405,7 +447,7 @@ public class SC_Player : MonoBehaviour
                     }
                 }
                 // Check for walls in the current direction
-                else if (Physics.Raycast(transform.position, vectDir, out RaycastHit hitInfo1, floatNumber + 0.1f, LMask) && ((!bpmManager.bBaitPerfect && !bpmManager.bBaitGood && !bpmManager.bBaitBad && i <= 5) || (bpmManager.bBaitBad && i <= 7) || (bpmManager.bBaitGood && i <= 8) || (bpmManager.bBaitPerfect && i <= 9))) //qqc est devant le joueur au plus près
+                else if (Physics.Raycast(transform.position, vectDir, out RaycastHit hitInfo1, floatNumber + 0.1f, LMask) && ((!bpmManager.bPlayPerfect && !bpmManager.bPlayGood && !bpmManager.bPlayBad && i <= 5) || (bpmManager.bPlayBad && i <= 7) || (bpmManager.bPlayGood && i <= 8) || (bpmManager.bPlayPerfect && i <= 9))) //qqc est devant le joueur au plus près
                 {
                     if (hitInfo1.transform.CompareTag("Wall") || hitInfo1.transform.CompareTag("Tagging") || hitInfo1.transform.CompareTag("Bait"))//il y a un mur devant le joueur
                     {
@@ -427,7 +469,7 @@ public class SC_Player : MonoBehaviour
                         //nothing
                     }
                 }
-                else if ((!bpmManager.bBaitPerfect && !bpmManager.bBaitGood && !bpmManager.bBaitBad && i == 6) || (bpmManager.bBaitBad && i == 8) || (bpmManager.bBaitGood && i == 9) || (bpmManager.bBaitPerfect && i == 10))
+                else if ((!bpmManager.bPlayPerfect && !bpmManager.bPlayGood && !bpmManager.bPlayBad && i == 6) || (bpmManager.bPlayBad && i == 8) || (bpmManager.bPlayGood && i == 9) || (bpmManager.bPlayPerfect && i == 10))
                 {
                     fThrowMultiplier = floatNumber - 1f;
                     return;

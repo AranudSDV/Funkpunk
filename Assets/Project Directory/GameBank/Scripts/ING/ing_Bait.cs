@@ -115,12 +115,10 @@ public class ing_Bait : MonoBehaviour
                 if(ennemy.goBaitHearing != this.transform.gameObject || ennemy.i_EnnemyBeat == 0)
                 {
                     mshRdn.material = mNotThrown;
-                    Debug.Log("not this one");
                 }
                 else if(ennemy.goBaitHearing == this.transform.gameObject && ennemy.i_EnnemyBeat > 0)
                 {
                     mshRdn.material = mThrown;
-                    Debug.Log("this one");
                 }
             }
         }

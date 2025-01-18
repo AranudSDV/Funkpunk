@@ -36,9 +36,9 @@ public class BPM_Manager : MonoBehaviour
     public bool BBad = false;
     public bool BGood = false;
     public bool BPerfect = false;
-    public bool bBaitBad = false;
-    public bool bBaitGood = false;
-    public bool bBaitPerfect = false;
+    public bool bPlayBad = false;
+    public bool bPlayGood = false;
+    public bool bPlayPerfect = false;
     [SerializeField] private TMP_Text txt_Feedback;
     public GameObject GOUiBad;
     public GameObject GOUiGood;
@@ -121,9 +121,9 @@ public class BPM_Manager : MonoBehaviour
             txt_Feedback.text = "Miss";
             scPlayer.fNbBeat += 1f;
             txt_Feedback.color = colorMiss;
-            bBaitBad = false;
-            bBaitGood = false;
-            bBaitPerfect = false;
+            bPlayBad = false;
+            bPlayGood = false;
+            bPlayPerfect = false;
         }
         if (scPlayer.bisTuto == false)
         {
@@ -141,9 +141,9 @@ public class BPM_Manager : MonoBehaviour
                 scPlayer.fNbBeat += 1f;
                 txt_Feedback.text = "Bad";
                 txt_Feedback.color = colorBad;
-                bBaitBad = true;
-                bBaitGood = false;
-                bBaitPerfect = false;
+                bPlayBad = true;
+                bPlayGood = false;
+                bPlayPerfect = false;
             }
             else if (BGood == true)
             {
@@ -151,9 +151,9 @@ public class BPM_Manager : MonoBehaviour
                 scPlayer.fNbBeat += 1f;
                 txt_Feedback.text = "Good";
                 txt_Feedback.color = colorGood;
-                bBaitBad = false;
-                bBaitGood = true;
-                bBaitPerfect = false;
+                bPlayBad = false;
+                bPlayGood = true;
+                bPlayPerfect = false;
             }
             else if (BPerfect == true)
             {
@@ -161,9 +161,9 @@ public class BPM_Manager : MonoBehaviour
                 scPlayer.fNbBeat += 1f;
                 txt_Feedback.text = "Perfect!";
                 txt_Feedback.color = colorPerfect;
-                bBaitBad = false;
-                bBaitGood = false;
-                bBaitPerfect = true;
+                bPlayBad = false;
+                bPlayGood = false;
+                bPlayPerfect = true;
             }
             scPlayer.bcanRotate = false;
         }
