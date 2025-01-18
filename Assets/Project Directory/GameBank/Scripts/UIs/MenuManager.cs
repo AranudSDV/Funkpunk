@@ -16,21 +16,28 @@ public class MenuManager : MonoBehaviour
 {
     public PlayerControl control;
     private EventSystem EventSystem;
+    public bool controllerConnected = false;
+
+    //NAVIGATION UX
     private GameObject GoMainMenu;
     private GameObject[] GoGameChoose; //0 is GoNewLoadButton, 1 is GoNewLoadText, 2 is GoOptionsButton, 3 is GoExitButton
     [SerializeField] private Sprite[] buttonSpriteGameChoose = new Sprite[2];
     public GameObject[] GoLevelsButton;
+    [SerializeField] private GameObject GoScoring;
+    [SerializeField] private GameObject GoPauseMenu;
+    private bool bActif = false;
+
+    //SCENE LOADING
     public string sSceneToLoad;
     public static bool isLoadingScene = false;
     [SerializeField] private Slider progressBar;
     [SerializeField] private GameObject loadingScreen;
     private AsyncOperation loadingOperation;
     [SerializeField] private CanvasGroup canvasGroup;
-    [SerializeField] private GameObject GoPauseMenu;
-    [SerializeField] private GameObject GoScoring;
+
+    //DATA PLAYER
     private PlayerData _playerData;
     public Level[] _levels;
-    public bool controllerConnected = false;
     [SerializeField] private EventReference menuLoop;
     private FMOD.Studio.EventInstance menuLoopInstance;
 
@@ -142,7 +149,7 @@ public class MenuManager : MonoBehaviour
         }
         else if ((Input.GetKey(KeyCode.Escape) || (controllerConnected && control.GamePlay.Pausing.triggered)) && GoPauseMenu.activeInHierarchy == true && GoScoring.activeInHierarchy == false)
         {
-            ClosePauseMenu();
+            PauseMenu();
         }
         /*else if((GoPauseMenu.activeInHierarchy == false && GoScoring == null) || (GoPauseMenu.activeInHierarchy==false && GoScoring.activeInHierarchy == false))
         {
@@ -156,19 +163,55 @@ public class MenuManager : MonoBehaviour
             }
         }*/
     }
-    private void PauseMenu()
+    public void PauseMenu()
     {
-        GoPauseMenu.SetActive(true);
-        if(!controllerConnected)
+        if (GoPauseMenu.activeInHierarchy == false && !bActif)
         {
-            Cursor.lockState = CursorLockMode.None;
+            GoPauseMenu.SetActive(true);
+            if (!controllerConnected)
+            {
+                Cursor.lockState = CursorLockMode.None;
+            }
+            GameObject goPlayer = GameObject.FindGameObjectWithTag("Player");
+            if (goPlayer != null)
+            {
+                SC_Player scPlayer = goPlayer.GetComponent<SC_Player>();
+                scPlayer.bGameIsPaused = true;
+                scPlayer.PauseGame();
+            }
+            StartCoroutine(wait());
         }
-        GameObject goPlayer = GameObject.FindGameObjectWithTag("Player");
-        if(goPlayer!=null)
+        else if (GoPauseMenu.activeInHierarchy == true && bActif)
         {
-            SC_Player scPlayer = goPlayer.GetComponent<SC_Player>();
-            scPlayer.bGameIsPaused = true;
-            scPlayer.PauseGame();
+            GoPauseMenu.SetActive(false);
+            GameObject goPlayer = GameObject.FindGameObjectWithTag("Player");
+            if (goPlayer != null)
+            {
+                SC_Player scPlayer = goPlayer.GetComponent<SC_Player>();
+                scPlayer.bGameIsPaused = false;
+                scPlayer.PauseGame();
+            }
+            if (controllerConnected && SceneManager.GetActiveScene().name != "GameChoose" && SceneManager.GetActiveScene().name != "LevelChoosing")
+            {
+                EventSystem.firstSelectedGameObject = GoScoring.transform.GetChild(0).gameObject.transform.GetChild(2).gameObject.transform.GetChild(1).gameObject;
+            }
+            if (!controllerConnected && SceneManager.GetActiveScene().name != "GameChoose" && SceneManager.GetActiveScene().name != "LevelChoosing")
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+            StartCoroutine(wait());
+        }
+    }
+    private IEnumerator wait()
+    {
+        yield return new WaitForSecondsRealtime(0.5f);
+        if (GoPauseMenu.activeInHierarchy && !bActif)
+        {
+            bActif = true;
+        }
+        else if (GoPauseMenu.activeInHierarchy == false && bActif)
+        {
+            bActif = false;
         }
     }
     private void LoadTargetUIMenus()
@@ -268,25 +311,6 @@ public class MenuManager : MonoBehaviour
                     textChild.color = new Color32(64, 97, 255, 255);
                 }
             }
-        }
-    }
-    public void ClosePauseMenu()
-    {
-        GoPauseMenu.SetActive(false);
-        GameObject goPlayer = GameObject.FindGameObjectWithTag("Player");
-        if (goPlayer != null)
-        {
-            SC_Player scPlayer = goPlayer.GetComponent<SC_Player>();
-            scPlayer.bGameIsPaused = false;
-            scPlayer.PauseGame();
-        }
-        if (controllerConnected && SceneManager.GetActiveScene().name != "GameChoose" && SceneManager.GetActiveScene().name != "LevelChoosing")
-        {
-            EventSystem.firstSelectedGameObject = GoScoring.transform.GetChild(0).gameObject.transform.GetChild(2).gameObject.transform.GetChild(1).gameObject;
-        }
-        if (!controllerConnected && SceneManager.GetActiveScene().name != "GameChoose" && SceneManager.GetActiveScene().name != "LevelChoosing")
-        {
-            Cursor.lockState = CursorLockMode.Locked;
         }
     }
     public void OptionsGame()
