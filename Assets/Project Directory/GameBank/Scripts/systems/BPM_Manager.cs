@@ -110,10 +110,6 @@ public class BPM_Manager : MonoBehaviour
     {
         BPerfect = true;
         yield return new WaitForSeconds(FZonePerfectTiming);
-        if (scPlayer.BisDetectedByAnyEnemy)
-        {
-            scPlayer.FDetectionLevel += scPlayer.fDetectionDangerosity;
-        }
         BPerfect = false;
         scPlayer.canMove = false;
         if (BBad == false && BGood == false && BPerfect == false && scPlayer.bcanRotate == true)
@@ -124,6 +120,14 @@ public class BPM_Manager : MonoBehaviour
             bPlayBad = false;
             bPlayGood = false;
             bPlayPerfect = false;
+            if (!scPlayer.BisDetectedByAnyEnemy)
+            {
+                scPlayer.FDetectionLevel += 2f;
+            }
+        }
+        if (scPlayer.BisDetectedByAnyEnemy)
+        {
+            scPlayer.FDetectionLevel += 20f;
         }
         if (scPlayer.bisTuto == false)
         {
@@ -144,6 +148,10 @@ public class BPM_Manager : MonoBehaviour
                 bPlayBad = true;
                 bPlayGood = false;
                 bPlayPerfect = false;
+                if (!scPlayer.BisDetectedByAnyEnemy)
+                {
+                    scPlayer.FDetectionLevel -= 2f;
+                }
             }
             else if (BGood == true)
             {
@@ -154,6 +162,10 @@ public class BPM_Manager : MonoBehaviour
                 bPlayBad = false;
                 bPlayGood = true;
                 bPlayPerfect = false;
+                if (!scPlayer.BisDetectedByAnyEnemy)
+                {
+                    scPlayer.FDetectionLevel -= 5f;
+                }
             }
             else if (BPerfect == true)
             {
@@ -164,6 +176,10 @@ public class BPM_Manager : MonoBehaviour
                 bPlayBad = false;
                 bPlayGood = false;
                 bPlayPerfect = true;
+                if (!scPlayer.BisDetectedByAnyEnemy)
+                {
+                    scPlayer.FDetectionLevel -= 10f;
+                }
             }
             scPlayer.bcanRotate = false;
         }

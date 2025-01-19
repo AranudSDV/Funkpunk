@@ -60,11 +60,8 @@ public class SC_Player : MonoBehaviour
 
     //LA DETECTION
     [Header("Detection")]
-    public float fDetectionDangerosity = 20f;
-    [SerializeField] private float fDetectionLessers = 2f;
-    public float FDetectionRate = 2f;
     public float FDetectionLevel = 0f;
-    private float fDetectionLevelMax = 200f;
+    private float fDetectionLevelMax = 100f;
     [SerializeField] private SC_FieldOfView[] allEnemies;
     public float FTimeWithoutLooseDetection = 5f;
     private bool BLooseDetectLevel;
@@ -119,10 +116,6 @@ public class SC_Player : MonoBehaviour
             control = menuManager.control;
             bIsOnComputer = !menuManager.controllerConnected;
         }
-        if (FDetectionRate == 0f)
-        {
-            FDetectionRate = 1f;
-        }
     }
     
     //L'UPDATE
@@ -135,6 +128,10 @@ public class SC_Player : MonoBehaviour
         if(FDetectionLevel>= fDetectionLevelMax)
         {
             EndGame(false);
+        }
+        if(FDetectionLevel <0)
+        {
+            FDetectionLevel = 0;
         }
         if (bcanRotate == true)
         {
@@ -676,12 +673,6 @@ public class SC_Player : MonoBehaviour
                 i = 0;
                 y = 0;
             }
-        }
- 
-        if (BLooseDetectLevel)
-        {
-            FDetectionLevel -= FDetectionRate * Time.deltaTime* fDetectionLessers;
-            FDetectionLevel = Mathf.Max(FDetectionLevel, 0);
         }
 
         if(BisDetectedByAnyEnemy)
