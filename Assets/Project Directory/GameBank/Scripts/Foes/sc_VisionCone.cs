@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class sc_VisionCone : MonoBehaviour
 {
@@ -10,72 +11,37 @@ public class sc_VisionCone : MonoBehaviour
     [SerializeField] private Material mHeardCone;
     [SerializeField] private SC_FieldOfView scFieldView;
     private float fVisionAngle;
-    [SerializeField] private int iVisionConeResolution = 120; 
-    private Mesh VisionConeMesh;
-    private MeshFilter ConeMeshFilter;
-    private MeshRenderer ConeRenderer;
+    [SerializeField]private GameObject GoCone;
+    private MeshRenderer _ConeRenderer;
 
     private void Start()
     {
-        ConeRenderer = transform.AddComponent<MeshRenderer>();
-        ConeRenderer.material = mVisionCone;
-        ConeMeshFilter = transform.AddComponent<MeshFilter>();
-        VisionConeMesh = new Mesh();
-        fVisionAngle = scFieldView.FAngle;
-        fVisionAngle *= Mathf.Deg2Rad;
+        //Cone
+        _ConeRenderer = GoCone.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>();
+        _ConeRenderer.material = mVisionCone;
     }
 
     private void Update()
     {
-        DrawVisionCone();
-        if(scFieldView.BCanSee)
+        ChangeVisionCone();
+        if (scFieldView.BCanSee)
         {
-            ConeRenderer.material = mDetectedCone;
+            _ConeRenderer.material = mDetectedCone;
         }
         else if(scFieldView.bHasHeard)
         {
-            ConeRenderer.material = mHeardCone;
+            _ConeRenderer.material = mHeardCone;
         }
         else
         {
-            ConeRenderer.material = mVisionCone;
+            _ConeRenderer.material = mVisionCone;
         }
     }
-
-    private void DrawVisionCone()
+    private void ChangeVisionCone()
     {
-        int[] triangles = new int[(iVisionConeResolution - 1) * 3];
-        Vector3[] Vertices = new Vector3[iVisionConeResolution + 1];
-        Vertices[0] = Vector3.zero;
-        float fCurrentAngle = -fVisionAngle / 2;
-        float fAngleIcrement = fVisionAngle / (iVisionConeResolution - 1);
-        float Sine;
-        float Cosine;
-        for (int i = 0; i < iVisionConeResolution; i++)
-        {
-            Sine = Mathf.Sin(fCurrentAngle);
-            Cosine = Mathf.Cos(fCurrentAngle);
-            Vector3 RaycastDirection = (transform.forward * Cosine) + (transform.right * Sine);
-            Vector3 VertForward = (Vector3.forward * Cosine) + (Vector3.right * Sine);
-            if(Physics.Raycast(transform.position, RaycastDirection, out RaycastHit hit, scFieldView.FRadius, scFieldView.LMObstructionMask))
-            {
-                Vertices[i + 1] = VertForward * hit.distance;
-            }
-            else
-            {
-                Vertices[i + 1] = VertForward * scFieldView.FRadius;
-            }
-            fCurrentAngle += fAngleIcrement;
-        }
-        for(int i = 0, j=0; i<triangles.Length; i+=3, j++)
-        {
-            triangles[i] = 0;
-            triangles[i + 1] = j + 1;
-            triangles[i + 2] = j + 2;
-        }
-        VisionConeMesh.Clear();
-        VisionConeMesh.vertices = Vertices;
-        VisionConeMesh.triangles = triangles;
-        ConeMeshFilter.mesh = VisionConeMesh;
+        fVisionAngle = scFieldView.FAngle;
+        fVisionAngle *= Mathf.Deg2Rad;
+        float scale = Mathf.Ceil(2* Mathf.PI*scFieldView.FRadius * scFieldView.FAngle/360);
+        GoCone.transform.localScale = new Vector3(scale,2, scFieldView.FRadius);
     }
 }

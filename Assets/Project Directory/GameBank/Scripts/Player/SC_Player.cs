@@ -723,8 +723,21 @@ public class SC_Player : MonoBehaviour
     }
     private void PlayerDataUpdate(PlayerData data)
     {
-        data.iScorePerLvPlayerl[data.iLevelPlayer] = Convert.ToInt32(FScore);
-        data.iLevelPlayer += 1;
+        if ("SceneLvl" + data.iLevelPlayer.ToString() == SceneManager.GetActiveScene().name)
+        {
+            if (fPercentScore > data.iScorePerLvlPlayer[data.iLevelPlayer])
+            {
+                data.iScorePerLvlPlayer[data.iLevelPlayer] = Convert.ToInt32(fPercentScore);
+            }
+            data.iLevelPlayer += 1;
+        }
+        else
+        {
+            if (fPercentScore > data.iScorePerLvlPlayer[data.iLevelPlayer])
+            {
+                data.iScorePerLvlPlayer[data.iLevelPlayer -1] = Convert.ToInt32(fPercentScore);
+            }
+        }
     }
 
     private void CheckControllerStatus()

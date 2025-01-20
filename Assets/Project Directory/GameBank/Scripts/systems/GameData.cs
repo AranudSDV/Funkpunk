@@ -14,52 +14,26 @@ public class GameData
     public int iLanguageNbPlayer;
 
     public int iLevel;
-    public int iHardLevel;
-    public int[] iTaggsPerHardLvl;
     public int[] iScorePerLvl;
-    public int[] iScorePerHardLvl;
+    public int[] iStarsLvl0; //0 is true 1 is false
     public int iLanguageNb;
 
     public GameData(PlayerData player)
     {
         iLanguageNb = player.iLanguageNbPlayer;
         iLevel = player.iLevelPlayer;
-        iHardLevel = player.iHardLevelPlayer;
-        iTaggsPerHardLvl = new int[player.iTaggsPerHardLvlPlayer.Length];
-        if (player.iTaggsPerHardLvlPlayer != null)
+        iScorePerLvl = new int[player.iScorePerLvlPlayer.Length];
+        iStarsLvl0 = new int[player.iStarsLvl0Player.Length];
+        if (player.iScorePerLvlPlayer != null)
         {
-            for (int i = 0; i < player.iTaggsPerHardLvlPlayer.Length; i++)
+            for (int i = 0; i < player.iScorePerLvlPlayer.Length; i++)
             {
-                iTaggsPerHardLvl[i] = player.iTaggsPerHardLvlPlayer[i];
-            }
-        }
-        else
-        {
-            iTaggsPerHardLvl = null;
-        }
-        iScorePerLvl = new int[player.iScorePerLvPlayerl.Length];
-        if (player.iScorePerLvPlayerl != null)
-        {
-            for (int i = 0; i < player.iScorePerLvPlayerl.Length; i++)
-            {
-                iScorePerLvl[i] = player.iScorePerLvPlayerl[i];
+                iScorePerLvl[i] = player.iScorePerLvlPlayer[i];
             }
         }
         else
         {
             iScorePerLvl = null;
-        }
-        iScorePerHardLvl = new int[player.iScorePerHardLvlPlayer.Length];
-        if (player.iScorePerHardLvlPlayer != null)
-        {
-            for (int i = 0; i < player.iScorePerHardLvlPlayer.Length; i++)
-            {
-                iScorePerHardLvl[i] = player.iScorePerHardLvlPlayer[i];
-            }
-        }
-        else
-        {
-            iScorePerHardLvl = null;
         }
     }
 }

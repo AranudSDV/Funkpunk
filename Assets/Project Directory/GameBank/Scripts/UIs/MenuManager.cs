@@ -373,4 +373,8 @@ public class MenuManager : MonoBehaviour
 
         Application.Quit();
     }
+    public void ReLoad()
+    {
+        StartCoroutine(StartLoad(SceneManager.GetActiveScene().name));
+    }
 }

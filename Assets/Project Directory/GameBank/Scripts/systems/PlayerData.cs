@@ -6,10 +6,8 @@ using UnityEngine;
 public class PlayerData : MonoBehaviour
 {
     public int iLevelPlayer;
-    public int iHardLevelPlayer;
-    public int[] iTaggsPerHardLvlPlayer;
-    public int[] iScorePerLvPlayerl;
-    public int[] iScorePerHardLvlPlayer;
+    public int[] iStarsLvl0Player; //0 is true 1 is false
+    public int[] iScorePerLvlPlayer;
     public int iLanguageNbPlayer;
 
     public void SaveGame()
@@ -22,10 +20,7 @@ public class PlayerData : MonoBehaviour
         GameData data = SaveSystem.LoadGame();
 
         iLevelPlayer = data.iLevel;
-        iHardLevelPlayer = data.iHardLevel;
-        iTaggsPerHardLvlPlayer = data.iTaggsPerHardLvl;
-        iScorePerLvPlayerl = data.iScorePerLvl;
-        iScorePerHardLvlPlayer = data.iScorePerHardLvl;
+        iScorePerLvlPlayer = data.iScorePerLvl;
         iLanguageNbPlayer = data.iLanguageNb;
     }
 }
