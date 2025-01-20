@@ -468,8 +468,8 @@ Shader "SHR_Fire"
 				simplePerlin3D48 = simplePerlin3D48*0.5 + 0.5;
 				float4 appendResult54 = (float4(simplePerlin3D48 , simplePerlin3D48 , 0.0 , 0.0));
 				float2 texCoord49 = IN.ase_texcoord3.xy * appendResult54.xy + float2( 0,0 );
-				float saferPower46 = abs( ( 1.0 - (texCoord49).y ) );
-				float4 temp_cast_2 = (( pow( saferPower46 , 7.0 ) - ( (texCoord43).y - 0.5 ) )).xxxx;
+				float saferPower46 = abs( ( ( 1.0 - (texCoord49).y ) + 0.2 ) );
+				float4 temp_cast_2 = (( pow( saferPower46 , 5.0 ) - ( (texCoord43).y - 0.5 ) )).xxxx;
 				float div55=256.0/float(48);
 				float4 posterize55 = ( floor( temp_cast_2 * div55 ) / div55 );
 				float temp_output_65_0 = (posterize55).g;
@@ -788,8 +788,8 @@ Shader "SHR_Fire"
 				simplePerlin3D48 = simplePerlin3D48*0.5 + 0.5;
 				float4 appendResult54 = (float4(simplePerlin3D48 , simplePerlin3D48 , 0.0 , 0.0));
 				float2 texCoord49 = IN.ase_texcoord2.xy * appendResult54.xy + float2( 0,0 );
-				float saferPower46 = abs( ( 1.0 - (texCoord49).y ) );
-				float4 temp_cast_2 = (( pow( saferPower46 , 7.0 ) - ( (texCoord43).y - 0.5 ) )).xxxx;
+				float saferPower46 = abs( ( ( 1.0 - (texCoord49).y ) + 0.2 ) );
+				float4 temp_cast_2 = (( pow( saferPower46 , 5.0 ) - ( (texCoord43).y - 0.5 ) )).xxxx;
 				float div55=256.0/float(48);
 				float4 posterize55 = ( floor( temp_cast_2 * div55 ) / div55 );
 				float temp_output_65_0 = (posterize55).g;
@@ -1066,8 +1066,8 @@ Shader "SHR_Fire"
 				simplePerlin3D48 = simplePerlin3D48*0.5 + 0.5;
 				float4 appendResult54 = (float4(simplePerlin3D48 , simplePerlin3D48 , 0.0 , 0.0));
 				float2 texCoord49 = IN.ase_texcoord.xy * appendResult54.xy + float2( 0,0 );
-				float saferPower46 = abs( ( 1.0 - (texCoord49).y ) );
-				float4 temp_cast_2 = (( pow( saferPower46 , 7.0 ) - ( (texCoord43).y - 0.5 ) )).xxxx;
+				float saferPower46 = abs( ( ( 1.0 - (texCoord49).y ) + 0.2 ) );
+				float4 temp_cast_2 = (( pow( saferPower46 , 5.0 ) - ( (texCoord43).y - 0.5 ) )).xxxx;
 				float div55=256.0/float(48);
 				float4 posterize55 = ( floor( temp_cast_2 * div55 ) / div55 );
 				float temp_output_65_0 = (posterize55).g;
@@ -1347,8 +1347,8 @@ Shader "SHR_Fire"
 				simplePerlin3D48 = simplePerlin3D48*0.5 + 0.5;
 				float4 appendResult54 = (float4(simplePerlin3D48 , simplePerlin3D48 , 0.0 , 0.0));
 				float2 texCoord49 = IN.ase_texcoord.xy * appendResult54.xy + float2( 0,0 );
-				float saferPower46 = abs( ( 1.0 - (texCoord49).y ) );
-				float4 temp_cast_2 = (( pow( saferPower46 , 7.0 ) - ( (texCoord43).y - 0.5 ) )).xxxx;
+				float saferPower46 = abs( ( ( 1.0 - (texCoord49).y ) + 0.2 ) );
+				float4 temp_cast_2 = (( pow( saferPower46 , 5.0 ) - ( (texCoord43).y - 0.5 ) )).xxxx;
 				float div55=256.0/float(48);
 				float4 posterize55 = ( floor( temp_cast_2 * div55 ) / div55 );
 				float temp_output_65_0 = (posterize55).g;
@@ -1643,8 +1643,8 @@ Shader "SHR_Fire"
 				simplePerlin3D48 = simplePerlin3D48*0.5 + 0.5;
 				float4 appendResult54 = (float4(simplePerlin3D48 , simplePerlin3D48 , 0.0 , 0.0));
 				float2 texCoord49 = IN.ase_texcoord1.xy * appendResult54.xy + float2( 0,0 );
-				float saferPower46 = abs( ( 1.0 - (texCoord49).y ) );
-				float4 temp_cast_2 = (( pow( saferPower46 , 7.0 ) - ( (texCoord43).y - 0.5 ) )).xxxx;
+				float saferPower46 = abs( ( ( 1.0 - (texCoord49).y ) + 0.2 ) );
+				float4 temp_cast_2 = (( pow( saferPower46 , 5.0 ) - ( (texCoord43).y - 0.5 ) )).xxxx;
 				float div55=256.0/float(48);
 				float4 posterize55 = ( floor( temp_cast_2 * div55 ) / div55 );
 				float temp_output_65_0 = (posterize55).g;
@@ -1697,11 +1697,12 @@ Node;AmplifyShaderEditor.NoiseGeneratorNode;48;-1035.269,-128.5364;Inherit;False
 Node;AmplifyShaderEditor.DynamicAppendNode;54;-768.194,-334.6756;Inherit;False;FLOAT4;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT4;0
 Node;AmplifyShaderEditor.TextureCoordinatesNode;49;-958.4691,-609.3364;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.ComponentMaskNode;44;-836.0685,-601.3364;Inherit;True;False;True;True;True;1;0;FLOAT2;0,0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.OneMinusNode;45;-574.4686,-603.7365;Inherit;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.OneMinusNode;45;-590.4076,-483.056;Inherit;True;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.ComponentMaskNode;67;-830.6373,-799.8365;Inherit;False;False;True;True;True;1;0;FLOAT2;0,0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;81;-350.09,-385.4947;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0.2;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleSubtractOpNode;68;-581.0314,-893.2631;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0.5;False;1;FLOAT;0
-Node;AmplifyShaderEditor.PowerNode;46;-418.4686,-624.536;Inherit;False;True;2;0;FLOAT;0;False;1;FLOAT;7;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleSubtractOpNode;66;-195.6959,-709.4332;Inherit;True;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.PowerNode;46;-240.8634,-616.5665;Inherit;False;True;2;0;FLOAT;0;False;1;FLOAT;5;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleSubtractOpNode;66;-63.6306,-720.8182;Inherit;True;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.PosterizeNode;55;-51.37606,-329.6735;Inherit;True;48;2;1;COLOR;0,0,0,0;False;0;INT;48;False;1;COLOR;0
 Node;AmplifyShaderEditor.ComponentMaskNode;65;192.3832,-397.5132;Inherit;True;False;True;False;False;1;0;COLOR;0,0,0,0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.ComponentMaskNode;53;-673.5967,-110.8143;Inherit;False;True;True;True;True;1;0;FLOAT;0;False;1;FLOAT;0
@@ -1731,8 +1732,9 @@ WireConnection;49;0;54;0
 WireConnection;44;0;49;0
 WireConnection;45;0;44;0
 WireConnection;67;0;43;0
+WireConnection;81;0;45;0
 WireConnection;68;0;67;0
-WireConnection;46;0;45;0
+WireConnection;46;0;81;0
 WireConnection;66;0;46;0
 WireConnection;66;1;68;0
 WireConnection;55;1;66;0
@@ -1750,4 +1752,4 @@ WireConnection;63;1;65;0
 WireConnection;1;2;62;0
 WireConnection;1;3;63;0
 ASEEND*/
-//CHKSM=DE855D1292E0E0247B9931E07B6DE71EB2DABC23
+//CHKSM=348271D9A8990FE52B4BBB929069658A9F358DFD
