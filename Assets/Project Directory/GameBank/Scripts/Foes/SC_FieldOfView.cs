@@ -10,7 +10,6 @@ public class SC_FieldOfView : MonoBehaviour
     [Range(0,360)]
     public float FAngle;
 
-    public bool bIsFakeEnemy = false;
     public GameObject GOPlayerRef;
     [SerializeField] private GameObject Go_vfx_detected;
     [SerializeField] private GameObject Go_vfx_disable;

@@ -457,7 +457,6 @@ public class sc_tuto : MonoBehaviour
             }
         }
     }
-
     private void ChangeTutoController()
     {
         if (scPlayer.bIsOnComputer==false)

@@ -16,6 +16,7 @@ using static UnityEngine.EventSystems.EventTrigger;
 using Cinemachine;
 using UnityEngine.Rendering.PostProcessing;
 using FMODUnity;
+using System.Text.RegularExpressions;
 //using UnityEditor.PackageManager;
 
 public class SC_Player : MonoBehaviour
@@ -27,6 +28,11 @@ public class SC_Player : MonoBehaviour
     public bool bIsOnComputer = true;
     public bool bOnControllerConstraint = false;
     [SerializeField] private BPM_Manager bpmManager;
+
+    //LES CHALLENGES
+    private bool bHasBeenDetectedOneTime = false;
+    public bool bHasNoMiss = true;
+    private int itagDone = 0;
 
     //LE PLAYER ET SES MOUVEMENTS
     [Header("Player and movement")]
@@ -148,11 +154,20 @@ public class SC_Player : MonoBehaviour
             {
                 bpmManager.playerLoopInstance.setParameterByName("fPausedVolume", 0.8f);
             }
+            if(!menuManager.controllerConnected && bisTuto == false)
+            {
+                UnityEngine.Cursor.lockState = CursorLockMode.None;
+            }
+            else
+            {
+                UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+            }
         }
         else
         {
             Time.timeScale = 1f;
             bpmManager.playerLoopInstance.setParameterByName("fPausedVolume", 1f);
+            UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         }
     }
 
@@ -372,7 +387,7 @@ public class SC_Player : MonoBehaviour
                             textOnWall.color = bpmManager.colorPerfect;
                             wallRenderer.material = taggedMaterial; //le joueur tag
                             wallTagged.tag = "Wall";
-
+                            itagDone += 1;
                             if (wallTagged.gameObject.name == "EndingWall")
                             {
                                 EndGame(true);
@@ -650,11 +665,9 @@ public class SC_Player : MonoBehaviour
         {
             if (enemie.BCanSee)
             {
-                if(enemie.bIsFakeEnemy == false)
-                {
-                    BLooseDetectLevel = false;
-                    BisDetectedByAnyEnemy = true;
-                }
+                BLooseDetectLevel = false;
+                BisDetectedByAnyEnemy = true;
+                bHasBeenDetectedOneTime = true;
                 y++;
             }
             else if (enemie.BCanSee == false)
@@ -674,7 +687,6 @@ public class SC_Player : MonoBehaviour
                 y = 0;
             }
         }
-
         if(BisDetectedByAnyEnemy)
         {
             GameObject GoChild = this.gameObject.transform.GetChild(2).gameObject;
@@ -699,47 +711,169 @@ public class SC_Player : MonoBehaviour
         PauseGame();
         PlayerData data = menuManager.gameObject.GetComponent<PlayerData>();
         GameObject ScoringGo = menuManager.gameObject.transform.GetChild(2).gameObject;
+        GameObject GoWin = ScoringGo.transform.GetChild(0).gameObject;
+        GameObject GoLoose = ScoringGo.transform.GetChild(1).gameObject;
         ScoringGo.SetActive(true);
-        TMP_Text textScoring = ScoringGo.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>();
-        TMP_Text textTitle = ScoringGo.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject.GetComponent<TMP_Text>();
-        TMP_Text textButton = ScoringGo.transform.GetChild(0).gameObject.transform.GetChild(2).gameObject.transform.GetChild(2).gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>();
-        if (hasWon)
+        if (hasWon && fPercentScore >= 35)
         {
-            textScoring.text = "Your score is : " + Mathf.Round(fPercentScore).ToString() + "%";
-            textTitle.text = "Congratulations!";
-            textButton.text = "Save";
-            UnityEngine.UI.Button btn = menuManager.gameObject.transform.GetChild(2).gameObject.transform.GetChild(0).gameObject.transform.GetChild(2).gameObject.transform.GetChild(2).gameObject.GetComponent<UnityEngine.UI.Button>();
-            btn.onClick.AddListener(() => data.SaveGame());
+            GoWin.SetActive(true);
+            GoLoose.SetActive(false);
+            //LE SCORING
+            TMP_Text textScoring = GoWin.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject.GetComponent<TMP_Text>();
+            TMP_Text textJudgment = GoWin.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>();
+            textJudgment.text = sJugement(hasWon)[0];
+            textScoring.text = sJugement(hasWon)[1];
+            //LES EXPLOITS
+            List<int> ints = iStars();
+            UnityEngine.UI.Image[] imgStars = new UnityEngine.UI.Image[ints.Count];
+            TMP_Text[] texts = new TMP_Text[ints.Count];
+            for (int i =0; i<ints.Count; i++)
+            {
+                imgStars[i] = GoWin.transform.GetChild(2).gameObject.transform.GetChild(i).gameObject.transform.GetChild(0).gameObject.GetComponent<UnityEngine.UI.Image>();
+                texts[i] = GoWin.transform.GetChild(2).gameObject.transform.GetChild(i).gameObject.transform.GetChild(1).gameObject.GetComponent<TMP_Text>();
+                if (ints[i] == 1) //vrai
+                {
+                    imgStars[i].color = new Color32(255, 0, 255, 255);
+                    texts[i].color = new Color32(255, 255, 255, 255);
+                }
+                else //Faux
+                {
+                    imgStars[i].color = new Color32(0, 255, 0, 255);
+                    if(i != ints.Count-1)
+                    {
+                        texts[i].color = new Color32(157, 157, 157, 255);
+                    }
+                    else
+                    {
+                        texts[i].color = new Color32(0, 0, 0, 255);
+                    }
+                }
+            }
             PlayerDataUpdate(data);
         }
         else
         {
-            textScoring.text = "Your score could have been higher than : " + Mathf.Round(fPercentScore).ToString() + "%";
-            textTitle.text = "You've been detected...";
-            textButton.text = "Replay";
-            UnityEngine.UI.Button btn = menuManager.gameObject.transform.GetChild(2).gameObject.transform.GetChild(0).gameObject.transform.GetChild(2).gameObject.transform.GetChild(2).gameObject.GetComponent<UnityEngine.UI.Button>();
-            btn.onClick.AddListener(() => menuManager.LoadScene(SceneManager.GetActiveScene().name));
+            GoLoose.SetActive(true);
+            GoWin.SetActive(false);
+            //LE SCORING
+            TMP_Text textScoring = GoLoose.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject.GetComponent<TMP_Text>();
+            TMP_Text textJudgment = GoLoose.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>();
+            textJudgment.text = sJugement(hasWon)[0];
+            textScoring.text = sJugement(hasWon)[1];
+        }
+    }
+    private List<int> iStars()
+    {
+        List<int> List = new List<int>();
+        //SHADOW
+        if (!bHasBeenDetectedOneTime)
+        {
+            List.Add(1);
+        }
+        else
+        {
+            List.Add(0);
+        }
+        //CLEAN
+        if (bHasNoMiss) 
+        {
+            List.Add(1);
+        }
+        else
+        {
+            List.Add(0);
+        }
+        //TRUE ARTISTE
+        int i = Int32.Parse(Regex.Match(SceneManager.GetActiveScene().name, @"\d+").Value);
+        if (itagDone == menuManager.iNbTaggs[i]) 
+        {
+            List.Add(1);
+        }
+        else
+        {
+            List.Add(0);
+        }
+        //BOOGIE WOOGIE
+        if (fPercentScore >= 95) 
+        {
+            List.Add(1);
+        }
+        else
+        {
+            List.Add(0);
+        }
+        //LE SECRET
+        List.Add(0); 
+        return List;
+    }
+    private List<string> sJugement(bool finished)
+    {
+        if (fPercentScore >= 95 && finished)
+        {
+            List<string> List = new List<string> { "S+", Mathf.Round(fPercentScore).ToString() + "%" };
+            return List;
+        }
+        else if (fPercentScore >= 80 && finished)
+        {
+            List<string> List = new List<string> { "S", Mathf.Round(fPercentScore).ToString() + "%" };
+            return List;
+        }
+        else if (fPercentScore >= 65 && finished)
+        {
+            List<string> List = new List<string> { "A", Mathf.Round(fPercentScore).ToString() + "%" };
+            return List;
+        }
+        else if (fPercentScore >= 50 && finished)
+        {
+            List<string> List = new List<string>{"B", Mathf.Round(fPercentScore).ToString() + "%" };
+            return List;
+        }
+        else if (fPercentScore >= 35 && finished)
+        {
+            List<string> List = new List<string> { "C", Mathf.Round(fPercentScore).ToString() + "%" };
+            return List;
+        }
+        else if (!finished)
+        {
+            List<string> List = new List<string> { "Busted", Mathf.Round(fPercentScore).ToString() + "%" };
+            return List;
+        }
+        else
+        {
+            List<string> List = new List<string> { "F", Mathf.Round(fPercentScore).ToString() + "%" };
+            return List;
         }
     }
     private void PlayerDataUpdate(PlayerData data)
     {
+        int i = Int32.Parse(Regex.Match(SceneManager.GetActiveScene().name, @"\d+").Value);
+        Debug.Log("le niveau est le " + i);
+        if (fPercentScore > data.iScorePerLvlPlayer[i])
+        {
+            data.iScorePerLvlPlayer[i] = Convert.ToInt32(fPercentScore);
+        }
+        if (!bHasBeenDetectedOneTime)
+        {
+            data.iStarsPlayer[0 + 5 * i] = 1;
+        }
+        if(bHasNoMiss)
+        {
+            data.iStarsPlayer[1 + 5 * i] = 1;
+        }
+        if (itagDone == menuManager.iNbTaggs[i])
+        {
+            data.iStarsPlayer[2 + 5 * i] = 1;
+        }
+        if(fPercentScore >= 95)
+        {
+            data.iStarsPlayer[3 + 5 * i] = 1;
+        }
         if ("SceneLvl" + data.iLevelPlayer.ToString() == SceneManager.GetActiveScene().name)
         {
-            if (fPercentScore > data.iScorePerLvlPlayer[data.iLevelPlayer])
-            {
-                data.iScorePerLvlPlayer[data.iLevelPlayer] = Convert.ToInt32(fPercentScore);
-            }
             data.iLevelPlayer += 1;
         }
-        else
-        {
-            if (fPercentScore > data.iScorePerLvlPlayer[data.iLevelPlayer])
-            {
-                data.iScorePerLvlPlayer[data.iLevelPlayer -1] = Convert.ToInt32(fPercentScore);
-            }
-        }
+        data.SaveGame();
     }
-
     private void CheckControllerStatus()
     {
         string[] controllers = Input.GetJoystickNames();

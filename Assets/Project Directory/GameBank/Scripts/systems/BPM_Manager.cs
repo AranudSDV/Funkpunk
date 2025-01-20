@@ -120,6 +120,7 @@ public class BPM_Manager : MonoBehaviour
             bPlayBad = false;
             bPlayGood = false;
             bPlayPerfect = false;
+            scPlayer.bHasNoMiss = false;
             if (!scPlayer.BisDetectedByAnyEnemy)
             {
                 scPlayer.FDetectionLevel += 2f;

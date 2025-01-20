@@ -40,6 +40,8 @@ public class MenuManager : MonoBehaviour
     public Level[] _levels;
     [SerializeField] private EventReference menuLoop;
     private FMOD.Studio.EventInstance menuLoopInstance;
+    //DATA LEVEL
+    public int[] iNbTaggs = new int[4];
 
     [System.Serializable]
     public class Level 
@@ -319,12 +321,32 @@ public class MenuManager : MonoBehaviour
     }
     public void LoadScene(string sceneToLoad)
     {
-        if(sceneToLoad == "SceneLvl0")
+        if (sceneToLoad == "SceneLvl0")
         {
             menuLoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
             menuLoopInstance.release();
+            StartCoroutine(StartLoad(sceneToLoad));
         }
-        StartCoroutine(StartLoad(sceneToLoad));
+        else if (sceneToLoad == "retry")
+        {
+            sceneToLoad = SceneManager.GetActiveScene().name;
+            StartCoroutine(StartLoad(sceneToLoad));
+        }
+        else if (sceneToLoad == "next")
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                if ("SceneLvl" + i.ToString() == SceneManager.GetActiveScene().name)
+                {
+                    sceneToLoad = "SceneLvl" + (i + 1).ToString();
+                }
+            }
+            StartCoroutine(StartLoad(sceneToLoad));
+        }
+        else
+        {
+            StartCoroutine(StartLoad(sceneToLoad));
+        }
     }
     IEnumerator StartLoad(string sceneToLoad)
     {
@@ -372,9 +394,5 @@ public class MenuManager : MonoBehaviour
 #endif
 
         Application.Quit();
-    }
-    public void ReLoad()
-    {
-        StartCoroutine(StartLoad(SceneManager.GetActiveScene().name));
     }
 }
