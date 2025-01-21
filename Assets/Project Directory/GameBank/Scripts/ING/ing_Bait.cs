@@ -192,7 +192,6 @@ public class ing_Bait : MonoBehaviour
     }
     IEnumerator NumSmashVFX()
     {
-        bOnce = true;
         Go_vfx_Smash.transform.LookAt(scPlayer.gameObject.transform, Vector3.down);
         Go_vfx_Smash.transform.position += scPlayer.lastMoveDirection;
         Go_vfx_Smash.SetActive(true);
