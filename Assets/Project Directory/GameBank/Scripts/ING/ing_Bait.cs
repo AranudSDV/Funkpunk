@@ -12,11 +12,15 @@ public class ing_Bait : MonoBehaviour
 
     //THROWN 
     private float elapsedseconds = 0;
-    public Vector3 newPos = new Vector3(0,0,0);
+    public Vector3 newPos = new Vector3(0, 0, 0);
+    public Vector3 midPos = new Vector3(0, 0, 0);
     public bool bIsBeingThrown = false;
+    private bool bGoingUp = false;
+    private bool bGoingDown = false;
 
     //MESH
     [SerializeField] private Material mThrown;
+
     [SerializeField] private Material mNotThrown;
     [SerializeField] private MeshRenderer mshRdn;
 
@@ -131,23 +135,48 @@ public class ing_Bait : MonoBehaviour
         {
             b_BeenThrown = false;
         }
-        if (bIsBeingThrown == true)
+        if (bIsBeingThrown)
         {
             if (!bOnce)
             {
+                bGoingUp = true;
                 StartCoroutine(NumSmashVFX());
+                //this.transform.DOJump(newPos, 5f, 0, bpmManager.FSPB).SetEase(Ease.OutBack); //Ease.OutQuad, Ease.OutElastic, Ease.OutBack
+                //this.transform.DOMove(midPos, bpmManager.FSPB / 2, false).SetAutoKill(true);
+                //this.transform.GetChild(0).gameObject.transform.DOMove(midPos, bpmManager.FSPB / 2, false).SetAutoKill(true);
+                //this.transform.GetChild(0).gameObject.transform.DOJump(newPos, 5f, 0, bpmManager.FSPB).SetEase(Ease.OutBack);
+                bOnce = true;
             }
-            elapsedseconds += Time.deltaTime;
-            float interpolationRatio = elapsedseconds / bpmManager.FSPB;
-            transform.position = Vector3.Lerp(this.transform.position, newPos, interpolationRatio);
-            if(interpolationRatio >=1 )
+            if (bGoingUp)
             {
-                b_BeenThrown = true;
-                ThrownAway();
-                elapsedseconds = 0f;
+                elapsedseconds += Time.deltaTime;
+                float interpolationRatio = elapsedseconds / (bpmManager.FSPB / 2);
+                transform.position = Vector3.Lerp(this.transform.position, midPos, interpolationRatio);
+                this.transform.GetChild(0).gameObject.transform.position = Vector3.Lerp(this.transform.position, midPos, interpolationRatio);
+                if (interpolationRatio >= 1f)
+                {
+                    bGoingDown = true;
+                    bGoingUp = false;
+                    elapsedseconds = 0f;
+                }
+            }
+            if (bGoingDown)
+            {
+                elapsedseconds += Time.deltaTime;
+                float interpolationRatio = elapsedseconds / (bpmManager.FSPB / 2);
+                transform.position = Vector3.Lerp(this.transform.position, newPos, interpolationRatio);
+                this.transform.GetChild(0).gameObject.transform.position = Vector3.Lerp(this.transform.position, newPos, interpolationRatio);
+                if (interpolationRatio >= 0.99f)
+                {
+                    b_BeenThrown = true;
+                    ThrownAway();
+                    bGoingDown = false;
+                    elapsedseconds = 0f;
+                }
             }
         }
     }
+
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.CompareTag("Player") && b_BeenThrown == false)

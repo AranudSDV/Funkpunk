@@ -278,6 +278,7 @@ public class SC_Player : MonoBehaviour
         {
             Vector3 _spawnpos = new Vector3(this.transform.position.x, this.transform.position.y - 0.5f, this.transform.position.z) + (lastMoveDirection * fThrowMultiplier);
             bait.newPos = _spawnpos;
+            bait.midPos = new Vector3(this.transform.position.x, this.transform.position.y + 2.5f, this.transform.position.z) + (lastMoveDirection * fThrowMultiplier / 2);
             bait.bIsBeingThrown = true;
         }
     }
