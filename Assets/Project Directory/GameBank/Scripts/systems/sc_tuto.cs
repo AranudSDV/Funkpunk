@@ -101,7 +101,6 @@ public class sc_tuto : MonoBehaviour
             if(GoTuto[3].gameObject.activeInHierarchy && ((scPlayer.bIsOnComputer == false && scPlayer.control.GamePlay.Move.triggered) || Input.GetButtonDown("Jump")) && coroutineIsRunning==false)
             {
                 bWaitSpace = false;
-                Debug.Log("passer le tuto de rythme");
                 StartForth();
             }
             if(GoTuto[4].activeInHierarchy &&  ((scPlayer.bIsOnComputer == false && scPlayer.control.GamePlay.Move.triggered) || Input.GetButtonDown("Jump")))

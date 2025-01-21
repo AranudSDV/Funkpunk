@@ -28,6 +28,7 @@ public class ing_Bait : MonoBehaviour
     //FEEDBACK
     [SerializeField] private GameObject Go_vfx_Smash;
     [SerializeField] private GameObject Go_vfx_Impact;
+    [SerializeField] private GameObject Go_vfxTrail;
     private ParticleSystem PS_smash;
     private ParticleSystem PS_Impact;
 
@@ -166,6 +167,7 @@ public class ing_Bait : MonoBehaviour
         Go_vfx_Smash.transform.LookAt(scPlayer.gameObject.transform, Vector3.down);
         Go_vfx_Smash.transform.position += scPlayer.lastMoveDirection;
         Go_vfx_Smash.SetActive(true);
+        Go_vfxTrail.SetActive(true);
         PS_smash.Play();
         yield return new WaitForSeconds(0.5f);
         PS_smash.Stop();
@@ -176,6 +178,7 @@ public class ing_Bait : MonoBehaviour
     IEnumerator NumImpactVFX()
     {
         Go_vfx_Impact.SetActive(true);
+        Go_vfxTrail.SetActive(false);
         PS_Impact.Play();
         yield return new WaitForSeconds(0.5f);
         PS_Impact.Stop();
