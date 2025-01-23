@@ -258,13 +258,13 @@ public class SC_FieldOfView : MonoBehaviour
             {
                 if (this.transform.position.x != posDirections[iCurrentDirection].x || this.transform.position.z != posDirections[iCurrentDirection].z) //Si l'ennemi n'est pas déjà à la position de nouvelle direction
                 {
-                    Vector3 newPos = this.transform.position + new Vector3(posDirections[iCurrentDirection + 1].x - this.transform.position.x, 0, posDirections[iCurrentDirection + 1].z - this.transform.position.z).normalized;
-                    this.transform.position = newPos;
+                    Vector3 newPos = this.transform.position + new Vector3(posDirections[iCurrentDirection].x - this.transform.position.x, 0, posDirections[iCurrentDirection].z - this.transform.position.z).normalized;
+                    this.transform.DOMove(new Vector3(Mathf.Round(newPos.x), newPos.y, Mathf.Round(newPos.z)), ftime, false).SetAutoKill(true);
                 }
                 else //Le joueur est à la position de prochaine direction
                 {
                     Vector3 newPos = this.transform.position + new Vector3(posDirections[iCurrentDirection + 1].x - this.transform.position.x, 0, posDirections[iCurrentDirection + 1].z - this.transform.position.z).normalized;
-                    this.transform.DOMove(newPos, ftime, false).SetAutoKill(true);
+                    this.transform.DOMove(new Vector3(Mathf.Round(newPos.x), newPos.y, Mathf.Round(newPos.z)), ftime, false).SetAutoKill(true);
                     iCurrentDirection = iCurrentDirection + 1;
                     transform.LookAt(new Vector3(posDirections[iCurrentDirection].x, this.transform.position.y, posDirections[iCurrentDirection].z));
                 }
@@ -274,20 +274,20 @@ public class SC_FieldOfView : MonoBehaviour
                 if (this.transform.position.x != posDirections[iCurrentDirection].x || this.transform.position.z != posDirections[iCurrentDirection].z) //Si l'ennemi n'est pas déjà à la position de nouvelle direction
                 {
                     Vector3 newPos = this.transform.position + new Vector3(posDirections[iCurrentDirection].x - this.transform.position.x, 0, posDirections[iCurrentDirection].z - this.transform.position.z).normalized;
-                    this.transform.DOMove(newPos, ftime, false).SetAutoKill(true);
+                    this.transform.DOMove(new Vector3(Mathf.Round(newPos.x), newPos.y, Mathf.Round(newPos.z)), ftime, false).SetAutoKill(true);
                 }
                 else //Le joueur est à la position de prochaine direction
                 {
                     Vector3 newPos = new Vector3(0,0,0);
                     if (posDirections.Length != 2)
                     {
-                        newPos = this.transform.position + new Vector3(posDirections[iCurrentDirection +1].x - this.transform.position.x, 0, posDirections[iCurrentDirection +1].z - this.transform.position.z).normalized;
+                        newPos = this.transform.position + new Vector3(posDirections[iCurrentDirection -1].x - this.transform.position.x, 0, posDirections[iCurrentDirection -1].z - this.transform.position.z).normalized;
                     }
                     else
                     {
                         newPos = this.transform.position + new Vector3(posDirections[iCurrentDirection].x - this.transform.position.x, 0, posDirections[iCurrentDirection].z - this.transform.position.z).normalized;
                     }
-                    this.transform.DOMove(newPos, ftime, false).SetAutoKill(true);
+                    this.transform.DOMove(new Vector3(Mathf.Round(newPos.x), newPos.y, Mathf.Round(newPos.z)), ftime, false).SetAutoKill(true);
                     if (iCurrentDirection != 0)
                     {
                         iCurrentDirection = iCurrentDirection - 1;
@@ -300,13 +300,13 @@ public class SC_FieldOfView : MonoBehaviour
             {
                 if (this.transform.position.x != posDirections[iCurrentDirection].x || this.transform.position.z != posDirections[iCurrentDirection].z) //Si l'ennemi n'est pas déjà à la position de nouvelle direction
                 {
-                    Vector3 newPos = this.transform.position + new Vector3(posDirections[iCurrentDirection - 1].x - this.transform.position.x, 0, posDirections[iCurrentDirection - 1].z - this.transform.position.z).normalized;
-                    this.transform.DOMove(newPos, ftime, false).SetAutoKill(true);
+                    Vector3 newPos = this.transform.position + new Vector3(posDirections[iCurrentDirection].x - this.transform.position.x, 0, posDirections[iCurrentDirection].z - this.transform.position.z).normalized;
+                    this.transform.DOMove(new Vector3(Mathf.Round(newPos.x), newPos.y, Mathf.Round(newPos.z)), ftime, false).SetAutoKill(true);
                 }
                 else //Le joueur est à la position de prochaine direction
                 {
                     Vector3 newPos = this.transform.position + new Vector3(posDirections[iCurrentDirection - 1].x - this.transform.position.x, 0, posDirections[iCurrentDirection - 1].z - this.transform.position.z).normalized;
-                    this.transform.DOMove(newPos, ftime, false).SetAutoKill(true);
+                    this.transform.DOMove(new Vector3(Mathf.Round(newPos.x), newPos.y, Mathf.Round(newPos.z)), ftime, false).SetAutoKill(true);
                     iCurrentDirection = iCurrentDirection - 1;
                     isReversing = false;
                     transform.LookAt(new Vector3(posDirections[iCurrentDirection].x, this.transform.position.y, posDirections[iCurrentDirection].z));
@@ -317,7 +317,7 @@ public class SC_FieldOfView : MonoBehaviour
                 if (this.transform.position.x != posDirections[iCurrentDirection].x || this.transform.position.z != posDirections[iCurrentDirection ].z) //Si l'ennemi n'est pas déjà à la position de nouvelle direction
                 {
                     Vector3 newPos = this.transform.position + new Vector3(posDirections[iCurrentDirection].x - this.transform.position.x, 0, posDirections[iCurrentDirection].z - this.transform.position.z).normalized;
-                    this.transform.DOMove(newPos, ftime, false).SetAutoKill(true);
+                    this.transform.DOMove(new Vector3(Mathf.Round(newPos.x), newPos.y, Mathf.Round(newPos.z)), ftime, false).SetAutoKill(true);
                 }
                 else //Le joueur est à la position de prochaine direction
                 {
@@ -330,7 +330,7 @@ public class SC_FieldOfView : MonoBehaviour
                     {
                         newPos = this.transform.position + new Vector3(posDirections[iCurrentDirection].x - this.transform.position.x, 0, posDirections[iCurrentDirection].z - this.transform.position.z).normalized;
                     }
-                    this.transform.DOMove(newPos, ftime, false).SetAutoKill(true);
+                    this.transform.DOMove(new Vector3(Mathf.Round(newPos.x), newPos.y, Mathf.Round(newPos.z)), ftime, false).SetAutoKill(true);
                     iCurrentDirection = iCurrentDirection + 1;
                     isReversing = false;
                     transform.LookAt(new Vector3(posDirections[iCurrentDirection].x, this.transform.position.y, posDirections[iCurrentDirection].z));
