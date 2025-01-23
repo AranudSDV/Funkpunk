@@ -652,7 +652,7 @@ public class SC_Player : MonoBehaviour
             }
             else
             {
-                enemy.EnemieRotation(); 
+                enemy.EnemieRotation(bpmManager.FSPB); 
             }
         }
     }

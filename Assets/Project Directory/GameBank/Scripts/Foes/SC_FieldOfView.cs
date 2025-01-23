@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -6,36 +7,55 @@ using UnityEngine;
 
 public class SC_FieldOfView : MonoBehaviour
 {
+    public int i_typeFoe = 1;
+
+    //LE DEPLACEMENT
+    [Header("Déplacement")]
+    [SerializeField] private Vector3[] posDirections;
+    [SerializeField] private int iFirstPos = 0;
+    private int iCurrentDirection = 0;
+
+    //LE CONE DE VISION
+    [Header("Cone de vision")]
+    [Range(0, 8)]
     public float FRadius;
-    [Range(0,360)]
+    [Range(0,70)]
     public float FAngle;
 
+    //ROTATION
+    [Header("Rotation")]
+    [SerializeField] private float minRotation = -90f;
+    [SerializeField] private float maxRotation = 45f;
+    [SerializeField] private float rotationStep = 45f;
+
+    //GARDE
+    private float currentRotation;
+    private bool isReversing = false;
+    private Vector3 vectLastRot;
+
+    //FEEDBACK SUR ENNEMIE
+    [Header("Feedbacks")]
     public GameObject GOPlayerRef;
     [SerializeField] private GameObject Go_vfx_detected;
     [SerializeField] private GameObject Go_vfx_disable;
     [SerializeField] private GameObject Go_vfx_coneVision;
     [SerializeField] private GameObject Go_vfx_Suspicious;
-
     private ParticleSystem PS_detected;
     private ParticleSystem PS_Suspicious;
 
+    //DETECTION
+    [Header("Detection")]
     public LayerMask LMtargetMask;
     public LayerMask LMObstructionMask;
+    public int i_EnnemyBeat = 0;
+    public GameObject goBaitHearing;
+
+    //ETATS
+    [Header("Etats")]
     public bool BCanSee;
     public bool bSeenOnce;
     public bool bHasHeard = false;
     public bool bIsDisabled = false;
-    public float minRotation = -90f;  
-    public float maxRotation = 45f;   
-    public float rotationStep = 45f;
-
-    private Vector3 vectLastRot;
-
-    private float currentRotation;    
-    private bool isReversing = false;
-    public int i_EnnemyBeat = 0;
-    public GameObject goBaitHearing;
-
 
     private void Start()
     {
@@ -46,8 +66,27 @@ public class SC_FieldOfView : MonoBehaviour
         PS_detected = Go_vfx_detected.transform.GetChild(0).gameObject.GetComponent<ParticleSystem>();
         PS_Suspicious = Go_vfx_Suspicious.transform.GetChild(0).gameObject.GetComponent<ParticleSystem>();
         StartCoroutine(FOVRoutine());
-        currentRotation = minRotation;
-        transform.eulerAngles = new Vector3(0, currentRotation, 0);
+        if (i_typeFoe == 1) //si l'ennemi est statique
+        {
+            currentRotation = minRotation;
+            transform.eulerAngles = new Vector3(0, currentRotation, 0);
+        }
+        else
+        {
+            this.transform.position = posDirections[iFirstPos];
+            if (iFirstPos + 1 == posDirections.Length)
+            {
+                transform.LookAt(new Vector3(posDirections[iFirstPos-1].x, this.transform.position.y, posDirections[iFirstPos-1].z));
+                isReversing = true;
+                iCurrentDirection = iFirstPos - 1;
+            }
+            else
+            {
+                transform.LookAt(new Vector3(posDirections[iFirstPos + 1].x, this.transform.position.y, posDirections[iFirstPos + 1].z));
+                isReversing = false;
+                iCurrentDirection = iFirstPos + 1;
+            }
+        }
     }
 
     private IEnumerator FOVRoutine()
@@ -60,7 +99,6 @@ public class SC_FieldOfView : MonoBehaviour
             FieldOfViewCheck();
         }
     }
-
     private void FieldOfViewCheck()
     {
         if (bIsDisabled == false)
@@ -135,8 +173,11 @@ public class SC_FieldOfView : MonoBehaviour
     public void PlayerDetected(GameObject GOPlayer)
     {
         transform.LookAt(GOPlayer.transform);
+        if(i_typeFoe == 2) // Si l'ennemi est movible : bouge vers le joueur
+        {
+            Debug.Log("enemie 2 is watching player");
+        }
     }
-
     public void BaitHeard(GameObject GOBait)
     {
         transform.LookAt(GOBait.transform);
@@ -166,7 +207,14 @@ public class SC_FieldOfView : MonoBehaviour
         }
         if(BCanSee == false && bHasHeard == false)
         {
-            transform.eulerAngles = vectLastRot;
+            if (i_typeFoe == 1)
+            {
+                transform.eulerAngles = vectLastRot;
+            }
+            else
+            {
+                transform.LookAt(new Vector3(posDirections[iCurrentDirection].x, this.transform.position.y, posDirections[iCurrentDirection].z));
+            }
             StartCoroutine(NumDetectedVFX(false, Go_vfx_detected.activeInHierarchy));
         }
         if(bHasHeard==true)
@@ -179,27 +227,115 @@ public class SC_FieldOfView : MonoBehaviour
         }
     }
 
-    public void EnemieRotation()
+    public void EnemieRotation(float ftime)
     {
-        if (!isReversing && currentRotation >= maxRotation)
+        if (i_typeFoe ==1) //Si l'ennemi est statique, ne bouge que sa rotation
         {
-            isReversing = true;
-        }
-        else if (isReversing && currentRotation <= minRotation)
-        {
-            isReversing = false;
-        }
+            if (!isReversing && currentRotation >= maxRotation)
+            {
+                isReversing = true;
+            }
+            else if (isReversing && currentRotation <= minRotation)
+            {
+                isReversing = false;
+            }
 
-        if (isReversing)
-        {
-            currentRotation -= rotationStep;  
+            if (isReversing)
+            {
+                currentRotation -= rotationStep;
+            }
+            else
+            {
+                currentRotation += rotationStep;
+            }
+            currentRotation = Mathf.Clamp(currentRotation, minRotation, maxRotation);
+            transform.eulerAngles = new Vector3(0, currentRotation, 0);
+            vectLastRot = transform.eulerAngles;
         }
-        else
+        else if(i_typeFoe == 2)//Si l'ennemi suit un chemin, est movible
         {
-            currentRotation += rotationStep;  
+            if(!isReversing && iCurrentDirection + 1 != posDirections.Length && posDirections.Length != 2) //Si ça ne reverse pas et que la prochaine direction existe
+            {
+                if (this.transform.position.x != posDirections[iCurrentDirection].x || this.transform.position.z != posDirections[iCurrentDirection].z) //Si l'ennemi n'est pas déjà à la position de nouvelle direction
+                {
+                    Vector3 newPos = this.transform.position + new Vector3(posDirections[iCurrentDirection + 1].x - this.transform.position.x, 0, posDirections[iCurrentDirection + 1].z - this.transform.position.z).normalized;
+                    this.transform.position = newPos;
+                }
+                else //Le joueur est à la position de prochaine direction
+                {
+                    Vector3 newPos = this.transform.position + new Vector3(posDirections[iCurrentDirection + 1].x - this.transform.position.x, 0, posDirections[iCurrentDirection + 1].z - this.transform.position.z).normalized;
+                    this.transform.DOMove(newPos, ftime, false).SetAutoKill(true);
+                    iCurrentDirection = iCurrentDirection + 1;
+                    transform.LookAt(new Vector3(posDirections[iCurrentDirection].x, this.transform.position.y, posDirections[iCurrentDirection].z));
+                }
+            }
+            else if(!isReversing && (iCurrentDirection + 1 == posDirections.Length || posDirections.Length == 2)) //Si ça ne reverse pas et que la prochaine direction n'existe pas ou aller-retour
+            {
+                if (this.transform.position.x != posDirections[iCurrentDirection].x || this.transform.position.z != posDirections[iCurrentDirection].z) //Si l'ennemi n'est pas déjà à la position de nouvelle direction
+                {
+                    Vector3 newPos = this.transform.position + new Vector3(posDirections[iCurrentDirection].x - this.transform.position.x, 0, posDirections[iCurrentDirection].z - this.transform.position.z).normalized;
+                    this.transform.DOMove(newPos, ftime, false).SetAutoKill(true);
+                }
+                else //Le joueur est à la position de prochaine direction
+                {
+                    Vector3 newPos = new Vector3(0,0,0);
+                    if (posDirections.Length != 2)
+                    {
+                        newPos = this.transform.position + new Vector3(posDirections[iCurrentDirection +1].x - this.transform.position.x, 0, posDirections[iCurrentDirection +1].z - this.transform.position.z).normalized;
+                    }
+                    else
+                    {
+                        newPos = this.transform.position + new Vector3(posDirections[iCurrentDirection].x - this.transform.position.x, 0, posDirections[iCurrentDirection].z - this.transform.position.z).normalized;
+                    }
+                    this.transform.DOMove(newPos, ftime, false).SetAutoKill(true);
+                    if (iCurrentDirection != 0)
+                    {
+                        iCurrentDirection = iCurrentDirection - 1;
+                    }
+                    isReversing = true;
+                    transform.LookAt(new Vector3(posDirections[iCurrentDirection].x, this.transform.position.y, posDirections[iCurrentDirection].z));
+                }
+            }
+            else if(isReversing && iCurrentDirection -1 != -1 && posDirections.Length != 2)//Si ça se reverse et que la prochaine direction existe
+            {
+                if (this.transform.position.x != posDirections[iCurrentDirection].x || this.transform.position.z != posDirections[iCurrentDirection].z) //Si l'ennemi n'est pas déjà à la position de nouvelle direction
+                {
+                    Vector3 newPos = this.transform.position + new Vector3(posDirections[iCurrentDirection - 1].x - this.transform.position.x, 0, posDirections[iCurrentDirection - 1].z - this.transform.position.z).normalized;
+                    this.transform.DOMove(newPos, ftime, false).SetAutoKill(true);
+                }
+                else //Le joueur est à la position de prochaine direction
+                {
+                    Vector3 newPos = this.transform.position + new Vector3(posDirections[iCurrentDirection - 1].x - this.transform.position.x, 0, posDirections[iCurrentDirection - 1].z - this.transform.position.z).normalized;
+                    this.transform.DOMove(newPos, ftime, false).SetAutoKill(true);
+                    iCurrentDirection = iCurrentDirection - 1;
+                    isReversing = false;
+                    transform.LookAt(new Vector3(posDirections[iCurrentDirection].x, this.transform.position.y, posDirections[iCurrentDirection].z));
+                }
+            }
+            else if (isReversing && (iCurrentDirection -1 == -1 || posDirections.Length == 2))//Si ça se reverse et que la prochaine direction n'xiste pas ou aller-retour
+            {
+                if (this.transform.position.x != posDirections[iCurrentDirection].x || this.transform.position.z != posDirections[iCurrentDirection ].z) //Si l'ennemi n'est pas déjà à la position de nouvelle direction
+                {
+                    Vector3 newPos = this.transform.position + new Vector3(posDirections[iCurrentDirection].x - this.transform.position.x, 0, posDirections[iCurrentDirection].z - this.transform.position.z).normalized;
+                    this.transform.DOMove(newPos, ftime, false).SetAutoKill(true);
+                }
+                else //Le joueur est à la position de prochaine direction
+                {
+                    Vector3 newPos = new Vector3(0, 0, 0);
+                    if (posDirections.Length != 2)
+                    {
+                        newPos = this.transform.position + new Vector3(posDirections[iCurrentDirection + 1].x - this.transform.position.x, 0, posDirections[iCurrentDirection + 1].z - this.transform.position.z).normalized;
+                    }
+                    else
+                    {
+                        newPos = this.transform.position + new Vector3(posDirections[iCurrentDirection].x - this.transform.position.x, 0, posDirections[iCurrentDirection].z - this.transform.position.z).normalized;
+                    }
+                    this.transform.DOMove(newPos, ftime, false).SetAutoKill(true);
+                    iCurrentDirection = iCurrentDirection + 1;
+                    isReversing = false;
+                    transform.LookAt(new Vector3(posDirections[iCurrentDirection].x, this.transform.position.y, posDirections[iCurrentDirection].z));
+                }
+            }
         }
-        currentRotation = Mathf.Clamp(currentRotation, minRotation, maxRotation);
-        transform.eulerAngles = new Vector3(0, currentRotation, 0);
-        vectLastRot = transform.eulerAngles;
     }
 }
