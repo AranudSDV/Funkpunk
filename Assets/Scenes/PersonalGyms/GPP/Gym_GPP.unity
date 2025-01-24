@@ -4293,7 +4293,7 @@ PrefabInstance:
     - target: {fileID: 192196032585685232, guid: 68808927f9aacd1419714efe98e3e0c5,
         type: 3}
       propertyPath: posDirections.Array.data[1].x
-      value: -12
+      value: -15
       objectReference: {fileID: 0}
     - target: {fileID: 192196032585685232, guid: 68808927f9aacd1419714efe98e3e0c5,
         type: 3}
@@ -4490,6 +4490,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5988288753295923841, guid: 68808927f9aacd1419714efe98e3e0c5,
+        type: 3}
+      propertyPath: mVisionCone
+      value: 
+      objectReference: {fileID: 2100000, guid: e0ef759d5bc290b4a896582f977ea8d7, type: 2}
     - target: {fileID: 6088383388118375192, guid: 68808927f9aacd1419714efe98e3e0c5,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -8936,6 +8941,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 11c3ce214a1959a4fa60f486c006fb81, type: 2}
     - target: {fileID: 6882484700896804385, guid: 68808927f9aacd1419714efe98e3e0c5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408521708609953836, guid: 68808927f9aacd1419714efe98e3e0c5,
         type: 3}
       propertyPath: m_IsActive
       value: 0

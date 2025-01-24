@@ -41,6 +41,7 @@ public class SC_FieldOfView : MonoBehaviour
     [SerializeField] private GameObject Go_vfx_disable;
     [SerializeField] private GameObject Go_vfx_coneVision;
     [SerializeField] private GameObject Go_vfx_Suspicious;
+    [SerializeField] private GameObject Go_vfx_Backward;
     private ParticleSystem PS_detected;
     private ParticleSystem PS_Suspicious;
 
@@ -87,6 +88,7 @@ public class SC_FieldOfView : MonoBehaviour
                 isReversing = false;
                 iCurrentDirection = iFirstPos + 1;
             }
+            Go_vfx_Backward.SetActive(false);
         }
     }
     private IEnumerator FOVRoutine()
@@ -290,7 +292,7 @@ public class SC_FieldOfView : MonoBehaviour
         {
             Vector3 newPos = this.transform.position + new Vector3(posDirections[iCurrentDirection].x - this.transform.position.x, 0, posDirections[iCurrentDirection].z - this.transform.position.z).normalized;
             this.transform.DOMove(new Vector3(Mathf.Round(newPos.x), newPos.y, Mathf.Round(newPos.z)), ftime, false).SetAutoKill(true);
-            if (this.transform.position.x == posDirections[iCurrentDirection].x && this.transform.position.z == posDirections[iCurrentDirection].z)
+            if (this.transform.position.x == posDirections[iCurrentDirection].x && this.transform.position.z == posDirections[iCurrentDirection].z) //pile à la position de changement.
             {
                 if (!isReversing && iCurrentDirection + 1 != posDirections.Length && posDirections.Length != 2) //Si ça ne reverse pas et que la prochaine direction existe
                 {
@@ -313,11 +315,16 @@ public class SC_FieldOfView : MonoBehaviour
                     iCurrentDirection = iCurrentDirection + 1;
                     isReversing = false;
                 }
+                Go_vfx_Backward.SetActive(false);
 
                 if (BCanSee == false)
                 {
                     transform.LookAt(new Vector3(posDirections[iCurrentDirection].x, this.transform.position.y, posDirections[iCurrentDirection].z));
                 }
+            }
+            if (this.transform.position  == posDirections[iCurrentDirection] - new Vector3(posDirections[iCurrentDirection].x - this.transform.position.x, 0, posDirections[iCurrentDirection].z - this.transform.position.z).normalized) //un mouvement away from the last position
+            {
+                Go_vfx_Backward.SetActive(true);
             }
         }
     }
