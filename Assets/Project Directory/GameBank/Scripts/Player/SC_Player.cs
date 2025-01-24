@@ -17,6 +17,7 @@ using Cinemachine;
 using UnityEngine.Rendering.PostProcessing;
 using FMODUnity;
 using System.Text.RegularExpressions;
+using DG.Tweening;
 //using UnityEditor.PackageManager;
 
 public class SC_Player : MonoBehaviour
@@ -42,6 +43,8 @@ public class SC_Player : MonoBehaviour
     public GameObject PlayerCapsule;
     private float tolerance = 0.5f;
     public bool canMove = false;
+    [SerializeField]private GameObject VFXsteps;
+    private ParticleSystem vfx_steps;
     public bool bcanRotate = false;
 
     //LE BAIT
@@ -69,6 +72,7 @@ public class SC_Player : MonoBehaviour
     public float FDetectionLevel = 0f;
     private float fDetectionLevelMax = 100f;
     [SerializeField] private SC_FieldOfView[] allEnemies;
+    [SerializeField] private GameObject GoVfxDetected;
     public float FTimeWithoutLooseDetection = 5f;
     private bool BLooseDetectLevel;
     [SerializeField] private UnityEngine.UI.Slider sliderDetection;
@@ -103,6 +107,7 @@ public class SC_Player : MonoBehaviour
     void Start()
     {
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+        vfx_steps = VFXsteps.transform.GetChild(0).gameObject.GetComponent<ParticleSystem>();
         if (menuManager == null)
         {
             GameObject goMenu = GameObject.FindWithTag("Manager");
@@ -534,15 +539,24 @@ public class SC_Player : MonoBehaviour
     private void Move(Vector3 direction)
     {
         // diagonale ?
+        
         if (Mathf.Abs(direction.x) > 0 && Mathf.Abs(direction.z) > 0)
         {
-            // mouvement x et z
-            transform.position += new Vector3(Mathf.Sign(direction.x), 0, Mathf.Sign(direction.z));
+            Vector3 newPos = this.transform.position + new Vector3(Mathf.Sign(direction.x), 0, Mathf.Sign(direction.z));
+            this.transform.DOJump(newPos, 1f, 0, bpmManager.FSPB).SetEase(Ease.OutBack).SetAutoKill(true);
+            //DOMove(newPos, bpmManager.FSPB).SetAutoKill(true);
+            //this.transform.GetChild(0).gameObject.transform.DOJump(newPos, 1f, 0, bpmManager.FSPB).SetEase(Ease.OutBack).SetAutoKill(true);
+            //this.transform.DOJump(newPos, 1f, 0, bpmManager.FSPB, true).SetEase(Ease.OutBack).SetAutoKill(true);
         }
         else
         {
-            transform.position += direction;  // mouvement  1 case
+            Vector3 newPos = this.transform.position + direction;
+            this.transform.DOJump(newPos, 1f, 0, bpmManager.FSPB).SetEase(Ease.OutBack).SetAutoKill(true);
+            //DOMove(newPos, bpmManager.FSPB).SetAutoKill(true);
+            //this.transform.GetChild(0).gameObject.transform.DOJump(newPos, 1f, 0, bpmManager.FSPB).SetEase(Ease.OutBack).SetAutoKill(true);
+            //this.transform.DOJump(newPos, 1f, 0, bpmManager.FSPB, true).SetEase(Ease.OutBack).SetAutoKill(true);
         }
+        StartCoroutine(MouvementVFX());
         canMove = false;
     }
 
@@ -625,6 +639,15 @@ public class SC_Player : MonoBehaviour
             UI_Joystick[i].SetActive(false);
         }
     }
+    private IEnumerator MouvementVFX()
+    {
+        VFXsteps.SetActive(true);
+        vfx_steps.Play();
+        yield return new WaitForSeconds(0.5f);
+        vfx_steps.Stop();
+        VFXsteps.SetActive(false);
+        yield return new WaitForSeconds(0.5f);
+    }
 
     //CONCERNANT LE RYTHME
     public void RotationEnemies()
@@ -690,13 +713,11 @@ public class SC_Player : MonoBehaviour
         }
         if(BisDetectedByAnyEnemy)
         {
-            GameObject GoChild = this.gameObject.transform.GetChild(2).gameObject;
-            GoChild.SetActive(true);
+            GoVfxDetected.SetActive(true);
         }
         else
         {
-            GameObject GoChild = this.gameObject.transform.GetChild(2).gameObject;
-            GoChild.SetActive(false);
+            GoVfxDetected.SetActive(false);
         }
     }
     IEnumerator LooseDetectionLevel()

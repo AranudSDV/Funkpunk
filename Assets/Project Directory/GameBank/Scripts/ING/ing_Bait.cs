@@ -67,7 +67,6 @@ public class ing_Bait : MonoBehaviour
 
         return objectsInRange.ToArray();
     }
-
     private void ThrownAway()
     {
         bIsBeingThrown = false;
@@ -176,7 +175,6 @@ public class ing_Bait : MonoBehaviour
             }
         }
     }
-
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.CompareTag("Player") && b_BeenThrown == false)
@@ -190,7 +188,7 @@ public class ing_Bait : MonoBehaviour
             }
         }
     }
-    IEnumerator NumSmashVFX()
+    private IEnumerator NumSmashVFX()
     {
         Go_vfx_Smash.transform.LookAt(scPlayer.gameObject.transform, Vector3.down);
         Go_vfx_Smash.transform.position += scPlayer.lastMoveDirection;
@@ -203,7 +201,7 @@ public class ing_Bait : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         bOnce = false;
     }
-    IEnumerator NumImpactVFX()
+    private IEnumerator NumImpactVFX()
     {
         Go_vfx_Impact.SetActive(true);
         Go_vfxTrail.SetActive(false);
