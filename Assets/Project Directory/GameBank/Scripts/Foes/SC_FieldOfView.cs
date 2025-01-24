@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class SC_FieldOfView : MonoBehaviour
 {
@@ -88,7 +89,6 @@ public class SC_FieldOfView : MonoBehaviour
             }
         }
     }
-
     private IEnumerator FOVRoutine()
     {
         WaitForSeconds wait = new WaitForSeconds(0.2f);
@@ -134,7 +134,6 @@ public class SC_FieldOfView : MonoBehaviour
             DetectionChecks();
         }
     }
-
     IEnumerator NumDetectedVFX(bool bNewDetected, bool isactive)
     {
         if (bNewDetected && !isactive)
@@ -169,13 +168,27 @@ public class SC_FieldOfView : MonoBehaviour
             PS_Suspicious.Stop();
         }
     }
-
-    public void PlayerDetected(GameObject GOPlayer)
+    public void PlayerDetected(GameObject GOPlayer, float time)
     {
         transform.LookAt(GOPlayer.transform);
         if(i_typeFoe == 2) // Si l'ennemi est movible : bouge vers le joueur
         {
-            Debug.Log("enemie 2 is watching player");
+            int index = NearestPosToPlayer(GOPlayer);
+            if(index>iCurrentDirection)
+            {
+                if(isReversing)
+                {
+                    isReversing = false;
+                }
+            }
+            else if(index < iCurrentDirection)
+            {
+                if (!isReversing)
+                {
+                    isReversing = true;
+                }
+            }
+            EnemieRotation(time);
         }
     }
     public void BaitHeard(GameObject GOBait)
@@ -226,10 +239,31 @@ public class SC_FieldOfView : MonoBehaviour
             StartCoroutine(NumSuspiciousVFX(false, Go_vfx_Suspicious.activeInHierarchy));
         }
     }
+    private int NearestPosToPlayer(GameObject player)
+    {
+        int i = -1;
+        int resultat = 0;
+        Vector3 offset = posDirections[0] - player.transform.position;
+        float sqrLen = offset.sqrMagnitude;
+        foreach (var pos in posDirections)
+        {
+            Vector3 _offset = pos - player.transform.position;
+            float _sqrLen = _offset.sqrMagnitude;
 
+            // square the distance we compare with
+            if (sqrLen < _sqrLen)
+            {
+                sqrLen =  _sqrLen;
+                offset = _offset;
+                resultat = i;
+            }
+            i++;
+        }
+        return resultat;
+    }
     public void EnemieRotation(float ftime)
     {
-        if (i_typeFoe ==1) //Si l'ennemi est statique, ne bouge que sa rotation
+        if (i_typeFoe == 1) //Si l'ennemi est statique, ne bouge que sa rotation
         {
             if (!isReversing && currentRotation >= maxRotation)
             {
@@ -252,87 +286,36 @@ public class SC_FieldOfView : MonoBehaviour
             transform.eulerAngles = new Vector3(0, currentRotation, 0);
             vectLastRot = transform.eulerAngles;
         }
-        else if(i_typeFoe == 2)//Si l'ennemi suit un chemin, est movible
+        else if (i_typeFoe == 2)//Si l'ennemi suit un chemin, est movible
         {
-            if(!isReversing && iCurrentDirection + 1 != posDirections.Length && posDirections.Length != 2) //Si ça ne reverse pas et que la prochaine direction existe
+            Vector3 newPos = this.transform.position + new Vector3(posDirections[iCurrentDirection].x - this.transform.position.x, 0, posDirections[iCurrentDirection].z - this.transform.position.z).normalized;
+            this.transform.DOMove(new Vector3(Mathf.Round(newPos.x), newPos.y, Mathf.Round(newPos.z)), ftime, false).SetAutoKill(true);
+            if (this.transform.position.x == posDirections[iCurrentDirection].x && this.transform.position.z == posDirections[iCurrentDirection].z)
             {
-                if (this.transform.position.x != posDirections[iCurrentDirection].x || this.transform.position.z != posDirections[iCurrentDirection].z) //Si l'ennemi n'est pas déjà à la position de nouvelle direction
+                if (!isReversing && iCurrentDirection + 1 != posDirections.Length && posDirections.Length != 2) //Si ça ne reverse pas et que la prochaine direction existe
                 {
-                    Vector3 newPos = this.transform.position + new Vector3(posDirections[iCurrentDirection].x - this.transform.position.x, 0, posDirections[iCurrentDirection].z - this.transform.position.z).normalized;
-                    this.transform.DOMove(new Vector3(Mathf.Round(newPos.x), newPos.y, Mathf.Round(newPos.z)), ftime, false).SetAutoKill(true);
-                }
-                else //Le joueur est à la position de prochaine direction
-                {
-                    Vector3 newPos = this.transform.position + new Vector3(posDirections[iCurrentDirection + 1].x - this.transform.position.x, 0, posDirections[iCurrentDirection + 1].z - this.transform.position.z).normalized;
-                    this.transform.DOMove(new Vector3(Mathf.Round(newPos.x), newPos.y, Mathf.Round(newPos.z)), ftime, false).SetAutoKill(true);
                     iCurrentDirection = iCurrentDirection + 1;
-                    transform.LookAt(new Vector3(posDirections[iCurrentDirection].x, this.transform.position.y, posDirections[iCurrentDirection].z));
                 }
-            }
-            else if(!isReversing && (iCurrentDirection + 1 == posDirections.Length || posDirections.Length == 2)) //Si ça ne reverse pas et que la prochaine direction n'existe pas ou aller-retour
-            {
-                if (this.transform.position.x != posDirections[iCurrentDirection].x || this.transform.position.z != posDirections[iCurrentDirection].z) //Si l'ennemi n'est pas déjà à la position de nouvelle direction
+                else if (!isReversing && (iCurrentDirection + 1 == posDirections.Length || posDirections.Length == 2)) //Si ça ne reverse pas et que la prochaine direction n'existe pas ou aller-retour
                 {
-                    Vector3 newPos = this.transform.position + new Vector3(posDirections[iCurrentDirection].x - this.transform.position.x, 0, posDirections[iCurrentDirection].z - this.transform.position.z).normalized;
-                    this.transform.DOMove(new Vector3(Mathf.Round(newPos.x), newPos.y, Mathf.Round(newPos.z)), ftime, false).SetAutoKill(true);
-                }
-                else //Le joueur est à la position de prochaine direction
-                {
-                    Vector3 newPos = new Vector3(0,0,0);
-                    if (posDirections.Length != 2)
-                    {
-                        newPos = this.transform.position + new Vector3(posDirections[iCurrentDirection -1].x - this.transform.position.x, 0, posDirections[iCurrentDirection -1].z - this.transform.position.z).normalized;
-                    }
-                    else
-                    {
-                        newPos = this.transform.position + new Vector3(posDirections[iCurrentDirection].x - this.transform.position.x, 0, posDirections[iCurrentDirection].z - this.transform.position.z).normalized;
-                    }
-                    this.transform.DOMove(new Vector3(Mathf.Round(newPos.x), newPos.y, Mathf.Round(newPos.z)), ftime, false).SetAutoKill(true);
                     if (iCurrentDirection != 0)
                     {
                         iCurrentDirection = iCurrentDirection - 1;
                     }
                     isReversing = true;
-                    transform.LookAt(new Vector3(posDirections[iCurrentDirection].x, this.transform.position.y, posDirections[iCurrentDirection].z));
                 }
-            }
-            else if(isReversing && iCurrentDirection -1 != -1 && posDirections.Length != 2)//Si ça se reverse et que la prochaine direction existe
-            {
-                if (this.transform.position.x != posDirections[iCurrentDirection].x || this.transform.position.z != posDirections[iCurrentDirection].z) //Si l'ennemi n'est pas déjà à la position de nouvelle direction
+                else if (isReversing && iCurrentDirection - 1 != -1 && posDirections.Length != 2)//Si ça se reverse et que la prochaine direction existe
                 {
-                    Vector3 newPos = this.transform.position + new Vector3(posDirections[iCurrentDirection].x - this.transform.position.x, 0, posDirections[iCurrentDirection].z - this.transform.position.z).normalized;
-                    this.transform.DOMove(new Vector3(Mathf.Round(newPos.x), newPos.y, Mathf.Round(newPos.z)), ftime, false).SetAutoKill(true);
+                   iCurrentDirection = iCurrentDirection - 1;
                 }
-                else //Le joueur est à la position de prochaine direction
+                else if (isReversing && (iCurrentDirection - 1 == -1 || posDirections.Length == 2))//Si ça se reverse et que la prochaine direction n'xiste pas ou aller-retour
                 {
-                    Vector3 newPos = this.transform.position + new Vector3(posDirections[iCurrentDirection - 1].x - this.transform.position.x, 0, posDirections[iCurrentDirection - 1].z - this.transform.position.z).normalized;
-                    this.transform.DOMove(new Vector3(Mathf.Round(newPos.x), newPos.y, Mathf.Round(newPos.z)), ftime, false).SetAutoKill(true);
-                    iCurrentDirection = iCurrentDirection - 1;
-                    isReversing = false;
-                    transform.LookAt(new Vector3(posDirections[iCurrentDirection].x, this.transform.position.y, posDirections[iCurrentDirection].z));
-                }
-            }
-            else if (isReversing && (iCurrentDirection -1 == -1 || posDirections.Length == 2))//Si ça se reverse et que la prochaine direction n'xiste pas ou aller-retour
-            {
-                if (this.transform.position.x != posDirections[iCurrentDirection].x || this.transform.position.z != posDirections[iCurrentDirection ].z) //Si l'ennemi n'est pas déjà à la position de nouvelle direction
-                {
-                    Vector3 newPos = this.transform.position + new Vector3(posDirections[iCurrentDirection].x - this.transform.position.x, 0, posDirections[iCurrentDirection].z - this.transform.position.z).normalized;
-                    this.transform.DOMove(new Vector3(Mathf.Round(newPos.x), newPos.y, Mathf.Round(newPos.z)), ftime, false).SetAutoKill(true);
-                }
-                else //Le joueur est à la position de prochaine direction
-                {
-                    Vector3 newPos = new Vector3(0, 0, 0);
-                    if (posDirections.Length != 2)
-                    {
-                        newPos = this.transform.position + new Vector3(posDirections[iCurrentDirection + 1].x - this.transform.position.x, 0, posDirections[iCurrentDirection + 1].z - this.transform.position.z).normalized;
-                    }
-                    else
-                    {
-                        newPos = this.transform.position + new Vector3(posDirections[iCurrentDirection].x - this.transform.position.x, 0, posDirections[iCurrentDirection].z - this.transform.position.z).normalized;
-                    }
-                    this.transform.DOMove(new Vector3(Mathf.Round(newPos.x), newPos.y, Mathf.Round(newPos.z)), ftime, false).SetAutoKill(true);
                     iCurrentDirection = iCurrentDirection + 1;
                     isReversing = false;
+                }
+
+                if (BCanSee == false)
+                {
                     transform.LookAt(new Vector3(posDirections[iCurrentDirection].x, this.transform.position.y, posDirections[iCurrentDirection].z));
                 }
             }

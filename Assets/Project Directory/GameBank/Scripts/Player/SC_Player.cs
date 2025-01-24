@@ -642,7 +642,7 @@ public class SC_Player : MonoBehaviour
             }
             else if (enemy.BCanSee)
             {
-                enemy.PlayerDetected(this.gameObject);
+                enemy.PlayerDetected(this.gameObject, bpmManager.FSPB);
                 enemy.i_EnnemyBeat =6;
             }
             else if(enemy.bHasHeard)
