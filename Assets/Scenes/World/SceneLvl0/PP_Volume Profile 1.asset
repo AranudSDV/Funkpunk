@@ -74,7 +74,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eb4b772797da9440885e8bd939e9560, type: 3}
   m_Name: ColorCurves
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   master:
     m_OverrideState: 1
     m_Value:
@@ -379,16 +379,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5485954d14dfb9a4c8ead8edb0ded5b1, type: 3}
   m_Name: LiftGammaGain
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   lift:
     m_OverrideState: 1
-    m_Value: {x: 0.8920696, y: 0.8775377, z: 1, w: -0.058610763}
+    m_Value: {x: 0.9347109, y: 0.9211608, z: 1, w: -0.008163298}
   gamma:
     m_OverrideState: 1
-    m_Value: {x: 0.9692745, y: 1, z: 0.97904867, w: 0.13063213}
+    m_Value: {x: 0.9600508, y: 0.9637371, z: 1, w: 0.008163141}
   gain:
     m_OverrideState: 1
-    m_Value: {x: 0.9296634, y: 1, z: 0.97902083, w: 0.16989824}
+    m_Value: {x: 0.96177626, y: 0.89041567, z: 1, w: 0.08571391}
 --- !u!114 &-1049336861303792108
 MonoBehaviour:
   m_ObjectHideFlags: 3
