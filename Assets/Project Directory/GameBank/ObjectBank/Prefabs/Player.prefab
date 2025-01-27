@@ -5001,7 +5001,6 @@ GameObject:
   - component: {fileID: 2933500145309475870}
   - component: {fileID: 2830059916074690569}
   - component: {fileID: 2311125842182968287}
-  - component: {fileID: 5479168098889232675}
   m_Layer: 6
   m_Name: Capsule
   m_TagString: Untagged
@@ -5017,14 +5016,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4589980624701841776}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5398903112552204796}
   m_Father: {fileID: 9121296702372304279}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!33 &2830059916074690569
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -5075,21 +5074,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &5479168098889232675
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4589980624701841776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad70bcfde6f1b804fbae97d824de9a39, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bounceHeight: 0.1
-  scaleMultiplier: 1
-  bpmManager: {fileID: 0}
 --- !u!1 &5537023878201352933
 GameObject:
   m_ObjectHideFlags: 0
@@ -5197,6 +5181,7 @@ GameObject:
   - component: {fileID: 9121296702372304279}
   - component: {fileID: 2979385002189901494}
   - component: {fileID: 6830452445873526929}
+  - component: {fileID: 82293833679279999}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -5258,18 +5243,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5358b3d66a5a28a41ad14a253394ddcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bisTuto: 0
+  bisTuto: 1
   bGameIsPaused: 0
   soundManager: {fileID: 0}
   menuManager: {fileID: 0}
   bIsOnComputer: 1
   bOnControllerConstraint: 0
-  bpmManager: {fileID: 0}
+  bpmManager: {fileID: 82293833679279999}
   bHasNoMiss: 1
   lastMoveDirection: {x: 0, y: 0, z: 0}
   PlayerCapsule: {fileID: 4589980624701841776}
   canMove: 0
-  VFXsteps: {fileID: 0}
+  VFXsteps: {fileID: 6948782931126694734}
   bcanRotate: 0
   GOBait: {fileID: 6885181872792694492, guid: 481679da37c5830468e32f02138b149a, type: 3}
   hasAlreadyBaited: 0
@@ -5287,7 +5272,14 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   FDetectionLevel: 0
-  allEnemies: []
+  allEnemies:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   GoVfxDetected: {fileID: 9121618525959978770}
   FTimeWithoutLooseDetection: 5
   sliderDetection: {fileID: 0}
@@ -5296,7 +5288,54 @@ MonoBehaviour:
   taggedMaterial: {fileID: 2100000, guid: d7db875ac1c472b45a0bd473bfe1ff3f, type: 2}
   LMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
+--- !u!114 &82293833679279999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7352753680462184229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49b90ef080260384a8e791b3c17f7fa3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scPlayer: {fileID: 6830452445873526929}
+  FBPM: 90
+  FSPB: 0.67
+  FOVS: {fileID: 0}
+  playerLoop:
+    Guid:
+      Data1: -614446280
+      Data2: 1240363282
+      Data3: 1274195589
+      Data4: -1716480763
+    Path: event:/PlayerLine
+  colorMiss:
+    serializedVersion: 2
+    rgba: 4278190335
+  colorBad:
+    serializedVersion: 2
+    rgba: 4278219263
+  colorGood:
+    serializedVersion: 2
+    rgba: 4278255549
+  colorPerfect:
+    serializedVersion: 2
+    rgba: 4278255370
+  BBad: 0
+  BGood: 0
+  BPerfect: 0
+  bPlayBad: 0
+  bPlayGood: 0
+  bPlayPerfect: 0
+  txt_Feedback: {fileID: 0}
+  GOUiBad: {fileID: 0}
+  GOUiGood: {fileID: 0}
+  GOUiPerfect: {fileID: 0}
+  fFOVmin: 10
+  fFOVmax: 10.6
 --- !u!1 &7848160628830169904
 GameObject:
   m_ObjectHideFlags: 0
@@ -6203,7 +6242,7 @@ PrefabInstance:
     - target: {fileID: 3668158061914810140, guid: 9a62010cefd93974d8d30e1825de5ac2,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 3668158061914810140, guid: 9a62010cefd93974d8d30e1825de5ac2,
         type: 3}

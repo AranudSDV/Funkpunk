@@ -39,7 +39,6 @@ public class ing_Bait : MonoBehaviour
     //ONE TIME ONLY
     private bool b_BeenThrown = false;
     private bool bOnce = false;
-    private bool bIsHeard = false;
 
     private void Awake()
     {
@@ -77,11 +76,9 @@ public class ing_Bait : MonoBehaviour
         {
             b_BeenThrown = false;
             mshRdn.material = mNotThrown;
-            bIsHeard = false;
         }
         else
         {
-            bIsHeard = true;
             mshRdn.material = mThrown;
             for (int i = 0; i < allGoEnnemies.Length; i++)
             {
@@ -113,7 +110,6 @@ public class ing_Bait : MonoBehaviour
                     ennemy.bHasHeard = false;
                     ennemy.i_EnnemyBeat = 0;
                     b_BeenThrown = false;
-                    bIsHeard = false;
                     mshRdn.material = mNotThrown;
                 }
                 if(ennemy.goBaitHearing != this.transform.gameObject || ennemy.i_EnnemyBeat == 0)

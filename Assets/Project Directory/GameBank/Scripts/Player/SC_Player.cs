@@ -28,7 +28,7 @@ public class SC_Player : MonoBehaviour
     public MenuManager menuManager;
     public bool bIsOnComputer = true;
     public bool bOnControllerConstraint = false;
-    [SerializeField] private BPM_Manager bpmManager;
+    public BPM_Manager bpmManager;
 
     //LES CHALLENGES
     private bool bHasBeenDetectedOneTime = false;
@@ -46,6 +46,7 @@ public class SC_Player : MonoBehaviour
     [SerializeField]private GameObject VFXsteps;
     private ParticleSystem vfx_steps;
     public bool bcanRotate = false;
+    public bool bIsImune = false;
 
     //LE BAIT
     [Header("Bait")]
@@ -74,7 +75,6 @@ public class SC_Player : MonoBehaviour
     [SerializeField] private SC_FieldOfView[] allEnemies;
     [SerializeField] private GameObject GoVfxDetected;
     public float FTimeWithoutLooseDetection = 5f;
-    private bool BLooseDetectLevel;
     [SerializeField] private UnityEngine.UI.Slider sliderDetection;
     public bool BisDetectedByAnyEnemy = false;
 
@@ -415,6 +415,19 @@ public class SC_Player : MonoBehaviour
                         // No wall, move forward
                         Move(vectDir);
                     }
+                    else if(hitInfo.transform.CompareTag("MapObject"))
+                    {
+                        if (fPercentScore>= 50f)
+                        {
+                            menuManager.LoadScene("LevelChoosing");
+                            UnityEngine.Cursor.lockState = CursorLockMode.None;
+                        }
+                        else
+                        {
+                            TextMeshPro textOnWall = hitInfo.transform.GetChild(0).GetComponent<TextMeshPro>();
+                            StartCoroutine(NotEnoughPercentLoft(textOnWall));
+                        }
+                    }
                     else
                     {
                         // No wall, move forward
@@ -648,6 +661,12 @@ public class SC_Player : MonoBehaviour
         VFXsteps.SetActive(false);
         yield return new WaitForSeconds(0.5f);
     }
+    private IEnumerator NotEnoughPercentLoft(TextMeshPro txt)
+    {
+        txt.color = Color.red;
+        yield return new WaitForSeconds(0.5f);
+        txt.color = new Color32(255, 114, 255, 255);
+    }
 
     //CONCERNANT LE RYTHME
     public void RotationEnemies()
@@ -689,7 +708,6 @@ public class SC_Player : MonoBehaviour
         {
             if (enemie.BCanSee)
             {
-                BLooseDetectLevel = false;
                 BisDetectedByAnyEnemy = true;
                 bHasBeenDetectedOneTime = true;
                 y++;
@@ -723,7 +741,6 @@ public class SC_Player : MonoBehaviour
     IEnumerator LooseDetectionLevel()
     {
         yield return new WaitForSeconds(FTimeWithoutLooseDetection);
-        BLooseDetectLevel = true;
     }
 
     //LA FIN DU NIVEAU

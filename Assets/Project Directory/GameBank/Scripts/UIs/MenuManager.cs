@@ -143,7 +143,7 @@ public class MenuManager : MonoBehaviour
     {
         if ((Input.GetKey(KeyCode.Escape)|| (controllerConnected && control.GamePlay.Pausing.triggered)) && GoPauseMenu.activeInHierarchy == false)
         {
-            if (SceneManager.GetActiveScene().name != "GameChoose" && SceneManager.GetActiveScene().name != "LevelChoosing")
+            if (SceneManager.GetActiveScene().name != "GameChoose" && SceneManager.GetActiveScene().name != "LevelChoosing" && SceneManager.GetActiveScene().name != "Loft")
             {
                 EventSystem.firstSelectedGameObject = GoPauseMenu.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
             }
@@ -247,7 +247,7 @@ public class MenuManager : MonoBehaviour
                 GoMainMenu = null;
                 GoLevelsButton = null;
                 _levels = null;
-                sSceneToLoad = "LevelChoosing";
+                sSceneToLoad = "Loft";
             }
             else if (SceneManager.GetActiveScene().name == "LevelChoosing")
             {
