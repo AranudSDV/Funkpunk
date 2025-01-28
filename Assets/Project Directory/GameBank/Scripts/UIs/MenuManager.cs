@@ -98,7 +98,7 @@ public class MenuManager : MonoBehaviour
     void Update()
     {
         CheckControllerStatus();
-        if (GoMainMenu != null && ((Input.anyKeyDown && !(Input.GetMouseButtonDown(0)|| Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2)) && !controllerConnected) || (controllerConnected && control.GamePlay.Move.triggered)))
+        if (GoMainMenu != null && ((Input.anyKeyDown && !(Input.GetMouseButtonDown(0)|| Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2) || Input.GetKeyDown(KeyCode.J)) && !controllerConnected) || (controllerConnected && control.GamePlay.Move.triggered)))
         {
             LoadScene(sSceneToLoad);
         }
@@ -106,6 +106,13 @@ public class MenuManager : MonoBehaviour
         if (isLoadingScene)
         {
             progressBar.value = Mathf.Clamp01(loadingOperation.progress / 0.9f);
+        }
+        //Racourcis
+        if(Input.GetKeyDown(KeyCode.J))
+        {
+            Debug.Log("passer le niveau 1");
+            _playerData.iLevelPlayer = 1;
+            _playerData.iScorePerLvlPlayer[0] = 70;
         }
     }
     private void CheckControllerStatus()
