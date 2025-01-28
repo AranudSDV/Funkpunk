@@ -354,6 +354,12 @@ public class MenuManager : MonoBehaviour
         {
             StartCoroutine(StartLoad(sceneToLoad));
         }
+        if (GoScoring.activeInHierarchy == true)
+        {
+            GoScoring.SetActive(false);
+            GoScoring.transform.GetChild(0).gameObject.SetActive(false);
+            GoScoring.transform.GetChild(1).gameObject.SetActive(false);
+        }
     }
     private IEnumerator StartLoad(string sceneToLoad)
     {
