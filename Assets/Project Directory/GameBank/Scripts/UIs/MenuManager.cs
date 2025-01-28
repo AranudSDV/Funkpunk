@@ -348,7 +348,7 @@ public class MenuManager : MonoBehaviour
             StartCoroutine(StartLoad(sceneToLoad));
         }
     }
-    IEnumerator StartLoad(string sceneToLoad)
+    private IEnumerator StartLoad(string sceneToLoad)
     {
         loadingScreen.SetActive(true);
         yield return StartCoroutine(FadeLoadingScreen(1, 0.5f));
@@ -370,7 +370,7 @@ public class MenuManager : MonoBehaviour
         isLoadingScene = true;
         loadingOperation = SceneManager.LoadSceneAsync(sceneToLoad);
     }
-    IEnumerator FadeLoadingScreen(float targetValue, float duration)
+    private IEnumerator FadeLoadingScreen(float targetValue, float duration)
     {
         float startValue = canvasGroup.alpha;
         float time = 0;
@@ -378,7 +378,7 @@ public class MenuManager : MonoBehaviour
         while (time < duration)
         {
             canvasGroup.alpha = Mathf.Lerp(startValue, targetValue, time / duration);
-            time += Time.deltaTime;
+            time += Time.unscaledDeltaTime;
             yield return null;
         }
         canvasGroup.alpha = targetValue;

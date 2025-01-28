@@ -33,7 +33,7 @@ public class sc_tuto : MonoBehaviour
     private float m_Position;
     [SerializeField] private CinemachinePathBase.PositionUnits m_PositionUnits = CinemachinePathBase.PositionUnits.Distance;
     private Coroutine[] tutoCoroutine = new Coroutine[5];
-    private bool coroutineIsRunning = false; 
+    private bool coroutineIsRunning = false;
 
     private void Start()
     {
@@ -137,6 +137,7 @@ public class sc_tuto : MonoBehaviour
                 scPlayer.PauseGame();
                 GoTuto[6].SetActive(false);
                 StartCoroutine(ImuneToTuto(scPlayer.bpmManager));
+                b_tutoFinished = true;
             }
         }
     }

@@ -749,7 +749,7 @@ public class SC_Player : MonoBehaviour
         bGameIsPaused = true;
         PauseGame();
         PlayerData data = menuManager.gameObject.GetComponent<PlayerData>();
-        GameObject ScoringGo = menuManager.gameObject.transform.GetChild(2).gameObject;
+        GameObject ScoringGo = menuManager.gameObject.transform.GetChild(0).gameObject;
         GameObject GoWin = ScoringGo.transform.GetChild(0).gameObject;
         GameObject GoLoose = ScoringGo.transform.GetChild(1).gameObject;
         ScoringGo.SetActive(true);
