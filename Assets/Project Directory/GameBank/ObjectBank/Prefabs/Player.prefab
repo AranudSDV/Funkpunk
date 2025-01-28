@@ -5227,10 +5227,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
+  m_Radius: 0.4
+  m_Height: 1.8
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: -0.15, z: 0}
 --- !u!114 &6830452445873526929
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5256,6 +5256,7 @@ MonoBehaviour:
   canMove: 0
   VFXsteps: {fileID: 6948782931126694734}
   bcanRotate: 0
+  bIsImune: 0
   GOBait: {fileID: 6885181872792694492, guid: 481679da37c5830468e32f02138b149a, type: 3}
   hasAlreadyBaited: 0
   FScore: 0
