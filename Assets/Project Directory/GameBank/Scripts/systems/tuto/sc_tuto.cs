@@ -9,6 +9,7 @@ using TMPro;
 
 public class sc_tuto : MonoBehaviour
 {
+    //BD
     [SerializeField]private GameObject[] GoTuto = new GameObject[7];
     private bool b_tutoFinished = false;
     [SerializeField] private Sprite[] spriteBubbleTuto1;
@@ -16,24 +17,32 @@ public class sc_tuto : MonoBehaviour
     [SerializeField] private Sprite[] spriteBubbleTuto3;
     [SerializeField] private Sprite[] spriteBubbleTuto6;
     [SerializeField] private Sprite[] spriteBubbleTuto7;
+    private Coroutine[] tutoCoroutine = new Coroutine[5];
+    private bool coroutineIsRunning = false;
+
+    //PLAYER
     [SerializeField] private SC_Player scPlayer;
+    public bool bKnowEnnemy = false;
+
+    //DYNAMIC TUTO
     [Tooltip("0 is toLeft, 1 is toUp, 2 is toRight, 3 is toRightDown, 4 is toRightUp, 5 is toLeftUp")][SerializeField] private GameObject[] fo_arrow = new GameObject[4];
     [SerializeField] private Material[] materials = new Material[2];
     private MeshRenderer[] render = new MeshRenderer[4];
     [SerializeField]private bool isMeshable = false;
     [SerializeField] private bool isEnnemiTuto = false;
     //[SerializeField] private GameObject goEmptyToFollw;
+
+    //CAMERAS
     [SerializeField] private GameObject[] goCameraBackTrack = new GameObject[3];
     [SerializeField] private GameObject[] goCameraMain = new GameObject[3];
-    bool bOnce = false;
-    [SerializeField] private bool bWaitSpace = false;
-    public bool bKnowEnnemy= false;
     [SerializeField] private CinemachinePathBase m_Path;
     [SerializeField] private float m_Speed = 5f;
     private float m_Position;
     [SerializeField] private CinemachinePathBase.PositionUnits m_PositionUnits = CinemachinePathBase.PositionUnits.Distance;
-    private Coroutine[] tutoCoroutine = new Coroutine[5];
-    private bool coroutineIsRunning = false;
+
+    //UTILISATEUR WAIT
+    bool bOnce = false;
+    [SerializeField] private bool bWaitSpace = false;
 
     private void Start()
     {
@@ -52,16 +61,16 @@ public class sc_tuto : MonoBehaviour
                 //GoTuto[0].transform.GetChild(i).gameObject.SetActive(false);
                 render[i] = fo_arrow[i].GetComponent<MeshRenderer>();
             }
-            ChangeTutoController();
+            //ChangeTutoController();
             tutoCoroutine[0] = StartCoroutine(StartFirst());
         }
     }
     private void Update()
     {
-        if(isMeshable==false)
+        /*if(isMeshable==false)
         {
             ChangeTutoController();
-        }
+        }*/
         if(b_tutoFinished == true && isMeshable ==false && goCameraBackTrack[2].transform.position.z > 0.5f)
         {
             Time.timeScale = 1f;
@@ -467,35 +476,105 @@ public class sc_tuto : MonoBehaviour
             }
         }
     }
-    private void ChangeTutoController()
+    /*private void ChangeTutoController()
     {
-        if (scPlayer.bIsOnComputer==false)
+        if (scPlayer.bIsOnComputer == false)
         {
-            GoTuto[0].transform.GetChild(6).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "A to skip";
-            GoTuto[0].transform.GetChild(6).gameObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "A to continue";
-            GoTuto[1].transform.GetChild(2).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "A to skip";
-            GoTuto[2].transform.GetChild(3).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "A to skip";
-            GoTuto[3].transform.GetChild(1).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "A to continue";
-            GoTuto[3].transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Use your joystick for directions, then \"A\" on the rythm in order to move.";
-            GoTuto[4].transform.GetChild(1).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "A to continue";
-            GoTuto[5].transform.GetChild(3).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "A to skip";
-            GoTuto[5].transform.GetChild(3).gameObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "A to continue";
-            GoTuto[6].transform.GetChild(3).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "A to skip";
-            GoTuto[6].transform.GetChild(3).gameObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "A to continue";
+            if (scPlayer.bpmManager.gameObject.transform.GetComponent<PlayerData>().iLanguageNbPlayer == 1)
+            {
+                GoTuto[0].transform.GetChild(6).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "A pour passer";
+                GoTuto[0].transform.GetChild(6).gameObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "A pour continuer";
+                GoTuto[1].transform.GetChild(2).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "A pour passer";
+                GoTuto[2].transform.GetChild(3).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "A pour passer";
+                GoTuto[3].transform.GetChild(1).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "A pour continuer";
+                GoTuto[3].transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Utilise ton joystick pour choisir une direction, puis  \"A\" sur le rythme, afin de scorer.";
+                GoTuto[4].transform.GetChild(1).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "A pour continuer";
+                GoTuto[5].transform.GetChild(3).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "A pour passer";
+                GoTuto[5].transform.GetChild(3).gameObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "A pour continuer";
+                GoTuto[6].transform.GetChild(3).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "A pour passer";
+                GoTuto[6].transform.GetChild(3).gameObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "A pour continuer";
+            }
+            else
+            {
+                GoTuto[0].transform.GetChild(6).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "A to skip";
+                GoTuto[0].transform.GetChild(6).gameObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "A to continue";
+                GoTuto[1].transform.GetChild(2).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "A to skip";
+                GoTuto[2].transform.GetChild(3).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "A to skip";
+                GoTuto[3].transform.GetChild(1).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "A to continue";
+                GoTuto[3].transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Use your joystick for directions, then \"A\" on the rythm in order to score.";
+                GoTuto[4].transform.GetChild(1).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "A to continue";
+                GoTuto[5].transform.GetChild(3).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "A to skip";
+                GoTuto[5].transform.GetChild(3).gameObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "A to continue";
+                GoTuto[6].transform.GetChild(3).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "A to skip";
+                GoTuto[6].transform.GetChild(3).gameObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "A to continue";
+            }
         }
         else
         {
-            GoTuto[0].transform.GetChild(6).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Space to skip";
-            GoTuto[0].transform.GetChild(6).gameObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Space to continue";
-            GoTuto[1].transform.GetChild(2).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Space to skip";
-            GoTuto[2].transform.GetChild(3).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Space to skip";
-            GoTuto[3].transform.GetChild(1).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Space to continue";
-            GoTuto[3].transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Use \"WASD\" for directions, then \"space\" on the rythm in order to move.";
-            GoTuto[4].transform.GetChild(1).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Space to continue";
-            GoTuto[5].transform.GetChild(3).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Space to skip";
-            GoTuto[5].transform.GetChild(3).gameObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Space to continue";
-            GoTuto[6].transform.GetChild(3).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Space to skip";
-            GoTuto[6].transform.GetChild(3).gameObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Space to continue";
+            if (scPlayer.bpmManager.gameObject.transform.GetComponent<PlayerData>().iLanguageNbPlayer == 1)
+            {
+                GoTuto[0].transform.GetChild(6).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Espace pour passer";
+                GoTuto[0].transform.GetChild(6).gameObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Espace pour continuer";
+                GoTuto[1].transform.GetChild(2).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Espace pour passer";
+                GoTuto[2].transform.GetChild(3).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Espace pour passer";
+                GoTuto[3].transform.GetChild(1).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Espace pour continuer";
+                GoTuto[3].transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Utilise \"ZQSD\"  pour choisir une direction, puis  \"Espace\" sur le rythme, afin de scorer.";
+                GoTuto[4].transform.GetChild(1).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Espace pour continuer";
+                GoTuto[5].transform.GetChild(3).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Espace pour passer";
+                GoTuto[5].transform.GetChild(3).gameObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Espace pour continuer";
+                GoTuto[6].transform.GetChild(3).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Espace pour passer";
+                GoTuto[6].transform.GetChild(3).gameObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Espace pour continuer";
+            }
+            else
+            {
+                GoTuto[0].transform.GetChild(6).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Space to skip";
+                GoTuto[0].transform.GetChild(6).gameObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Space to continue";
+                GoTuto[1].transform.GetChild(2).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Space to skip";
+                GoTuto[2].transform.GetChild(3).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Space to skip";
+                GoTuto[3].transform.GetChild(1).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Space to continue";
+                GoTuto[3].transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Use \"WASD\" for directions, then \"space\" on the rythm in order to move.";
+                GoTuto[4].transform.GetChild(1).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Space to continue";
+                GoTuto[5].transform.GetChild(3).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Space to skip";
+                GoTuto[5].transform.GetChild(3).gameObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Space to continue";
+                GoTuto[6].transform.GetChild(3).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Space to skip";
+                GoTuto[6].transform.GetChild(3).gameObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Space to continue";
+            }
         }
-    }
+    }*/
+    /*private void ChangeLanguage()
+    {
+        if (scPlayer.bpmManager.gameObject.transform.GetComponent<PlayerData>().iLanguageNbPlayer == 1) //FRANCAIS
+        {
+            GoTuto[0].transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Encore de la 'zik ??";
+            GoTuto[0].transform.GetChild(2).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "J'peux pas m'arrêter de danser…";
+            GoTuto[0].transform.GetChild(4).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "J'ai vu un spot de dingue!";
+            GoTuto[0].transform.GetChild(5).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Allez, j'vais graffer!";
+            GoTuto[1].transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Là c'est le spot";
+            GoTuto[1].transform.GetChild(1).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Moi, j'suis \r\nlà\r\n";
+            GoTuto[2].transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "J'sais pas pourquoi";
+            GoTuto[2].transform.GetChild(1).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "J'sens que je dois";
+            GoTuto[2].transform.GetChild(2).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Groover";
+            GoTuto[4].transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "T'as smashé un truc là!\r\nCa pourrait être pratique ça!";
+            GoTuto[5].transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Il y a des tarés qui peuvent te défoncer, te fais pas cramer.";
+            GoTuto[5].transform.GetChild(1).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "C'te truc te montre à quel point t'as merdé.";
+            GoTuto[5].transform.GetChild(2).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "La max pas.";
+        }
+        else //ANGLAIS
+        {
+            GoTuto[0].transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "music again??";
+            GoTuto[0].transform.GetChild(2).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Somehow i cannot stop dancing...";
+            GoTuto[0].transform.GetChild(4).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "I saw an amazing spot !";
+            GoTuto[0].transform.GetChild(5).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Let's graff !";
+            GoTuto[1].transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Here's the spot";
+            GoTuto[1].transform.GetChild(1).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "And i'm \r\nhere\r\n";
+            GoTuto[2].transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "For an unkown reason";
+            GoTuto[2].transform.GetChild(1).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "I feel like";
+            GoTuto[2].transform.GetChild(2).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "I have to groove.";
+            GoTuto[4].transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "You smashed an object,\r\nThat could be Useful !";
+            GoTuto[5].transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Dangerous people may hurt you, don't be seen.";
+            GoTuto[5].transform.GetChild(1).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "This shows how much you've been seen.";
+            GoTuto[5].transform.GetChild(2).gameObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Do not max it.";
+
+        }
+    }*/
 }

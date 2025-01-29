@@ -8,7 +8,7 @@ public class PlayerData : MonoBehaviour
     public int iLevelPlayer;
     public int[] iStarsPlayer = new int[15]; //1 is true 0 is false, 5per lvl
     public int[] iScorePerLvlPlayer = new int[3];
-    public int iLanguageNbPlayer;
+    public int iLanguageNbPlayer; // 0 is english, 1 is french
 
     public void SaveGame()
     {

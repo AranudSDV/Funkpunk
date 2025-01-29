@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class sc_tuto_level1 : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private GameObject[] GoTuto = new GameObject[4];
+    private bool b_tutoFinished = false;
+    [SerializeField] private Sprite[] spriteBubbleTuto = new Sprite[4];
+    [SerializeField] private SC_Player scPlayer;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }
