@@ -6,6 +6,9 @@ Shader  "SHR_Decal_LightsCutout"
     {
         [HideInInspector] _AlphaCutoff("Alpha Cutoff ", Range(0, 1)) = 0.5
         [HideInInspector] _EmissionColor("Emission Color", Color) = (1,1,1,1)
+        _TextureSample0("Texture Sample 0", 2D) = "white" {}
+        [HDR]_Color0("Color 0", Color) = (5.340313,0,0,0)
+        [HideInInspector] _texcoord( "", 2D ) = "white" {}
 
 
         [HideInInspector] _DrawOrder("Draw Order", Range(-50, 50)) = 0
@@ -52,12 +55,13 @@ Shader  "SHR_Decal_LightsCutout"
 			ZTest Greater
 			ZWrite Off
 			ColorMask RGBA
-			ColorMask 0 1
+			ColorMask RGBA 1
 			ColorMask RGBA 2
 
             HLSLPROGRAM
 
 			#define _MATERIAL_AFFECTS_ALBEDO 1
+			#define _MATERIAL_AFFECTS_NORMAL 1
 			#define _MATERIAL_AFFECTS_NORMAL_BLEND 1
 			#define DECAL_ANGLE_FADE 1
 			#define ASE_SRP_VERSION 140010
@@ -121,7 +125,8 @@ Shader  "SHR_Decal_LightsCutout"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/LODCrossFade.hlsl"
             #endif
 
-			
+			#define ASE_NEEDS_FRAG_TEXTURE_COORDINATES0
+
 
 			struct SurfaceDescription
 			{
@@ -153,7 +158,9 @@ Shader  "SHR_Decal_LightsCutout"
 			};
 
             CBUFFER_START(UnityPerMaterial)
-						float _DrawOrder;
+			float4 _Color0;
+			float4 _TextureSample0_ST;
+			float _DrawOrder;
 			float _DecalMeshBiasType;
 			float _DecalMeshDepthBias;
 			float _DecalMeshViewBias;
@@ -171,7 +178,8 @@ Shader  "SHR_Decal_LightsCutout"
 				int _PassValue;
             #endif
 
-			
+			sampler2D _TextureSample0;
+
 
 			
             void GetSurfaceData(SurfaceDescription surfaceDescription, float angleFadeFactor, out DecalSurfaceData surfaceData)
@@ -368,11 +376,12 @@ Shader  "SHR_Decal_LightsCutout"
 
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 
-				float4 color9 = IsGammaSpace() ? float4(4,4,4,0) : float4(21.11213,21.11213,21.11213,0);
+				float2 uv_TextureSample0 = texCoord0 * _TextureSample0_ST.xy + _TextureSample0_ST.zw;
+				float4 tex2DNode11 = tex2D( _TextureSample0, uv_TextureSample0 );
 				
 
-				surfaceDescription.BaseColor = color9.rgb;
-				surfaceDescription.Alpha = color9.r;
+				surfaceDescription.BaseColor = ( ( _Color0 * tex2DNode11.r ) * tex2DNode11.a ).rgb;
+				surfaceDescription.Alpha = tex2DNode11.a;
 				surfaceDescription.NormalTS = float3(0.0f, 0.0f, 1.0f);
 				surfaceDescription.NormalAlpha = 1;
 
@@ -409,6 +418,7 @@ Shader  "SHR_Decal_LightsCutout"
 			HLSLPROGRAM
 
 			#define _MATERIAL_AFFECTS_ALBEDO 1
+			#define _MATERIAL_AFFECTS_NORMAL 1
 			#define _MATERIAL_AFFECTS_NORMAL_BLEND 1
 			#define DECAL_ANGLE_FADE 1
 			#define ASE_SRP_VERSION 140010
@@ -493,7 +503,8 @@ Shader  "SHR_Decal_LightsCutout"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/LODCrossFade.hlsl"
             #endif
 
-			
+			#define ASE_NEEDS_FRAG_TEXTURE_COORDINATES0
+
 
 			struct SurfaceDescription
 			{
@@ -532,7 +543,9 @@ Shader  "SHR_Decal_LightsCutout"
 			};
 
             CBUFFER_START(UnityPerMaterial)
-						float _DrawOrder;
+			float4 _Color0;
+			float4 _TextureSample0_ST;
+			float _DrawOrder;
 			float _DecalMeshBiasType;
 			float _DecalMeshDepthBias;
 			float _DecalMeshViewBias;
@@ -550,7 +563,8 @@ Shader  "SHR_Decal_LightsCutout"
 				int _PassValue;
             #endif
 
-			
+			sampler2D _TextureSample0;
+
 
 			
             void GetSurfaceData(SurfaceDescription surfaceDescription, float angleFadeFactor, out DecalSurfaceData surfaceData)
@@ -821,13 +835,14 @@ Shader  "SHR_Decal_LightsCutout"
 
 				DecalSurfaceData surfaceData;
 
-				float4 color9 = IsGammaSpace() ? float4(4,4,4,0) : float4(21.11213,21.11213,21.11213,0);
+				float2 uv_TextureSample0 = texCoord0 * _TextureSample0_ST.xy + _TextureSample0_ST.zw;
+				float4 tex2DNode11 = tex2D( _TextureSample0, uv_TextureSample0 );
 				
 
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 
-				surfaceDescription.BaseColor = color9.rgb;
-				surfaceDescription.Alpha = color9.r;
+				surfaceDescription.BaseColor = ( ( _Color0 * tex2DNode11.r ) * tex2DNode11.a ).rgb;
+				surfaceDescription.Alpha = tex2DNode11.a;
 				surfaceDescription.NormalTS = float3(0.0f, 0.0f, 1.0f);
 				surfaceDescription.NormalAlpha = 1;
 				#if defined( _MATERIAL_AFFECTS_MAOS )
@@ -881,12 +896,13 @@ Shader  "SHR_Decal_LightsCutout"
 			ZWrite Off
 			ColorMask RGB
 			ColorMask 0 1
-			ColorMask 0 2
+			ColorMask RGB 2
 			ColorMask RGB 3
 
 			HLSLPROGRAM
 
 			#define _MATERIAL_AFFECTS_ALBEDO 1
+			#define _MATERIAL_AFFECTS_NORMAL 1
 			#define _MATERIAL_AFFECTS_NORMAL_BLEND 1
 			#define DECAL_ANGLE_FADE 1
 			#define ASE_SRP_VERSION 140010
@@ -967,7 +983,8 @@ Shader  "SHR_Decal_LightsCutout"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/LODCrossFade.hlsl"
             #endif
 
-			
+			#define ASE_NEEDS_FRAG_TEXTURE_COORDINATES0
+
 
 			struct SurfaceDescription
 			{
@@ -1005,7 +1022,9 @@ Shader  "SHR_Decal_LightsCutout"
 			};
 
             CBUFFER_START(UnityPerMaterial)
-						float _DrawOrder;
+			float4 _Color0;
+			float4 _TextureSample0_ST;
+			float _DrawOrder;
 			float _DecalMeshBiasType;
 			float _DecalMeshDepthBias;
 			float _DecalMeshViewBias;
@@ -1023,7 +1042,8 @@ Shader  "SHR_Decal_LightsCutout"
 				int _PassValue;
             #endif
 
-			
+			sampler2D _TextureSample0;
+
 
 			
             void GetSurfaceData(SurfaceDescription surfaceDescription, float angleFadeFactor, out DecalSurfaceData surfaceData)
@@ -1288,11 +1308,12 @@ Shader  "SHR_Decal_LightsCutout"
 
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 
-				float4 color9 = IsGammaSpace() ? float4(4,4,4,0) : float4(21.11213,21.11213,21.11213,0);
+				float2 uv_TextureSample0 = texCoord0 * _TextureSample0_ST.xy + _TextureSample0_ST.zw;
+				float4 tex2DNode11 = tex2D( _TextureSample0, uv_TextureSample0 );
 				
 
-				surfaceDescription.BaseColor = color9.rgb;
-				surfaceDescription.Alpha = color9.r;
+				surfaceDescription.BaseColor = ( ( _Color0 * tex2DNode11.r ) * tex2DNode11.a ).rgb;
+				surfaceDescription.Alpha = tex2DNode11.a;
 				surfaceDescription.NormalTS = float3(0.0f, 0.0f, 1.0f);
 				surfaceDescription.NormalAlpha = 1;
 
@@ -1363,12 +1384,13 @@ Shader  "SHR_Decal_LightsCutout"
 			ZTest LEqual
 			ZWrite Off
 			ColorMask RGBA
-			ColorMask 0 1
+			ColorMask RGBA 1
 			ColorMask RGBA 2
 
 			HLSLPROGRAM
 
 			#define _MATERIAL_AFFECTS_ALBEDO 1
+			#define _MATERIAL_AFFECTS_NORMAL 1
 			#define _MATERIAL_AFFECTS_NORMAL_BLEND 1
 			#define ASE_SRP_VERSION 140010
 
@@ -1477,7 +1499,9 @@ Shader  "SHR_Decal_LightsCutout"
 			};
 
             CBUFFER_START(UnityPerMaterial)
-						float _DrawOrder;
+			float4 _Color0;
+			float4 _TextureSample0_ST;
+			float _DrawOrder;
 			float _DecalMeshBiasType;
 			float _DecalMeshDepthBias;
 			float _DecalMeshViewBias;
@@ -1495,7 +1519,8 @@ Shader  "SHR_Decal_LightsCutout"
 				int _PassValue;
             #endif
 
-			
+			sampler2D _TextureSample0;
+
 
 			
             void GetSurfaceData(PackedVaryings input, SurfaceDescription surfaceDescription, out DecalSurfaceData surfaceData)
@@ -1682,11 +1707,12 @@ Shader  "SHR_Decal_LightsCutout"
 				DecalSurfaceData surfaceData;
 				SurfaceDescription surfaceDescription;
 
-				float4 color9 = IsGammaSpace() ? float4(4,4,4,0) : float4(21.11213,21.11213,21.11213,0);
+				float2 uv_TextureSample0 = packedInput.texCoord0.xy * _TextureSample0_ST.xy + _TextureSample0_ST.zw;
+				float4 tex2DNode11 = tex2D( _TextureSample0, uv_TextureSample0 );
 				
 
-				surfaceDescription.BaseColor = color9.rgb;
-				surfaceDescription.Alpha = color9.r;
+				surfaceDescription.BaseColor = ( ( _Color0 * tex2DNode11.r ) * tex2DNode11.a ).rgb;
+				surfaceDescription.Alpha = tex2DNode11.a;
 				surfaceDescription.NormalTS = float3(0.0f, 0.0f, 1.0f);
 				surfaceDescription.NormalAlpha = 1;
 
@@ -1722,6 +1748,7 @@ Shader  "SHR_Decal_LightsCutout"
 			HLSLPROGRAM
 
 			#define _MATERIAL_AFFECTS_ALBEDO 1
+			#define _MATERIAL_AFFECTS_NORMAL 1
 			#define _MATERIAL_AFFECTS_NORMAL_BLEND 1
 			#define ASE_SRP_VERSION 140010
 
@@ -1857,7 +1884,9 @@ Shader  "SHR_Decal_LightsCutout"
 			};
 
             CBUFFER_START(UnityPerMaterial)
-						float _DrawOrder;
+			float4 _Color0;
+			float4 _TextureSample0_ST;
+			float _DrawOrder;
 			float _DecalMeshBiasType;
 			float _DecalMeshDepthBias;
 			float _DecalMeshViewBias;
@@ -1875,7 +1904,8 @@ Shader  "SHR_Decal_LightsCutout"
 				int _PassValue;
             #endif
 
-			
+			sampler2D _TextureSample0;
+
 
 			
             void GetSurfaceData(PackedVaryings input, SurfaceDescription surfaceDescription, out DecalSurfaceData surfaceData)
@@ -2139,11 +2169,12 @@ Shader  "SHR_Decal_LightsCutout"
 				DecalSurfaceData surfaceData;
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 
-				float4 color9 = IsGammaSpace() ? float4(4,4,4,0) : float4(21.11213,21.11213,21.11213,0);
+				float2 uv_TextureSample0 = packedInput.texCoord0.xy * _TextureSample0_ST.xy + _TextureSample0_ST.zw;
+				float4 tex2DNode11 = tex2D( _TextureSample0, uv_TextureSample0 );
 				
 
-				surfaceDescription.BaseColor = color9.rgb;
-				surfaceDescription.Alpha = color9.r;
+				surfaceDescription.BaseColor = ( ( _Color0 * tex2DNode11.r ) * tex2DNode11.a ).rgb;
+				surfaceDescription.Alpha = tex2DNode11.a;
 				surfaceDescription.NormalTS = float3(0.0f, 0.0f, 1.0f);
 				surfaceDescription.NormalAlpha = 1;
 
@@ -2196,12 +2227,13 @@ Shader  "SHR_Decal_LightsCutout"
 			ZWrite Off
 			ColorMask RGB
 			ColorMask 0 1
-			ColorMask 0 2
+			ColorMask RGB 2
 			ColorMask RGB 3
 
 			HLSLPROGRAM
 
 			#define _MATERIAL_AFFECTS_ALBEDO 1
+			#define _MATERIAL_AFFECTS_NORMAL 1
 			#define _MATERIAL_AFFECTS_NORMAL_BLEND 1
 			#define ASE_SRP_VERSION 140010
 
@@ -2337,7 +2369,9 @@ Shader  "SHR_Decal_LightsCutout"
 			};
 
             CBUFFER_START(UnityPerMaterial)
-						float _DrawOrder;
+			float4 _Color0;
+			float4 _TextureSample0_ST;
+			float _DrawOrder;
 			float _DecalMeshBiasType;
 			float _DecalMeshDepthBias;
 			float _DecalMeshViewBias;
@@ -2355,7 +2389,8 @@ Shader  "SHR_Decal_LightsCutout"
 				int _PassValue;
             #endif
 
-			
+			sampler2D _TextureSample0;
+
 
 			
             void GetSurfaceData(PackedVaryings input, SurfaceDescription surfaceDescription, out DecalSurfaceData surfaceData)
@@ -2617,11 +2652,12 @@ Shader  "SHR_Decal_LightsCutout"
 				DecalSurfaceData surfaceData;
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 
-				float4 color9 = IsGammaSpace() ? float4(4,4,4,0) : float4(21.11213,21.11213,21.11213,0);
+				float2 uv_TextureSample0 = packedInput.texCoord0.xy * _TextureSample0_ST.xy + _TextureSample0_ST.zw;
+				float4 tex2DNode11 = tex2D( _TextureSample0, uv_TextureSample0 );
 				
 
-				surfaceDescription.BaseColor = color9.rgb;
-				surfaceDescription.Alpha = color9.r;
+				surfaceDescription.BaseColor = ( ( _Color0 * tex2DNode11.r ) * tex2DNode11.a ).rgb;
+				surfaceDescription.Alpha = tex2DNode11.a;
 				surfaceDescription.NormalTS = float3(0.0f, 0.0f, 1.0f);
 				surfaceDescription.NormalAlpha = 1;
 
@@ -2692,6 +2728,7 @@ Shader  "SHR_Decal_LightsCutout"
 			HLSLPROGRAM
 
 			#define _MATERIAL_AFFECTS_ALBEDO 1
+			#define _MATERIAL_AFFECTS_NORMAL 1
 			#define _MATERIAL_AFFECTS_NORMAL_BLEND 1
 			#define ASE_SRP_VERSION 140010
 
@@ -2743,20 +2780,22 @@ Shader  "SHR_Decal_LightsCutout"
 				float3 positionOS : POSITION;
 				float3 normalOS : NORMAL;
 				float4 tangentOS : TANGENT;
-				
+				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
 			struct PackedVaryings
 			{
 				float4 positionCS : SV_POSITION;
-				
+				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
             CBUFFER_START(UnityPerMaterial)
-						float _DrawOrder;
+			float4 _Color0;
+			float4 _TextureSample0_ST;
+			float _DrawOrder;
 			float _DecalMeshBiasType;
 			float _DecalMeshDepthBias;
 			float _DecalMeshViewBias;
@@ -2774,7 +2813,8 @@ Shader  "SHR_Decal_LightsCutout"
 				int _PassValue;
             #endif
 
-			
+			sampler2D _TextureSample0;
+
 
 			
             #if (SHADERPASS == SHADERPASS_DBUFFER_PROJECTOR) || (SHADERPASS == SHADERPASS_FORWARD_EMISSIVE_PROJECTOR) || (SHADERPASS == SHADERPASS_DECAL_SCREEN_SPACE_PROJECTOR) || (SHADERPASS == SHADERPASS_DECAL_GBUFFER_PROJECTOR)
@@ -2843,7 +2883,10 @@ Shader  "SHR_Decal_LightsCutout"
 				inputMesh.tangentOS = float4( 1, 0, 0, -1 );
 				inputMesh.normalOS = float3( 0, 1, 0 );
 
+				packedOutput.ase_texcoord.xy = inputMesh.ase_texcoord.xy;
 				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				packedOutput.ase_texcoord.zw = 0;
 
 				float3 positionWS = TransformObjectToWorld(inputMesh.positionOS);
 				packedOutput.positionCS = TransformWorldToHClip(positionWS);
@@ -2856,10 +2899,11 @@ Shader  "SHR_Decal_LightsCutout"
 				
 			)
 			{
-				float4 color9 = IsGammaSpace() ? float4(4,4,4,0) : float4(21.11213,21.11213,21.11213,0);
+				float2 uv_TextureSample0 = packedInput.ase_texcoord.xy * _TextureSample0_ST.xy + _TextureSample0_ST.zw;
+				float4 tex2DNode11 = tex2D( _TextureSample0, uv_TextureSample0 );
 				
 
-				float3 BaseColor = color9.rgb;
+				float3 BaseColor = ( ( _Color0 * tex2DNode11.r ) * tex2DNode11.a ).rgb;
 
 				outColor = _SelectionID;
 			}
@@ -2873,17 +2917,24 @@ Shader  "SHR_Decal_LightsCutout"
 }
 /*ASEBEGIN
 Version=19302
-Node;AmplifyShaderEditor.ColorNode;9;-309.9999,10.89999;Inherit;False;Constant;_Color0;Color 0;0;1;[HDR];Create;True;0;0;0;False;0;False;4,4,4,0;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;0,0;Float;False;False;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;1;New Amplify Shader;c2a467ab6d5391a4ea692226d82ffefd;True;DBufferProjector;0;0;DBufferProjector;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;True;2;5;False;;10;False;;1;0;False;;10;False;;False;False;True;2;5;False;;10;False;;1;0;False;;10;False;;False;False;True;2;5;False;;10;False;;1;0;False;;10;False;;False;False;False;False;False;False;True;1;False;;False;False;False;True;False;False;False;False;0;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;True;2;False;;True;2;False;;False;True;1;LightMode=DBufferProjector;False;True;9;d3d11;metal;vulkan;xboxone;xboxseries;playstation;ps4;ps5;switch;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;0,0;Float;False;False;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;1;New Amplify Shader;c2a467ab6d5391a4ea692226d82ffefd;True;DecalProjectorForwardEmissive;0;1;DecalProjectorForwardEmissive;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;True;8;5;False;;1;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;True;2;False;;False;True;1;LightMode=DecalProjectorForwardEmissive;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;3;0,0;Float;False;False;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;1;New Amplify Shader;c2a467ab6d5391a4ea692226d82ffefd;True;DecalGBufferProjector;0;3;DecalGBufferProjector;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;False;True;1;False;;False;False;False;True;False;False;False;False;0;False;;False;True;False;False;False;False;0;False;;False;True;True;True;True;False;0;False;;False;False;False;True;2;False;;True;2;False;;False;True;1;LightMode=DecalGBufferProjector;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;4;0,0;Float;False;False;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;1;New Amplify Shader;c2a467ab6d5391a4ea692226d82ffefd;True;DBufferMesh;0;4;DBufferMesh;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;True;2;5;False;;10;False;;1;0;False;;10;False;;False;False;True;2;5;False;;10;False;;1;0;False;;10;False;;False;False;True;2;5;False;;10;False;;1;0;False;;10;False;;False;False;False;False;False;False;False;False;False;False;True;False;False;False;False;0;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;True;2;False;;True;3;False;;False;True;1;LightMode=DBufferMesh;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;5;0,0;Float;False;False;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;1;New Amplify Shader;c2a467ab6d5391a4ea692226d82ffefd;True;DecalMeshForwardEmissive;0;5;DecalMeshForwardEmissive;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;True;8;5;False;;1;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;True;3;False;;False;True;1;LightMode=DecalMeshForwardEmissive;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;6;0,0;Float;False;False;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;1;New Amplify Shader;c2a467ab6d5391a4ea692226d82ffefd;True;DecalScreenSpaceMesh;0;6;DecalScreenSpaceMesh;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;True;3;False;;False;True;1;LightMode=DecalScreenSpaceMesh;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;7;0,0;Float;False;False;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;1;New Amplify Shader;c2a467ab6d5391a4ea692226d82ffefd;True;DecalGBufferMesh;0;7;DecalGBufferMesh;1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;True;False;False;False;False;0;False;;False;True;False;False;False;False;0;False;;False;True;True;True;True;False;0;False;;False;False;False;True;2;False;;False;False;True;1;LightMode=DecalGBufferMesh;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;8;0,0;Float;False;False;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;1;New Amplify Shader;c2a467ab6d5391a4ea692226d82ffefd;True;ScenePickingPass;0;8;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;2;0,0;Float;False;True;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;14;SHR_Decal_LightsCutout;c2a467ab6d5391a4ea692226d82ffefd;True;DecalScreenSpaceProjector;0;2;DecalScreenSpaceProjector;9;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;True;2;False;;False;True;1;LightMode=DecalScreenSpaceProjector;False;False;0;;0;0;Standard;7;Affect BaseColor;1;0;Affect Normal;0;638735880474533344;Blend;1;0;Affect MAOS;0;0;Affect Emission;0;0;Support LOD CrossFade;0;0;Angle Fade;1;0;0;9;True;False;True;True;True;False;True;True;True;False;;False;0
-WireConnection;2;0;9;0
-WireConnection;2;1;9;0
+Node;AmplifyShaderEditor.SamplerNode;11;-604.4,239.7001;Inherit;True;Property;_TextureSample0;Texture Sample 0;0;0;Create;True;0;0;0;False;0;False;-1;917c7a2ac3cda4d418dd8ba85904218f;917c7a2ac3cda4d418dd8ba85904218f;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;9;-553.2,-104.3;Inherit;False;Property;_Color0;Color 0;1;1;[HDR];Create;True;0;0;0;False;0;False;5.340313,0,0,0;5.340313,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;12;-273.9998,-95.49999;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;17;-4.114685,85.4617;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;38;269.76,-2.720005;Float;False;False;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;1;New Amplify Shader;c2a467ab6d5391a4ea692226d82ffefd;True;DBufferProjector;0;0;DBufferProjector;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;True;2;5;False;;10;False;;1;0;False;;10;False;;False;False;True;2;5;False;;10;False;;1;0;False;;10;False;;False;False;True;2;5;False;;10;False;;1;0;False;;10;False;;False;False;False;False;False;False;True;1;False;;False;False;False;True;True;True;True;True;0;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;True;2;False;;True;2;False;;False;True;1;LightMode=DBufferProjector;False;True;9;d3d11;metal;vulkan;xboxone;xboxseries;playstation;ps4;ps5;switch;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;39;269.76,-2.720005;Float;False;False;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;1;New Amplify Shader;c2a467ab6d5391a4ea692226d82ffefd;True;DecalProjectorForwardEmissive;0;1;DecalProjectorForwardEmissive;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;True;8;5;False;;1;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;True;2;False;;False;True;1;LightMode=DecalProjectorForwardEmissive;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;40;269.76,-2.720005;Float;False;True;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;14;SHR_Decal_LightsCutout;c2a467ab6d5391a4ea692226d82ffefd;True;DecalScreenSpaceProjector;0;2;DecalScreenSpaceProjector;9;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;True;2;False;;False;True;1;LightMode=DecalScreenSpaceProjector;False;False;0;;0;0;Standard;7;Affect BaseColor;1;0;Affect Normal;1;0;Blend;1;0;Affect MAOS;0;0;Affect Emission;0;0;Support LOD CrossFade;0;0;Angle Fade;1;0;0;9;True;False;True;True;True;False;True;True;True;False;;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;41;269.76,-2.720005;Float;False;False;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;1;New Amplify Shader;c2a467ab6d5391a4ea692226d82ffefd;True;DecalGBufferProjector;0;3;DecalGBufferProjector;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;False;True;1;False;;False;False;False;True;False;False;False;False;0;False;;False;True;True;True;True;False;0;False;;False;True;True;True;True;False;0;False;;False;False;False;True;2;False;;True;2;False;;False;True;1;LightMode=DecalGBufferProjector;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;42;269.76,-2.720005;Float;False;False;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;1;New Amplify Shader;c2a467ab6d5391a4ea692226d82ffefd;True;DBufferMesh;0;4;DBufferMesh;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;True;2;5;False;;10;False;;1;0;False;;10;False;;False;False;True;2;5;False;;10;False;;1;0;False;;10;False;;False;False;True;2;5;False;;10;False;;1;0;False;;10;False;;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;True;2;False;;True;3;False;;False;True;1;LightMode=DBufferMesh;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;43;269.76,-2.720005;Float;False;False;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;1;New Amplify Shader;c2a467ab6d5391a4ea692226d82ffefd;True;DecalMeshForwardEmissive;0;5;DecalMeshForwardEmissive;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;True;8;5;False;;1;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;True;3;False;;False;True;1;LightMode=DecalMeshForwardEmissive;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;44;269.76,-2.720005;Float;False;False;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;1;New Amplify Shader;c2a467ab6d5391a4ea692226d82ffefd;True;DecalScreenSpaceMesh;0;6;DecalScreenSpaceMesh;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;True;3;False;;False;True;1;LightMode=DecalScreenSpaceMesh;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;45;269.76,-2.720005;Float;False;False;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;1;New Amplify Shader;c2a467ab6d5391a4ea692226d82ffefd;True;DecalGBufferMesh;0;7;DecalGBufferMesh;1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;True;False;False;False;False;0;False;;False;True;True;True;True;False;0;False;;False;True;True;True;True;False;0;False;;False;False;False;True;2;False;;False;False;True;1;LightMode=DecalGBufferMesh;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;46;269.76,-2.720005;Float;False;False;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;1;New Amplify Shader;c2a467ab6d5391a4ea692226d82ffefd;True;ScenePickingPass;0;8;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
+WireConnection;12;0;9;0
+WireConnection;12;1;11;1
+WireConnection;17;0;12;0
+WireConnection;17;1;11;4
+WireConnection;40;0;17;0
+WireConnection;40;1;11;4
 ASEEND*/
-//CHKSM=964270CFDDA08C0869AED3907E82654CE4710EC2
+//CHKSM=279142BB2DEA413EFCB3C0AA65BC6868B2547201

@@ -40,14 +40,14 @@ Material:
     - _AlphaCutoff: 0.5
     - _EnvironmentReflections: 1
     - _MTL_Pow: 1
-    - _OPA_Pow: 0.392
+    - _OPA_Pow: 0.39
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _SMH_Pow: 1
     - _SpecularHighlights: 1
     m_Colors:
-    - _ALB: {r: 0.05013609, g: 1, b: 0, a: 1}
+    - _ALB: {r: 243.7601, g: 25.295832, b: 197.82166, a: 1}
     - _AO: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _MTL: {r: 0, g: 0, b: 0, a: 0}
