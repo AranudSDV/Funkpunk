@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class sc_textChange : MonoBehaviour
@@ -15,15 +16,20 @@ public class sc_textChange : MonoBehaviour
 
     private void Start()
     {
-        if ((scPlayer != null && scPlayer.bpmManager.gameObject.transform.GetComponent<PlayerData>().iLanguageNbPlayer == 1) || (_playerData != null && _playerData.iLanguageNbPlayer == 1))
+        if ((SceneManager.GetActiveScene().name == "SceneLvl1" || SceneManager.GetActiveScene().name == "SceneLvl0") && (this.transform.parent.transform.parent.transform.parent.transform.parent.gameObject.name != "Manager"))
         {
-            this.gameObject.transform.GetComponent<TextMeshPro>().text = sFrench;
+            _playerData = scPlayer.menuManager.gameObject.transform.GetComponent<PlayerData>();
+        }
+        if (_playerData != null && _playerData.iLanguageNbPlayer == 1)
+        {
+            this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sFrench;
         }
         else
         {
-            this.gameObject.transform.GetComponent<TextMeshPro>().text = sEnglish;
+            this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sEnglish;
         }
     }
+
 
     private void Update()
     {
@@ -31,25 +37,40 @@ public class sc_textChange : MonoBehaviour
         {
             if (scPlayer.bIsOnComputer)
             {
-                if ((scPlayer != null && scPlayer.bpmManager.gameObject.transform.GetComponent<PlayerData>().iLanguageNbPlayer == 1) || (_playerData != null && _playerData.iLanguageNbPlayer == 1))
+                if (_playerData != null && _playerData.iLanguageNbPlayer == 1)
                 {
-                    this.gameObject.transform.GetComponent<TextMeshPro>().text = sFrench;
+                    this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sFrench;
                 }
                 else
                 {
-                    this.gameObject.transform.GetComponent<TextMeshPro>().text = sEnglish;
+                    this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sEnglish;
                 }
             }
             else
             {
-                if ((scPlayer != null && scPlayer.bpmManager.gameObject.transform.GetComponent<PlayerData>().iLanguageNbPlayer == 1) || (_playerData != null && _playerData.iLanguageNbPlayer == 1))
+                if (_playerData != null && _playerData.iLanguageNbPlayer == 1)
                 {
-                    this.gameObject.transform.GetComponent<TextMeshPro>().text = sJoystickFrench;
+                    this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sJoystickFrench;
                 }
                 else
                 {
-                    this.gameObject.transform.GetComponent<TextMeshPro>().text = sJoystickEnglish;
+                    this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sJoystickEnglish;
                 }
+            }
+        }
+        else
+        {
+            if ((SceneManager.GetActiveScene().name == "SceneLvl1" || SceneManager.GetActiveScene().name == "SceneLvl0") && (this.transform.parent.transform.parent.transform.parent.transform.parent.gameObject.name != "Manager"))
+            {
+                _playerData = scPlayer.menuManager.gameObject.transform.GetComponent<PlayerData>();
+            }
+            if (_playerData != null && _playerData.iLanguageNbPlayer == 1)
+            {
+                this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sFrench;
+            }
+            else
+            {
+                this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sEnglish;
             }
         }
     }
