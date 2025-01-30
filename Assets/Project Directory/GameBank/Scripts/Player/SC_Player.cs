@@ -103,9 +103,6 @@ public class SC_Player : MonoBehaviour
     private void Awake()
     {
         CheckControllerStatus();
-    }
-    void Start()
-    {
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         vfx_steps = VFXsteps.transform.GetChild(0).gameObject.GetComponent<ParticleSystem>();
         if (menuManager == null)

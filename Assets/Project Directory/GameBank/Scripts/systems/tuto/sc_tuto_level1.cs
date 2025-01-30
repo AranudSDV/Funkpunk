@@ -13,14 +13,14 @@ public class sc_tuto_level1 : MonoBehaviour
     [SerializeField] private GameObject[] goCameraBackTrack = new GameObject[3]; //cam, dolly, empty
     [SerializeField] private GameObject[] goCameraMain = new GameObject[3]; //cam, dolly, ui
     [SerializeField] private CinemachinePathBase m_Path;
-    [SerializeField] private float m_Speed = 5f;
+    [SerializeField] private float m_Speed = 10f;
     private float m_Position;
     [SerializeField] private CinemachinePathBase.PositionUnits m_PositionUnits = CinemachinePathBase.PositionUnits.Distance;
     private bool b_tutoFinished = false;
     [SerializeField] private Sprite[] spriteBubbleTuto1 = new Sprite[4];
     [SerializeField] private Sprite[] spriteBubbleTuto2 = new Sprite[2];
     [SerializeField] private SC_Player scPlayer;
-    private Coroutine tutoCoroutine;
+    private Coroutine[] tutoCoroutine = new Coroutine[3];
     private bool coroutineIsRunning = false;
     private bool bWaitSpace = false;
     private bool bOnce = false;
@@ -29,7 +29,7 @@ public class sc_tuto_level1 : MonoBehaviour
     {
         scPlayer.bGameIsPaused = true;
         scPlayer.PauseGame();
-        tutoCoroutine = StartCoroutine(StartFirst());
+        tutoCoroutine[0] = StartCoroutine(StartFirst());
     }
     private void Update()
     {
@@ -42,9 +42,9 @@ public class sc_tuto_level1 : MonoBehaviour
             if (b_tutoFinished == false && GoTuto1[4].transform.GetChild(1).gameObject.activeInHierarchy && ((scPlayer.bIsOnComputer == false && scPlayer.control.GamePlay.Move.triggered) || (scPlayer.bIsOnComputer && Input.GetButtonDown("Jump"))))
             {
                 GoTuto1[0].transform.parent.gameObject.SetActive(false);
-                StartCoroutine(StartSecond());
+                tutoCoroutine[1] = StartCoroutine(StartSecond());
             }
-            if (b_tutoFinished == false && GoTuto2[3].transform.GetChild(1).gameObject && ((scPlayer.bIsOnComputer == false && scPlayer.control.GamePlay.Move.triggered) || (scPlayer.bIsOnComputer && Input.GetButtonDown("Jump"))))
+            if (b_tutoFinished == false && GoTuto2[2].transform.GetChild(1).gameObject.activeInHierarchy && ((scPlayer.bIsOnComputer == false && scPlayer.control.GamePlay.Move.triggered) || (scPlayer.bIsOnComputer && Input.GetButtonDown("Jump"))))
             {
                 bWaitSpace = false;
                 scPlayer.bGameIsPaused = false;
@@ -53,18 +53,19 @@ public class sc_tuto_level1 : MonoBehaviour
                 b_tutoFinished = true;
             }
         }
-        if (b_tutoFinished == true && goCameraBackTrack[2].transform.position.z > 0.5f)
+        if (b_tutoFinished == true && goCameraBackTrack[1].transform.position.z > 0.5f)
         {
             Time.timeScale = 1f;
             SetCartPosition(m_Position + m_Speed * Time.unscaledDeltaTime);
         }
-        if (b_tutoFinished == true && goCameraBackTrack[2].transform.position.z <= 1f)
+        if (b_tutoFinished == true && goCameraBackTrack[1].transform.position.z <= 1f)
         {
             if (bOnce == false)
             {
-                tutoCoroutine = StartCoroutine(StartThird());
+                tutoCoroutine[2] = StartCoroutine(StartThird());
                 GoTuto1[1].transform.GetChild(2).gameObject.SetActive(false);
                 coroutineIsRunning = true;
+                Debug.Log("fini");
             }
         }
     }
@@ -85,22 +86,22 @@ public class sc_tuto_level1 : MonoBehaviour
         GoTuto1[3].SetActive(true);
         yield return new WaitForSecondsRealtime(2.5f);
         UnityEngine.UI.Image img3 = GoTuto1[2].GetComponent<UnityEngine.UI.Image>();
-        img3.sprite = spriteBubbleTuto1[3];
+        img3.sprite = spriteBubbleTuto1[2];
         UnityEngine.UI.Image img4 = GoTuto1[3].GetComponent<UnityEngine.UI.Image>();
-        img4.sprite = spriteBubbleTuto1[4];
+        img4.sprite = spriteBubbleTuto1[3];
         yield return new WaitForSecondsRealtime(1f);
-        GoTuto1[4].SetActive(false);
-        GoTuto1[4].SetActive(true);
+        GoTuto1[4].transform.GetChild(0).gameObject.SetActive(false);
+        GoTuto1[4].transform.GetChild(1).gameObject.SetActive(true);
         bWaitSpace = true;
     }
     private IEnumerator SkipFirstTuto()
     {
-        StopCoroutine(tutoCoroutine);
+        StopCoroutine(tutoCoroutine[0]);
         UnityEngine.UI.Image[] img = new UnityEngine.UI.Image[4];
         for (int i = 0; i < 4; i++)
         {
-            GoTuto1[0].transform.GetChild(i).gameObject.SetActive(true);
-            img[i] = GoTuto1[0].transform.GetChild(i).gameObject.GetComponent<UnityEngine.UI.Image>();
+            GoTuto1[i].SetActive(true);
+            img[i] = GoTuto1[i].GetComponent<UnityEngine.UI.Image>();
             img[i].sprite = spriteBubbleTuto1[i];
         }
         GoTuto1[4].transform.GetChild(0).gameObject.SetActive(false);
@@ -110,6 +111,7 @@ public class sc_tuto_level1 : MonoBehaviour
     }
     private IEnumerator StartSecond()
     {
+        GoTuto2[0].transform.parent.gameObject.SetActive(true);
         GoTuto2[0].gameObject.SetActive(true);
         yield return new WaitForSecondsRealtime(1f);
         bWaitSpace = true;
@@ -120,23 +122,24 @@ public class sc_tuto_level1 : MonoBehaviour
         UnityEngine.UI.Image img2 = GoTuto2[1].GetComponent<UnityEngine.UI.Image>();
         img2.sprite = spriteBubbleTuto2[1];
         yield return new WaitForSecondsRealtime(1f);
-        GoTuto2[3].transform.GetChild(0).gameObject.SetActive(false);
-        GoTuto2[3].transform.GetChild(1).gameObject.SetActive(true);
+        GoTuto2[2].transform.GetChild(0).gameObject.SetActive(false);
+        GoTuto2[2].transform.GetChild(1).gameObject.SetActive(true);
         bWaitSpace = false;
         b_tutoFinished = true;
+        GoTuto2[0].gameObject.SetActive(false);
     }
     private IEnumerator SkipTutoSecond()
     {
-        StopCoroutine(tutoCoroutine);
+        StopCoroutine(tutoCoroutine[1]);
         bWaitSpace = false;
         yield return new WaitForSecondsRealtime(0.5f);
         GoTuto2[0].gameObject.SetActive(false);
         GoTuto2[1].gameObject.SetActive(true);
         UnityEngine.UI.Image img1 = GoTuto2[1].transform.GetChild(1).gameObject.GetComponent<UnityEngine.UI.Image>();
         img1.sprite = spriteBubbleTuto2[1];
-        GoTuto2[3].transform.GetChild(0).gameObject.SetActive(false);
-        GoTuto2[3].transform.GetChild(1).gameObject.SetActive(true);
-        m_Speed = 10f;
+        GoTuto2[2].transform.GetChild(0).gameObject.SetActive(false);
+        GoTuto2[2].transform.GetChild(1).gameObject.SetActive(true);
+        m_Speed = 20f;
         b_tutoFinished = true;
         //Il faut augmenter la vitesse du tuto
     }
