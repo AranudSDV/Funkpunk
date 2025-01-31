@@ -221,7 +221,14 @@ public class sc_tuto_level1 : MonoBehaviour
     private IEnumerator ImuneToTuto(BPM_Manager bpmmanager)
     {
         scPlayer.bIsImune = true;
-        yield return new WaitForSecondsRealtime(bpmmanager.FSPB * 2);
+        if (bpmmanager.FSPB <0.6)
+        {
+            yield return new WaitForSecondsRealtime(bpmmanager.FSPB * 4);
+        }
+        else
+        {
+            yield return new WaitForSecondsRealtime(bpmmanager.FSPB * 2);
+        }
         scPlayer.bIsImune = false;
     }
     private void SetCartPosition(float distanceAlongPath)
