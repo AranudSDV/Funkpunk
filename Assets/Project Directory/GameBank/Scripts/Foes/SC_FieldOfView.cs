@@ -291,7 +291,8 @@ public class SC_FieldOfView : MonoBehaviour
         else if (i_typeFoe == 2)//Si l'ennemi suit un chemin, est movible
         {
             Vector3 newPos = this.transform.position + new Vector3(posDirections[iCurrentDirection].x - this.transform.position.x, 0, posDirections[iCurrentDirection].z - this.transform.position.z).normalized;
-            this.transform.DOMove(new Vector3(Mathf.Round(newPos.x), newPos.y, Mathf.Round(newPos.z)), ftime, false).SetAutoKill(true);
+            this.transform.DOJump(new Vector3(Mathf.Round(newPos.x), newPos.y, Mathf.Round(newPos.z)), 1f, 0, ftime).SetEase(Ease.OutBack).SetAutoKill(true);
+            //this.transform.DOMove(new Vector3(Mathf.Round(newPos.x), newPos.y, Mathf.Round(newPos.z)), ftime, false).SetAutoKill(true);
             if (this.transform.position.x == posDirections[iCurrentDirection].x && this.transform.position.z == posDirections[iCurrentDirection].z) //pile à la position de changement.
             {
                 if (!isReversing && iCurrentDirection + 1 != posDirections.Length && posDirections.Length != 2) //Si ça ne reverse pas et que la prochaine direction existe
