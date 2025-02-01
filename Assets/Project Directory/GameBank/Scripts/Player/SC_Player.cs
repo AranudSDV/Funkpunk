@@ -131,6 +131,12 @@ public class SC_Player : MonoBehaviour
     {
         CheckControllerStatus();
         fPercentScore = FScore / fNbBeat;
+        if(SceneManager.GetActiveScene().name == "Loft" && fNbBeat >=10f)
+        {
+            FScore = Mathf.Round(fPercentScore);
+            fNbBeat = 1;
+            Debug.Log("reset Score");
+        }
         TMPScore.SetText(Mathf.Round(fPercentScore).ToString() + "%");
         sliderDetection.value = FDetectionLevel / fDetectionLevelMax;
         if(FDetectionLevel>= fDetectionLevelMax)
@@ -416,8 +422,8 @@ public class SC_Player : MonoBehaviour
                     {
                         if (fPercentScore>= 50f)
                         {
-                            menuManager.LoadScene("LevelChoosing");
-                            UnityEngine.Cursor.lockState = CursorLockMode.None;
+                            TextMeshPro textOnWall = hitInfo.transform.GetChild(0).GetComponent<TextMeshPro>();
+                            StartCoroutine(EnoughPercentLoft(textOnWall));
                         }
                         else
                         {
@@ -660,9 +666,19 @@ public class SC_Player : MonoBehaviour
     }
     private IEnumerator NotEnoughPercentLoft(TextMeshPro txt)
     {
-        txt.color = Color.red;
-        yield return new WaitForSeconds(0.5f);
+        txt.text = "50%";
+        txt.color = bpmManager.colorMiss;
+        yield return new WaitForSeconds(0.7f);
         txt.color = new Color32(255, 114, 255, 255);
+        txt.text = "! ! !";
+    }
+    private IEnumerator EnoughPercentLoft(TextMeshPro txt)
+    {
+        txt.text = Mathf.Round(fPercentScore).ToString() + "%";
+        txt.color = bpmManager.colorPerfect;
+        yield return new WaitForSeconds(0.7f);
+        menuManager.LoadScene("LevelChoosing");
+        UnityEngine.Cursor.lockState = CursorLockMode.None;
     }
 
     //CONCERNANT LE RYTHME
