@@ -1,4 +1,5 @@
 using Cinemachine;
+using DG.Tweening;
 using FMODUnity;
 using System.Collections;
 using System.Collections.Generic;
@@ -40,9 +41,8 @@ public class BPM_Manager : MonoBehaviour
     public bool bPlayGood = false;
     public bool bPlayPerfect = false;
     [SerializeField] private TMP_Text txt_Feedback;
-    public GameObject GOUiBad;
-    public GameObject GOUiGood;
-    public GameObject GOUiPerfect;
+    [SerializeField] private RectTransform goNoteRight;
+    [SerializeField] private RectTransform goNoteLeft;
 
     [SerializeField] private float fFOVmin = 10f;
     [SerializeField] private float fFOVmax = 10.6f;
@@ -72,7 +72,6 @@ public class BPM_Manager : MonoBehaviour
     private void Update()
     {
         CheckIfInputOnTempo();
-        Rythme();
         CameraRythm(Time.deltaTime, fFOVmax, fFOVmin);
     }
 
@@ -85,6 +84,7 @@ public class BPM_Manager : MonoBehaviour
         }
         scPlayer.RotationEnemies();
         yield return new WaitForSeconds(FWaitTime);
+        MusicNotesMovingStart();
         StartCoroutine(bad());
     }
     IEnumerator bad()
@@ -114,11 +114,11 @@ public class BPM_Manager : MonoBehaviour
         scPlayer.canMove = false;
         if (BBad == false && BGood == false && BPerfect == false && scPlayer.bcanRotate == true)
         {
-            txt_Feedback.text = "Miss";
             if (!scPlayer.bIsImune)
             {
                 scPlayer.fNbBeat += 1f;
             }
+            txt_Feedback.text = "Miss";
             txt_Feedback.color = colorMiss;
             bPlayBad = false;
             bPlayGood = false;
@@ -197,35 +197,12 @@ public class BPM_Manager : MonoBehaviour
             scPlayer.bcanRotate = false;
         }
     }
-    private void Rythme()
+    private void MusicNotesMovingStart()
     {
-        if (BBad == true)
-        {
-            GOUiBad.SetActive(true);
-        }
-        if (BGood == true)
-        {
-            GOUiGood.SetActive(true);
-        }
-        if (BPerfect == true)
-        {
-            GOUiPerfect.SetActive(true);
-        }
-        if (BPerfect == false)
-        {
-            GOUiPerfect.SetActive(false);
-        }
-        if (BPerfect == false && BGood == false)
-        {
-            GOUiPerfect.SetActive(false);
-            GOUiGood.SetActive(false);
-        }
-        if (BPerfect == false && BGood == false && BBad == false)
-        {
-            GOUiPerfect.SetActive(false);
-            GOUiGood.SetActive(false);
-            GOUiBad.SetActive(false);
-        }
+        goNoteRight.anchoredPosition = new Vector2(500f, 0f);
+        goNoteLeft.anchoredPosition = new Vector2(-500f, 0f);
+        goNoteRight.DOAnchorPos(Vector2.zero, FSPB, false).SetAutoKill(true);
+        goNoteLeft.DOAnchorPos(Vector2.zero, FSPB, false).SetAutoKill(true);
     }
     private void CameraRythm(float f_time, float f_max, float f_min)
     {
