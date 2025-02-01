@@ -47,6 +47,10 @@ public class SC_Player : MonoBehaviour
     private ParticleSystem vfx_steps;
     public bool bcanRotate = false;
     public bool bIsImune = false;
+    [SerializeField] private Mesh mesh_basic;
+    [SerializeField] private Mesh mesh_tagging;
+    [SerializeField] private Mesh mesh_throwing;
+    [SerializeField] private MeshFilter meshFilter;
 
     //LE BAIT
     [Header("Bait")]
@@ -350,6 +354,7 @@ public class SC_Player : MonoBehaviour
                                 if(textOnWall.text == i.ToString() + "/3")
                                 {
                                     textOnWall.text = (i + 1).ToString() + "/3";
+                                    StartCoroutine(TaggingFeedback(bpmManager.FSPB));
                                     break;
                                 }
                             }
@@ -360,10 +365,12 @@ public class SC_Player : MonoBehaviour
                                     if (i < 2)
                                     {
                                         textOnWall.text = (i + 2).ToString() + "/3";
+                                        StartCoroutine(TaggingFeedback(bpmManager.FSPB));
                                     }
                                     else
                                     {
                                         textOnWall.text = "3/3";
+                                        StartCoroutine(TaggingFeedback(bpmManager.FSPB));
                                     }
                                     break;
                                 }
@@ -371,6 +378,7 @@ public class SC_Player : MonoBehaviour
                             else if(bpmManager.bPlayPerfect)
                             {
                                 textOnWall.text = "3/3";
+                                StartCoroutine(TaggingFeedback(bpmManager.FSPB));
                                 break;
                             }
                             else if(!bpmManager.bPlayPerfect && !bpmManager.bPlayGood && !bpmManager.bPlayBad)
@@ -462,6 +470,7 @@ public class SC_Player : MonoBehaviour
                             if (col.transform.CompareTag("Wall") || col.transform.CompareTag("Tagging") || col.transform.CompareTag("Bait"))
                             {
                                 fThrowMultiplier = floatNumber - 1f;
+                                StartCoroutine(ThrowingFeedback(bpmManager.FSPB));
                                 return;
                             }
                             else if (col.transform.CompareTag("Enemies 1")) //il y a un ennemi devant le joueur
@@ -471,6 +480,7 @@ public class SC_Player : MonoBehaviour
                                 scEnemy.bIsDisabled = true;
                                 scEnemy.FoeDisabled(scEnemy.bIsDisabled);
                                 scEnemy.i_EnnemyBeat = -5;
+                                StartCoroutine(ThrowingFeedback(bpmManager.FSPB));
                                 //Unable l'ennemi
                                 return;
                             }
@@ -496,6 +506,7 @@ public class SC_Player : MonoBehaviour
                     if (hitInfo1.transform.CompareTag("Wall") || hitInfo1.transform.CompareTag("Tagging") || hitInfo1.transform.CompareTag("Bait"))//il y a un mur devant le joueur
                     {
                         fThrowMultiplier = floatNumber - 1f;
+                        StartCoroutine(ThrowingFeedback(bpmManager.FSPB));
                         return;
                     }
                     else if (hitInfo1.transform.CompareTag("Enemies 1")) //il y a un ennemi devant le joueur
@@ -505,6 +516,7 @@ public class SC_Player : MonoBehaviour
                         scEnemy.bIsDisabled = true;
                         scEnemy.FoeDisabled(scEnemy.bIsDisabled);
                         scEnemy.i_EnnemyBeat = -5;
+                        StartCoroutine(ThrowingFeedback(bpmManager.FSPB));
                         //Unable l'ennemi
                         return;
                     }
@@ -516,6 +528,7 @@ public class SC_Player : MonoBehaviour
                 else if ((!bpmManager.bPlayPerfect && !bpmManager.bPlayGood && !bpmManager.bPlayBad && i == 6) || (bpmManager.bPlayBad && i == 8) || (bpmManager.bPlayGood && i == 9) || (bpmManager.bPlayPerfect && i == 10))
                 {
                     fThrowMultiplier = floatNumber - 1f;
+                    StartCoroutine(ThrowingFeedback(bpmManager.FSPB));
                     return;
                 }
                 else
@@ -679,6 +692,18 @@ public class SC_Player : MonoBehaviour
         yield return new WaitForSeconds(0.7f);
         menuManager.LoadScene("LevelChoosing");
         UnityEngine.Cursor.lockState = CursorLockMode.None;
+    }
+    private IEnumerator TaggingFeedback(float time)
+    {
+        meshFilter.mesh = mesh_tagging;
+        yield return new WaitForSeconds(time*2/3);
+        meshFilter.mesh = mesh_basic;
+    }
+    private IEnumerator ThrowingFeedback(float time)
+    {
+        meshFilter.mesh = mesh_throwing;
+        yield return new WaitForSeconds(time * 2 / 3);
+        meshFilter.mesh = mesh_basic;
     }
 
     //CONCERNANT LE RYTHME
