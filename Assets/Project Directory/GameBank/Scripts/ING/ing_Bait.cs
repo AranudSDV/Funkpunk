@@ -15,6 +15,7 @@ public class ing_Bait : MonoBehaviour
     private float elapsedseconds = 0;
     public Vector3 newPos = new Vector3(0, 0, 0);
     public Vector3 midPos = new Vector3(0, 0, 0);
+    private float beginY;
     public bool bIsBeingThrown = false;
     private bool bGoingUp = false;
     private bool bGoingDown = false;
@@ -46,6 +47,7 @@ public class ing_Bait : MonoBehaviour
         PS_smash = Go_vfx_Smash.transform.gameObject.GetComponent<ParticleSystem>();
         PS_Impact = Go_vfx_Impact.transform.gameObject.GetComponent<ParticleSystem>();
         bOnce = false;
+        beginY = this.transform.position.y;
     }
     GameObject[] DetectObjects()
     {
@@ -168,6 +170,8 @@ public class ing_Bait : MonoBehaviour
                     ThrownAway();
                     bGoingDown = false;
                     elapsedseconds = 0f;
+                    transform.position = new Vector3(Mathf.Round(newPos.x), beginY, Mathf.Round(newPos.z));
+                    this.transform.GetChild(0).gameObject.transform.localPosition = Vector3.zero;
                 }
             }
         }
