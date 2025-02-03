@@ -3,7 +3,22 @@ guid: 5358b3d66a5a28a41ad14a253394ddcf
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - soundManager: {instanceID: 0}
+  - menuManager: {instanceID: 0}
+  - bpmManager: {instanceID: 0}
+  - PlayerCapsule: {instanceID: 0}
+  - VFXsteps: {instanceID: 0}
+  - mesh_basic: {fileID: -517132002252511745, guid: 4f4bed6348ae1d548ac61b8556559211,
+      type: 3}
+  - mesh_tagging: {instanceID: 0}
+  - mesh_throwing: {instanceID: 0}
+  - meshFilter: {instanceID: 0}
+  - GOBait: {instanceID: 0}
+  - TMPScore: {instanceID: 0}
+  - GoVfxDetected: {instanceID: 0}
+  - sliderDetection: {instanceID: 0}
+  - taggedMaterial: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -151,6 +151,7 @@ MonoBehaviour:
   scPlayer: {fileID: 0}
   bpmManager: {fileID: 0}
   newPos: {x: 0, y: 0, z: 0}
+  midPos: {x: 0, y: 0, z: 0}
   bIsBeingThrown: 0
   mThrown: {fileID: 2100000, guid: 9bfc3b845b751d84ea300b455a171303, type: 2}
   mNotThrown: {fileID: 2100000, guid: 60b0eca5a8bb9d74499cef5db94f818c, type: 2}
