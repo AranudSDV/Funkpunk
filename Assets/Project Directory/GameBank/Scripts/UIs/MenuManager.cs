@@ -328,7 +328,7 @@ public class MenuManager : MonoBehaviour
     }
     public void LoadScene(string sceneToLoad)
     {
-        if (sceneToLoad == "SceneLvl0")
+        if (sceneToLoad == "SceneLvl0" || sceneToLoad == "SceneLvl1")
         {
             menuLoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
             menuLoopInstance.release();

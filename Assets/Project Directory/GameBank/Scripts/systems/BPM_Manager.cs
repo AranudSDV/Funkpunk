@@ -20,6 +20,7 @@ public class BPM_Manager : MonoBehaviour
     private bool b_less = false;
     [SerializeField] private EventReference playerLoop;
     public FMOD.Studio.EventInstance playerLoopInstance;
+    private bool isPlaying = false; // Prevent multiple starts
 
     //FEEDBACK ON TIMING
     [Header("Timing Feedbacks")]
@@ -47,7 +48,7 @@ public class BPM_Manager : MonoBehaviour
     [SerializeField] private float fFOVmin = 10f;
     [SerializeField] private float fFOVmax = 10.6f;
 
-    private void Start()
+    private void Awake()
     {
         //soundManager.PlayMusic("lvl0_Tambour");
         //FBPS = 60/FBPM;
@@ -61,8 +62,15 @@ public class BPM_Manager : MonoBehaviour
         FZonePerfectTiming = FPerfectTiming;
         FWaitTime = FSPB - FZoneBadTiming;
         StartCoroutine(wait());
+        if (playerLoopInstance.isValid()) return; // Prevent multiple instances
+
         playerLoopInstance = RuntimeManager.CreateInstance(playerLoop);
-        playerLoopInstance.start();
+
+        if (!isPlaying)
+        {
+            playerLoopInstance.start();
+            isPlaying = true;
+        }
         playerLoopInstance.setParameterByName("fPausedVolume", 0.8f);
     }
     public void StartAfterTuto()
@@ -226,6 +234,14 @@ public class BPM_Manager : MonoBehaviour
         {
             fov = Mathf.Lerp(f_min, f_max, f_time);
             FOVS.m_Width = fov;
+        }
+    }
+    private void OnDestroy() // Clean up to prevent memory leaks
+    {
+        if (playerLoopInstance.isValid())
+        {
+            playerLoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            playerLoopInstance.release();
         }
     }
 }
