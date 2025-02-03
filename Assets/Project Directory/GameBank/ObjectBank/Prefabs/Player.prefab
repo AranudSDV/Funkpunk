@@ -5286,9 +5286,8 @@ MonoBehaviour:
   bPlayGood: 0
   bPlayPerfect: 0
   txt_Feedback: {fileID: 0}
-  GOUiBad: {fileID: 0}
-  GOUiGood: {fileID: 0}
-  GOUiPerfect: {fileID: 0}
+  goNoteRight: {fileID: 0}
+  goNoteLeft: {fileID: 0}
   fFOVmin: 10
   fFOVmax: 10.6
 --- !u!1 &7848160628830169904
@@ -6174,6 +6173,12 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2933500145309475870}
     m_Modifications:
+    - target: {fileID: 380608902810953913, guid: 9a62010cefd93974d8d30e1825de5ac2,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -517132002252511745, guid: 4f4bed6348ae1d548ac61b8556559211,
+        type: 3}
     - target: {fileID: 3668158061914810140, guid: 9a62010cefd93974d8d30e1825de5ac2,
         type: 3}
       propertyPath: m_LocalScale.x
