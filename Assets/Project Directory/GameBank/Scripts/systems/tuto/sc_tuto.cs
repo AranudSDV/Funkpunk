@@ -43,8 +43,13 @@ public class sc_tuto : MonoBehaviour
     //UTILISATEUR WAIT
     bool bOnce = false;
     [SerializeField] private bool bWaitSpace = false;
+    private bool bInitialized;
 
     private void Start()
+    {
+        
+    }
+    public void Init()
     {
         if (scPlayer == null)
         {
@@ -65,13 +70,19 @@ public class sc_tuto : MonoBehaviour
             tutoCoroutine[0] = StartCoroutine(StartFirst());
         }
     }
-    private void Update()
+
+        private void Update()
     {
+        if (!bInitialized)
+        {
+            Init();
+            bInitialized = true;
+        }
         /*if(isMeshable==false)
         {
             ChangeTutoController();
         }*/
-        if(b_tutoFinished == true && isMeshable ==false && goCameraBackTrack[2].transform.position.z > 0.5f)
+        if (b_tutoFinished == true && isMeshable ==false && goCameraBackTrack[2].transform.position.z > 0.5f)
         {
             Time.timeScale = 1f;
             SetCartPosition(m_Position + m_Speed * Time.unscaledDeltaTime);
@@ -87,13 +98,13 @@ public class sc_tuto : MonoBehaviour
                 coroutineIsRunning = true;
             }
         }
-        if(isMeshable == false && b_tutoFinished == false && GoTuto[0].transform.GetChild(6).gameObject.transform.GetChild(0).gameObject.activeInHierarchy && ((scPlayer.bIsOnComputer ==false && scPlayer.control.GamePlay.Move.triggered) || (scPlayer.bIsOnComputer && Input.GetButtonDown("Jump"))))
-        {
-            StartCoroutine(SkipFirstTuto());
-        }
         if(bWaitSpace)
         {
-            if(GoTuto[0].transform.GetChild(6).gameObject.transform.GetChild(1).gameObject.activeInHierarchy && ((scPlayer.bIsOnComputer == false && scPlayer.control.GamePlay.Move.triggered) || Input.GetButtonDown("Jump")) && isMeshable == false)
+            if (GoTuto[0].transform.GetChild(6).gameObject.transform.GetChild(0).gameObject.activeInHierarchy && ((scPlayer.bIsOnComputer == false && scPlayer.control.GamePlay.Move.triggered) || Input.GetButtonDown("Jump")) && isMeshable == false)
+            {
+                StartCoroutine(SkipFirstTuto());
+            }
+            if (GoTuto[0].transform.GetChild(6).gameObject.transform.GetChild(1).gameObject.activeInHierarchy && ((scPlayer.bIsOnComputer == false && scPlayer.control.GamePlay.Move.triggered) || Input.GetButtonDown("Jump")) && isMeshable == false)
             {
                 bWaitSpace = false;
                 tutoCoroutine[2] = StartCoroutine(StartSecond());
@@ -225,6 +236,7 @@ public class sc_tuto : MonoBehaviour
     IEnumerator StartFirst()
     {
         yield return new WaitForSecondsRealtime(1f);
+        bWaitSpace = true;
         GoTuto[0].transform.GetChild(0).gameObject.SetActive(true);
         yield return new WaitForSecondsRealtime(2f);
         Image img1 = GoTuto[0].transform.GetChild(0).gameObject.GetComponent<Image>();
@@ -251,7 +263,6 @@ public class sc_tuto : MonoBehaviour
         img6.sprite = spriteBubbleTuto1[5];
         GoTuto[0].transform.GetChild(6).gameObject.transform.GetChild(0).gameObject.SetActive(false);
         GoTuto[0].transform.GetChild(6).gameObject.transform.GetChild(1).gameObject.SetActive(true);
-        bWaitSpace = true;
         /*scPlayer.bGameIsPaused = false;
         scPlayer.PauseGame(); */
     }

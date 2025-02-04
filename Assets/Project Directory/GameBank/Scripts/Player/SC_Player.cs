@@ -37,9 +37,9 @@ public class SC_Player : MonoBehaviour
 
     //LE PLAYER ET SES MOUVEMENTS
     [Header("Player and movement")]
-    public PlayerControl control;
-    Vector2 move;
     public Vector3 lastMoveDirection;
+    Vector2 move;
+    [SerializeField] public PlayerControl control;
     public GameObject PlayerCapsule;
     private Vector3 posMesh;
     private float tolerance = 0.5f;
@@ -87,7 +87,7 @@ public class SC_Player : MonoBehaviour
     private RaycastHit[] hitInfo = new RaycastHit[4];
     [SerializeField] private LayerMask LMask;
 
-    void OnEnable()
+    public void InitializeGamepad()
     {
         if (!bIsOnComputer)
         {
@@ -95,7 +95,7 @@ public class SC_Player : MonoBehaviour
             control.GamePlay.Enable();
         }
     }
-    void OnDisable()
+    public void DisableGamepad()
     {
         if (!bIsOnComputer)
         {
@@ -133,6 +133,11 @@ public class SC_Player : MonoBehaviour
     //L'UPDATE
     public void Update()
     {
+        if (!bIsOnComputer && control == null)
+        {
+            Debug.Log("no control");
+            InitializeGamepad();
+        }
         CheckControllerStatus();
         if(fNbBeat>0&& FScore>0)
         {

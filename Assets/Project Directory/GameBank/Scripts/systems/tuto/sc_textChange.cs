@@ -60,11 +60,44 @@ public class sc_textChange : MonoBehaviour
             Init();
             bInitialized = true;
         }
-
+        if (_playerData != null && scPlayer != null)
+        {
+            bInitialized = false;
+        }
         if(bHasInput)
         {
-            if (scPlayer.bIsOnComputer)
+            if(scPlayer != null)
             {
+                if (scPlayer.bIsOnComputer)
+                {
+                    if (_playerData != null && _playerData.iLanguageNbPlayer == 1)
+                    {
+                        this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sFrench;
+                    }
+                    else
+                    {
+                        this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sEnglish;
+                    }
+                }
+                else
+                {
+                    if (_playerData != null && _playerData.iLanguageNbPlayer == 1)
+                    {
+                        this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sJoystickFrench;
+                    }
+                    else
+                    {
+                        this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sJoystickEnglish;
+                    }
+                }
+            }
+            else
+            {
+                if ((SceneManager.GetActiveScene().name == "SceneLvl1" || SceneManager.GetActiveScene().name == "SceneLvl0"))
+                {
+                    scPlayer = GameObject.FindWithTag("Player").transform.GetComponent<SC_Player>();
+                    _playerData = scPlayer.menuManager.gameObject.transform.GetComponent<PlayerData>();
+                }
                 if (_playerData != null && _playerData.iLanguageNbPlayer == 1)
                 {
                     this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sFrench;
@@ -74,21 +107,10 @@ public class sc_textChange : MonoBehaviour
                     this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sEnglish;
                 }
             }
-            else
-            {
-                if (_playerData != null && _playerData.iLanguageNbPlayer == 1)
-                {
-                    this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sJoystickFrench;
-                }
-                else
-                {
-                    this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sJoystickEnglish;
-                }
-            }
         }
         else
         {
-            if ((SceneManager.GetActiveScene().name == "SceneLvl1" || SceneManager.GetActiveScene().name == "SceneLvl0") && (this.transform.parent.transform.parent.transform.parent.transform.parent.gameObject.name != "Manager"))
+            if ((SceneManager.GetActiveScene().name == "SceneLvl1" || SceneManager.GetActiveScene().name == "SceneLvl0") && !bIsOnManager)
             {
                 _playerData = scPlayer.menuManager.gameObject.transform.GetComponent<PlayerData>();
             }

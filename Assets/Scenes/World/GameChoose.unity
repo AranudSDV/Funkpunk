@@ -586,11 +586,11 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 1134375886}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.7176471, g: 0.7176471, b: 0.7176471, a: 1}
+    m_NormalColor: {r: 0.72156864, g: 0.7176471, b: 0.39215687, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.7207546, g: 0.7207546, b: 0.7207546, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_DisabledColor: {r: 0.690566, g: 0.690566, b: 0.690566, a: 0.5019608}
+    m_DisabledColor: {r: 0.6901961, g: 0.6901961, b: 0.6901961, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -689,7 +689,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 1134375886}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.72156864, g: 0.72156864, b: 0.72156864, a: 1}
+    m_NormalColor: {r: 0.7207546, g: 0.71599317, b: 0.39029542, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.7207546, g: 0.7207546, b: 0.7207546, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
@@ -888,6 +888,7 @@ MonoBehaviour:
   sJoystickEnglish: 
   sJoystickFrench: 
   bHasInput: 0
+  bIsOnManager: 0
 --- !u!1 &1121572801
 GameObject:
   m_ObjectHideFlags: 0
@@ -1065,11 +1066,11 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 804639373}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.72156864, g: 0.72156864, b: 0.72156864, a: 1}
+    m_NormalColor: {r: 0.72156864, g: 0.7176471, b: 0.39215687, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.7207546, g: 0.7207546, b: 0.7207546, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_DisabledColor: {r: 0.690566, g: 0.690566, b: 0.690566, a: 0.5019608}
+    m_DisabledColor: {r: 0.6901961, g: 0.6901961, b: 0.6901961, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -1264,6 +1265,7 @@ MonoBehaviour:
   sJoystickEnglish: 
   sJoystickFrench: 
   bHasInput: 0
+  bIsOnManager: 0
 --- !u!1 &1434136499
 GameObject:
   m_ObjectHideFlags: 0

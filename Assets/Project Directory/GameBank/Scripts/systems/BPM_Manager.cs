@@ -49,6 +49,7 @@ public class BPM_Manager : MonoBehaviour
 
     [SerializeField] private float fFOVmin = 10f;
     [SerializeField] private float fFOVmax = 10.6f;
+    private bool bInitialized;
 
     private void Start()
     {
@@ -63,6 +64,13 @@ public class BPM_Manager : MonoBehaviour
         FZoneGoodTiming = FGoodTiming;
         FZonePerfectTiming = FPerfectTiming;
         FWaitTime = FSPB - FZoneBadTiming;
+    }
+    public void StartAfterTuto()
+    {
+        StartCoroutine(wait());
+    }
+    public void Init()
+    {
         StartCoroutine(wait());
         if (playerLoopInstance.isValid()) return; // Prevent multiple instances
 
@@ -75,12 +83,13 @@ public class BPM_Manager : MonoBehaviour
         }
         playerLoopInstance.setParameterByName("fPausedVolume", 0.8f);
     }
-    public void StartAfterTuto()
-    {
-        StartCoroutine(wait());
-    }
     private void Update()
     {
+        if (!bInitialized)
+        {
+            Init();
+            bInitialized = true;
+        }
         CheckIfInputOnTempo();
         CameraRythm(Time.deltaTime, fFOVmax, fFOVmin);
     }
