@@ -2013,6 +2013,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1174892266719903533, guid: 45351d2d758839e409953a510c2e4a78,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4275264178835127054, guid: 45351d2d758839e409953a510c2e4a78,
         type: 3}
       propertyPath: m_IsActive

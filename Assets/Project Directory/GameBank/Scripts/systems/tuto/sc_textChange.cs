@@ -14,11 +14,15 @@ public class sc_textChange : MonoBehaviour
     [SerializeField] private string sJoystickFrench;
     [SerializeField] private bool bHasInput;
 
-    private void Start()
+    private void Awake()
     {
         if ((SceneManager.GetActiveScene().name == "SceneLvl1" || SceneManager.GetActiveScene().name == "SceneLvl0") && (this.transform.parent.transform.parent.transform.parent.transform.parent.gameObject.name != "Manager"))
         {
             _playerData = scPlayer.menuManager.gameObject.transform.GetComponent<PlayerData>();
+        }
+        if(SceneManager.GetActiveScene().name == "GameChoose")
+        {
+            _playerData = GameObject.FindWithTag("Manager").transform.GetComponent<PlayerData>();
         }
         if (_playerData != null && _playerData.iLanguageNbPlayer == 1)
         {

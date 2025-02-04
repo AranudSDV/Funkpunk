@@ -5206,11 +5206,6 @@ MonoBehaviour:
   VFXsteps: {fileID: 6948782931126694734}
   bcanRotate: 0
   bIsImune: 0
-  mesh_basic: {fileID: -5819183975530660181, guid: 62c3fb573f41ad94ba3afc5a360faf7f,
-    type: 3}
-  mesh_tagging: {fileID: 0}
-  mesh_throwing: {fileID: 0}
-  meshFilter: {fileID: 9026087026233165401}
   GOBait: {fileID: 6885181872792694492, guid: 481679da37c5830468e32f02138b149a, type: 3}
   hasAlreadyBaited: 0
   FScore: 0
@@ -5260,32 +5255,35 @@ MonoBehaviour:
   FBPM: 90
   FSPB: 0.67
   FOVS: {fileID: 0}
-  playerLoop:
+  levelLoop:
     Guid:
-      Data1: -614446280
-      Data2: 1240363282
-      Data3: 1274195589
-      Data4: -1716480763
-    Path: event:/PlayerLine
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   colorMiss:
     serializedVersion: 2
-    rgba: 4278190335
+    rgba: 4294770917
   colorBad:
     serializedVersion: 2
-    rgba: 4278219263
+    rgba: 4294901870
   colorGood:
     serializedVersion: 2
-    rgba: 4278255549
+    rgba: 4294917376
   colorPerfect:
     serializedVersion: 2
-    rgba: 4278255370
+    rgba: 4294960384
+  colorBase:
+    serializedVersion: 2
+    rgba: 4293394687
   BBad: 0
   BGood: 0
   BPerfect: 0
   bPlayBad: 0
   bPlayGood: 0
   bPlayPerfect: 0
-  txt_Feedback: {fileID: 0}
+  soul_Feedback: {fileID: 0}
   goNoteRight: {fileID: 0}
   goNoteLeft: {fileID: 0}
   fFOVmin: 10
@@ -6257,12 +6255,6 @@ PrefabInstance:
 --- !u!4 &5398903112552204796 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3668158061914810140, guid: 9a62010cefd93974d8d30e1825de5ac2,
-    type: 3}
-  m_PrefabInstance: {fileID: 8650055424688926432}
-  m_PrefabAsset: {fileID: 0}
---- !u!33 &9026087026233165401 stripped
-MeshFilter:
-  m_CorrespondingSourceObject: {fileID: 380608902810953913, guid: 9a62010cefd93974d8d30e1825de5ac2,
     type: 3}
   m_PrefabInstance: {fileID: 8650055424688926432}
   m_PrefabAsset: {fileID: 0}

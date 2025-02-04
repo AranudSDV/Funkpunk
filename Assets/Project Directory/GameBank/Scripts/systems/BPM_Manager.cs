@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BPM_Manager : MonoBehaviour
 {
@@ -28,6 +29,7 @@ public class BPM_Manager : MonoBehaviour
     public Color32 colorBad;
     public Color32 colorGood;
     public Color32 colorPerfect;
+    public Color32 colorBase;
     private float FBadTiming;
     private float FZoneBadTiming;
     private float FGoodTiming;
@@ -41,7 +43,7 @@ public class BPM_Manager : MonoBehaviour
     public bool bPlayBad = false;
     public bool bPlayGood = false;
     public bool bPlayPerfect = false;
-    [SerializeField] private TMP_Text txt_Feedback;
+    [SerializeField] private UnityEngine.UI.Image soul_Feedback;
     [SerializeField] private RectTransform goNoteRight;
     [SerializeField] private RectTransform goNoteLeft;
 
@@ -98,8 +100,7 @@ public class BPM_Manager : MonoBehaviour
     IEnumerator bad()
     {
         scPlayer.canMove = true;
-        txt_Feedback.text = "";
-        txt_Feedback.color = new Color32(0, 0, 0, 0);
+        soul_Feedback.color = colorBase;
         BBad = true;
         yield return new WaitForSeconds(FZoneBadTiming);
         BBad = false;
@@ -126,13 +127,12 @@ public class BPM_Manager : MonoBehaviour
             {
                 scPlayer.fNbBeat += 1f;
             }
-            txt_Feedback.text = "Miss";
-            txt_Feedback.color = colorMiss;
+            soul_Feedback.color = colorMiss;
             bPlayBad = false;
             bPlayGood = false;
             bPlayPerfect = false;
             scPlayer.bHasNoMiss = false;
-            if (!scPlayer.BisDetectedByAnyEnemy)
+            if (!scPlayer.BisDetectedByAnyEnemy && SceneManager.GetActiveScene().name != "Loft")
             {
                 scPlayer.FDetectionLevel += 2f;
             }
@@ -158,8 +158,7 @@ public class BPM_Manager : MonoBehaviour
                     scPlayer.FScore = scPlayer.FScore + 35f;
                     scPlayer.fNbBeat += 1f;
                 }
-                txt_Feedback.text = "Bad";
-                txt_Feedback.color = colorBad;
+                soul_Feedback.color = colorBad;
                 bPlayBad = true;
                 bPlayGood = false;
                 bPlayPerfect = false;
@@ -175,8 +174,7 @@ public class BPM_Manager : MonoBehaviour
                     scPlayer.FScore = scPlayer.FScore + 75f;
                     scPlayer.fNbBeat += 1f;
                 }
-                txt_Feedback.text = "Good";
-                txt_Feedback.color = colorGood;
+                soul_Feedback.color = colorGood;
                 bPlayBad = false;
                 bPlayGood = true;
                 bPlayPerfect = false;
@@ -192,8 +190,7 @@ public class BPM_Manager : MonoBehaviour
                     scPlayer.FScore = scPlayer.FScore + 100f;
                     scPlayer.fNbBeat += 1f;
                 }
-                txt_Feedback.text = "Perfect!";
-                txt_Feedback.color = colorPerfect;
+                soul_Feedback.color = colorPerfect;
                 bPlayBad = false;
                 bPlayGood = false;
                 bPlayPerfect = true;
