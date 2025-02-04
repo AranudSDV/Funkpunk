@@ -102,8 +102,9 @@ public class SC_Player : MonoBehaviour
             control.GamePlay.Disable();
         }
     }
-    private void Awake()
+    void Start()
     {
+        FScore = Mathf.Round(fPercentScore);
         posMesh = PlayerCapsule.transform.position;
         CheckControllerStatus();
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
@@ -132,8 +133,16 @@ public class SC_Player : MonoBehaviour
     //L'UPDATE
     void Update()
     {
+        Debug.Log("first");
         CheckControllerStatus();
-        fPercentScore = FScore / fNbBeat;
+        if(fNbBeat>0&& FScore>0)
+        {
+            fPercentScore = FScore / fNbBeat;
+        }
+        else
+        {
+            fPercentScore = 0;
+        }
         if(SceneManager.GetActiveScene().name == "Loft" && fNbBeat >=10f)
         {
             FScore = Mathf.Round(fPercentScore);
@@ -141,6 +150,7 @@ public class SC_Player : MonoBehaviour
             Debug.Log("reset Score");
         }
         TMPScore.SetText(Mathf.Round(fPercentScore).ToString() + "%");
+        Debug.Log(TMPScore.text + " " + fPercentScore + " voilà");
         sliderDetection.value = FDetectionLevel / fDetectionLevelMax;
         if(FDetectionLevel>= fDetectionLevelMax)
         {
