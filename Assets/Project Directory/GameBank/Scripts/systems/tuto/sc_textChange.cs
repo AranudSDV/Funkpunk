@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using FMODUnity;
 
 public class sc_textChange : MonoBehaviour
 {
@@ -14,17 +15,31 @@ public class sc_textChange : MonoBehaviour
     [SerializeField] private string sJoystickFrench;
     [SerializeField] private bool bHasInput;
     [SerializeField] private bool bIsOnManager;
+    private bool bnotfound;
+    private bool bInitialized;
     private void Start()
     {
-        if(!bIsOnManager)
+       
+    }
+
+    public void Init()
+    {
+        if (!bIsOnManager)
         {
             if (SceneManager.GetActiveScene().name == "SceneLvl1" || SceneManager.GetActiveScene().name == "SceneLvl0" || SceneManager.GetActiveScene().name == "Loft")
             {
-                _playerData = scPlayer.menuManager.gameObject.transform.GetComponent<PlayerData>();
+                if (scPlayer != null)
+                {
+                    _playerData = scPlayer.menuManager.gameObject.transform.GetComponent<PlayerData>();
+                }
+                else
+                {
+                    bnotfound = true;
+                }
             }
         }
-        
-        if (SceneManager.GetActiveScene().name == "GameChoose")
+
+        if (SceneManager.GetActiveScene().name == "GameChoose" || bnotfound)
         {
             _playerData = GameObject.FindWithTag("Manager").transform.GetComponent<PlayerData>();
         }
@@ -38,9 +53,14 @@ public class sc_textChange : MonoBehaviour
         }
     }
 
-
     private void Update()
     {
+        if(!bInitialized)
+        {
+            Init();
+            bInitialized = true;
+        }
+
         if(bHasInput)
         {
             if (scPlayer.bIsOnComputer)

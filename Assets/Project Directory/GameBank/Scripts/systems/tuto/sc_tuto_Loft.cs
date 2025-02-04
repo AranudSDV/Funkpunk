@@ -7,10 +7,16 @@ public class sc_tuto_Loft : MonoBehaviour
     [SerializeField] private GameObject GoTuto;
     [SerializeField] private SC_Player scPlayer;
     private bool bWaitSpace = false;
+    private bool bInitialized;
 
     private void Start()
     {
-        if(scPlayer.menuManager.gameObject.GetComponent<PlayerData>().iLevelPlayer > 0)
+        
+    }
+
+    public void Init()
+    {
+        if (scPlayer.menuManager.gameObject.GetComponent<PlayerData>().iLevelPlayer > 0)
         {
             GoTuto.SetActive(false);
             scPlayer.bisTuto = false;
@@ -24,6 +30,12 @@ public class sc_tuto_Loft : MonoBehaviour
 
     private void Update()
     {
+        if(!bInitialized)
+        {
+            Init();
+            bInitialized = true;
+        }
+
         if(bWaitSpace = true && ((scPlayer.bIsOnComputer == false && scPlayer.control.GamePlay.Move.triggered) || Input.GetButtonDown("Jump")))
         {
             GoTuto.SetActive(false);

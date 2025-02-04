@@ -50,7 +50,7 @@ public class BPM_Manager : MonoBehaviour
     [SerializeField] private float fFOVmin = 10f;
     [SerializeField] private float fFOVmax = 10.6f;
 
-    private void Awake()
+    private void Start()
     {
         //soundManager.PlayMusic("lvl0_Tambour");
         //FBPS = 60/FBPM;

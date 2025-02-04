@@ -131,9 +131,8 @@ public class SC_Player : MonoBehaviour
     }
     
     //L'UPDATE
-    void Update()
+    public void Update()
     {
-        Debug.Log("first");
         CheckControllerStatus();
         if(fNbBeat>0&& FScore>0)
         {
@@ -150,7 +149,6 @@ public class SC_Player : MonoBehaviour
             Debug.Log("reset Score");
         }
         TMPScore.SetText(Mathf.Round(fPercentScore).ToString() + "%");
-        Debug.Log(TMPScore.text + " " + fPercentScore + " voilà");
         sliderDetection.value = FDetectionLevel / fDetectionLevelMax;
         if(FDetectionLevel>= fDetectionLevelMax)
         {
@@ -445,7 +443,9 @@ public class SC_Player : MonoBehaviour
                     }
                     else if(hitInfo.transform.CompareTag("MapObject"))
                     {
-                        if (fPercentScore>= 50f)
+                        TextMeshPro textOnWall = hitInfo.transform.GetChild(0).GetComponent<TextMeshPro>();
+                        StartCoroutine(EnoughPercentLoft(textOnWall));
+                        /*if (fPercentScore>= 50f)
                         {
                             TextMeshPro textOnWall = hitInfo.transform.GetChild(0).GetComponent<TextMeshPro>();
                             StartCoroutine(EnoughPercentLoft(textOnWall));
@@ -454,7 +454,7 @@ public class SC_Player : MonoBehaviour
                         {
                             TextMeshPro textOnWall = hitInfo.transform.GetChild(0).GetComponent<TextMeshPro>();
                             StartCoroutine(NotEnoughPercentLoft(textOnWall));
-                        }
+                        }*/
                     }
                     else
                     {
