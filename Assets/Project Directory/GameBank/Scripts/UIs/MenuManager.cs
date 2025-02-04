@@ -336,10 +336,23 @@ public class MenuManager : MonoBehaviour
     }
     public void LoadScene(string sceneToLoad)
     {
-        if (sceneToLoad == "SceneLvl0" || sceneToLoad == "SceneLvl1")
+        if (sceneToLoad == "SceneLvl0" || sceneToLoad == "SceneLvl1" || sceneToLoad == "Loft")
         {
             menuLoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
             menuLoopInstance.release();
+            StartCoroutine(StartLoad(sceneToLoad));
+        }
+        else if (sceneToLoad == "LevelChoosing")
+        {
+            if (menuLoopInstance.isValid()) return; // Prevent multiple instances
+
+            menuLoopInstance = RuntimeManager.CreateInstance(menuLoop);
+
+            if (!isPlaying)
+            {
+                menuLoopInstance.start();
+                isPlaying = true;
+            }
             StartCoroutine(StartLoad(sceneToLoad));
         }
         else if (sceneToLoad == "retry")
