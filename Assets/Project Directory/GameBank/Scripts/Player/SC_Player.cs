@@ -41,16 +41,14 @@ public class SC_Player : MonoBehaviour
     Vector2 move;
     public Vector3 lastMoveDirection;
     public GameObject PlayerCapsule;
+    private Vector3 posMesh;
     private float tolerance = 0.5f;
     public bool canMove = false;
     [SerializeField]private GameObject VFXsteps;
     private ParticleSystem vfx_steps;
     public bool bcanRotate = false;
     public bool bIsImune = false;
-    [SerializeField] private Mesh mesh_basic;
-    [SerializeField] private Mesh mesh_tagging;
-    [SerializeField] private Mesh mesh_throwing;
-    [SerializeField] private MeshFilter meshFilter;
+    private bool bIsBeingAnimated = false;
 
     //LE BAIT
     [Header("Bait")]
@@ -106,6 +104,7 @@ public class SC_Player : MonoBehaviour
     }
     private void Awake()
     {
+        posMesh = PlayerCapsule.transform.position;
         CheckControllerStatus();
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         vfx_steps = VFXsteps.transform.GetChild(0).gameObject.GetComponent<ParticleSystem>();
@@ -202,16 +201,23 @@ public class SC_Player : MonoBehaviour
             if (!bIsOnComputer || bOnControllerConstraint)
             {
                 direction = GetDirectionFromJoystick(move);
+                if (!bIsBeingAnimated)
+                {
+                    RotationVFX(direction, bpmManager.FSPB / 5);
+                }
             }
             else if (bIsOnComputer)
             {
                 direction = GetDirectionFromClavier();
+                if (!bIsBeingAnimated)
+                {
+                    RotationVFX(direction, bpmManager.FSPB / 5);
+                }
             }
             if (direction != Vector3.zero)
             {
                 lastMoveDirection = direction;
             }
-            UpdateDirectionUI();
         }
     }
     Vector3 GetDirectionFromClavier()
@@ -343,6 +349,7 @@ public class SC_Player : MonoBehaviour
                 {
                     if (hitInfo.transform.CompareTag("Tagging")) //c'est un mur à tagger
                     {
+                        bIsBeingAnimated = true;
                         Renderer wallRenderer = hitInfo.transform.GetComponent<Renderer>();
                         GameObject wallTagged = hitInfo.transform.gameObject;
                         wallTagged.transform.GetChild(0).gameObject.SetActive(true);
@@ -469,12 +476,14 @@ public class SC_Player : MonoBehaviour
                         {
                             if (col.transform.CompareTag("Wall") || col.transform.CompareTag("Tagging") || col.transform.CompareTag("Bait"))
                             {
+                                bIsBeingAnimated = true;
                                 fThrowMultiplier = floatNumber - 1f;
                                 StartCoroutine(ThrowingFeedback(bpmManager.FSPB));
                                 return;
                             }
                             else if (col.transform.CompareTag("Enemies 1")) //il y a un ennemi devant le joueur
                             {
+                                bIsBeingAnimated = true;
                                 fThrowMultiplier = floatNumber - 1f;
                                 SC_FieldOfView scEnemy = col.transform.gameObject.GetComponent<SC_FieldOfView>();
                                 scEnemy.bIsDisabled = true;
@@ -505,12 +514,14 @@ public class SC_Player : MonoBehaviour
                 {
                     if (hitInfo1.transform.CompareTag("Wall") || hitInfo1.transform.CompareTag("Tagging") || hitInfo1.transform.CompareTag("Bait"))//il y a un mur devant le joueur
                     {
+                        bIsBeingAnimated = true;
                         fThrowMultiplier = floatNumber - 1f;
                         StartCoroutine(ThrowingFeedback(bpmManager.FSPB));
                         return;
                     }
                     else if (hitInfo1.transform.CompareTag("Enemies 1")) //il y a un ennemi devant le joueur
                     {
+                        bIsBeingAnimated = true;
                         fThrowMultiplier = floatNumber - 1f;
                         SC_FieldOfView scEnemy = hitInfo1.transform.gameObject.GetComponent<SC_FieldOfView>();
                         scEnemy.bIsDisabled = true;
@@ -527,6 +538,7 @@ public class SC_Player : MonoBehaviour
                 }
                 else if ((!bpmManager.bPlayPerfect && !bpmManager.bPlayGood && !bpmManager.bPlayBad && i == 6) || (bpmManager.bPlayBad && i == 8) || (bpmManager.bPlayGood && i == 9) || (bpmManager.bPlayPerfect && i == 10))
                 {
+                    bIsBeingAnimated = true;
                     fThrowMultiplier = floatNumber - 1f;
                     StartCoroutine(ThrowingFeedback(bpmManager.FSPB));
                     return;
@@ -537,6 +549,7 @@ public class SC_Player : MonoBehaviour
                 }
             }
         }
+        bIsBeingAnimated = false;
     }
     private Vector3 FindNewDirection(Vector3 currentDirection, float range)
     {
@@ -695,15 +708,88 @@ public class SC_Player : MonoBehaviour
     }
     private IEnumerator TaggingFeedback(float time)
     {
-        meshFilter.mesh = mesh_tagging;
-        yield return new WaitForSeconds(time*2/3);
-        meshFilter.mesh = mesh_basic;
+        PlayerCapsule.transform.DOMoveY(posMesh.y + 1f, time * 1 / 6).SetAutoKill(true);
+        PlayerCapsule.transform.DORotate(new Vector3(0, -60f, 0), time * 1 / 6, RotateMode.LocalAxisAdd).SetAutoKill(true);
+        yield return new WaitForSeconds(time * 1 / 6);
+        PlayerCapsule.transform.DORotate(new Vector3(0, 120f, 0), time * 2 / 6, RotateMode.LocalAxisAdd).SetAutoKill(true);
+        yield return new WaitForSeconds(time * 2 / 6);
+        PlayerCapsule.transform.DORotate(new Vector3(0, -60, 0), time * 1 / 6, RotateMode.LocalAxisAdd).SetAutoKill(true);
+        PlayerCapsule.transform.DOMoveY(posMesh.y, time * 1 / 6).SetAutoKill(true);
+        Debug.Log("tagg");
     }
     private IEnumerator ThrowingFeedback(float time)
     {
-        meshFilter.mesh = mesh_throwing;
-        yield return new WaitForSeconds(time * 2 / 3);
-        meshFilter.mesh = mesh_basic;
+        PlayerCapsule.transform.DOMoveY(posMesh.y + 1f, time * 2/9).SetAutoKill(true);
+        PlayerCapsule.transform.DORotate(new Vector3(45F, 0,0), time * 2/9, RotateMode.LocalAxisAdd).SetAutoKill(true);
+        yield return new WaitForSeconds(time * 2 / 9);
+        PlayerCapsule.transform.DORotate(new Vector3(-90, 0, 0), time * 2/9, RotateMode.LocalAxisAdd).SetAutoKill(true);
+        yield return new WaitForSeconds(time * 2 / 9);
+        PlayerCapsule.transform.DORotate(new Vector3(45, 0, 0), time * 2 / 9, RotateMode.LocalAxisAdd).SetAutoKill(true);
+        PlayerCapsule.transform.DOMoveY(posMesh.y, time * 2/9).SetAutoKill(true);
+        Debug.Log("throw");
+    }
+    private void RotationVFX(Vector3 dir, float time)
+    {
+        if (Mathf.Abs(dir.x) > tolerance && Mathf.Abs(dir.z) <= tolerance)
+        {
+            // Mouvement gauche ou droite
+            if (Mathf.Sign(dir.x) == -1)
+            {
+                currentAngleIndex = 1;
+                Quaternion quater = Quaternion.Euler(0, angles[currentAngleIndex], 0);
+                PlayerCapsule.transform.DORotateQuaternion(quater, time * 1 / 3).SetAutoKill(true);
+            }
+            else if (Mathf.Sign(dir.x) == 1)
+            {
+                currentAngleIndex = 5;
+                Quaternion quater = Quaternion.Euler(0, angles[currentAngleIndex], 0);
+                PlayerCapsule.transform.DORotateQuaternion(quater, time * 1 / 3).SetAutoKill(true);
+            }
+        }
+        else if (Mathf.Abs(dir.z) > tolerance && Mathf.Abs(dir.x) <= tolerance)
+        {
+            // Mouvement haut ou bas
+            if (Mathf.Sign( dir.z) == 1)
+            {
+                currentAngleIndex = 3;
+                Quaternion quater = Quaternion.Euler(0, angles[currentAngleIndex], 0);
+                PlayerCapsule.transform.DORotateQuaternion(quater, time * 1 / 3).SetAutoKill(true);
+            }
+            else if (Mathf.Sign(dir.z) == -1)
+            {
+                currentAngleIndex = 7;
+                Quaternion quater = Quaternion.Euler(0, angles[currentAngleIndex], 0);
+                PlayerCapsule.transform.DORotateQuaternion(quater, time * 1 / 3).SetAutoKill(true);
+            }
+        }
+        else if (Mathf.Abs(dir.x) > tolerance && Mathf.Abs(dir.z) > tolerance)
+        {
+            // Mouvement diagonal
+            if (Mathf.Sign(dir.x) == -1 && Mathf.Sign(dir.z) == 1)
+            {
+                currentAngleIndex = 2;
+                Quaternion quater = Quaternion.Euler(0, angles[currentAngleIndex], 0);
+                PlayerCapsule.transform.DORotateQuaternion(quater, time * 1 / 3).SetAutoKill(true);
+            }
+            else if (Mathf.Sign(dir.x) == 1 && Mathf.Sign(dir.z) == 1)
+            {
+                currentAngleIndex = 4;
+                Quaternion quater = Quaternion.Euler(0, angles[currentAngleIndex], 0);
+                PlayerCapsule.transform.DORotateQuaternion(quater, time * 1 / 3).SetAutoKill(true);
+            }
+            else if (Mathf.Sign(dir.x) == -1 && Mathf.Sign(dir.z) == -1)
+            {
+                currentAngleIndex = 0;
+                Quaternion quater = Quaternion.Euler(0, angles[currentAngleIndex], 0);
+                PlayerCapsule.transform.DORotateQuaternion(quater, time * 1 / 3).SetAutoKill(true);
+            }
+            else if (Mathf.Sign(dir.x) == 1 && Mathf.Sign(dir.z) == -1)
+            {
+                currentAngleIndex = 6;
+                Quaternion quater = Quaternion.Euler(0, angles[currentAngleIndex], 0);
+                PlayerCapsule.transform.DORotateQuaternion(quater, time * 1 / 3).SetAutoKill(true);
+            }
+        }
     }
 
     //CONCERNANT LE RYTHME

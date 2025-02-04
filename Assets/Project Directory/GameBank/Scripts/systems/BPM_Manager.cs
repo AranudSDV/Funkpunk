@@ -18,7 +18,7 @@ public class BPM_Manager : MonoBehaviour
     [SerializeField] private CinemachineFollowZoom FOVS;
     private bool b_more = false;
     private bool b_less = false;
-    [SerializeField] private EventReference playerLoop;
+    [SerializeField] private EventReference levelLoop;
     public FMOD.Studio.EventInstance playerLoopInstance;
     private bool isPlaying = false; // Prevent multiple starts
 
@@ -64,7 +64,7 @@ public class BPM_Manager : MonoBehaviour
         StartCoroutine(wait());
         if (playerLoopInstance.isValid()) return; // Prevent multiple instances
 
-        playerLoopInstance = RuntimeManager.CreateInstance(playerLoop);
+        playerLoopInstance = RuntimeManager.CreateInstance(levelLoop);
 
         if (!isPlaying)
         {

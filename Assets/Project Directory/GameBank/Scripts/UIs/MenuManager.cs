@@ -40,6 +40,7 @@ public class MenuManager : MonoBehaviour
     public Level[] _levels;
     [SerializeField] private EventReference menuLoop;
     private FMOD.Studio.EventInstance menuLoopInstance;
+    private bool isPlaying = false; // Prevent multiple starts
     //DATA LEVEL
     public int[] iNbTaggs = new int[4];
 
@@ -91,8 +92,15 @@ public class MenuManager : MonoBehaviour
     }
     private void Start()
     {
+        if (menuLoopInstance.isValid()) return; // Prevent multiple instances
+
         menuLoopInstance = RuntimeManager.CreateInstance(menuLoop);
-        menuLoopInstance.start();
+
+        if (!isPlaying)
+        {
+            menuLoopInstance.start();
+            isPlaying = true;
+        }
     }
     // Update is called once per frame
     void Update()
