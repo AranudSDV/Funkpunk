@@ -119,24 +119,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controllerConnected: 0
-  buttonSpriteGameChoose:
-  - {fileID: 0}
-  - {fileID: 0}
   GoLevelsButton: []
   GoScoring: {fileID: 4275264178835127054}
   GoPauseMenu: {fileID: 3498886556833193360}
-  sSceneToLoad: 
+  colorFoes:
+    serializedVersion: 2
+    rgba: 4278240709
+  colorPlayer:
+    serializedVersion: 2
+    rgba: 4292198144
+  sSceneToLoad: Scenes/World/GameChoose
   progressBar: {fileID: 5376875976944638836}
   loadingScreen: {fileID: 815679502645142706}
   canvasGroup: {fileID: 2307437532454967113}
   _levels: []
   menuLoop:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: 1491351623
+      Data2: 1156992341
+      Data3: 1702016671
+      Data4: 1227493856
+    Path: event:/MainMenuMusic
   iNbTaggs: 01000000050000000500000005000000
 --- !u!114 &1165491372627732135
 MonoBehaviour:
@@ -542,6 +545,7 @@ GameObject:
   - component: {fileID: 4710565020048714212}
   - component: {fileID: 5233847402329837162}
   - component: {fileID: 4851415466859224174}
+  - component: {fileID: 1828808903600977333}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -666,6 +670,26 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &1828808903600977333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1196234340882153892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c108fd3a76764d42b690a6365b1bae6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scPlayer: {fileID: 0}
+  _playerData: {fileID: 1165491372627732135}
+  sEnglish: secret
+  sFrench: secret
+  sJoystickEnglish: 
+  sJoystickFrench: 
+  bHasInput: 0
+  bIsOnManager: 1
 --- !u!1 &1248200171897616424
 GameObject:
   m_ObjectHideFlags: 0
@@ -676,6 +700,7 @@ GameObject:
   m_Component:
   - component: {fileID: 383605688471705080}
   - component: {fileID: 6451265846712892347}
+  - component: {fileID: 3375063786637432365}
   - component: {fileID: 7716341397953669137}
   - component: {fileID: 3974838065900880430}
   m_Layer: 5
@@ -712,6 +737,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1248200171897616424}
   m_CullTransparentMesh: 1
+--- !u!114 &3375063786637432365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1248200171897616424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c108fd3a76764d42b690a6365b1bae6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scPlayer: {fileID: 0}
+  _playerData: {fileID: 1165491372627732135}
+  sEnglish: Quit
+  sFrench: Quitter
+  sJoystickEnglish: 
+  sJoystickFrench: 
+  bHasInput: 0
+  bIsOnManager: 1
 --- !u!114 &7716341397953669137
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -821,6 +866,7 @@ MonoBehaviour:
   sJoystickEnglish: 
   sJoystickFrench: 
   bHasInput: 0
+  bIsOnManager: 1
 --- !u!1 &1768235522826527630
 GameObject:
   m_ObjectHideFlags: 0
@@ -1117,6 +1163,7 @@ GameObject:
   - component: {fileID: 6341142485940296295}
   - component: {fileID: 7919765185738961467}
   - component: {fileID: 1312874031530048315}
+  - component: {fileID: 7672343405345487818}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -1241,6 +1288,26 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &7672343405345487818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2754361229327238044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c108fd3a76764d42b690a6365b1bae6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scPlayer: {fileID: 0}
+  _playerData: {fileID: 1165491372627732135}
+  sEnglish: ReTry
+  sFrench: "R\xE9essayer"
+  sJoystickEnglish: 
+  sJoystickFrench: 
+  bHasInput: 0
+  bIsOnManager: 1
 --- !u!1 &3063496397802037606
 GameObject:
   m_ObjectHideFlags: 0
@@ -1251,6 +1318,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6512086780648190376}
   - component: {fileID: 2050372851832981255}
+  - component: {fileID: 2659297841849034225}
   - component: {fileID: 8378408123559754461}
   m_Layer: 5
   m_Name: Title
@@ -1286,6 +1354,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3063496397802037606}
   m_CullTransparentMesh: 1
+--- !u!114 &2659297841849034225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3063496397802037606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c108fd3a76764d42b690a6365b1bae6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scPlayer: {fileID: 0}
+  _playerData: {fileID: 1165491372627732135}
+  sEnglish: game over
+  sFrench: game over
+  sJoystickEnglish: 
+  sJoystickFrench: 
+  bHasInput: 0
+  bIsOnManager: 1
 --- !u!114 &8378408123559754461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1657,6 +1745,7 @@ GameObject:
   - component: {fileID: 2928617297781022097}
   - component: {fileID: 4554061292935897413}
   - component: {fileID: 2210090044114712254}
+  - component: {fileID: 4141207526993827422}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -1781,6 +1870,26 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &4141207526993827422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3349720480574872287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c108fd3a76764d42b690a6365b1bae6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scPlayer: {fileID: 0}
+  _playerData: {fileID: 1165491372627732135}
+  sEnglish: Levels Map
+  sFrench: Carte des niveaux
+  sJoystickEnglish: 
+  sJoystickFrench: 
+  bHasInput: 0
+  bIsOnManager: 1
 --- !u!1 &3498886556833193360
 GameObject:
   m_ObjectHideFlags: 0
@@ -2057,6 +2166,7 @@ GameObject:
   - component: {fileID: 226114350222126023}
   - component: {fileID: 5419996937175230094}
   - component: {fileID: 7294844015765567240}
+  - component: {fileID: 1398671986771908338}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -2181,6 +2291,26 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &1398671986771908338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4506092838792349122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c108fd3a76764d42b690a6365b1bae6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scPlayer: {fileID: 0}
+  _playerData: {fileID: 1165491372627732135}
+  sEnglish: Clean
+  sFrench: "Carr\xE9"
+  sJoystickEnglish: 
+  sJoystickFrench: 
+  bHasInput: 0
+  bIsOnManager: 1
 --- !u!1 &4725429897936327245
 GameObject:
   m_ObjectHideFlags: 0
@@ -2342,6 +2472,7 @@ GameObject:
   - component: {fileID: 3295617296150253673}
   - component: {fileID: 9196622700528593137}
   - component: {fileID: 12944421915184278}
+  - component: {fileID: 4743309305995193127}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -2466,6 +2597,26 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &4743309305995193127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5372573302859759062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c108fd3a76764d42b690a6365b1bae6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scPlayer: {fileID: 0}
+  _playerData: {fileID: 1165491372627732135}
+  sEnglish: Shadow
+  sFrench: Ombre
+  sJoystickEnglish: 
+  sJoystickFrench: 
+  bHasInput: 0
+  bIsOnManager: 1
 --- !u!1 &5399613714310768000
 GameObject:
   m_ObjectHideFlags: 0
@@ -2513,6 +2664,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2315164968169595939}
   - component: {fileID: 7491100792973975743}
+  - component: {fileID: 2906117599415238348}
   - component: {fileID: 7324977762651136156}
   - component: {fileID: 6529750914352965297}
   m_Layer: 5
@@ -2549,6 +2701,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5414176781137386473}
   m_CullTransparentMesh: 1
+--- !u!114 &2906117599415238348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5414176781137386473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c108fd3a76764d42b690a6365b1bae6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scPlayer: {fileID: 0}
+  _playerData: {fileID: 1165491372627732135}
+  sEnglish: Options
+  sFrench: Options
+  sJoystickEnglish: 
+  sJoystickFrench: 
+  bHasInput: 0
+  bIsOnManager: 1
 --- !u!114 &7324977762651136156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2658,6 +2830,7 @@ MonoBehaviour:
   sJoystickEnglish: 
   sJoystickFrench: 
   bHasInput: 0
+  bIsOnManager: 1
 --- !u!1 &5414892218207506483
 GameObject:
   m_ObjectHideFlags: 0
@@ -2668,6 +2841,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6678348254281446790}
   - component: {fileID: 8176060102681066957}
+  - component: {fileID: 7523646811396459640}
   - component: {fileID: 7826793619409511620}
   m_Layer: 5
   m_Name: Text (TMP)
@@ -2703,6 +2877,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5414892218207506483}
   m_CullTransparentMesh: 1
+--- !u!114 &7523646811396459640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5414892218207506483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c108fd3a76764d42b690a6365b1bae6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scPlayer: {fileID: 0}
+  _playerData: {fileID: 1165491372627732135}
+  sEnglish: Levels Map
+  sFrench: Carte des niveaux
+  sJoystickEnglish: 
+  sJoystickFrench: 
+  bHasInput: 0
+  bIsOnManager: 1
 --- !u!114 &7826793619409511620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2973,6 +3167,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4214570833480271521}
   - component: {fileID: 313028031599998028}
+  - component: {fileID: 1588471758218020496}
   - component: {fileID: 5161499568078350233}
   - component: {fileID: 51439325177006202}
   m_Layer: 5
@@ -3009,6 +3204,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6306777876035947637}
   m_CullTransparentMesh: 1
+--- !u!114 &1588471758218020496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6306777876035947637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c108fd3a76764d42b690a6365b1bae6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scPlayer: {fileID: 0}
+  _playerData: {fileID: 1165491372627732135}
+  sEnglish: Resume
+  sFrench: Reprendre
+  sJoystickEnglish: 
+  sJoystickFrench: 
+  bHasInput: 0
+  bIsOnManager: 1
 --- !u!114 &5161499568078350233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3118,6 +3333,7 @@ MonoBehaviour:
   sJoystickEnglish: 
   sJoystickFrench: 
   bHasInput: 0
+  bIsOnManager: 1
 --- !u!1 &6953407603974129501
 GameObject:
   m_ObjectHideFlags: 0
@@ -3129,6 +3345,7 @@ GameObject:
   - component: {fileID: 6851301538062920194}
   - component: {fileID: 7101127952642158364}
   - component: {fileID: 1948003045785557227}
+  - component: {fileID: 7248380541733966302}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -3253,6 +3470,26 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &7248380541733966302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6953407603974129501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c108fd3a76764d42b690a6365b1bae6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scPlayer: {fileID: 0}
+  _playerData: {fileID: 1165491372627732135}
+  sEnglish: Next
+  sFrench: Suivant
+  sJoystickEnglish: 
+  sJoystickFrench: 
+  bHasInput: 0
+  bIsOnManager: 1
 --- !u!1 &7023820599647813581
 GameObject:
   m_ObjectHideFlags: 0
@@ -3530,6 +3767,7 @@ GameObject:
   - component: {fileID: 471612764286218279}
   - component: {fileID: 2811644944151145953}
   - component: {fileID: 5259525979806897907}
+  - component: {fileID: 5315140269843683027}
   m_Layer: 5
   m_Name: Title
   m_TagString: Untagged
@@ -3654,6 +3892,26 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &5315140269843683027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7049833610305785513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c108fd3a76764d42b690a6365b1bae6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scPlayer: {fileID: 0}
+  _playerData: {fileID: 1165491372627732135}
+  sEnglish: Congratulations!
+  sFrench: "F\xE9licitations !"
+  sJoystickEnglish: 
+  sJoystickFrench: 
+  bHasInput: 0
+  bIsOnManager: 1
 --- !u!1 &7138615578139187276
 GameObject:
   m_ObjectHideFlags: 0
@@ -4199,7 +4457,7 @@ RectTransform:
   m_Father: {fileID: 25332201593913124}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -4535,6 +4793,7 @@ GameObject:
   - component: {fileID: 4850453326678478117}
   - component: {fileID: 855880967675906096}
   - component: {fileID: 6479257323567693128}
+  - component: {fileID: 3255962517897194233}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -4659,6 +4918,26 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &3255962517897194233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8110270272190791286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c108fd3a76764d42b690a6365b1bae6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scPlayer: {fileID: 0}
+  _playerData: {fileID: 1165491372627732135}
+  sEnglish: True artist
+  sFrench: Vrai.e artiste
+  sJoystickEnglish: 
+  sJoystickFrench: 
+  bHasInput: 0
+  bIsOnManager: 1
 --- !u!1 &8117903037627878143
 GameObject:
   m_ObjectHideFlags: 0
@@ -4803,6 +5082,7 @@ GameObject:
   - component: {fileID: 761378724149520105}
   - component: {fileID: 6961901490713679550}
   - component: {fileID: 3382986829582187520}
+  - component: {fileID: 1885734014180581225}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -4927,6 +5207,26 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &1885734014180581225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8160287508523397336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c108fd3a76764d42b690a6365b1bae6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scPlayer: {fileID: 0}
+  _playerData: {fileID: 1165491372627732135}
+  sEnglish: Boogie Woogie
+  sFrench: Boogie Woogie
+  sJoystickEnglish: 
+  sJoystickFrench: 
+  bHasInput: 0
+  bIsOnManager: 1
 --- !u!1 &8342127933019600501
 GameObject:
   m_ObjectHideFlags: 0
@@ -5280,6 +5580,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6466235641608524485}
   - component: {fileID: 644828114030368353}
+  - component: {fileID: 5938097961444419159}
   - component: {fileID: 7606323645676813568}
   m_Layer: 5
   m_Name: Text (TMP)
@@ -5315,6 +5616,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8813767390714700803}
   m_CullTransparentMesh: 1
+--- !u!114 &5938097961444419159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8813767390714700803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c108fd3a76764d42b690a6365b1bae6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scPlayer: {fileID: 0}
+  _playerData: {fileID: 1165491372627732135}
+  sEnglish: Retry
+  sFrench: "R\xE9essayer"
+  sJoystickEnglish: 
+  sJoystickFrench: 
+  bHasInput: 0
+  bIsOnManager: 1
 --- !u!114 &7606323645676813568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5452,6 +5773,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8637976442732031216}
   - component: {fileID: 1872974378542262525}
+  - component: {fileID: 7556820787320449598}
   - component: {fileID: 8030125144599779060}
   - component: {fileID: 1743397759594318175}
   m_Layer: 5
@@ -5488,6 +5810,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9060252912388153805}
   m_CullTransparentMesh: 1
+--- !u!114 &7556820787320449598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9060252912388153805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c108fd3a76764d42b690a6365b1bae6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scPlayer: {fileID: 0}
+  _playerData: {fileID: 1165491372627732135}
+  sEnglish: Save
+  sFrench: Sauvegarder
+  sJoystickEnglish: 
+  sJoystickFrench: 
+  bHasInput: 0
+  bIsOnManager: 1
 --- !u!114 &8030125144599779060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5597,3 +5939,4 @@ MonoBehaviour:
   sJoystickEnglish: 
   sJoystickFrench: 
   bHasInput: 0
+  bIsOnManager: 1

@@ -13,14 +13,18 @@ public class sc_textChange : MonoBehaviour
     [SerializeField] private string sJoystickEnglish;
     [SerializeField] private string sJoystickFrench;
     [SerializeField] private bool bHasInput;
-
-    private void Awake()
+    [SerializeField] private bool bIsOnManager;
+    private void Start()
     {
-        if ((SceneManager.GetActiveScene().name == "SceneLvl1" || SceneManager.GetActiveScene().name == "SceneLvl0") && (this.transform.parent.transform.parent.transform.parent.transform.parent.gameObject.name != "Manager"))
+        if(!bIsOnManager)
         {
-            _playerData = scPlayer.menuManager.gameObject.transform.GetComponent<PlayerData>();
+            if (SceneManager.GetActiveScene().name == "SceneLvl1" || SceneManager.GetActiveScene().name == "SceneLvl0" || SceneManager.GetActiveScene().name == "Loft")
+            {
+                _playerData = scPlayer.menuManager.gameObject.transform.GetComponent<PlayerData>();
+            }
         }
-        if(SceneManager.GetActiveScene().name == "GameChoose")
+        
+        if (SceneManager.GetActiveScene().name == "GameChoose")
         {
             _playerData = GameObject.FindWithTag("Manager").transform.GetComponent<PlayerData>();
         }

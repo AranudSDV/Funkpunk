@@ -21,11 +21,12 @@ public class MenuManager : MonoBehaviour
     //NAVIGATION UX
     private GameObject GoMainMenu;
     private GameObject[] GoGameChoose; //0 is GoNewLoadButton, 1 is GoNewLoadText, 2 is GoOptionsButton, 3 is GoExitButton
-    [SerializeField] private Sprite[] buttonSpriteGameChoose = new Sprite[2];
     public GameObject[] GoLevelsButton;
     [SerializeField] private GameObject GoScoring;
     [SerializeField] private GameObject GoPauseMenu;
     private bool bActif = false;
+    [SerializeField] private Color32 colorFoes;
+    [SerializeField] private Color32 colorPlayer;
 
     //SCENE LOADING
     public string sSceneToLoad;
@@ -296,13 +297,27 @@ public class MenuManager : MonoBehaviour
             btnNewLoad.onClick.AddListener(delegate { LoadScene(sSceneToLoad); });
             if (_playerData.iLevelPlayer > 0)
             {
-                Image img = GoGameChoose[0].GetComponent<Image>();
-                img.sprite = buttonSpriteGameChoose[1];
+                TextMeshProUGUI txt = GoGameChoose[0].gameObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
+                if(_playerData.iLanguageNbPlayer==1)
+                {
+                    txt.text = "Continuer";
+                }
+                else
+                {
+                    txt.text = "Continue";
+                }
             }
             else
             {
-                Image img = GoGameChoose[0].GetComponent<Image>();
-                img.sprite = buttonSpriteGameChoose[0];
+                TextMeshProUGUI txt = GoGameChoose[0].gameObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
+                if (_playerData.iLanguageNbPlayer == 1)
+                {
+                    txt.text = "Nouvelle Partie";
+                }
+                else
+                {
+                    txt.text = "New Game";
+                }
             }
             Button btnExit = GoGameChoose[2].GetComponent<Button>();
             btnExit.onClick.AddListener(QuitGame);
@@ -317,15 +332,15 @@ public class MenuManager : MonoBehaviour
                 {
                     int captured = i;
                     _levels[i].button_level.onClick.AddListener(() => LoadScene(_levels[captured].sScene_Level));
-                    _levels[i].img_lvl.color = new Color32(0, 135, 0, 255);
+                    _levels[i].img_lvl.color = colorPlayer;
                     TextMeshProUGUI textChild = _levels[i].Go_LevelButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-                    textChild.color = new Color32(0, 255, 0, 255);
+                    textChild.color = new Color32(0, 255, 255, 255);
                 }
                else if(GoLevelsButton.Length- _playerData.iLevelPlayer > i)
                 {
-                    _levels[i].img_lvl.color = new Color32(54, 64, 134, 255);
+                    _levels[i].img_lvl.color = colorFoes;
                     TextMeshProUGUI textChild = _levels[i].Go_LevelButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-                    textChild.color = new Color32(64, 97, 255, 255);
+                    textChild.color = new Color32(255, 255, 0, 255);
                 }
             }
         }
