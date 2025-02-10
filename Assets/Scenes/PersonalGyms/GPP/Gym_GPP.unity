@@ -1223,9 +1223,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetUI: {fileID: 293375209}
-  strength: 100
+  strength: 10
   nbShakesPerCycle: 10
-  randomness: 90
+  randomness: 50
   bpmManager: {fileID: 460384139}
 --- !u!43 &309034220
 Mesh:

@@ -13,6 +13,7 @@ public class boxtext_OnMusic : MonoBehaviour
     [SerializeField]private float randomness = 90f; // Randomness in shake direction
     [SerializeField] private BPM_Manager bpmManager;
     private bool bInitialized = false;
+    private List<Tween> activeTweens = new List<Tween>();
 
     private Tween shakeTween;
 
@@ -33,6 +34,22 @@ public class boxtext_OnMusic : MonoBehaviour
         {
             Init();
             bInitialized = true;
+            int totalPlaying = DOTween.TotalPlayingTweens();
+            if (activeTweens.Count > 1)
+            {
+                KillFirstTween();
+            }
+        }
+    }
+    private void KillFirstTween()
+    {
+        if (activeTweens.Count > 0)
+        {
+            // Kill the first tween
+            activeTweens[0].Kill();
+
+            // Remove it from the list
+            activeTweens.RemoveAt(0);
         }
     }
 
@@ -42,9 +59,8 @@ public class boxtext_OnMusic : MonoBehaviour
         shakeTween = targetUI.DOShakePosition(bpmManager.FSPB, strength, nbShakesPerCycle, randomness)
             .SetLoops(-1, LoopType.Restart)
             .SetRelative(true) // Makes the shake relative to the current position
-            .OnStart(() => Debug.Log("Shake started"))
-            .OnComplete(() => Debug.Log("Shake completed"))
             .SetEase(Ease.OutBack); // Optional: Smooth out the loop
+        activeTweens.Add(shakeTween);
         Debug.Log(bpmManager.FSPB);
     }
 
@@ -64,7 +80,6 @@ public class boxtext_OnMusic : MonoBehaviour
         {
             shakeTween.Kill();
         }
-        Debug.Log("new shake tween");
         StartContinuousShake();
     }
 }
