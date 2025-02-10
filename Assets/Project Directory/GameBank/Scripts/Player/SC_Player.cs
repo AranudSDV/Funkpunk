@@ -380,7 +380,7 @@ public class SC_Player : MonoBehaviour
                                 if(ingTag.textOnWall.text == i.ToString() + "/3")
                                 {
                                     ingTag.textOnWall.text = (i + 1).ToString() + "/3";
-                                    StartCoroutine(TaggingFeedback(bpmManager.FSPB));
+                                    StartCoroutine(TaggingFeedback(bpmManager.FSPB, vectDir));
                                     break;
                                 }
                             }
@@ -391,12 +391,12 @@ public class SC_Player : MonoBehaviour
                                     if (i < 2)
                                     {
                                         ingTag.textOnWall.text = (i + 2).ToString() + "/3";
-                                        StartCoroutine(TaggingFeedback(bpmManager.FSPB));
+                                        StartCoroutine(TaggingFeedback(bpmManager.FSPB, vectDir));
                                     }
                                     else
                                     {
                                         ingTag.textOnWall.text = "3/3";
-                                        StartCoroutine(TaggingFeedback(bpmManager.FSPB));
+                                        StartCoroutine(TaggingFeedback(bpmManager.FSPB, vectDir));
                                     }
                                     break;
                                 }
@@ -404,7 +404,7 @@ public class SC_Player : MonoBehaviour
                             else if(bpmManager.bPlayPerfect)
                             {
                                 ingTag.textOnWall.text = "3/3";
-                                StartCoroutine(TaggingFeedback(bpmManager.FSPB));
+                                StartCoroutine(TaggingFeedback(bpmManager.FSPB, vectDir));
                                 break;
                             }
                             else if(!bpmManager.bPlayPerfect && !bpmManager.bPlayGood && !bpmManager.bPlayBad)
@@ -727,15 +727,36 @@ public class SC_Player : MonoBehaviour
         menuManager.LoadScene("LevelChoosing");
         UnityEngine.Cursor.lockState = CursorLockMode.None;
     }
-    private IEnumerator TaggingFeedback(float time)
+    private IEnumerator TaggingFeedback(float time, Vector3 dir)
     {
-        PlayerCapsule.transform.DOMoveY(posMesh.y + 1f, time * 1 / 6).SetAutoKill(true);
-        PlayerCapsule.transform.DORotate(new Vector3(0, -60f, 0), time * 1 / 6, RotateMode.LocalAxisAdd).SetAutoKill(true);
-        yield return new WaitForSeconds(time * 1 / 6);
-        PlayerCapsule.transform.DORotate(new Vector3(0, 120f, 0), time * 2 / 6, RotateMode.LocalAxisAdd).SetAutoKill(true);
-        yield return new WaitForSeconds(time * 2 / 6);
-        PlayerCapsule.transform.DORotate(new Vector3(0, -60, 0), time * 1 / 6, RotateMode.LocalAxisAdd).SetAutoKill(true);
-        PlayerCapsule.transform.DOMoveY(posMesh.y, time * 1 / 6).SetAutoKill(true);
+        if (dir.x != 0)
+        {
+            Debug.Log("X");
+            PlayerCapsule.transform.DOMoveY(posMesh.y + 1f, time * 1 / 6).SetAutoKill(true);
+            PlayerCapsule.transform.DOLocalMoveZ(posMesh.z + 0.75f, time * 1 / 6).SetAutoKill(true);
+            PlayerCapsule.transform.DORotate(new Vector3(0, -30f, 0), time * 1 / 6, RotateMode.LocalAxisAdd).SetAutoKill(true);
+            yield return new WaitForSeconds(time * 1 / 6);
+            PlayerCapsule.transform.DORotate(new Vector3(0, 60f, 0), time * 2 / 6, RotateMode.LocalAxisAdd).SetAutoKill(true);
+            PlayerCapsule.transform.DOLocalMoveZ(posMesh.z - 0.75f, time * 1 / 6).SetAutoKill(true);
+            yield return new WaitForSeconds(time * 2 / 6);
+            PlayerCapsule.transform.DORotate(new Vector3(0, -30, 0), time * 1 / 6, RotateMode.LocalAxisAdd).SetAutoKill(true);
+            PlayerCapsule.transform.DOLocalMoveZ(posMesh.z, time * 1 / 6).SetAutoKill(true);
+            PlayerCapsule.transform.DOMoveY(posMesh.y, time * 1 / 6).SetAutoKill(true);
+        }
+        else if(dir.z != 0)
+        {
+            Debug.Log("Z");
+            PlayerCapsule.transform.DOMoveY(posMesh.y + 1f, time * 1 / 6).SetAutoKill(true);
+            PlayerCapsule.transform.DOLocalMoveX(posMesh.z + 0.75f, time * 1 / 6).SetAutoKill(true);
+            PlayerCapsule.transform.DORotate(new Vector3(0, -30f, 0), time * 1 / 6, RotateMode.LocalAxisAdd).SetAutoKill(true);
+            yield return new WaitForSeconds(time * 1 / 6);
+            PlayerCapsule.transform.DORotate(new Vector3(0, 60f, 0), time * 2 / 6, RotateMode.LocalAxisAdd).SetAutoKill(true);
+            PlayerCapsule.transform.DOLocalMoveX(posMesh.z - 0.75f, time * 1 / 6).SetAutoKill(true);
+            yield return new WaitForSeconds(time * 2 / 6);
+            PlayerCapsule.transform.DORotate(new Vector3(0, -30, 0), time * 1 / 6, RotateMode.LocalAxisAdd).SetAutoKill(true);
+            PlayerCapsule.transform.DOLocalMoveX(posMesh.z, time * 1 / 6).SetAutoKill(true);
+            PlayerCapsule.transform.DOMoveY(posMesh.y, time * 1 / 6).SetAutoKill(true);
+        }
     }
     private IEnumerator ThrowingFeedback(float time)
     {
