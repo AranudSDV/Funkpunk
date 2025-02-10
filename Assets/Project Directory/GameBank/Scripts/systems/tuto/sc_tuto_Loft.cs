@@ -9,12 +9,7 @@ public class sc_tuto_Loft : MonoBehaviour
     private bool bWaitSpace = false;
     private bool bInitialized;
 
-    private void Start()
-    {
-        
-    }
-
-    public void Init()
+    private void Init()
     {
         if (scPlayer.menuManager.gameObject.GetComponent<PlayerData>().iLevelPlayer > 0)
         {

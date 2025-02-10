@@ -27,8 +27,8 @@ public class sc_tuto_level1 : MonoBehaviour
     private bool coroutineIsRunning = false;
     private bool bWaitSpace = false;
     private bool bOnce = false;
-
-    private void Start()
+    private bool bInitialized = false;
+    private void Init()
     {
         scPlayer.bGameIsPaused = true;
         scPlayer.PauseGame();
@@ -36,6 +36,11 @@ public class sc_tuto_level1 : MonoBehaviour
     }
     private void Update()
     {
+        if(!bInitialized)
+        {
+            Init();
+            bInitialized = true;
+        }
         if (bWaitSpace)
         {
             if (!b_tutoFinished && GoTuto1[4].transform.GetChild(0).gameObject.activeInHierarchy && ((!scPlayer.bIsOnComputer && scPlayer.control.GamePlay.Move.triggered) || (scPlayer.bIsOnComputer && Input.GetButtonDown("Jump"))))

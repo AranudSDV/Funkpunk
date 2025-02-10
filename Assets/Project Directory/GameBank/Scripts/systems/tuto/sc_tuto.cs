@@ -44,12 +44,7 @@ public class sc_tuto : MonoBehaviour
     bool bOnce = false;
     [SerializeField] private bool bWaitSpace = false;
     private bool bInitialized;
-
-    private void Start()
-    {
-        
-    }
-    public void Init()
+    private void Init()
     {
         if (scPlayer == null)
         {

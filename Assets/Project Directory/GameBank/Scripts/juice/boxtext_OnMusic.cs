@@ -12,10 +12,11 @@ public class boxtext_OnMusic : MonoBehaviour
     [SerializeField]private int nbShakesPerCycle = 10;  // Number of shakes per cycle
     [SerializeField]private float randomness = 90f; // Randomness in shake direction
     [SerializeField] private BPM_Manager bpmManager;
+    private bool bInitialized = false;
 
     private Tween shakeTween;
 
-    private void Start()
+    private void Init()
     {
         if (targetUI != null)
         {
@@ -24,6 +25,14 @@ public class boxtext_OnMusic : MonoBehaviour
         else
         {
             Debug.LogWarning("Target UI is not assigned.");
+        }
+    }
+    private void Update()
+    {
+        if(!bInitialized)
+        {
+            Init();
+            bInitialized = true;
         }
     }
 
@@ -36,6 +45,7 @@ public class boxtext_OnMusic : MonoBehaviour
             .OnStart(() => Debug.Log("Shake started"))
             .OnComplete(() => Debug.Log("Shake completed"))
             .SetEase(Ease.OutBack); // Optional: Smooth out the loop
+        Debug.Log(bpmManager.FSPB);
     }
 
     private void OnDisable()
