@@ -83,7 +83,6 @@ public class SC_Player : MonoBehaviour
     //LE TAG
     [Header("Tag")]
     public float taggingRange = 1.1f;
-    public Material taggedMaterial; 
     private RaycastHit[] hitInfo = new RaycastHit[4];
     [SerializeField] private LayerMask LMask;
 
@@ -363,33 +362,40 @@ public class SC_Player : MonoBehaviour
                     if (hitInfo.transform.CompareTag("Tagging")) //c'est un mur à tagger
                     {
                         bIsBeingAnimated = true;
-                        Renderer wallRenderer = hitInfo.transform.GetComponent<Renderer>();
-                        GameObject wallTagged = hitInfo.transform.gameObject;
-                        wallTagged.transform.GetChild(0).gameObject.SetActive(true);
-                        TextMeshPro textOnWall = wallTagged.transform.GetChild(0).GetComponent<TextMeshPro>();
-                        for(int i = 0;i<4; i++)
+                        ing_Tag ingTag = hitInfo.transform.gameObject.GetComponent< ing_Tag>();
+                        if(ingTag!=null)
+                        {
+                            Debug.Log("a un script nommé " + ingTag);
+                        }
+                        else
+                        {
+                            Debug.Log("na pas de script sur " + hitInfo.transform.gameObject.name);
+                            return;
+                        }
+                        ingTag.textOnWall.color = bpmManager.colorMiss;
+                        for (int i = 0;i<4; i++)
                         {
                             if(bpmManager.bPlayBad)
                             {
-                                if(textOnWall.text == i.ToString() + "/3")
+                                if(ingTag.textOnWall.text == i.ToString() + "/3")
                                 {
-                                    textOnWall.text = (i + 1).ToString() + "/3";
+                                    ingTag.textOnWall.text = (i + 1).ToString() + "/3";
                                     StartCoroutine(TaggingFeedback(bpmManager.FSPB));
                                     break;
                                 }
                             }
                             else if (bpmManager.bPlayGood)
                             {
-                               if(textOnWall.text == i.ToString() + "/3")
+                               if(ingTag.textOnWall.text == i.ToString() + "/3")
                                 {
                                     if (i < 2)
                                     {
-                                        textOnWall.text = (i + 2).ToString() + "/3";
+                                        ingTag.textOnWall.text = (i + 2).ToString() + "/3";
                                         StartCoroutine(TaggingFeedback(bpmManager.FSPB));
                                     }
                                     else
                                     {
-                                        textOnWall.text = "3/3";
+                                        ingTag.textOnWall.text = "3/3";
                                         StartCoroutine(TaggingFeedback(bpmManager.FSPB));
                                     }
                                     break;
@@ -397,7 +403,7 @@ public class SC_Player : MonoBehaviour
                             }
                             else if(bpmManager.bPlayPerfect)
                             {
-                                textOnWall.text = "3/3";
+                                ingTag.textOnWall.text = "3/3";
                                 StartCoroutine(TaggingFeedback(bpmManager.FSPB));
                                 break;
                             }
@@ -411,21 +417,21 @@ public class SC_Player : MonoBehaviour
                                 return ;
                             }
                         }
-                        if (textOnWall.text == "1/3")
+                        if (ingTag.textOnWall.text == "1/3")
                         {
-                            textOnWall.color = bpmManager.colorBad;
+                            ingTag.textOnWall.color = bpmManager.colorBad;
                         }
-                        else if(textOnWall.text == "2/3")
+                        else if(ingTag.textOnWall.text == "2/3")
                         {
-                            textOnWall.color = bpmManager.colorGood;
+                            ingTag.textOnWall.color = bpmManager.colorGood;
                         }
-                        else if (textOnWall.text == "3/3")
+                        else if (ingTag.textOnWall.text == "3/3")
                         {
-                            textOnWall.color = bpmManager.colorPerfect;
-                            wallRenderer.material = taggedMaterial; //le joueur tag
-                            wallTagged.tag = "Wall";
+                            ingTag.textOnWall.color = bpmManager.colorPerfect;
+                            ingTag._renderer.material = ingTag.taggedMaterial; //le joueur tag
+                            ingTag.transform.gameObject.tag = "Wall";
                             itagDone += 1;
-                            if (wallTagged.gameObject.name == "EndingWall")
+                            if (ingTag.transform.gameObject.name == "EndingWall")
                             {
                                 EndGame(true);
                             }
@@ -730,7 +736,6 @@ public class SC_Player : MonoBehaviour
         yield return new WaitForSeconds(time * 2 / 6);
         PlayerCapsule.transform.DORotate(new Vector3(0, -60, 0), time * 1 / 6, RotateMode.LocalAxisAdd).SetAutoKill(true);
         PlayerCapsule.transform.DOMoveY(posMesh.y, time * 1 / 6).SetAutoKill(true);
-        Debug.Log("tagg");
     }
     private IEnumerator ThrowingFeedback(float time)
     {
@@ -741,7 +746,6 @@ public class SC_Player : MonoBehaviour
         yield return new WaitForSeconds(time * 2 / 9);
         PlayerCapsule.transform.DORotate(new Vector3(45, 0, 0), time * 2 / 9, RotateMode.LocalAxisAdd).SetAutoKill(true);
         PlayerCapsule.transform.DOMoveY(posMesh.y, time * 2/9).SetAutoKill(true);
-        Debug.Log("throw");
     }
     private void RotationVFX(Vector3 dir, float time)
     {

@@ -160,8 +160,11 @@ MonoBehaviour:
   detectionRadius: 7
   targetTag: Enemies 1
   Go_vfx_Smash: {fileID: 4548674332419786601}
+  fPosBase_smash: {x: 0, y: 1, z: 0}
   Go_vfx_Impact: {fileID: 8668200560565549551}
+  fPosBase_impact: {x: 0, y: -0.5, z: 0}
   Go_vfxTrail: {fileID: 2311333196845364414}
+  fPosBase_trail: {x: 0, y: 0, z: -0.394}
 --- !u!65 &378598364566265932
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -226,7 +229,7 @@ PrefabInstance:
     - target: {fileID: 399830996420202461, guid: abfacbcd0d48a4640852c268a0f7a265,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2608692290473098013, guid: abfacbcd0d48a4640852c268a0f7a265,
         type: 3}
@@ -236,7 +239,7 @@ PrefabInstance:
     - target: {fileID: 2608692290473098013, guid: abfacbcd0d48a4640852c268a0f7a265,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 2608692290473098013, guid: abfacbcd0d48a4640852c268a0f7a265,
         type: 3}
@@ -311,7 +314,7 @@ PrefabInstance:
     - target: {fileID: 4163254944712931053, guid: 9c1c03b7df2edaa4087f872aeb9e5284,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 51
       objectReference: {fileID: 0}
     - target: {fileID: 4163254944712931053, guid: 9c1c03b7df2edaa4087f872aeb9e5284,
         type: 3}
@@ -361,7 +364,7 @@ PrefabInstance:
     - target: {fileID: 7660080768610163920, guid: 9c1c03b7df2edaa4087f872aeb9e5284,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -396,7 +399,7 @@ PrefabInstance:
     - target: {fileID: 2741877469879392926, guid: bc38246a3ce32c447aaa99c4c8661d02,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3475488456782011621, guid: bc38246a3ce32c447aaa99c4c8661d02,
         type: 3}
@@ -431,7 +434,7 @@ PrefabInstance:
     - target: {fileID: 6311353030828682193, guid: bc38246a3ce32c447aaa99c4c8661d02,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.5
+      value: 49.5
       objectReference: {fileID: 0}
     - target: {fileID: 6311353030828682193, guid: bc38246a3ce32c447aaa99c4c8661d02,
         type: 3}

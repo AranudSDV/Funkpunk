@@ -33,8 +33,11 @@ public class ing_Bait : MonoBehaviour
 
     //FEEDBACK
     [SerializeField] private GameObject Go_vfx_Smash;
+    [SerializeField] private Vector3 fPosBase_smash;
     [SerializeField] private GameObject Go_vfx_Impact;
+    [SerializeField] private Vector3 fPosBase_impact;
     [SerializeField] private GameObject Go_vfxTrail;
+    [SerializeField] private Vector3 fPosBase_trail;
     private ParticleSystem PS_smash;
     private ParticleSystem PS_Impact;
 
@@ -192,23 +195,23 @@ public class ing_Bait : MonoBehaviour
     private IEnumerator NumSmashVFX()
     {
         Go_vfx_Smash.transform.LookAt(scPlayer.gameObject.transform, Vector3.down);
+        Go_vfx_Smash.transform.localPosition = fPosBase_smash;
         Go_vfx_Smash.transform.position += scPlayer.lastMoveDirection;
-        Go_vfx_Smash.SetActive(true);
-        Go_vfxTrail.SetActive(true);
+        Go_vfxTrail.transform.localPosition = fPosBase_trail;
         PS_smash.Play();
         yield return new WaitForSeconds(0.5f);
         PS_smash.Stop();
-        Go_vfx_Smash.SetActive(false);
+        Go_vfx_Smash.transform.localPosition = new Vector3(fPosBase_smash.x, fPosBase_smash.y + 50f, fPosBase_smash.z);
         yield return new WaitForSeconds(0.5f);
         bOnce = false;
     }
     private IEnumerator NumImpactVFX()
     {
-        Go_vfx_Impact.SetActive(true);
-        Go_vfxTrail.SetActive(false);
+        Go_vfx_Impact.transform.localPosition = fPosBase_impact;
+        Go_vfxTrail.transform.localPosition = new Vector3(fPosBase_trail.x, fPosBase_trail.y +50f, fPosBase_trail.z);
         PS_Impact.Play();
         yield return new WaitForSeconds(0.5f);
         PS_Impact.Stop();
-        Go_vfx_Impact.SetActive(false);
+        Go_vfx_Impact.transform.localPosition = new Vector3(fPosBase_impact.x, fPosBase_impact.y + 50f, fPosBase_impact.z);
     }
 }
