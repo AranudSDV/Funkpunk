@@ -44,8 +44,9 @@ public class SC_Player : MonoBehaviour
     private Vector3 posMesh;
     private float tolerance = 0.5f;
     public bool canMove = false;
-    [SerializeField]private GameObject VFXsteps;
-    private ParticleSystem vfx_steps;
+    [SerializeField]private GameObject GoVfxSteps;
+    [SerializeField] private Vector3 fPosVFX_steps;
+    [SerializeField] private ParticleSystem vfx_steps;
     public bool bcanRotate = false;
     public bool bIsImune = false;
     private bool bIsBeingAnimated = false;
@@ -76,6 +77,7 @@ public class SC_Player : MonoBehaviour
     private float fDetectionLevelMax = 100f;
     [SerializeField] private SC_FieldOfView[] allEnemies;
     [SerializeField] private GameObject GoVfxDetected;
+    [SerializeField] private Vector3 fPosVFX_detected;
     public float FTimeWithoutLooseDetection = 5f;
     [SerializeField] private UnityEngine.UI.Slider sliderDetection;
     public bool BisDetectedByAnyEnemy = false;
@@ -84,6 +86,8 @@ public class SC_Player : MonoBehaviour
     [Header("Tag")]
     public float taggingRange = 1.1f;
     private RaycastHit[] hitInfo = new RaycastHit[4];
+    [SerializeField] private GameObject GoVfxTag;
+    [SerializeField] private ParticleSystem vfx_tag;
     [SerializeField] private LayerMask LMask;
 
     public void InitializeGamepad()
@@ -107,7 +111,6 @@ public class SC_Player : MonoBehaviour
         posMesh = PlayerCapsule.transform.position;
         CheckControllerStatus();
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-        vfx_steps = VFXsteps.transform.GetChild(0).gameObject.GetComponent<ParticleSystem>();
         if (menuManager == null)
         {
             GameObject goMenu = GameObject.FindWithTag("Manager");
@@ -381,6 +384,7 @@ public class SC_Player : MonoBehaviour
                                 {
                                     ingTag.textOnWall.text = (i + 1).ToString() + "/3";
                                     StartCoroutine(TaggingFeedback(bpmManager.FSPB, vectDir));
+                                    StartCoroutine(TagFeedback(vectDir));
                                     break;
                                 }
                             }
@@ -392,11 +396,13 @@ public class SC_Player : MonoBehaviour
                                     {
                                         ingTag.textOnWall.text = (i + 2).ToString() + "/3";
                                         StartCoroutine(TaggingFeedback(bpmManager.FSPB, vectDir));
+                                        StartCoroutine(TagFeedback(vectDir));
                                     }
                                     else
                                     {
                                         ingTag.textOnWall.text = "3/3";
                                         StartCoroutine(TaggingFeedback(bpmManager.FSPB, vectDir));
+                                        StartCoroutine(TagFeedback(vectDir));
                                     }
                                     break;
                                 }
@@ -405,6 +411,7 @@ public class SC_Player : MonoBehaviour
                             {
                                 ingTag.textOnWall.text = "3/3";
                                 StartCoroutine(TaggingFeedback(bpmManager.FSPB, vectDir));
+                                StartCoroutine(TagFeedback(vectDir));
                                 break;
                             }
                             else if(!bpmManager.bPlayPerfect && !bpmManager.bPlayGood && !bpmManager.bPlayBad)
@@ -619,7 +626,7 @@ public class SC_Player : MonoBehaviour
             //this.transform.GetChild(0).gameObject.transform.DOJump(newPos, 1f, 0, bpmManager.FSPB).SetEase(Ease.OutBack).SetAutoKill(true);
             //this.transform.DOJump(newPos, 1f, 0, bpmManager.FSPB, true).SetEase(Ease.OutBack).SetAutoKill(true);
         }
-        StartCoroutine(MouvementVFX());
+        StartCoroutine(MouvementVFX(bpmManager.FSPB));
         canMove = false;
     }
 
@@ -702,14 +709,16 @@ public class SC_Player : MonoBehaviour
             UI_Joystick[i].SetActive(false);
         }
     }
-    private IEnumerator MouvementVFX()
+    private IEnumerator MouvementVFX(float time)
     {
-        VFXsteps.SetActive(true);
+        yield return new WaitForSeconds(time - 0.5f);
+        GoVfxSteps.transform.localPosition = fPosVFX_steps;
+        //GoVfxSteps.SetActive(true);
         vfx_steps.Play();
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.51f);
         vfx_steps.Stop();
-        VFXsteps.SetActive(false);
-        yield return new WaitForSeconds(0.5f);
+        GoVfxSteps.transform.localPosition = fPosVFX_steps + new Vector3(0f,50f,0f);
+        //GoVfxSteps.SetActive(false);
     }
     private IEnumerator NotEnoughPercentLoft(TextMeshPro txt)
     {
@@ -734,12 +743,12 @@ public class SC_Player : MonoBehaviour
             Debug.Log("X");
             PlayerCapsule.transform.DOMoveY(posMesh.y + 1f, time * 1 / 6).SetAutoKill(true);
             PlayerCapsule.transform.DOLocalMoveZ(posMesh.z + 0.75f, time * 1 / 6).SetAutoKill(true);
-            PlayerCapsule.transform.DORotate(new Vector3(0, -30f, 0), time * 1 / 6, RotateMode.LocalAxisAdd).SetAutoKill(true);
+            PlayerCapsule.transform.DORotate(new Vector3(0, -60f, 0), time * 1 / 6, RotateMode.LocalAxisAdd).SetAutoKill(true);
             yield return new WaitForSeconds(time * 1 / 6);
-            PlayerCapsule.transform.DORotate(new Vector3(0, 60f, 0), time * 2 / 6, RotateMode.LocalAxisAdd).SetAutoKill(true);
+            PlayerCapsule.transform.DORotate(new Vector3(0, 120f, 0), time * 2 / 6, RotateMode.LocalAxisAdd).SetAutoKill(true);
             PlayerCapsule.transform.DOLocalMoveZ(posMesh.z - 0.75f, time * 1 / 6).SetAutoKill(true);
             yield return new WaitForSeconds(time * 2 / 6);
-            PlayerCapsule.transform.DORotate(new Vector3(0, -30, 0), time * 1 / 6, RotateMode.LocalAxisAdd).SetAutoKill(true);
+            PlayerCapsule.transform.DORotate(new Vector3(0, -60, 0), time * 1 / 6, RotateMode.LocalAxisAdd).SetAutoKill(true);
             PlayerCapsule.transform.DOLocalMoveZ(posMesh.z, time * 1 / 6).SetAutoKill(true);
             PlayerCapsule.transform.DOMoveY(posMesh.y, time * 1 / 6).SetAutoKill(true);
         }
@@ -757,6 +766,16 @@ public class SC_Player : MonoBehaviour
             PlayerCapsule.transform.DOLocalMoveX(posMesh.z, time * 1 / 6).SetAutoKill(true);
             PlayerCapsule.transform.DOMoveY(posMesh.y, time * 1 / 6).SetAutoKill(true);
         }
+    }
+    private IEnumerator TagFeedback(Vector3 dir)
+    {
+        Debug.Log("tag");
+        GoVfxTag.transform.localEulerAngles = dir;
+        GoVfxTag.transform.localPosition = -dir *0.01f;
+        vfx_tag.Play();
+        yield return new WaitForSeconds(0.3f);
+        vfx_tag.Stop();
+        GoVfxTag.transform.localPosition = dir + new Vector3(0f, 50f, 0f);
     }
     private IEnumerator ThrowingFeedback(float time)
     {
@@ -895,11 +914,13 @@ public class SC_Player : MonoBehaviour
         }
         if(BisDetectedByAnyEnemy)
         {
-            GoVfxDetected.SetActive(true);
+            GoVfxDetected.transform.localPosition = fPosVFX_detected;
+           //GoVfxDetected.SetActive(true);
         }
         else
         {
-            GoVfxDetected.SetActive(false);
+            GoVfxDetected.transform.localPosition = fPosVFX_detected + new Vector3(0f,50f,0f);
+            //GoVfxDetected.SetActive(false);
         }
     }
     IEnumerator LooseDetectionLevel()
