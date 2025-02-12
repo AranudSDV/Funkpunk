@@ -28,10 +28,15 @@ public class sc_tuto_level1 : MonoBehaviour
     private bool bWaitSpace = false;
     private bool bOnce = false;
     private bool bInitialized = false;
+    private bool[] bTuto = new bool[6];
     private void Init()
     {
         scPlayer.bGameIsPaused = true;
         scPlayer.PauseGame();
+        for(int i = 0; i<6; i++)
+        {
+            bTuto[i] = false;
+        }
         tutoCoroutine[0] = StartCoroutine(StartFirst());
     }
     private void Update()
@@ -43,39 +48,50 @@ public class sc_tuto_level1 : MonoBehaviour
         }
         if (bWaitSpace)
         {
-            if (!b_tutoFinished && GoTuto1[4].transform.GetChild(0).gameObject.activeInHierarchy && ((!scPlayer.bIsOnComputer && scPlayer.control.GamePlay.Move.triggered) || (scPlayer.bIsOnComputer && Input.GetButtonDown("Jump"))))
+            if (!b_tutoFinished && bTuto[0] && ((!scPlayer.bIsOnComputer && scPlayer.control.GamePlay.Move.triggered) || (scPlayer.bIsOnComputer && Input.GetButtonDown("Jump"))))
             {
-                bWaitSpace = false;
                 StartCoroutine(SkipFirstTuto());
             }
-            if (!b_tutoFinished && GoTuto1[4].transform.GetChild(1).gameObject.activeInHierarchy && ((!scPlayer.bIsOnComputer && scPlayer.control.GamePlay.Move.triggered) || (scPlayer.bIsOnComputer && Input.GetButtonDown("Jump"))))
+            if (!b_tutoFinished && bTuto[1] && !bTuto[0] && ((!scPlayer.bIsOnComputer && scPlayer.control.GamePlay.Move.triggered) || (scPlayer.bIsOnComputer && Input.GetButtonDown("Jump"))))
             {
                 GoTuto1[0].transform.parent.gameObject.SetActive(false);
                 tutoCoroutine[1] = StartCoroutine(StartSecond());
             }
-            if (!b_tutoFinished && GoTuto2[2].transform.GetChild(1).gameObject.activeInHierarchy && ((!scPlayer.bIsOnComputer && scPlayer.control.GamePlay.Move.triggered) || (scPlayer.bIsOnComputer && Input.GetButtonDown("Jump"))))
+            if (!b_tutoFinished && bTuto[2] && !bTuto[1] && ((!scPlayer.bIsOnComputer && scPlayer.control.GamePlay.Move.triggered) || (scPlayer.bIsOnComputer && Input.GetButtonDown("Jump"))))
             {
-                bWaitSpace = false;
-                scPlayer.bGameIsPaused = false;
-                scPlayer.PauseGame();
-                GoTuto2[2].transform.GetChild(1).gameObject.SetActive(false);
-                b_tutoFinished = true;
+                StartCoroutine(SkipTutoSecond());
             }
-            if (b_tutoFinished && GoTuto3[2].transform.GetChild(0).gameObject.activeInHierarchy && ((!scPlayer.bIsOnComputer && scPlayer.control.GamePlay.Move.triggered) || (scPlayer.bIsOnComputer && Input.GetButtonDown("Jump"))))
+            if(!b_tutoFinished && bTuto[3] && !bTuto[2] && ((!scPlayer.bIsOnComputer && scPlayer.control.GamePlay.Move.triggered) || (scPlayer.bIsOnComputer && Input.GetButtonDown("Jump"))))
+            {
+                StartMidSecond();
+            }
+            if (b_tutoFinished && bTuto[4] && ((!scPlayer.bIsOnComputer && scPlayer.control.GamePlay.Move.triggered) || (scPlayer.bIsOnComputer && Input.GetButtonDown("Jump"))))
             {
                 StartCoroutine(SkipThirdTuto());
                 bWaitSpace = false;
             }
-            if (b_tutoFinished && GoTuto3[2].transform.GetChild(1).gameObject.activeInHierarchy && ((!scPlayer.bIsOnComputer && scPlayer.control.GamePlay.Move.triggered) || (scPlayer.bIsOnComputer && Input.GetButtonDown("Jump"))))
+            if (b_tutoFinished && bTuto[5] && !bTuto[4] && ((!scPlayer.bIsOnComputer && scPlayer.control.GamePlay.Move.triggered) || (scPlayer.bIsOnComputer && Input.GetButtonDown("Jump"))))
             {
                 GoTuto3[0].transform.parent.gameObject.SetActive(false);
                 bWallToSee = true;
                 Time.timeScale = 1f;
+                scPlayer.bGameIsPaused = false;
+                scPlayer.PauseGame();
+                Debug.Log("time scale boolean passé");
             }
         }
-        if (b_tutoFinished && goCameraBackTrack[0].transform.position.z > 5.5f && ((goCameraBackTrack[0].transform.position.z == 28.5f && bWallToSee)||(goCameraBackTrack[0].transform.position.z != 28.5f && !bWallToSee)))
+        if (b_tutoFinished && goCameraBackTrack[0].transform.position.z > 28.5f && !bWallToSee) //b_tutoFinished && goCameraBackTrack[0].transform.position.z > 5.5f && ((goCameraBackTrack[0].transform.position.z == 28.5f && bWallToSee)||(goCameraBackTrack[0].transform.position.z != 28.5f && !bWallToSee))
         {
             Time.timeScale = 1f;
+            scPlayer.bGameIsPaused = false;
+            scPlayer.PauseGame();
+            Debug.Log("au dessus");
+            SetCartPosition(m_Position + m_Speed * Time.unscaledDeltaTime);
+        }
+        else if(b_tutoFinished && goCameraBackTrack[0].transform.position.z < 27.5f && bWallToSee)
+        {
+            Time.timeScale = 1f;
+            Debug.Log("time scale passed");
             SetCartPosition(m_Position + m_Speed * Time.unscaledDeltaTime);
         }
         if (b_tutoFinished && goCameraBackTrack[0].transform.position.z <= 6f)
@@ -91,9 +107,10 @@ public class sc_tuto_level1 : MonoBehaviour
     private IEnumerator StartFirst()
     {
         yield return new WaitForSecondsRealtime(1f);
+        bTuto[0] = true;
+        bWaitSpace = true;
         GoTuto1[0].SetActive(true);
         yield return new WaitForSecondsRealtime(2f);
-        bWaitSpace = true;
         UnityEngine.UI.Image img1 = GoTuto1[0].GetComponent<UnityEngine.UI.Image>();
         img1.sprite = spriteBubbleTuto1[0];
         GoTuto1[1].SetActive(true);
@@ -111,10 +128,12 @@ public class sc_tuto_level1 : MonoBehaviour
         yield return new WaitForSecondsRealtime(1f);
         GoTuto1[4].transform.GetChild(0).gameObject.SetActive(false);
         GoTuto1[4].transform.GetChild(1).gameObject.SetActive(true);
-        bWaitSpace = true;
+        bTuto[1] = true;
+        bTuto[0] = false;
     }
     private IEnumerator SkipFirstTuto()
     {
+        bWaitSpace = false;
         StopCoroutine(tutoCoroutine[0]);
         UnityEngine.UI.Image[] img = new UnityEngine.UI.Image[4];
         for (int i = 0; i < 4; i++)
@@ -125,14 +144,19 @@ public class sc_tuto_level1 : MonoBehaviour
         }
         GoTuto1[4].transform.GetChild(0).gameObject.SetActive(false);
         GoTuto1[4].transform.GetChild(1).gameObject.SetActive(true);
-        yield return new WaitForSecondsRealtime(0.5f);
+        yield return new WaitForSecondsRealtime(1f);
         bWaitSpace = true;
+        bTuto[1] = true;
+        bTuto[0] = false;
     }
     private IEnumerator StartSecond()
     {
+        bWaitSpace = false;
         GoTuto2[0].transform.parent.gameObject.SetActive(true);
         GoTuto2[0].gameObject.SetActive(true);
         yield return new WaitForSecondsRealtime(1f);
+        bTuto[2] = true;
+        bTuto[1] = false;
         bWaitSpace = true;
         UnityEngine.UI.Image img1 = GoTuto2[0].GetComponent<UnityEngine.UI.Image>();
         img1.sprite = spriteBubbleTuto2[0];
@@ -143,9 +167,8 @@ public class sc_tuto_level1 : MonoBehaviour
         yield return new WaitForSecondsRealtime(1f);
         GoTuto2[2].transform.GetChild(0).gameObject.SetActive(false);
         GoTuto2[2].transform.GetChild(1).gameObject.SetActive(true);
-        bWaitSpace = false;
-        b_tutoFinished = true;
-        GoTuto2[0].gameObject.SetActive(false);
+        bTuto[3] = true;
+        bTuto[2] = false;
     }
     private IEnumerator SkipTutoSecond()
     {
@@ -154,17 +177,32 @@ public class sc_tuto_level1 : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.5f);
         GoTuto2[0].gameObject.SetActive(false);
         GoTuto2[1].gameObject.SetActive(true);
-        UnityEngine.UI.Image img1 = GoTuto2[1].transform.GetChild(1).gameObject.GetComponent<UnityEngine.UI.Image>();
+        UnityEngine.UI.Image img1 = GoTuto2[1].GetComponent<UnityEngine.UI.Image>();
         img1.sprite = spriteBubbleTuto2[1];
         GoTuto2[2].transform.GetChild(0).gameObject.SetActive(false);
         GoTuto2[2].transform.GetChild(1).gameObject.SetActive(true);
         m_Speed = 20f;
-        b_tutoFinished = true;
+        bWaitSpace = true;
+        bTuto[3] = true;
+        bTuto[2] = false;
         //Il faut augmenter la vitesse du tuto
     }
-    public void ThirdTuto()
+    private void StartMidSecond()
     {
+        scPlayer.bGameIsPaused = false;
+        scPlayer.PauseGame();
+        GoTuto2[2].transform.GetChild(1).gameObject.SetActive(false);
+        GoTuto2[0].gameObject.SetActive(false);
+        bWaitSpace = false;
+        b_tutoFinished = true;
+        bTuto[3] = false;
+    }
+        public void ThirdTuto()
+    {
+        bTuto[4] = true;
         Time.timeScale = 0f;
+        scPlayer.bGameIsPaused = true;
+        scPlayer.PauseGame();
         Debug.Log("passer le mur");
         tutoCoroutine[2] = StartCoroutine(StartThird());
     }
@@ -184,6 +222,8 @@ public class sc_tuto_level1 : MonoBehaviour
         yield return new WaitForSecondsRealtime(1.5f);
         GoTuto3[2].transform.GetChild(0).gameObject.SetActive(false);
         GoTuto3[2].transform.GetChild(1).gameObject.SetActive(true);
+        bTuto[4] = false;
+        bTuto[5] = true;
         //Il faut augmenter la vitesse du tuto
     }
     private IEnumerator SkipThirdTuto()
@@ -199,10 +239,9 @@ public class sc_tuto_level1 : MonoBehaviour
         GoTuto3[2].transform.GetChild(0).gameObject.SetActive(false);
         GoTuto3[2].transform.GetChild(1).gameObject.SetActive(true);
         yield return new WaitForSecondsRealtime(2f);
-        GoTuto3[0].transform.parent.gameObject.SetActive(false);
+        bTuto[4] = false;
+        bTuto[5] = true;
         m_Speed = 20f; 
-        bWallToSee = true;
-        Time.timeScale = 1f;
         bWaitSpace = true;
     }
     private IEnumerator StartForth()
