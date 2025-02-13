@@ -1,0 +1,358 @@
+//[VFG_SmokeTrail] [System (1)] Update Particle Strip,3
+//Don't delete the previous line or this one
+#pragma kernel CSMain
+#pragma only_renderers d3d11 glcore gles3 metal vulkan xboxone xboxone xboxseries playstation ps5 switch
+
+
+#define NB_THREADS_PER_GROUP 64
+#define HAS_VFX_ATTRIBUTES 1
+#define VFX_PASSDEPTH_ACTUAL (0)
+#define VFX_PASSDEPTH_MOTION_VECTOR (1)
+#define VFX_PASSDEPTH_SELECTION (2)
+#define VFX_PASSDEPTH_PICKING (3)
+#define VFX_PASSDEPTH_SHADOW (4)
+#define VFX_USE_ALIVE_CURRENT 1
+#define VFX_USE_VELOCITY_CURRENT 1
+#define VFX_USE_POSITION_CURRENT 1
+#define VFX_USE_ALPHA_CURRENT 1
+#define VFX_USE_AGE_CURRENT 1
+#define VFX_USE_LIFETIME_CURRENT 1
+#define STRIP_COUNT 1000u
+#define PARTICLE_PER_STRIP_COUNT 500u
+#define RAW_CAPACITY 500000u
+#define HAS_STRIPS 1
+#define VFX_LOCAL_SPACE 1
+#include "Packages/com.unity.render-pipelines.universal/Runtime/VFXGraph/Shaders/VFXDefines.hlsl"
+#define VFX_USE_GRAPH_VALUES 1
+#define VFX_USE_INSTANCING 1
+#define VFX_INSTANCING_FIXED_SIZE 500032
+#define VFX_INSTANCING_ACTIVE_INDIRECTION 1
+#define VFX_INSTANCING_BATCH_INDIRECTION 1
+
+
+
+struct GraphValues
+{
+    bool _vfx_enabled_f;
+    float4 Alpha_a;
+    bool _vfx_enabled_g;
+    float deltaTime_a;
+    bool _vfx_enabled_h;
+};
+ByteAddressBuffer graphValuesBuffer;
+
+
+
+struct VFXAttributes
+{
+    bool alive;
+    float3 velocity;
+    float3 position;
+    float alpha;
+    float age;
+    float lifetime;
+};
+
+struct VFXSourceAttributes
+{
+};
+
+
+
+
+#define IndirectOutputType uint
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Strips tangent computation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#define USE_DEAD_LIST (VFX_USE_ALIVE_CURRENT && !HAS_STRIPS)
+
+RWByteAddressBuffer attributeBuffer;
+
+#if USE_DEAD_LIST
+RWStructuredBuffer<uint> deadListOut;
+RWStructuredBuffer<uint> deadListCount;
+#endif
+
+#if VFX_HAS_INDIRECT_DRAW
+RWStructuredBuffer<uint> indirectBuffer;
+#endif
+
+#if HAS_STRIPS
+RWStructuredBuffer<uint> stripDataBuffer;
+#endif
+
+#if VFX_USE_STRIPALIVE_CURRENT
+StructuredBuffer<uint> attachedStripDataBuffer;
+#endif
+
+CBUFFER_START(updateParamsConst)
+    uint dispatchWidth;
+    
+    float4 instancingConstants;
+    
+    float3 cameraXRSettings;
+CBUFFER_END
+
+#include "Packages/com.unity.visualeffectgraph/Shaders/Common/VFXCommonCompute.hlsl"
+#include "Packages/com.unity.visualeffectgraph/Shaders/VFXCommon.hlsl"
+
+
+
+#if VFX_HAS_INDIRECT_DRAW
+
+void AppendOutputBuffer(RWStructuredBuffer<IndirectOutputType> outputBuffer, IndirectOutputType output, uint instanceActiveIndex)
+{
+    uint indirectIndex;
+#if VFX_FEATURE_SORT
+    InterlockedAdd(outputBuffer[instanceActiveIndex].index, 1, indirectIndex);
+#else
+    InterlockedAdd(outputBuffer[instanceActiveIndex], 1, indirectIndex);
+#endif
+    indirectIndex += instancingBatchSize + instanceActiveIndex * RAW_CAPACITY;
+    outputBuffer[indirectIndex] = output;
+}
+
+#endif
+
+void AttributeFromCurve_7BA3F6A(inout float alpha, float age, float lifetime, float4 Alpha) /*attribute:alpha Composition:Overwrite AlphaComposition:Overwrite SampleMode:OverLife Mode:PerComponent ColorMode:ColorAndAlpha channels:XYZ */
+{
+    float t = age / lifetime;
+    float value = 0.0f;
+    value = SampleCurve(Alpha, t);
+    alpha = value;
+}
+void EulerIntegration(inout float3 position, float3 velocity, float deltaTime)
+{
+    position += velocity * deltaTime;
+}
+void Age(inout float age, float deltaTime)
+{
+    age += deltaTime;
+}
+
+
+
+
+
+[numthreads(NB_THREADS_PER_GROUP,1,1)]
+void CSMain(uint3 groupId          : SV_GroupID,
+            uint3 groupThreadId    : SV_GroupThreadID)
+{
+	uint id = GetThreadId(groupId, groupThreadId, dispatchWidth);
+
+	
+	uint instanceIndex, instanceActiveIndex, instanceCurrentIndex;
+	#if defined(VFX_INSTANCING_FIXED_SIZE)
+		uint index = GetThreadId(groupId, 0, dispatchWidth);
+		index = VFXInitInstancing(index, instanceIndex, instanceActiveIndex, instanceCurrentIndex);
+		index += groupThreadId.x;
+	#else
+		uint index = VFXInitInstancing(id, instanceIndex, instanceActiveIndex, instanceCurrentIndex);
+	#endif
+	
+	
+
+	ContextData contextData = instancingContextData[instanceActiveIndex];
+	uint systemSeed = contextData.systemSeed;
+	uint nbMax = contextData.maxParticleCount;
+
+#if VFX_COMPUTE_BOUNDS
+	uint tid = groupThreadId.x;
+#endif
+
+	if (index < nbMax)
+	{
+        GraphValues graphValues;
+        
+        graphValues.Alpha_a = asfloat(graphValuesBuffer.Load4(instanceActiveIndex * 96  + 0));
+        graphValues._vfx_enabled_f = (bool)graphValuesBuffer.Load(instanceActiveIndex * 96  + 68);
+        graphValues._vfx_enabled_g = (bool)graphValuesBuffer.Load(instanceActiveIndex * 96  + 72);
+        graphValues.deltaTime_a = asfloat(graphValuesBuffer.Load(instanceActiveIndex * 96  + 76));
+        graphValues._vfx_enabled_h = (bool)graphValuesBuffer.Load(instanceActiveIndex * 96  + 80);
+        
+
+
+        VFXAttributes attributes = (VFXAttributes)0;
+		VFXSourceAttributes sourceAttributes = (VFXSourceAttributes)0;
+
+#if VFX_USE_ALIVE_CURRENT
+		attributes.alive = (attributeBuffer.Load(((instanceIndex * 0x53EDC0) + (index * 0x4 + 0x3)) << 2));
+		
+
+		if (attributes.alive)
+		{
+			attributes.velocity = asfloat(attributeBuffer.Load3(((instanceIndex * 0x53EDC0) + (index * 0x4 + 0x0)) << 2));
+			attributes.position = asfloat(attributeBuffer.Load3(((instanceIndex * 0x53EDC0) + (index * 0x4 + 0x262640)) << 2));
+			attributes.alpha = asfloat(attributeBuffer.Load(((instanceIndex * 0x53EDC0) + (index * 0x1 + 0x44AB40)) << 2));
+			attributes.age = asfloat(attributeBuffer.Load(((instanceIndex * 0x53EDC0) + (index * 0x1 + 0x4C4C80)) << 2));
+			attributes.lifetime = (float)1;
+			
+
+
+#if HAS_STRIPS
+            const StripData stripData = GetStripDataFromParticleIndex(index, instanceIndex);
+            InitStripAttributes(index, attributes, stripData);
+            uint stripDataIndex = stripData.stripIndex + instanceIndex * STRIP_COUNT;
+#endif
+
+#if VFX_UPDATE_SKIP_ZERO_DELTA_TIME
+			
+			if (deltaTime != 0.0f)
+#endif
+			{
+				if (graphValues._vfx_enabled_f)
+				{
+				    AttributeFromCurve_7BA3F6A( /*inout */attributes.alpha, attributes.age, attributes.lifetime, graphValues.Alpha_a);
+				}
+				if (graphValues._vfx_enabled_g)
+				{
+				    EulerIntegration( /*inout */attributes.position, attributes.velocity, graphValues.deltaTime_a);
+				}
+				if (graphValues._vfx_enabled_h)
+				{
+				    Age( /*inout */attributes.age, graphValues.deltaTime_a);
+				}
+				
+
+			}
+
+			if (attributes.alive)
+			{
+				attributeBuffer.Store3(((instanceIndex * 0x53EDC0) + (index * 0x4 + 0x262640)) << 2,asuint(attributes.position));
+				attributeBuffer.Store(((instanceIndex * 0x53EDC0) + (index * 0x1 + 0x44AB40)) << 2,asuint(attributes.alpha));
+				attributeBuffer.Store(((instanceIndex * 0x53EDC0) + (index * 0x1 + 0x4C4C80)) << 2,asuint(attributes.age));
+				
+
+#if VFX_HAS_INDIRECT_DRAW
+                AppendOutputBuffer(indirectBuffer, index, instanceActiveIndex);
+#endif
+
+#if HAS_STRIPS
+				uint relativeIndexInStrip = GetRelativeIndex(index, stripData);
+				InterlockedMin(STRIP_DATA(STRIP_MIN_ALIVE, stripDataIndex), relativeIndexInStrip);
+				InterlockedMax(STRIP_DATA(STRIP_MAX_ALIVE, stripDataIndex), relativeIndexInStrip);
+#endif
+			}
+			else
+			{
+				
+#if USE_DEAD_LIST && !VFX_USE_STRIPALIVE_CURRENT
+	            uint deadIndex;
+		        InterlockedAdd(deadListCount[instanceIndex], 1, deadIndex);
+				deadIndex += instanceIndex * RAW_CAPACITY;
+				deadListOut[deadIndex] = index;
+#endif
+			}
+		}
+#if USE_DEAD_LIST && VFX_USE_STRIPALIVE_CURRENT
+        else if (attributes.stripAlive)
+        {
+            if (STRIP_DATA_X(attachedStripDataBuffer, STRIP_MIN_ALIVE, index) == ~1) // Attached strip is no longer alive, recycle the particle
+            {
+	            uint deadIndex;
+		        InterlockedAdd(deadListCount[instanceIndex], 1, deadIndex);
+				deadIndex += instanceIndex * RAW_CAPACITY;
+				deadListOut[deadIndex] = index;
+                attributes.stripAlive = false;
+                
+            }
+        }
+#endif
+#else
+		attributes.alive = (attributeBuffer.Load(((instanceIndex * 0x53EDC0) + (index * 0x4 + 0x3)) << 2));
+		attributes.velocity = asfloat(attributeBuffer.Load3(((instanceIndex * 0x53EDC0) + (index * 0x4 + 0x0)) << 2));
+		attributes.position = asfloat(attributeBuffer.Load3(((instanceIndex * 0x53EDC0) + (index * 0x4 + 0x262640)) << 2));
+		attributes.alpha = asfloat(attributeBuffer.Load(((instanceIndex * 0x53EDC0) + (index * 0x1 + 0x44AB40)) << 2));
+		attributes.age = asfloat(attributeBuffer.Load(((instanceIndex * 0x53EDC0) + (index * 0x1 + 0x4C4C80)) << 2));
+		attributes.lifetime = (float)1;
+		
+
+#if HAS_STRIPS
+        const StripData stripData = GetStripDataFromParticleIndex(index, instanceIndex);
+        InitStripAttributes(index, attributes, stripData);
+#endif
+
+#if VFX_UPDATE_SKIP_ZERO_DELTA_TIME
+		
+		if (deltaTime != 0.0f)
+#endif
+		{
+			if (graphValues._vfx_enabled_f)
+			{
+			    AttributeFromCurve_7BA3F6A( /*inout */attributes.alpha, attributes.age, attributes.lifetime, graphValues.Alpha_a);
+			}
+			if (graphValues._vfx_enabled_g)
+			{
+			    EulerIntegration( /*inout */attributes.position, attributes.velocity, graphValues.deltaTime_a);
+			}
+			if (graphValues._vfx_enabled_h)
+			{
+			    Age( /*inout */attributes.age, graphValues.deltaTime_a);
+			}
+			
+
+		}
+		attributeBuffer.Store3(((instanceIndex * 0x53EDC0) + (index * 0x4 + 0x262640)) << 2,asuint(attributes.position));
+		attributeBuffer.Store(((instanceIndex * 0x53EDC0) + (index * 0x1 + 0x44AB40)) << 2,asuint(attributes.alpha));
+		attributeBuffer.Store(((instanceIndex * 0x53EDC0) + (index * 0x1 + 0x4C4C80)) << 2,asuint(attributes.age));
+		
+
+#if VFX_HAS_INDIRECT_DRAW
+        AppendOutputBuffer(indirectBuffer, index, instanceActiveIndex);
+#endif
+#endif
+#if VFX_COMPUTE_BOUNDS
+		
+		float3 size3 = float3(attributes.size,attributes.size,attributes.size);
+		#if VFX_USE_SCALEX_CURRENT
+		size3.x *= attributes.scaleX;
+		#endif
+		#if VFX_USE_SCALEY_CURRENT
+		size3.y *= attributes.scaleY;
+		#endif
+		#if VFX_USE_SCALEZ_CURRENT
+		size3.z *= attributes.scaleZ;
+		#endif
+		
+#if VFX_WORLD_SPACE
+        
+#else
+        float4x4 worldToLocal = (float4x4)0;
+#endif
+		InitReduction(attributes, size3, tid, instanceIndex, worldToLocal);
+#endif
+
+	}
+	#if VFX_COMPUTE_BOUNDS
+	PerformBoundsReduction(index, tid, instanceIndex, nbMax);
+	#endif
+}

@@ -1,0 +1,376 @@
+//[VFG_SmokeTrail] [System] Initialize Particle,0
+//Don't delete the previous line or this one
+#pragma kernel CSMain
+#pragma only_renderers d3d11 glcore gles3 metal vulkan xboxone xboxone xboxseries playstation ps5 switch
+
+
+#define NB_THREADS_PER_GROUP 64
+#define HAS_VFX_ATTRIBUTES 1
+#define VFX_PASSDEPTH_ACTUAL (0)
+#define VFX_PASSDEPTH_MOTION_VECTOR (1)
+#define VFX_PASSDEPTH_SELECTION (2)
+#define VFX_PASSDEPTH_PICKING (3)
+#define VFX_PASSDEPTH_SHADOW (4)
+#define VFX_USE_LIFETIME_CURRENT 1
+#define VFX_USE_SEED_CURRENT 1
+#define VFX_USE_POSITION_CURRENT 1
+#define VFX_USE_DIRECTION_CURRENT 1
+#define VFX_USE_VELOCITY_CURRENT 1
+#define VFX_USE_RATECOUNT_A_CURRENT 1
+#define VFX_USE_AGE_CURRENT 1
+#define VFX_USE_ALIVE_CURRENT 1
+#define VFX_USE_STRIPALIVE_CURRENT 1
+#define RAW_CAPACITY 32u
+#define VFX_STATIC_SOURCE_COUNT (1)
+#define VFX_LOCAL_SPACE 1
+#include "Packages/com.unity.render-pipelines.universal/Runtime/VFXGraph/Shaders/VFXDefines.hlsl"
+#define VFX_USE_GRAPH_VALUES 1
+#define VFX_USE_INSTANCING 1
+#define VFX_INSTANCING_VARIABLE_SIZE 1
+#define VFX_INSTANCING_ACTIVE_INDIRECTION 1
+#define VFX_INSTANCING_BATCH_INDIRECTION 1
+
+
+
+struct GraphValues
+{
+    bool _vfx_enabled_a;
+    float A_a;
+    float B_a;
+    bool _vfx_enabled_b;
+    float rNorm_a;
+    float uniform_a;
+    float4x4 transform_a;
+    float4x4 inverseTranspose_a;
+    bool _vfx_enabled_c;
+    float3 A_b;
+    float3 B_b;
+};
+ByteAddressBuffer graphValuesBuffer;
+
+
+
+struct VFXAttributes
+{
+    float lifetime;
+    uint seed;
+    float3 position;
+    float3 direction;
+    float3 velocity;
+    float rateCount_a;
+    float age;
+    bool alive;
+    bool stripAlive;
+};
+
+struct VFXSourceAttributes
+{
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Strips tangent computation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#define USE_DEAD_LIST (VFX_USE_ALIVE_CURRENT && !HAS_STRIPS)
+
+#define USE_PREFIX_SUM_SPAWNCOUNT ((VFX_STATIC_SOURCE_COUNT > 1) || (VFX_USE_DYNAMIC_SOURCE_COUNT) || VFX_USE_INSTANCING)
+
+RWByteAddressBuffer attributeBuffer;
+ByteAddressBuffer sourceAttributeBuffer;
+#if USE_PREFIX_SUM_SPAWNCOUNT
+StructuredBuffer<uint> spawnCountPrefixSum;
+#endif
+
+#if !VFX_USE_SPAWNER_FROM_GPU
+    struct InitParams
+    {
+        uint spawnIndex;
+        uint3 _pad;
+    };
+
+    StructuredBuffer<uint> eventCountPrefixSum;
+    StructuredBuffer<InitParams> batchedInitParams;
+#endif
+
+CBUFFER_START(initParamsConst)
+    uint dispatchWidth;
+    
+    float4 instancingConstants;
+    
+CBUFFER_END
+
+#if USE_DEAD_LIST
+RWStructuredBuffer<uint> deadListIn;
+RWStructuredBuffer<uint> deadListCount;
+StructuredBuffer<uint> deadListCountCopy;
+#endif
+
+#if VFX_USE_SPAWNER_FROM_GPU
+StructuredBuffer<uint> eventList;
+#endif
+
+#if HAS_STRIPS
+RWStructuredBuffer<uint> stripDataBuffer;
+#endif
+
+#include "Packages/com.unity.visualeffectgraph/Shaders/Common/VFXCommonCompute.hlsl"
+#include "Packages/com.unity.visualeffectgraph/Shaders/VFXCommon.hlsl"
+
+
+
+void SetAttribute_F01429A3(inout float lifetime, inout uint seed, float A, float B) /*attribute:lifetime Composition:Overwrite Source:Slot Random:Uniform channels:XYZ */
+{
+    lifetime = lerp(A,B,RAND);
+}
+void PositionCircle_0(inout float3 position, inout uint seed, inout float3 direction, float rNorm, float sinTheta, float cosTheta, float4x4 transform, float4x4 inverseTranspose) /*compositionPosition:Overwrite compositionAxes:Overwrite compositionDirection:Overwrite positionMode:Surface spawnMode:Random */
+{
+    
+    float3 finalDir = float3(sinTheta, cosTheta, 0.0f);
+    float3 finalPos = float3(sinTheta, cosTheta, 0.0f) * rNorm;
+    finalPos = mul(transform, float4(finalPos, 1.0f)).xyz;
+    finalDir = mul(inverseTranspose, float4(finalDir, 0.0f)).xyz;
+    finalDir = normalize(finalDir);
+    direction = finalDir;
+    
+    position = finalPos;
+    
+    
+}
+void SetAttribute_E6295C0(inout float3 velocity, inout uint seed, float3 A, float3 B) /*attribute:velocity Composition:Overwrite Source:Slot Random:PerComponent channels:XYZ */
+{
+    velocity = lerp(A,B,RAND3);
+}
+
+
+
+#if HAS_STRIPS
+bool GetParticleIndex(inout uint particleIndex, uint stripIndex, uint instanceIndex, uint stripCountPerInstance )
+{
+    uint relativeIndex;
+    uint bufferIndex = (instanceIndex * stripCountPerInstance) + stripIndex;
+
+    InterlockedAdd(STRIP_DATA(STRIP_NEXT_INDEX, bufferIndex), 1, relativeIndex);
+    bool isFull = relativeIndex >= PARTICLE_PER_STRIP_COUNT;
+    if (isFull)
+    {
+        InterlockedAdd(STRIP_DATA(STRIP_NEXT_INDEX, bufferIndex), -1); // Remove previous increment
+    }
+    else
+    {
+        particleIndex = stripIndex * PARTICLE_PER_STRIP_COUNT + ((STRIP_DATA(STRIP_FIRST_INDEX, bufferIndex) + relativeIndex) % PARTICLE_PER_STRIP_COUNT);
+    }
+
+    return !isFull;
+}
+#endif
+
+[numthreads(NB_THREADS_PER_GROUP,1,1)]
+void CSMain(uint3 groupId          : SV_GroupID,
+            uint3 groupThreadId    : SV_GroupThreadID)
+{
+    uint id = groupThreadId.x + groupId.x * NB_THREADS_PER_GROUP;
+#if !VFX_USE_SPAWNER_FROM_GPU
+    id += groupId.y * dispatchWidth * NB_THREADS_PER_GROUP;
+#endif
+    
+    uint instanceIndex, instanceActiveIndex, instanceCurrentIndex;
+    #if defined(VFX_INSTANCING_FIXED_SIZE)
+    	uint index = GetThreadId(groupId, 0, dispatchWidth);
+    	index = VFXInitInstancing(index, instanceIndex, instanceActiveIndex, instanceCurrentIndex);
+    	index += groupThreadId.x;
+    #else
+    	uint index = VFXInitInstancing(id, instanceIndex, instanceActiveIndex, instanceCurrentIndex);
+    #endif
+    
+    
+
+	ContextData contextData = instancingContextData[instanceActiveIndex];
+	uint systemSeed = contextData.systemSeed;
+
+    GraphValues graphValues;
+    
+    graphValues.transform_a._m00_m10_m20_m30 = asfloat(graphValuesBuffer.Load4(instanceActiveIndex * 208  + 0));
+    graphValues.transform_a._m01_m11_m21_m31 = asfloat(graphValuesBuffer.Load4(instanceActiveIndex * 208  + 16));
+    graphValues.transform_a._m02_m12_m22_m32 = asfloat(graphValuesBuffer.Load4(instanceActiveIndex * 208  + 32));
+    graphValues.transform_a._m03_m13_m23_m33 = asfloat(graphValuesBuffer.Load4(instanceActiveIndex * 208  + 48));
+    graphValues.inverseTranspose_a._m00_m10_m20_m30 = asfloat(graphValuesBuffer.Load4(instanceActiveIndex * 208  + 64));
+    graphValues.inverseTranspose_a._m01_m11_m21_m31 = asfloat(graphValuesBuffer.Load4(instanceActiveIndex * 208  + 80));
+    graphValues.inverseTranspose_a._m02_m12_m22_m32 = asfloat(graphValuesBuffer.Load4(instanceActiveIndex * 208  + 96));
+    graphValues.inverseTranspose_a._m03_m13_m23_m33 = asfloat(graphValuesBuffer.Load4(instanceActiveIndex * 208  + 112));
+    graphValues.A_b = asfloat(graphValuesBuffer.Load3(instanceActiveIndex * 208  + 128));
+    graphValues._vfx_enabled_a = (bool)graphValuesBuffer.Load(instanceActiveIndex * 208  + 140);
+    graphValues.B_b = asfloat(graphValuesBuffer.Load3(instanceActiveIndex * 208  + 144));
+    graphValues.A_a = asfloat(graphValuesBuffer.Load(instanceActiveIndex * 208  + 156));
+    graphValues.B_a = asfloat(graphValuesBuffer.Load(instanceActiveIndex * 208  + 160));
+    graphValues._vfx_enabled_b = (bool)graphValuesBuffer.Load(instanceActiveIndex * 208  + 164);
+    graphValues.rNorm_a = asfloat(graphValuesBuffer.Load(instanceActiveIndex * 208  + 168));
+    graphValues.uniform_a = asfloat(graphValuesBuffer.Load(instanceActiveIndex * 208  + 172));
+    graphValues._vfx_enabled_c = (bool)graphValuesBuffer.Load(instanceActiveIndex * 208  + 176);
+    
+
+
+#if VFX_USE_SPAWNER_FROM_GPU
+    uint elementCount = eventList[VFXGetEventListBufferElementCount(instanceActiveIndex)];
+    uint totalAccumulatedElementCount = eventList[VFXGetEventListBufferAccumulatedCount(instanceActiveIndex)];
+    uint maxThreadId = min(contextData.maxParticleCount, elementCount);
+    uint currentSpawnIndex = totalAccumulatedElementCount - elementCount;
+#else
+    InitParams initParams = batchedInitParams[instanceActiveIndex];
+
+    uint nbEvents = eventCountPrefixSum[instanceActiveIndex];
+    [branch]
+    if (instanceActiveIndex > 0u)
+    {
+        nbEvents -= eventCountPrefixSum[instanceActiveIndex - 1];
+    }
+
+    uint maxThreadId = instancingPrefixSum[instanceCurrentIndex];
+    [branch]
+    if (instanceCurrentIndex > instancingCurrentOffset)
+    {
+        maxThreadId -= instancingPrefixSum[instanceCurrentIndex - 1];
+    }
+
+    uint currentSpawnIndex = initParams.spawnIndex;
+#endif
+
+#if USE_DEAD_LIST
+    maxThreadId = min(maxThreadId, deadListCountCopy[instanceIndex]);
+#endif
+
+    if (index < maxThreadId)
+    {
+#if VFX_USE_SPAWNER_FROM_GPU
+        int sourceIndex = eventList[VFXGetEventListBufferIndex(id, instanceActiveIndex)];
+#endif
+
+        uint startEventIndex = 0u; //tmp for GPU Events
+#if !VFX_USE_SPAWNER_FROM_GPU
+        int sourceIndex = 0;
+
+        startEventIndex = 0u;
+        [branch]
+        if (instanceActiveIndex > 0u)
+        {
+            startEventIndex = eventCountPrefixSum[instanceActiveIndex - 1];
+        }
+        #if USE_PREFIX_SUM_SPAWNCOUNT
+            sourceIndex = BinarySearchPrefixSum(index, spawnCountPrefixSum, startEventIndex, startEventIndex + nbEvents) - startEventIndex;
+        #endif
+
+#endif
+
+		VFXAttributes attributes = (VFXAttributes)0;
+		VFXSourceAttributes sourceAttributes = (VFXSourceAttributes)0;
+
+        attributes.lifetime = (float)1;
+        attributes.seed = (uint)0;
+        attributes.position = float3(0, 0, 0);
+        attributes.direction = float3(0, 0, 1);
+        attributes.velocity = float3(0, 0, 0);
+        attributes.rateCount_a = (float)0;
+        attributes.age = (float)0;
+        attributes.alive = (bool)true;
+        attributes.stripAlive = (bool)true;
+        
+
+
+		uint particleIndex = index + currentSpawnIndex;
+#if VFX_USE_PARTICLEID_CURRENT
+         attributes.particleId = particleIndex;
+#endif
+#if VFX_USE_SEED_CURRENT
+        attributes.seed = WangHash(particleIndex ^ systemSeed);
+#endif
+#if VFX_USE_SPAWNINDEX_CURRENT
+        attributes.spawnIndex = id;
+#endif
+#if HAS_STRIPS
+#if !VFX_USE_SPAWNER_FROM_GPU
+		
+#else
+        uint stripIndex = sourceIndex;
+#endif
+		stripIndex = min(stripIndex, STRIP_COUNT);
+
+        if (!GetParticleIndex(particleIndex, stripIndex, instanceIndex, STRIP_COUNT))
+            return;
+
+        const StripData stripData = GetStripDataFromStripIndex(stripIndex, instanceIndex);
+		InitStripAttributesWithSpawn(maxThreadId, particleIndex, attributes, stripData);
+		// TODO Change seed to be sure we're deterministic on random with strip
+#endif
+
+        if (graphValues._vfx_enabled_a)
+        {
+            SetAttribute_F01429A3( /*inout */attributes.lifetime,  /*inout */attributes.seed, graphValues.A_a, graphValues.B_a);
+        }
+        if (graphValues._vfx_enabled_b)
+        {
+            float tmp_v = Rand(attributes.seed);
+            float tmp_w = graphValues.uniform_a * tmp_v;
+            float tmp_x = sin(tmp_w);
+            float tmp_y = cos(tmp_w);
+            PositionCircle_0( /*inout */attributes.position,  /*inout */attributes.seed,  /*inout */attributes.direction, graphValues.rNorm_a, tmp_x, tmp_y, graphValues.transform_a, graphValues.inverseTranspose_a);
+        }
+        if (graphValues._vfx_enabled_c)
+        {
+            SetAttribute_E6295C0( /*inout */attributes.velocity,  /*inout */attributes.seed, graphValues.A_b, graphValues.B_b);
+        }
+        
+
+
+#if VFX_USE_ALIVE_CURRENT
+        if (attributes.alive)
+#endif
+        {
+#if USE_DEAD_LIST
+            uint deadIndex;
+            InterlockedAdd(deadListCount[instanceIndex], -1, deadIndex);
+            deadIndex -= 1;
+            deadIndex += instanceIndex * RAW_CAPACITY;
+            uint index = deadListIn[deadIndex];
+#else
+            uint index = particleIndex;
+#endif
+            attributeBuffer.Store(((instanceIndex * 0x180) + (index * 0x4 + 0x3)) << 2,asuint(attributes.lifetime));
+            attributeBuffer.Store3(((instanceIndex * 0x180) + (index * 0x8 + 0x80)) << 2,asuint(attributes.position));
+            attributeBuffer.Store3(((instanceIndex * 0x180) + (index * 0x4 + 0x0)) << 2,asuint(attributes.velocity));
+            attributeBuffer.Store(((instanceIndex * 0x180) + (index * 0x8 + 0x83)) << 2,asuint(attributes.rateCount_a));
+            attributeBuffer.Store(((instanceIndex * 0x180) + (index * 0x8 + 0x84)) << 2,asuint(attributes.age));
+            attributeBuffer.Store(((instanceIndex * 0x180) + (index * 0x8 + 0x85)) << 2,uint(attributes.alive));
+            attributeBuffer.Store(((instanceIndex * 0x180) + (index * 0x8 + 0x86)) << 2,uint(attributes.stripAlive));
+            
+
+        }
+    }
+}
