@@ -7051,6 +7051,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -182.027
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 7cd445fd1fe739748aab34c47b1949df,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 87bfb6a973688d34e91044fc8e75a81d, type: 2}
     - target: {fileID: 919132149155446097, guid: 7cd445fd1fe739748aab34c47b1949df,
         type: 3}
       propertyPath: m_Name
@@ -14450,6 +14455,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 2211b500d4249c943a5f48d97a06ab8d,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 06bbcc94ad8913a458b28fc81a8ebc7b, type: 2}
     - target: {fileID: 919132149155446097, guid: 2211b500d4249c943a5f48d97a06ab8d,
         type: 3}
       propertyPath: m_Name
@@ -20419,10 +20429,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -184.65
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: f70cbdabdfc141d4d92db28cf6ceb40e,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 87bfb6a973688d34e91044fc8e75a81d, type: 2}
     - target: {fileID: 919132149155446097, guid: f70cbdabdfc141d4d92db28cf6ceb40e,
         type: 3}
       propertyPath: m_Name
-      value: OB_P_Hot_Dog_001A
+      value: _Hot_Dog_001A001A
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -26874,6 +26889,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 169.302
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 46cba3a0be418fb4cb01a7d305dc842e,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 672ff9cfff271bc4cadb3b75d27d9fe5, type: 2}
     - target: {fileID: 919132149155446097, guid: 46cba3a0be418fb4cb01a7d305dc842e,
         type: 3}
       propertyPath: m_Name
