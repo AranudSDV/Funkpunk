@@ -21,7 +21,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
-  m_LockedProperties: 
+  m_LockedProperties: _MainTexTiling
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -54,7 +54,7 @@ Material:
     - _2Alphas: 1
     - _Alpha: 1
     - _AlphaCutoff: 0.5
-    - _Alphacliptresh: 0.0001
+    - _Alphacliptresh: 0.001
     - _IsVerticalOrLateral: 1
     - _IsVerticalOrLateral1: 0
     - _QueueControl: 0

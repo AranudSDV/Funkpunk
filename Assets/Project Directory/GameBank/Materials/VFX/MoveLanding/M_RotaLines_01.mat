@@ -27,7 +27,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _DissolveTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 2d6feab26a948a540b313c2253379a91, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -55,7 +55,7 @@ Material:
     - _2Alphas: 1
     - _Alpha: 1
     - _AlphaCutoff: 0.5
-    - _Alphacliptresh: 0
+    - _Alphacliptresh: 0.09
     - _IsVerticalOrLateral: 1
     - _IsVerticalOrLateral1: 0
     - _QueueControl: 0
