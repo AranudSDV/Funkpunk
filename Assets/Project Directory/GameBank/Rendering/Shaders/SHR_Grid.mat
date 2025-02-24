@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_LandingCylinder_01A 1
-  m_Shader: {fileID: 4800000, guid: 7a05bef0144df2a4bb13a8cb2470e854, type: 3}
+  m_Name: SHR_Grid
+  m_Shader: {fileID: 4800000, guid: 9014b0639d96a4a40826a1e26e4aa861, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -23,18 +23,6 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _DissolveTex:
-        m_Texture: {fileID: 2800000, guid: 2d6feab26a948a540b313c2253379a91, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 8333fa25112773a4cbeff5797a46b082, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _texcoord:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -49,18 +37,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _2Alphas: 0
-    - _Alpha: 1
+    - _Alpha: 0.14
     - _AlphaCutoff: 0.5
-    - _Alphacliptresh: 0.1
-    - _BaseOpacity: 1
-    - _IsVerticalOrLateral: 0
+    - _Alphaclip: 0.02
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _UpLorDownR: 0
+    - _ShapeSize: 0.96
+    - _SubSquareSize: 0.99
+    - _TrueSquareSize: 0.98
     m_Colors:
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _MainColor: {r: 3.9999998, g: 3.9999998, b: 3.9999998, a: 0}
-    - _MainTexOffset: {r: 0, g: 0, b: 0, a: 0}
-    - _MainTexTiling: {r: 2, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
