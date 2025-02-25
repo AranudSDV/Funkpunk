@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.24860802, g: 0.3886792, b: 0.26193556, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 3637641017fb9d843a00a56e9f6b44dd, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -5576,7 +5576,7 @@ PrefabInstance:
         type: 3}
       propertyPath: VFXsteps
       value: 
-      objectReference: {fileID: 989362430}
+      objectReference: {fileID: 0}
     - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: LMask.m_Bits
@@ -5719,12 +5719,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f6dccb1b8f1cc9e41806fcc683003cb7, type: 3}
---- !u!1 &989362430 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6948782931126694734, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
-    type: 3}
-  m_PrefabInstance: {fileID: 989362429}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &989362431 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9121296702372304279, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
@@ -5769,7 +5763,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1007357399}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.6145184, y: 0.00000010650524, z: -0.00000008296262, w: 0.7889025}
+  m_LocalRotation: {x: 0.6145184, y: -0.00000010650524, z: 0.00000008296262, w: 0.7889025}
   m_LocalPosition: {x: 4.013, y: 13.97, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6271,7 +6265,7 @@ Light:
   m_Color: {r: 0.97735846, g: 0.8672673, b: 0.610388, a: 1}
   m_Intensity: 10
   m_Range: 10
-  m_SpotAngle: 128.68925
+  m_SpotAngle: 70.34104
   m_InnerSpotAngle: 51.120117
   m_CookieSize: 10
   m_Shadows:
@@ -7368,7 +7362,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1222981277}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.6145184, y: 0.00000010650524, z: -0.00000008296262, w: 0.7889025}
+  m_LocalRotation: {x: 0.6145184, y: -0.00000010650524, z: 0.00000008296262, w: 0.7889025}
   m_LocalPosition: {x: 4.013, y: 13.97, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
