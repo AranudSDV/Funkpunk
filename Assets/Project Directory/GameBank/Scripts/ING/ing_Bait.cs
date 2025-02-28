@@ -38,6 +38,7 @@ public class ing_Bait : MonoBehaviour
     [SerializeField] private Vector3 fPosBase_impact;
     [SerializeField] private GameObject Go_vfxTrail;
     [SerializeField] private Vector3 fPosBase_trail;
+    private ParticleSystem PS_trail;
     private ParticleSystem PS_smash;
     private ParticleSystem PS_Impact;
 
@@ -45,12 +46,16 @@ public class ing_Bait : MonoBehaviour
     private bool b_BeenThrown = false;
     private bool bOnce = false;
 
-    private void Awake()
+    private void Start()
     {
+        PS_trail = Go_vfxTrail.transform.gameObject.GetComponent<ParticleSystem>();
         PS_smash = Go_vfx_Smash.transform.gameObject.GetComponent<ParticleSystem>();
         PS_Impact = Go_vfx_Impact.transform.gameObject.GetComponent<ParticleSystem>();
         bOnce = false;
         beginY = this.transform.position.y;
+        PS_Impact.Stop();
+        PS_smash.Stop();
+        PS_trail.Stop();
     }
     GameObject[] DetectObjects()
     {
@@ -153,6 +158,7 @@ public class ing_Bait : MonoBehaviour
                 elapsedseconds += Time.deltaTime;
                 float interpolationRatio = elapsedseconds / (bpmManager.FSPB / 2);
                 transform.position = Vector3.Lerp(this.transform.position, midPos, interpolationRatio);
+                Go_vfxTrail.transform.position = Vector3.Lerp(this.transform.position, midPos, interpolationRatio);
                 this.transform.GetChild(0).gameObject.transform.position = Vector3.Lerp(this.transform.position, midPos, interpolationRatio);
                 if (interpolationRatio >= 1f)
                 {
@@ -166,6 +172,7 @@ public class ing_Bait : MonoBehaviour
                 elapsedseconds += Time.deltaTime;
                 float interpolationRatio = elapsedseconds / (bpmManager.FSPB / 2);
                 transform.position = Vector3.Lerp(this.transform.position, newPos, interpolationRatio);
+                Go_vfxTrail.transform.position = Vector3.Lerp(this.transform.position, newPos, interpolationRatio);
                 this.transform.GetChild(0).gameObject.transform.position = Vector3.Lerp(this.transform.position, newPos, interpolationRatio);
                 if (interpolationRatio >= 0.99f)
                 {
@@ -198,8 +205,10 @@ public class ing_Bait : MonoBehaviour
         Go_vfx_Smash.transform.localPosition = fPosBase_smash;
         Go_vfx_Smash.transform.position += scPlayer.lastMoveDirection;
         Go_vfxTrail.transform.localPosition = fPosBase_trail;
+        PS_trail.Play();
         PS_smash.Play();
         yield return new WaitForSeconds(0.5f);
+        PS_trail.Stop();
         PS_smash.Stop();
         Go_vfx_Smash.transform.localPosition = new Vector3(fPosBase_smash.x, fPosBase_smash.y + 50f, fPosBase_smash.z);
         yield return new WaitForSeconds(0.5f);

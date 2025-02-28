@@ -490,7 +490,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &26573615
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2077,6 +2077,12 @@ MonoBehaviour:
   m_Damping: 1
   m_MinFOV: 55
   m_MaxFOV: 57
+--- !u!1 &700393078 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2909813038032978573, guid: 481679da37c5830468e32f02138b149a,
+    type: 3}
+  m_PrefabInstance: {fileID: 1191068190}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &701590042
 Mesh:
   m_ObjectHideFlags: 0
@@ -4751,7 +4757,17 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 60b0eca5a8bb9d74499cef5db94f818c, type: 2}
     - target: {fileID: 4689554887212002435, guid: 481679da37c5830468e32f02138b149a,
         type: 3}
+      propertyPath: Go_vfxTrail
+      value: 
+      objectReference: {fileID: 700393078}
+    - target: {fileID: 4689554887212002435, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
       propertyPath: b_BeenThrown
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4689554887212002435, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
+      propertyPath: fPosBase_trail.z
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4689554887212002435, guid: 481679da37c5830468e32f02138b149a,
@@ -8372,17 +8388,17 @@ PrefabInstance:
     - target: {fileID: 2089493221176347592, guid: 481679da37c5830468e32f02138b149a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.99
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 2089493221176347592, guid: 481679da37c5830468e32f02138b149a,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2089493221176347592, guid: 481679da37c5830468e32f02138b149a,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3
+      value: -8
       objectReference: {fileID: 0}
     - target: {fileID: 2089493221176347592, guid: 481679da37c5830468e32f02138b149a,
         type: 3}
