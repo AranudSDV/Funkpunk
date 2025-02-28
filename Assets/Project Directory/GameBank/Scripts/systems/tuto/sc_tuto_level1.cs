@@ -1,4 +1,5 @@
 using Cinemachine;
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,7 +14,10 @@ public class sc_tuto_level1 : MonoBehaviour
     [SerializeField] private GameObject[] GoTuto3 = new GameObject[3];
     [SerializeField] private GameObject[] goCameraBackTrack = new GameObject[3]; //cam, dolly, empty
     [SerializeField] private GameObject[] goCameraMain = new GameObject[3]; //cam, dolly, ui
+    [SerializeField] private GameObject goWallGoal; //cam, dolly, ui
+    [SerializeField] private GameObject target;
     [SerializeField] private CinemachinePathBase m_Path;
+    [SerializeField] private Cinemachine.CinemachineVirtualCamera c_VirtualCamera;
     [SerializeField] private float m_Speed = 10f;
     private float m_Position;
     [SerializeField] private CinemachinePathBase.PositionUnits m_PositionUnits = CinemachinePathBase.PositionUnits.Distance;
@@ -77,6 +81,7 @@ public class sc_tuto_level1 : MonoBehaviour
                 Time.timeScale = 1f;
                 scPlayer.bGameIsPaused = false;
                 scPlayer.PauseGame();
+                c_VirtualCamera.m_LookAt = target.transform;
                 Debug.Log("time scale boolean passé");
             }
         }
@@ -197,12 +202,14 @@ public class sc_tuto_level1 : MonoBehaviour
         b_tutoFinished = true;
         bTuto[3] = false;
     }
-        public void ThirdTuto()
+    public void ThirdTuto()
     {
         bTuto[4] = true;
         Time.timeScale = 0f;
         scPlayer.bGameIsPaused = true;
         scPlayer.PauseGame();
+        c_VirtualCamera.m_LookAt = null;
+        goCameraBackTrack[0].transform.DOLookAt(goWallGoal.transform.position, 0.2f, AxisConstraint.X);
         Debug.Log("passer le mur");
         tutoCoroutine[2] = StartCoroutine(StartThird());
     }
