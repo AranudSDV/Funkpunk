@@ -77,7 +77,7 @@ public class sc_tuto : MonoBehaviour
         {
             ChangeTutoController();
         }*/
-        if (b_tutoFinished == true && isMeshable ==false && goCameraBackTrack[2].transform.position.z > 0.5f)
+        if (b_tutoFinished == true && isMeshable ==false && goCameraBackTrack[2].transform.position.z > 0.5f && !scPlayer.bGameIsPaused)
         {
             Time.timeScale = 1f;
             SetCartPosition(m_Position + m_Speed * Time.unscaledDeltaTime);

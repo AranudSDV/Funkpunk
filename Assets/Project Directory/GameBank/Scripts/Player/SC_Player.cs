@@ -42,6 +42,7 @@ public class SC_Player : MonoBehaviour
     [SerializeField] public PlayerControl control;
     public GameObject PlayerCapsule;
     private Vector3 posMesh;
+    private Vector3 localPosMesh;
     private float tolerance = 0.5f;
     public bool canMove = false;
     [SerializeField]private GameObject GoVfxSteps;
@@ -109,6 +110,7 @@ public class SC_Player : MonoBehaviour
     {
         FScore = Mathf.Round(fPercentScore);
         posMesh = PlayerCapsule.transform.position;
+        localPosMesh = PlayerCapsule.transform.localPosition;
         CheckControllerStatus();
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         if (menuManager == null)
@@ -123,12 +125,14 @@ public class SC_Player : MonoBehaviour
                 menuManager = goMenu.GetComponent<MenuManager>();
                 control = menuManager.control;
                 bIsOnComputer = !menuManager.controllerConnected;
+                menuManager.scPlayer = this;
             }
         }
         else
         {
             control = menuManager.control;
             bIsOnComputer = !menuManager.controllerConnected;
+            menuManager.scPlayer = this;
         }
     }
     
@@ -751,6 +755,8 @@ public class SC_Player : MonoBehaviour
             PlayerCapsule.transform.DORotate(new Vector3(0, -60, 0), time * 1 / 6, RotateMode.LocalAxisAdd).SetAutoKill(true);
             PlayerCapsule.transform.DOLocalMoveZ(posMesh.z, time * 1 / 6).SetAutoKill(true);
             PlayerCapsule.transform.DOMoveY(posMesh.y, time * 1 / 6).SetAutoKill(true);
+            yield return new WaitForSeconds(time * 1 / 6);
+            PlayerCapsule.transform.localPosition = posMesh;
         }
         else if(dir.z != 0)
         {
@@ -765,6 +771,8 @@ public class SC_Player : MonoBehaviour
             PlayerCapsule.transform.DORotate(new Vector3(0, -30, 0), time * 1 / 6, RotateMode.LocalAxisAdd).SetAutoKill(true);
             PlayerCapsule.transform.DOLocalMoveX(posMesh.z, time * 1 / 6).SetAutoKill(true);
             PlayerCapsule.transform.DOMoveY(posMesh.y, time * 1 / 6).SetAutoKill(true);
+            yield return new WaitForSeconds(time * 1 / 6);
+            PlayerCapsule.transform.localPosition = posMesh;
         }
     }
     private IEnumerator TagFeedback(Vector3 dir)
@@ -786,6 +794,8 @@ public class SC_Player : MonoBehaviour
         yield return new WaitForSeconds(time * 2 / 9);
         PlayerCapsule.transform.DORotate(new Vector3(45, 0, 0), time * 2 / 9, RotateMode.LocalAxisAdd).SetAutoKill(true);
         PlayerCapsule.transform.DOMoveY(posMesh.y, time * 2/9).SetAutoKill(true);
+        yield return new WaitForSeconds(time *2/9);
+        PlayerCapsule.transform.localPosition = posMesh;
     }
     private void RotationVFX(Vector3 dir, float time)
     {

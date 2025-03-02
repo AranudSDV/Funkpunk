@@ -17,6 +17,7 @@ public class MenuManager : MonoBehaviour
     public PlayerControl control;
     private EventSystem EventSystem;
     public bool controllerConnected = false;
+    public SC_Player scPlayer;
 
     //NAVIGATION UX
     private GameObject GoMainMenu;
@@ -190,11 +191,14 @@ public class MenuManager : MonoBehaviour
             {
                 Cursor.lockState = CursorLockMode.None;
             }
-            GameObject goPlayer = GameObject.FindGameObjectWithTag("Player");
-            if (goPlayer != null)
+            if (scPlayer == null)
             {
-                SC_Player scPlayer = goPlayer.GetComponent<SC_Player>();
+                SC_Player scPlayer = GameObject.FindGameObjectWithTag("Player").GetComponent<SC_Player>();
+            }
+            else
+            {
                 scPlayer.bGameIsPaused = true;
+                Debug.Log("actif");
                 scPlayer.PauseGame();
             }
             StartCoroutine(wait());
@@ -202,11 +206,14 @@ public class MenuManager : MonoBehaviour
         else if (GoPauseMenu.activeInHierarchy == true && bActif)
         {
             GoPauseMenu.SetActive(false);
-            GameObject goPlayer = GameObject.FindGameObjectWithTag("Player");
-            if (goPlayer != null)
+            if (scPlayer == null)
             {
-                SC_Player scPlayer = goPlayer.GetComponent<SC_Player>();
+                SC_Player scPlayer = GameObject.FindGameObjectWithTag("Player").GetComponent<SC_Player>();
+            }
+            else
+            {
                 scPlayer.bGameIsPaused = false;
+                Debug.Log("inactif");
                 scPlayer.PauseGame();
             }
             if (controllerConnected && SceneManager.GetActiveScene().name != "GameChoose" && SceneManager.GetActiveScene().name != "LevelChoosing")

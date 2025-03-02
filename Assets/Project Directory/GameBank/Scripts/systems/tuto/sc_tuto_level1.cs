@@ -11,21 +11,21 @@ public class sc_tuto_level1 : MonoBehaviour
 {
     [SerializeField] private GameObject[] GoTuto1 = new GameObject[5];
     [SerializeField] private GameObject[] GoTuto2 = new GameObject[3];
-    [SerializeField] private GameObject[] GoTuto3 = new GameObject[3];
+    [SerializeField] private GameObject[] GoTuto3 = new GameObject[2];
     [SerializeField] private GameObject[] goCameraBackTrack = new GameObject[3]; //cam, dolly, empty
     [SerializeField] private GameObject[] goCameraMain = new GameObject[3]; //cam, dolly, ui
-    [SerializeField] private GameObject goWallGoal; //cam, dolly, ui
-    [SerializeField] private GameObject target;
+    //[SerializeField] private GameObject goWallGoal; //cam, dolly, ui
+    //[SerializeField] private GameObject target;
     [SerializeField] private CinemachinePathBase m_Path;
-    [SerializeField] private Cinemachine.CinemachineVirtualCamera c_VirtualCamera;
+   //[SerializeField] private Cinemachine.CinemachineVirtualCamera c_VirtualCamera;
     [SerializeField] private float m_Speed = 10f;
     private float m_Position;
     [SerializeField] private CinemachinePathBase.PositionUnits m_PositionUnits = CinemachinePathBase.PositionUnits.Distance;
     private bool b_tutoFinished = false;
-    private bool bWallToSee = false;
+    //private bool bWallToSee = false;
     [SerializeField] private Sprite[] spriteBubbleTuto1 = new Sprite[4];
     [SerializeField] private Sprite[] spriteBubbleTuto2 = new Sprite[2];
-    [SerializeField] private Sprite[] spriteBubbleTuto3 = new Sprite[2];
+    [SerializeField] private Sprite spriteBubbleTuto3;
     [SerializeField] private SC_Player scPlayer;
     private Coroutine[] tutoCoroutine = new Coroutine[4];
     private bool coroutineIsRunning = false;
@@ -77,15 +77,18 @@ public class sc_tuto_level1 : MonoBehaviour
             if (b_tutoFinished && bTuto[5] && !bTuto[4] && ((!scPlayer.bIsOnComputer && scPlayer.control.GamePlay.Move.triggered) || (scPlayer.bIsOnComputer && Input.GetButtonDown("Jump"))))
             {
                 GoTuto3[0].transform.parent.gameObject.SetActive(false);
-                bWallToSee = true;
-                Time.timeScale = 1f;
-                scPlayer.bGameIsPaused = false;
-                scPlayer.PauseGame();
-                c_VirtualCamera.m_LookAt = target.transform;
-                Debug.Log("time scale boolean passé");
+                tutoCoroutine[3] = StartCoroutine(StartForth());
+                coroutineIsRunning = true;
             }
         }
-        if (b_tutoFinished && goCameraBackTrack[0].transform.position.z > 28.5f && !bWallToSee) //b_tutoFinished && goCameraBackTrack[0].transform.position.z > 5.5f && ((goCameraBackTrack[0].transform.position.z == 28.5f && bWallToSee)||(goCameraBackTrack[0].transform.position.z != 28.5f && !bWallToSee))
+        if(b_tutoFinished)
+        {
+            Time.timeScale = 1f;
+            scPlayer.bGameIsPaused = false;
+            scPlayer.PauseGame();
+            SetCartPosition(m_Position + m_Speed * Time.unscaledDeltaTime);
+        }
+        /*if (b_tutoFinished && goCameraBackTrack[0].transform.position.z > 28.5f && !bWallToSee) //b_tutoFinished && goCameraBackTrack[0].transform.position.z > 5.5f && ((goCameraBackTrack[0].transform.position.z == 28.5f && bWallToSee)||(goCameraBackTrack[0].transform.position.z != 28.5f && !bWallToSee))
         {
             Time.timeScale = 1f;
             scPlayer.bGameIsPaused = false;
@@ -98,22 +101,23 @@ public class sc_tuto_level1 : MonoBehaviour
             Time.timeScale = 1f;
             Debug.Log("time scale passed");
             SetCartPosition(m_Position + m_Speed * Time.unscaledDeltaTime);
-        }
+        }*/
         if (b_tutoFinished && goCameraBackTrack[0].transform.position.z <= 6f)
         {
             if (bOnce == false)
             {
-                tutoCoroutine[3] = StartCoroutine(StartForth());
-                coroutineIsRunning = true;
-                Debug.Log("fini");
+
+                bTuto[4] = true;
+                tutoCoroutine[2] = StartCoroutine(StartThird());
             }
         }
     }
     private IEnumerator StartFirst()
     {
-        yield return new WaitForSecondsRealtime(1f);
-        bTuto[0] = true;
+        yield return new WaitForSecondsRealtime(0.1f);
         bWaitSpace = true;
+        yield return new WaitForSecondsRealtime(0.9f);
+        bTuto[0] = true;
         GoTuto1[0].SetActive(true);
         yield return new WaitForSecondsRealtime(2f);
         UnityEngine.UI.Image img1 = GoTuto1[0].GetComponent<UnityEngine.UI.Image>();
@@ -159,10 +163,11 @@ public class sc_tuto_level1 : MonoBehaviour
         bWaitSpace = false;
         GoTuto2[0].transform.parent.gameObject.SetActive(true);
         GoTuto2[0].gameObject.SetActive(true);
-        yield return new WaitForSecondsRealtime(1f);
+        yield return new WaitForSecondsRealtime(0.1f);
+        bWaitSpace = true;
+        yield return new WaitForSecondsRealtime(0.9f);
         bTuto[2] = true;
         bTuto[1] = false;
-        bWaitSpace = true;
         UnityEngine.UI.Image img1 = GoTuto2[0].GetComponent<UnityEngine.UI.Image>();
         img1.sprite = spriteBubbleTuto2[0];
         GoTuto2[1].gameObject.SetActive(true);
@@ -202,7 +207,7 @@ public class sc_tuto_level1 : MonoBehaviour
         b_tutoFinished = true;
         bTuto[3] = false;
     }
-    public void ThirdTuto()
+    /*public void ThirdTuto()
     {
         bTuto[4] = true;
         Time.timeScale = 0f;
@@ -250,6 +255,37 @@ public class sc_tuto_level1 : MonoBehaviour
         bTuto[5] = true;
         m_Speed = 20f; 
         bWaitSpace = true;
+    }*/
+    private IEnumerator StartThird()
+    {
+        GoTuto3[0].transform.parent.gameObject.SetActive(true);
+        yield return new WaitForSecondsRealtime(0.5f);
+        GoTuto3[0].gameObject.SetActive(true);
+        bWaitSpace = true;
+        yield return new WaitForSecondsRealtime(1.5f);
+        UnityEngine.UI.Image img1 = GoTuto3[0].GetComponent<UnityEngine.UI.Image>();
+        img1.sprite = spriteBubbleTuto3;
+        yield return new WaitForSecondsRealtime(1.5f);
+        GoTuto3[1].transform.GetChild(0).gameObject.SetActive(false);
+        GoTuto3[1].transform.GetChild(1).gameObject.SetActive(true);
+        bTuto[4] = false;
+        bTuto[5] = true;
+        //Il faut augmenter la vitesse du tuto
+    }
+    private IEnumerator SkipThirdTuto()
+    {
+        StopCoroutine(tutoCoroutine[2]);
+        GoTuto3[0].transform.parent.gameObject.SetActive(true);
+        GoTuto3[0].gameObject.SetActive(true);
+        UnityEngine.UI.Image img1 = GoTuto3[0].GetComponent<UnityEngine.UI.Image>();
+        img1.sprite = spriteBubbleTuto3;
+        GoTuto3[1].transform.GetChild(0).gameObject.SetActive(false);
+        GoTuto3[1].transform.GetChild(1).gameObject.SetActive(true);
+        yield return new WaitForSecondsRealtime(2f);
+        bTuto[4] = false;
+        bTuto[5] = true;
+        m_Speed = 20f;
+        bWaitSpace = true;
     }
     private IEnumerator StartForth()
     {
@@ -263,8 +299,9 @@ public class sc_tuto_level1 : MonoBehaviour
         {
             goCameraBackTrack[i].SetActive(false);
         }
-        yield return new WaitForSecondsRealtime(1f);
+        yield return new WaitForSecondsRealtime(0.1f);
         bWaitSpace = true;
+        yield return new WaitForSecondsRealtime(0.9f);
         coroutineIsRunning = false;
         scPlayer.bisTuto = false;
         StartCoroutine(ImuneToTuto(scPlayer.bpmManager));
