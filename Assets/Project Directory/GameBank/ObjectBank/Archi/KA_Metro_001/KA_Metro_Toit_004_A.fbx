@@ -7,12 +7,12 @@ FBXHeaderExtension:  {
 	CreationTimeStamp:  {
 		Version: 1000
 		Year: 2025
-		Month: 2
-		Day: 25
-		Hour: 19
-		Minute: 11
-		Second: 0
-		Millisecond: 741
+		Month: 3
+		Day: 4
+		Hour: 18
+		Minute: 39
+		Second: 33
+		Millisecond: 870
 	}
 	Creator: "FBX SDK/FBX Plugins version 2020.3.1"
 	OtherFlags:  {
@@ -37,13 +37,13 @@ FBXHeaderExtension:  {
 			P: "Original|ApplicationVendor", "KString", "", "", "Autodesk"
 			P: "Original|ApplicationName", "KString", "", "", "3ds Max"
 			P: "Original|ApplicationVersion", "KString", "", "", "2022"
-			P: "Original|DateTime_GMT", "DateTime", "", "", "25/02/2025 18:11:00.741"
+			P: "Original|DateTime_GMT", "DateTime", "", "", "04/03/2025 17:39:33.870"
 			P: "Original|FileName", "KString", "", "", "C:\Users\scott\Desktop\KA_Train_001\KA_Metro_Toit_004_A.fbx"
 			P: "LastSaved", "Compound", "", ""
 			P: "LastSaved|ApplicationVendor", "KString", "", "", "Autodesk"
 			P: "LastSaved|ApplicationName", "KString", "", "", "3ds Max"
 			P: "LastSaved|ApplicationVersion", "KString", "", "", "2022"
-			P: "LastSaved|DateTime_GMT", "DateTime", "", "", "25/02/2025 18:11:00.741"
+			P: "LastSaved|DateTime_GMT", "DateTime", "", "", "04/03/2025 17:39:33.870"
 			P: "Original|ApplicationActiveProject", "KString", "", "", "C:\Users\scott\Documents\3ds Max 2022"
 			P: "Original|ApplicationNativeFile", "KString", "", "", "C:\Users\scott\Desktop\KA_Train_001\KA_Train_001.max"
 		}
@@ -80,7 +80,7 @@ GlobalSettings:  {
 
 Documents:  {
 	Count: 1
-	Document: 1957237118880, "", "Scene" {
+	Document: 2709884678576, "", "Scene" {
 		Properties70:  {
 			P: "SourceObject", "object", "", ""
 			P: "ActiveAnimStackName", "KString", "", "", ""
@@ -201,7 +201,7 @@ Definitions:  {
 ;------------------------------------------------------------------
 
 Objects:  {
-	Geometry: 1958661420864, "Geometry::", "Mesh" {
+	Geometry: 2710794373824, "Geometry::", "Mesh" {
 		Properties70:  {
 			P: "Color", "ColorRGB", "Color", "",0.341176470588235,0.882352941176471,0.341176470588235
 		}
@@ -267,7 +267,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 1958658471248, "Model::KA_Train_Cielling_004_A", "Mesh" {
+	Model: 2710235450544, "Model::KA_Train_Cielling_004_A", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "PreRotation", "Vector3D", "Vector", "",-90,-0,0
@@ -289,8 +289,8 @@ Objects:  {
 Connections:  {
 	
 	;Model::KA_Train_Cielling_004_A, Model::RootNode
-	C: "OO",1958658471248,0
+	C: "OO",2710235450544,0
 	
 	;Geometry::, Model::KA_Train_Cielling_004_A
-	C: "OO",1958661420864,1958658471248
+	C: "OO",2710794373824,2710235450544
 }
