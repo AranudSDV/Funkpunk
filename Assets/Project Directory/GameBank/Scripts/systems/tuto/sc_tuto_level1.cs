@@ -88,20 +88,6 @@ public class sc_tuto_level1 : MonoBehaviour
             scPlayer.PauseGame();
             SetCartPosition(m_Position + m_Speed * Time.unscaledDeltaTime);
         }
-        /*if (b_tutoFinished && goCameraBackTrack[0].transform.position.z > 28.5f && !bWallToSee) //b_tutoFinished && goCameraBackTrack[0].transform.position.z > 5.5f && ((goCameraBackTrack[0].transform.position.z == 28.5f && bWallToSee)||(goCameraBackTrack[0].transform.position.z != 28.5f && !bWallToSee))
-        {
-            Time.timeScale = 1f;
-            scPlayer.bGameIsPaused = false;
-            scPlayer.PauseGame();
-            Debug.Log("au dessus");
-            SetCartPosition(m_Position + m_Speed * Time.unscaledDeltaTime);
-        }
-        else if(b_tutoFinished && goCameraBackTrack[0].transform.position.z < 27.5f && bWallToSee)
-        {
-            Time.timeScale = 1f;
-            Debug.Log("time scale passed");
-            SetCartPosition(m_Position + m_Speed * Time.unscaledDeltaTime);
-        }*/
         if (b_tutoFinished && goCameraBackTrack[0].transform.position.z <= 6f)
         {
             if (bOnce == false)
@@ -207,55 +193,6 @@ public class sc_tuto_level1 : MonoBehaviour
         b_tutoFinished = true;
         bTuto[3] = false;
     }
-    /*public void ThirdTuto()
-    {
-        bTuto[4] = true;
-        Time.timeScale = 0f;
-        scPlayer.bGameIsPaused = true;
-        scPlayer.PauseGame();
-        c_VirtualCamera.m_LookAt = null;
-        goCameraBackTrack[0].transform.DOLookAt(goWallGoal.transform.position, 0.2f, AxisConstraint.X);
-        Debug.Log("passer le mur");
-        tutoCoroutine[2] = StartCoroutine(StartThird());
-    }
-    private IEnumerator StartThird()
-    {
-        GoTuto3[0].transform.parent.gameObject.SetActive(true);
-        yield return new WaitForSecondsRealtime(0.5f);
-        GoTuto3[0].gameObject.SetActive(true);
-        bWaitSpace = true;
-        yield return new WaitForSecondsRealtime(1.5f);
-        UnityEngine.UI.Image img1 = GoTuto3[0].GetComponent<UnityEngine.UI.Image>();
-        img1.sprite = spriteBubbleTuto3[0];
-        GoTuto3[1].gameObject.SetActive(true);
-        yield return new WaitForSecondsRealtime(1.5f);
-        UnityEngine.UI.Image img2 = GoTuto3[1].GetComponent<UnityEngine.UI.Image>();
-        img2.sprite = spriteBubbleTuto3[1];
-        yield return new WaitForSecondsRealtime(1.5f);
-        GoTuto3[2].transform.GetChild(0).gameObject.SetActive(false);
-        GoTuto3[2].transform.GetChild(1).gameObject.SetActive(true);
-        bTuto[4] = false;
-        bTuto[5] = true;
-        //Il faut augmenter la vitesse du tuto
-    }
-    private IEnumerator SkipThirdTuto()
-    {
-        StopCoroutine(tutoCoroutine[2]);
-        GoTuto3[0].transform.parent.gameObject.SetActive(true);
-        GoTuto3[0].gameObject.SetActive(true);
-        UnityEngine.UI.Image img1 = GoTuto3[0].GetComponent<UnityEngine.UI.Image>();
-        img1.sprite = spriteBubbleTuto3[0];
-        GoTuto3[1].gameObject.SetActive(true);
-        UnityEngine.UI.Image img2 = GoTuto3[1].GetComponent<UnityEngine.UI.Image>();
-        img2.sprite = spriteBubbleTuto3[1];
-        GoTuto3[2].transform.GetChild(0).gameObject.SetActive(false);
-        GoTuto3[2].transform.GetChild(1).gameObject.SetActive(true);
-        yield return new WaitForSecondsRealtime(2f);
-        bTuto[4] = false;
-        bTuto[5] = true;
-        m_Speed = 20f; 
-        bWaitSpace = true;
-    }*/
     private IEnumerator StartThird()
     {
         GoTuto3[0].transform.parent.gameObject.SetActive(true);
