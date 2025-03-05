@@ -370,15 +370,6 @@ public class SC_Player : MonoBehaviour
                     {
                         bIsBeingAnimated = true;
                         ing_Tag ingTag = hitInfo.transform.gameObject.GetComponent< ing_Tag>();
-                        if(ingTag!=null)
-                        {
-                            Debug.Log("a un script nommé " + ingTag);
-                        }
-                        else
-                        {
-                            Debug.Log("na pas de script sur " + hitInfo.transform.gameObject.name);
-                            return;
-                        }
                         ingTag.textOnWall.color = bpmManager.colorMiss;
                         for (int i = 0;i<4; i++)
                         {
@@ -744,7 +735,6 @@ public class SC_Player : MonoBehaviour
     {
         if (dir.x != 0)
         {
-            Debug.Log("X");
             PlayerCapsule.transform.DOMoveY(posMesh.y + 1f, time * 1 / 6).SetAutoKill(true);
             PlayerCapsule.transform.DOLocalMoveZ(posMesh.z + 0.75f, time * 1 / 6).SetAutoKill(true);
             PlayerCapsule.transform.DORotate(new Vector3(0, -60f, 0), time * 1 / 6, RotateMode.LocalAxisAdd).SetAutoKill(true);
@@ -760,7 +750,6 @@ public class SC_Player : MonoBehaviour
         }
         else if(dir.z != 0)
         {
-            Debug.Log("Z");
             PlayerCapsule.transform.DOMoveY(posMesh.y + 1f, time * 1 / 6).SetAutoKill(true);
             PlayerCapsule.transform.DOLocalMoveX(posMesh.z + 0.75f, time * 1 / 6).SetAutoKill(true);
             PlayerCapsule.transform.DORotate(new Vector3(0, -30f, 0), time * 1 / 6, RotateMode.LocalAxisAdd).SetAutoKill(true);
@@ -777,7 +766,6 @@ public class SC_Player : MonoBehaviour
     }
     private IEnumerator TagFeedback(Vector3 dir)
     {
-        Debug.Log("tag");
         GoVfxTag.transform.localEulerAngles = dir;
         GoVfxTag.transform.localPosition = -dir *0.01f;
         vfx_tag.Play();
