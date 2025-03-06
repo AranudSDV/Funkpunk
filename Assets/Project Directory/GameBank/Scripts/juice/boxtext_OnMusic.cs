@@ -12,8 +12,10 @@ public class boxtext_OnMusic : MonoBehaviour
     [SerializeField]private int nbShakesPerCycle = 10;  // Number of shakes per cycle
     [SerializeField]private float randomness = 90f; // Randomness in shake direction
     [SerializeField] private BPM_Manager bpmManager;
+    [SerializeField] private Vector2 endValueBounce;
     private bool bInitialized = false;
     private List<Tween> activeTweens = new List<Tween>();
+    [SerializeField] private float f_bounce = 0f;
 
     private Tween shakeTween;
 
@@ -21,7 +23,18 @@ public class boxtext_OnMusic : MonoBehaviour
     {
         if (targetUI != null)
         {
-            StartContinuousShake();
+            if (f_bounce == 0)
+            {
+                StartContinuousShake();
+            }
+            else if(f_bounce == 1)
+            {
+                StartContinuousBounce();
+            }
+            else
+            {
+                StartContinuousAppend();
+            }
         }
         else
         {
@@ -53,6 +66,41 @@ public class boxtext_OnMusic : MonoBehaviour
         }
     }
 
+    private void StartContinuousBounce()
+    {
+        // Infinite looping bounce
+        shakeTween = targetUI.DOJumpAnchorPos(endValueBounce, strength, nbShakesPerCycle, bpmManager.FSPB)
+            .SetLoops(-1, LoopType.Restart)
+            .SetRelative(true) // Makes the shake relative to the current position
+            .SetEase(Ease.OutQuad); // Optional: Smooth out the loop
+        activeTweens.Add(shakeTween);
+    }
+    private void StartContinuousAppend()
+    {
+        Sequence bounceSequence = DOTween.Sequence();
+        float targetY = targetUI.anchoredPosition.y;
+        float targetX = targetUI.anchoredPosition.x;
+        float bounceWidth = strength/2f;  // Déplacement latéral
+
+        shakeTween = bounceSequence.Append(targetUI.DOAnchorPos(new Vector2(targetX + bounceWidth, targetY + strength), bpmManager.FSPB/2f)
+            .SetEase(Ease.OutQuad)) // Monte à droite
+            .Join(targetUI.DOScale(1.1f, bpmManager.FSPB / 2f)) // S’étire
+
+            .Append(targetUI.DOAnchorPos(new Vector2(targetX - bounceWidth, targetY), bpmManager.FSPB/2f)
+            .SetEase(Ease.InQuad)) // Redescend à gauche
+            .Join(targetUI.DOScale(1f, bpmManager.FSPB / 2f)) // Reprend sa taille normale
+
+            .Append(targetUI.DOAnchorPos(new Vector2(targetX - bounceWidth, targetY + strength), bpmManager.FSPB/2f)
+            .SetEase(Ease.OutQuad)) // Monte à gauche
+            .Join(targetUI.DOScale(1.1f, bpmManager.FSPB / 2f)) // S’étire
+
+            .Append(targetUI.DOAnchorPos(new Vector2(targetX + bounceWidth, targetY), bpmManager.FSPB/2f)
+            .SetEase(Ease.InQuad)) // Redescend à droite
+            .Join(targetUI.DOScale(1f, bpmManager.FSPB / 2f))
+            .SetLoops(-1, LoopType.Restart); // Reprend sa taille normale
+        activeTweens.Add(shakeTween);
+    }
+
     private void StartContinuousShake()
     {
         // Infinite looping shake
@@ -61,7 +109,6 @@ public class boxtext_OnMusic : MonoBehaviour
             .SetRelative(true) // Makes the shake relative to the current position
             .SetEase(Ease.OutBack); // Optional: Smooth out the loop
         activeTweens.Add(shakeTween);
-        Debug.Log(bpmManager.FSPB);
     }
 
     private void OnDisable()
