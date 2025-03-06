@@ -42,7 +42,7 @@ public class SC_Player : MonoBehaviour
     [SerializeField] public PlayerControl control;
     public GameObject PlayerCapsule;
     private Vector3 posMesh;
-    private Vector3 localPosMesh;
+    [SerializeField] private Vector3 localPosMesh;
     private float tolerance = 0.5f;
     public bool canMove = false;
     [SerializeField]private GameObject GoVfxSteps;
@@ -82,6 +82,7 @@ public class SC_Player : MonoBehaviour
     public float FTimeWithoutLooseDetection = 5f;
     [SerializeField] private UnityEngine.UI.Slider sliderDetection;
     public bool BisDetectedByAnyEnemy = false;
+    [SerializeField] private int iTimeFoeDisabled = 5;
 
     //LE TAG
     [Header("Tag")]
@@ -110,7 +111,6 @@ public class SC_Player : MonoBehaviour
     {
         FScore = Mathf.Round(fPercentScore);
         posMesh = PlayerCapsule.transform.position;
-        localPosMesh = PlayerCapsule.transform.localPosition;
         CheckControllerStatus();
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         if (menuManager == null)
@@ -511,7 +511,7 @@ public class SC_Player : MonoBehaviour
                                 SC_FieldOfView scEnemy = col.transform.gameObject.GetComponent<SC_FieldOfView>();
                                 scEnemy.bIsDisabled = true;
                                 scEnemy.FoeDisabled(scEnemy.bIsDisabled);
-                                scEnemy.i_EnnemyBeat = -5;
+                                scEnemy.i_EnnemyBeat = -iTimeFoeDisabled;
                                 StartCoroutine(ThrowingFeedback(bpmManager.FSPB));
                                 //Unable l'ennemi
                                 return;
@@ -549,7 +549,7 @@ public class SC_Player : MonoBehaviour
                         SC_FieldOfView scEnemy = hitInfo1.transform.gameObject.GetComponent<SC_FieldOfView>();
                         scEnemy.bIsDisabled = true;
                         scEnemy.FoeDisabled(scEnemy.bIsDisabled);
-                        scEnemy.i_EnnemyBeat = -5;
+                        scEnemy.i_EnnemyBeat = -iTimeFoeDisabled;
                         StartCoroutine(ThrowingFeedback(bpmManager.FSPB));
                         //Unable l'ennemi
                         return;
@@ -736,32 +736,32 @@ public class SC_Player : MonoBehaviour
         if (dir.x != 0)
         {
             PlayerCapsule.transform.DOMoveY(posMesh.y + 1f, time * 1 / 6).SetAutoKill(true);
-            PlayerCapsule.transform.DOLocalMoveZ(posMesh.z + 0.75f, time * 1 / 6).SetAutoKill(true);
+            PlayerCapsule.transform.DOLocalMoveZ(localPosMesh.z + 0.75f, time * 1 / 6).SetAutoKill(true);
             PlayerCapsule.transform.DORotate(new Vector3(0, -60f, 0), time * 1 / 6, RotateMode.LocalAxisAdd).SetAutoKill(true);
             yield return new WaitForSeconds(time * 1 / 6);
             PlayerCapsule.transform.DORotate(new Vector3(0, 120f, 0), time * 2 / 6, RotateMode.LocalAxisAdd).SetAutoKill(true);
-            PlayerCapsule.transform.DOLocalMoveZ(posMesh.z - 0.75f, time * 1 / 6).SetAutoKill(true);
+            PlayerCapsule.transform.DOLocalMoveZ(localPosMesh.z - 0.75f, time * 1 / 6).SetAutoKill(true);
             yield return new WaitForSeconds(time * 2 / 6);
             PlayerCapsule.transform.DORotate(new Vector3(0, -60, 0), time * 1 / 6, RotateMode.LocalAxisAdd).SetAutoKill(true);
-            PlayerCapsule.transform.DOLocalMoveZ(posMesh.z, time * 1 / 6).SetAutoKill(true);
+            PlayerCapsule.transform.DOLocalMoveZ(localPosMesh.z, time * 1 / 6).SetAutoKill(true);
             PlayerCapsule.transform.DOMoveY(posMesh.y, time * 1 / 6).SetAutoKill(true);
             yield return new WaitForSeconds(time * 1 / 6);
-            PlayerCapsule.transform.localPosition = posMesh;
+            PlayerCapsule.transform.localPosition = localPosMesh;
         }
         else if(dir.z != 0)
         {
             PlayerCapsule.transform.DOMoveY(posMesh.y + 1f, time * 1 / 6).SetAutoKill(true);
-            PlayerCapsule.transform.DOLocalMoveX(posMesh.z + 0.75f, time * 1 / 6).SetAutoKill(true);
+            PlayerCapsule.transform.DOLocalMoveX(localPosMesh.z + 0.75f, time * 1 / 6).SetAutoKill(true);
             PlayerCapsule.transform.DORotate(new Vector3(0, -30f, 0), time * 1 / 6, RotateMode.LocalAxisAdd).SetAutoKill(true);
             yield return new WaitForSeconds(time * 1 / 6);
             PlayerCapsule.transform.DORotate(new Vector3(0, 60f, 0), time * 2 / 6, RotateMode.LocalAxisAdd).SetAutoKill(true);
-            PlayerCapsule.transform.DOLocalMoveX(posMesh.z - 0.75f, time * 1 / 6).SetAutoKill(true);
+            PlayerCapsule.transform.DOLocalMoveX(localPosMesh.z - 0.75f, time * 1 / 6).SetAutoKill(true);
             yield return new WaitForSeconds(time * 2 / 6);
             PlayerCapsule.transform.DORotate(new Vector3(0, -30, 0), time * 1 / 6, RotateMode.LocalAxisAdd).SetAutoKill(true);
-            PlayerCapsule.transform.DOLocalMoveX(posMesh.z, time * 1 / 6).SetAutoKill(true);
+            PlayerCapsule.transform.DOLocalMoveX(localPosMesh.z, time * 1 / 6).SetAutoKill(true);
             PlayerCapsule.transform.DOMoveY(posMesh.y, time * 1 / 6).SetAutoKill(true);
             yield return new WaitForSeconds(time * 1 / 6);
-            PlayerCapsule.transform.localPosition = posMesh;
+            PlayerCapsule.transform.localPosition = localPosMesh;
         }
     }
     private IEnumerator TagFeedback(Vector3 dir)
@@ -783,7 +783,7 @@ public class SC_Player : MonoBehaviour
         PlayerCapsule.transform.DORotate(new Vector3(45, 0, 0), time * 2 / 9, RotateMode.LocalAxisAdd).SetAutoKill(true);
         PlayerCapsule.transform.DOMoveY(posMesh.y, time * 2/9).SetAutoKill(true);
         yield return new WaitForSeconds(time *2/9);
-        PlayerCapsule.transform.localPosition = posMesh;
+        PlayerCapsule.transform.localPosition = localPosMesh;
     }
     private void RotationVFX(Vector3 dir, float time)
     {

@@ -11,7 +11,8 @@ public class VisioneConeFeedbackBack : MonoBehaviour
     [SerializeField] private int iVisionConeResolution = 120;
     private Mesh VisionConeMesh;
     private MeshFilter ConeMeshFilter;
-    private MeshRenderer ConeRenderer;
+    public MeshRenderer ConeRenderer;
+    public bool initialized = false; 
 
     private void Start()
     {
@@ -21,6 +22,8 @@ public class VisioneConeFeedbackBack : MonoBehaviour
         VisionConeMesh = new Mesh();
         fVisionAngle = scFieldView.FAngle;
         fVisionAngle *= Mathf.Deg2Rad;
+        ConeRenderer.enabled = false;
+        initialized = true;
     }
 
     private void Update()

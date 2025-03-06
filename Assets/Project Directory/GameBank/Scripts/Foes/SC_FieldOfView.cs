@@ -37,12 +37,18 @@ public class SC_FieldOfView : MonoBehaviour
     [Header("Feedbacks")]
     public GameObject GOPlayerRef;
     [SerializeField] private GameObject Go_vfx_detected;
+    [SerializeField] private Vector3 pos_vfx_detected;
+    [SerializeField] private ParticleSystem PS_detected;
     [SerializeField] private GameObject Go_vfx_disable;
+    [SerializeField] private Vector3 pos_vfx_disable;
     [SerializeField] private GameObject Go_vfx_coneVision;
+    [SerializeField] private Vector3 pos_vfx_coneVision;
     [SerializeField] private GameObject Go_vfx_Suspicious;
+    [SerializeField] private Vector3 pos_vfx_supicious;
+    [SerializeField] private ParticleSystem PS_Suspicious;
     [SerializeField] private GameObject Go_vfx_Backward;
-    private ParticleSystem PS_detected;
-    private ParticleSystem PS_Suspicious;
+    [SerializeField] private Vector3 pos_vfx_backward;
+    [SerializeField] private VisioneConeFeedbackBack backfeedback;
 
     //DETECTION
     [Header("Detection")]
@@ -64,8 +70,6 @@ public class SC_FieldOfView : MonoBehaviour
         {
             GOPlayerRef = GameObject.FindGameObjectWithTag("Player");
         }
-        PS_detected = Go_vfx_detected.transform.GetChild(0).gameObject.GetComponent<ParticleSystem>();
-        PS_Suspicious = Go_vfx_Suspicious.transform.GetChild(0).gameObject.GetComponent<ParticleSystem>();
         StartCoroutine(FOVRoutine());
         if (i_typeFoe == 1) //si l'ennemi est statique
         {
@@ -87,7 +91,11 @@ public class SC_FieldOfView : MonoBehaviour
                 isReversing = false;
                 iCurrentDirection = iFirstPos + 1;
             }
-            Go_vfx_Backward.SetActive(false);
+            Go_vfx_Backward.transform.localPosition = new Vector3(pos_vfx_backward.x, 50f, pos_vfx_backward.z);
+            if(backfeedback.initialized)
+            {
+                backfeedback.ConeRenderer.enabled = false;
+            }
         }
     }
     private IEnumerator FOVRoutine()
@@ -135,35 +143,35 @@ public class SC_FieldOfView : MonoBehaviour
             DetectionChecks();
         }
     }
-    IEnumerator NumDetectedVFX(bool bNewDetected, bool isactive)
+    IEnumerator NumDetectedVFX(bool bNewDetected, float height)
     {
-        if (bNewDetected && !isactive)
+        if (bNewDetected && height>30)
         {
-            Go_vfx_detected.SetActive(true); 
+            Go_vfx_detected.transform.localPosition = pos_vfx_detected; 
             PS_detected.Play();
             yield return new WaitForSeconds(0.5f);
             PS_detected.Pause();
         }
-        else if(!bNewDetected && isactive)
+        else if(!bNewDetected && height < 30)
         {
-            Go_vfx_detected.SetActive(false);
+            Go_vfx_detected.transform.localPosition = new Vector3 (pos_vfx_detected.x, 50f, pos_vfx_detected.z);
             PS_detected.Play();
             yield return new WaitForSeconds(0.5f);
             PS_detected.Stop();
         }
     }
-    IEnumerator NumSuspiciousVFX(bool bNewDetected, bool isactive)
+    IEnumerator NumSuspiciousVFX(bool bNewDetected, float height)
     {
-        if (bNewDetected && !isactive)
+        if (bNewDetected && height>30)
         {
-            Go_vfx_Suspicious.SetActive(true);
+            Go_vfx_Suspicious.transform.localPosition = pos_vfx_supicious;
             PS_Suspicious.Play();
             yield return new WaitForSeconds(0.5f);
             PS_Suspicious.Pause();
         }
-        else if (!bNewDetected && isactive)
+        else if (!bNewDetected && height<30)
         {
-            Go_vfx_Suspicious.SetActive(false);
+            Go_vfx_Suspicious.transform.localPosition = new Vector3(pos_vfx_supicious.x, 50f, pos_vfx_supicious.z);
             PS_Suspicious.Play();
             yield return new WaitForSeconds(0.5f);
             PS_Suspicious.Stop();
@@ -199,24 +207,32 @@ public class SC_FieldOfView : MonoBehaviour
     }
     public void FoeDisabled(bool _isDisable)
     {
-        Go_vfx_coneVision.SetActive(!_isDisable);
-        Go_vfx_disable.SetActive(_isDisable);
+        if (_isDisable)
+        {
+            Go_vfx_coneVision.transform.localPosition = new Vector3(pos_vfx_coneVision.x, 50f, pos_vfx_coneVision.z);
+            Go_vfx_disable.transform.localPosition = pos_vfx_disable;
+        }
+        else
+        {
+            Go_vfx_coneVision.transform.localPosition = pos_vfx_coneVision;
+            Go_vfx_disable.transform.localPosition = new Vector3(pos_vfx_disable.x, 50f, pos_vfx_disable.z);
+        }
     }
     private void DetectionChecks ()
     {
         if (bIsDisabled)
         {
-            Go_vfx_Suspicious.SetActive(false);
+            Go_vfx_Suspicious.transform.localPosition = new Vector3(pos_vfx_supicious.x, 50f, pos_vfx_supicious.z);
             PS_Suspicious.Stop();
-            Go_vfx_detected.SetActive(false);
+            Go_vfx_detected.transform.localPosition = new Vector3(pos_vfx_detected.x, 50f, pos_vfx_detected.z);
             PS_detected.Stop();
         }
         else if (bSeenOnce)
         {
             BCanSee = true;
             bSeenOnce = false;
-            StartCoroutine(NumDetectedVFX(true, Go_vfx_detected.activeInHierarchy));
-            Go_vfx_Suspicious.SetActive(false);
+            StartCoroutine(NumDetectedVFX(true, Go_vfx_detected.transform.localPosition.y));
+            Go_vfx_Suspicious.transform.localPosition = new Vector3(pos_vfx_supicious.x, 50f, pos_vfx_supicious.z);
             PS_Suspicious.Stop();
         }
         if(BCanSee == false && bHasHeard == false)
@@ -229,15 +245,15 @@ public class SC_FieldOfView : MonoBehaviour
             {
                 transform.LookAt(new Vector3(posDirections[iCurrentDirection].x, this.transform.position.y, posDirections[iCurrentDirection].z));
             }
-            StartCoroutine(NumDetectedVFX(false, Go_vfx_detected.activeInHierarchy));
+            StartCoroutine(NumDetectedVFX(false, Go_vfx_detected.transform.localPosition.y));
         }
         if(bHasHeard==true)
         {
-            StartCoroutine(NumSuspiciousVFX(true, Go_vfx_Suspicious.activeInHierarchy));
+            StartCoroutine(NumSuspiciousVFX(true, Go_vfx_Suspicious.transform.localPosition.y));
         }
         else
         {
-            StartCoroutine(NumSuspiciousVFX(false, Go_vfx_Suspicious.activeInHierarchy));
+            StartCoroutine(NumSuspiciousVFX(false, Go_vfx_Suspicious.transform.localPosition.y));
         }
     }
     private int NearestPosToPlayer(GameObject player)
@@ -298,7 +314,7 @@ public class SC_FieldOfView : MonoBehaviour
                 {
                     iCurrentDirection = iCurrentDirection + 1;
                 }
-                else if (!isReversing && (iCurrentDirection + 1 == posDirections.Length || posDirections.Length == 2)) //Si ça ne reverse pas et que la prochaine direction n'existe pas ou aller-retour
+                else if (!isReversing && iCurrentDirection + 1 == posDirections.Length && posDirections.Length != 2) //Si ça ne reverse pas et que la prochaine direction n'existe pas ou aller-retour
                 {
                     if (iCurrentDirection != 0)
                     {
@@ -306,17 +322,33 @@ public class SC_FieldOfView : MonoBehaviour
                     }
                     isReversing = true;
                 }
+                else if (!isReversing && iCurrentDirection + 1 == posDirections.Length && posDirections.Length == 2) //Si ça ne reverse pas et que la prochaine direction n'existe pas ou aller-retour
+                {
+                    if (iCurrentDirection == 1)
+                    {
+                        iCurrentDirection = 0;
+                    }
+                    isReversing = true;
+                }
                 else if (isReversing && iCurrentDirection - 1 != -1 && posDirections.Length != 2)//Si ça se reverse et que la prochaine direction existe
                 {
                    iCurrentDirection = iCurrentDirection - 1;
                 }
-                else if (isReversing && (iCurrentDirection - 1 == -1 || posDirections.Length == 2))//Si ça se reverse et que la prochaine direction n'xiste pas ou aller-retour
+                else if (isReversing && (iCurrentDirection - 1 == -1 && posDirections.Length != 2))//Si ça se reverse et que la prochaine direction n'existe pas ou aller-retour
                 {
                     iCurrentDirection = iCurrentDirection + 1;
                     isReversing = false;
                 }
-                Go_vfx_Backward.SetActive(false);
-
+                else
+                {
+                    iCurrentDirection = 1;
+                    isReversing = false;
+                }
+                Go_vfx_Backward.transform.localPosition = new Vector3(pos_vfx_backward.x, 50f, pos_vfx_backward.z);
+                if (backfeedback.initialized)
+                {
+                    backfeedback.ConeRenderer.enabled = false;
+                }
                 if (BCanSee == false)
                 {
                     transform.LookAt(new Vector3(posDirections[iCurrentDirection].x, this.transform.position.y, posDirections[iCurrentDirection].z));
@@ -324,7 +356,11 @@ public class SC_FieldOfView : MonoBehaviour
             }
             if (this.transform.position  == posDirections[iCurrentDirection] - new Vector3(posDirections[iCurrentDirection].x - this.transform.position.x, 0, posDirections[iCurrentDirection].z - this.transform.position.z).normalized) //un mouvement away from the last position
             {
-                Go_vfx_Backward.SetActive(true);
+                Go_vfx_Backward.transform.localPosition = pos_vfx_backward;
+                if (backfeedback.initialized)
+                {
+                    backfeedback.ConeRenderer.enabled = true;
+                }
             }
         }
     }

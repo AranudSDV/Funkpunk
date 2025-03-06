@@ -379,6 +379,7 @@ MonoBehaviour:
   bHasNoMiss: 1
   lastMoveDirection: {x: 0, y: 0, z: 0}
   PlayerCapsule: {fileID: 4589980624701841776}
+  localPosMesh: {x: 0, y: 0.243, z: 0}
   canMove: 0
   GoVfxSteps: {fileID: 2357412100548585363}
   fPosVFX_steps: {x: 0, y: -1, z: 0}
@@ -414,6 +415,7 @@ MonoBehaviour:
   FTimeWithoutLooseDetection: 5
   sliderDetection: {fileID: 0}
   BisDetectedByAnyEnemy: 0
+  iTimeFoeDisabled: 5
   taggingRange: 1
   GoVfxTag: {fileID: 766318065870670635}
   vfx_tag: {fileID: 8945544291399188229}

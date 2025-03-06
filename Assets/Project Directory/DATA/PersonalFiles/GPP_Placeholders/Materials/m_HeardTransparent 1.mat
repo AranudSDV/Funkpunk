@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: m_ArrowInactiveTransparant 1
+  m_Name: m_HeardTransparent 1
   m_Shader: {fileID: 4800000, guid: 305c96aec67ea0d4eab82dd13d744fc7, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -40,14 +40,14 @@ Material:
     - _AlphaCutoff: 0.5
     - _EnvironmentReflections: 1
     - _MTL_Pow: 1
-    - _OPA_Pow: 0.16
+    - _OPA_Pow: 0.392
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _SMH_Pow: 1
     - _SpecularHighlights: 1
     m_Colors:
-    - _ALB: {r: 64, g: 63.68136, b: 0, a: 1}
+    - _ALB: {r: 3.9999995, g: 0, b: 3.8502192, a: 1}
     - _AO: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _MTL: {r: 0, g: 0, b: 0, a: 0}
