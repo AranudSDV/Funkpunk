@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-public class CustomRenderPassFeature : ScriptableRendererFeature
+public class RF_SSAOHijack_01A : ScriptableRendererFeature
 {
     class CustomRenderPass : ScriptableRenderPass
     {

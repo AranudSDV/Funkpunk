@@ -26,4 +26,6 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/PersonalGyms/ShowRoomVisual.unity
     guid: 0607677dce343d041bfb1841a69d8f60
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 0f5f261da6b5c8d4885fb21058116b47,
+      type: 2}
