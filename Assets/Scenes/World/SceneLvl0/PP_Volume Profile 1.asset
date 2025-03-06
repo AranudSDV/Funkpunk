@@ -354,6 +354,47 @@ MonoBehaviour:
   maxNits:
     m_OverrideState: 1
     m_Value: 1000
+--- !u!114 &-4443741417914974665
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 111d309e6a3de2a47808284d2580459a, type: 3}
+  m_Name: cs_BloomHiJack
+  m_EditorClassIdentifier: 
+  active: 1
+  threshold:
+    m_OverrideState: 1
+    m_Value: 0.24
+  intensity:
+    m_OverrideState: 1
+    m_Value: 1
+  scatter:
+    m_OverrideState: 1
+    m_Value: 0.67
+  clamp:
+    m_OverrideState: 0
+    m_Value: 65472
+  maxIterations:
+    m_OverrideState: 0
+    m_Value: 6
+  tint:
+    m_OverrideState: 0
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
+    hdr: 0
+  Density:
+    m_OverrideState: 1
+    m_Value: 66
+  Cutoff:
+    m_OverrideState: 1
+    m_Value: 0.45
+  scrollDirection:
+    m_OverrideState: 1
+    m_Value: {x: 0, y: 0}
 --- !u!114 &-3944608435316880511
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -366,7 +407,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e021b4c809a781e468c2988c016ebbea, type: 3}
   m_Name: ColorLookup
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   texture:
     m_OverrideState: 1
     m_Value: {fileID: 0}
@@ -374,53 +415,6 @@ MonoBehaviour:
   contribution:
     m_OverrideState: 1
     m_Value: 1
---- !u!114 &-2660644909606336522
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b2db86121404754db890f4c8dfe81b2, type: 3}
-  m_Name: Bloom
-  m_EditorClassIdentifier: 
-  active: 1
-  skipIterations:
-    m_OverrideState: 0
-    m_Value: 1
-  threshold:
-    m_OverrideState: 1
-    m_Value: 0.63
-  intensity:
-    m_OverrideState: 1
-    m_Value: 0.53
-  scatter:
-    m_OverrideState: 1
-    m_Value: 0.158
-  clamp:
-    m_OverrideState: 0
-    m_Value: 65472
-  tint:
-    m_OverrideState: 0
-    m_Value: {r: 1, g: 1, b: 1, a: 1}
-  highQualityFiltering:
-    m_OverrideState: 0
-    m_Value: 0
-  downscale:
-    m_OverrideState: 0
-    m_Value: 0
-  maxIterations:
-    m_OverrideState: 1
-    m_Value: 6
-  dirtTexture:
-    m_OverrideState: 0
-    m_Value: {fileID: 2800000, guid: e21995ed5137d6b47848d01c71c9d927, type: 3}
-    dimension: 1
-  dirtIntensity:
-    m_OverrideState: 0
-    m_Value: 0
 --- !u!114 &-2653933784008117490
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -472,7 +466,8 @@ MonoBehaviour:
   m_Name: PP_Volume Profile 1
   m_EditorClassIdentifier: 
   components:
-  - {fileID: -2660644909606336522}
+  - {fileID: 2580300953735393572}
+  - {fileID: -4443741417914974665}
   - {fileID: -1049336861303792108}
   - {fileID: -5281935225337914553}
   - {fileID: 7038716360633602155}
@@ -483,6 +478,53 @@ MonoBehaviour:
   - {fileID: -8491257613548047770}
   - {fileID: 2966122560151812225}
   - {fileID: -3944608435316880511}
+--- !u!114 &2580300953735393572
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b2db86121404754db890f4c8dfe81b2, type: 3}
+  m_Name: Bloom
+  m_EditorClassIdentifier: 
+  active: 1
+  skipIterations:
+    m_OverrideState: 0
+    m_Value: 1
+  threshold:
+    m_OverrideState: 1
+    m_Value: 0.43
+  intensity:
+    m_OverrideState: 1
+    m_Value: 1.4
+  scatter:
+    m_OverrideState: 0
+    m_Value: 0.7
+  clamp:
+    m_OverrideState: 0
+    m_Value: 65472
+  tint:
+    m_OverrideState: 0
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
+  highQualityFiltering:
+    m_OverrideState: 0
+    m_Value: 0
+  downscale:
+    m_OverrideState: 0
+    m_Value: 0
+  maxIterations:
+    m_OverrideState: 0
+    m_Value: 6
+  dirtTexture:
+    m_OverrideState: 0
+    m_Value: {fileID: 0}
+    dimension: 1
+  dirtIntensity:
+    m_OverrideState: 0
+    m_Value: 0
 --- !u!114 &2966122560151812225
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -552,3 +594,44 @@ MonoBehaviour:
   saturation:
     m_OverrideState: 1
     m_Value: 13
+--- !u!114 &8914311665675569729
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 111d309e6a3de2a47808284d2580459a, type: 3}
+  m_Name: cs_BloomHiJack
+  m_EditorClassIdentifier: 
+  active: 1
+  threshold:
+    m_OverrideState: 1
+    m_Value: 0.9
+  intensity:
+    m_OverrideState: 1
+    m_Value: 1
+  scatter:
+    m_OverrideState: 0
+    m_Value: 0.7
+  clamp:
+    m_OverrideState: 0
+    m_Value: 65472
+  maxIterations:
+    m_OverrideState: 0
+    m_Value: 6
+  tint:
+    m_OverrideState: 1
+    m_Value: {r: 1, g: 0, b: 0, a: 1}
+    hdr: 0
+  Density:
+    m_OverrideState: 0
+    m_Value: 10
+  Cutoff:
+    m_OverrideState: 0
+    m_Value: 0.4
+  scrollDirection:
+    m_OverrideState: 0
+    m_Value: {x: 0, y: 0}

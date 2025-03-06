@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-[System.Serializable, VolumeComponentMenu("cs_BloomHijack")]
+[System.Serializable, VolumeComponentMenu("BloomHijack")]
 public class cs_BloomHiJack : VolumeComponent, IPostProcessComponent
 {
     [Header("Bloom Settings")]

@@ -10,6 +10,7 @@ Shader "SHR_Grid"
 		_TrueSquareSize("TrueSquareSize", Float) = 0.935
 		_SubSquareSize("SubSquareSize", Float) = 0.935
 		_Alphaclip("Alphaclip", Float) = 0.1
+		[HDR]_BaseColore("BaseColore", Color) = (2,2,2,0)
 
 
 		//_TessPhongStrength( "Tess Phong Strength", Range( 0, 1 ) ) = 0.5
@@ -230,6 +231,7 @@ Shader "SHR_Grid"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _BaseColore;
 			float _TrueSquareSize;
 			float _SubSquareSize;
 			float _Alpha;
@@ -401,7 +403,6 @@ Shader "SHR_Grid"
 					#endif
 				#endif
 
-				float4 color225 = IsGammaSpace() ? float4(2,2,2,0) : float4(4.594794,4.594794,4.594794,0);
 				float2 texCoord204 = IN.ase_texcoord3.xy * float2( 1,1 ) + float2( 0,0 );
 				float3 ase_objectScale = float3( length( GetObjectToWorldMatrix()[ 0 ].xyz ), length( GetObjectToWorldMatrix()[ 1 ].xyz ), length( GetObjectToWorldMatrix()[ 2 ].xyz ) );
 				float4 appendResult218 = (float4(ase_objectScale.x , ase_objectScale.z , 0.0 , 0.0));
@@ -419,8 +420,8 @@ Shader "SHR_Grid"
 				
 				float3 BakedAlbedo = 0;
 				float3 BakedEmission = 0;
-				float3 Color = ( color225 * temp_output_215_0 ).rgb;
-				float Alpha = ( temp_output_215_0 * _Alpha );
+				float3 Color = ( _BaseColore * temp_output_215_0 ).rgb;
+				float Alpha = ( 0.0 * ( temp_output_215_0 * _Alpha ) );
 				float AlphaClipThreshold = _Alphaclip;
 				float AlphaClipThresholdShadow = 0.5;
 
@@ -512,6 +513,7 @@ Shader "SHR_Grid"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _BaseColore;
 			float _TrueSquareSize;
 			float _SubSquareSize;
 			float _Alpha;
@@ -709,7 +711,7 @@ Shader "SHR_Grid"
 				float temp_output_215_0 = ( 1.0 - ( ( ( 1.0 - smoothstepResult167 ) * ( 1.0 - smoothstepResult168 ) ) * ( ( 1.0 - smoothstepResult201 ) * ( 1.0 - smoothstepResult200 ) ) ) );
 				
 
-				float Alpha = ( temp_output_215_0 * _Alpha );
+				float Alpha = ( 0.0 * ( temp_output_215_0 * _Alpha ) );
 				float AlphaClipThreshold = _Alphaclip;
 				float AlphaClipThresholdShadow = 0.5;
 
@@ -782,6 +784,7 @@ Shader "SHR_Grid"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _BaseColore;
 			float _TrueSquareSize;
 			float _SubSquareSize;
 			float _Alpha;
@@ -959,7 +962,7 @@ Shader "SHR_Grid"
 				float temp_output_215_0 = ( 1.0 - ( ( ( 1.0 - smoothstepResult167 ) * ( 1.0 - smoothstepResult168 ) ) * ( ( 1.0 - smoothstepResult201 ) * ( 1.0 - smoothstepResult200 ) ) ) );
 				
 
-				float Alpha = ( temp_output_215_0 * _Alpha );
+				float Alpha = ( 0.0 * ( temp_output_215_0 * _Alpha ) );
 				float AlphaClipThreshold = _Alphaclip;
 
 				#ifdef _ALPHATEST_ON
@@ -1025,6 +1028,7 @@ Shader "SHR_Grid"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _BaseColore;
 			float _TrueSquareSize;
 			float _SubSquareSize;
 			float _Alpha;
@@ -1187,7 +1191,7 @@ Shader "SHR_Grid"
 				float temp_output_215_0 = ( 1.0 - ( ( ( 1.0 - smoothstepResult167 ) * ( 1.0 - smoothstepResult168 ) ) * ( ( 1.0 - smoothstepResult201 ) * ( 1.0 - smoothstepResult200 ) ) ) );
 				
 
-				surfaceDescription.Alpha = ( temp_output_215_0 * _Alpha );
+				surfaceDescription.Alpha = ( 0.0 * ( temp_output_215_0 * _Alpha ) );
 				surfaceDescription.AlphaClipThreshold = _Alphaclip;
 
 				#if _ALPHATEST_ON
@@ -1253,6 +1257,7 @@ Shader "SHR_Grid"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _BaseColore;
 			float _TrueSquareSize;
 			float _SubSquareSize;
 			float _Alpha;
@@ -1410,7 +1415,7 @@ Shader "SHR_Grid"
 				float temp_output_215_0 = ( 1.0 - ( ( ( 1.0 - smoothstepResult167 ) * ( 1.0 - smoothstepResult168 ) ) * ( ( 1.0 - smoothstepResult201 ) * ( 1.0 - smoothstepResult200 ) ) ) );
 				
 
-				surfaceDescription.Alpha = ( temp_output_215_0 * _Alpha );
+				surfaceDescription.Alpha = ( 0.0 * ( temp_output_215_0 * _Alpha ) );
 				surfaceDescription.AlphaClipThreshold = _Alphaclip;
 
 				#if _ALPHATEST_ON
@@ -1490,6 +1495,7 @@ Shader "SHR_Grid"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _BaseColore;
 			float _TrueSquareSize;
 			float _SubSquareSize;
 			float _Alpha;
@@ -1656,7 +1662,7 @@ Shader "SHR_Grid"
 				float temp_output_215_0 = ( 1.0 - ( ( ( 1.0 - smoothstepResult167 ) * ( 1.0 - smoothstepResult168 ) ) * ( ( 1.0 - smoothstepResult201 ) * ( 1.0 - smoothstepResult200 ) ) ) );
 				
 
-				surfaceDescription.Alpha = ( temp_output_215_0 * _Alpha );
+				surfaceDescription.Alpha = ( 0.0 * ( temp_output_215_0 * _Alpha ) );
 				surfaceDescription.AlphaClipThreshold = _Alphaclip;
 
 				#if _ALPHATEST_ON
@@ -1697,7 +1703,6 @@ Shader "SHR_Grid"
 }
 /*ASEBEGIN
 Version=19200
-Node;AmplifyShaderEditor.DepthFade;132;2299.701,130.9176;Inherit;False;True;False;True;2;1;FLOAT3;0,0,0;False;0;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;-600.7015,-2567.698;Float;False;False;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;1;New Amplify Shader;2992e84f91cbeb14eab234972e07ea9d;True;ExtraPrePass;0;0;ExtraPrePass;5;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Unlit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;0;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.BreakToComponentsNode;14;-951.3801,-2515.416;Inherit;False;FLOAT2;1;0;FLOAT2;0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;2;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;1;New Amplify Shader;2992e84f91cbeb14eab234972e07ea9d;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Unlit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
@@ -1833,7 +1838,8 @@ Node;AmplifyShaderEditor.BreakToComponentsNode;208;667.6963,696.5006;Inherit;Fal
 Node;AmplifyShaderEditor.SimpleSubtractOpNode;161;449.5139,690.8817;Inherit;True;2;0;FLOAT2;0,0;False;1;FLOAT2;1,1;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.LengthOpNode;199;903.0261,325.3739;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;226;2971.161,296.4708;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.ColorNode;225;2620.751,135.6662;Inherit;False;Constant;_Color0;Color 0;4;1;[HDR];Create;True;0;0;0;False;0;False;2,2,2,0;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;225;2620.751,135.6662;Inherit;False;Property;_BaseColore;BaseColore;4;1;[HDR];Create;True;0;0;0;False;0;False;2,2,2,0;2,2,2,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;227;2712.554,460.8756;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 WireConnection;14;0;13;0
 WireConnection;197;0;200;0
 WireConnection;200;0;196;0
@@ -1943,7 +1949,7 @@ WireConnection;130;0;126;0
 WireConnection;102;0;97;0
 WireConnection;97;0;96;0
 WireConnection;1;2;226;0
-WireConnection;1;3;222;0
+WireConnection;1;3;227;0
 WireConnection;1;4;221;0
 WireConnection;215;0;210;0
 WireConnection;196;0;208;1
@@ -1979,5 +1985,6 @@ WireConnection;161;0;160;0
 WireConnection;199;0;208;0
 WireConnection;226;0;225;0
 WireConnection;226;1;215;0
+WireConnection;227;1;222;0
 ASEEND*/
-//CHKSM=AABC3231B02C35A518665E10224BC3BA402F658C
+//CHKSM=8A1A17823F7F3CB35178AB66264283AE031D4B6D
