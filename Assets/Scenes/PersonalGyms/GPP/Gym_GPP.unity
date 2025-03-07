@@ -10059,6 +10059,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
+      propertyPath: sfx_OkRythm.Path
+      value: event:/sfx_rythm_ok
+      objectReference: {fileID: 0}
+    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
       propertyPath: levelLoop.Guid.Data1
       value: -614446280
       objectReference: {fileID: 0}
@@ -10076,6 +10081,51 @@ PrefabInstance:
         type: 3}
       propertyPath: levelLoop.Guid.Data4
       value: -1716480763
+      objectReference: {fileID: 0}
+    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: sfx_PerfectRythm.Path
+      value: event:/sfx_rythm_perfect
+      objectReference: {fileID: 0}
+    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: sfx_OkRythm.Guid.Data1
+      value: 1210432888
+      objectReference: {fileID: 0}
+    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: sfx_OkRythm.Guid.Data2
+      value: 1340123606
+      objectReference: {fileID: 0}
+    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: sfx_OkRythm.Guid.Data3
+      value: 996508583
+      objectReference: {fileID: 0}
+    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: sfx_OkRythm.Guid.Data4
+      value: -2047782240
+      objectReference: {fileID: 0}
+    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: sfx_PerfectRythm.Guid.Data1
+      value: -1822000711
+      objectReference: {fileID: 0}
+    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: sfx_PerfectRythm.Guid.Data2
+      value: 1127125261
+      objectReference: {fileID: 0}
+    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: sfx_PerfectRythm.Guid.Data3
+      value: -1050836333
+      objectReference: {fileID: 0}
+    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: sfx_PerfectRythm.Guid.Data4
+      value: -1524173094
       objectReference: {fileID: 0}
     - target: {fileID: 1854602686278218416, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}

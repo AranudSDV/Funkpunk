@@ -18,13 +18,13 @@ using UnityEngine.Rendering.PostProcessing;
 using FMODUnity;
 using System.Text.RegularExpressions;
 using DG.Tweening;
+using UnityEditor;
 //using UnityEditor.PackageManager;
 
 public class SC_Player : MonoBehaviour
 {
     public bool bisTuto = false;
     public bool bGameIsPaused = false;
-    [SerializeField] private SoundManager soundManager;
     public MenuManager menuManager;
     public bool bIsOnComputer = true;
     public bool bOnControllerConstraint = false;

@@ -1,5 +1,6 @@
 using Cinemachine;
 using DG.Tweening;
+using FMOD.Studio;
 using FMODUnity;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,6 +12,8 @@ using UnityEngine.SceneManagement;
 public class BPM_Manager : MonoBehaviour
 {
     [SerializeField] private SC_Player scPlayer;
+    private SoundManager soundManager;
+
     //LE BEAT
     [Header("Beat")]
     public float FBPM;
@@ -20,6 +23,8 @@ public class BPM_Manager : MonoBehaviour
     private bool b_more = false;
     private bool b_less = false;
     [SerializeField] private EventReference levelLoop;
+    [SerializeField] private EventReference sfx_OkRythm;
+    [SerializeField] private EventReference sfx_PerfectRythm;
     public FMOD.Studio.EventInstance playerLoopInstance;
     private bool isPlaying = false; // Prevent multiple starts
 
@@ -64,6 +69,7 @@ public class BPM_Manager : MonoBehaviour
         FZoneGoodTiming = FGoodTiming;
         FZonePerfectTiming = FPerfectTiming;
         FWaitTime = FSPB - FZoneBadTiming;
+        soundManager = GetComponent<SoundManager>();
     }
     public void StartAfterTuto()
     {
@@ -72,16 +78,18 @@ public class BPM_Manager : MonoBehaviour
     public void Init()
     {
         StartCoroutine(wait());
-        if (playerLoopInstance.isValid()) return; // Prevent multiple instances
-
-        playerLoopInstance = RuntimeManager.CreateInstance(levelLoop);
-
-        if (!isPlaying)
+        if (playerLoopInstance.isValid())
         {
-            playerLoopInstance.start();
-            isPlaying = true;
+            playerLoopInstance.getPlaybackState(out PLAYBACK_STATE state);
+            if (state != PLAYBACK_STATE.STOPPED) return; // Only create a new instance if it's actually stopped
         }
+
+        // Create and start the instance
+        playerLoopInstance = RuntimeManager.CreateInstance(levelLoop);
+        playerLoopInstance.start();
         playerLoopInstance.setParameterByName("fPausedVolume", 0.8f);
+
+        isPlaying = true;
     }
     private void Update()
     {
@@ -175,6 +183,7 @@ public class BPM_Manager : MonoBehaviour
                 {
                     scPlayer.FDetectionLevel -= 2f;
                 }
+                SoundManager.Instance.PlayOneShot(sfx_OkRythm);
             }
             else if (BGood == true)
             {
@@ -191,6 +200,7 @@ public class BPM_Manager : MonoBehaviour
                 {
                     scPlayer.FDetectionLevel -= 5f;
                 }
+                SoundManager.Instance.PlayOneShot(sfx_OkRythm);
             }
             else if (BPerfect == true)
             {
@@ -207,6 +217,7 @@ public class BPM_Manager : MonoBehaviour
                 {
                     scPlayer.FDetectionLevel -= 10f;
                 }
+               SoundManager.Instance.PlayOneShot(sfx_PerfectRythm);
             }
             scPlayer.bcanRotate = false;
         }

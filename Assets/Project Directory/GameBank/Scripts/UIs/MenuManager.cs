@@ -94,13 +94,19 @@ public class MenuManager : MonoBehaviour
     }
     private void Start()
     {
-        if (menuLoopInstance.isValid()) return; // Prevent multiple instances
-
-        menuLoopInstance = RuntimeManager.CreateInstance(menuLoop);
-
-        if (!isPlaying)
+        if (SceneManager.GetActiveScene().name == "MainMenu")
         {
+            if (menuLoopInstance.isValid())
+            {
+                menuLoopInstance.getPlaybackState(out PLAYBACK_STATE state);
+                if (state != PLAYBACK_STATE.STOPPED) return; // Only create a new instance if it's actually stopped
+            }
+
+            // Create and start the instance
+            menuLoopInstance = RuntimeManager.CreateInstance(menuLoop);
             menuLoopInstance.start();
+            menuLoopInstance.setParameterByName("fPausedVolume", 0.8f);
+
             isPlaying = true;
         }
     }
@@ -358,7 +364,7 @@ public class MenuManager : MonoBehaviour
     }
     public void LoadScene(string sceneToLoad)
     {
-        if (sceneToLoad == "SceneLvl0" || sceneToLoad == "SceneLvl1" || sceneToLoad == "Loft")
+        if (sceneToLoad == "SceneLvl0" || sceneToLoad == "SceneLvl1" || sceneToLoad == "Loft" || sceneToLoad == "SceneLvl2" || sceneToLoad == "SceneLvl3")
         {
             menuLoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
             menuLoopInstance.release();

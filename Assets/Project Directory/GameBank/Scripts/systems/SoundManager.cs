@@ -6,10 +6,11 @@ using System;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using FMODUnity;
+using FMOD.Studio;
 
 public class SoundManager : MonoBehaviour
 {
-    [SerializeField] private AudioClip[] sfxSounds;
+    /*[SerializeField] private AudioClip[] sfxSounds;
     [SerializeField] private AudioClip[] musicSounds;
     [SerializeField] private AudioSource sfxSource, musicSource;
     [SerializeField] private FMODUnity.EventReference fmodEvent;
@@ -58,5 +59,42 @@ public class SoundManager : MonoBehaviour
         Slider slider = GO.GetComponent<Slider>();
         float volume = slider.value;
         sfxSource.volume = volume;
+    }*/
+    public static SoundManager Instance { get; private set; }
+    private Dictionary<string, float> soundCooldowns = new Dictionary<string, float>();
+    private float cooldownDuration = 0.05f; // Adjust based on your needs
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
+
+    public void PlayOneShot(EventReference eventReference)
+    {
+        string eventPath = eventReference.Guid.ToString();
+        if (CanPlaySound(eventPath))
+        {
+            RuntimeManager.PlayOneShot(eventPath);
+            soundCooldowns[eventPath] = Time.time + cooldownDuration;
+        }
+    }
+
+    public EventInstance CreateEventInstance(EventReference eventReference)
+    {
+        return RuntimeManager.CreateInstance(eventReference);
+    }
+    private bool CanPlaySound(string eventPath)
+    {
+        if (!soundCooldowns.ContainsKey(eventPath) || Time.time >= soundCooldowns[eventPath])
+        {
+            return true;
+        }
+        return false;
+    }
+
 }

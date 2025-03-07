@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2014184485350387374}
   - component: {fileID: 269850063720091022}
   - component: {fileID: 1165491372627732135}
+  - component: {fileID: 8025381729888204121}
   m_Layer: 5
   m_Name: Manager
   m_TagString: Manager
@@ -119,6 +120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controllerConnected: 0
+  scPlayer: {fileID: 0}
   GoLevelsButton: []
   GoScoring: {fileID: 4275264178835127054}
   GoPauseMenu: {fileID: 3498886556833193360}
@@ -157,6 +159,18 @@ MonoBehaviour:
   iStarsPlayer: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   iScorePerLvlPlayer: 0000000000000000000000000000000000000000
   iLanguageNbPlayer: 0
+--- !u!114 &8025381729888204121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 179568958092481075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7739a0bf31073194e972facc5cf05e83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &204593627366668587
 GameObject:
   m_ObjectHideFlags: 0
