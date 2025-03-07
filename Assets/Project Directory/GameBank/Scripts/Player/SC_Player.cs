@@ -775,14 +775,14 @@ public class SC_Player : MonoBehaviour
     }
     private IEnumerator ThrowingFeedback(float time)
     {
-        PlayerCapsule.transform.DOMoveY(posMesh.y + 1f, time * 2/9).SetAutoKill(true);
-        PlayerCapsule.transform.DORotate(new Vector3(45F, 0,0), time * 2/9, RotateMode.LocalAxisAdd).SetAutoKill(true);
-        yield return new WaitForSeconds(time * 2 / 9);
-        PlayerCapsule.transform.DORotate(new Vector3(-90, 0, 0), time * 2/9, RotateMode.LocalAxisAdd).SetAutoKill(true);
-        yield return new WaitForSeconds(time * 2 / 9);
-        PlayerCapsule.transform.DORotate(new Vector3(45, 0, 0), time * 2 / 9, RotateMode.LocalAxisAdd).SetAutoKill(true);
-        PlayerCapsule.transform.DOMoveY(posMesh.y, time * 2/9).SetAutoKill(true);
-        yield return new WaitForSeconds(time *2/9);
+        PlayerCapsule.transform.DOMoveY(posMesh.y + 1f, time * 1/9).SetAutoKill(true);
+        yield return new WaitForSeconds(time * 1/9);
+        PlayerCapsule.transform.DORotate(new Vector3(-45, 0, 0), time * 1/6, RotateMode.LocalAxisAdd).SetAutoKill(true);
+        yield return new WaitForSeconds(time * 2 / 6);
+        PlayerCapsule.transform.DORotate(new Vector3(45, 0, 0), time * 1 / 6, RotateMode.LocalAxisAdd).SetAutoKill(true);
+        yield return new WaitForSeconds(time * 4/9);
+        PlayerCapsule.transform.DOMoveY(posMesh.y, time * 1/9).SetAutoKill(true);
+        yield return new WaitForSeconds(time *1/9);
         PlayerCapsule.transform.localPosition = localPosMesh;
     }
     private void RotationVFX(Vector3 dir, float time)
