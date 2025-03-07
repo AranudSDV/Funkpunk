@@ -30,15 +30,15 @@ MonoBehaviour:
   m_Settings:
     AOMethod: 1
     Downsample: 0
-    AfterOpaque: 1
+    AfterOpaque: 0
     Source: 1
     NormalSamples: 1
     Intensity: 1
-    DirectLightingStrength: 0.25
-    Radius: 0.5
+    DirectLightingStrength: 0
+    Radius: 1
     Samples: 0
     BlurQuality: 0
-    Falloff: 100
+    Falloff: 50
     SampleCount: -1
   m_BlueNoise256Textures:
   - {fileID: 2800000, guid: 36f118343fc974119bee3d09e2111500, type: 3}
@@ -63,8 +63,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Active: 1
   m_bloomShader: {fileID: 4800000, guid: dbf5315d028c47149ac4188e46947cf1, type: 3}
-  m_compositeShader: {fileID: -6465566751694194690, guid: 7d9583a2be45cc9478b3b3be26017fd9,
+  m_compositeShader: {fileID: -6465566751694194690, guid: 64bbdf35d048459489ec2e4fd63a4027,
     type: 3}
+  m_ssaoShader: {fileID: 4800000, guid: 0849e84e3d62649e8882e9d6f056a017, type: 3}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82,10 +83,10 @@ MonoBehaviour:
       type: 3}
     hdrDebugViewPS: {fileID: 4800000, guid: 573620ae32aec764abd4d728906d2587, type: 3}
   m_RendererFeatures:
-  - {fileID: -2986749047603376439}
   - {fileID: -6532023907810781725}
   - {fileID: -2312324036417463366}
-  m_RendererFeatureMap: c94e5dd090ef8cd6e355942edd9659a5ba5bbd438af9e8df
+  - {fileID: -2986749047603376439}
+  m_RendererFeatureMap: e355942edd9659a5ba5bbd438af9e8dfc94e5dd090ef8cd6
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 4deb761f5d869534fb19942c0e6e8c8b, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
