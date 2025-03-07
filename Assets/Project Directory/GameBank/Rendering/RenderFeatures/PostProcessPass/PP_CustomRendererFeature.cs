@@ -11,9 +11,12 @@ public class PP_CustomRendererFeature : ScriptableRendererFeature
     private Shader m_bloomShader;
     [SerializeField]
     private Shader m_compositeShader;
+    [SerializeField]
+    private Shader m_ssaoShader;
 
     private Material m_bloomMaterial;
     private Material m_compositeMaterial;
+    private Material m_ssaoMaterial;
 
     private PP_CustomPass m_customPass;
     
