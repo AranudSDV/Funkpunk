@@ -151,6 +151,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scPlayer: {fileID: 0}
   bpmManager: {fileID: 0}
+  sc_juice: {fileID: 7769575704157368480}
   newPos: {x: 0, y: 0, z: 0}
   midPos: {x: 0, y: 0, z: 0}
   bIsBeingThrown: 0

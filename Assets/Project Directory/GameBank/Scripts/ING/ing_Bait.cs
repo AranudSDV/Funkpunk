@@ -10,6 +10,7 @@ public class ing_Bait : MonoBehaviour
 {
     public SC_Player scPlayer;
     public BPM_Manager bpmManager;
+    [SerializeField] private bait_juicy sc_juice;
 
     //THROWN 
     private float elapsedseconds = 0;
@@ -45,6 +46,7 @@ public class ing_Bait : MonoBehaviour
     //ONE TIME ONLY
     private bool b_BeenThrown = false;
     private bool bOnce = false;
+    private bool bInit = false;
 
     private void Start()
     {
@@ -57,61 +59,13 @@ public class ing_Bait : MonoBehaviour
         PS_smash.Stop();
         PS_trail.Stop();
     }
-    GameObject[] DetectObjects()
-    {
-        GameObject[] objectsWithTag = GameObject.FindGameObjectsWithTag(targetTag);
-
-        List<GameObject> objectsInRange = new List<GameObject>();
-
-        foreach (GameObject obj in objectsWithTag)
-        {
-            if (obj != this.gameObject)
-            {
-                float distance = Vector3.Distance(transform.position, obj.transform.position);
-                if (distance <= detectionRadius)
-                {
-                    objectsInRange.Add(obj);
-                }
-            }
-        }
-
-        return objectsInRange.ToArray();
-    }
-    private void ThrownAway()
-    {
-        bIsBeingThrown = false;
-        StartCoroutine(NumImpactVFX());
-        GameObject[] allGoEnnemies = DetectObjects();
-        allEnemies = new SC_FieldOfView[allGoEnnemies.Length];
-        if (allEnemies.Length == 0)
-        {
-            b_BeenThrown = false;
-            mshRdn.material = mNotThrown;
-        }
-        else
-        {
-            mshRdn.material = mThrown;
-            for (int i = 0; i < allGoEnnemies.Length; i++)
-            {
-                allEnemies[i] = allGoEnnemies[i].GetComponent<SC_FieldOfView>();
-            }
-            foreach (SC_FieldOfView ennemy in allEnemies)
-            {
-                if (!ennemy.bIsDisabled)
-                {
-                    ennemy.bHasHeard = true;
-                    ennemy.i_EnnemyBeat = 0;
-                }
-            }
-        }
-    }
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, detectionRadius);
-    }
     private void Update()
     {
+        if (!bInit)
+        {
+            sc_juice.StartNow(bpmManager);
+            bInit = true;
+        }
         if (b_BeenThrown)
         {
             foreach (SC_FieldOfView ennemy in allEnemies)
@@ -123,15 +77,15 @@ public class ing_Bait : MonoBehaviour
                     b_BeenThrown = false;
                     mshRdn.material = mNotThrown;
                 }
-                if(ennemy.goBaitHearing != this.transform.gameObject || ennemy.i_EnnemyBeat == 0)
+                if (ennemy.goBaitHearing != this.transform.gameObject || ennemy.i_EnnemyBeat == 0)
                 {
                     mshRdn.material = mNotThrown;
                 }
-                else if(ennemy.goBaitHearing == this.transform.gameObject && ennemy.i_EnnemyBeat > 0)
+                else if (ennemy.goBaitHearing == this.transform.gameObject && ennemy.i_EnnemyBeat > 0)
                 {
                     mshRdn.material = mThrown;
                 }
-                if(ennemy.i_EnnemyBeat == -5)
+                if (ennemy.i_EnnemyBeat == -5)
                 {
                     b_BeenThrown = false;
                 }
@@ -146,7 +100,7 @@ public class ing_Bait : MonoBehaviour
             if (!bOnce)
             {
                 bGoingUp = true;
-                StartCoroutine(NumSmashVFX());
+                StartCoroutine(NumSmashVFX(bpmManager.FSPB));
                 //this.transform.DOJump(newPos, 5f, 0, bpmManager.FSPB).SetEase(Ease.OutBack); //Ease.OutQuad, Ease.OutElastic, Ease.OutBack
                 //this.transform.DOMove(midPos, bpmManager.FSPB / 2, false).SetAutoKill(true);
                 //this.transform.GetChild(0).gameObject.transform.DOMove(midPos, bpmManager.FSPB / 2, false).SetAutoKill(true);
@@ -186,6 +140,59 @@ public class ing_Bait : MonoBehaviour
             }
         }
     }
+    GameObject[] DetectObjects()
+    {
+        GameObject[] objectsWithTag = GameObject.FindGameObjectsWithTag(targetTag);
+
+        List<GameObject> objectsInRange = new List<GameObject>();
+
+        foreach (GameObject obj in objectsWithTag)
+        {
+            if (obj != this.gameObject)
+            {
+                float distance = Vector3.Distance(transform.position, obj.transform.position);
+                if (distance <= detectionRadius)
+                {
+                    objectsInRange.Add(obj);
+                }
+            }
+        }
+
+        return objectsInRange.ToArray();
+    }
+    private void ThrownAway()
+    {
+        bIsBeingThrown = false;
+        StartCoroutine(NumImpactVFX(bpmManager.FSPB));
+        GameObject[] allGoEnnemies = DetectObjects();
+        allEnemies = new SC_FieldOfView[allGoEnnemies.Length];
+        if (allEnemies.Length == 0)
+        {
+            b_BeenThrown = false;
+            mshRdn.material = mNotThrown;
+        }
+        else
+        {
+            mshRdn.material = mThrown;
+            for (int i = 0; i < allGoEnnemies.Length; i++)
+            {
+                allEnemies[i] = allGoEnnemies[i].GetComponent<SC_FieldOfView>();
+            }
+            foreach (SC_FieldOfView ennemy in allEnemies)
+            {
+                if (!ennemy.bIsDisabled)
+                {
+                    ennemy.bHasHeard = true;
+                    ennemy.i_EnnemyBeat = 0;
+                }
+            }
+        }
+    }
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, detectionRadius);
+    }
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.CompareTag("Player") && b_BeenThrown == false)
@@ -199,7 +206,7 @@ public class ing_Bait : MonoBehaviour
             }
         }
     }
-    private IEnumerator NumSmashVFX()
+    private IEnumerator NumSmashVFX(float time)
     {
         Go_vfx_Smash.transform.LookAt(scPlayer.gameObject.transform, Vector3.down);
         Go_vfx_Smash.transform.localPosition = fPosBase_smash;
@@ -207,19 +214,19 @@ public class ing_Bait : MonoBehaviour
         Go_vfxTrail.transform.localPosition = fPosBase_trail;
         PS_trail.Play();
         PS_smash.Play();
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(time*3/4);
         PS_trail.Stop();
         PS_smash.Stop();
+        yield return new WaitForSeconds(time * 1 / 4);
         Go_vfx_Smash.transform.localPosition = new Vector3(fPosBase_smash.x, fPosBase_smash.y + 50f, fPosBase_smash.z);
-        yield return new WaitForSeconds(0.5f);
         bOnce = false;
     }
-    private IEnumerator NumImpactVFX()
+    private IEnumerator NumImpactVFX(float time)
     {
         Go_vfx_Impact.transform.localPosition = fPosBase_impact;
         Go_vfxTrail.transform.localPosition = new Vector3(fPosBase_trail.x, fPosBase_trail.y +50f, fPosBase_trail.z);
         PS_Impact.Play();
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(time * 1/5);
         PS_Impact.Stop();
         Go_vfx_Impact.transform.localPosition = new Vector3(fPosBase_impact.x, fPosBase_impact.y + 50f, fPosBase_impact.z);
     }

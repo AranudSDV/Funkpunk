@@ -16,12 +16,11 @@ public class bait_juicy : MonoBehaviour
         int hasard = rdm.Next(a, b + 1); //Aller jusqu'a le b inclu.
         return hasard;
     }
-    private void Awake()
+    public void StartNow(BPM_Manager bpm)
     {
         int hasard = Hasard(-90, 90);
         rotationAngle = Convert.ToSingle(hasard);
-        BPM_Manager bpmManager = this.transform.parent.GetComponent<ing_Bait>().bpmManager;
-        BaitRythm(bpmManager.FSPB);
+        BaitRythm(bpm.FSPB);
     }
     private void BaitRythm(float f_beat)
     {

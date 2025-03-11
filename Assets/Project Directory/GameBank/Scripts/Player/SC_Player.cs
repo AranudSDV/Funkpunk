@@ -38,6 +38,7 @@ public class SC_Player : MonoBehaviour
     //LE PLAYER ET SES MOUVEMENTS
     [Header("Player and movement")]
     public Vector3 lastMoveDirection;
+    private Vector3 lastLastMoveDirection;
     Vector2 move;
     [SerializeField] public PlayerControl control;
     public GameObject PlayerCapsule;
@@ -48,6 +49,12 @@ public class SC_Player : MonoBehaviour
     [SerializeField]private GameObject GoVfxSteps;
     [SerializeField] private Vector3 fPosVFX_steps;
     [SerializeField] private ParticleSystem vfx_steps;
+    [SerializeField] private GameObject GoVfxRotToRight;
+    [SerializeField] private Vector3 fPosVFX_RotToRight;
+    [SerializeField] private ParticleSystem vfx_RotToRight;
+    [SerializeField] private GameObject GoVfxRotToLeft;
+    [SerializeField] private Vector3 fPosVFX_RotToLeft;
+    [SerializeField] private ParticleSystem vfx_RotToLeft;
     public bool bcanRotate = false;
     public bool bIsImune = false;
     private bool bIsBeingAnimated = false;
@@ -91,6 +98,12 @@ public class SC_Player : MonoBehaviour
     [SerializeField] private GameObject GoVfxTag;
     [SerializeField] private ParticleSystem vfx_tag;
     [SerializeField] private LayerMask LMask;
+    static int Hasard(int a, int b) //Choisi un random.
+    {
+        System.Random rdm = new System.Random();
+        int hasard = rdm.Next(a, b + 1); //Aller jusqu'a le b inclu.
+        return hasard;
+    }
 
     public void InitializeGamepad()
     {
@@ -216,7 +229,8 @@ public class SC_Player : MonoBehaviour
         //UDPATE LA DIRECTION
         if (move != Vector2.zero)
         {
-            Vector3 direction = Vector3.forward;
+            lastLastMoveDirection = lastMoveDirection;
+            Vector3 direction = Vector3.zero;
             if (!bIsOnComputer || bOnControllerConstraint)
             {
                 direction = GetDirectionFromJoystick(move);
@@ -379,7 +393,7 @@ public class SC_Player : MonoBehaviour
                                 {
                                     ingTag.textOnWall.text = (i + 1).ToString() + "/3";
                                     StartCoroutine(TaggingFeedback(bpmManager.FSPB, vectDir));
-                                    StartCoroutine(TagFeedback(vectDir));
+                                    StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
                                     break;
                                 }
                             }
@@ -391,13 +405,13 @@ public class SC_Player : MonoBehaviour
                                     {
                                         ingTag.textOnWall.text = (i + 2).ToString() + "/3";
                                         StartCoroutine(TaggingFeedback(bpmManager.FSPB, vectDir));
-                                        StartCoroutine(TagFeedback(vectDir));
+                                        StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
                                     }
                                     else
                                     {
                                         ingTag.textOnWall.text = "3/3";
                                         StartCoroutine(TaggingFeedback(bpmManager.FSPB, vectDir));
-                                        StartCoroutine(TagFeedback(vectDir));
+                                        StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
                                     }
                                     break;
                                 }
@@ -406,7 +420,7 @@ public class SC_Player : MonoBehaviour
                             {
                                 ingTag.textOnWall.text = "3/3";
                                 StartCoroutine(TaggingFeedback(bpmManager.FSPB, vectDir));
-                                StartCoroutine(TagFeedback(vectDir));
+                                StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
                                 break;
                             }
                             else if(!bpmManager.bPlayPerfect && !bpmManager.bPlayGood && !bpmManager.bPlayBad)
@@ -706,11 +720,11 @@ public class SC_Player : MonoBehaviour
     }
     private IEnumerator MouvementVFX(float time)
     {
-        yield return new WaitForSeconds(time - 0.5f);
+        yield return new WaitForSeconds(time *2/3);
         GoVfxSteps.transform.localPosition = fPosVFX_steps;
         //GoVfxSteps.SetActive(true);
         vfx_steps.Play();
-        yield return new WaitForSeconds(0.51f);
+        yield return new WaitForSeconds(time*1/4);
         vfx_steps.Stop();
         GoVfxSteps.transform.localPosition = fPosVFX_steps + new Vector3(0f,50f,0f);
         //GoVfxSteps.SetActive(false);
@@ -764,12 +778,13 @@ public class SC_Player : MonoBehaviour
             PlayerCapsule.transform.localPosition = localPosMesh;
         }
     }
-    private IEnumerator TagFeedback(Vector3 dir)
+    private IEnumerator TagFeedback(Vector3 dir, float time)
     {
+        yield return new WaitForSeconds(time * 1 / 6);
         GoVfxTag.transform.localEulerAngles = dir;
         GoVfxTag.transform.localPosition = -dir *0.01f;
         vfx_tag.Play();
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(time*4/6);
         vfx_tag.Stop();
         GoVfxTag.transform.localPosition = dir + new Vector3(0f, 50f, 0f);
     }
@@ -784,6 +799,22 @@ public class SC_Player : MonoBehaviour
         PlayerCapsule.transform.DOMoveY(posMesh.y, time * 1/9).SetAutoKill(true);
         yield return new WaitForSeconds(time *1/9);
         PlayerCapsule.transform.localPosition = localPosMesh;
+    }
+    private IEnumerator RotationToRight(float time)
+    {
+        GoVfxRotToRight.transform.localPosition = fPosVFX_RotToRight;
+        vfx_RotToRight.Play();
+        yield return new WaitForSeconds(time * 4 / 5);
+        vfx_RotToRight.Stop();
+        GoVfxRotToRight.transform.localPosition = new Vector3(0f, 50f, 0f);
+    }
+    private IEnumerator RotationToLeft(float time)
+    {
+        GoVfxRotToLeft.transform.localPosition = fPosVFX_RotToLeft;
+        vfx_RotToLeft.Play();
+        yield return new WaitForSeconds(time * 4 / 5);
+        vfx_RotToLeft.Stop();
+        GoVfxRotToLeft.transform.localPosition = new Vector3(0f, 50f, 0f);
     }
     private void RotationVFX(Vector3 dir, float time)
     {
@@ -806,7 +837,7 @@ public class SC_Player : MonoBehaviour
         else if (Mathf.Abs(dir.z) > tolerance && Mathf.Abs(dir.x) <= tolerance)
         {
             // Mouvement haut ou bas
-            if (Mathf.Sign( dir.z) == 1)
+            if (Mathf.Sign(dir.z) == 1)
             {
                 currentAngleIndex = 3;
                 Quaternion quater = Quaternion.Euler(0, angles[currentAngleIndex], 0);
@@ -845,6 +876,70 @@ public class SC_Player : MonoBehaviour
                 currentAngleIndex = 6;
                 Quaternion quater = Quaternion.Euler(0, angles[currentAngleIndex], 0);
                 PlayerCapsule.transform.DORotateQuaternion(quater, time * 1 / 3).SetAutoKill(true);
+            }
+        }
+
+        if (lastLastMoveDirection != dir && dir != Vector3.zero)
+        {
+            if(lastLastMoveDirection.z >0)
+            {
+                float valeur = lastLastMoveDirection.x - dir.x;
+                if (valeur > 0)
+                {
+                    StartCoroutine(RotationToRight(bpmManager.FSPB));
+                }
+                else if (valeur < 0)
+                {
+                    StartCoroutine(RotationToLeft(bpmManager.FSPB));
+                }
+                else
+                {
+                    int hasard = Hasard(1, 2);
+                    if (hasard == 1)
+                    {
+                        StartCoroutine(RotationToRight(bpmManager.FSPB));
+                    }
+                    else
+                    {
+                        StartCoroutine(RotationToLeft(bpmManager.FSPB));
+                    }
+                }
+            }
+            else if(lastLastMoveDirection.z < 0)
+            {
+                float valeur = lastLastMoveDirection.x - dir.x;
+                if (valeur > 0)
+                {
+                    StartCoroutine(RotationToLeft(time));
+                }
+                else if (valeur < 0)
+                {
+                    StartCoroutine(RotationToRight(time));
+                }
+                else
+                {
+                    int hasard = Hasard(1, 2);
+                    if (hasard == 1)
+                    {
+                        StartCoroutine(RotationToLeft(time));
+                    }
+                    else
+                    {
+                        StartCoroutine(RotationToRight(time));
+                    }
+                }
+            }
+            else
+            {
+                float valeur = lastLastMoveDirection.x - dir.x;
+                if (valeur > 0)
+                {
+                    StartCoroutine(RotationToLeft(time));
+                }
+                else if (valeur < 0)
+                {
+                    StartCoroutine(RotationToRight(time));
+                }
             }
         }
     }
