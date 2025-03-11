@@ -49,6 +49,7 @@ public class SC_Player : MonoBehaviour
     [SerializeField]private GameObject GoVfxSteps;
     [SerializeField] private Vector3 fPosVFX_steps;
     [SerializeField] private ParticleSystem vfx_steps;
+    [SerializeField] private float fFractionStartLanding = 2/5f;
     [SerializeField] private GameObject GoVfxRotToRight;
     [SerializeField] private Vector3 fPosVFX_RotToRight;
     [SerializeField] private ParticleSystem vfx_RotToRight;
@@ -720,11 +721,11 @@ public class SC_Player : MonoBehaviour
     }
     private IEnumerator MouvementVFX(float time)
     {
-        yield return new WaitForSeconds(time *2/3);
+        yield return new WaitForSeconds(time * fFractionStartLanding);
         GoVfxSteps.transform.localPosition = fPosVFX_steps;
         //GoVfxSteps.SetActive(true);
         vfx_steps.Play();
-        yield return new WaitForSeconds(time*1/4);
+        yield return new WaitForSeconds(time * (1 - fFractionStartLanding));
         vfx_steps.Stop();
         GoVfxSteps.transform.localPosition = fPosVFX_steps + new Vector3(0f,50f,0f);
         //GoVfxSteps.SetActive(false);

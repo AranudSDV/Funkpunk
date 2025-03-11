@@ -128,7 +128,7 @@ public class ing_Bait : MonoBehaviour
                 transform.position = Vector3.Lerp(this.transform.position, newPos, interpolationRatio);
                 Go_vfxTrail.transform.position = Vector3.Lerp(this.transform.position, newPos, interpolationRatio);
                 this.transform.GetChild(0).gameObject.transform.position = Vector3.Lerp(this.transform.position, newPos, interpolationRatio);
-                if (interpolationRatio >= 0.99f)
+                if (interpolationRatio >= 0.95f)
                 {
                     b_BeenThrown = true;
                     ThrownAway();
@@ -214,10 +214,10 @@ public class ing_Bait : MonoBehaviour
         Go_vfxTrail.transform.localPosition = fPosBase_trail;
         PS_trail.Play();
         PS_smash.Play();
-        yield return new WaitForSeconds(time*3/4);
+        yield return new WaitForSeconds(time*5/6);
         PS_trail.Stop();
         PS_smash.Stop();
-        yield return new WaitForSeconds(time * 1 / 4);
+        yield return new WaitForSeconds(time * 1 / 6);
         Go_vfx_Smash.transform.localPosition = new Vector3(fPosBase_smash.x, fPosBase_smash.y + 50f, fPosBase_smash.z);
         bOnce = false;
     }
@@ -226,7 +226,7 @@ public class ing_Bait : MonoBehaviour
         Go_vfx_Impact.transform.localPosition = fPosBase_impact;
         Go_vfxTrail.transform.localPosition = new Vector3(fPosBase_trail.x, fPosBase_trail.y +50f, fPosBase_trail.z);
         PS_Impact.Play();
-        yield return new WaitForSeconds(time * 1/5);
+        yield return new WaitForSeconds(time * 2/5);
         PS_Impact.Stop();
         Go_vfx_Impact.transform.localPosition = new Vector3(fPosBase_impact.x, fPosBase_impact.y + 50f, fPosBase_impact.z);
     }
