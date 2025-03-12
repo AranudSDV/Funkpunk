@@ -651,14 +651,12 @@ public class SC_Player : MonoBehaviour
                 currentAngleIndex = 1;
                 PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
                 UIFlase();
-                UI_Joystick[3].SetActive(true); // Gauche
             }
             else if (Mathf.Sign(lastMoveDirection.x) == 1)
             {
                 currentAngleIndex = 5;
                 PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
                 UIFlase();
-                UI_Joystick[4].SetActive(true); // Droite
             }
         }
         else if (Mathf.Abs(lastMoveDirection.z) > tolerance && Mathf.Abs(lastMoveDirection.x) <= tolerance)
@@ -669,14 +667,12 @@ public class SC_Player : MonoBehaviour
                 currentAngleIndex = 3;
                 PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
                 UIFlase();
-                UI_Joystick[0].SetActive(true); // Haut
             }
             else if (Mathf.Sign(lastMoveDirection.z) == -1)
             {
                 currentAngleIndex = 7;
                 PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
                 UIFlase();
-                UI_Joystick[6].SetActive(true); // Bas
             }
         }
         else if (Mathf.Abs(lastMoveDirection.x) > tolerance && Mathf.Abs(lastMoveDirection.z) > tolerance)
@@ -687,28 +683,24 @@ public class SC_Player : MonoBehaviour
                 currentAngleIndex = 2;
                 PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
                 UIFlase();
-                UI_Joystick[2].SetActive(true); // HautGauche
             }
             else if (Mathf.Sign(lastMoveDirection.x) == 1 && Mathf.Sign(lastMoveDirection.z) == 1)
             {
                 currentAngleIndex = 4;
                 PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
                 UIFlase();
-                UI_Joystick[1].SetActive(true); // Haut-Droite
             }
             else if (Mathf.Sign(lastMoveDirection.x) == -1 && Mathf.Sign(lastMoveDirection.z) == -1)
             {
                 currentAngleIndex = 0;
                 PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
                 UIFlase();
-                UI_Joystick[8].SetActive(true); // Bas Gauche
             }
             else if (Mathf.Sign(lastMoveDirection.x) == 1 && Mathf.Sign(lastMoveDirection.z) == -1)
             {
                 currentAngleIndex = 6;
                 PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
                 UIFlase();
-                UI_Joystick[7].SetActive(true); // Bas Droite
             }
         }
     }
@@ -723,12 +715,10 @@ public class SC_Player : MonoBehaviour
     {
         yield return new WaitForSeconds(time * fFractionStartLanding);
         GoVfxSteps.transform.localPosition = fPosVFX_steps;
-        //GoVfxSteps.SetActive(true);
         vfx_steps.Play();
         yield return new WaitForSeconds(time * (1 - fFractionStartLanding));
         vfx_steps.Stop();
         GoVfxSteps.transform.localPosition = fPosVFX_steps + new Vector3(0f,50f,0f);
-        //GoVfxSteps.SetActive(false);
     }
     private IEnumerator NotEnoughPercentLoft(TextMeshPro txt)
     {
@@ -1009,12 +999,10 @@ public class SC_Player : MonoBehaviour
         if(BisDetectedByAnyEnemy)
         {
             GoVfxDetected.transform.localPosition = fPosVFX_detected;
-           //GoVfxDetected.SetActive(true);
         }
         else
         {
             GoVfxDetected.transform.localPosition = fPosVFX_detected + new Vector3(0f,50f,0f);
-            //GoVfxDetected.SetActive(false);
         }
     }
     IEnumerator LooseDetectionLevel()
@@ -1028,27 +1016,36 @@ public class SC_Player : MonoBehaviour
         bGameIsPaused = true;
         PauseGame();
         PlayerData data = menuManager.gameObject.GetComponent<PlayerData>();
-        GameObject ScoringGo = menuManager.gameObject.transform.GetChild(0).gameObject;
-        GameObject GoWin = ScoringGo.transform.GetChild(0).gameObject;
-        GameObject GoLoose = ScoringGo.transform.GetChild(1).gameObject;
-        ScoringGo.SetActive(true);
+
+        menuManager.CgScoring.alpha = 1f;
+        menuManager.RtScoring.anchorMin = new Vector2(0, 0);
+        menuManager.RtScoring.anchorMax = new Vector2(1, 1);
+        menuManager.RtScoring.offsetMax = new Vector2(0f, 0f);
+        menuManager.RtScoring.offsetMin = new Vector2(0f, 0f);
+
         if (hasWon && fPercentScore >= 35)
         {
-            GoWin.SetActive(true);
-            GoLoose.SetActive(false);
+            //APPARITION
+            menuManager.CgScoringSuccess.alpha = 1f;
+            menuManager.RtScoringSuccess.anchorMin = new Vector2(0, 0);
+            menuManager.RtScoringSuccess.anchorMax = new Vector2(1, 1);
+            menuManager.RtScoringSuccess.offsetMax = new Vector2(0f, 0f);
+            menuManager.RtScoringSuccess.offsetMin = new Vector2(0f, 0f);
+
+            menuManager.RtScoringButtons.anchorMin = new Vector2(0.75f, 0.05f);
+            menuManager.RtScoringButtons.anchorMax = new Vector2(0.9f, 0.3f);
+            menuManager.ImgScoringBackground.sprite = menuManager.spritesScoringBackground[0];
             //LE SCORING
-            TMP_Text textScoring = GoWin.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject.GetComponent<TMP_Text>();
-            TMP_Text textJudgment = GoWin.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>();
-            textJudgment.text = sJugement(hasWon)[0];
-            textScoring.text = sJugement(hasWon)[1];
+            menuManager.txtScoringJudgment.text = sJugement(hasWon)[0];
+            menuManager.txtScoringScore.text = sJugement(hasWon)[1];
             //LES EXPLOITS
             List<int> ints = iStars();
             UnityEngine.UI.Image[] imgStars = new UnityEngine.UI.Image[ints.Count];
             TMP_Text[] texts = new TMP_Text[ints.Count];
             for (int i =0; i<ints.Count; i++)
             {
-                imgStars[i] = GoWin.transform.GetChild(2).gameObject.transform.GetChild(i).gameObject.transform.GetChild(0).gameObject.GetComponent<UnityEngine.UI.Image>();
-                texts[i] = GoWin.transform.GetChild(2).gameObject.transform.GetChild(i).gameObject.transform.GetChild(1).gameObject.GetComponent<TMP_Text>();
+                imgStars[i] = menuManager.GoScoringSuccess.transform.GetChild(i).gameObject.transform.GetChild(0).gameObject.GetComponent<UnityEngine.UI.Image>();
+                texts[i] = menuManager.GoScoringSuccess.transform.GetChild(i).gameObject.transform.GetChild(1).gameObject.GetComponent<TMP_Text>();
                 if (ints[i] == 1) //vrai
                 {
                     imgStars[i].color = new Color32(255, 0, 255, 255);
@@ -1068,16 +1065,68 @@ public class SC_Player : MonoBehaviour
                 }
             }
             PlayerDataUpdate(data);
+            //BUTTONS
+            UnityEngine.UI.Button[] buttonScorring = new UnityEngine.UI.Button[2];
+            TextMeshProUGUI[] txt = new TextMeshProUGUI[2];
+            for (int i =0; i<3; i++)
+            {
+                buttonScorring[i] = menuManager.GoScoringButtons.transform.GetChild(i).GetComponent<UnityEngine.UI.Button>();
+                txt[i] = menuManager.GoScoringButtons.transform.GetChild(i).transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+            }
+            buttonScorring[0].onClick.AddListener(delegate { menuManager.LoadScene("next"); });
+            buttonScorring[1].onClick.AddListener(delegate { menuManager.LoadScene("retry"); });
+            buttonScorring[2].onClick.AddListener(delegate { menuManager.LoadScene("Scenes/World/LevelChoosing"); });
+            if (data.iLanguageNbPlayer == 1)
+            {
+                txt[0].text = "Continuer";
+                txt[1].text = "Réessayer";
+                txt[2].text = "Revoir la carte";
+            }
+            else
+            {
+                txt[0].text = "Next";
+                txt[1].text = "Retry";
+                txt[2].text = "See Map";
+            }
         }
         else
         {
-            GoLoose.SetActive(true);
-            GoWin.SetActive(false);
+            //APPARITION
+            menuManager.CgScoringSuccess.alpha = 0f;
+            menuManager.RtScoringSuccess.anchorMin = new Vector2(0, 1);
+            menuManager.RtScoringSuccess.anchorMax = new Vector2(1, 2);
+            menuManager.RtScoringSuccess.offsetMax = new Vector2(0f, 0f);
+            menuManager.RtScoringSuccess.offsetMin = new Vector2(0f, 0f);
+
+            menuManager.RtScoringButtons.anchorMin = new Vector2(0.75f, 0.35f);
+            menuManager.RtScoringButtons.anchorMax = new Vector2(0.9f, 0.6f);
+            menuManager.ImgScoringBackground.sprite = menuManager.spritesScoringBackground[1];
             //LE SCORING
-            TMP_Text textScoring = GoLoose.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject.GetComponent<TMP_Text>();
-            TMP_Text textJudgment = GoLoose.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<TMP_Text>();
-            textJudgment.text = sJugement(hasWon)[0];
-            textScoring.text = sJugement(hasWon)[1];
+            menuManager.txtScoringJudgment.text = sJugement(hasWon)[0];
+            menuManager.txtScoringScore.text = sJugement(hasWon)[1];
+            //BUTTONS
+            UnityEngine.UI.Button[] buttonScorring = new UnityEngine.UI.Button[2];
+            TextMeshProUGUI[] txt = new TextMeshProUGUI[2];
+            for (int i = 0; i < 3; i++)
+            {
+                buttonScorring[i] = menuManager.GoScoringButtons.transform.GetChild(i).GetComponent<UnityEngine.UI.Button>();
+                txt[i] = menuManager.GoScoringButtons.transform.GetChild(i).transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+            }
+            buttonScorring[0].onClick.AddListener(delegate { menuManager.LoadScene("retry"); });
+            buttonScorring[1].onClick.AddListener(delegate { menuManager.LoadScene("Scenes/World/LevelChoosing"); });
+            buttonScorring[2].onClick.AddListener(delegate { menuManager.LoadScene("Scenes/World/GameChoose"); });
+            if (data.iLanguageNbPlayer == 1)
+            {
+                txt[0].text = "Réessayer";
+                txt[1].text = "Revoir la carte";
+                txt[2].text = "Retour au menu";
+            }
+            else
+            {
+                txt[0].text = "Retry";
+                txt[1].text = "See Map";
+                txt[2].text = "Back to Menu";
+            }
         }
     }
     private List<int> iStars()

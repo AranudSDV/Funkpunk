@@ -11,6 +11,7 @@ using UnityEngine.EventSystems;
 using FMODUnity;
 using UnityEngine.LowLevel;
 using FMOD.Studio;
+using UnityEngine.UIElements;
 
 public class MenuManager : MonoBehaviour
 {
@@ -20,24 +21,44 @@ public class MenuManager : MonoBehaviour
     public SC_Player scPlayer;
 
     //NAVIGATION UX
+    [Header("Navigation UX")]
     private GameObject GoMainMenu;
     private GameObject[] GoGameChoose; //0 is GoNewLoadButton, 1 is GoNewLoadText, 2 is GoOptionsButton, 3 is GoExitButton
     public GameObject[] GoLevelsButton;
-    [SerializeField] private GameObject GoScoring;
     [SerializeField] private GameObject GoPauseMenu;
+    public CanvasGroup CgPauseMenu;
+    [SerializeField] private RectTransform RtPauseMenu;
     private bool bActif = false;
     [SerializeField] private Color32 colorFoes;
     [SerializeField] private Color32 colorPlayer;
 
+    //SCORING
+    [Header("Scoring")]
+    [SerializeField] private GameObject GoScoring;
+    public CanvasGroup CgScoring;
+    public RectTransform RtScoring;
+    public TMP_Text txtScoringJudgment;
+    public TMP_Text txtScoringScore;
+    public UnityEngine.UI.Image ImgScoringBackground;
+    public Sprite[] spritesScoringBackground;
+    public GameObject GoScoringSuccess;
+    public CanvasGroup CgScoringSuccess;
+    public RectTransform RtScoringSuccess;
+    public GameObject GoScoringButtons;
+    public RectTransform RtScoringButtons;
+
     //SCENE LOADING
+    [Header("Loading Scene")]
     public string sSceneToLoad;
     public static bool isLoadingScene = false;
-    [SerializeField] private Slider progressBar;
+    [SerializeField] private UnityEngine.UI.Slider progressBar;
     [SerializeField] private GameObject loadingScreen;
+    [SerializeField] private CanvasGroup CgLoadingScreen;
+    [SerializeField] private RectTransform RtLoadingScreen;
     private AsyncOperation loadingOperation;
-    [SerializeField] private CanvasGroup canvasGroup;
 
     //DATA PLAYER
+    [Header("Datas")]
     private PlayerData _playerData;
     public Level[] _levels;
     [SerializeField] private EventReference menuLoop;
@@ -50,18 +71,18 @@ public class MenuManager : MonoBehaviour
     public class Level 
     {
         public int i_level;
-        public Button button_level;
+        public UnityEngine.UI.Button button_level;
         public GameObject Go_LevelButton;
         public string sScene_Level;
-        public Image img_lvl;
+        public UnityEngine.UI.Image img_lvl;
 
         public Level(int i_nb, GameObject[]Go_buttons)
         {
             i_level = i_nb;
             Go_LevelButton = Go_buttons[i_nb];
-            button_level = Go_buttons[i_nb].GetComponent<Button>();
+            button_level = Go_buttons[i_nb].GetComponent<UnityEngine.UI.Button>();
             sScene_Level = "SceneLvl" + i_level;
-            img_lvl = Go_buttons[i_nb].GetComponent<Image>();
+            img_lvl = Go_buttons[i_nb].GetComponent<UnityEngine.UI.Image>();
         }
     }
     void OnEnable()
@@ -153,18 +174,18 @@ public class MenuManager : MonoBehaviour
             if (controllerConnected)
             {
                 Debug.Log("Controller connected!");
-                Cursor.lockState = CursorLockMode.Locked;
+                UnityEngine.Cursor.lockState = CursorLockMode.Locked;
             }
             else
             {
                 Debug.Log("No controllers connected!");
-                Cursor.lockState = CursorLockMode.None;
+                UnityEngine.Cursor.lockState = CursorLockMode.None;
             }
         }
     }
     private void UXNavigation()
     {
-        if ((Input.GetKey(KeyCode.Escape)|| (controllerConnected && control.GamePlay.Pausing.triggered)) && GoPauseMenu.activeInHierarchy == false)
+        if ((Input.GetKey(KeyCode.Escape)|| (controllerConnected && control.GamePlay.Pausing.triggered)) && CgPauseMenu.alpha == 0f)
         {
             if (SceneManager.GetActiveScene().name != "GameChoose" && SceneManager.GetActiveScene().name != "LevelChoosing" && SceneManager.GetActiveScene().name != "Loft")
             {
@@ -172,7 +193,7 @@ public class MenuManager : MonoBehaviour
             }
             PauseMenu();
         }
-        else if ((Input.GetKey(KeyCode.Escape) || (controllerConnected && control.GamePlay.Pausing.triggered)) && GoPauseMenu.activeInHierarchy == true && GoScoring.activeInHierarchy == false)
+        else if ((Input.GetKey(KeyCode.Escape) || (controllerConnected && control.GamePlay.Pausing.triggered)) && CgPauseMenu.alpha == 1f && CgScoring.alpha == 0f)
         {
             PauseMenu();
         }
@@ -190,18 +211,22 @@ public class MenuManager : MonoBehaviour
     }
     public void PauseMenu()
     {
-        if (GoPauseMenu.activeInHierarchy == false && !bActif)
+        if (CgPauseMenu.alpha == 0f && !bActif)
         {
-            GoPauseMenu.SetActive(true);
+            CgPauseMenu.alpha = 1f;
+            RtPauseMenu.anchorMin = new Vector2(-0.5f, 0);
+            RtPauseMenu.anchorMax = new Vector2(1.5f, 1);
+            RtPauseMenu.offsetMax = new Vector2(0f, 0f);
+            RtPauseMenu.offsetMin = new Vector2(0f, 0f);
             if (!controllerConnected)
             {
-                Cursor.lockState = CursorLockMode.None;
+               UnityEngine.Cursor.lockState = CursorLockMode.None;
             }
-            if (scPlayer == null)
+            if (scPlayer == null && SceneManager.GetActiveScene().name != "GameChoose" && SceneManager.GetActiveScene().name != "MainMenu" && SceneManager.GetActiveScene().name != "Level Choosing")
             {
                 SC_Player scPlayer = GameObject.FindGameObjectWithTag("Player").GetComponent<SC_Player>();
             }
-            else
+            else if (scPlayer != null && SceneManager.GetActiveScene().name != "GameChoose" && SceneManager.GetActiveScene().name != "MainMenu" && SceneManager.GetActiveScene().name != "Level Choosing")
             {
                 scPlayer.bGameIsPaused = true;
                 Debug.Log("actif");
@@ -209,14 +234,18 @@ public class MenuManager : MonoBehaviour
             }
             StartCoroutine(wait());
         }
-        else if (GoPauseMenu.activeInHierarchy == true && bActif)
+        else if (CgPauseMenu.alpha == 1f && bActif)
         {
-            GoPauseMenu.SetActive(false);
-            if (scPlayer == null)
+            CgPauseMenu.alpha = 0f;
+            RtPauseMenu.anchorMin = new Vector2(0, 1);
+            RtPauseMenu.anchorMax = new Vector2(1, 2);
+            RtPauseMenu.offsetMax = new Vector2(0f, 0f);
+            RtPauseMenu.offsetMin = new Vector2(0f, 0f);
+            if (scPlayer == null && SceneManager.GetActiveScene().name != "GameChoose" && SceneManager.GetActiveScene().name != "MainMenu" && SceneManager.GetActiveScene().name != "Level Choosing")
             {
                 SC_Player scPlayer = GameObject.FindGameObjectWithTag("Player").GetComponent<SC_Player>();
             }
-            else
+            else if(scPlayer != null && SceneManager.GetActiveScene().name != "GameChoose" && SceneManager.GetActiveScene().name != "MainMenu" && SceneManager.GetActiveScene().name != "Level Choosing")
             {
                 scPlayer.bGameIsPaused = false;
                 Debug.Log("inactif");
@@ -228,7 +257,7 @@ public class MenuManager : MonoBehaviour
             }
             if (!controllerConnected && SceneManager.GetActiveScene().name != "GameChoose" && SceneManager.GetActiveScene().name != "LevelChoosing")
             {
-                Cursor.lockState = CursorLockMode.Locked;
+                UnityEngine.Cursor.lockState = CursorLockMode.Locked;
             }
             StartCoroutine(wait());
         }
@@ -236,11 +265,11 @@ public class MenuManager : MonoBehaviour
     private IEnumerator wait()
     {
         yield return new WaitForSecondsRealtime(0.5f);
-        if (GoPauseMenu.activeInHierarchy && !bActif)
+        if (CgPauseMenu.alpha == 1f && !bActif)
         {
             bActif = true;
         }
-        else if (GoPauseMenu.activeInHierarchy == false && bActif)
+        else if (CgPauseMenu.alpha == 0f && bActif)
         {
             bActif = false;
         }
@@ -306,7 +335,7 @@ public class MenuManager : MonoBehaviour
         }
         if(SceneManager.GetActiveScene().name == "GameChoose")
         {
-            Button btnNewLoad = GoGameChoose[0].GetComponent<Button>();
+            UnityEngine.UI.Button btnNewLoad = GoGameChoose[0].GetComponent<UnityEngine.UI.Button>();
             btnNewLoad.onClick.AddListener(delegate { LoadScene(sSceneToLoad); });
             if (_playerData.iLevelPlayer > 0)
             {
@@ -332,9 +361,9 @@ public class MenuManager : MonoBehaviour
                     txt.text = "New Game";
                 }
             }
-            Button btnExit = GoGameChoose[2].GetComponent<Button>();
+            UnityEngine.UI.Button btnExit = GoGameChoose[2].GetComponent<UnityEngine.UI.Button>();
             btnExit.onClick.AddListener(QuitGame);
-            Button btnOptions = GoGameChoose[1].GetComponent<Button>();
+            UnityEngine.UI.Button btnOptions = GoGameChoose[1].GetComponent<UnityEngine.UI.Button>();
             btnOptions.onClick.AddListener(OptionsGame);
         }
         else if(SceneManager.GetActiveScene().name == "LevelChoosing")
@@ -403,16 +432,23 @@ public class MenuManager : MonoBehaviour
         {
             StartCoroutine(StartLoad(sceneToLoad));
         }
-        if (GoScoring.activeInHierarchy == true)
+        if (CgScoring.alpha == 1f)
         {
-            GoScoring.SetActive(false);
-            GoScoring.transform.GetChild(0).gameObject.SetActive(false);
-            GoScoring.transform.GetChild(1).gameObject.SetActive(false);
+            CgScoring.alpha = 0f;
+            RtScoring.anchorMin = new Vector2(0, 1);
+            RtScoring.anchorMax = new Vector2(1, 2);
+            RtScoring.offsetMax = new Vector2(0f, 0f);
+            RtScoring.offsetMin = new Vector2(0f, 0f);
         }
     }
     private IEnumerator StartLoad(string sceneToLoad)
     {
-        loadingScreen.SetActive(true);
+        CgLoadingScreen.alpha = 1f;
+        RtLoadingScreen.anchorMin = new Vector2(0, 1);
+        RtLoadingScreen.anchorMax = new Vector2(0, 1);
+        CgScoring.alpha = 1f;
+        RtScoring.anchorMin = new Vector2(0, 1);
+        RtScoring.anchorMax = new Vector2(0, 1);
         yield return StartCoroutine(FadeLoadingScreen(1, 0.5f));
         LoaderScene(sceneToLoad);
         while (!loadingOperation.isDone)
@@ -422,7 +458,12 @@ public class MenuManager : MonoBehaviour
         LoadTargetUIMenus();
         yield return StartCoroutine(FadeLoadingScreen(0, 0.001f));
         isLoadingScene = false;
-        loadingScreen.SetActive(false);
+        CgLoadingScreen.alpha = 0f;
+        RtLoadingScreen.anchorMin = new Vector2(0, 1);
+        RtLoadingScreen.anchorMax = new Vector2(1, 2);
+        CgScoring.alpha = 0f;
+        RtScoring.anchorMin = new Vector2(0, 1);
+        RtScoring.anchorMax = new Vector2(1, 2);
     }
     private void LoaderScene(string sceneToLoad)
     {
@@ -434,16 +475,16 @@ public class MenuManager : MonoBehaviour
     }
     private IEnumerator FadeLoadingScreen(float targetValue, float duration)
     {
-        float startValue = canvasGroup.alpha;
+        float startValue = CgLoadingScreen.alpha;
         float time = 0;
 
         while (time < duration)
         {
-            canvasGroup.alpha = Mathf.Lerp(startValue, targetValue, time / duration);
+            CgLoadingScreen.alpha = Mathf.Lerp(startValue, targetValue, time / duration);
             time += Time.unscaledDeltaTime;
             yield return null;
         }
-        canvasGroup.alpha = targetValue;
+        CgLoadingScreen.alpha = targetValue;
         EventSystem = GameObject.FindObjectOfType<EventSystem>();
     }
     public void QuitGame()
