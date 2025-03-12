@@ -188,7 +188,7 @@ public class sc_tuto : MonoBehaviour
     }
     private void TutoArrows()
     {
-        if (scPlayer.UI_Joystick[3].activeInHierarchy) //0 is H, 1 is HD, 2 is HG, 3 is G, 4 is D, 5 is C, 6 is B, 7 is BD, 8 is BG
+        if (scPlayer.lastMoveDirection == Vector3.left)
         {
             for (int i = 0; i < 4; i++)
             {
@@ -196,7 +196,7 @@ public class sc_tuto : MonoBehaviour
             }
             render[0].material = materials[1]; //GAUCHE
         }
-        else if (scPlayer.UI_Joystick[0].activeInHierarchy) //0 is H, 1 is HD, 2 is HG, 3 is G, 4 is D, 5 is C, 6 is B, 7 is BD, 8 is BG
+        else if (scPlayer.lastMoveDirection == Vector3.forward)
         {
             for (int i = 0; i < 4; i++)
             {
@@ -204,7 +204,7 @@ public class sc_tuto : MonoBehaviour
             }
             render[1].material = materials[1]; //HAUT
         }
-        else if (scPlayer.UI_Joystick[4].activeInHierarchy) //0 is H, 1 is HD, 2 is HG, 3 is G, 4 is D, 5 is C, 6 is B, 7 is BD, 8 is BG
+        else if (scPlayer.lastMoveDirection == Vector3.right)
         {
             for (int i = 0; i < 4; i++)
             {
@@ -212,7 +212,7 @@ public class sc_tuto : MonoBehaviour
             }
             render[2].material = materials[1]; //DROITE
         }
-        else if (scPlayer.UI_Joystick[1].activeInHierarchy) //0 is H, 1 is HD, 2 is HG, 3 is G, 4 is D, 5 is C, 6 is B, 7 is BD, 8 is BG
+        else if (scPlayer.lastMoveDirection == new Vector3(1,0,1))
         {
             for (int i = 0; i < 4; i++)
             {

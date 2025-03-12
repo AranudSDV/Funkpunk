@@ -219,6 +219,13 @@ public class BPM_Manager : MonoBehaviour
                 }
                SoundManager.Instance.PlayOneShot(sfx_PerfectRythm);
             }
+            else if(!BPerfect && !BGood && !BBad)
+            {
+                if (!scPlayer.bIsImune)
+                {
+                    scPlayer.fNbBeat += 1f;
+                }
+            }
             scPlayer.bcanRotate = false;
         }
     }

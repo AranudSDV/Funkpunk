@@ -456,18 +456,18 @@ MonoBehaviour:
     Path: 
   sfx_OkRythm:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: 1210432888
+      Data2: 1340123606
+      Data3: 996508583
+      Data4: -2047782240
+    Path: event:/sfx_rythm_ok
   sfx_PerfectRythm:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: -1822000711
+      Data2: 1127125261
+      Data3: -1050836333
+      Data4: -1524173094
+    Path: event:/sfx_rythm_perfect
   colorMiss:
     serializedVersion: 2
     rgba: 4294770917

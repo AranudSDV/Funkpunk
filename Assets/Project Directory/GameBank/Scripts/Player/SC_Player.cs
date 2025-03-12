@@ -49,7 +49,6 @@ public class SC_Player : MonoBehaviour
     [SerializeField]private GameObject GoVfxSteps;
     [SerializeField] private Vector3 fPosVFX_steps;
     [SerializeField] private ParticleSystem vfx_steps;
-    [SerializeField] private float fFractionStartLanding = 2/5f;
     [SerializeField] private GameObject GoVfxRotToRight;
     [SerializeField] private Vector3 fPosVFX_RotToRight;
     [SerializeField] private ParticleSystem vfx_RotToRight;
@@ -76,7 +75,6 @@ public class SC_Player : MonoBehaviour
 
     //LE JOYSTICK
     [Header("Joystick")]
-    [Tooltip("0 is H, 1 is HD, 2 is HG, 3 is G, 4 is D, 5 is C, 6 is B, 7 is BD, 8 is BG")] public GameObject[] UI_Joystick;
     private float[] angles = { -135f, -90f, -45f, 0f, 45f, 90f, 135f, 180f };
     private int currentAngleIndex = 3;
 
@@ -650,13 +648,11 @@ public class SC_Player : MonoBehaviour
             {
                 currentAngleIndex = 1;
                 PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
-                UIFlase();
             }
             else if (Mathf.Sign(lastMoveDirection.x) == 1)
             {
                 currentAngleIndex = 5;
                 PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
-                UIFlase();
             }
         }
         else if (Mathf.Abs(lastMoveDirection.z) > tolerance && Mathf.Abs(lastMoveDirection.x) <= tolerance)
@@ -666,13 +662,11 @@ public class SC_Player : MonoBehaviour
             {
                 currentAngleIndex = 3;
                 PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
-                UIFlase();
             }
             else if (Mathf.Sign(lastMoveDirection.z) == -1)
             {
                 currentAngleIndex = 7;
                 PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
-                UIFlase();
             }
         }
         else if (Mathf.Abs(lastMoveDirection.x) > tolerance && Mathf.Abs(lastMoveDirection.z) > tolerance)
@@ -682,41 +676,30 @@ public class SC_Player : MonoBehaviour
             {
                 currentAngleIndex = 2;
                 PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
-                UIFlase();
             }
             else if (Mathf.Sign(lastMoveDirection.x) == 1 && Mathf.Sign(lastMoveDirection.z) == 1)
             {
                 currentAngleIndex = 4;
                 PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
-                UIFlase();
             }
             else if (Mathf.Sign(lastMoveDirection.x) == -1 && Mathf.Sign(lastMoveDirection.z) == -1)
             {
                 currentAngleIndex = 0;
                 PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
-                UIFlase();
             }
             else if (Mathf.Sign(lastMoveDirection.x) == 1 && Mathf.Sign(lastMoveDirection.z) == -1)
             {
                 currentAngleIndex = 6;
                 PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
-                UIFlase();
             }
-        }
-    }
-    private void UIFlase()
-    {
-        for (int i = 0; i < UI_Joystick.Length; i++)
-        {
-            UI_Joystick[i].SetActive(false);
         }
     }
     private IEnumerator MouvementVFX(float time)
     {
-        yield return new WaitForSeconds(time * fFractionStartLanding);
+        yield return new WaitForSeconds(time * 2/5f);
         GoVfxSteps.transform.localPosition = fPosVFX_steps;
         vfx_steps.Play();
-        yield return new WaitForSeconds(time * (1 - fFractionStartLanding));
+        yield return new WaitForSeconds(time * (1 - 2 / 5f));
         vfx_steps.Stop();
         GoVfxSteps.transform.localPosition = fPosVFX_steps + new Vector3(0f,50f,0f);
     }
