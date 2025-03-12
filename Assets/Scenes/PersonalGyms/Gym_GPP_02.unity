@@ -2136,7 +2136,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d4862e0ee1f04f94ba4a7caf21b064df, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -31314,11 +31314,6 @@ PrefabInstance:
       propertyPath: menuLoop.Guid.Data4
       value: 1227493856
       objectReference: {fileID: 0}
-    - target: {fileID: 1174892266719903533, guid: 45351d2d758839e409953a510c2e4a78,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4275264178835127054, guid: 45351d2d758839e409953a510c2e4a78,
         type: 3}
       propertyPath: m_IsActive
@@ -39478,11 +39473,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5443401851390362354, guid: 65f34271cad0dda4d8a49134617b7571,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -3.7000122
-      objectReference: {fileID: 0}
     - target: {fileID: 8144555387004432319, guid: 65f34271cad0dda4d8a49134617b7571,
         type: 3}
       propertyPath: m_Pivot.x
@@ -39811,11 +39801,6 @@ PrefabInstance:
         type: 3}
       propertyPath: allEnemies.Array.size
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
-        type: 3}
-      propertyPath: fFractionStartLanding
-      value: 0.35
       objectReference: {fileID: 0}
     - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
