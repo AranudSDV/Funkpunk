@@ -356,6 +356,22 @@ public class SC_FieldOfView : MonoBehaviour
             }
             if (this.transform.position  == posDirections[iCurrentDirection] - new Vector3(posDirections[iCurrentDirection].x - this.transform.position.x, 0, posDirections[iCurrentDirection].z - this.transform.position.z).normalized) //un mouvement away from the last position
             {
+                if (iCurrentDirection + 1 == posDirections.Length && !isReversing)
+                {
+                    Go_vfx_Backward.transform.LookAt(new Vector3(posDirections[iCurrentDirection-1].x, Go_vfx_Backward.transform.position.y, posDirections[iCurrentDirection-1].z));
+                }
+                else if(iCurrentDirection + 1 != posDirections.Length && !isReversing)
+                {
+                    Go_vfx_Backward.transform.LookAt(new Vector3(posDirections[iCurrentDirection + 1].x, Go_vfx_Backward.transform.position.y, posDirections[iCurrentDirection + 1].z));
+                }
+                else if(iCurrentDirection - 1 == -1 && isReversing)
+                {
+                    Go_vfx_Backward.transform.LookAt(new Vector3(posDirections[iCurrentDirection + 1].x, Go_vfx_Backward.transform.position.y, posDirections[iCurrentDirection + 1].z));
+                }
+                else
+                {
+                    Go_vfx_Backward.transform.LookAt(new Vector3(posDirections[iCurrentDirection - 1].x, Go_vfx_Backward.transform.position.y, posDirections[iCurrentDirection - 1].z));
+                }
                 Go_vfx_Backward.transform.localPosition = pos_vfx_backward;
                 if (backfeedback.initialized)
                 {
