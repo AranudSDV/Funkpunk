@@ -194,7 +194,9 @@ public class SC_Player : MonoBehaviour
             Time.timeScale = 0f;
             if(bisTuto == false)
             {
-                bpmManager.playerLoopInstance.setParameterByName("fPausedVolume", 0.8f);
+                menuManager.musicVCA.getVolume(out float currentVolume); // Get current volume
+                menuManager.musicVCA.setVolume(currentVolume * 0.8f);
+                //bpmManager.playerLoopInstance.setParameterByName("fPausedVolume", 0.8f);
             }
             if(!menuManager.controllerConnected && bisTuto == false)
             {
@@ -208,7 +210,7 @@ public class SC_Player : MonoBehaviour
         else
         {
             Time.timeScale = 1f;
-            bpmManager.playerLoopInstance.setParameterByName("fPausedVolume", 1f);
+            menuManager.musicVCA.setVolume(menuManager.playerMusicVolume);
             UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         }
     }

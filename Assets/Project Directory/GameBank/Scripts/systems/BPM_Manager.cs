@@ -87,7 +87,6 @@ public class BPM_Manager : MonoBehaviour
         // Create and start the instance
         playerLoopInstance = RuntimeManager.CreateInstance(levelLoop);
         playerLoopInstance.start();
-        playerLoopInstance.setParameterByName("fPausedVolume", 0.8f);
 
         isPlaying = true;
     }

@@ -149,7 +149,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: -90, y: 90, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0, y: -1.25}
+  m_AnchoredPosition: {x: 0, y: -1}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &6232205305050839246
@@ -386,7 +386,6 @@ MonoBehaviour:
   GoVfxSteps: {fileID: 745069941918855500}
   fPosVFX_steps: {x: 0, y: -1, z: 0}
   vfx_steps: {fileID: 6928992648249028036}
-  fFractionStartLanding: 0.4
   GoVfxRotToRight: {fileID: 7430655793002442280}
   fPosVFX_RotToRight: {x: 0, y: -0.5, z: 0}
   vfx_RotToRight: {fileID: 1132662366433366583}
@@ -400,16 +399,6 @@ MonoBehaviour:
   FScore: 0
   fNbBeat: 0
   TMPScore: {fileID: 0}
-  UI_Joystick:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   FDetectionLevel: 0
   allEnemies:
   - {fileID: 0}

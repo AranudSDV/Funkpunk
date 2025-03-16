@@ -20,6 +20,15 @@ public class MenuManager : MonoBehaviour
     public bool controllerConnected = false;
     public SC_Player scPlayer;
 
+    [Header("Sound")]
+    public FMOD.Studio.VCA musicVCA;
+    public FMOD.Studio.VCA sfxVCA;
+    public float playerMusicVolume = 1f;
+    public CanvasGroup CgSoundManager;
+    public RectTransform RtSoundManager;
+    [SerializeField] private UnityEngine.UI.Slider SfxSlider;
+    [SerializeField] private UnityEngine.UI.Slider MusicSlider;
+
     //NAVIGATION UX
     [Header("Navigation UX")]
     private GameObject GoMainMenu;
@@ -130,6 +139,9 @@ public class MenuManager : MonoBehaviour
 
             isPlaying = true;
         }
+        musicVCA = FMODUnity.RuntimeManager.GetVCA("vca:/Music");
+        sfxVCA = FMODUnity.RuntimeManager.GetVCA("vca:/SFX");
+        Debug.Log(musicVCA.isValid() ? "VCA Loaded!" : "VCA Failed to Load!");
     }
     // Update is called once per frame
     void Update()
@@ -390,6 +402,19 @@ public class MenuManager : MonoBehaviour
     public void OptionsGame()
     {
         Debug.Log("OptionsOpen");
+        CgSoundManager.alpha = 1f;
+        RtSoundManager.anchorMin = new Vector2(0, 0);
+        RtSoundManager.anchorMax = new Vector2(1, 1);
+        RtSoundManager.offsetMax = new Vector2(0f, 0f);
+        RtSoundManager.offsetMin = new Vector2(0f, 0f);
+    }
+    public void CloseOptions()
+    {
+        CgSoundManager.alpha = 0f;
+        RtSoundManager.anchorMin = new Vector2(0, 1);
+        RtSoundManager.anchorMax = new Vector2(1, 2);
+        RtSoundManager.offsetMax = new Vector2(0f, 0f);
+        RtSoundManager.offsetMin = new Vector2(0f, 0f);
     }
     public void LoadScene(string sceneToLoad)
     {
@@ -497,5 +522,26 @@ public class MenuManager : MonoBehaviour
 #endif
 
         Application.Quit();
+    }
+    public void SetMusicVolume()
+    {
+        float volume = MusicSlider.value;
+        Debug.Log("Slider Value: " + volume);
+        if (!musicVCA.isValid())
+        {
+            Debug.LogError("VCA is not valid! Check FMOD path.");
+            return;
+        }
+        playerMusicVolume = volume;
+        musicVCA.setVolume(volume);
+        float checkVolume;
+        musicVCA.getVolume(out checkVolume); // Check if FMOD applied it
+
+        Debug.Log($"Slider Value: {volume}, FMOD Applied Volume: {checkVolume}");
+    }
+    public void SetSFXVolume()
+    {
+        float volume = SfxSlider.value;
+        sfxVCA.setVolume(volume);
     }
 }
