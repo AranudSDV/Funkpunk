@@ -443,20 +443,34 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  sfx_MissRythm:
+    Guid:
+      Data1: 1865414260
+      Data2: 1328692699
+      Data3: -1732967745
+      Data4: 1087638052
+    Path: event:/sfx_rythm_miss
+  sfx_BadRythm:
+    Guid:
+      Data1: -486517848
+      Data2: 1077326717
+      Data3: -1146326105
+      Data4: 1557811378
+    Path: event:/sfx_rythm_bad
   sfx_OkRythm:
     Guid:
-      Data1: 1210432888
-      Data2: 1340123606
-      Data3: 996508583
-      Data4: -2047782240
-    Path: event:/sfx_rythm_ok
+      Data1: -461129906
+      Data2: 1142745261
+      Data3: -2075825991
+      Data4: 721637169
+    Path: event:/sfx_rythm_ok2
   sfx_PerfectRythm:
     Guid:
-      Data1: -1822000711
-      Data2: 1127125261
-      Data3: -1050836333
-      Data4: -1524173094
-    Path: event:/sfx_rythm_perfect
+      Data1: -1520879992
+      Data2: 1226509461
+      Data3: 311780276
+      Data4: 174280761
+    Path: event:/sfx_rythm_perfect2
   colorMiss:
     serializedVersion: 2
     rgba: 4294770917
