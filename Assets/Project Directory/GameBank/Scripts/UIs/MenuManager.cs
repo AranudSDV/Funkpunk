@@ -558,7 +558,6 @@ public class MenuManager : MonoBehaviour
                 musicVCA.setVolume(currentVolume * 0.8f);
                 //bpmManager.playerLoopInstance.setParameterByName("fPausedVolume", 0.8f);
             }
-            Debug.Log("on passe dans l'arret pause du jeu");
         }
         else
         {
@@ -568,7 +567,6 @@ public class MenuManager : MonoBehaviour
             {
                 EventSystem.firstSelectedGameObject = GoScoringFirstButtonSelected;
             }
-            Debug.Log("on reprend le jeu");
         }
     }
 }
