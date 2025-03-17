@@ -23,6 +23,8 @@ public class BPM_Manager : MonoBehaviour
     private bool b_more = false;
     private bool b_less = false;
     [SerializeField] private EventReference levelLoop;
+    [SerializeField] private EventReference sfx_MissRythm;
+    [SerializeField] private EventReference sfx_BadRythm;
     [SerializeField] private EventReference sfx_OkRythm;
     [SerializeField] private EventReference sfx_PerfectRythm;
     public FMOD.Studio.EventInstance playerLoopInstance;
@@ -142,6 +144,7 @@ public class BPM_Manager : MonoBehaviour
             if (!scPlayer.bIsImune)
             {
                 scPlayer.fNbBeat += 1f;
+                SoundManager.Instance.PlayOneShot(sfx_MissRythm, this.transform.position);
             }
             soul_Feedback.color = colorMiss;
             bPlayBad = false;
@@ -181,8 +184,8 @@ public class BPM_Manager : MonoBehaviour
                 if (!scPlayer.BisDetectedByAnyEnemy)
                 {
                     scPlayer.FDetectionLevel -= 2f;
+                    SoundManager.Instance.PlayOneShot(sfx_BadRythm, this.transform.position);
                 }
-                SoundManager.Instance.PlayOneShot(sfx_OkRythm, this.transform.position);
             }
             else if (BGood == true)
             {
@@ -198,8 +201,8 @@ public class BPM_Manager : MonoBehaviour
                 if (!scPlayer.BisDetectedByAnyEnemy)
                 {
                     scPlayer.FDetectionLevel -= 5f;
+                    SoundManager.Instance.PlayOneShot(sfx_OkRythm, this.transform.position);
                 }
-                SoundManager.Instance.PlayOneShot(sfx_OkRythm, this.transform.position);
             }
             else if (BPerfect == true)
             {
@@ -215,14 +218,7 @@ public class BPM_Manager : MonoBehaviour
                 if (!scPlayer.BisDetectedByAnyEnemy)
                 {
                     scPlayer.FDetectionLevel -= 10f;
-                }
-               SoundManager.Instance.PlayOneShot(sfx_PerfectRythm, this.transform.position);
-            }
-            else if(!BPerfect && !BGood && !BBad)
-            {
-                if (!scPlayer.bIsImune)
-                {
-                    scPlayer.fNbBeat += 1f;
+                    SoundManager.Instance.PlayOneShot(sfx_PerfectRythm, this.transform.position);
                 }
             }
             scPlayer.bcanRotate = false;
