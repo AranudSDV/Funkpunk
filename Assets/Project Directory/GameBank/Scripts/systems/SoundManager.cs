@@ -74,12 +74,12 @@ public class SoundManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public void PlayOneShot(EventReference eventReference)
+    public void PlayOneShot(EventReference eventReference, Vector3 spawnPos)
     {
         string eventPath = eventReference.Guid.ToString();
         if (CanPlaySound(eventPath))
         {
-            RuntimeManager.PlayOneShot(eventPath);
+            RuntimeManager.PlayOneShot(eventPath, spawnPos);
             soundCooldowns[eventPath] = Time.time + cooldownDuration;
         }
     }

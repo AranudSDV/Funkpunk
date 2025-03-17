@@ -14,7 +14,6 @@ public class SC_FieldOfView : MonoBehaviour
     [SerializeField] private Vector3[] posDirections;
     [SerializeField] private int iFirstPos = 0;
     [SerializeField] private int iCurrentDirection = 0;
-    [SerializeField] private bool b_display = false;
 
     //LE CONE DE VISION
     [Header("Cone de vision")]
@@ -312,10 +311,6 @@ public class SC_FieldOfView : MonoBehaviour
             Vector3 preLastPos = posDirections[iCurrentDirection] - new Vector3(posDirections[iCurrentDirection].x - this.transform.position.x, 0, posDirections[iCurrentDirection].z - this.transform.position.z).normalized;
             if (this.transform.position.x == Mathf.Round(posDirections[iCurrentDirection].x) && this.transform.position.z == Mathf.Round(posDirections[iCurrentDirection].z)) //pile à la position de changement.
             {
-                if(b_display)
-                {
-                    Debug.Log(gameObject.name + " est pile a la position de changement");
-                }
                 if (!isReversing && iCurrentDirection + 1 != posDirections.Length && posDirections.Length != 2) //Si ça ne reverse pas et que la prochaine direction existe
                 {
                     iCurrentDirection += 1;
@@ -362,10 +357,6 @@ public class SC_FieldOfView : MonoBehaviour
             }
             else if (this.transform.position  == new Vector3(Mathf.Round(preLastPos.x), preLastPos.y, Mathf.Round(preLastPos.z))) //un mouvement away from the last position
             {
-                if (b_display)
-                {
-                    Debug.Log(gameObject.name + " est presque au changement");
-                }
                 if (iCurrentDirection + 1 == posDirections.Length && !isReversing)
                 {
                     Go_vfx_Backward.transform.LookAt(new Vector3(posDirections[iCurrentDirection-1].x, Go_vfx_Backward.transform.position.y, posDirections[iCurrentDirection-1].z));

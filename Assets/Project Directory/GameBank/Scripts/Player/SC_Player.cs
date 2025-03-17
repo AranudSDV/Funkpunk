@@ -19,6 +19,7 @@ using FMODUnity;
 using System.Text.RegularExpressions;
 using DG.Tweening;
 using UnityEditor;
+using UnityEngine.EventSystems;
 //using UnityEditor.PackageManager;
 
 public class SC_Player : MonoBehaviour
@@ -970,12 +971,13 @@ public class SC_Player : MonoBehaviour
     //LA FIN DU NIVEAU
     private void EndGame(bool hasWon)
     {
+        Time.timeScale = 0f;
         menuManager.bGameIsPaused = true;
         menuManager.PauseGame();
         PlayerData data = menuManager.gameObject.GetComponent<PlayerData>();
-        menuManager.CgScoring.interactable = true;
 
         menuManager.CgScoring.alpha = 1f;
+        menuManager.CgScoring.interactable = true;
         menuManager.RtScoring.anchorMin = new Vector2(0, 0);
         menuManager.RtScoring.anchorMax = new Vector2(1, 1);
         menuManager.RtScoring.offsetMax = new Vector2(0f, 0f);
@@ -1024,8 +1026,8 @@ public class SC_Player : MonoBehaviour
             }
             PlayerDataUpdate(data);
             //BUTTONS
-            UnityEngine.UI.Button[] buttonScorring = new UnityEngine.UI.Button[2];
-            TextMeshProUGUI[] txt = new TextMeshProUGUI[2];
+            UnityEngine.UI.Button[] buttonScorring = new UnityEngine.UI.Button[3];
+            TextMeshProUGUI[] txt = new TextMeshProUGUI[3];
             for (int i =0; i<3; i++)
             {
                 buttonScorring[i] = menuManager.GoScoringButtons.transform.GetChild(i).GetComponent<UnityEngine.UI.Button>();
@@ -1063,8 +1065,8 @@ public class SC_Player : MonoBehaviour
             menuManager.txtScoringJudgment.text = sJugement(hasWon)[0];
             menuManager.txtScoringScore.text = sJugement(hasWon)[1];
             //BUTTONS
-            UnityEngine.UI.Button[] buttonScorring = new UnityEngine.UI.Button[2];
-            TextMeshProUGUI[] txt = new TextMeshProUGUI[2];
+            UnityEngine.UI.Button[] buttonScorring = new UnityEngine.UI.Button[3];
+            TextMeshProUGUI[] txt = new TextMeshProUGUI[3];
             for (int i = 0; i < 3; i++)
             {
                 buttonScorring[i] = menuManager.GoScoringButtons.transform.GetChild(i).GetComponent<UnityEngine.UI.Button>();
@@ -1086,6 +1088,7 @@ public class SC_Player : MonoBehaviour
                 txt[2].text = "Back to Menu";
             }
         }
+        menuManager.EventSystem.firstSelectedGameObject = menuManager.GoScoringFirstButtonSelected;
     }
     private List<int> iStars()
     {

@@ -310,6 +310,7 @@ GameObject:
   - component: {fileID: 2979385002189901494}
   - component: {fileID: 6830452445873526929}
   - component: {fileID: 82293833679279999}
+  - component: {fileID: 1633790102752681175}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -373,7 +374,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bisTuto: 1
-  bGameIsPaused: 0
   menuManager: {fileID: 0}
   bIsOnComputer: 1
   bOnControllerConstraint: 0
@@ -483,6 +483,19 @@ MonoBehaviour:
   goNoteLeft: {fileID: 0}
   fFOVmin: 10
   fFOVmax: 10.6
+--- !u!114 &1633790102752681175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7352753680462184229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attenuationObject: {fileID: 0}
 --- !u!1 &9047697795837925532
 GameObject:
   m_ObjectHideFlags: 0

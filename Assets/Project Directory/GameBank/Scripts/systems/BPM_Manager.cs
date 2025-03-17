@@ -182,7 +182,7 @@ public class BPM_Manager : MonoBehaviour
                 {
                     scPlayer.FDetectionLevel -= 2f;
                 }
-                SoundManager.Instance.PlayOneShot(sfx_OkRythm);
+                SoundManager.Instance.PlayOneShot(sfx_OkRythm, this.transform.position);
             }
             else if (BGood == true)
             {
@@ -199,7 +199,7 @@ public class BPM_Manager : MonoBehaviour
                 {
                     scPlayer.FDetectionLevel -= 5f;
                 }
-                SoundManager.Instance.PlayOneShot(sfx_OkRythm);
+                SoundManager.Instance.PlayOneShot(sfx_OkRythm, this.transform.position);
             }
             else if (BPerfect == true)
             {
@@ -216,7 +216,7 @@ public class BPM_Manager : MonoBehaviour
                 {
                     scPlayer.FDetectionLevel -= 10f;
                 }
-               SoundManager.Instance.PlayOneShot(sfx_PerfectRythm);
+               SoundManager.Instance.PlayOneShot(sfx_PerfectRythm, this.transform.position);
             }
             else if(!BPerfect && !BGood && !BBad)
             {

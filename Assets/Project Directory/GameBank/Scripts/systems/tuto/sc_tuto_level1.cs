@@ -81,7 +81,7 @@ public class sc_tuto_level1 : MonoBehaviour
                 coroutineIsRunning = true;
             }
         }
-        if(b_tutoFinished)
+        if(b_tutoFinished && scPlayer.bisTuto == true)
         {
             Time.timeScale = 1f;
             scPlayer.menuManager.bGameIsPaused = false;
@@ -92,7 +92,6 @@ public class sc_tuto_level1 : MonoBehaviour
         {
             if (bOnce == false)
             {
-
                 bTuto[4] = true;
                 tutoCoroutine[2] = StartCoroutine(StartThird());
             }
@@ -221,7 +220,7 @@ public class sc_tuto_level1 : MonoBehaviour
         yield return new WaitForSecondsRealtime(2f);
         bTuto[4] = false;
         bTuto[5] = true;
-        m_Speed = 20f;
+        m_Speed = 15f;
         bWaitSpace = true;
     }
     private IEnumerator StartForth()

@@ -16,7 +16,7 @@ using UnityEngine.UIElements;
 public class MenuManager : MonoBehaviour
 {
     public PlayerControl control;
-    private EventSystem EventSystem;
+    public EventSystem EventSystem;
     public bool controllerConnected = false;
     public SC_Player scPlayer;
     public bool bGameIsPaused = false;
@@ -41,7 +41,7 @@ public class MenuManager : MonoBehaviour
     private bool bActif = false;
     [SerializeField] private Color32 colorFoes;
     [SerializeField] private Color32 colorPlayer;
-    [SerializeField]private GameObject GoScoringFirstButtonSelected;
+    public GameObject GoScoringFirstButtonSelected;
     [SerializeField] private GameObject GoPausedFirstButtonSelected;
 
     //SCORING
@@ -248,7 +248,7 @@ public class MenuManager : MonoBehaviour
             RtPauseMenu.offsetMax = new Vector2(0f, 0f);
             RtPauseMenu.offsetMin = new Vector2(0f, 0f);
             CloseOptions();
-            if (scPlayer != null && scPlayer.bisTuto == true)
+            if ((scPlayer != null && scPlayer.bisTuto == true) || (scPlayer != null && CgScoring.alpha == 1f))
             {
                 bGameIsPaused = true;
             }
