@@ -86,8 +86,8 @@ public class sc_tuto_level_3 : MonoBehaviour
         if (b_tutoFinished)
         {
             Time.timeScale = 1f;
-            scPlayer.bGameIsPaused = false;
-            scPlayer.PauseGame();
+            scPlayer.menuManager.bGameIsPaused = false;
+            scPlayer.menuManager.PauseGame();
             SetCartPosition(m_Position + m_Speed * Time.unscaledDeltaTime);
         }
         if (b_tutoFinished && goCameraBackTrack[0].transform.position.z <= 6f)
@@ -187,8 +187,8 @@ public class sc_tuto_level_3 : MonoBehaviour
     }
     private void StartMidSecond()
     {
-        scPlayer.bGameIsPaused = false;
-        scPlayer.PauseGame();
+        scPlayer.menuManager.bGameIsPaused = false;
+        scPlayer.menuManager.PauseGame();
         GoTuto2[2].transform.GetChild(1).gameObject.SetActive(false);
         GoTuto2[0].gameObject.SetActive(false);
         bWaitSpace = false;

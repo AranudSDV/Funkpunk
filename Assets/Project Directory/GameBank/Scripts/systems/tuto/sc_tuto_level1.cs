@@ -35,8 +35,8 @@ public class sc_tuto_level1 : MonoBehaviour
     private bool[] bTuto = new bool[6];
     private void Init()
     {
-        scPlayer.bGameIsPaused = true;
-        scPlayer.PauseGame();
+        scPlayer.menuManager.bGameIsPaused = true;
+        scPlayer.menuManager.PauseGame();
         for(int i = 0; i<6; i++)
         {
             bTuto[i] = false;
@@ -84,8 +84,8 @@ public class sc_tuto_level1 : MonoBehaviour
         if(b_tutoFinished)
         {
             Time.timeScale = 1f;
-            scPlayer.bGameIsPaused = false;
-            scPlayer.PauseGame();
+            scPlayer.menuManager.bGameIsPaused = false;
+            scPlayer.menuManager.PauseGame();
             SetCartPosition(m_Position + m_Speed * Time.unscaledDeltaTime);
         }
         if (b_tutoFinished && goCameraBackTrack[0].transform.position.z <= 6f)
@@ -185,8 +185,8 @@ public class sc_tuto_level1 : MonoBehaviour
     }
     private void StartMidSecond()
     {
-        scPlayer.bGameIsPaused = false;
-        scPlayer.PauseGame();
+        scPlayer.menuManager.bGameIsPaused = false;
+        scPlayer.menuManager.PauseGame();
         GoTuto2[2].transform.GetChild(1).gameObject.SetActive(false);
         GoTuto2[0].gameObject.SetActive(false);
         bWaitSpace = false;

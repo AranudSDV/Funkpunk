@@ -122,6 +122,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controllerConnected: 0
   scPlayer: {fileID: 0}
+  bGameIsPaused: 0
   playerMusicVolume: 1
   CgSoundManager: {fileID: 5012095105389482774}
   RtSoundManager: {fileID: 3499776594213287319}
@@ -137,6 +138,8 @@ MonoBehaviour:
   colorPlayer:
     serializedVersion: 2
     rgba: 4292198144
+  GoScoringFirstButtonSelected: {fileID: 2042124641858762371}
+  GoPausedFirstButtonSelected: {fileID: 8117903037627878143}
   GoScoring: {fileID: 4275264178835127054}
   CgScoring: {fileID: 1877356355425069567}
   RtScoring: {fileID: 3803594740852749823}
@@ -762,7 +765,7 @@ CanvasGroup:
   m_GameObject: {fileID: 815679502645142706}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
+  m_Interactable: 0
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
 --- !u!1 &884522386342410676
@@ -1437,7 +1440,7 @@ CanvasGroup:
   m_GameObject: {fileID: 1771719604172920210}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
+  m_Interactable: 0
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
 --- !u!1 &2042124641858762371
@@ -2397,7 +2400,7 @@ CanvasGroup:
   m_GameObject: {fileID: 3498886556833193360}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
+  m_Interactable: 0
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
 --- !u!1 &3510122386082197809
@@ -2600,7 +2603,7 @@ CanvasGroup:
   m_GameObject: {fileID: 4275264178835127054}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
+  m_Interactable: 0
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
 --- !u!1 &4506092838792349122

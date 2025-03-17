@@ -19,6 +19,7 @@ public class sc_tuto : MonoBehaviour
     [SerializeField] private Sprite[] spriteBubbleTuto7;
     private Coroutine[] tutoCoroutine = new Coroutine[5];
     private bool coroutineIsRunning = false;
+    private bool b_cameraIsTracking = false;
 
     //PLAYER
     [SerializeField] private SC_Player scPlayer;
@@ -53,8 +54,8 @@ public class sc_tuto : MonoBehaviour
         }
         if (isMeshable == false)
         {
-            scPlayer.bGameIsPaused = true;
-            scPlayer.PauseGame();
+            scPlayer.menuManager.bGameIsPaused = true;
+            scPlayer.menuManager.PauseGame();
             GoTuto[0].gameObject.SetActive(true);
             for (int i = 0; i < 4; i++)
             {
@@ -77,14 +78,21 @@ public class sc_tuto : MonoBehaviour
         {
             ChangeTutoController();
         }*/
-        if (b_tutoFinished == true && isMeshable ==false && goCameraBackTrack[2].transform.position.z > 0.5f && !scPlayer.bGameIsPaused)
+        if (b_tutoFinished == true && isMeshable ==false && goCameraBackTrack[2].transform.position.z > 0.5f && !scPlayer.menuManager.bGameIsPaused)
         {
             Time.timeScale = 1f;
             SetCartPosition(m_Position + m_Speed * Time.unscaledDeltaTime);
+            b_cameraIsTracking = true;
+        }
+        if(b_cameraIsTracking && scPlayer.menuManager.CgPauseMenu.alpha == 0f)
+        {
+            scPlayer.menuManager.bGameIsPaused = false;
+            scPlayer.menuManager.PauseGame();
         }
         if(b_tutoFinished == true && goCameraBackTrack[2].transform.position.z <=1f && isMeshable == false)
         {
             TutoArrows();
+            b_cameraIsTracking = false;
             if (bOnce == false)
             {
                 tutoCoroutine[1] = StartCoroutine(StartThird());
@@ -122,8 +130,8 @@ public class sc_tuto : MonoBehaviour
             if(GoTuto[4].activeInHierarchy &&  ((scPlayer.bIsOnComputer == false && scPlayer.control.GamePlay.Move.triggered) || Input.GetButtonDown("Jump")))
             {
                 bWaitSpace = false;
-                scPlayer.bGameIsPaused = false;
-                scPlayer.PauseGame();
+                scPlayer.menuManager.bGameIsPaused = false;
+                scPlayer.menuManager.PauseGame();
                 GoTuto[4].SetActive(false);
                 StartCoroutine(ImuneToTuto(scPlayer.bpmManager));
             }
@@ -135,8 +143,8 @@ public class sc_tuto : MonoBehaviour
             if (GoTuto[5].transform.GetChild(3).gameObject.transform.GetChild(1).gameObject.activeInHierarchy && ((scPlayer.bIsOnComputer == false && scPlayer.control.GamePlay.Move.triggered) || Input.GetButtonDown("Jump")))
             {
                 bWaitSpace = false;
-                scPlayer.bGameIsPaused = false;
-                scPlayer.PauseGame();
+                scPlayer.menuManager.bGameIsPaused = false;
+                scPlayer.menuManager.PauseGame();
                 GoTuto[5].SetActive(false);
                 StartCoroutine(ImuneToTuto(scPlayer.bpmManager));
             }
@@ -148,8 +156,8 @@ public class sc_tuto : MonoBehaviour
             if(GoTuto[6].transform.GetChild(3).gameObject.transform.GetChild(1).gameObject.activeInHierarchy && ((scPlayer.bIsOnComputer == false && scPlayer.control.GamePlay.Move.triggered) || Input.GetButtonDown("Jump")))
             {
                 bWaitSpace = false;
-                scPlayer.bGameIsPaused = false;
-                scPlayer.PauseGame();
+                scPlayer.menuManager.bGameIsPaused = false;
+                scPlayer.menuManager.PauseGame();
                 GoTuto[6].SetActive(false);
                 StartCoroutine(ImuneToTuto(scPlayer.bpmManager));
                 b_tutoFinished = true;
@@ -428,16 +436,16 @@ public class sc_tuto : MonoBehaviour
         goCameraMain[0].transform.GetChild(1).gameObject.SetActive(true);
         goCameraMain[0].transform.GetChild(2).gameObject.SetActive(true);
         GoTuto[3].SetActive(false);
-        scPlayer.bGameIsPaused = false;
+        scPlayer.menuManager.bGameIsPaused = false;
         scPlayer.lastMoveDirection = Vector3.left;
         scPlayer.bisTuto = false;
-        scPlayer.PauseGame();
+        scPlayer.menuManager.PauseGame();
     }
     public void StartTutoBait()
     {
         GoTuto[4].SetActive(true);
-        scPlayer.bGameIsPaused = true;
-        scPlayer.PauseGame();
+        scPlayer.menuManager.bGameIsPaused = true;
+        scPlayer.menuManager.PauseGame();
         StartCoroutine(TutoBait());
     }
     IEnumerator TutoBait()
@@ -449,16 +457,16 @@ public class sc_tuto : MonoBehaviour
     {
         GoTuto[6].SetActive(true);
         GoTuto[6].transform.GetChild(0).gameObject.SetActive(true);
-        scPlayer.bGameIsPaused = true;
-        scPlayer.PauseGame();
+        scPlayer.menuManager.bGameIsPaused = true;
+        scPlayer.menuManager.PauseGame();
         tutoCoroutine[3] = StartCoroutine(ScraffiTime()); 
     }
     public void StartTutoDetection()
     {
         bKnowEnnemy = true;
         GoTuto[5].SetActive(true);
-        scPlayer.bGameIsPaused = true;
-        scPlayer.PauseGame();
+        scPlayer.menuManager.bGameIsPaused = true;
+        scPlayer.menuManager.PauseGame();
         GoTuto[5].transform.GetChild(0).gameObject.SetActive(true);
         GoTuto[5].transform.GetChild(1).gameObject.SetActive(false);
         GoTuto[5].transform.GetChild(2).gameObject.SetActive(false);

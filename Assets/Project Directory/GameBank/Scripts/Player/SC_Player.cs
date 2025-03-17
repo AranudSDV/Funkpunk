@@ -24,7 +24,6 @@ using UnityEditor;
 public class SC_Player : MonoBehaviour
 {
     public bool bisTuto = false;
-    public bool bGameIsPaused = false;
     public MenuManager menuManager;
     public bool bIsOnComputer = true;
     public bool bOnControllerConstraint = false;
@@ -186,33 +185,6 @@ public class SC_Player : MonoBehaviour
             UpdateDirAndMovOnJoystickOrPC();
         }
         EnemieDetection();
-    }
-    public void PauseGame()
-    {
-        if(bGameIsPaused)
-        {
-            Time.timeScale = 0f;
-            if(bisTuto == false)
-            {
-                menuManager.musicVCA.getVolume(out float currentVolume); // Get current volume
-                menuManager.musicVCA.setVolume(currentVolume * 0.8f);
-                //bpmManager.playerLoopInstance.setParameterByName("fPausedVolume", 0.8f);
-            }
-            if(!menuManager.controllerConnected && bisTuto == false)
-            {
-                UnityEngine.Cursor.lockState = CursorLockMode.None;
-            }
-            else
-            {
-                UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-            }
-        }
-        else
-        {
-            Time.timeScale = 1f;
-            menuManager.musicVCA.setVolume(menuManager.playerMusicVolume);
-            UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-        }
     }
 
     //CONCERNANT LES CONTROLS
@@ -998,9 +970,10 @@ public class SC_Player : MonoBehaviour
     //LA FIN DU NIVEAU
     private void EndGame(bool hasWon)
     {
-        bGameIsPaused = true;
-        PauseGame();
+        menuManager.bGameIsPaused = true;
+        menuManager.PauseGame();
         PlayerData data = menuManager.gameObject.GetComponent<PlayerData>();
+        menuManager.CgScoring.interactable = true;
 
         menuManager.CgScoring.alpha = 1f;
         menuManager.RtScoring.anchorMin = new Vector2(0, 0);

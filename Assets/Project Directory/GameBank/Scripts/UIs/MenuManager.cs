@@ -19,6 +19,7 @@ public class MenuManager : MonoBehaviour
     private EventSystem EventSystem;
     public bool controllerConnected = false;
     public SC_Player scPlayer;
+    public bool bGameIsPaused = false;
 
     [Header("Sound")]
     public FMOD.Studio.VCA musicVCA;
@@ -40,6 +41,8 @@ public class MenuManager : MonoBehaviour
     private bool bActif = false;
     [SerializeField] private Color32 colorFoes;
     [SerializeField] private Color32 colorPlayer;
+    [SerializeField]private GameObject GoScoringFirstButtonSelected;
+    [SerializeField] private GameObject GoPausedFirstButtonSelected;
 
     //SCORING
     [Header("Scoring")]
@@ -142,6 +145,8 @@ public class MenuManager : MonoBehaviour
         musicVCA = FMODUnity.RuntimeManager.GetVCA("vca:/Music");
         sfxVCA = FMODUnity.RuntimeManager.GetVCA("vca:/SFX");
         Debug.Log(musicVCA.isValid() ? "VCA Loaded!" : "VCA Failed to Load!");
+        SetMusicVolume();
+        SetSFXVolume();
     }
     // Update is called once per frame
     void Update()
@@ -186,26 +191,16 @@ public class MenuManager : MonoBehaviour
             if (controllerConnected)
             {
                 Debug.Log("Controller connected!");
-                UnityEngine.Cursor.lockState = CursorLockMode.Locked;
             }
             else
             {
                 Debug.Log("No controllers connected!");
-                UnityEngine.Cursor.lockState = CursorLockMode.None;
             }
         }
     }
     private void UXNavigation()
     {
-        if ((Input.GetKey(KeyCode.Escape)|| (controllerConnected && control.GamePlay.Pausing.triggered)) && CgPauseMenu.alpha == 0f)
-        {
-            if (SceneManager.GetActiveScene().name != "GameChoose" && SceneManager.GetActiveScene().name != "LevelChoosing" && SceneManager.GetActiveScene().name != "Loft")
-            {
-                EventSystem.firstSelectedGameObject = GoPauseMenu.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
-            }
-            PauseMenu();
-        }
-        else if ((Input.GetKey(KeyCode.Escape) || (controllerConnected && control.GamePlay.Pausing.triggered)) && CgPauseMenu.alpha == 1f && CgScoring.alpha == 0f)
+        if ((Input.GetKey(KeyCode.Escape)|| (controllerConnected && control.GamePlay.Pausing.triggered)))
         {
             PauseMenu();
         }
@@ -223,55 +218,59 @@ public class MenuManager : MonoBehaviour
     }
     public void PauseMenu()
     {
-        if (CgPauseMenu.alpha == 0f && !bActif)
+        if (CgPauseMenu.alpha == 0f && !bActif) // On ouvre la fenetre, le jeu est en pause
         {
             CgPauseMenu.alpha = 1f;
+            CgPauseMenu.interactable = true;
             RtPauseMenu.anchorMin = new Vector2(-0.5f, 0);
             RtPauseMenu.anchorMax = new Vector2(1.5f, 1);
             RtPauseMenu.offsetMax = new Vector2(0f, 0f);
             RtPauseMenu.offsetMin = new Vector2(0f, 0f);
-            if (!controllerConnected)
+            EventSystem.firstSelectedGameObject = GoPausedFirstButtonSelected;
+            if (controllerConnected)
             {
-               UnityEngine.Cursor.lockState = CursorLockMode.None;
+                UnityEngine.Cursor.lockState = CursorLockMode.Locked;
             }
-            if (scPlayer == null && SceneManager.GetActiveScene().name != "GameChoose" && SceneManager.GetActiveScene().name != "MainMenu" && SceneManager.GetActiveScene().name != "Level Choosing")
+            else
             {
-                SC_Player scPlayer = GameObject.FindGameObjectWithTag("Player").GetComponent<SC_Player>();
+                UnityEngine.Cursor.lockState = CursorLockMode.None;
             }
-            else if (scPlayer != null && SceneManager.GetActiveScene().name != "GameChoose" && SceneManager.GetActiveScene().name != "MainMenu" && SceneManager.GetActiveScene().name != "Level Choosing")
-            {
-                scPlayer.bGameIsPaused = true;
-                Debug.Log("actif");
-                scPlayer.PauseGame();
-            }
+            bGameIsPaused = true;
+            PauseGame();
             StartCoroutine(wait());
         }
-        else if (CgPauseMenu.alpha == 1f && bActif)
+        else if (CgPauseMenu.alpha == 1f && bActif) // On ferme la fenetre, le jeu reprend
         {
             CgPauseMenu.alpha = 0f;
+            CgPauseMenu.interactable = false;
             RtPauseMenu.anchorMin = new Vector2(0, 1);
             RtPauseMenu.anchorMax = new Vector2(1, 2);
             RtPauseMenu.offsetMax = new Vector2(0f, 0f);
             RtPauseMenu.offsetMin = new Vector2(0f, 0f);
-            if (scPlayer == null && SceneManager.GetActiveScene().name != "GameChoose" && SceneManager.GetActiveScene().name != "MainMenu" && SceneManager.GetActiveScene().name != "Level Choosing")
+            CloseOptions();
+            if (scPlayer != null && scPlayer.bisTuto == true)
             {
-                SC_Player scPlayer = GameObject.FindGameObjectWithTag("Player").GetComponent<SC_Player>();
+                bGameIsPaused = true;
             }
-            else if(scPlayer != null && SceneManager.GetActiveScene().name != "GameChoose" && SceneManager.GetActiveScene().name != "MainMenu" && SceneManager.GetActiveScene().name != "Level Choosing")
+            else
             {
-                scPlayer.bGameIsPaused = false;
-                Debug.Log("inactif");
-                scPlayer.PauseGame();
+                bGameIsPaused = false;
             }
-            if (controllerConnected && SceneManager.GetActiveScene().name != "GameChoose" && SceneManager.GetActiveScene().name != "LevelChoosing")
-            {
-                EventSystem.firstSelectedGameObject = GoScoring.transform.GetChild(0).gameObject.transform.GetChild(2).gameObject.transform.GetChild(1).gameObject;
-            }
-            if (!controllerConnected && SceneManager.GetActiveScene().name != "GameChoose" && SceneManager.GetActiveScene().name != "LevelChoosing")
+            if (!controllerConnected && SceneManager.GetActiveScene().name != "GameChoose" && SceneManager.GetActiveScene().name != "LevelChoosing" && SceneManager.GetActiveScene().name != "MainMenu") //SI keyboard et mouse et que la scene n'est pas un menu avec souris
             {
                 UnityEngine.Cursor.lockState = CursorLockMode.Locked;
             }
+            else if(!controllerConnected && (SceneManager.GetActiveScene().name == "GameChoose" || SceneManager.GetActiveScene().name == "LevelChoosing" || SceneManager.GetActiveScene().name == "MainMenu")) //si keyboard er que la scene est un menu avec souris
+            {
+                UnityEngine.Cursor.lockState = CursorLockMode.None;
+            }
+            else if (controllerConnected) //si controlleur gamepad
+            {
+                UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+            }
+            EventSystem.firstSelectedGameObject = null;
             StartCoroutine(wait());
+            PauseGame();
         }
     }
     private IEnumerator wait()
@@ -403,6 +402,7 @@ public class MenuManager : MonoBehaviour
     {
         Debug.Log("OptionsOpen");
         CgSoundManager.alpha = 1f;
+        CgSoundManager.interactable = true;
         RtSoundManager.anchorMin = new Vector2(0, 0);
         RtSoundManager.anchorMax = new Vector2(1, 1);
         RtSoundManager.offsetMax = new Vector2(0f, 0f);
@@ -411,6 +411,7 @@ public class MenuManager : MonoBehaviour
     public void CloseOptions()
     {
         CgSoundManager.alpha = 0f;
+        CgSoundManager.interactable = false;
         RtSoundManager.anchorMin = new Vector2(0, 1);
         RtSoundManager.anchorMax = new Vector2(1, 2);
         RtSoundManager.offsetMax = new Vector2(0f, 0f);
@@ -441,6 +442,7 @@ public class MenuManager : MonoBehaviour
         {
             sceneToLoad = SceneManager.GetActiveScene().name;
             StartCoroutine(StartLoad(sceneToLoad));
+            Debug.Log("retry has been clicked");
         }
         else if (sceneToLoad == "next")
         {
@@ -460,6 +462,7 @@ public class MenuManager : MonoBehaviour
         if (CgScoring.alpha == 1f)
         {
             CgScoring.alpha = 0f;
+            CgScoring.interactable = false;
             RtScoring.anchorMin = new Vector2(0, 1);
             RtScoring.anchorMax = new Vector2(1, 2);
             RtScoring.offsetMax = new Vector2(0f, 0f);
@@ -520,7 +523,7 @@ public class MenuManager : MonoBehaviour
             UnityEditor.EditorApplication.isPlaying = false;
         }
 #endif
-
+        Debug.Log("quit game been clicked");
         Application.Quit();
     }
     public void SetMusicVolume()
@@ -543,5 +546,29 @@ public class MenuManager : MonoBehaviour
     {
         float volume = SfxSlider.value;
         sfxVCA.setVolume(volume);
+    }
+    public void PauseGame()
+    {
+        if (bGameIsPaused)
+        {
+            Time.timeScale = 0f;
+            if (scPlayer != null && scPlayer.bisTuto == false)
+            {
+                musicVCA.getVolume(out float currentVolume); // Get current volume
+                musicVCA.setVolume(currentVolume * 0.8f);
+                //bpmManager.playerLoopInstance.setParameterByName("fPausedVolume", 0.8f);
+            }
+            Debug.Log("on passe dans l'arret pause du jeu");
+        }
+        else
+        {
+            Time.timeScale = 1f;
+            musicVCA.setVolume(playerMusicVolume);
+            if (CgScoring.alpha == 1f)
+            {
+                EventSystem.firstSelectedGameObject = GoScoringFirstButtonSelected;
+            }
+            Debug.Log("on reprend le jeu");
+        }
     }
 }
