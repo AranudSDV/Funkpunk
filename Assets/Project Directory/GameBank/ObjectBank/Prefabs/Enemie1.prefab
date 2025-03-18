@@ -165,7 +165,6 @@ MonoBehaviour:
   mHeardCone: {fileID: 2100000, guid: 36f2c03ec2243c349bfd1826ce2d9fb3, type: 2}
   scFieldView: {fileID: 192196032585685232}
   scVisionCone: {fileID: 2307551756231764101}
-  GoCone: {fileID: 6532155787015534514}
 --- !u!33 &7692883549778554603
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -241,7 +240,7 @@ MonoBehaviour:
   farPointExtraOffset: 0
   offsetAmount: 2.5
   heightSegments: 3
-  smoothThreshold: 0.5
+  smoothThreshold: 3
   ConeRenderer: {fileID: 0}
 --- !u!1 &4499629275524614069
 GameObject:
