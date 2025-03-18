@@ -37,14 +37,15 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Alpha: 0.12
+    - _Alpha: 0.005
     - _AlphaCutoff: 0.5
-    - _Alphaclip: 0.1
+    - _Alphaclip: 0.001
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ShapeSize: 0.96
     - _SubSquareSize: 0.99
-    - _TrueSquareSize: 0.97
+    - _TrueSquareSize: 0.95
     m_Colors:
+    - _BaseColore: {r: 2, g: 2, b: 2, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class SC_VisionConeCustom : MonoBehaviour
@@ -13,15 +14,15 @@ public class SC_VisionConeCustom : MonoBehaviour
     [SerializeField] private LayerMask obstructionMask;     // Masque pour détecter les obstacles (murs, etc.)
     [SerializeField] private float guardVerticalOffset = 0f;  // Hauteur du garde (base)
     [SerializeField] private float farPointExtraOffset = 0f;  // Offset additionnel sur le point éloigné (optionnel)
-    
+
     [Header("Offset pour la partie interne")]
-    [SerializeField] private float offsetAmount = 0f;         // Force d'offset appliquée aux vertices dans la moitié "face au garde"
-    
+    [SerializeField] private float offsetAmount = 0f;         // Force d'offset appliquée aux vertices dans la moitié \"face au garde\"
+
     [Header("Subdivision")]
     [SerializeField] private int heightSegments = 3;          // Nombre d'anneaux entre le garde et le farPoint
 
-    // Pour lisser le farCircle et combler les trous entre vertices collidés et non collidés
-    [SerializeField] private float smoothThreshold = 0.5f;
+    [Header("Lissage des bords")]
+    [SerializeField] private float smoothThreshold = 0.5f;    // Seuil de différence de hauteur pour lisser les bords
 
     private Mesh coneMesh;
     private MeshFilter meshFilter;
@@ -47,7 +48,7 @@ public class SC_VisionConeCustom : MonoBehaviour
         // 1. Position du garde (base)
         Vector3 guardPos = transform.position + Vector3.up * guardVerticalOffset;
 
-        // 2. Calcul du farPoint : projection sur le sol via un raycast vertical depuis une position au-dessus
+        // 2. Calcul du farPoint : projection sur le sol via raycast vertical
         float maxDist = scFieldView.FRadius;
         Vector3 tentativeFarPoint = guardPos + transform.forward * maxDist;
         Ray groundRay = new Ray(tentativeFarPoint + Vector3.up * 10f, Vector3.down);
@@ -71,22 +72,24 @@ public class SC_VisionConeCustom : MonoBehaviour
 
         // 4. Calcul du cercle de vertices (farCircle) autour du farPoint
         Vector3[] farCircle = new Vector3[coneResolution];
-        Vector3 right = transform.right;   // en espace monde
+        // Utiliser transform.right et transform.forward (sans ProjectOnPlane, pour conserver l'orientation 3D)
+        Vector3 right = transform.right;
         Vector3 forward = transform.forward;
+        // Direction d'offset (vers le garde)
         Vector3 offsetDir = Vector3.ProjectOnPlane((guardPos - farPoint), Vector3.up).normalized;
         for (int i = 0; i < coneResolution; i++)
         {
             float angle = 2f * Mathf.PI * i / coneResolution;
             Vector3 baseOffset = (right * Mathf.Cos(angle) + forward * Mathf.Sin(angle)) * farRadius;
-            Vector3 basePoint = farPoint + baseOffset;
             // Appliquer l'offset avant collision
+            Vector3 basePoint = farPoint + baseOffset;
             float dot = Vector3.Dot((basePoint - farPoint).normalized, offsetDir);
             if (dot > 0)
             {
                 basePoint += offsetDir * (offsetAmount * dot);
                 basePoint = new Vector3(basePoint.x, farPoint.y, basePoint.z);
             }
-            // Raycast depuis le garde vers le point offseté pour détecter une obstruction (ex : mur)
+            // Raycast depuis le garde vers le point offseté pour détecter un obstacle (ex: mur)
             Ray rayToPoint = new Ray(guardPos, (basePoint - guardPos).normalized);
             if (Physics.Raycast(rayToPoint, out RaycastHit pointHit, maxDist, obstructionMask))
             {
@@ -157,6 +160,6 @@ public class SC_VisionConeCustom : MonoBehaviour
         coneMesh.triangles = triangles;
         coneMesh.uv = uvs;
         coneMesh.RecalculateBounds();
-
+        coneMesh.RecalculateNormals();
     }
 }

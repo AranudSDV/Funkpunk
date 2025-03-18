@@ -418,10 +418,12 @@ Shader "SHR_Grid"
 				float smoothstepResult200 = smoothstep( _SubSquareSize , _SubSquareSize , length( break208.y ));
 				float temp_output_215_0 = ( 1.0 - ( ( ( 1.0 - smoothstepResult167 ) * ( 1.0 - smoothstepResult168 ) ) * ( ( 1.0 - smoothstepResult201 ) * ( 1.0 - smoothstepResult200 ) ) ) );
 				
+				float temp_output_222_0 = ( temp_output_215_0 * _Alpha );
+				
 				float3 BakedAlbedo = 0;
 				float3 BakedEmission = 0;
 				float3 Color = ( _BaseColore * temp_output_215_0 ).rgb;
-				float Alpha = ( 0.0 * ( temp_output_215_0 * _Alpha ) );
+				float Alpha = temp_output_222_0;
 				float AlphaClipThreshold = _Alphaclip;
 				float AlphaClipThresholdShadow = 0.5;
 
@@ -709,9 +711,10 @@ Shader "SHR_Grid"
 				float smoothstepResult201 = smoothstep( _SubSquareSize , _SubSquareSize , length( break208.x ));
 				float smoothstepResult200 = smoothstep( _SubSquareSize , _SubSquareSize , length( break208.y ));
 				float temp_output_215_0 = ( 1.0 - ( ( ( 1.0 - smoothstepResult167 ) * ( 1.0 - smoothstepResult168 ) ) * ( ( 1.0 - smoothstepResult201 ) * ( 1.0 - smoothstepResult200 ) ) ) );
+				float temp_output_222_0 = ( temp_output_215_0 * _Alpha );
 				
 
-				float Alpha = ( 0.0 * ( temp_output_215_0 * _Alpha ) );
+				float Alpha = temp_output_222_0;
 				float AlphaClipThreshold = _Alphaclip;
 				float AlphaClipThresholdShadow = 0.5;
 
@@ -960,9 +963,10 @@ Shader "SHR_Grid"
 				float smoothstepResult201 = smoothstep( _SubSquareSize , _SubSquareSize , length( break208.x ));
 				float smoothstepResult200 = smoothstep( _SubSquareSize , _SubSquareSize , length( break208.y ));
 				float temp_output_215_0 = ( 1.0 - ( ( ( 1.0 - smoothstepResult167 ) * ( 1.0 - smoothstepResult168 ) ) * ( ( 1.0 - smoothstepResult201 ) * ( 1.0 - smoothstepResult200 ) ) ) );
+				float temp_output_222_0 = ( temp_output_215_0 * _Alpha );
 				
 
-				float Alpha = ( 0.0 * ( temp_output_215_0 * _Alpha ) );
+				float Alpha = temp_output_222_0;
 				float AlphaClipThreshold = _Alphaclip;
 
 				#ifdef _ALPHATEST_ON
@@ -1189,9 +1193,10 @@ Shader "SHR_Grid"
 				float smoothstepResult201 = smoothstep( _SubSquareSize , _SubSquareSize , length( break208.x ));
 				float smoothstepResult200 = smoothstep( _SubSquareSize , _SubSquareSize , length( break208.y ));
 				float temp_output_215_0 = ( 1.0 - ( ( ( 1.0 - smoothstepResult167 ) * ( 1.0 - smoothstepResult168 ) ) * ( ( 1.0 - smoothstepResult201 ) * ( 1.0 - smoothstepResult200 ) ) ) );
+				float temp_output_222_0 = ( temp_output_215_0 * _Alpha );
 				
 
-				surfaceDescription.Alpha = ( 0.0 * ( temp_output_215_0 * _Alpha ) );
+				surfaceDescription.Alpha = temp_output_222_0;
 				surfaceDescription.AlphaClipThreshold = _Alphaclip;
 
 				#if _ALPHATEST_ON
@@ -1413,9 +1418,10 @@ Shader "SHR_Grid"
 				float smoothstepResult201 = smoothstep( _SubSquareSize , _SubSquareSize , length( break208.x ));
 				float smoothstepResult200 = smoothstep( _SubSquareSize , _SubSquareSize , length( break208.y ));
 				float temp_output_215_0 = ( 1.0 - ( ( ( 1.0 - smoothstepResult167 ) * ( 1.0 - smoothstepResult168 ) ) * ( ( 1.0 - smoothstepResult201 ) * ( 1.0 - smoothstepResult200 ) ) ) );
+				float temp_output_222_0 = ( temp_output_215_0 * _Alpha );
 				
 
-				surfaceDescription.Alpha = ( 0.0 * ( temp_output_215_0 * _Alpha ) );
+				surfaceDescription.Alpha = temp_output_222_0;
 				surfaceDescription.AlphaClipThreshold = _Alphaclip;
 
 				#if _ALPHATEST_ON
@@ -1660,9 +1666,10 @@ Shader "SHR_Grid"
 				float smoothstepResult201 = smoothstep( _SubSquareSize , _SubSquareSize , length( break208.x ));
 				float smoothstepResult200 = smoothstep( _SubSquareSize , _SubSquareSize , length( break208.y ));
 				float temp_output_215_0 = ( 1.0 - ( ( ( 1.0 - smoothstepResult167 ) * ( 1.0 - smoothstepResult168 ) ) * ( ( 1.0 - smoothstepResult201 ) * ( 1.0 - smoothstepResult200 ) ) ) );
+				float temp_output_222_0 = ( temp_output_215_0 * _Alpha );
 				
 
-				surfaceDescription.Alpha = ( 0.0 * ( temp_output_215_0 * _Alpha ) );
+				surfaceDescription.Alpha = temp_output_222_0;
 				surfaceDescription.AlphaClipThreshold = _Alphaclip;
 
 				#if _ALPHATEST_ON
@@ -1805,19 +1812,18 @@ Node;AmplifyShaderEditor.SimpleSubtractOpNode;130;-355.224,-1470.494;Inherit;Tru
 Node;AmplifyShaderEditor.OneMinusNode;102;261.6458,-2348.408;Inherit;True;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.AbsOpNode;97;-21.6092,-2365.484;Inherit;True;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.TFHCRemapNode;131;497.9586,-1924.14;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;0;False;4;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;3027.449,527.4541;Float;False;True;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;13;SHR_Grid;2992e84f91cbeb14eab234972e07ea9d;True;Forward;0;1;Forward;8;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;UniversalMaterialType=Unlit;True;5;True;12;all;0;False;True;1;5;False;;10;False;;1;1;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForwardOnly;False;False;0;;0;0;Standard;23;Surface;1;638760089737395429;  Blend;0;0;Two Sided;1;0;Forward Only;0;0;Cast Shadows;1;0;  Use Shadow Threshold;0;0;Receive Shadows;1;0;GPU Instancing;1;0;LOD CrossFade;0;0;Built-in Fog;0;0;DOTS Instancing;0;0;Meta Pass;0;0;Extra Pre Pass;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Vertex Position,InvertActionOnDeselection;1;0;0;10;False;True;True;True;False;False;True;True;True;False;False;;False;0
 Node;AmplifyShaderEditor.OneMinusNode;215;2037.498,308.9648;Inherit;True;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.LengthOpNode;196;948.3163,738.0403;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;224;892.4573,502.477;Inherit;False;Property;_SubSquareSize;SubSquareSize;2;0;Create;True;0;0;0;False;0;False;0.935;0.935;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;224;892.4573,502.477;Inherit;False;Property;_SubSquareSize;SubSquareSize;2;0;Create;True;0;0;0;False;0;False;0.935;0.99;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.OneMinusNode;169;1206.828,-143.0539;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.OneMinusNode;170;1204.428,52.14609;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SmoothstepOpNode;167;972.428,-172.654;Inherit;True;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SmoothstepOpNode;168;994.8278,44.14601;Inherit;True;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.LengthOpNode;163;802.5635,-176.7231;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;222;2242.68,478.5143;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;223;2004.88,791.2314;Inherit;False;Property;_Alpha;Alpha;0;0;Create;True;0;0;0;False;0;False;0.1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;223;2004.88,791.2314;Inherit;False;Property;_Alpha;Alpha;0;0;Create;True;0;0;0;False;0;False;0.1;0.12;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;221;2255.268,715.3036;Inherit;False;Property;_Alphaclip;Alphaclip;3;0;Create;True;0;0;0;False;0;False;0.1;0.1;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;203;741.3522,-45.08006;Inherit;False;Property;_TrueSquareSize;TrueSquareSize;1;0;Create;True;0;0;0;False;0;False;0.935;0.935;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;203;741.3522,-45.08006;Inherit;False;Property;_TrueSquareSize;TrueSquareSize;1;0;Create;True;0;0;0;False;0;False;0.935;0.97;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.LengthOpNode;164;801.1813,125.55;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.BreakToComponentsNode;162;561.6467,-59.04774;Inherit;False;FLOAT2;1;0;FLOAT2;0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
 Node;AmplifyShaderEditor.SimpleSubtractOpNode;207;311.7642,-69.43349;Inherit;True;2;0;FLOAT2;0,0;False;1;FLOAT2;1,1;False;1;FLOAT2;0
@@ -1839,6 +1845,7 @@ Node;AmplifyShaderEditor.SimpleSubtractOpNode;161;449.5139,690.8817;Inherit;True
 Node;AmplifyShaderEditor.LengthOpNode;199;903.0261,325.3739;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;226;2971.161,296.4708;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.ColorNode;225;2620.751,135.6662;Inherit;False;Property;_BaseColore;BaseColore;4;1;[HDR];Create;True;0;0;0;False;0;False;2,2,2,0;2,2,2,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;3027.449,527.4541;Float;False;True;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;13;SHR_Grid;2992e84f91cbeb14eab234972e07ea9d;True;Forward;0;1;Forward;8;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;UniversalMaterialType=Unlit;True;5;True;12;all;0;False;True;1;5;False;;10;False;;1;1;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForwardOnly;False;False;0;;0;0;Standard;23;Surface;1;638760089737395429;  Blend;0;0;Two Sided;1;0;Forward Only;0;0;Cast Shadows;1;0;  Use Shadow Threshold;0;0;Receive Shadows;1;0;GPU Instancing;1;0;LOD CrossFade;0;0;Built-in Fog;0;0;DOTS Instancing;0;0;Meta Pass;0;0;Extra Pre Pass;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Vertex Position,InvertActionOnDeselection;1;0;0;10;False;True;True;True;False;False;True;True;True;False;False;;False;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;227;2712.554,460.8756;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 WireConnection;14;0;13;0
 WireConnection;197;0;200;0
@@ -1948,9 +1955,6 @@ WireConnection;129;0;127;0
 WireConnection;130;0;126;0
 WireConnection;102;0;97;0
 WireConnection;97;0;96;0
-WireConnection;1;2;226;0
-WireConnection;1;3;227;0
-WireConnection;1;4;221;0
 WireConnection;215;0;210;0
 WireConnection;196;0;208;1
 WireConnection;169;0;167;0
@@ -1985,6 +1989,9 @@ WireConnection;161;0;160;0
 WireConnection;199;0;208;0
 WireConnection;226;0;225;0
 WireConnection;226;1;215;0
+WireConnection;1;2;226;0
+WireConnection;1;3;222;0
+WireConnection;1;4;221;0
 WireConnection;227;1;222;0
 ASEEND*/
-//CHKSM=8A1A17823F7F3CB35178AB66264283AE031D4B6D
+//CHKSM=AC8DF82005BFE48357F2A20B48AEAE6AA1B5DC53

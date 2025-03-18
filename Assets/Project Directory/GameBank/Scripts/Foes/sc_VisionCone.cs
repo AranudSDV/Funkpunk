@@ -10,6 +10,7 @@ public class sc_VisionCone : MonoBehaviour
     [SerializeField] private Material mDetectedCone;
     [SerializeField] private Material mHeardCone;
     [SerializeField] private SC_FieldOfView scFieldView;
+    [SerializeField] private SC_VisionConeCasting scVisionCone;
     private float fVisionAngle;
     [SerializeField]private GameObject GoCone;
     private MeshRenderer _ConeRenderer;
@@ -23,7 +24,7 @@ public class sc_VisionCone : MonoBehaviour
 
     private void Update()
     {
-        ChangeVisionCone();
+        //ChangeVisionCone();
         if (scFieldView.BCanSee)
         {
             _ConeRenderer.material = mDetectedCone;
