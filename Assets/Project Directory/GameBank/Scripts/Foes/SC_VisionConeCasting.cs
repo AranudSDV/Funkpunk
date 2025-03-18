@@ -26,16 +26,16 @@ public class SC_VisionConeCasting : MonoBehaviour
 
     private Mesh coneMesh;
     private MeshFilter meshFilter;
-    private MeshRenderer meshRenderer;
+    public MeshRenderer ConeRenderer;
 
     private void Awake()
     {
         meshFilter = GetComponent<MeshFilter>();
-        meshRenderer = GetComponent<MeshRenderer>();
+        ConeRenderer = GetComponent<MeshRenderer>();
         coneMesh = new Mesh();
         meshFilter.mesh = coneMesh;
         if (mVisionCone != null)
-            meshRenderer.material = mVisionCone;
+            ConeRenderer.material = mVisionCone;
     }
 
     private void Update()
