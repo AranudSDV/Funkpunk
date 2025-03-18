@@ -377,6 +377,7 @@ public class sc_tuto : MonoBehaviour
     IEnumerator StartFith()
     {
         yield return new WaitForSecondsRealtime(1.5f);
+        goCameraMain[0].transform.GetChild(2).gameObject.SetActive(true);
         bTuto[7] = true;
         bWaitSpace = true;
         Image img1 = GoTuto[5].transform.GetChild(0).gameObject.GetComponent<Image>();
