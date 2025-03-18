@@ -16,8 +16,7 @@ public class sc_tuto : MonoBehaviour
     [SerializeField] private Sprite spriteBubbleTuto2;
     [SerializeField] private Sprite[] spriteBubbleTuto3;
     [SerializeField] private Sprite[] spriteBubbleTuto6;
-    [SerializeField] private Sprite[] spriteBubbleTuto7;
-    private Coroutine[] tutoCoroutine = new Coroutine[5];
+    private Coroutine[] tutoCoroutine = new Coroutine[4];
     private bool coroutineIsRunning = false;
     private bool b_cameraIsTracking = false;
     [SerializeField] private bool[] bTuto = new bool[9];
@@ -397,7 +396,7 @@ public class sc_tuto : MonoBehaviour
     }
     IEnumerator SkipFifth()
     {
-        StopCoroutine(tutoCoroutine[4]);
+        StopCoroutine(tutoCoroutine[3]);
         goCameraMain[0].transform.GetChild(2).gameObject.SetActive(true);
         Image img1 = GoTuto[5].transform.GetChild(0).gameObject.GetComponent<Image>();
         img1.sprite = spriteBubbleTuto6[0];
@@ -446,7 +445,7 @@ public class sc_tuto : MonoBehaviour
         GoTuto[5].transform.GetChild(0).gameObject.SetActive(true);
         GoTuto[5].transform.GetChild(1).gameObject.SetActive(false);
         GoTuto[5].transform.GetChild(2).gameObject.SetActive(false);
-        tutoCoroutine[4] = StartCoroutine(StartFith());
+        tutoCoroutine[3] = StartCoroutine(StartFith());
     }
     private void OnTriggerEnter(Collider collision)
     {

@@ -268,7 +268,22 @@ public class MenuManager : MonoBehaviour
             {
                 UnityEngine.Cursor.lockState = CursorLockMode.Locked;
             }
-            EventSystem.firstSelectedGameObject = null;
+            if (CgScoring.alpha == 1f)
+            {
+                EventSystem.firstSelectedGameObject = GoScoringFirstButtonSelected;
+                if (controllerConnected) //Si controller
+                {
+                    UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+                }
+                else //sinon keyboard
+                {
+                    UnityEngine.Cursor.lockState = CursorLockMode.None;
+                }
+            }
+            else
+            {
+                EventSystem.firstSelectedGameObject = null;
+            }
             StartCoroutine(wait());
             PauseGame();
         }

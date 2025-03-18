@@ -1088,6 +1088,14 @@ public class SC_Player : MonoBehaviour
                 txt[2].text = "Back to Menu";
             }
         }
+        if (menuManager.controllerConnected) //Si controller
+        {
+            UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+        }
+        else //sinon keyboard
+        {
+            UnityEngine.Cursor.lockState = CursorLockMode.None;
+        }
         menuManager.EventSystem.firstSelectedGameObject = menuManager.GoScoringFirstButtonSelected;
     }
     private List<int> iStars()
