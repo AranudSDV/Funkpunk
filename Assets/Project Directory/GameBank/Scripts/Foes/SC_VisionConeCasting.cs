@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
-public class SC_VisionConeCustom : MonoBehaviour
+public class SC_VisionConeCasting : MonoBehaviour
 {
     [Header("Matériau & Paramètres du Field of View")]
     [SerializeField] private Material mVisionCone;

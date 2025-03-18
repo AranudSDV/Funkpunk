@@ -18,8 +18,9 @@ public class sc_VisionCone : MonoBehaviour
     private void Start()
     {
         //Cone
-        _ConeRenderer = GoCone.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>();
-        _ConeRenderer.material = mVisionCone;
+        //_ConeRenderer = GoCone.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>();
+        //_ConeRenderer.material = mVisionCone;
+        scVisionCone.ConeRenderer.material = mVisionCone;
     }
 
     private void Update()
@@ -27,15 +28,18 @@ public class sc_VisionCone : MonoBehaviour
         //ChangeVisionCone();
         if (scFieldView.BCanSee)
         {
-            _ConeRenderer.material = mDetectedCone;
+            //_ConeRenderer.material = mDetectedCone;
+            scVisionCone.ConeRenderer.material = mDetectedCone;
         }
         else if(scFieldView.bHasHeard)
         {
-            _ConeRenderer.material = mHeardCone;
+            //_ConeRenderer.material = mHeardCone;
+            scVisionCone.ConeRenderer.material = mHeardCone;
         }
         else
         {
-            _ConeRenderer.material = mVisionCone;
+            //_ConeRenderer.material = mVisionCone;
+            scVisionCone.ConeRenderer.material = mVisionCone;
         }
     }
     private void ChangeVisionCone()
