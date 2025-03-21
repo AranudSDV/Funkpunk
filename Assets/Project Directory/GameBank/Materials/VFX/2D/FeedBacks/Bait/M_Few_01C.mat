@@ -24,8 +24,14 @@ Material:
   m_Shader: {fileID: 4800000, guid: 7a05bef0144df2a4bb13a8cb2470e854, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
+  m_ValidKeywords:
+  - _MOVEX_ON
+  - _SCALEX_ON
+  - _SCALEY_ON
+  - _USINGY1_ON
+  m_InvalidKeywords:
+  - _USINGX_ON
+  - _USINGY_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -100,6 +106,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: e3fee37b9c63d4e48a7e05122615dfdb, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _TextureSample0:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -138,12 +148,19 @@ Material:
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _IsVerticalOrLateral: 0
+    - _MaxSizeX: 1.5
+    - _MaxSizeY: 1.5
+    - _MaxSizeY1: 1.5
     - _Metallic: 0
+    - _MinSizeX: 1.5
+    - _MoveX: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _ScaleX: 1
+    - _ScaleY: 1
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -151,6 +168,10 @@ Material:
     - _SrcBlendAlpha: 1
     - _Surface: 1
     - _UpLorDownR: 0
+    - _UsingX: 1
+    - _UsingY: 1
+    - _UsingY1: 1
+    - _VFXorUI: 0
     - _WorkflowMode: 1
     - _ZWrite: 0
     m_Colors:
