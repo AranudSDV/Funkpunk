@@ -399,11 +399,8 @@ public class SC_Player : MonoBehaviour
                             }
                             else if(!bpmManager.bPlayPerfect && !bpmManager.bPlayGood && !bpmManager.bPlayBad)
                             {
-                                Vector3 newDirection = FindNewDirection(vectDir, fRange);
-                                if (newDirection != Vector3.zero)
-                                {
-                                    Move(newDirection);
-                                }
+                                //Vector3 newDirection = FindNewDirection(vectDir, fRange);
+                                Move(Vector3.zero);
                                 return ;
                             }
                         }

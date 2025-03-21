@@ -29,6 +29,8 @@ public class BPM_Manager : MonoBehaviour
     [SerializeField] private EventReference sfx_PerfectRythm;
     public FMOD.Studio.EventInstance playerLoopInstance;
     private bool isPlaying = false; // Prevent multiple starts
+    private bool b_hasStarted = false;
+    private int i_B = 0;
 
     //FEEDBACK ON TIMING
     [Header("Timing Feedbacks")]
@@ -51,8 +53,10 @@ public class BPM_Manager : MonoBehaviour
     public bool bPlayGood = false;
     public bool bPlayPerfect = false;
     [SerializeField] private UnityEngine.UI.Image soul_Feedback;
-    [SerializeField] private RectTransform goNoteRight;
-    [SerializeField] private RectTransform goNoteLeft;
+    [SerializeField] private RectTransform[] goNoteRight;
+    [SerializeField] private UnityEngine.UI.Image[] imNoteRight;
+    [SerializeField] private RectTransform[] goNoteLeft;
+    [SerializeField] private UnityEngine.UI.Image[] imNoteLeft;
 
     [SerializeField] private float fFOVmin = 10f;
     [SerializeField] private float fFOVmax = 10.6f;
@@ -111,8 +115,8 @@ public class BPM_Manager : MonoBehaviour
             scPlayer.bcanRotate = true;
         }
         scPlayer.RotationEnemies();
-        yield return new WaitForSeconds(FWaitTime);
         MusicNotesMovingStart();
+        yield return new WaitForSeconds(FWaitTime);
         StartCoroutine(bad());
     }
     IEnumerator bad()
@@ -139,7 +143,7 @@ public class BPM_Manager : MonoBehaviour
         yield return new WaitForSeconds(FZonePerfectTiming);
         BPerfect = false;
         scPlayer.canMove = false;
-        if (BBad == false && BGood == false && BPerfect == false && scPlayer.bcanRotate == true)
+        if (BBad == false && BGood == false && BPerfect == false && scPlayer.bcanRotate == true) // LE JOUEUR MISS
         {
             if (!scPlayer.bIsImune)
             {
@@ -155,6 +159,7 @@ public class BPM_Manager : MonoBehaviour
             {
                 scPlayer.FDetectionLevel += 2f;
             }
+            NotesFade();
         }
         if (scPlayer.BisDetectedByAnyEnemy)
         {
@@ -221,15 +226,81 @@ public class BPM_Manager : MonoBehaviour
                     SoundManager.Instance.PlayOneShot(sfx_PerfectRythm, this.transform.position);
                 }
             }
+            NotesFade();
             scPlayer.bcanRotate = false;
+        }
+    }
+    private void NotesFade()
+    {
+        if (i_B == 0 || i_B == 3)
+        {
+            imNoteRight[0].color = new Color32(0, 197, 255, 0);
+            imNoteLeft[0].color = new Color32(0, 197, 255, 0);
+        }
+        else if (i_B == 1)
+        {
+            imNoteRight[1].color = new Color32(0, 197, 255, 0);
+            imNoteLeft[1].color = new Color32(0, 197, 255, 0);
+        }
+        else if (i_B == 2)
+        {
+            imNoteRight[2].color = new Color32(0, 197, 255, 0);
+            imNoteLeft[2].color = new Color32(0, 197, 255, 0);
         }
     }
     private void MusicNotesMovingStart()
     {
-        goNoteRight.anchoredPosition = new Vector2(500f, 0f);
-        goNoteLeft.anchoredPosition = new Vector2(-500f, 0f);
-        goNoteRight.DOAnchorPos(Vector2.zero, FSPB, false).SetAutoKill(true);
-        goNoteLeft.DOAnchorPos(Vector2.zero, FSPB, false).SetAutoKill(true);
+        if (i_B == 1)
+        {
+            goNoteRight[0].anchoredPosition = new Vector2(500f, 0f);
+            goNoteLeft[0].anchoredPosition = new Vector2(-500f, 0f);
+            goNoteRight[0].DOAnchorPos(new Vector2(-20f, 0f), FSPB * 3, false).SetEase(Ease.InSine).SetAutoKill(true);
+            goNoteLeft[0].DOAnchorPos(new Vector2(20f, 0f), FSPB * 3, false).SetEase(Ease.InSine).SetAutoKill(true);
+            imNoteRight[0].color = new Color32(0, 197, 255, 255);
+            imNoteLeft[0].color = new Color32(0, 197, 255, 255);
+            i_B = 2;
+        }
+        else if(i_B == 2)
+        {
+            goNoteRight[1].anchoredPosition = new Vector2(500f, 0f);
+            goNoteLeft[1].anchoredPosition = new Vector2(-500f, 0f);
+            goNoteRight[1].DOAnchorPos(new Vector2(-20f, 0f), FSPB * 3, false).SetEase(Ease.InSine).SetAutoKill(true);
+            goNoteLeft[1].DOAnchorPos(new Vector2(20f, 0f), FSPB * 3, false).SetEase(Ease.InSine).SetAutoKill(true);
+            imNoteRight[1].color = new Color32(0, 197, 255, 255);
+            imNoteLeft[1].color = new Color32(0, 197, 255, 255);
+            i_B = 3;
+        }
+        else if(i_B ==3)
+        {
+            goNoteRight[2].anchoredPosition = new Vector2(500f, 0f);
+            goNoteLeft[2].anchoredPosition = new Vector2(-500f, 0f);
+            goNoteRight[2].DOAnchorPos(new Vector2(-20f, 0f), FSPB * 3, false).SetEase(Ease.InSine).SetAutoKill(true);
+            goNoteLeft[2].DOAnchorPos(new Vector2(20f, 0f), FSPB * 3, false).SetEase(Ease.InSine).SetAutoKill(true);
+            imNoteRight[2].color = new Color32(0, 197, 255, 255);
+            imNoteLeft[2].color = new Color32(0, 197, 255, 255);
+            i_B = 1;
+        }
+
+        if (!b_hasStarted)
+        {
+            goNoteRight[0].anchoredPosition = new Vector2(500f, 0f);
+            goNoteLeft[0].anchoredPosition = new Vector2(-500f, 0f);
+            goNoteRight[0].DOAnchorPos(Vector2.zero, FSPB, false).SetEase(Ease.InSine).SetAutoKill(true);
+            goNoteLeft[0].DOAnchorPos(Vector2.zero, FSPB, false).SetEase(Ease.InSine).SetAutoKill(true);
+
+            goNoteRight[1].anchoredPosition = new Vector2(500f, 0f);
+            goNoteLeft[1].anchoredPosition = new Vector2(-500f, 0f);
+            goNoteRight[1].DOAnchorPos(new Vector2(-20f, 0f), FSPB * 2, false).SetEase(Ease.InSine).SetAutoKill(true);
+            goNoteLeft[1].DOAnchorPos(new Vector2(20f, 0f), FSPB * 2, false).SetEase(Ease.InSine).SetAutoKill(true);
+
+            goNoteRight[2].anchoredPosition = new Vector2(500f, 0f);
+            goNoteLeft[2].anchoredPosition = new Vector2(-500f, 0f);
+            goNoteRight[2].DOAnchorPos(new Vector2(-20f, 0f), FSPB * 3, false).SetEase(Ease.InSine).SetAutoKill(true);
+            goNoteLeft[2].DOAnchorPos(new Vector2(20f, 0f), FSPB * 3, false).SetEase(Ease.InSine).SetAutoKill(true);
+            b_hasStarted = true;
+            i_B = 1;
+        }
+
     }
     private void CameraRythm(float f_time, float f_max, float f_min)
     {
