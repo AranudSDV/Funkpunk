@@ -14,13 +14,19 @@ Material:
   m_ValidKeywords:
   - _2ALPHAS_ON
   - _ISVERTICALORLATERAL_ON
+  - _UPLORDOWNR_ON
+  - _USINGXMOVE_ON
+  - _USINGXSCALE1_ON
+  - _USINGXSCALE_ON
+  - _USINGYMOVE_ON
+  - _USINGYSCALE1_ON
+  - _USINGYSCALE_ON
+  m_InvalidKeywords:
   - _MOVEX_ON
   - _SCALEX_ON
   - _SCALEY_ON
-  - _UPLORDOWNR_ON
-  - _USINGY1_ON
-  m_InvalidKeywords:
   - _USINGX_ON
+  - _USINGY1_ON
   - _USINGY_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -66,6 +72,7 @@ Material:
     - _Alpha: 1
     - _AlphaCutoff: 0.5
     - _Alphacliptresh: 0.09
+    - _BPM: 120
     - _BaseOpacity: 1
     - _IsVerticalOrLateral: 1
     - _IsVerticalOrLateral1: 0
@@ -73,6 +80,8 @@ Material:
     - _MaxSizeY: 1.5
     - _MaxSizeY1: 1.5
     - _MinSizeX: 1.5
+    - _MinSizeY: 1.5
+    - _MinSizeY1: 1.1
     - _MoveX: 1
     - _QueueControl: 0
     - _QueueOffset: 0
@@ -80,12 +89,20 @@ Material:
     - _ScaleY: 1
     - _UpLorDownR: 1
     - _UsingX: 1
+    - _UsingXMove: 1
+    - _UsingXScale: 1
+    - _UsingXScale1: 1
     - _UsingY: 1
     - _UsingY1: 1
+    - _UsingYMove: 1
+    - _UsingYScale: 1
+    - _UsingYScale1: 1
     - _VFXorUI: 0
     m_Colors:
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _MainColor: {r: 3.9999998, g: 3.9999998, b: 3.9999998, a: 0}
     - _MainTexOffset: {r: 0, g: 0, b: 0, a: 0}
     - _MainTexTiling: {r: 1, g: 1, b: 0, a: 0}
+    - _MaxSize: {r: 1, g: 1, b: 0, a: 0}
+    - _MaxSizePos: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
