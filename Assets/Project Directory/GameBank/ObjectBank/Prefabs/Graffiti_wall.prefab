@@ -301,8 +301,8 @@ GameObject:
   - component: {fileID: 9129074285804719547}
   - component: {fileID: 7345753172596470646}
   - component: {fileID: 3883117977145491176}
-  - component: {fileID: 8066633622160386561}
   - component: {fileID: 9134805210191056752}
+  - component: {fileID: 5445313061218059324}
   m_Layer: 7
   m_Name: Graffiti_wall
   m_TagString: Tagging
@@ -538,7 +538,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 1513
+  m_VersionIndex: 1516
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -621,8 +621,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9020659393439006903}
   m_Mesh: {fileID: 0}
---- !u!64 &8066633622160386561
-MeshCollider:
+--- !u!114 &9134805210191056752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9020659393439006903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64006f89b4b4c5f4c80b16f666f34832, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textOnWall: {fileID: 7945296238422275875}
+  taggedMaterial: {fileID: 2100000, guid: fbfba70bf385e1b4d81b027d5bd8e040, type: 2}
+  _renderer: {fileID: 2328165338969742317}
+--- !u!65 &5445313061218059324
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -639,22 +654,6 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
---- !u!114 &9134805210191056752
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9020659393439006903}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64006f89b4b4c5f4c80b16f666f34832, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  textOnWall: {fileID: 7945296238422275875}
-  taggedMaterial: {fileID: 2100000, guid: fbfba70bf385e1b4d81b027d5bd8e040, type: 2}
-  _renderer: {fileID: 2328165338969742317}
+  serializedVersion: 3
+  m_Size: {x: 3.0000002, y: 4, z: 1.0000002}
+  m_Center: {x: 1.4999815, y: 2, z: 0.5000001}

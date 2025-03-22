@@ -92,7 +92,7 @@ public class SC_Player : MonoBehaviour
 
     //LE TAG
     [Header("Tag")]
-    public float taggingRange = 1.1f;
+    public float taggingRange = 1f;
     private RaycastHit[] hitInfo = new RaycastHit[4];
     [SerializeField] private GameObject GoVfxTag;
     [SerializeField] private ParticleSystem vfx_tag;
@@ -316,10 +316,10 @@ public class SC_Player : MonoBehaviour
             // 1. Check for diagonal movement first
             if (vectDir.x != 0f && vectDir.z != 0f) // Diagonal movement
             {
-                Vector3 diagonalCheckPosition = transform.position + vectDir.normalized * fRange;
+                Vector3 diagonalCheckPosition = transform.position + vectDir * fRange;
 
                 // Use OverlapSphere to check for colliders at the diagonal position
-                Collider[] intersecting = Physics.OverlapSphere(diagonalCheckPosition, 0.1f, LMask);
+                Collider[] intersecting = Physics.OverlapSphere(diagonalCheckPosition, 0.4f, LMask);
                 bool canMoveDiagonally = true;
 
                 if (intersecting.Length > 0)
@@ -327,10 +327,81 @@ public class SC_Player : MonoBehaviour
                     // Loop through colliders to check tags
                     foreach (Collider collider in intersecting)
                     {
-                        if (!collider.CompareTag("Bait"))
+                        if (!collider.CompareTag("Bait") && !collider.CompareTag("Tagging"))
                         {
                             canMoveDiagonally = false; // Block movement if an unpassable object is found
-                            break;
+                            continue;
+                        }
+                        else if(collider.CompareTag("Tagging"))
+                        {
+                            bIsBeingAnimated = true;
+                            ing_Tag ingTag = collider.transform.gameObject.GetComponent<ing_Tag>();
+                            ingTag.textOnWall.color = bpmManager.colorMiss;
+                            for (int i = 0; i < 4; i++)
+                            {
+                                if (bpmManager.bPlayBad)
+                                {
+                                    if (ingTag.textOnWall.text == i.ToString() + "/3")
+                                    {
+                                        ingTag.textOnWall.text = (i + 1).ToString() + "/3";
+                                        StartCoroutine(TaggingFeedback(bpmManager.FSPB, vectDir));
+                                        StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
+                                        break;
+                                    }
+                                }
+                                else if (bpmManager.bPlayGood)
+                                {
+                                    if (ingTag.textOnWall.text == i.ToString() + "/3")
+                                    {
+                                        if (i < 2)
+                                        {
+                                            ingTag.textOnWall.text = (i + 2).ToString() + "/3";
+                                            StartCoroutine(TaggingFeedback(bpmManager.FSPB, vectDir));
+                                            StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
+                                        }
+                                        else
+                                        {
+                                            ingTag.textOnWall.text = "3/3";
+                                            StartCoroutine(TaggingFeedback(bpmManager.FSPB, vectDir));
+                                            StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
+                                        }
+                                        break;
+                                    }
+                                }
+                                else if (bpmManager.bPlayPerfect)
+                                {
+                                    ingTag.textOnWall.text = "3/3";
+                                    StartCoroutine(TaggingFeedback(bpmManager.FSPB, vectDir));
+                                    StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
+                                    break;
+                                }
+                                else if (!bpmManager.bPlayPerfect && !bpmManager.bPlayGood && !bpmManager.bPlayBad)
+                                {
+                                    //Vector3 newDirection = FindNewDirection(vectDir, fRange);
+                                    Move(Vector3.zero);
+                                    return;
+                                }
+                            }
+                            if (ingTag.textOnWall.text == "1/3")
+                            {
+                                ingTag.textOnWall.color = bpmManager.colorBad;
+                            }
+                            else if (ingTag.textOnWall.text == "2/3")
+                            {
+                                ingTag.textOnWall.color = bpmManager.colorGood;
+                            }
+                            else if (ingTag.textOnWall.text == "3/3")
+                            {
+                                ingTag.textOnWall.color = bpmManager.colorPerfect;
+                                ingTag._renderer.material = ingTag.taggedMaterial; //le joueur tag
+                                ingTag.transform.gameObject.tag = "Wall";
+                                itagDone += 1;
+                                if (ingTag.transform.gameObject.name == "EndingWall")
+                                {
+                                    EndGame(true);
+                                }
+                                return;
+                            }
                         }
                     }
                 }
@@ -576,10 +647,42 @@ public class SC_Player : MonoBehaviour
             if (dir == currentDirection)
                 continue;
 
-            // Check for walls in the new direction
-            if (!Physics.Raycast(transform.position, dir, out RaycastHit hitInfo, range + 0.2f, LMask))
+            if (dir == transform.right || dir == Vector3.left || dir == Vector3.back || dir == transform.forward)
             {
-                return dir; // Return the first valid direction
+                // Check for walls in the new direction
+                if (!Physics.Raycast(transform.position, dir, out RaycastHit hitInfo, range + 0.2f, LMask))
+                {
+                    return dir; // Return the first valid direction
+                }
+            }
+            else
+            {
+                Vector3 diagonalCheckPosition = transform.position + dir * range;
+
+                // Use OverlapSphere to check for colliders at the diagonal position
+                Collider[] intersecting = Physics.OverlapSphere(diagonalCheckPosition, 0.4f, LMask);
+
+                if (intersecting.Length > 0)
+                {
+                    bool bContinue = true;
+                    // Loop through colliders to check tags
+                    foreach (Collider collider in intersecting)
+                    {
+                        if (!collider.CompareTag("Bait"))// Block movement if an unpassable object is found
+                        {
+                            bContinue = false;
+                            continue;
+                        }
+                    }
+                    if(bContinue)
+                    {
+                        return dir; // Return the first valid direction
+                    }
+                }
+                else
+                {
+                    return dir;
+                }
             }
         }
 
@@ -589,8 +692,8 @@ public class SC_Player : MonoBehaviour
     private void Move(Vector3 direction)
     {
         // diagonale ?
-        
-        if (Mathf.Abs(direction.x) > 0 && Mathf.Abs(direction.z) > 0)
+
+        if (direction.x != 0 && direction.z != 0 && direction != Vector3.right)
         {
             Vector3 newPos = this.transform.position + new Vector3(Mathf.Sign(direction.x), 0, Mathf.Sign(direction.z));
             this.transform.DOJump(newPos, 1f, 0, bpmManager.FSPB).SetEase(Ease.OutBack).SetAutoKill(true);
