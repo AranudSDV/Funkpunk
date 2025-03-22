@@ -25,12 +25,18 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - _USINGXMOVE_ON
+  - _USINGXSCALE1_ON
+  - _USINGXSCALE_ON
+  - _USINGYMOVE_ON
+  - _USINGYSCALE1_ON
+  - _USINGYSCALE_ON
+  m_InvalidKeywords:
   - _MOVEX_ON
   - _SCALEX_ON
   - _SCALEY_ON
-  - _USINGY1_ON
-  m_InvalidKeywords:
   - _USINGX_ON
+  - _USINGY1_ON
   - _USINGY_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -130,6 +136,7 @@ Material:
     - _AlphaCutoff: 0.5
     - _AlphaToMask: 0
     - _Alphacliptresh: 0
+    - _BPM: 120
     - _BaseOpacity: 1
     - _Blend: 2
     - _BlendModePreserveSpecular: 0
@@ -153,6 +160,8 @@ Material:
     - _MaxSizeY1: 1.5
     - _Metallic: 0
     - _MinSizeX: 1.5
+    - _MinSizeY: 1.5
+    - _MinSizeY1: 1.1
     - _MoveX: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.005
@@ -169,8 +178,14 @@ Material:
     - _Surface: 1
     - _UpLorDownR: 0
     - _UsingX: 1
+    - _UsingXMove: 1
+    - _UsingXScale: 1
+    - _UsingXScale1: 1
     - _UsingY: 1
     - _UsingY1: 1
+    - _UsingYMove: 1
+    - _UsingYScale: 1
+    - _UsingYScale1: 1
     - _VFXorUI: 0
     - _WorkflowMode: 1
     - _ZWrite: 0
@@ -181,6 +196,8 @@ Material:
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _MainColor: {r: 2.670157, g: 0.7600372, b: 0, a: 0}
     - _MainTexTiling: {r: 0, g: 0, b: 0, a: 0}
+    - _MaxSize: {r: 1, g: 1, b: 0, a: 0}
+    - _MaxSizePos: {r: 0, g: 0, b: 0, a: 0}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []

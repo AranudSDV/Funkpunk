@@ -12,10 +12,15 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - _USINGXSCALE1_ON
+  - _USINGXSCALE_ON
+  - _USINGYMOVE_ON
+  - _USINGYSCALE1_ON
+  - _USINGYSCALE_ON
+  - _VFXORUI_ON
+  m_InvalidKeywords:
   - _SCALEX_ON
   - _SCALEY_ON
-  - _VFXORUI_ON
-  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -55,22 +60,35 @@ Material:
     - _2Alphas: 0
     - _AlphaCutoff: 0.5
     - _Alphacliptresh: 0
+    - _BPM: 120
     - _BaseOpacity: 1
     - _IsVerticalOrLateral: 0
-    - _MaxSizeX: 1.5
+    - _MaxSizeX: 1
     - _MaxSizeY: 1.5
     - _MaxSizeY1: 1.5
     - _MinSizeX: 1.5
+    - _MinSizeY: 1.5
+    - _MinSizeY1: 1
     - _MoveX: 0
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ScaleX: 1
     - _ScaleY: 1
     - _UpLorDownR: 0
+    - _UsingX: 0
+    - _UsingXMove: 0
+    - _UsingXScale: 1
+    - _UsingXScale1: 1
+    - _UsingY: 0
     - _UsingY1: 0
+    - _UsingYMove: 1
+    - _UsingYScale: 1
+    - _UsingYScale1: 1
     - _VFXorUI: 1
     m_Colors:
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _MainColor: {r: 2, g: 2, b: 2, a: 0}
     - _MainTexTiling: {r: 0, g: 0, b: 0, a: 0}
+    - _MaxSize: {r: 1, g: 1, b: 0, a: 0}
+    - _MaxSizePos: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
