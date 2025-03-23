@@ -74,6 +74,7 @@ public class SC_Player : MonoBehaviour
     public float fNbBeat;
     private float fPercentScore;
     public TMP_Text TMPScore;
+    private bool bIsEndGame = false;
 
     //LE JOYSTICK
     [Header("Joystick")]
@@ -124,6 +125,7 @@ public class SC_Player : MonoBehaviour
     void Start()
     {
         FScore = Mathf.Round(fPercentScore);
+        bIsEndGame = false;
         posMesh = PlayerCapsule.transform.position;
         CheckControllerStatus();
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
@@ -176,7 +178,7 @@ public class SC_Player : MonoBehaviour
         }
         TMPScore.SetText(Mathf.Round(fPercentScore).ToString() + "%");
         sliderDetection.value = FDetectionLevel / fDetectionLevelMax;
-        if(FDetectionLevel>= fDetectionLevelMax)
+        if(FDetectionLevel>= fDetectionLevelMax && !bIsEndGame)
         {
             EndGame(false);
         }
@@ -584,7 +586,9 @@ public class SC_Player : MonoBehaviour
                     }
                     else if ((!bpmManager.bPlayPerfect && !bpmManager.bPlayGood && !bpmManager.bPlayBad && i == 6) || (bpmManager.bPlayBad && i == 8) || (bpmManager.bPlayGood && i == 9) || (bpmManager.bPlayPerfect && i == 10))
                     {
+                        bIsBeingAnimated = true;
                         fThrowMultiplier = floatNumber - 1f;
+                        StartCoroutine(ThrowingFeedback(bpmManager.FSPB));
                         return;
                     }
                     else
@@ -1208,6 +1212,8 @@ public class SC_Player : MonoBehaviour
             UnityEngine.Cursor.lockState = CursorLockMode.None;
         }
         menuManager.EventSystem.firstSelectedGameObject = menuManager.GoScoringFirstButtonSelected;
+        menuManager.GoScoringFirstButtonSelected.GetComponent<UnityEngine.UI.Button>().Select();
+        bIsEndGame = true;
     }
     private List<int> iStars()
     {

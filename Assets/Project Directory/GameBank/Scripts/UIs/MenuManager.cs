@@ -226,7 +226,8 @@ public class MenuManager : MonoBehaviour
             RtPauseMenu.anchorMax = new Vector2(1.5f, 1);
             RtPauseMenu.offsetMax = new Vector2(0f, 0f);
             RtPauseMenu.offsetMin = new Vector2(0f, 0f);
-            EventSystem.firstSelectedGameObject = GoPausedFirstButtonSelected;
+            EventSystem.firstSelectedGameObject = GoPausedFirstButtonSelected; 
+            GoPausedFirstButtonSelected.GetComponent<UnityEngine.UI.Button>().Select();
             if (controllerConnected)
             {
                 UnityEngine.Cursor.lockState = CursorLockMode.Locked;
