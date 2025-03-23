@@ -2935,7 +2935,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 687403012}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.5847103, y: 0.00000019341519, z: -0.00000013940578, w: 0.8112422}
+  m_LocalRotation: {x: 0.5847103, y: 0.00000019341515, z: -0.00000013940573, w: 0.8112422}
   m_LocalPosition: {x: -0.0000009536742, y: 11.12, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3568,6 +3568,7 @@ GameObject:
   - component: {fileID: 816147295}
   - component: {fileID: 816147294}
   - component: {fileID: 816147293}
+  - component: {fileID: 816147296}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -3651,6 +3652,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &816147296
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 816147291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68bb026fafb42b14791938953eaace77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NoiseProfile: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
+  m_AmplitudeGain: 0
+  m_FrequencyGain: 5
+  mNoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!1 &819856584
 GameObject:
   m_ObjectHideFlags: 0
@@ -7768,7 +7786,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1636234572}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.5847103, y: 0.00000019341519, z: -0.00000013940578, w: 0.8112422}
+  m_LocalRotation: {x: 0.5847103, y: 0.00000019341515, z: -0.00000013940573, w: 0.8112422}
   m_LocalPosition: {x: -0.0000009536742, y: 11.12, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -11345,6 +11363,11 @@ PrefabInstance:
       propertyPath: allEnemies.Array.data[1]
       value: 
       objectReference: {fileID: 2062597002}
+    - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: cinemachineVirtualCamera
+      value: 
+      objectReference: {fileID: 687403013}
     - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: UI_Joystick.Array.data[0]

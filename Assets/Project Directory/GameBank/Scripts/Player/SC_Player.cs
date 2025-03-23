@@ -62,6 +62,8 @@ public class SC_Player : MonoBehaviour
     //LE BAIT
     [Header("Bait")]
     [SerializeField] private GameObject GOBait;
+    [SerializeField] private CinemachineVirtualCamera cinemachineVirtualCamera;
+    private CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin;
     private GameObject GO_BaitInst;
     public bool hasAlreadyBaited = false;
     private float fThrowMultiplier = 1f;
@@ -125,6 +127,7 @@ public class SC_Player : MonoBehaviour
         posMesh = PlayerCapsule.transform.position;
         CheckControllerStatus();
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+        cinemachineBasicMultiChannelPerlin = cinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         if (menuManager == null)
         {
             GameObject goMenu = GameObject.FindWithTag("Manager");
@@ -305,6 +308,7 @@ public class SC_Player : MonoBehaviour
             bait.newPos = _spawnpos;
             bait.midPos = new Vector3(this.transform.position.x, this.transform.position.y + 2.5f, this.transform.position.z) + (lastMoveDirection * fThrowMultiplier / 2);
             bait.bIsBeingThrown = true;
+            StartCoroutine(BaitCameraShake(fThrowMultiplier*1/3, bpmManager.FSPB*1/4));
         }
     }
 
@@ -848,6 +852,13 @@ public class SC_Player : MonoBehaviour
         PlayerCapsule.transform.DOMoveY(posMesh.y, time * 1/9).SetAutoKill(true);
         yield return new WaitForSeconds(time *1/9);
         PlayerCapsule.transform.localPosition = localPosMesh;
+    }
+    private IEnumerator BaitCameraShake(float intensity, float time)
+    {
+        cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = intensity;
+        Debug.Log("CAMERA INTENSITE");
+        yield return new WaitForSeconds(time);
+        cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = 0f;
     }
     private IEnumerator RotationToRight(float time)
     {
