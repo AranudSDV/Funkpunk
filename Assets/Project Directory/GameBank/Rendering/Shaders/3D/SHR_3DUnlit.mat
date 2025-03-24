@@ -7,12 +7,12 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SHR_Unlit_Cel 1
-  m_Shader: {fileID: 4800000, guid: f0dbd52bcc462774ebb439499c38b1b3, type: 3}
+  m_Name: SHR_3DUnlit
+  m_Shader: {fileID: 4800000, guid: 4668fa2316e0ccf4594c42ceb9202be1, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _COLORORTEX_ON
+  - _ISEMISSIVE_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -24,8 +24,16 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _TextureSample1:
-        m_Texture: {fileID: 2800000, guid: a70cda2607a923443ac75166bb1a4634, type: 3}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample0:
+        m_Texture: {fileID: 2800000, guid: 0e46e115719791440ae4fd8f9163d86a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
@@ -47,11 +55,17 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaCutoff: 0.5
-    - _COLORORTEX: 1
+    - _IsEmissive: 1
+    - _NormalScale: 0
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _ReceiveShadows: 1
+    - _RimOffset: 0.84
+    - _RimShadow: 1
     m_Colors:
-    - _Color: {r: 0.5660378, g: 0.5660378, b: 0.5660378, a: 1}
+    - _BaseColor: {r: 1, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _HiighLights: {r: 0.6550616, g: 1, b: 0, a: 0}
+    - _Mid: {r: 1, g: 0.6054473, b: 0, a: 0}
+    - _RimColor: {r: 1, g: 0, b: 0, a: 0}
+    - _RimFalloff: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

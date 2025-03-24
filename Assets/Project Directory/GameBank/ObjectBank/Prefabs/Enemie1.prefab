@@ -255,7 +255,7 @@ GameObject:
   - component: {fileID: 4607990046573462715}
   - component: {fileID: 2559347695758500737}
   m_Layer: 7
-  m_Name: Mesh
+  m_Name: Chara
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -305,6 +305,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 6a990345be447a949b75590a095e9d49, type: 2}
+  - {fileID: 2100000, guid: ff856cf03b72c224e8de9bc9d29e7e10, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -963,7 +964,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 3fb4e7d6e6b907e429e841f0bfed57a3,
         type: 3}
       propertyPath: m_Name
-      value: OB_CHR_CircoPod_01A
+      value: Pod
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

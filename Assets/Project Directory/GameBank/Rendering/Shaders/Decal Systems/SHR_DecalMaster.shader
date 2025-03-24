@@ -1,6 +1,6 @@
-// Made with Amplify Shader Editor v1.9.3.2
+// Made with Amplify Shader Editor v1.9.2
 // Available at the Unity Asset Store - http://u3d.as/y3X 
-Shader  "SHR_Decal_LightsCutout"
+Shader  "SHR_DecalMaster"
 {
 	Properties
     {
@@ -8,6 +8,7 @@ Shader  "SHR_Decal_LightsCutout"
         [HideInInspector] _EmissionColor("Emission Color", Color) = (1,1,1,1)
         _TextureSample0("Texture Sample 0", 2D) = "white" {}
         [HDR]_Color0("Color 0", Color) = (5.340313,0,0,0)
+        [Toggle(_LIGHTCUTOUTSORDECAL_ON)] _LightCutoutsorDecal("LightCutouts or Decal ?", Float) = 0
         [HideInInspector] _texcoord( "", 2D ) = "white" {}
 
 
@@ -60,31 +61,33 @@ Shader  "SHR_Decal_LightsCutout"
 
             HLSLPROGRAM
 
-			#define _MATERIAL_AFFECTS_ALBEDO 1
-			#define _MATERIAL_AFFECTS_NORMAL 1
-			#define _MATERIAL_AFFECTS_NORMAL_BLEND 1
-			#define DECAL_ANGLE_FADE 1
-			#define ASE_SRP_VERSION 140010
+		    #define _MATERIAL_AFFECTS_ALBEDO 1
+		    #define _MATERIAL_AFFECTS_NORMAL 1
+		    #define _MATERIAL_AFFECTS_NORMAL_BLEND 1
+		    #define DECAL_ANGLE_FADE 1
+		    #define ASE_SRP_VERSION 140010
 
-
-			#pragma vertex Vert
-			#pragma fragment Frag
 
 		    #pragma exclude_renderers glcore gles gles3 
+			#pragma vertex Vert
+			#pragma fragment Frag
 			#pragma multi_compile_instancing
 			#pragma editor_sync_compilation
 
 			#pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
+			#pragma multi_compile_fragment _ _FOVEATED_RENDERING_NON_UNIFORM_RASTER
 			#pragma multi_compile _ _DECAL_LAYERS
-
-			
 
             #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
             #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
 
             #define HAVE_MESH_MODIFICATION
+
             #define SHADERPASS SHADERPASS_DBUFFER_PROJECTOR
 
+			#ifdef SCENEPICKINGPASS
+			float4 _SelectionID;
+			#endif
 			#if _RENDER_PASS_ENABLED
 			#define GBUFFER3 0
 			#define GBUFFER4 1
@@ -92,40 +95,20 @@ Shader  "SHR_Decal_LightsCutout"
 			FRAMEBUFFER_INPUT_HALF(GBUFFER4);
 			#endif
 
-			
-
-			
-            #if ASE_SRP_VERSION >=140007
-			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
-			#endif
-		
-
             #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Input.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
-
-			
-            #if ASE_SRP_VERSION >=140010
-			#include_with_pragmas "Packages/com.unity.render-pipelines.core/ShaderLibrary/FoveatedRenderingKeywords.hlsl"
-			#endif
-		
-
-			
-
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DecalInput.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderVariablesDecal.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DBuffer.hlsl"
 
-			#if defined(LOD_FADE_CROSSFADE)
-            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/LODCrossFade.hlsl"
-            #endif
-
 			#define ASE_NEEDS_FRAG_TEXTURE_COORDINATES0
+			#pragma shader_feature_local _LIGHTCUTOUTSORDECAL_ON
 
 
 			struct SurfaceDescription
@@ -164,19 +147,10 @@ Shader  "SHR_Decal_LightsCutout"
 			float _DecalMeshBiasType;
 			float _DecalMeshDepthBias;
 			float _DecalMeshViewBias;
-			#if defined(DECAL_ANGLE_FADE)
+            #if defined(DECAL_ANGLE_FADE)
 			float _DecalAngleFadeSupported;
-			#endif
+            #endif
 			CBUFFER_END
-
-            #ifdef SCENEPICKINGPASS
-				float4 _SelectionID;
-            #endif
-
-            #ifdef SCENESELECTIONPASS
-				int _ObjectId;
-				int _PassValue;
-            #endif
 
 			sampler2D _TextureSample0;
 
@@ -378,9 +352,14 @@ Shader  "SHR_Decal_LightsCutout"
 
 				float2 uv_TextureSample0 = texCoord0 * _TextureSample0_ST.xy + _TextureSample0_ST.zw;
 				float4 tex2DNode11 = tex2D( _TextureSample0, uv_TextureSample0 );
+				#ifdef _LIGHTCUTOUTSORDECAL_ON
+				float4 staticSwitch47 = tex2DNode11;
+				#else
+				float4 staticSwitch47 = ( ( _Color0 * tex2DNode11.r ) * tex2DNode11.a );
+				#endif
 				
 
-				surfaceDescription.BaseColor = ( ( _Color0 * tex2DNode11.r ) * tex2DNode11.a ).rgb;
+				surfaceDescription.BaseColor = staticSwitch47.rgb;
 				surfaceDescription.Alpha = tex2DNode11.a;
 				surfaceDescription.NormalTS = float3(0.0f, 0.0f, 1.0f);
 				surfaceDescription.NormalAlpha = 1;
@@ -424,6 +403,7 @@ Shader  "SHR_Decal_LightsCutout"
 			#define ASE_SRP_VERSION 140010
 
 
+			#pragma only_renderers d3d11 glcore gles gles3 
 			#pragma vertex Vert
 			#pragma fragment Frag
 			#pragma multi_compile_instancing
@@ -433,17 +413,9 @@ Shader  "SHR_Decal_LightsCutout"
 			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
 			#pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
 			#pragma multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS
-
-			
-
-			
-			#pragma multi_compile_fragment _ _SHADOWS_SOFT _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM _SHADOWS_SOFT_HIGH
-           
-
+			#pragma multi_compile_fragment _ _SHADOWS_SOFT
 			#pragma multi_compile _ _FORWARD_PLUS
-
-			
-
+			#pragma multi_compile_fragment _ _FOVEATED_RENDERING_NON_UNIFORM_RASTER
 			#pragma multi_compile _DECAL_NORMAL_BLEND_LOW _DECAL_NORMAL_BLEND_MEDIUM _DECAL_NORMAL_BLEND_HIGH
 			#pragma multi_compile _ _DECAL_LAYERS
 
@@ -464,6 +436,9 @@ Shader  "SHR_Decal_LightsCutout"
 
             #define SHADERPASS SHADERPASS_DECAL_SCREEN_SPACE_PROJECTOR
 
+			#ifdef SCENEPICKINGPASS
+			float4 _SelectionID;
+			#endif
 			#if _RENDER_PASS_ENABLED
 			#define GBUFFER3 0
 			#define GBUFFER4 1
@@ -471,39 +446,19 @@ Shader  "SHR_Decal_LightsCutout"
 			FRAMEBUFFER_INPUT_HALF(GBUFFER4);
 			#endif
 
-			
-
-			
-            #if ASE_SRP_VERSION >=140007
-			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
-			#endif
-		
-
             #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Input.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
-
-			
-            #if ASE_SRP_VERSION >=140010
-			#include_with_pragmas "Packages/com.unity.render-pipelines.core/ShaderLibrary/FoveatedRenderingKeywords.hlsl"
-			#endif
-		
-
-			
-
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DecalInput.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderVariablesDecal.hlsl"
 
-		    #if defined(LOD_FADE_CROSSFADE)
-            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/LODCrossFade.hlsl"
-            #endif
-
 			#define ASE_NEEDS_FRAG_TEXTURE_COORDINATES0
+			#pragma shader_feature_local _LIGHTCUTOUTSORDECAL_ON
 
 
 			struct SurfaceDescription
@@ -549,19 +504,10 @@ Shader  "SHR_Decal_LightsCutout"
 			float _DecalMeshBiasType;
 			float _DecalMeshDepthBias;
 			float _DecalMeshViewBias;
-			#if defined(DECAL_ANGLE_FADE)
+            #if defined(DECAL_ANGLE_FADE)
 			float _DecalAngleFadeSupported;
-			#endif
+            #endif
 			CBUFFER_END
-
-            #ifdef SCENEPICKINGPASS
-				float4 _SelectionID;
-            #endif
-
-            #ifdef SCENESELECTIONPASS
-				int _ObjectId;
-				int _PassValue;
-            #endif
 
 			sampler2D _TextureSample0;
 
@@ -837,11 +783,16 @@ Shader  "SHR_Decal_LightsCutout"
 
 				float2 uv_TextureSample0 = texCoord0 * _TextureSample0_ST.xy + _TextureSample0_ST.zw;
 				float4 tex2DNode11 = tex2D( _TextureSample0, uv_TextureSample0 );
+				#ifdef _LIGHTCUTOUTSORDECAL_ON
+				float4 staticSwitch47 = tex2DNode11;
+				#else
+				float4 staticSwitch47 = ( ( _Color0 * tex2DNode11.r ) * tex2DNode11.a );
+				#endif
 				
 
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 
-				surfaceDescription.BaseColor = ( ( _Color0 * tex2DNode11.r ) * tex2DNode11.a ).rgb;
+				surfaceDescription.BaseColor = staticSwitch47.rgb;
 				surfaceDescription.Alpha = tex2DNode11.a;
 				surfaceDescription.NormalTS = float3(0.0f, 0.0f, 1.0f);
 				surfaceDescription.NormalAlpha = 1;
@@ -908,6 +859,7 @@ Shader  "SHR_Decal_LightsCutout"
 			#define ASE_SRP_VERSION 140010
 
 
+			#pragma only_renderers d3d11 glcore gles gles3 
 			#pragma vertex Vert
 			#pragma fragment Frag
 			#pragma multi_compile_instancing
@@ -915,13 +867,7 @@ Shader  "SHR_Decal_LightsCutout"
 			#pragma editor_sync_compilation
 
 			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
-
-			
-
-			
-			#pragma multi_compile_fragment _ _SHADOWS_SOFT _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM _SHADOWS_SOFT_HIGH
-           
-
+			#pragma multi_compile_fragment _ _SHADOWS_SOFT
 			#pragma multi_compile _DECAL_NORMAL_BLEND_LOW _DECAL_NORMAL_BLEND_MEDIUM _DECAL_NORMAL_BLEND_HIGH
 			#pragma multi_compile _ _DECAL_LAYERS
 			#pragma multi_compile_fragment _ _GBUFFER_NORMALS_OCT
@@ -943,6 +889,9 @@ Shader  "SHR_Decal_LightsCutout"
 
             #define SHADERPASS SHADERPASS_DECAL_GBUFFER_PROJECTOR
 
+			#ifdef SCENEPICKINGPASS
+			float4 _SelectionID;
+			#endif
 			#if _RENDER_PASS_ENABLED
 			#define GBUFFER3 0
 			#define GBUFFER4 1
@@ -950,40 +899,20 @@ Shader  "SHR_Decal_LightsCutout"
 			FRAMEBUFFER_INPUT_HALF(GBUFFER4);
 			#endif
 
-			
-
-			
-            #if ASE_SRP_VERSION >=140007
-			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
-			#endif
-		
-
             #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Input.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
-
-			
-            #if ASE_SRP_VERSION >=140010
-			#include_with_pragmas "Packages/com.unity.render-pipelines.core/ShaderLibrary/FoveatedRenderingKeywords.hlsl"
-			#endif
-		
-
-			
-
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/UnityGBuffer.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DecalInput.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderVariablesDecal.hlsl"
 
-		    #if defined(LOD_FADE_CROSSFADE)
-            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/LODCrossFade.hlsl"
-            #endif
-
 			#define ASE_NEEDS_FRAG_TEXTURE_COORDINATES0
+			#pragma shader_feature_local _LIGHTCUTOUTSORDECAL_ON
 
 
 			struct SurfaceDescription
@@ -1028,19 +957,10 @@ Shader  "SHR_Decal_LightsCutout"
 			float _DecalMeshBiasType;
 			float _DecalMeshDepthBias;
 			float _DecalMeshViewBias;
-			#if defined(DECAL_ANGLE_FADE)
+            #if defined(DECAL_ANGLE_FADE)
 			float _DecalAngleFadeSupported;
-			#endif
+            #endif
 			CBUFFER_END
-
-            #ifdef SCENEPICKINGPASS
-				float4 _SelectionID;
-            #endif
-
-            #ifdef SCENESELECTIONPASS
-				int _ObjectId;
-				int _PassValue;
-            #endif
 
 			sampler2D _TextureSample0;
 
@@ -1310,9 +1230,14 @@ Shader  "SHR_Decal_LightsCutout"
 
 				float2 uv_TextureSample0 = texCoord0 * _TextureSample0_ST.xy + _TextureSample0_ST.zw;
 				float4 tex2DNode11 = tex2D( _TextureSample0, uv_TextureSample0 );
+				#ifdef _LIGHTCUTOUTSORDECAL_ON
+				float4 staticSwitch47 = tex2DNode11;
+				#else
+				float4 staticSwitch47 = ( ( _Color0 * tex2DNode11.r ) * tex2DNode11.a );
+				#endif
 				
 
-				surfaceDescription.BaseColor = ( ( _Color0 * tex2DNode11.r ) * tex2DNode11.a ).rgb;
+				surfaceDescription.BaseColor = staticSwitch47.rgb;
 				surfaceDescription.Alpha = tex2DNode11.a;
 				surfaceDescription.NormalTS = float3(0.0f, 0.0f, 1.0f);
 				surfaceDescription.NormalAlpha = 1;
@@ -1395,6 +1320,7 @@ Shader  "SHR_Decal_LightsCutout"
 			#define ASE_SRP_VERSION 140010
 
 
+			#pragma only_renderers d3d11 glcore gles gles3 
 			#pragma vertex Vert
 			#pragma fragment Frag
 			#pragma multi_compile_instancing
@@ -1420,6 +1346,9 @@ Shader  "SHR_Decal_LightsCutout"
 
             #define SHADERPASS SHADERPASS_DBUFFER_MESH
 
+			#ifdef SCENEPICKINGPASS
+			float4 _SelectionID;
+			#endif
 			#if _RENDER_PASS_ENABLED
 			#define GBUFFER3 0
 			#define GBUFFER4 1
@@ -1427,40 +1356,20 @@ Shader  "SHR_Decal_LightsCutout"
 			FRAMEBUFFER_INPUT_HALF(GBUFFER4);
 			#endif
 
-			
-
-			
-            #if ASE_SRP_VERSION >=140007
-			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
-			#endif
-		
-
             #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Input.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
-
-			
-            #if ASE_SRP_VERSION >=140010
-			#include_with_pragmas "Packages/com.unity.render-pipelines.core/ShaderLibrary/FoveatedRenderingKeywords.hlsl"
-			#endif
-		
-
-			
-
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DecalInput.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderVariablesDecal.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DBuffer.hlsl"
 
-			#if defined(LOD_FADE_CROSSFADE)
-            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/LODCrossFade.hlsl"
-            #endif
+            #pragma shader_feature_local _LIGHTCUTOUTSORDECAL_ON
 
-            
 
 			struct SurfaceDescription
 			{
@@ -1505,19 +1414,7 @@ Shader  "SHR_Decal_LightsCutout"
 			float _DecalMeshBiasType;
 			float _DecalMeshDepthBias;
 			float _DecalMeshViewBias;
-			#if defined(DECAL_ANGLE_FADE)
-			float _DecalAngleFadeSupported;
-			#endif
 			CBUFFER_END
-
-            #ifdef SCENEPICKINGPASS
-				float4 _SelectionID;
-            #endif
-
-            #ifdef SCENESELECTIONPASS
-				int _ObjectId;
-				int _PassValue;
-            #endif
 
 			sampler2D _TextureSample0;
 
@@ -1525,7 +1422,7 @@ Shader  "SHR_Decal_LightsCutout"
 			
             void GetSurfaceData(PackedVaryings input, SurfaceDescription surfaceDescription, out DecalSurfaceData surfaceData)
             {
-                #if defined(LOD_FADE_CROSSFADE)
+                #ifdef LOD_FADE_CROSSFADE
 					LODFadeCrossFade( input.positionCS );
                 #endif
 
@@ -1709,9 +1606,14 @@ Shader  "SHR_Decal_LightsCutout"
 
 				float2 uv_TextureSample0 = packedInput.texCoord0.xy * _TextureSample0_ST.xy + _TextureSample0_ST.zw;
 				float4 tex2DNode11 = tex2D( _TextureSample0, uv_TextureSample0 );
+				#ifdef _LIGHTCUTOUTSORDECAL_ON
+				float4 staticSwitch47 = tex2DNode11;
+				#else
+				float4 staticSwitch47 = ( ( _Color0 * tex2DNode11.r ) * tex2DNode11.a );
+				#endif
 				
 
-				surfaceDescription.BaseColor = ( ( _Color0 * tex2DNode11.r ) * tex2DNode11.a ).rgb;
+				surfaceDescription.BaseColor = staticSwitch47.rgb;
 				surfaceDescription.Alpha = tex2DNode11.a;
 				surfaceDescription.NormalTS = float3(0.0f, 0.0f, 1.0f);
 				surfaceDescription.NormalAlpha = 1;
@@ -1753,6 +1655,7 @@ Shader  "SHR_Decal_LightsCutout"
 			#define ASE_SRP_VERSION 140010
 
 
+			#pragma only_renderers d3d11 glcore gles gles3 
 			#pragma vertex Vert
 			#pragma fragment Frag
 			#pragma multi_compile_instancing
@@ -1765,13 +1668,7 @@ Shader  "SHR_Decal_LightsCutout"
 			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
 			#pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
 			#pragma multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS
-
-			
-
-			
-			#pragma multi_compile_fragment _ _SHADOWS_SOFT _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM _SHADOWS_SOFT_HIGH
-           
-
+			#pragma multi_compile_fragment _ _SHADOWS_SOFT
 			#pragma multi_compile _ LIGHTMAP_SHADOW_MIXING
 			#pragma multi_compile _ SHADOWS_SHADOWMASK
 			#pragma multi_compile _ _FORWARD_PLUS
@@ -1800,6 +1697,9 @@ Shader  "SHR_Decal_LightsCutout"
 
             #define SHADERPASS SHADERPASS_DECAL_SCREEN_SPACE_MESH
 
+			#ifdef SCENEPICKINGPASS
+			float4 _SelectionID;
+			#endif
 			#if _RENDER_PASS_ENABLED
 			#define GBUFFER3 0
 			#define GBUFFER4 1
@@ -1807,39 +1707,19 @@ Shader  "SHR_Decal_LightsCutout"
 			FRAMEBUFFER_INPUT_HALF(GBUFFER4);
 			#endif
 
-			
-
-			
-            #if ASE_SRP_VERSION >=140007
-			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
-			#endif
-		
-
             #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Input.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
-
-			
-            #if ASE_SRP_VERSION >=140010
-			#include_with_pragmas "Packages/com.unity.render-pipelines.core/ShaderLibrary/FoveatedRenderingKeywords.hlsl"
-			#endif
-		
-
-			
-
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DecalInput.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderVariablesDecal.hlsl"
 
-			#if defined(LOD_FADE_CROSSFADE)
-            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/LODCrossFade.hlsl"
-            #endif
+			#pragma shader_feature_local _LIGHTCUTOUTSORDECAL_ON
 
-			
 
             struct SurfaceDescription
 			{
@@ -1890,19 +1770,7 @@ Shader  "SHR_Decal_LightsCutout"
 			float _DecalMeshBiasType;
 			float _DecalMeshDepthBias;
 			float _DecalMeshViewBias;
-			#if defined(DECAL_ANGLE_FADE)
-			float _DecalAngleFadeSupported;
-			#endif
 			CBUFFER_END
-
-            #ifdef SCENEPICKINGPASS
-				float4 _SelectionID;
-            #endif
-
-            #ifdef SCENESELECTIONPASS
-				int _ObjectId;
-				int _PassValue;
-            #endif
 
 			sampler2D _TextureSample0;
 
@@ -1910,8 +1778,8 @@ Shader  "SHR_Decal_LightsCutout"
 			
             void GetSurfaceData(PackedVaryings input, SurfaceDescription surfaceDescription, out DecalSurfaceData surfaceData)
             {
-                #if defined(LOD_FADE_CROSSFADE)
-					LODFadeCrossFade( input.positionCS );
+                #ifdef LOD_FADE_CROSSFADE
+                    LODFadeCrossFade( input.positionCS );
                 #endif
 
                 half fadeFactor = half(1.0);
@@ -2010,11 +1878,11 @@ Shader  "SHR_Decal_LightsCutout"
 
 			void MeshDecalsPositionZBias(inout PackedVaryings input)
 			{
-			#if UNITY_REVERSED_Z
+            #if UNITY_REVERSED_Z
 				input.positionCS.z -= _DecalMeshDepthBias;
-			#else
+            #else
 				input.positionCS.z += _DecalMeshDepthBias;
-			#endif
+            #endif
 			}
 
 			void InitializeInputData(PackedVaryings input, float3 positionWS, half3 normalWS, half3 viewDirectionWS, out InputData inputData)
@@ -2171,9 +2039,14 @@ Shader  "SHR_Decal_LightsCutout"
 
 				float2 uv_TextureSample0 = packedInput.texCoord0.xy * _TextureSample0_ST.xy + _TextureSample0_ST.zw;
 				float4 tex2DNode11 = tex2D( _TextureSample0, uv_TextureSample0 );
+				#ifdef _LIGHTCUTOUTSORDECAL_ON
+				float4 staticSwitch47 = tex2DNode11;
+				#else
+				float4 staticSwitch47 = ( ( _Color0 * tex2DNode11.r ) * tex2DNode11.a );
+				#endif
 				
 
-				surfaceDescription.BaseColor = ( ( _Color0 * tex2DNode11.r ) * tex2DNode11.a ).rgb;
+				surfaceDescription.BaseColor = staticSwitch47.rgb;
 				surfaceDescription.Alpha = tex2DNode11.a;
 				surfaceDescription.NormalTS = float3(0.0f, 0.0f, 1.0f);
 				surfaceDescription.NormalAlpha = 1;
@@ -2238,6 +2111,7 @@ Shader  "SHR_Decal_LightsCutout"
 			#define ASE_SRP_VERSION 140010
 
 
+			#pragma only_renderers d3d11 glcore gles gles3 
 			#pragma vertex Vert
 			#pragma fragment Frag
 			#pragma multi_compile_instancing
@@ -2248,13 +2122,7 @@ Shader  "SHR_Decal_LightsCutout"
 			#pragma multi_compile _ DYNAMICLIGHTMAP_ON
 			#pragma multi_compile _ DIRLIGHTMAP_COMBINED
 			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
-
-			
-
-			
-			#pragma multi_compile_fragment _ _SHADOWS_SOFT _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM _SHADOWS_SOFT_HIGH
-           
-
+			#pragma multi_compile_fragment _ _SHADOWS_SOFT
 			#pragma multi_compile _ LIGHTMAP_SHADOW_MIXING
 			#pragma multi_compile _ _MIXED_LIGHTING_SUBTRACTIVE
 			#pragma multi_compile _DECAL_NORMAL_BLEND_LOW _DECAL_NORMAL_BLEND_MEDIUM _DECAL_NORMAL_BLEND_HIGH
@@ -2284,6 +2152,9 @@ Shader  "SHR_Decal_LightsCutout"
 
             #define SHADERPASS SHADERPASS_DECAL_GBUFFER_MESH
 
+			#ifdef SCENEPICKINGPASS
+			float4 _SelectionID;
+			#endif
 			#if _RENDER_PASS_ENABLED
 			#define GBUFFER3 0
 			#define GBUFFER4 1
@@ -2291,40 +2162,20 @@ Shader  "SHR_Decal_LightsCutout"
 			FRAMEBUFFER_INPUT_HALF(GBUFFER4);
 			#endif
 
-			
-
-			
-            #if ASE_SRP_VERSION >=140007
-			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
-			#endif
-		
-
             #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Input.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
-
-			
-            #if ASE_SRP_VERSION >=140010
-			#include_with_pragmas "Packages/com.unity.render-pipelines.core/ShaderLibrary/FoveatedRenderingKeywords.hlsl"
-			#endif
-		
-
-			
-
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/UnityGBuffer.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DecalInput.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderVariablesDecal.hlsl"
 
-			#if defined(LOD_FADE_CROSSFADE)
-            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/LODCrossFade.hlsl"
-            #endif
+			#pragma shader_feature_local _LIGHTCUTOUTSORDECAL_ON
 
-			
 
 			struct SurfaceDescription
 			{
@@ -2375,19 +2226,7 @@ Shader  "SHR_Decal_LightsCutout"
 			float _DecalMeshBiasType;
 			float _DecalMeshDepthBias;
 			float _DecalMeshViewBias;
-			#if defined(DECAL_ANGLE_FADE)
-			float _DecalAngleFadeSupported;
-			#endif
 			CBUFFER_END
-
-            #ifdef SCENEPICKINGPASS
-				float4 _SelectionID;
-            #endif
-
-            #ifdef SCENESELECTIONPASS
-				int _ObjectId;
-				int _PassValue;
-            #endif
 
 			sampler2D _TextureSample0;
 
@@ -2395,8 +2234,8 @@ Shader  "SHR_Decal_LightsCutout"
 			
             void GetSurfaceData(PackedVaryings input, SurfaceDescription surfaceDescription, out DecalSurfaceData surfaceData)
             {
-                #if defined(LOD_FADE_CROSSFADE)
-					LODFadeCrossFade( input.positionCS );
+				#ifdef LOD_FADE_CROSSFADE
+                    LODFadeCrossFade( input.positionCS );
                 #endif
 
                 half fadeFactor = half(1.0);
@@ -2494,11 +2333,11 @@ Shader  "SHR_Decal_LightsCutout"
 
 			void MeshDecalsPositionZBias(inout PackedVaryings input)
 			{
-			#if UNITY_REVERSED_Z
+            #if UNITY_REVERSED_Z
 				input.positionCS.z -= _DecalMeshDepthBias;
-			#else
+            #else
 				input.positionCS.z += _DecalMeshDepthBias;
-			#endif
+            #endif
 			}
 
 			void InitializeInputData(PackedVaryings input, float3 positionWS, half3 normalWS, half3 viewDirectionWS, out InputData inputData)
@@ -2654,9 +2493,14 @@ Shader  "SHR_Decal_LightsCutout"
 
 				float2 uv_TextureSample0 = packedInput.texCoord0.xy * _TextureSample0_ST.xy + _TextureSample0_ST.zw;
 				float4 tex2DNode11 = tex2D( _TextureSample0, uv_TextureSample0 );
+				#ifdef _LIGHTCUTOUTSORDECAL_ON
+				float4 staticSwitch47 = tex2DNode11;
+				#else
+				float4 staticSwitch47 = ( ( _Color0 * tex2DNode11.r ) * tex2DNode11.a );
+				#endif
 				
 
-				surfaceDescription.BaseColor = ( ( _Color0 * tex2DNode11.r ) * tex2DNode11.a ).rgb;
+				surfaceDescription.BaseColor = staticSwitch47.rgb;
 				surfaceDescription.Alpha = tex2DNode11.a;
 				surfaceDescription.NormalTS = float3(0.0f, 0.0f, 1.0f);
 				surfaceDescription.NormalAlpha = 1;
@@ -2733,6 +2577,7 @@ Shader  "SHR_Decal_LightsCutout"
 			#define ASE_SRP_VERSION 140010
 
 
+			#pragma only_renderers d3d11 glcore gles gles3 
 			#pragma multi_compile_instancing
 			#pragma editor_sync_compilation
 			#pragma vertex Vert
@@ -2746,6 +2591,9 @@ Shader  "SHR_Decal_LightsCutout"
             #define SHADERPASS SHADERPASS_DEPTHONLY
 			#define SCENEPICKINGPASS 1
 
+			#ifdef SCENEPICKINGPASS
+			float4 _SelectionID;
+			#endif
 			#if _RENDER_PASS_ENABLED
 			#define GBUFFER3 0
 			#define GBUFFER4 1
@@ -2759,21 +2607,13 @@ Shader  "SHR_Decal_LightsCutout"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Input.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
-
-			
-            #if ASE_SRP_VERSION >=140010
-			#include_with_pragmas "Packages/com.unity.render-pipelines.core/ShaderLibrary/FoveatedRenderingKeywords.hlsl"
-			#endif
-		
-
-			
-
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DecalInput.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderVariablesDecal.hlsl"
 
-			
+			#pragma shader_feature_local _LIGHTCUTOUTSORDECAL_ON
+
 
 			struct Attributes
 			{
@@ -2799,19 +2639,7 @@ Shader  "SHR_Decal_LightsCutout"
 			float _DecalMeshBiasType;
 			float _DecalMeshDepthBias;
 			float _DecalMeshViewBias;
-			#if defined(DECAL_ANGLE_FADE)
-			float _DecalAngleFadeSupported;
-			#endif
 			CBUFFER_END
-
-            #ifdef SCENEPICKINGPASS
-				float4 _SelectionID;
-            #endif
-
-            #ifdef SCENESELECTIONPASS
-				int _ObjectId;
-				int _PassValue;
-            #endif
 
 			sampler2D _TextureSample0;
 
@@ -2901,9 +2729,14 @@ Shader  "SHR_Decal_LightsCutout"
 			{
 				float2 uv_TextureSample0 = packedInput.ase_texcoord.xy * _TextureSample0_ST.xy + _TextureSample0_ST.zw;
 				float4 tex2DNode11 = tex2D( _TextureSample0, uv_TextureSample0 );
+				#ifdef _LIGHTCUTOUTSORDECAL_ON
+				float4 staticSwitch47 = tex2DNode11;
+				#else
+				float4 staticSwitch47 = ( ( _Color0 * tex2DNode11.r ) * tex2DNode11.a );
+				#endif
 				
 
-				float3 BaseColor = ( ( _Color0 * tex2DNode11.r ) * tex2DNode11.a ).rgb;
+				float3 BaseColor = staticSwitch47.rgb;
 
 				outColor = _SelectionID;
 			}
@@ -2916,25 +2749,28 @@ Shader  "SHR_Decal_LightsCutout"
 	Fallback Off
 }
 /*ASEBEGIN
-Version=19302
-Node;AmplifyShaderEditor.SamplerNode;11;-604.4,239.7001;Inherit;True;Property;_TextureSample0;Texture Sample 0;0;0;Create;True;0;0;0;False;0;False;-1;917c7a2ac3cda4d418dd8ba85904218f;917c7a2ac3cda4d418dd8ba85904218f;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.ColorNode;9;-553.2,-104.3;Inherit;False;Property;_Color0;Color 0;1;1;[HDR];Create;True;0;0;0;False;0;False;5.340313,0,0,0;5.340313,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;12;-273.9998,-95.49999;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;17;-4.114685,85.4617;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
+Version=19200
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;38;269.76,-2.720005;Float;False;False;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;1;New Amplify Shader;c2a467ab6d5391a4ea692226d82ffefd;True;DBufferProjector;0;0;DBufferProjector;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;True;2;5;False;;10;False;;1;0;False;;10;False;;False;False;True;2;5;False;;10;False;;1;0;False;;10;False;;False;False;True;2;5;False;;10;False;;1;0;False;;10;False;;False;False;False;False;False;False;True;1;False;;False;False;False;True;True;True;True;True;0;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;True;2;False;;True;2;False;;False;True;1;LightMode=DBufferProjector;False;True;9;d3d11;metal;vulkan;xboxone;xboxseries;playstation;ps4;ps5;switch;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;39;269.76,-2.720005;Float;False;False;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;1;New Amplify Shader;c2a467ab6d5391a4ea692226d82ffefd;True;DecalProjectorForwardEmissive;0;1;DecalProjectorForwardEmissive;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;True;8;5;False;;1;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;True;2;False;;False;True;1;LightMode=DecalProjectorForwardEmissive;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;40;269.76,-2.720005;Float;False;True;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;14;SHR_Decal_LightsCutout;c2a467ab6d5391a4ea692226d82ffefd;True;DecalScreenSpaceProjector;0;2;DecalScreenSpaceProjector;9;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;True;2;False;;False;True;1;LightMode=DecalScreenSpaceProjector;False;False;0;;0;0;Standard;7;Affect BaseColor;1;0;Affect Normal;1;0;Blend;1;0;Affect MAOS;0;0;Affect Emission;0;0;Support LOD CrossFade;0;0;Angle Fade;1;0;0;9;True;False;True;True;True;False;True;True;True;False;;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;41;269.76,-2.720005;Float;False;False;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;1;New Amplify Shader;c2a467ab6d5391a4ea692226d82ffefd;True;DecalGBufferProjector;0;3;DecalGBufferProjector;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;False;True;1;False;;False;False;False;True;False;False;False;False;0;False;;False;True;True;True;True;False;0;False;;False;True;True;True;True;False;0;False;;False;False;False;True;2;False;;True;2;False;;False;True;1;LightMode=DecalGBufferProjector;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;42;269.76,-2.720005;Float;False;False;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;1;New Amplify Shader;c2a467ab6d5391a4ea692226d82ffefd;True;DBufferMesh;0;4;DBufferMesh;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;True;2;5;False;;10;False;;1;0;False;;10;False;;False;False;True;2;5;False;;10;False;;1;0;False;;10;False;;False;False;True;2;5;False;;10;False;;1;0;False;;10;False;;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;True;2;False;;True;3;False;;False;True;1;LightMode=DBufferMesh;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;43;269.76,-2.720005;Float;False;False;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;1;New Amplify Shader;c2a467ab6d5391a4ea692226d82ffefd;True;DecalMeshForwardEmissive;0;5;DecalMeshForwardEmissive;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;True;8;5;False;;1;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;True;3;False;;False;True;1;LightMode=DecalMeshForwardEmissive;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;44;269.76,-2.720005;Float;False;False;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;1;New Amplify Shader;c2a467ab6d5391a4ea692226d82ffefd;True;DecalScreenSpaceMesh;0;6;DecalScreenSpaceMesh;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;True;3;False;;False;True;1;LightMode=DecalScreenSpaceMesh;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;45;269.76,-2.720005;Float;False;False;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;1;New Amplify Shader;c2a467ab6d5391a4ea692226d82ffefd;True;DecalGBufferMesh;0;7;DecalGBufferMesh;1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;True;False;False;False;False;0;False;;False;True;True;True;True;False;0;False;;False;True;True;True;True;False;0;False;;False;False;False;True;2;False;;False;False;True;1;LightMode=DecalGBufferMesh;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;46;269.76,-2.720005;Float;False;False;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;1;New Amplify Shader;c2a467ab6d5391a4ea692226d82ffefd;True;ScenePickingPass;0;8;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
-WireConnection;12;0;9;0
-WireConnection;12;1;11;1
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;39;269.76,-2.720005;Float;False;False;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;1;New Amplify Shader;c2a467ab6d5391a4ea692226d82ffefd;True;DecalProjectorForwardEmissive;0;1;DecalProjectorForwardEmissive;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;True;8;5;False;;1;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;True;2;False;;False;True;1;LightMode=DecalProjectorForwardEmissive;False;True;4;d3d11;glcore;gles;gles3;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;41;269.76,-2.720005;Float;False;False;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;1;New Amplify Shader;c2a467ab6d5391a4ea692226d82ffefd;True;DecalGBufferProjector;0;3;DecalGBufferProjector;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;False;True;1;False;;False;False;False;True;False;False;False;False;0;False;;False;True;True;True;True;False;0;False;;False;True;True;True;True;False;0;False;;False;False;False;True;2;False;;True;2;False;;False;True;1;LightMode=DecalGBufferProjector;False;True;4;d3d11;glcore;gles;gles3;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;42;269.76,-2.720005;Float;False;False;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;1;New Amplify Shader;c2a467ab6d5391a4ea692226d82ffefd;True;DBufferMesh;0;4;DBufferMesh;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;True;2;5;False;;10;False;;1;0;False;;10;False;;False;False;True;2;5;False;;10;False;;1;0;False;;10;False;;False;False;True;2;5;False;;10;False;;1;0;False;;10;False;;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;True;2;False;;True;3;False;;False;True;1;LightMode=DBufferMesh;False;True;4;d3d11;glcore;gles;gles3;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;43;269.76,-2.720005;Float;False;False;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;1;New Amplify Shader;c2a467ab6d5391a4ea692226d82ffefd;True;DecalMeshForwardEmissive;0;5;DecalMeshForwardEmissive;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;True;8;5;False;;1;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;True;3;False;;False;True;1;LightMode=DecalMeshForwardEmissive;False;True;4;d3d11;glcore;gles;gles3;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;44;269.76,-2.720005;Float;False;False;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;1;New Amplify Shader;c2a467ab6d5391a4ea692226d82ffefd;True;DecalScreenSpaceMesh;0;6;DecalScreenSpaceMesh;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;True;3;False;;False;True;1;LightMode=DecalScreenSpaceMesh;False;True;4;d3d11;glcore;gles;gles3;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;45;269.76,-2.720005;Float;False;False;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;1;New Amplify Shader;c2a467ab6d5391a4ea692226d82ffefd;True;DecalGBufferMesh;0;7;DecalGBufferMesh;1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;True;False;False;False;False;0;False;;False;True;True;True;True;False;0;False;;False;True;True;True;True;False;0;False;;False;False;False;True;2;False;;False;False;True;1;LightMode=DecalGBufferMesh;False;True;4;d3d11;glcore;gles;gles3;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;46;269.76,-2.720005;Float;False;False;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;1;New Amplify Shader;c2a467ab6d5391a4ea692226d82ffefd;True;ScenePickingPass;0;8;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Picking;False;True;4;d3d11;glcore;gles;gles3;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;17;-146.263,-233.0395;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.ColorNode;9;-784.7735,-388.6049;Inherit;False;Property;_Color0;Color 0;1;1;[HDR];Create;True;0;0;0;False;0;False;5.340313,0,0,0;5.340313,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;12;-490.1658,-357.2239;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;40;675.6591,33.06694;Float;False;True;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;14;SHR_DecalMaster;c2a467ab6d5391a4ea692226d82ffefd;True;DecalScreenSpaceProjector;0;2;DecalScreenSpaceProjector;9;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;True;2;False;;False;True;1;LightMode=DecalScreenSpaceProjector;False;True;4;d3d11;glcore;gles;gles3;0;;0;0;Standard;7;Affect BaseColor;1;0;Affect Normal;1;0;Blend;1;0;Affect MAOS;0;0;Affect Emission;0;0;Support LOD CrossFade;0;0;Angle Fade;1;0;0;9;True;False;True;True;True;False;True;True;True;False;;False;0
+Node;AmplifyShaderEditor.StaticSwitch;47;197.8242,-109.3226;Inherit;False;Property;_LightCutoutsorDecal;LightCutouts or Decal ?;2;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;COLOR;0,0,0,0;False;0;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;5;COLOR;0,0,0,0;False;6;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SamplerNode;11;-947.972,81.38435;Inherit;True;Property;_TextureSample0;Texture Sample 0;0;0;Create;True;0;0;0;False;0;False;-1;917c7a2ac3cda4d418dd8ba85904218f;917c7a2ac3cda4d418dd8ba85904218f;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 WireConnection;17;0;12;0
 WireConnection;17;1;11;4
-WireConnection;40;0;17;0
+WireConnection;12;0;9;0
+WireConnection;12;1;11;1
+WireConnection;40;0;47;0
 WireConnection;40;1;11;4
+WireConnection;47;1;17;0
+WireConnection;47;0;11;0
 ASEEND*/
-//CHKSM=279142BB2DEA413EFCB3C0AA65BC6868B2547201
+//CHKSM=6DD9C70D509143BBB771C744F01BF50FB19B3FD5
