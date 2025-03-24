@@ -92,7 +92,7 @@ public class SC_Player : MonoBehaviour
     [SerializeField] private UnityEngine.UI.Slider sliderDetection;
     public bool BisDetectedByAnyEnemy = false;
     [SerializeField] private int iTimeFoeDisabled = 5;
-    [SerializeField] private Sprite[] spriteEye;
+    [SerializeField] private Material[] mEye;
     [SerializeField] private UnityEngine.UI.Image imgEye;
 
     //LE TAG
@@ -512,7 +512,7 @@ public class SC_Player : MonoBehaviour
                             ingTag.textOnWall.color = bpmManager.colorPerfect;
                             ingTag._renderer.material = ingTag.taggedMaterial; //le joueur tag
                             ingTag.transform.gameObject.tag = "Wall";
-                            ingTag.goArrow.transform.localPosition = new Vector3(ingTag.goArrow.transform.localPosition.x, ingTag.goArrow.transform.localPosition.y + 50f, ingTag.goArrow.transform.localPosition.z);
+                                ingTag.goArrow.transform.localPosition = new Vector3(ingTag.goArrow.transform.localPosition.x, ingTag.goArrow.transform.localPosition.y + 50f, ingTag.goArrow.transform.localPosition.z);
                             itagDone += 1;
                             if (ingTag.transform.gameObject.name == "EndingWall")
                             {
@@ -1105,23 +1105,23 @@ public class SC_Player : MonoBehaviour
     {
         if(FDetectionLevel <= fDetectionLevelMax *1/5)
         {
-            imgEye.sprite = spriteEye[0];
+            imgEye.material = mEye[0];
         }
         else if(FDetectionLevel <= fDetectionLevelMax * 2/ 5)
         {
-            imgEye.sprite = spriteEye[1];
+            imgEye.material = mEye[1];
         }
         else if (FDetectionLevel <= fDetectionLevelMax * 3/ 5)
         {
-            imgEye.sprite = spriteEye[2];
+            imgEye.material = mEye[2];
         }
         else if (FDetectionLevel <= fDetectionLevelMax * 4 / 5)
         {
-            imgEye.sprite = spriteEye[3];
+            imgEye.material = mEye[3];
         }
         else if (FDetectionLevel <= fDetectionLevelMax)
         {
-            imgEye.sprite = spriteEye[4];
+            imgEye.material = mEye[4];
         }
     }
 
