@@ -39,6 +39,8 @@ public class ing_Bait : MonoBehaviour
     [SerializeField] private Vector3 fPosBase_impact;
     [SerializeField] private GameObject Go_vfxTrail;
     [SerializeField] private Vector3 fPosBase_trail;
+    [SerializeField] private GameObject Go_vfxIdle;
+    [SerializeField] private Vector3 fPosBase_idlel;
     private ParticleSystem PS_trail;
     private ParticleSystem PS_smash;
     private ParticleSystem PS_Impact;
@@ -66,8 +68,13 @@ public class ing_Bait : MonoBehaviour
             sc_juice.StartNow(bpmManager);
             bInit = true;
         }
-        if (b_BeenThrown)
+        if(!b_BeenThrown && !bIsBeingThrown)
         {
+            Go_vfxIdle.transform.localPosition = fPosBase_idlel;
+        }
+        if(b_BeenThrown)
+        {
+            Go_vfxIdle.transform.localPosition = new Vector3(fPosBase_idlel.x, fPosBase_idlel.y + 50f, fPosBase_idlel.z);
             foreach (SC_FieldOfView ennemy in allEnemies)
             {
                 if (ennemy.i_EnnemyBeat > 5)
@@ -97,6 +104,7 @@ public class ing_Bait : MonoBehaviour
         }
         if (bIsBeingThrown)
         {
+            Go_vfxIdle.transform.localPosition = new Vector3(fPosBase_idlel.x, fPosBase_idlel.y + 50f, fPosBase_idlel.z);
             if (!bOnce)
             {
                 bGoingUp = true;
