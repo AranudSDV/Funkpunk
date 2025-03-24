@@ -409,6 +409,21 @@ public class SC_Player : MonoBehaviour
                                 return;
                             }
                         }
+                        else if (collider.CompareTag("MapObject"))
+                        {
+                            TextMeshPro textOnWall = collider.transform.GetChild(0).GetComponent<TextMeshPro>();
+                            StartCoroutine(EnoughPercentLoft(textOnWall));
+                            /*if (fPercentScore>= 50f)
+                            {
+                                TextMeshPro textOnWall = hitInfo.transform.GetChild(0).GetComponent<TextMeshPro>();
+                                StartCoroutine(EnoughPercentLoft(textOnWall));
+                            }
+                            else
+                            {
+                                TextMeshPro textOnWall = hitInfo.transform.GetChild(0).GetComponent<TextMeshPro>();
+                                StartCoroutine(NotEnoughPercentLoft(textOnWall));
+                            }*/
+                        }
                     }
                 }
                 if (canMoveDiagonally)

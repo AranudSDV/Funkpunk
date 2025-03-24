@@ -17,10 +17,6 @@ public class sc_textChange : MonoBehaviour
     [SerializeField] private bool bIsOnManager;
     private bool bnotfound;
     private bool bInitialized;
-    private void Start()
-    {
-       
-    }
 
     public void Init()
     {
