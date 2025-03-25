@@ -395,6 +395,7 @@ MonoBehaviour:
   bcanRotate: 0
   bIsImune: 0
   GOBait: {fileID: 6885181872792694492, guid: 481679da37c5830468e32f02138b149a, type: 3}
+  cinemachineVirtualCamera: {fileID: 0}
   hasAlreadyBaited: 0
   FScore: 0
   fNbBeat: 0
@@ -414,6 +415,8 @@ MonoBehaviour:
   sliderDetection: {fileID: 0}
   BisDetectedByAnyEnemy: 0
   iTimeFoeDisabled: 5
+  mEye: []
+  imgEye: {fileID: 0}
   taggingRange: 1
   GoVfxTag: {fileID: 766318065870670635}
   vfx_tag: {fileID: 8945544291399188229}
@@ -493,8 +496,12 @@ MonoBehaviour:
   bPlayGood: 0
   bPlayPerfect: 0
   soul_Feedback: {fileID: 0}
-  goNoteRight: {fileID: 0}
-  goNoteLeft: {fileID: 0}
+  goNoteRight:
+  - {fileID: 0}
+  imNoteRight: []
+  goNoteLeft:
+  - {fileID: 0}
+  imNoteLeft: []
   fFOVmin: 10
   fFOVmax: 10.6
 --- !u!114 &1633790102752681175
@@ -1068,6 +1075,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -517132002252511745, guid: 4f4bed6348ae1d548ac61b8556559211,
         type: 3}
+    - target: {fileID: 2498590207418637427, guid: 9a62010cefd93974d8d30e1825de5ac2,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2498590207418637427, guid: 9a62010cefd93974d8d30e1825de5ac2,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: dec4b187719f93d49918a786dfcee950, type: 2}
     - target: {fileID: 3668158061914810140, guid: 9a62010cefd93974d8d30e1825de5ac2,
         type: 3}
       propertyPath: m_LocalScale.x
