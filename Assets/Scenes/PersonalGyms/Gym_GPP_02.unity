@@ -935,6 +935,94 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3043e623405e03b4fa1e1f70bff1c9be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &136587956
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 70fcec3ea5015664092858b6aa26b007,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 70fcec3ea5015664092858b6aa26b007,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 70fcec3ea5015664092858b6aa26b007,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 70fcec3ea5015664092858b6aa26b007,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.2501757
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 70fcec3ea5015664092858b6aa26b007,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 70fcec3ea5015664092858b6aa26b007,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -5.1852756
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 70fcec3ea5015664092858b6aa26b007,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 70fcec3ea5015664092858b6aa26b007,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 70fcec3ea5015664092858b6aa26b007,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 70fcec3ea5015664092858b6aa26b007,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 70fcec3ea5015664092858b6aa26b007,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 70fcec3ea5015664092858b6aa26b007,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 70fcec3ea5015664092858b6aa26b007,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 70fcec3ea5015664092858b6aa26b007,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: d090b57f358462e4996d249ea2880c70, type: 2}
+    - target: {fileID: 919132149155446097, guid: 70fcec3ea5015664092858b6aa26b007,
+        type: 3}
+      propertyPath: m_Name
+      value: VFM_TestPlane_01A
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 70fcec3ea5015664092858b6aa26b007, type: 3}
 --- !u!43 &151039555
 Mesh:
   m_ObjectHideFlags: 0
@@ -33811,7 +33899,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 21.47
+  m_Intensity: 3.15
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -41372,7 +41460,7 @@ PrefabInstance:
     - target: {fileID: 3029174884773521976, guid: 65f34271cad0dda4d8a49134617b7571,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -269.29132
+      value: -269.29135
       objectReference: {fileID: 0}
     - target: {fileID: 3399386784160157605, guid: 65f34271cad0dda4d8a49134617b7571,
         type: 3}
@@ -47062,3 +47150,4 @@ SceneRoots:
   - {fileID: 1415342503}
   - {fileID: 730451487}
   - {fileID: 286192353}
+  - {fileID: 136587956}
