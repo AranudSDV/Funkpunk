@@ -530,7 +530,7 @@ Shader "SHR_3DUnlit_Opaque"
 
 				float2 uv_MainTex = IN.ase_texcoord3.xy * _MainTex_ST.xy + _MainTex_ST.zw;
 				float4 tex2DNode90 = tex2D( _MainTex, uv_MainTex );
-				Gradient gradient81 = NewGradient( 0, 6, 2, float4( 0.254717, 0.254717, 0.254717, 0 ), float4( 0.3568628, 0.3568628, 0.3568628, 0.3228962 ), float4( 0.5, 0.5, 0.5, 0.3317006 ), float4( 0.482353, 0.482353, 0.482353, 0.6604715 ), float4( 0.754717, 0.754717, 0.754717, 0.6751507 ), float4( 0.9855387, 0.9855387, 0.9855387, 1 ), 0, 0, float2( 1, 0 ), float2( 1, 1 ), 0, 0, 0, 0, 0, 0 );
+				Gradient gradient81 = NewGradient( 1, 5, 2, float4( 0.254717, 0.254717, 0.254717, 0 ), float4( 0.4465408, 0.4465408, 0.4465408, 0.4129091 ), float4( 0.5, 0.5, 0.5, 0.6868849 ), float4( 0.754717, 0.754717, 0.754717, 0.919768 ), float4( 0.9855387, 0.9855387, 0.9855387, 1 ), 0, 0, 0, float2( 1, 0 ), float2( 1, 1 ), 0, 0, 0, 0, 0, 0 );
 				float2 uv_Normal = IN.ase_texcoord3.xy * _Normal_ST.xy + _Normal_ST.zw;
 				float3 unpack53 = UnpackNormalScale( tex2D( _Normal, uv_Normal ), _NormalScale );
 				unpack53.z = lerp( 1, unpack53.z, saturate(_NormalScale) );
@@ -1878,7 +1878,6 @@ Node;AmplifyShaderEditor.SimpleMultiplyOpNode;64;-109.8936,-2761.437;Inherit;Fal
 Node;AmplifyShaderEditor.SimpleMaxOpNode;85;-1247.963,-1700.241;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMaxOpNode;84;-1437.356,-1773.299;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;47;-1075.591,-2046.175;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.GradientNode;81;-918.4899,-2321.94;Inherit;False;0;6;2;0.254717,0.254717,0.254717,0;0.3568628,0.3568628,0.3568628,0.3228962;0.5,0.5,0.5,0.3317006;0.482353,0.482353,0.482353,0.6604715;0.754717,0.754717,0.754717,0.6751507;0.9855387,0.9855387,0.9855387,1;1,0;1,1;0;1;OBJECT;0
 Node;AmplifyShaderEditor.SimpleAddOpNode;82;-833.9941,-2049.861;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.FunctionNode;79;-1822.621,-2195.354;Inherit;False;SRP Additional Light;-1;;17;6c86746ad131a0a408ca599df5f40861;7,6,1,9,1,23,0,27,0,25,0,24,0,26,0;6;2;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;15;FLOAT3;0,0,0;False;14;FLOAT3;1,1,1;False;18;FLOAT;0.5;False;32;FLOAT4;0,0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.GetLocalVarNode;43;-2050.663,-2192.682;Inherit;True;41;worldNormal;1;0;OBJECT;;False;1;FLOAT3;0
@@ -1904,6 +1903,7 @@ Node;AmplifyShaderEditor.CameraDepthFade;29;1458.46,-124.7464;Inherit;False;3;2;
 Node;AmplifyShaderEditor.StaticSwitch;35;896.4947,-815.4276;Inherit;False;Property;_IsEmissive;IsEmissive?;16;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;COLOR;0,0,0,0;False;0;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;5;COLOR;0,0,0,0;False;6;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SimpleAddOpNode;39;135.5186,-2520.926;Inherit;True;3;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;89;377.4946,-2856.695;Inherit;True;2;2;0;FLOAT;0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.GradientNode;81;-918.4899,-2321.94;Inherit;False;1;5;2;0.254717,0.254717,0.254717,0;0.4465408,0.4465408,0.4465408,0.4129091;0.5,0.5,0.5,0.6868849;0.754717,0.754717,0.754717,0.919768;0.9855387,0.9855387,0.9855387,1;1,0;1,1;0;1;OBJECT;0
 WireConnection;22;0;17;3
 WireConnection;19;0;17;2
 WireConnection;19;1;15;0
@@ -1985,4 +1985,4 @@ WireConnection;39;2;66;0
 WireConnection;89;0;88;0
 WireConnection;89;1;39;0
 ASEEND*/
-//CHKSM=787B083B31909826CA7BECBF6D1DC4E258CC12B7
+//CHKSM=5A18E37752EE3B69E4D2DFF54EEA21A61778632B
