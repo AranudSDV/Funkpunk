@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_UI_Oeil
+  m_Name: M_UI_Oeil_Step03 1
   m_Shader: {fileID: 4800000, guid: 7a05bef0144df2a4bb13a8cb2470e854, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -32,11 +32,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BackGroundTex:
-        m_Texture: {fileID: 2800000, guid: 8bee9e959ad705e46aab291c9f719dce, type: 3}
+        m_Texture: {fileID: 2800000, guid: ebd15980063b8b8479bccad773f8a449, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BackTex:
-        m_Texture: {fileID: 2800000, guid: 848e6d851914f7d4f921575798f82d2c, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7c9022079f170eb459068133eb1f0fdc, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DissolveTex:
@@ -44,7 +44,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _FrontTex:
-        m_Texture: {fileID: 2800000, guid: 7bc00bfbbf2254540a53064df3cfd095, type: 3}
+        m_Texture: {fileID: 2800000, guid: 1eee5df91f45c004eba763b1eaebec1a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -52,7 +52,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MidTex:
-        m_Texture: {fileID: 2800000, guid: 9cd71f3e555499d4bb26528953021f9e, type: 3}
+        m_Texture: {fileID: 2800000, guid: c6c2ac961c29b294a9555e3158a9126a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample0:
@@ -82,12 +82,12 @@ Material:
     - _BPM: 120
     - _BaseOpacity: 1
     - _IsVerticalOrLateral: 0
-    - _MaxSizeX: 0.6
+    - _MaxSizeX: 1
     - _MaxSizeY: 1.5
     - _MaxSizeY1: 1.5
-    - _MinSizeX: 1
-    - _MinSizeY: 1
-    - _MinSizeY1: 0.6
+    - _MinSizeX: 2
+    - _MinSizeY: 2
+    - _MinSizeY1: 1
     - _MoveX: 0
     - _QueueControl: 0
     - _QueueOffset: 0
