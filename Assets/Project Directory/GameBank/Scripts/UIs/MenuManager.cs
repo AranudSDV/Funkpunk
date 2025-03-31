@@ -36,6 +36,7 @@ public class MenuManager : MonoBehaviour
     private GameObject[] GoGameChoose; //0 is GoNewLoadButton, 1 is GoNewLoadText, 2 is GoOptionsButton, 3 is GoExitButton
     public GameObject[] GoLevelsButton;
     private GameObject GoLevelBackButton;
+    public GameObject[] GoLevelStars;
     [SerializeField] private GameObject GoPauseMenu;
     public CanvasGroup CgPauseMenu;
     [SerializeField] private RectTransform RtPauseMenu;
@@ -337,8 +338,9 @@ public class MenuManager : MonoBehaviour
             }
             else if (SceneManager.GetActiveScene().name == "LevelChoosing")
             {
-                GoLevelsButton = new GameObject[GoTargetUI.Length -1];
-                _levels = new Level[GoTargetUI.Length -1];
+                GoLevelsButton = new GameObject[GoTargetUI.Length -5];
+                GoLevelStars = new GameObject[4];
+                _levels = new Level[GoTargetUI.Length -5];
                 for (int i = 0; i < GoTargetUI.Length ; i++)
                 {
                     for (int y = 0; y < GoTargetUI.Length; y++)
@@ -351,6 +353,10 @@ public class MenuManager : MonoBehaviour
                         else if(GoTargetUI[i].name == "BackButton")
                         {
                             GoLevelBackButton = GoTargetUI[i];
+                        }
+                        else if (GoTargetUI[i].name == "StarsLvl" + y)
+                        {
+                            GoLevelStars[y] = GoTargetUI[i];
                         }
                     }
                 }
@@ -409,6 +415,19 @@ public class MenuManager : MonoBehaviour
                     _levels[i].img_lvl.color = colorPlayer;
                     TextMeshProUGUI textChild = _levels[i].Go_LevelButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
                     textChild.color = new Color32(0, 255, 255, 255);
+                    for(int y = 0; y< 5; y++)
+                    {
+                        if (_playerData.iStarsPlayer[5*i+y] ==1)
+                        {
+                            Debug.Log("true " +y);
+                            GoLevelStars[i].transform.GetChild(y).GetComponent<UnityEngine.UI.Image>().color = new Color32(255,255, 255, 255);
+                        }
+                        else
+                        {
+                            Debug.Log(y);
+                            GoLevelStars[i].transform.GetChild(y).GetComponent<UnityEngine.UI.Image>().color = new Color32(0, 0, 0, 255);
+                        }
+                    }
                 }
                else if(GoLevelsButton.Length- _playerData.iLevelPlayer > i)
                {
