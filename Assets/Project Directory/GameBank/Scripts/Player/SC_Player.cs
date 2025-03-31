@@ -89,7 +89,6 @@ public class SC_Player : MonoBehaviour
     [SerializeField] private GameObject GoVfxDetected;
     [SerializeField] private Vector3 fPosVFX_detected;
     public float FTimeWithoutLooseDetection = 5f;
-    [SerializeField] private UnityEngine.UI.Slider sliderDetection;
     public bool BisDetectedByAnyEnemy = false;
     [SerializeField] private int iTimeFoeDisabled = 5;
     [SerializeField] private Material[] mEye;
@@ -153,6 +152,7 @@ public class SC_Player : MonoBehaviour
             bIsOnComputer = !menuManager.controllerConnected;
             menuManager.scPlayer = this;
         }
+        EyeDetection();
     }
     
     //L'UPDATE
@@ -179,7 +179,6 @@ public class SC_Player : MonoBehaviour
             Debug.Log("reset Score");
         }
         TMPScore.SetText(Mathf.Round(fPercentScore).ToString() + "%");
-        sliderDetection.value = FDetectionLevel / fDetectionLevelMax;
         if(FDetectionLevel>= fDetectionLevelMax && !bIsEndGame)
         {
             EndGame(false);
@@ -187,6 +186,7 @@ public class SC_Player : MonoBehaviour
         if(FDetectionLevel <0)
         {
             FDetectionLevel = 0;
+            EyeDetection();
         }
         if (bcanRotate == true)
         {

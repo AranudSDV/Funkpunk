@@ -169,7 +169,7 @@ public class BPM_Manager : MonoBehaviour
         {
             scPlayer.CheckForward(scPlayer.lastMoveDirection, scPlayer.taggingRange);
         }
-        //scPlayer.EyeDetection();
+        scPlayer.EyeDetection();
         StartCoroutine(wait());
     }
     private void CheckIfInputOnTempo()

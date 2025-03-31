@@ -5117,6 +5117,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 958047704}
   m_CullTransparentMesh: 1
+--- !u!114 &1042241390 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1740883445617431884, guid: 65f34271cad0dda4d8a49134617b7571,
+    type: 3}
+  m_PrefabInstance: {fileID: 5502365842165218856}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1087141121
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11107,6 +11119,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
+      propertyPath: imgEye
+      value: 
+      objectReference: {fileID: 1042241390}
+    - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
       propertyPath: GOUiBad
       value: 
       objectReference: {fileID: 0}
@@ -11207,6 +11224,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
+      propertyPath: mEye.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
       propertyPath: playerLoop.Path
       value: event:/PlayerLine
       objectReference: {fileID: 0}
@@ -11225,6 +11247,31 @@ PrefabInstance:
       propertyPath: colorPerfect.rgba
       value: 4294574334
       objectReference: {fileID: 0}
+    - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: mEye.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 96115ad3a65b38944a6b18669f93d5e6, type: 2}
+    - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: mEye.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9de15fd6a0335f74b96ebe421b349e14, type: 2}
+    - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: mEye.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: 348822582048adb4d9b0895e5fbea37b, type: 2}
+    - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: mEye.Array.data[3]
+      value: 
+      objectReference: {fileID: 2100000, guid: 82c618db018fa0149808fdab68b5030a, type: 2}
+    - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: mEye.Array.data[4]
+      value: 
+      objectReference: {fileID: 2100000, guid: b2a95c9b7f54ccb4fa0332a20592475b, type: 2}
     - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: allEnemies.Array.size
