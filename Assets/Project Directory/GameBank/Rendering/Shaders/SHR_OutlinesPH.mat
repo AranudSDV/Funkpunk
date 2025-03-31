@@ -40,7 +40,7 @@ Material:
     - _AlphaCutoff: 0.5
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _VerticesOffset: 0.01
+    - _VerticesOffset: 0.003
     m_Colors:
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _OutlineColor: {r: 0.7562709, g: 1, b: 0, a: 0}
