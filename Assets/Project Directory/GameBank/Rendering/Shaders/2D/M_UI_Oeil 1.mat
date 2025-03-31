@@ -81,7 +81,7 @@ Material:
     - _2Tex: 0
     - _3Tex: 1
     - _AlphaCutoff: 0.5
-    - _Alphacliptresh: 0
+    - _Alphacliptresh: 0.1
     - _BPM: 120
     - _BaseOpacity: 1
     - _IsVerticalOrLateral: 0
@@ -113,7 +113,7 @@ Material:
     - _Back03: {r: 0.7297298, g: 1, b: 0, a: 1}
     - _BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Front: {r: 1, g: 0.58548534, b: 0, a: 1}
+    - _Front: {r: 1, g: 0.58431375, b: 0, a: 1}
     - _Front02: {r: 0.31446534, g: 0.31446534, b: 0.31446534, a: 1}
     - _Front03: {r: 0.15222873, g: 0, b: 0.23270428, a: 1}
     - _MainColor: {r: 2.670157, g: 2.670157, b: 2.670157, a: 0}
