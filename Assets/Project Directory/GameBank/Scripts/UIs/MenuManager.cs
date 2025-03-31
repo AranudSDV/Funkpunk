@@ -35,6 +35,7 @@ public class MenuManager : MonoBehaviour
     private GameObject GoMainMenu;
     private GameObject[] GoGameChoose; //0 is GoNewLoadButton, 1 is GoNewLoadText, 2 is GoOptionsButton, 3 is GoExitButton
     public GameObject[] GoLevelsButton;
+    private GameObject GoLevelBackButton;
     [SerializeField] private GameObject GoPauseMenu;
     public CanvasGroup CgPauseMenu;
     [SerializeField] private RectTransform RtPauseMenu;
@@ -249,7 +250,7 @@ public class MenuManager : MonoBehaviour
             RtPauseMenu.offsetMax = new Vector2(0f, 0f);
             RtPauseMenu.offsetMin = new Vector2(0f, 0f);
             CloseOptions();
-            if ((scPlayer != null && scPlayer.bisTuto == true) || (scPlayer != null && CgScoring.alpha == 1f))
+            if ((scPlayer != null && scPlayer.bisTuto == true && SceneManager.GetActiveScene().name != "Loft") || (scPlayer != null && CgScoring.alpha == 1f))
             {
                 bGameIsPaused = true;
             }
@@ -336,9 +337,9 @@ public class MenuManager : MonoBehaviour
             }
             else if (SceneManager.GetActiveScene().name == "LevelChoosing")
             {
-                GoLevelsButton = new GameObject[GoTargetUI.Length];
-                _levels = new Level[GoTargetUI.Length];
-                for (int i = 0; i < GoTargetUI.Length; i++)
+                GoLevelsButton = new GameObject[GoTargetUI.Length -1];
+                _levels = new Level[GoTargetUI.Length -1];
+                for (int i = 0; i < GoTargetUI.Length ; i++)
                 {
                     for (int y = 0; y < GoTargetUI.Length; y++)
                     {
@@ -346,6 +347,10 @@ public class MenuManager : MonoBehaviour
                         {
                             GoLevelsButton[y] = GoTargetUI[i];
                             _levels[y] = new Level(y, GoLevelsButton);
+                        }
+                        else if(GoTargetUI[i].name == "BackButton")
+                        {
+                            GoLevelBackButton = GoTargetUI[i];
                         }
                     }
                 }
@@ -406,11 +411,12 @@ public class MenuManager : MonoBehaviour
                     textChild.color = new Color32(0, 255, 255, 255);
                 }
                else if(GoLevelsButton.Length- _playerData.iLevelPlayer > i)
-                {
+               {
                     _levels[i].img_lvl.color = colorFoes;
                     TextMeshProUGUI textChild = _levels[i].Go_LevelButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
                     textChild.color = new Color32(255, 255, 0, 255);
                 }
+                GoLevelBackButton.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => LoadScene("Loft"));
             }
         }
     }
