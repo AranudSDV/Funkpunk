@@ -61,9 +61,9 @@ Material:
     - _AlphaCutoff: 0.5
     - _ColorOrTex: 0
     - _EnvironmentReflections: 1
-    - _FallOffThreshold: 0.82
+    - _FallOffThreshold: 0.5
     - _LightBoost: 1
-    - _LitThreshold: 0.36
+    - _LitThreshold: 0.5
     - _NormalScale: 0
     - _PatternScale: 8.59
     - _QueueControl: 0
@@ -71,9 +71,9 @@ Material:
     - _ReceiveShadows: 1
     - _ShadingMult: 0
     - _ShadowOffset: 0
-    - _ShadowPatternDensity: 400
+    - _ShadowPatternDensity: 300
     - _ShadowPatternRotator: 0
-    - _ShadowSoftness: 0.1
+    - _ShadowSoftness: 0
     - _ShadowsFullCelShaded: 1
     - _SmoothNess: 0
     - _SpecularHighlights: 1

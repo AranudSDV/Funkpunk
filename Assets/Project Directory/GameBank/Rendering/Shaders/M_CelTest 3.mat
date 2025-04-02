@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_CelTest 2
+  m_Name: M_CelTest 3
   m_Shader: {fileID: 4800000, guid: f70e9aaf717abfc4cb8fbc44b4bda019, type: 3}
   m_Parent: {fileID: 2100000, guid: 3604cace697956e4c944f3c62fa033f6, type: 2}
   m_ModifiedSerializedProperties: 0
@@ -26,8 +26,8 @@ Material:
     m_Ints: []
     m_Floats:
     - _ColorOrTex: 0
-    - _FallOffThreshold: 0.95
-    - _LitThreshold: 0.3
+    - _FallOffThreshold: 1.05
+    - _LitThreshold: 0.38
     - _ShadingMult: 0
     - _ShadowPatternDensity: 100
     - _ShadowPatternRotator: 0
