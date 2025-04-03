@@ -1,0 +1,123 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: M_UI_Oeil_Step0 3
+  m_Shader: {fileID: 4800000, guid: 7a05bef0144df2a4bb13a8cb2470e854, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _3TEX_ON
+  - _USINGXSCALE1_ON
+  - _USINGXSCALE_ON
+  - _USINGYSCALE1_ON
+  - _USINGYSCALE_ON
+  - _VFXORUI_ON
+  m_InvalidKeywords:
+  - _SCALEX_ON
+  - _SCALEY_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BackGroundTex:
+        m_Texture: {fileID: 2800000, guid: 8ad09b7721fbb2b4db988941c7e44b07, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BackTex:
+        m_Texture: {fileID: 2800000, guid: 897fc6541e37f3b4c9fcfeaf24bc5e5b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DissolveTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FrontTex:
+        m_Texture: {fileID: 2800000, guid: 2e4a998c2780f0c49a251079f2e6e53a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: d3cfaa263ab42814993310ce350e9955, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MidTex:
+        m_Texture: {fileID: 2800000, guid: 21da5fc560d83b24bbc8f7df88fffe75, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample0:
+        m_Texture: {fileID: 2800000, guid: 893d0ea5198f96d499390b1dc0e50c15, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _1Tex: 0
+    - _2Alphas: 0
+    - _2Tex: 0
+    - _3Tex: 1
+    - _AlphaCutoff: 0.5
+    - _Alphacliptresh: 0.1
+    - _BPM: 120
+    - _BaseOpacity: 1
+    - _IsVerticalOrLateral: 0
+    - _MaxSizeX: 1
+    - _MaxSizeY: 1.5
+    - _MaxSizeY1: 1.5
+    - _MinSizeX: 2
+    - _MinSizeY: 2
+    - _MinSizeY1: 1
+    - _MoveX: 0
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _ScaleX: 1
+    - _ScaleY: 1
+    - _UpLorDownR: 0
+    - _UsingX: 0
+    - _UsingXMove: 0
+    - _UsingXScale: 1
+    - _UsingXScale1: 1
+    - _UsingY: 0
+    - _UsingY1: 0
+    - _UsingYMove: 0
+    - _UsingYScale: 1
+    - _UsingYScale1: 1
+    - _VFXorUI: 1
+    m_Colors:
+    - _Back: {r: 0.9381551, g: 1, b: 0.81446534, a: 1}
+    - _Back02: {r: 0.4716981, g: 0.30111542, b: 0.40111217, a: 1}
+    - _Back03: {r: 0.14465404, g: 0.0104623865, b: 0.0104623865, a: 1}
+    - _BackGroundColor: {r: 0.13836467, g: 0.04307578, b: 0.04307578, a: 1}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Front: {r: 0.65009296, g: 0.7169812, b: 0.5163166, a: 1}
+    - _Front02: {r: 0.232579, g: 0.09016647, b: 0.61006284, a: 1}
+    - _Front03: {r: 0, g: 0, b: 0, a: 1}
+    - _MainColor: {r: 1024, g: 1024, b: 1024, a: 1}
+    - _MainTexTiling: {r: 0, g: 0, b: 0, a: 0}
+    - _MaxSize: {r: 1, g: 1, b: 0, a: 0}
+    - _MaxSizePos: {r: 0, g: 0, b: 0, a: 0}
+    - _Mid: {r: 0.19787072, g: 0.22012573, b: 0.14744268, a: 1}
+    - _Mid02: {r: 1, g: 0.65723264, b: 0.853682, a: 1}
+    - _Mid03: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
