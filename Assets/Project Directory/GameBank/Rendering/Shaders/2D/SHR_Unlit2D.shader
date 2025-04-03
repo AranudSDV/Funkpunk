@@ -28,10 +28,10 @@ Shader "SHR_VFX_UnlitMaster"
 		[Toggle(_USINGXSCALE1_ON)] _UsingXScale1("UsingXScale?", Float) = 1
 		[Toggle(_USINGYSCALE_ON)] _UsingYScale("UsingYScale?", Float) = 1
 		[Toggle(_USINGYSCALE1_ON)] _UsingYScale1("UsingYScale?", Float) = 1
-		_MinSizeY("MinSizeY", Float) = 2
-		_MinSizeY1("MinSizeY", Float) = 1.1
-		_MinSizeX("MinSizeX", Float) = 2
-		_MaxSizeX("MaxSizeX", Float) = 1.1
+		_MinSizeY("MinSizeY", Range( 0 , 2)) = 2
+		_MaxSizeY("MaxSizeY", Range( 0 , 2)) = 1
+		_MinSizeX("MinSizeX", Range( 0 , 2)) = 2
+		_MaxSizeX("MaxSizeX", Range( 0 , 2)) = 1
 		_BPM("BPM", Float) = 60
 		[Toggle(_USINGYMOVE_ON)] _UsingYMove("UsingYMove ?", Float) = 1
 		[Toggle(_USINGXMOVE_ON)] _UsingXMove("UsingXMove ?", Float) = 1
@@ -292,7 +292,7 @@ Shader "SHR_VFX_UnlitMaster"
 			float4 _Front;
 			float4 _BackGroundColor;
 			float2 _MainTexTiling;
-			float _MinSizeY1;
+			float _MaxSizeY;
 			float _MaxSizeX;
 			float _MinSizeY;
 			float _MinSizeX;
@@ -541,7 +541,7 @@ Shader "SHR_VFX_UnlitMaster"
 				float staticSwitch46_g126 = 1.0;
 				#endif
 				#ifdef _USINGYSCALE1_ON
-				float staticSwitch45_g126 = _MinSizeY1;
+				float staticSwitch45_g126 = _MaxSizeY;
 				#else
 				float staticSwitch45_g126 = 1.0;
 				#endif
@@ -563,7 +563,7 @@ Shader "SHR_VFX_UnlitMaster"
 				float4 lerpResult248 = lerp( lerpResult247 , _Back , tex2DNode97.b);
 				float4 BackTexColor201 = ( BackTexAlpha210 * lerpResult248 );
 				float4 lerpResult264 = lerp( BackGroundTexColor205 , BackTexColor201 , BackTexAlpha210);
-				float temp_output_224_0 = ( BackTexAlpha210 + BackGroundTexAlpha211 );
+				float temp_output_224_0 = ( BackGroundTexAlpha211 + BackTexAlpha210 );
 				#ifdef _1TEX_ON
 				float4 staticSwitch187 = ( lerpResult264 * temp_output_224_0 );
 				#else
@@ -589,9 +589,8 @@ Shader "SHR_VFX_UnlitMaster"
 				float4 lerpResult262 = lerp( lerpResult260 , _Back03 , tex2DNode161.r);
 				float4 FrontTexColor197 = ( FrontTexAlpha203 * lerpResult262 );
 				float4 lerpResult271 = lerp( lerpResult270 , FrontTexColor197 , FrontTexAlpha203);
-				float temp_output_229_0 = ( BackGroundTexAlpha211 + BackTexAlpha210 + MidTexAlpha212 + FrontTexAlpha203 );
 				#ifdef _3TEX_ON
-				float4 staticSwitch185 = ( lerpResult271 * temp_output_229_0 );
+				float4 staticSwitch185 = lerpResult271;
 				#else
 				float4 staticSwitch185 = staticSwitch186;
 				#endif
@@ -629,6 +628,7 @@ Shader "SHR_VFX_UnlitMaster"
 				#else
 				float staticSwitch188 = staticSwitch190;
 				#endif
+				float temp_output_229_0 = ( BackGroundTexAlpha211 + BackTexAlpha210 + MidTexAlpha212 + FrontTexAlpha203 );
 				#ifdef _3TEX_ON
 				float staticSwitch189 = temp_output_229_0;
 				#else
@@ -759,7 +759,7 @@ Shader "SHR_VFX_UnlitMaster"
 			float4 _Front;
 			float4 _BackGroundColor;
 			float2 _MainTexTiling;
-			float _MinSizeY1;
+			float _MaxSizeY;
 			float _MaxSizeX;
 			float _MinSizeY;
 			float _MinSizeX;
@@ -777,8 +777,8 @@ Shader "SHR_VFX_UnlitMaster"
 
 			sampler2D _MainTex;
 			sampler2D _DissolveTex;
-			sampler2D _BackTex;
 			sampler2D _BackGroundTex;
+			sampler2D _BackTex;
 			sampler2D _MidTex;
 			sampler2D _FrontTex;
 			UNITY_INSTANCING_BUFFER_START(SHR_VFX_UnlitMaster)
@@ -1015,7 +1015,7 @@ Shader "SHR_VFX_UnlitMaster"
 				float staticSwitch46_g126 = 1.0;
 				#endif
 				#ifdef _USINGYSCALE1_ON
-				float staticSwitch45_g126 = _MinSizeY1;
+				float staticSwitch45_g126 = _MaxSizeY;
 				#else
 				float staticSwitch45_g126 = 1.0;
 				#endif
@@ -1028,10 +1028,10 @@ Shader "SHR_VFX_UnlitMaster"
 				float2 temp_output_51_0_g126 = (texCoord52_g126*lerpResult56_g126 + ( lerpResult56_g126 + ( ( lerpResult56_g126 * -1.0 ) + ( ( lerpResult56_g126 / -2.0 ) + 0.5 ) ) ));
 				float2 temp_output_7_0_g122 = ( lerpResult79_g122 + temp_output_51_0_g126 );
 				float2 temp_output_278_0 = temp_output_7_0_g122;
+				float BackGroundTexAlpha211 = tex2D( _BackGroundTex, temp_output_278_0 ).a;
 				float4 tex2DNode97 = tex2D( _BackTex, temp_output_278_0 );
 				float BackTexAlpha210 = tex2DNode97.a;
-				float BackGroundTexAlpha211 = tex2D( _BackGroundTex, temp_output_278_0 ).a;
-				float temp_output_224_0 = ( BackTexAlpha210 + BackGroundTexAlpha211 );
+				float temp_output_224_0 = ( BackGroundTexAlpha211 + BackTexAlpha210 );
 				#ifdef _1TEX_ON
 				float staticSwitch190 = temp_output_224_0;
 				#else
@@ -1155,7 +1155,7 @@ Shader "SHR_VFX_UnlitMaster"
 			float4 _Front;
 			float4 _BackGroundColor;
 			float2 _MainTexTiling;
-			float _MinSizeY1;
+			float _MaxSizeY;
 			float _MaxSizeX;
 			float _MinSizeY;
 			float _MinSizeX;
@@ -1173,8 +1173,8 @@ Shader "SHR_VFX_UnlitMaster"
 
 			sampler2D _MainTex;
 			sampler2D _DissolveTex;
-			sampler2D _BackTex;
 			sampler2D _BackGroundTex;
+			sampler2D _BackTex;
 			sampler2D _MidTex;
 			sampler2D _FrontTex;
 			UNITY_INSTANCING_BUFFER_START(SHR_VFX_UnlitMaster)
@@ -1396,7 +1396,7 @@ Shader "SHR_VFX_UnlitMaster"
 				float staticSwitch46_g126 = 1.0;
 				#endif
 				#ifdef _USINGYSCALE1_ON
-				float staticSwitch45_g126 = _MinSizeY1;
+				float staticSwitch45_g126 = _MaxSizeY;
 				#else
 				float staticSwitch45_g126 = 1.0;
 				#endif
@@ -1409,10 +1409,10 @@ Shader "SHR_VFX_UnlitMaster"
 				float2 temp_output_51_0_g126 = (texCoord52_g126*lerpResult56_g126 + ( lerpResult56_g126 + ( ( lerpResult56_g126 * -1.0 ) + ( ( lerpResult56_g126 / -2.0 ) + 0.5 ) ) ));
 				float2 temp_output_7_0_g122 = ( lerpResult79_g122 + temp_output_51_0_g126 );
 				float2 temp_output_278_0 = temp_output_7_0_g122;
+				float BackGroundTexAlpha211 = tex2D( _BackGroundTex, temp_output_278_0 ).a;
 				float4 tex2DNode97 = tex2D( _BackTex, temp_output_278_0 );
 				float BackTexAlpha210 = tex2DNode97.a;
-				float BackGroundTexAlpha211 = tex2D( _BackGroundTex, temp_output_278_0 ).a;
-				float temp_output_224_0 = ( BackTexAlpha210 + BackGroundTexAlpha211 );
+				float temp_output_224_0 = ( BackGroundTexAlpha211 + BackTexAlpha210 );
 				#ifdef _1TEX_ON
 				float staticSwitch190 = temp_output_224_0;
 				#else
@@ -1536,7 +1536,7 @@ Shader "SHR_VFX_UnlitMaster"
 			float4 _Front;
 			float4 _BackGroundColor;
 			float2 _MainTexTiling;
-			float _MinSizeY1;
+			float _MaxSizeY;
 			float _MaxSizeX;
 			float _MinSizeY;
 			float _MinSizeX;
@@ -1554,8 +1554,8 @@ Shader "SHR_VFX_UnlitMaster"
 
 			sampler2D _MainTex;
 			sampler2D _DissolveTex;
-			sampler2D _BackTex;
 			sampler2D _BackGroundTex;
+			sampler2D _BackTex;
 			sampler2D _MidTex;
 			sampler2D _FrontTex;
 			UNITY_INSTANCING_BUFFER_START(SHR_VFX_UnlitMaster)
@@ -1772,7 +1772,7 @@ Shader "SHR_VFX_UnlitMaster"
 				float staticSwitch46_g126 = 1.0;
 				#endif
 				#ifdef _USINGYSCALE1_ON
-				float staticSwitch45_g126 = _MinSizeY1;
+				float staticSwitch45_g126 = _MaxSizeY;
 				#else
 				float staticSwitch45_g126 = 1.0;
 				#endif
@@ -1785,10 +1785,10 @@ Shader "SHR_VFX_UnlitMaster"
 				float2 temp_output_51_0_g126 = (texCoord52_g126*lerpResult56_g126 + ( lerpResult56_g126 + ( ( lerpResult56_g126 * -1.0 ) + ( ( lerpResult56_g126 / -2.0 ) + 0.5 ) ) ));
 				float2 temp_output_7_0_g122 = ( lerpResult79_g122 + temp_output_51_0_g126 );
 				float2 temp_output_278_0 = temp_output_7_0_g122;
+				float BackGroundTexAlpha211 = tex2D( _BackGroundTex, temp_output_278_0 ).a;
 				float4 tex2DNode97 = tex2D( _BackTex, temp_output_278_0 );
 				float BackTexAlpha210 = tex2DNode97.a;
-				float BackGroundTexAlpha211 = tex2D( _BackGroundTex, temp_output_278_0 ).a;
-				float temp_output_224_0 = ( BackTexAlpha210 + BackGroundTexAlpha211 );
+				float temp_output_224_0 = ( BackGroundTexAlpha211 + BackTexAlpha210 );
 				#ifdef _1TEX_ON
 				float staticSwitch190 = temp_output_224_0;
 				#else
@@ -1926,7 +1926,7 @@ Shader "SHR_VFX_UnlitMaster"
 			float4 _Front;
 			float4 _BackGroundColor;
 			float2 _MainTexTiling;
-			float _MinSizeY1;
+			float _MaxSizeY;
 			float _MaxSizeX;
 			float _MinSizeY;
 			float _MinSizeX;
@@ -1944,8 +1944,8 @@ Shader "SHR_VFX_UnlitMaster"
 
 			sampler2D _MainTex;
 			sampler2D _DissolveTex;
-			sampler2D _BackTex;
 			sampler2D _BackGroundTex;
+			sampler2D _BackTex;
 			sampler2D _MidTex;
 			sampler2D _FrontTex;
 			UNITY_INSTANCING_BUFFER_START(SHR_VFX_UnlitMaster)
@@ -2171,7 +2171,7 @@ Shader "SHR_VFX_UnlitMaster"
 				float staticSwitch46_g126 = 1.0;
 				#endif
 				#ifdef _USINGYSCALE1_ON
-				float staticSwitch45_g126 = _MinSizeY1;
+				float staticSwitch45_g126 = _MaxSizeY;
 				#else
 				float staticSwitch45_g126 = 1.0;
 				#endif
@@ -2184,10 +2184,10 @@ Shader "SHR_VFX_UnlitMaster"
 				float2 temp_output_51_0_g126 = (texCoord52_g126*lerpResult56_g126 + ( lerpResult56_g126 + ( ( lerpResult56_g126 * -1.0 ) + ( ( lerpResult56_g126 / -2.0 ) + 0.5 ) ) ));
 				float2 temp_output_7_0_g122 = ( lerpResult79_g122 + temp_output_51_0_g126 );
 				float2 temp_output_278_0 = temp_output_7_0_g122;
+				float BackGroundTexAlpha211 = tex2D( _BackGroundTex, temp_output_278_0 ).a;
 				float4 tex2DNode97 = tex2D( _BackTex, temp_output_278_0 );
 				float BackTexAlpha210 = tex2DNode97.a;
-				float BackGroundTexAlpha211 = tex2D( _BackGroundTex, temp_output_278_0 ).a;
-				float temp_output_224_0 = ( BackTexAlpha210 + BackGroundTexAlpha211 );
+				float temp_output_224_0 = ( BackGroundTexAlpha211 + BackTexAlpha210 );
 				#ifdef _1TEX_ON
 				float staticSwitch190 = temp_output_224_0;
 				#else
@@ -2308,8 +2308,6 @@ Node;AmplifyShaderEditor.WireNode;207;-1069.163,2324.602;Inherit;False;1;0;FLOAT
 Node;AmplifyShaderEditor.WireNode;208;-1159.076,751.3222;Inherit;False;1;0;FLOAT2;0,0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.WireNode;209;-1044.809,914.7875;Inherit;False;1;0;FLOAT2;0,0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.SamplerNode;178;-632.1988,449.4861;Inherit;True;Property;_BackGroundTex;BackGroundTex;4;0;Create;True;0;0;0;False;0;False;-1;8bee9e959ad705e46aab291c9f719dce;abf84c530bf23fd4fa90adc24c613dc5;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RegisterLocalVarNode;211;-315.7521,485.4823;Inherit;False;BackGroundTexAlpha;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;179;18.20007,493.7736;Inherit;True;2;2;0;FLOAT;0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SamplerNode;161;-615.95,2320.135;Inherit;True;Property;_FrontTex;FrontTex;7;0;Create;True;0;0;0;False;0;False;-1;8d87401656d0ff64cb6e5a9ed9176d2a;4b561bc26fed7cb438711e1c560265e1;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.ColorNode;167;-570.9552,2706.547;Inherit;False;Property;_Mid03;Mid03;13;0;Create;True;0;0;0;False;0;False;0.6812992,0,1,0;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.ColorNode;142;-507.34,1346.448;Inherit;False;Property;_Back;Back;8;0;Create;True;0;0;0;False;0;False;1,0,0,0;1,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
@@ -2335,7 +2333,6 @@ Node;AmplifyShaderEditor.SimpleMultiplyOpNode;151;824.4994,2041.371;Inherit;Fals
 Node;AmplifyShaderEditor.RegisterLocalVarNode;199;1007.32,2056.505;Inherit;True;MidTexColor;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.WireNode;259;-285.418,2298.748;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.LerpOp;253;239.3291,1759.207;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.LerpOp;252;-73.89135,1616.567;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.LerpOp;254;509.188,2065.046;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.LerpOp;261;-35.14558,2337.268;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.LerpOp;262;459.0499,2907.506;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
@@ -2343,7 +2340,6 @@ Node;AmplifyShaderEditor.RegisterLocalVarNode;203;264.2722,2262.75;Inherit;False
 Node;AmplifyShaderEditor.ColorNode;168;-571.0927,2527.891;Inherit;False;Property;_Front03;Front03;16;0;Create;True;0;0;0;False;0;False;1,0.9882626,0,0;1,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.LerpOp;260;200.166,2698.037;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;197;992.489,2885.712;Inherit;True;FrontTexColor;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;162;731.0215,2915.972;Inherit;True;2;2;0;FLOAT;0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.ColorNode;166;-575.1025,2927.26;Inherit;False;Property;_Back03;Back03;10;0;Create;True;0;0;0;False;0;False;1,0,0.05845451,0;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.RegisterLocalVarNode;175;3873.672,1007.517;Inherit;True;AlphaUITex;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.StaticSwitch;185;3632.511,1240.447;Inherit;False;Property;_3Tex;3Tex?;2;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;COLOR;0,0,0,0;False;0;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;5;COLOR;0,0,0,0;False;6;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;1;COLOR;0
@@ -2354,11 +2350,6 @@ Node;AmplifyShaderEditor.LerpOp;270;2826.356,1731.481;Inherit;True;3;0;COLOR;0,0
 Node;AmplifyShaderEditor.GetLocalVarNode;267;2494.873,1849.893;Inherit;False;199;MidTexColor;1;0;OBJECT;;False;1;COLOR;0
 Node;AmplifyShaderEditor.GetLocalVarNode;272;2496.109,1920.086;Inherit;False;212;MidTexAlpha;1;0;OBJECT;;False;1;FLOAT;0
 Node;AmplifyShaderEditor.LerpOp;271;3135.69,1735.481;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.GetLocalVarNode;266;2849.208,1939.81;Inherit;False;197;FrontTexColor;1;0;OBJECT;;False;1;COLOR;0
-Node;AmplifyShaderEditor.GetLocalVarNode;273;2844.233,2033.518;Inherit;False;203;FrontTexAlpha;1;0;OBJECT;;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleAddOpNode;229;3128.324,2190.433;Inherit;True;4;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.GetLocalVarNode;232;2876.176,2258.742;Inherit;False;212;MidTexAlpha;1;0;OBJECT;;False;1;FLOAT;0
-Node;AmplifyShaderEditor.GetLocalVarNode;230;2885.733,2337.037;Inherit;False;203;FrontTexAlpha;1;0;OBJECT;;False;1;FLOAT;0
 Node;AmplifyShaderEditor.LerpOp;264;2409.805,1638.31;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.StaticSwitch;186;3196.755,1251.838;Inherit;False;Property;_2Tex;2Tex?;3;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;COLOR;0,0,0,0;False;0;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;5;COLOR;0,0,0,0;False;6;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;220;3045.688,1337.357;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
@@ -2374,22 +2365,31 @@ Node;AmplifyShaderEditor.GetLocalVarNode;228;2355.209,1367.171;Inherit;False;210
 Node;AmplifyShaderEditor.GetLocalVarNode;227;2339.367,1442.681;Inherit;False;212;MidTexAlpha;1;0;OBJECT;;False;1;FLOAT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;223;2069.56,1149.594;Inherit;False;210;BackTexAlpha;1;0;OBJECT;;False;1;FLOAT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;222;2054.354,1236.447;Inherit;False;211;BackGroundTexAlpha;1;0;OBJECT;;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;205;330.2431,503.4586;Inherit;False;BackGroundTexColor;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.GetLocalVarNode;269;1980.535,1517.243;Inherit;False;205;BackGroundTexColor;1;0;OBJECT;;False;1;COLOR;0
-Node;AmplifyShaderEditor.GetLocalVarNode;274;2141.817,1851.716;Inherit;False;210;BackTexAlpha;1;0;OBJECT;;False;1;FLOAT;0
-Node;AmplifyShaderEditor.GetLocalVarNode;268;2140.244,1771.738;Inherit;False;201;BackTexColor;1;0;OBJECT;;False;1;COLOR;0
 Node;AmplifyShaderEditor.ColorNode;180;-596.431,642.145;Inherit;False;Property;_BackGroundColor;BackGroundColor;50;0;Create;True;0;0;0;False;0;False;0,0.06411219,1,0;0,0.06411219,1,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.FunctionNode;276;-2660.397,420.3103;Inherit;False;SHF_BeatScaling;18;;116;1f1f15f84ef3aaf4b94f2810f37733f5;0;1;72;FLOAT;0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.FunctionNode;277;-2320.603,418.309;Inherit;True;SHF_BeatMoving;30;;118;65813206edc57a749b6de4c0a25b7872;0;3;93;FLOAT;0;False;94;FLOAT;0;False;63;FLOAT2;0,0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.FunctionNode;278;-1289.689,1568.469;Inherit;False;SHF_BeatMoving;30;;122;65813206edc57a749b6de4c0a25b7872;0;3;93;FLOAT;0;False;94;FLOAT;0;False;63;FLOAT2;0,0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.FunctionNode;279;-1523.706,1567.976;Inherit;False;SHF_BeatScaling;18;;126;1f1f15f84ef3aaf4b94f2810f37733f5;0;1;72;FLOAT;0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;171;3547.551,1759.103;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.GetLocalVarNode;231;2845.73,2200;Inherit;False;210;BackTexAlpha;1;0;OBJECT;;False;1;FLOAT;0
-Node;AmplifyShaderEditor.GetLocalVarNode;233;2877.861,2115.855;Inherit;False;211;BackGroundTexAlpha;1;0;OBJECT;;False;1;FLOAT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;176;926.6025,-3.503876;Inherit;True;175;AlphaUITex;1;0;OBJECT;;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;280;1222.067,91.91565;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleAddOpNode;282;1085.4,243.9156;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;50;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;281;895.3998,263.9156;Inherit;False;Constant;_Float4;Float 4;39;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;162;725.0215,2847.972;Inherit;True;2;2;0;FLOAT;0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.GetLocalVarNode;274;2141.817,1851.716;Inherit;False;210;BackTexAlpha;1;0;OBJECT;;False;1;FLOAT;0
+Node;AmplifyShaderEditor.LerpOp;252;-98.94907,1572.872;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;211;-298.0321,389.0063;Inherit;False;BackGroundTexAlpha;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;179;-0.5044025,586.312;Inherit;True;2;2;0;FLOAT;0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;205;330.2431,503.4586;Inherit;False;BackGroundTexColor;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.GetLocalVarNode;268;2142.244,1577.071;Inherit;False;201;BackTexColor;1;0;OBJECT;;False;1;COLOR;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;171;3543.131,1737;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.GetLocalVarNode;266;2819.875,1939.81;Inherit;False;197;FrontTexColor;1;0;OBJECT;;False;1;COLOR;0
+Node;AmplifyShaderEditor.GetLocalVarNode;273;2844.233,2033.518;Inherit;False;203;FrontTexAlpha;1;0;OBJECT;;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;229;3111.622,2512.239;Inherit;True;4;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.GetLocalVarNode;230;2883.079,2730.953;Inherit;False;203;FrontTexAlpha;1;0;OBJECT;;False;1;FLOAT;0
+Node;AmplifyShaderEditor.GetLocalVarNode;232;2858.551,2639.267;Inherit;False;212;MidTexAlpha;1;0;OBJECT;;False;1;FLOAT;0
+Node;AmplifyShaderEditor.GetLocalVarNode;231;2860.105,2558.524;Inherit;False;210;BackTexAlpha;1;0;OBJECT;;False;1;FLOAT;0
+Node;AmplifyShaderEditor.GetLocalVarNode;233;2834.236,2490.38;Inherit;False;211;BackGroundTexAlpha;1;0;OBJECT;;False;1;FLOAT;0
+Node;AmplifyShaderEditor.GetLocalVarNode;269;2101.878,1694.586;Inherit;False;205;BackGroundTexColor;1;0;OBJECT;;False;1;COLOR;0
 WireConnection;54;0;44;1
 WireConnection;54;1;44;2
 WireConnection;12;1;53;0
@@ -2436,9 +2436,6 @@ WireConnection;207;0;278;0
 WireConnection;208;0;278;0
 WireConnection;209;0;278;0
 WireConnection;178;1;208;0
-WireConnection;211;0;178;4
-WireConnection;179;0;211;0
-WireConnection;179;1;180;0
 WireConnection;161;1;207;0
 WireConnection;182;0;210;0
 WireConnection;182;1;248;0
@@ -2467,8 +2464,6 @@ WireConnection;259;0;161;4
 WireConnection;253;0;252;0
 WireConnection;253;1;157;0
 WireConnection;253;2;256;0
-WireConnection;252;1;156;0
-WireConnection;252;2;150;3
 WireConnection;254;0;253;0
 WireConnection;254;1;158;0
 WireConnection;254;2;255;0
@@ -2482,11 +2477,9 @@ WireConnection;260;0;261;0
 WireConnection;260;1;167;0
 WireConnection;260;2;161;2
 WireConnection;197;0;162;0
-WireConnection;162;0;203;0
-WireConnection;162;1;262;0
 WireConnection;175;0;189;0
 WireConnection;185;1;186;0
-WireConnection;185;0;171;0
+WireConnection;185;0;271;0
 WireConnection;189;1;188;0
 WireConnection;189;0;236;0
 WireConnection;172;0;185;0
@@ -2497,10 +2490,6 @@ WireConnection;270;2;272;0
 WireConnection;271;0;270;0
 WireConnection;271;1;266;0
 WireConnection;271;2;273;0
-WireConnection;229;0;233;0
-WireConnection;229;1;231;0
-WireConnection;229;2;232;0
-WireConnection;229;3;230;0
 WireConnection;264;0;269;0
 WireConnection;264;1;268;0
 WireConnection;264;2;274;0
@@ -2518,14 +2507,25 @@ WireConnection;225;1;227;0
 WireConnection;225;2;226;0
 WireConnection;188;1;190;0
 WireConnection;188;0;235;0
-WireConnection;224;0;223;0
-WireConnection;224;1;222;0
-WireConnection;205;0;179;0
+WireConnection;224;0;222;0
+WireConnection;224;1;223;0
 WireConnection;278;63;279;0
-WireConnection;171;0;271;0
-WireConnection;171;1;229;0
 WireConnection;280;0;176;0
 WireConnection;280;1;282;0
 WireConnection;282;0;281;0
+WireConnection;162;0;203;0
+WireConnection;162;1;262;0
+WireConnection;252;1;156;0
+WireConnection;252;2;150;3
+WireConnection;211;0;178;4
+WireConnection;179;0;211;0
+WireConnection;179;1;180;0
+WireConnection;205;0;179;0
+WireConnection;171;0;271;0
+WireConnection;171;1;229;0
+WireConnection;229;0;233;0
+WireConnection;229;1;231;0
+WireConnection;229;2;232;0
+WireConnection;229;3;230;0
 ASEEND*/
-//CHKSM=AA20138D1FBD744029F8D6EEC2362943DA5B6A04
+//CHKSM=1003174EADCC9D69201B065B63E0C2FBE8449BA7
