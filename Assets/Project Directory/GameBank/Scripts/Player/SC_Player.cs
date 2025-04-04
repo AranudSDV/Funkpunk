@@ -29,6 +29,7 @@ public class SC_Player : MonoBehaviour
     public bool bIsOnComputer = true;
     public bool bOnControllerConstraint = false;
     public BPM_Manager bpmManager;
+    public sc_tuto_generic tutoGen = null;
 
     //LES CHALLENGES
     private bool bHasBeenDetectedOneTime = false;

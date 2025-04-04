@@ -206,10 +206,9 @@ public class ing_Bait : MonoBehaviour
         if (collision.gameObject.CompareTag("Player") && b_BeenThrown == false)
         {
             scPlayer.ShootBait(this.GetComponent<ing_Bait>());
-            if(scPlayer.hasAlreadyBaited == false && SceneManager.GetActiveScene().name == "SceneLvl0")
+            if(scPlayer.hasAlreadyBaited == false && SceneManager.GetActiveScene().name == "SceneLvl2")
             {
-                sc_tuto tutoriel = GameObject.FindWithTag("Tuto").gameObject.GetComponent<sc_tuto>();
-                tutoriel.StartTutoBait();
+                scPlayer.tutoGen.StartTutoBait();
                 scPlayer.hasAlreadyBaited = true;
             }
         }
