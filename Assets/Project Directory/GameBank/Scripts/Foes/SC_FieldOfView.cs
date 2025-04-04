@@ -21,6 +21,7 @@ public class SC_FieldOfView : MonoBehaviour
     public float FRadius;
     [Range(0,70)]
     public float FAngle;
+    [SerializeField]private float proximityRadius = 2f;
 
     //ROTATION
     [Header("Rotation")]
@@ -63,6 +64,7 @@ public class SC_FieldOfView : MonoBehaviour
     public bool bSeenOnce;
     public bool bHasHeard = false;
     public bool bIsDisabled = false;
+    private bool BIsNear = false;
 
     private void Start()
     {
@@ -110,38 +112,46 @@ public class SC_FieldOfView : MonoBehaviour
     }
     private void FieldOfViewCheck()
     {
-        if (bIsDisabled == false)
+        if(bIsDisabled) return;
+
+        Collider[] rangeChecks = Physics.OverlapSphere(transform.position, FRadius, LMtargetMask);
+        Collider[] proximityChecks = Physics.OverlapSphere(transform.position, proximityRadius, LMtargetMask);
+
+        if (rangeChecks.Length != 0)
         {
-            Collider[] rangeChecks = Physics.OverlapSphere(transform.position, FRadius, LMtargetMask);
+            Transform target = rangeChecks[0].transform;
+            Vector3 directionToTarget = (target.position - transform.position).normalized;
 
-            if (rangeChecks.Length != 0)
+            if (Vector3.Angle(transform.forward, directionToTarget) < FAngle / 2)
             {
-                Transform target = rangeChecks[0].transform;
-                Vector3 directionToTarget = (target.position - transform.position).normalized;
-
-                if (Vector3.Angle(transform.forward, directionToTarget) < FAngle / 2)
+                float distanceToTarget = Vector3.Distance(transform.position, target.position);
+                if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, LMObstructionMask))
                 {
-                    float distanceToTarget = Vector3.Distance(transform.position, target.position);
-                    if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, LMObstructionMask))
-                    {
-                        bSeenOnce = true; //vu une fois
-                    }
-                    else
-                    {
-                        BCanSee = false; //Ne voit pas
-                    }
+                    bSeenOnce = true; //vu une fois
                 }
                 else
                 {
                     BCanSee = false; //Ne voit pas
                 }
             }
-            else if (BCanSee == true) //Si le bool est en true alors que c'est faux
+            else
             {
-                BCanSee = false; //Il ne voit pas
+                BCanSee = false; //Ne voit pas
             }
-            DetectionChecks();
         }
+        else
+        {
+            BCanSee = false; //Ne voit pas
+        }
+        if(proximityChecks.Length != 0)
+        {
+            BIsNear = true;
+        }
+        else
+        {
+            BIsNear = false;
+        }
+        DetectionChecks();
     }
     IEnumerator NumDetectedVFX(bool bNewDetected, float height)
     {
@@ -231,11 +241,26 @@ public class SC_FieldOfView : MonoBehaviour
         {
             BCanSee = true;
             bSeenOnce = false;
+            BIsNear = false;
             StartCoroutine(NumDetectedVFX(true, Go_vfx_detected.transform.localPosition.y));
             Go_vfx_Suspicious.transform.localPosition = new Vector3(pos_vfx_supicious.x, 50f, pos_vfx_supicious.z);
             PS_Suspicious.Stop();
         }
-        if(BCanSee == false && bHasHeard == false)
+        else if (BIsNear)
+        {
+            bHasHeard = false;
+            StartCoroutine(NumSuspiciousVFX(true, Go_vfx_Suspicious.transform.localPosition.y));
+            transform.LookAt(GOPlayerRef.transform);
+        }
+        else  if (bHasHeard == true)
+        {
+            StartCoroutine(NumSuspiciousVFX(true, Go_vfx_Suspicious.transform.localPosition.y));
+        }
+        else
+        {
+            StartCoroutine(NumSuspiciousVFX(false, Go_vfx_Suspicious.transform.localPosition.y));
+        }
+        if (!BCanSee && !bHasHeard && !BIsNear)
         {
             if (i_typeFoe == 1)
             {
@@ -246,14 +271,6 @@ public class SC_FieldOfView : MonoBehaviour
                 transform.LookAt(new Vector3(posDirections[iCurrentDirection].x, this.transform.position.y, posDirections[iCurrentDirection].z));
             }
             StartCoroutine(NumDetectedVFX(false, Go_vfx_detected.transform.localPosition.y));
-        }
-        if(bHasHeard==true)
-        {
-            StartCoroutine(NumSuspiciousVFX(true, Go_vfx_Suspicious.transform.localPosition.y));
-        }
-        else
-        {
-            StartCoroutine(NumSuspiciousVFX(false, Go_vfx_Suspicious.transform.localPosition.y));
         }
     }
     private int NearestPosToPlayer(GameObject player)
