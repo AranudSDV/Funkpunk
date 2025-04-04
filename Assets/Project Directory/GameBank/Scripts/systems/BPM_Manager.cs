@@ -140,7 +140,9 @@ public class BPM_Manager : MonoBehaviour
     IEnumerator perfect()
     {
         BPerfect = true;
-        yield return new WaitForSeconds(FZonePerfectTiming);
+        yield return new WaitForSeconds(FZonePerfectTiming/2);
+        NotesFade();
+        yield return new WaitForSeconds(FZonePerfectTiming/2);
         BPerfect = false;
         scPlayer.canMove = false;
         if (BBad == false && BGood == false && BPerfect == false && scPlayer.bcanRotate == true) // LE JOUEUR MISS
@@ -159,7 +161,7 @@ public class BPM_Manager : MonoBehaviour
             {
                 scPlayer.FDetectionLevel += 2f;
             }
-            NotesFade();
+            //NotesFade();
         }
         if (scPlayer.BisDetectedByAnyEnemy)
         {
