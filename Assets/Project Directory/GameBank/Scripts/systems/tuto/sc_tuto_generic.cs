@@ -33,9 +33,10 @@ public class sc_tuto_generic : MonoBehaviour
     [Header("Camera")]
     [SerializeField] private GameObject GoFollowed;
     [SerializeField] private CinemachineVirtualCamera cam_Back;
-    [SerializeField] private RectTransform rect_InGameUI;
     [SerializeField] private CinemachineVirtualCamera cam_Game;
     [SerializeField] private CinemachinePathBase m_Path;
+    [SerializeField] private RectTransform RtGameUI;
+    [SerializeField] private RectTransform RtDetectionUI;
     [SerializeField] private CinemachinePathBase.PositionUnits m_PositionUnits = CinemachinePathBase.PositionUnits.Distance;
     private float m_Position;
     private bool cameraIsTracking = false;
@@ -48,8 +49,6 @@ public class sc_tuto_generic : MonoBehaviour
     [SerializeField] private int intYBaitTuto = 9;
     [SerializeField] private float tresholdZ;
     private float fSpeed = 5f;
-    [SerializeField] private RectTransform RtGameUI;
-    [SerializeField] private RectTransform RtDetectionUI;
 
     private bool bWaitNext = false;
     private bool bOnceSkip = false;
