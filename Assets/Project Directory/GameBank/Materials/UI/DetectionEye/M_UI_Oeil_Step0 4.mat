@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_UI_Oeil_Step0 3
+  m_Name: M_UI_Oeil_Step0 4
   m_Shader: {fileID: 4800000, guid: 7a05bef0144df2a4bb13a8cb2470e854, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -32,11 +32,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BackGroundTex:
-        m_Texture: {fileID: 2800000, guid: 8ad09b7721fbb2b4db988941c7e44b07, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6cc96f1564683074284fbd076be902e3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BackTex:
-        m_Texture: {fileID: 2800000, guid: 536e6cb15fc1e5048a93669436c85a78, type: 3}
+        m_Texture: {fileID: 2800000, guid: c6c2ac961c29b294a9555e3158a9126a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DissolveTex:
@@ -44,7 +44,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _FrontTex:
-        m_Texture: {fileID: 2800000, guid: 6a16bc4c1ec3df54d8ed652067aadb79, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7c9022079f170eb459068133eb1f0fdc, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -52,7 +52,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MidTex:
-        m_Texture: {fileID: 2800000, guid: 5437f90c3477c264bac80a5aecf33fbd, type: 3}
+        m_Texture: {fileID: 2800000, guid: 1eee5df91f45c004eba763b1eaebec1a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample0:
@@ -107,12 +107,12 @@ Material:
     m_Colors:
     - _Back: {r: 0.27058825, g: 0.13333334, b: 0.13333334, a: 1}
     - _Back02: {r: 0.7019608, g: 0.29803923, b: 0.19607843, a: 1}
-    - _Back03: {r: 0, g: 0, b: 0, a: 1}
+    - _Back03: {r: 0.15686275, g: 0.15686275, b: 0.15686275, a: 1}
     - _BackGroundColor: {r: 0.13836467, g: 0.04307578, b: 0.04307578, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _Front: {r: 0.89411765, g: 0.39215687, b: 0.2627451, a: 1}
-    - _Front02: {r: 0.63529414, g: 0.023529412, b: 0.023529412, a: 1}
-    - _Front03: {r: 0.13725491, g: 0.0627451, b: 0.0627451, a: 1}
+    - _Front02: {r: 0, g: 0, b: 0, a: 1}
+    - _Front03: {r: 0, g: 0, b: 0, a: 1}
     - _MainColor: {r: 1024, g: 1024, b: 1024, a: 1}
     - _MainTexTiling: {r: 0, g: 0, b: 0, a: 0}
     - _MaxSize: {r: 1, g: 1, b: 0, a: 0}

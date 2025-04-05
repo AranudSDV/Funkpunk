@@ -36,7 +36,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BackTex:
-        m_Texture: {fileID: 2800000, guid: 7000aa6ded9465a4790267b2fbcb220c, type: 3}
+        m_Texture: {fileID: 2800000, guid: 0f9cc334c7222254bbafa1bf7a8716b0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DissolveTex:
@@ -105,19 +105,19 @@ Material:
     - _UsingYScale1: 1
     - _VFXorUI: 1
     m_Colors:
-    - _Back: {r: 0, g: 0, b: 0, a: 1}
+    - _Back: {r: 0.40784314, g: 0.20392157, b: 0.19866851, a: 1}
     - _Back02: {r: 1, g: 0, b: 0.043478012, a: 1}
     - _Back03: {r: 1, g: 1, b: 1, a: 1}
     - _BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Front: {r: 0.6389398, g: 0.50316435, b: 0.64779866, a: 1}
+    - _Front: {r: 0.13725491, g: 0.0627451, b: 0.0627451, a: 1}
     - _Front02: {r: 0.31446534, g: 0.31446534, b: 0.31446534, a: 1}
     - _Front03: {r: 0.15222873, g: 0, b: 0.23270428, a: 1}
     - _MainColor: {r: 766.99615, g: 766.99615, b: 766.99615, a: 1}
     - _MainTexTiling: {r: 0, g: 0, b: 0, a: 0}
     - _MaxSize: {r: 1, g: 1, b: 0, a: 0}
     - _MaxSizePos: {r: 0, g: 0, b: 0, a: 0}
-    - _Mid: {r: 0.9024391, g: 0, b: 1, a: 1}
+    - _Mid: {r: 0.29411766, g: 0.13333334, b: 0.13333334, a: 1}
     - _Mid02: {r: 0.37106913, g: 0.31673288, b: 0.311558, a: 1}
     - _Mid03: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
