@@ -10133,7 +10133,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1ec1b7cdc54d5c34e96ddf41af0f8491, type: 2}
+  - {fileID: 2100000, guid: 3604cace697956e4c944f3c62fa033f6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -18692,32 +18692,44 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bisTuto: 0
-  bGameIsPaused: 0
-  soundManager: {fileID: 0}
   menuManager: {fileID: 0}
   bIsOnComputer: 0
   bOnControllerConstraint: 0
   bpmManager: {fileID: 0}
+  bHasNoMiss: 1
   lastMoveDirection: {x: 0, y: 0, z: 0}
   PlayerCapsule: {fileID: 0}
+  localPosMesh: {x: 0, y: 0, z: 0}
   canMove: 0
+  GoVfxSteps: {fileID: 0}
+  fPosVFX_steps: {x: 0, y: 0, z: 0}
+  vfx_steps: {fileID: 0}
+  GoVfxRotToRight: {fileID: 0}
+  fPosVFX_RotToRight: {x: 0, y: 0, z: 0}
+  vfx_RotToRight: {fileID: 0}
+  GoVfxRotToLeft: {fileID: 0}
+  fPosVFX_RotToLeft: {x: 0, y: 0, z: 0}
+  vfx_RotToLeft: {fileID: 0}
   bcanRotate: 0
+  bIsImune: 0
   GOBait: {fileID: 0}
-  newThrow: 0
+  cinemachineVirtualCamera: {fileID: 0}
   hasAlreadyBaited: 0
   FScore: 0
+  fNbBeat: 0
   TMPScore: {fileID: 0}
-  UI_Joystick: []
-  fDetectionDangerosity: 20
-  fDetectionLessers: 2
-  FDetectionRate: 0
   FDetectionLevel: 0
   allEnemies: []
+  GoVfxDetected: {fileID: 0}
+  fPosVFX_detected: {x: 0, y: 0, z: 0}
   FTimeWithoutLooseDetection: 5
-  sliderDetection: {fileID: 0}
   BisDetectedByAnyEnemy: 0
+  iTimeFoeDisabled: 5
+  mEye: []
+  imgEye: {fileID: 0}
   taggingRange: 1
-  taggedMaterial: {fileID: 2100000, guid: d7db875ac1c472b45a0bd473bfe1ff3f, type: 2}
+  GoVfxTag: {fileID: 0}
+  vfx_tag: {fileID: 0}
   LMask:
     serializedVersion: 2
     m_Bits: 0
@@ -52900,7 +52912,7 @@ Light:
   m_Intensity: 54.48
   m_Range: 7.8445334
   m_SpotAngle: 80.0907
-  m_InnerSpotAngle: 30
+  m_InnerSpotAngle: 42.94147
   m_CookieSize: 10
   m_Shadows:
     m_Type: 0
@@ -57275,28 +57287,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3043e623405e03b4fa1e1f70bff1c9be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  i_typeFoe: 1
+  posDirections: []
+  iFirstPos: 0
+  iCurrentDirection: 0
   FRadius: 10
   FAngle: 63
-  bIsFakeEnemy: 0
+  minRotation: 135
+  maxRotation: 225
+  rotationStep: 45
+  isReversing: 0
   GOPlayerRef: {fileID: 460384133}
   Go_vfx_detected: {fileID: 0}
+  pos_vfx_detected: {x: 0, y: 0, z: 0}
+  PS_detected: {fileID: 0}
   Go_vfx_disable: {fileID: 0}
+  pos_vfx_disable: {x: 0, y: 0, z: 0}
   Go_vfx_coneVision: {fileID: 0}
+  pos_vfx_coneVision: {x: 0, y: 0, z: 0}
   Go_vfx_Suspicious: {fileID: 0}
+  pos_vfx_supicious: {x: 0, y: 0, z: 0}
+  PS_Suspicious: {fileID: 0}
+  Go_vfx_Backward: {fileID: 0}
+  pos_vfx_backward: {x: 0, y: 0, z: 0}
+  backfeedback: {fileID: 0}
   LMtargetMask:
     serializedVersion: 2
     m_Bits: 64
   LMObstructionMask:
     serializedVersion: 2
     m_Bits: 128
+  i_EnnemyBeat: 0
+  goBaitHearing: {fileID: 0}
   BCanSee: 0
   bSeenOnce: 0
   bHasHeard: 0
   bIsDisabled: 0
-  minRotation: 135
-  maxRotation: 225
-  rotationStep: 45
-  i_EnnemyBeat: 0
 --- !u!23 &1655956059
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -65448,7 +65474,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1954153777
 MonoBehaviour:
   m_ObjectHideFlags: 0

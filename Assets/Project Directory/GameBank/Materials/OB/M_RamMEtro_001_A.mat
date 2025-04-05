@@ -12,6 +12,7 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - _BAKEDORRT_ON
   - _COLORORTEX_ON
   m_InvalidKeywords:
   - _SHADOWSFULLCELSHADED_ON
@@ -96,13 +97,13 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaCutoff: 0.5
-    - _BakedOrRT: 0
+    - _BakedOrRT: 1
     - _Base_or_Tsample: 1
     - _ColorOrTex: 1
     - _EnvironmentReflections: 1
-    - _FallOffThreshold: 0.5
+    - _FallOffThreshold: 0.88
     - _FullShadingHalfShading: 0
-    - _LitThreshold: 0.32
+    - _LitThreshold: 0.5
     - _MTL_Pow: 0
     - _NormalScale: 0
     - _QueueControl: 0
@@ -110,8 +111,8 @@ Material:
     - _ReceiveShadows: 1
     - _SMH_Pow: 0
     - _ShadingMult: 0.1
-    - _ShadowPatternDensity: 200
-    - _ShadowPatternRotator: 0.54
+    - _ShadowPatternDensity: 405.2
+    - _ShadowPatternRotator: 0
     - _ShadowSoftness: 0.1
     - _ShadowsFullCelShaded: 1
     - _SmoothNess: 0
