@@ -26,15 +26,20 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
-    - _Cels_FallOffThreshold: 1.24
+    - _BakedOrRT: 1
+    - _Cels_FallOffThreshold: 3
+    - _Cels_LitThreshold: 0.5
     - _ColorOrTex: 0
     - _FallOffThreshold: 11.84
     - _FullShadingHalfShading: 0
     - _LitThreshold: 0.5
     - _ShadingMult: 0
+    - _ShadingWhiteMult: 0
     - _ShadowPatternDensity: 5
     - _ShadowPatternRotator: 0
-    - _ShadowSoftness: 0
+    - _ShadowSoftness: 1
+    - _Shadow_FallOffThreshold: 3
+    - _Shadow_LitThreshold: 0.8
     - _ShadowsFullCelShaded: 0
     - _SmoothNess: 0
     m_Colors:
