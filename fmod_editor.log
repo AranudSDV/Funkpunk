@@ -7,7 +7,7 @@
 [LOG] OutputWASAPI::init                       : Output buffer size: 4096 samples, latency: 0.00ms, period: 10.00ms, DSP buffer: 1024 * 4
 [LOG] Thread::initThread                       : Init FMOD stream thread. Affinity: 0x4000000000000003, Priority: 0xFFFF7FFB, Stack Size: 98304, Semaphore: No, Sleep Time: 10, Looping: Yes.
 [LOG] Thread::initThread                       : Init FMOD mixer thread. Affinity: 0x4000000000000001, Priority: 0xFFFF7FFA, Stack Size: 81920, Semaphore: No, Sleep Time: 0, Looping: Yes.
-[LOG] AsyncManager::init                       : manager 000002B4F5F0A988 isAsync 0 updatePeriod 0.02
+[LOG] AsyncManager::init                       : manager 0000028162E6C458 isAsync 0 updatePeriod 0.02
 [LOG] AsyncManager::init                       : done
 [LOG] PlaybackSystem::init                     : 
 [LOG] Thread::initThread                       : Init FMOD Studio sample load thread. Affinity: 0x4000000000000003, Priority: 0xFFFF7FFD, Stack Size: 98304, Semaphore: No, Sleep Time: 1, Looping: No.
@@ -16,5 +16,28 @@
 [LOG] Manager::init                            : done.
 [LOG] Manager::readBank                        : fileversion = 142, compatVersion = 140 (oldest = 44, newest = 142)
 [LOG] Manager::readBank                        : fileversion = 142, compatVersion = 140 (oldest = 44, newest = 142)
-[LOG] Manager::readBank                        : fileversion = 142, compatVersion = 140 (oldest = 44, newest = 142)
 [LOG] PlaybackSystem::acquireMasterBus         : Setting master channel group format to 6
+[LOG] AsyncThread::add                         : add sound to async queue : soundi = 00000280EB934FB8, queue head = 000002816E0853C8, queue count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 00000280EB934FB8
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 00000280EB934FB8
+[LOG] SoundI::release                          : metro_90bpm_5min (00000280EB934AA8)
+[LOG] SoundI::release                          :     metro_90bpm_5min (0000027EBBFD07B8)
+[LOG] SoundI::release                          :     metro_90bpm_5min (00000280EB934FB8)
+[LOG] SoundI::release                          :  (00000280E82E8848)
+[LOG] SoundI::release                          :     sfx_rythm_bad (00000280B65F19B8)
+[LOG] SoundI::release                          :  (00000280E82E83F8)
+[LOG] SoundI::release                          :     sfx_rythm_miss (00000280BA718F18)
+[LOG] SoundI::release                          :  (00000280E82E6E68)
+[LOG] SoundI::release                          :     sfx_rythm_perfect (0000027EBD3789C8)
+[LOG] SoundI::release                          :  (00000280E82EA398)
+[LOG] SoundI::release                          :     sfx_rythm_ok (00000280B17E8C08)
+[LOG] Thread::callback                         : FMOD Studio update thread finished.
+[LOG] Thread::callback                         : FMOD Studio bank load thread finished.
+[LOG] Profile::disconnectAll                   : Profiler disconnecting all clients
+[LOG] Thread::callback                         : FMOD Studio sample load thread finished.
+[LOG] LiveUpdate::release                      : 
+[LOG] LiveUpdate::reset                        : Reset connection (reason Disconnected)
+[LOG] Thread::callback                         : FMOD stream thread finished.
+[LOG] Thread::callback                         : FMOD mixer thread finished.
+[LOG] Profile::disconnectAll                   : Profiler disconnecting all clients
+[LOG] SystemI::close                           : Closed.

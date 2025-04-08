@@ -57,6 +57,8 @@ public class BPM_Manager : MonoBehaviour
     [SerializeField] private UnityEngine.UI.Image[] imNoteRight;
     [SerializeField] private RectTransform[] goNoteLeft;
     [SerializeField] private UnityEngine.UI.Image[] imNoteLeft;
+    [SerializeField] private RectTransform canvasRect;
+    private Vector2 newPos;
 
     [SerializeField] private float fFOVmin = 10f;
     [SerializeField] private float fFOVmax = 10.6f;
@@ -76,6 +78,7 @@ public class BPM_Manager : MonoBehaviour
         FZonePerfectTiming = FPerfectTiming;
         FWaitTime = FSPB - FZoneBadTiming;
         soundManager = GetComponent<SoundManager>();
+        newPos = new Vector2(canvasRect.rect.width / 2f + goNoteLeft[0].rect.width / 2f, 0f);
     }
     public void StartAfterTuto()
     {
@@ -255,30 +258,30 @@ public class BPM_Manager : MonoBehaviour
     {
         if (i_B == 1)
         {
-            goNoteRight[0].anchoredPosition = new Vector2(500f, 0f);
-            goNoteLeft[0].anchoredPosition = new Vector2(-500f, 0f);
-            goNoteRight[0].DOAnchorPos(new Vector2(-20f, 0f), FSPB * 3, false).SetEase(Ease.InSine).SetAutoKill(true);
-            goNoteLeft[0].DOAnchorPos(new Vector2(20f, 0f), FSPB * 3, false).SetEase(Ease.InSine).SetAutoKill(true);
+            goNoteRight[0].anchoredPosition = new Vector2(newPos.x, 0f);
+            goNoteLeft[0].anchoredPosition = new Vector2(-newPos.x, 0f);
+            goNoteRight[0].DOAnchorPos(Vector2.zero, FSPB * 3, false).SetEase(Ease.InSine).SetAutoKill(true);
+            goNoteLeft[0].DOAnchorPos(Vector2.zero, FSPB * 3, false).SetEase(Ease.InSine).SetAutoKill(true);
             imNoteRight[0].color = new Color32(0, 197, 255, 255);
             imNoteLeft[0].color = new Color32(0, 197, 255, 255);
             i_B = 2;
         }
         else if(i_B == 2)
         {
-            goNoteRight[1].anchoredPosition = new Vector2(500f, 0f);
-            goNoteLeft[1].anchoredPosition = new Vector2(-500f, 0f);
-            goNoteRight[1].DOAnchorPos(new Vector2(-20f, 0f), FSPB * 3, false).SetEase(Ease.InSine).SetAutoKill(true);
-            goNoteLeft[1].DOAnchorPos(new Vector2(20f, 0f), FSPB * 3, false).SetEase(Ease.InSine).SetAutoKill(true);
+            goNoteRight[1].anchoredPosition = new Vector2(newPos.x, 0f);
+            goNoteLeft[1].anchoredPosition = new Vector2(-newPos.x, 0f);
+            goNoteRight[1].DOAnchorPos(Vector2.zero, FSPB * 3, false).SetEase(Ease.InSine).SetAutoKill(true);
+            goNoteLeft[1].DOAnchorPos(Vector2.zero, FSPB * 3, false).SetEase(Ease.InSine).SetAutoKill(true);
             imNoteRight[1].color = new Color32(0, 197, 255, 255);
             imNoteLeft[1].color = new Color32(0, 197, 255, 255);
             i_B = 3;
         }
         else if(i_B ==3)
         {
-            goNoteRight[2].anchoredPosition = new Vector2(500f, 0f);
-            goNoteLeft[2].anchoredPosition = new Vector2(-500f, 0f);
-            goNoteRight[2].DOAnchorPos(new Vector2(-20f, 0f), FSPB * 3, false).SetEase(Ease.InSine).SetAutoKill(true);
-            goNoteLeft[2].DOAnchorPos(new Vector2(20f, 0f), FSPB * 3, false).SetEase(Ease.InSine).SetAutoKill(true);
+            goNoteRight[2].anchoredPosition = new Vector2(newPos.x, 0f);
+            goNoteLeft[2].anchoredPosition = new Vector2(-newPos.x, 0f);
+            goNoteRight[2].DOAnchorPos(Vector2.zero, FSPB * 3, false).SetEase(Ease.InSine).SetAutoKill(true);
+            goNoteLeft[2].DOAnchorPos(Vector2.zero, FSPB * 3, false).SetEase(Ease.InSine).SetAutoKill(true);
             imNoteRight[2].color = new Color32(0, 197, 255, 255);
             imNoteLeft[2].color = new Color32(0, 197, 255, 255);
             i_B = 1;
@@ -286,20 +289,20 @@ public class BPM_Manager : MonoBehaviour
 
         if (!b_hasStarted)
         {
-            goNoteRight[0].anchoredPosition = new Vector2(500f, 0f);
-            goNoteLeft[0].anchoredPosition = new Vector2(-500f, 0f);
+            goNoteRight[0].anchoredPosition = new Vector2(newPos.x, 0f);
+            goNoteLeft[0].anchoredPosition = new Vector2(-newPos.x, 0f);
             goNoteRight[0].DOAnchorPos(Vector2.zero, FSPB, false).SetEase(Ease.InSine).SetAutoKill(true);
             goNoteLeft[0].DOAnchorPos(Vector2.zero, FSPB, false).SetEase(Ease.InSine).SetAutoKill(true);
 
-            goNoteRight[1].anchoredPosition = new Vector2(500f, 0f);
-            goNoteLeft[1].anchoredPosition = new Vector2(-500f, 0f);
-            goNoteRight[1].DOAnchorPos(new Vector2(-20f, 0f), FSPB * 2, false).SetEase(Ease.InSine).SetAutoKill(true);
-            goNoteLeft[1].DOAnchorPos(new Vector2(20f, 0f), FSPB * 2, false).SetEase(Ease.InSine).SetAutoKill(true);
+            goNoteRight[1].anchoredPosition = new Vector2(newPos.x, 0f);
+            goNoteLeft[1].anchoredPosition = new Vector2(-newPos.x, 0f);
+            goNoteRight[1].DOAnchorPos(Vector2.zero, FSPB * 2, false).SetEase(Ease.InSine).SetAutoKill(true);
+            goNoteLeft[1].DOAnchorPos(Vector2.zero, FSPB * 2, false).SetEase(Ease.InSine).SetAutoKill(true);
 
-            goNoteRight[2].anchoredPosition = new Vector2(500f, 0f);
-            goNoteLeft[2].anchoredPosition = new Vector2(-500f, 0f);
-            goNoteRight[2].DOAnchorPos(new Vector2(-20f, 0f), FSPB * 3, false).SetEase(Ease.InSine).SetAutoKill(true);
-            goNoteLeft[2].DOAnchorPos(new Vector2(20f, 0f), FSPB * 3, false).SetEase(Ease.InSine).SetAutoKill(true);
+            goNoteRight[2].anchoredPosition = new Vector2(newPos.x, 0f);
+            goNoteLeft[2].anchoredPosition = new Vector2(-newPos.x, 0f);
+            goNoteRight[2].DOAnchorPos(Vector2.zero, FSPB * 3, false).SetEase(Ease.InSine).SetAutoKill(true);
+            goNoteLeft[2].DOAnchorPos(Vector2.zero, FSPB * 3, false).SetEase(Ease.InSine).SetAutoKill(true);
             b_hasStarted = true;
             i_B = 1;
         }
