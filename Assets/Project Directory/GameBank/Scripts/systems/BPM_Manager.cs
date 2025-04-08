@@ -17,7 +17,7 @@ public class BPM_Manager : MonoBehaviour
     //LE BEAT
     [Header("Beat")]
     public float FBPM;
-    private float FBPS;
+    //private float FBPS;
     public float FSPB;
     [SerializeField] private CinemachineFollowZoom FOVS;
     private bool b_more = false;
@@ -46,12 +46,16 @@ public class BPM_Manager : MonoBehaviour
     private float FPerfectTiming;
     private float FZonePerfectTiming;
     private float FWaitTime;
+    public bool BMiss = false;
     public bool BBad = false;
     public bool BGood = false;
     public bool BPerfect = false;
     public bool bPlayBad = false;
     public bool bPlayGood = false;
     public bool bPlayPerfect = false;
+    private bool bMusicOnce = false;
+    private double fMusicTimer = 0f;
+    private double[] fNextReach = new double[4];
     [SerializeField] private UnityEngine.UI.Image soul_Feedback;
     [SerializeField] private RectTransform[] goNoteRight;
     [SerializeField] private UnityEngine.UI.Image[] imNoteRight;
@@ -68,15 +72,16 @@ public class BPM_Manager : MonoBehaviour
     {
         //soundManager.PlayMusic("lvl0_Tambour");
         //FBPS = 60/FBPM;
-        FBPS = FBPM / 60f;
-        FSPB = 1f / FBPS;
+        //FBPS = FBPM / 60f;
+        FSPB = 1f / (FBPM / 60f);
         FPerfectTiming = 2 / 14f * FSPB;
         FGoodTiming = 4 / 14f * FSPB;
         FBadTiming = 6 / 14f * FSPB;
         FZoneBadTiming = FBadTiming;
         FZoneGoodTiming = FGoodTiming;
         FZonePerfectTiming = FPerfectTiming;
-        FWaitTime = FSPB - FZoneBadTiming;
+        FWaitTime = FZonePerfectTiming;
+        //fNextReach[0] = AudioSettings.dspTime + FWaitTime;
         soundManager = GetComponent<SoundManager>();
         newPos = new Vector2(canvasRect.rect.width / 2f + goNoteLeft[0].rect.width / 2f, 0f);
     }
@@ -87,6 +92,7 @@ public class BPM_Manager : MonoBehaviour
     public void Init()
     {
         StartCoroutine(wait());
+        BMiss = true;
         if (playerLoopInstance.isValid())
         {
             playerLoopInstance.getPlaybackState(out PLAYBACK_STATE state);
@@ -106,6 +112,20 @@ public class BPM_Manager : MonoBehaviour
             Init();
             bInitialized = true;
         }
+        /*if(BMiss)
+        {
+            if(!bMusicOnce)
+            {
+                if (!scPlayer.bisTuto)
+                {
+                    scPlayer.bcanRotate = true;
+                }
+                scPlayer.RotationEnemies();
+                MusicNotesMovingStart();
+                bMusicOnce = true;
+            }
+            fMusicTimer
+        }*/
         CheckIfInputOnTempo();
         CameraRythm(Time.deltaTime, fFOVmax, fFOVmin);
     }
@@ -130,7 +150,6 @@ public class BPM_Manager : MonoBehaviour
         yield return new WaitForSeconds(FZoneBadTiming);
         BBad = false;
         StartCoroutine(good());
-        yield return new WaitForSeconds(FZoneGoodTiming + FZonePerfectTiming + FZoneGoodTiming);
     }
     IEnumerator good()
     {
@@ -138,14 +157,13 @@ public class BPM_Manager : MonoBehaviour
         yield return new WaitForSeconds(FZoneGoodTiming);
         BGood = false;
         StartCoroutine(perfect());
-        yield return new WaitForSeconds(FZonePerfectTiming);
     }
     IEnumerator perfect()
     {
         BPerfect = true;
-        yield return new WaitForSeconds(FZonePerfectTiming/2);
-        NotesFade();
-        yield return new WaitForSeconds(FZonePerfectTiming/2);
+        yield return new WaitForSeconds(FZonePerfectTiming);
+        //NotesFade();
+        //yield return new WaitForSeconds(FZonePerfectTiming/2);
         BPerfect = false;
         scPlayer.canMove = false;
         if (BBad == false && BGood == false && BPerfect == false && scPlayer.bcanRotate == true) // LE JOUEUR MISS
@@ -164,7 +182,7 @@ public class BPM_Manager : MonoBehaviour
             {
                 scPlayer.FDetectionLevel += 2f;
             }
-            //NotesFade();
+            NotesFade();
         }
         if (scPlayer.BisDetectedByAnyEnemy)
         {
@@ -260,8 +278,8 @@ public class BPM_Manager : MonoBehaviour
         {
             goNoteRight[0].anchoredPosition = new Vector2(newPos.x, 0f);
             goNoteLeft[0].anchoredPosition = new Vector2(-newPos.x, 0f);
-            goNoteRight[0].DOAnchorPos(Vector2.zero, FSPB * 3, false).SetEase(Ease.InSine).SetAutoKill(true);
-            goNoteLeft[0].DOAnchorPos(Vector2.zero, FSPB * 3, false).SetEase(Ease.InSine).SetAutoKill(true);
+            goNoteRight[0].DOAnchorPos(Vector2.zero, (FSPB *9/14)* 3, false).SetEase(Ease.InSine).SetAutoKill(true);
+            goNoteLeft[0].DOAnchorPos(Vector2.zero, (FSPB * 9 / 14) * 3, false).SetEase(Ease.InSine).SetAutoKill(true);
             imNoteRight[0].color = new Color32(0, 197, 255, 255);
             imNoteLeft[0].color = new Color32(0, 197, 255, 255);
             i_B = 2;
@@ -270,8 +288,8 @@ public class BPM_Manager : MonoBehaviour
         {
             goNoteRight[1].anchoredPosition = new Vector2(newPos.x, 0f);
             goNoteLeft[1].anchoredPosition = new Vector2(-newPos.x, 0f);
-            goNoteRight[1].DOAnchorPos(Vector2.zero, FSPB * 3, false).SetEase(Ease.InSine).SetAutoKill(true);
-            goNoteLeft[1].DOAnchorPos(Vector2.zero, FSPB * 3, false).SetEase(Ease.InSine).SetAutoKill(true);
+            goNoteRight[1].DOAnchorPos(Vector2.zero, (FSPB * 9 / 14) * 3, false).SetEase(Ease.InSine).SetAutoKill(true);
+            goNoteLeft[1].DOAnchorPos(Vector2.zero, (FSPB * 9 / 14) * 3, false).SetEase(Ease.InSine).SetAutoKill(true);
             imNoteRight[1].color = new Color32(0, 197, 255, 255);
             imNoteLeft[1].color = new Color32(0, 197, 255, 255);
             i_B = 3;
@@ -280,8 +298,8 @@ public class BPM_Manager : MonoBehaviour
         {
             goNoteRight[2].anchoredPosition = new Vector2(newPos.x, 0f);
             goNoteLeft[2].anchoredPosition = new Vector2(-newPos.x, 0f);
-            goNoteRight[2].DOAnchorPos(Vector2.zero, FSPB * 3, false).SetEase(Ease.InSine).SetAutoKill(true);
-            goNoteLeft[2].DOAnchorPos(Vector2.zero, FSPB * 3, false).SetEase(Ease.InSine).SetAutoKill(true);
+            goNoteRight[2].DOAnchorPos(Vector2.zero, (FSPB * 9 / 14) * 3, false).SetEase(Ease.InSine).SetAutoKill(true);
+            goNoteLeft[2].DOAnchorPos(Vector2.zero, (FSPB * 9 / 14) * 3, false).SetEase(Ease.InSine).SetAutoKill(true);
             imNoteRight[2].color = new Color32(0, 197, 255, 255);
             imNoteLeft[2].color = new Color32(0, 197, 255, 255);
             i_B = 1;
@@ -291,18 +309,18 @@ public class BPM_Manager : MonoBehaviour
         {
             goNoteRight[0].anchoredPosition = new Vector2(newPos.x, 0f);
             goNoteLeft[0].anchoredPosition = new Vector2(-newPos.x, 0f);
-            goNoteRight[0].DOAnchorPos(Vector2.zero, FSPB, false).SetEase(Ease.InSine).SetAutoKill(true);
-            goNoteLeft[0].DOAnchorPos(Vector2.zero, FSPB, false).SetEase(Ease.InSine).SetAutoKill(true);
+            goNoteRight[0].DOAnchorPos(Vector2.zero, (FSPB * 9 / 14), false).SetEase(Ease.InSine).SetAutoKill(true);
+            goNoteLeft[0].DOAnchorPos(Vector2.zero, (FSPB * 9 / 14), false).SetEase(Ease.InSine).SetAutoKill(true);
 
             goNoteRight[1].anchoredPosition = new Vector2(newPos.x, 0f);
             goNoteLeft[1].anchoredPosition = new Vector2(-newPos.x, 0f);
-            goNoteRight[1].DOAnchorPos(Vector2.zero, FSPB * 2, false).SetEase(Ease.InSine).SetAutoKill(true);
-            goNoteLeft[1].DOAnchorPos(Vector2.zero, FSPB * 2, false).SetEase(Ease.InSine).SetAutoKill(true);
+            goNoteRight[1].DOAnchorPos(Vector2.zero, (FSPB * 9 / 14) * 2, false).SetEase(Ease.InSine).SetAutoKill(true);
+            goNoteLeft[1].DOAnchorPos(Vector2.zero, (FSPB * 9 / 14) * 2, false).SetEase(Ease.InSine).SetAutoKill(true);
 
             goNoteRight[2].anchoredPosition = new Vector2(newPos.x, 0f);
             goNoteLeft[2].anchoredPosition = new Vector2(-newPos.x, 0f);
-            goNoteRight[2].DOAnchorPos(Vector2.zero, FSPB * 3, false).SetEase(Ease.InSine).SetAutoKill(true);
-            goNoteLeft[2].DOAnchorPos(Vector2.zero, FSPB * 3, false).SetEase(Ease.InSine).SetAutoKill(true);
+            goNoteRight[2].DOAnchorPos(Vector2.zero, (FSPB * 9 / 14) * 3, false).SetEase(Ease.InSine).SetAutoKill(true);
+            goNoteLeft[2].DOAnchorPos(Vector2.zero, (FSPB * 9 / 14) * 3, false).SetEase(Ease.InSine).SetAutoKill(true);
             b_hasStarted = true;
             i_B = 1;
         }
