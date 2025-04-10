@@ -106,7 +106,7 @@ Material:
     - _SMH_Pow: 0
     - _ShadingWhiteMult: 0.1
     - _ShadowPatternRotator: 0
-    - _ShadowSoftness: 0
+    - _ShadowSoftness: 1
     - _Shadow_FallOffThreshold: 3
     - _Shadow_LitThreshold: 0.8
     - _Shadows_ProceduralOrTexture: 0

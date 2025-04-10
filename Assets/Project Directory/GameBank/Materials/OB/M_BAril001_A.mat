@@ -13,7 +13,6 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _COLORORTEX_ON
-  - _FULLSHADINGHALFSHADING_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -99,7 +98,7 @@ Material:
     - _ColorOrTex: 1
     - _EnvironmentReflections: 1
     - _FallOffThreshold: 3
-    - _FullShadingHalfShading: 1
+    - _FullShadingHalfShading: 0
     - _LitThreshold: 0.5
     - _MTL_Pow: 0
     - _NormalScale: 0
