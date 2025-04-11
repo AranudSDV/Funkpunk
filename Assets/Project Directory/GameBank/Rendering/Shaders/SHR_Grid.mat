@@ -52,14 +52,14 @@ Material:
     - _Alpha: 1
     - _AlphaCutoff: 0.5
     - _Alphaclip: 0.001
-    - _DiagonalSize: 0.99
+    - _DiagonalSize: 0.95
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ShapeSize: 0.96
     - _SubSquareSize: 0.99
-    - _TrueSquareSize: 0.98
+    - _TrueSquareSize: 0.95
     m_Colors:
-    - _BaseColor: {r: 0, g: 0, b: 0, a: 0}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 0}
     - _BaseColore: {r: 0.72327036, g: 0.72327036, b: 0.72327036, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _PlayerColor: {r: 0, g: 1.4980394, b: 0.7950044, a: 0}

@@ -63,7 +63,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Alpha_Pow: 1
+    - _Alpha_Pow: 0.23
     - _DecalAngleFadeSupported: 1
     - _DecalMeshBiasType: 0
     - _DecalMeshDepthBias: 0
@@ -75,7 +75,7 @@ Material:
     m_Colors:
     - _BaseColor: {r: 0, g: 2.792023, b: 11.984315, a: 1}
     - _MainLightColor: {r: 1.903463, g: 2, b: 1.369811, a: 0}
-    - _MainLightingColor: {r: 1, g: 1, b: 1, a: 1}
+    - _MainLightingColor: {r: 1.4980394, g: 1.4980394, b: 1.4980394, a: 1}
     - _SubLightColor: {r: 0.3283018, g: 1.475004, b: 2, a: 0}
     - _SubLightingColor: {r: 0, g: 1.0269573, b: 1.4980388, a: 1}
   m_BuildTextureStacks: []

@@ -10,7 +10,7 @@ public class PP_InteractiveGrid : MonoBehaviour
     public int gridSizeY = 100;  // Nombre de cellules en hauteur
     public Vector3 gridOrigin = Vector3.zero;  // Origine du plane (doit correspondre au coin inférieur gauche)
     public int planeWidth = 100;   // Dimension en X du plane (en unités monde)
-    public int planeHeight = 100;  // Dimension en Z du plane (en unités monde)
+    public int planeHeight = 100;  // Dimension en Y du plane (en unités monde)
 
     [Header("Player Illumination")]
     public GameObject player;            // Référence au joueur
@@ -29,17 +29,18 @@ public class PP_InteractiveGrid : MonoBehaviour
         // On définit gridOrigin sur la position du GameObject.
         gridOrigin = transform.position;
 
-        // Calculer la dimension du plane
-        planeWidth = (int)(transform.localScale.x);
-        planeHeight = (int)(transform.localScale.z);  // On utilise z pour la profondeur/hauteur du plane
+        // Calculer la dimension du plane.
+        // ATTENTION : Si vous utilisez un plane Unity par défaut (10x10), multipliez par 10.
+        planeWidth = (int)(transform.localScale.x);  // À ajuster si nécessaire, ex: * 10
+        planeHeight = (int)(transform.localScale.y);
 
-        
+        // Ici on suppose que chaque cellule est de 1m, donc la résolution de la grille correspond aux dimensions.
         gridSizeX = planeWidth;
         gridSizeY = planeHeight;
 
         // Création et initialisation de la Texture2D selon la résolution de la grille.
         maskTexture = new Texture2D(gridSizeX, gridSizeY, TextureFormat.RGBA32, false);
-        maskTexture.filterMode = FilterMode.Point; // Pour éviter l'interpolation et garder l'aspect "pixelisé"
+        maskTexture.filterMode = FilterMode.Point; // Pour éviter l'interpolation
         Color clearColor = new Color(0, 0, 0, 1);
         for (int x = 0; x < gridSizeX; x++)
         {
@@ -58,7 +59,7 @@ public class PP_InteractiveGrid : MonoBehaviour
         UpdateRenderTexture();
     }
 
-    // Affiche la texture dans une fenêtre GUI de débogage.
+    // Affiche la texture dans une fenêtre GUI pour le débogage.
     void OnGUI()
     {
         GUI.DrawTexture(new Rect(10, 10, 256, 256), maskTexture);
@@ -74,7 +75,7 @@ public class PP_InteractiveGrid : MonoBehaviour
 
     void UpdatePlayerIllumination()
     {
-        // 1. Réinitialiser le canal R (illumination) pour toute la grille.
+        // 1. Réinitialiser le canal R pour toute la grille.
         for (int x = 0; x < gridSizeX; x++)
         {
             for (int y = 0; y < gridSizeY; y++)
@@ -92,31 +93,33 @@ public class PP_InteractiveGrid : MonoBehaviour
         int cellX = Mathf.FloorToInt(u * gridSizeX);
         int cellY = Mathf.FloorToInt(v * gridSizeY);
 
-        // 3. Calcul de la taille d'une cellule en unités monde.
+        // 3. Calcul de la taille d'une cellule (en unités monde).
         float cellWidth = (float)planeWidth / gridSizeX;
         float cellHeight = (float)planeHeight / gridSizeY;
         int checkRange = Mathf.CeilToInt(illuminationRadius / Mathf.Max(cellWidth, cellHeight));
 
-        // 4. Pour chaque cellule dans le voisinage du joueur, vérifier la distance et activer le canal R si dans le rayon.
+        // 4. Pour chaque cellule dans le voisinage du joueur, vérifier la distance.
         for (int x = cellX - checkRange; x <= cellX + checkRange; x++)
         {
             for (int y = cellY - checkRange; y <= cellY + checkRange; y++)
             {
                 if (x >= 0 && x < gridSizeX && y >= 0 && y < gridSizeY)
                 {
-                    // Calcul du centre de la cellule en espace monde.
+                    // Calcul du centre de la cellule (ajouter 0.5 pour cibler le centre).
                     Vector3 cellCenter = new Vector3(
                         gridOrigin.x + (x + 0.5f) * cellWidth,
                         playerPos.y,
                         gridOrigin.z + (y + 0.5f) * cellHeight
                     );
 
-                    float dist = Vector3.Distance(new Vector3(playerPos.x, 0, playerPos.z),
-                                                  new Vector3(cellCenter.x, 0, cellCenter.z));
+                    float dist = Vector3.Distance(
+                        new Vector3(playerPos.x, 0, playerPos.z),
+                        new Vector3(cellCenter.x, 0, cellCenter.z)
+                    );
                     if (dist <= illuminationRadius)
                     {
                         Color c = maskTexture.GetPixel(x, y);
-                        c.r = 1; // Active l'illumination dans le canal rouge.
+                        c.r = 1; // Activer l'illumination dans le canal rouge.
                         maskTexture.SetPixel(x, y, c);
                     }
                 }
@@ -125,10 +128,9 @@ public class PP_InteractiveGrid : MonoBehaviour
         maskTexture.Apply();
     }
 
-    // Mise à jour unique pour marquer les obstacles dans le canal G.
     void UpdateCollisionMask()
     {
-        // Définir une zone d'analyse correspondant à tout le plane.
+        // Définir la zone d'analyse correspondant à tout le plane.
         Vector3 center = gridOrigin + new Vector3(planeWidth * 0.5f, 0, planeHeight * 0.5f);
         Vector3 halfExtents = new Vector3(planeWidth * 0.5f, 1f, planeHeight * 0.5f);
         Collider[] colliders = Physics.OverlapBox(center, halfExtents, Quaternion.identity, blockedLayer);
@@ -136,24 +138,28 @@ public class PP_InteractiveGrid : MonoBehaviour
         foreach (Collider col in colliders)
         {
             Bounds b = col.bounds;
-            // Conversion des bornes de l'obstacle en indices de grille.
-            int startX = Mathf.FloorToInt((b.min.x - gridOrigin.x) / planeWidth * gridSizeX);
-            int endX = Mathf.FloorToInt((b.max.x - gridOrigin.x) / planeWidth * gridSizeX);
-            int startY = Mathf.FloorToInt((b.min.z - gridOrigin.z) / planeHeight * gridSizeY);
-            int endY = Mathf.FloorToInt((b.max.z - gridOrigin.z) / planeHeight * gridSizeY);
+            // Calculer les indices sous forme de float
+            float startXFloat = ((b.min.x - gridOrigin.x) / planeWidth) * gridSizeX;
+            float endXFloat = ((b.max.x - gridOrigin.x) / planeWidth) * gridSizeX;
+            float startYFloat = ((b.min.z - gridOrigin.z) / planeHeight) * gridSizeY;
+            float endYFloat = ((b.max.z - gridOrigin.z) / planeHeight) * gridSizeY;
+
+            int startX = Mathf.FloorToInt(startXFloat);
+            int endX = Mathf.CeilToInt(endXFloat) - 1;
+            int startY = Mathf.FloorToInt(startYFloat);
+            int endY = Mathf.CeilToInt(endYFloat) - 1;
 
             startX = Mathf.Clamp(startX, 0, gridSizeX - 1);
             endX = Mathf.Clamp(endX, 0, gridSizeX - 1);
             startY = Mathf.Clamp(startY, 0, gridSizeY - 1);
             endY = Mathf.Clamp(endY, 0, gridSizeY - 1);
 
-            // Marquer ces cellules dans le canal G.
             for (int x = startX; x <= endX; x++)
             {
                 for (int y = startY; y <= endY; y++)
                 {
                     Color c = maskTexture.GetPixel(x, y);
-                    c.g = 1;
+                    c.g = 1; // Marquer la zone bloquée dans le canal vert.
                     maskTexture.SetPixel(x, y, c);
                 }
             }
@@ -161,7 +167,6 @@ public class PP_InteractiveGrid : MonoBehaviour
         maskTexture.Apply();
     }
 
-    // Transfert du contenu de la Texture2D vers la RenderTexture assignée dans le shader.
     void UpdateRenderTexture()
     {
         Graphics.Blit(maskTexture, renderTexture);
