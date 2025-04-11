@@ -378,6 +378,7 @@ MonoBehaviour:
   bIsOnComputer: 1
   bOnControllerConstraint: 0
   bpmManager: {fileID: 82293833679279999}
+  tutoGen: {fileID: 0}
   bHasNoMiss: 1
   lastMoveDirection: {x: 0, y: 0, z: 0}
   PlayerCapsule: {fileID: 4589980624701841776}
@@ -412,7 +413,6 @@ MonoBehaviour:
   GoVfxDetected: {fileID: 4190973918323936658}
   fPosVFX_detected: {x: 0.2, y: 1.1, z: 0.2}
   FTimeWithoutLooseDetection: 5
-  sliderDetection: {fileID: 0}
   BisDetectedByAnyEnemy: 0
   iTimeFoeDisabled: 5
   mEye: []
@@ -422,7 +422,7 @@ MonoBehaviour:
   vfx_tag: {fileID: 8945544291399188229}
   LMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 4224
 --- !u!114 &82293833679279999
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -489,6 +489,7 @@ MonoBehaviour:
   colorBase:
     serializedVersion: 2
     rgba: 4293394687
+  BMiss: 0
   BBad: 0
   BGood: 0
   BPerfect: 0
@@ -502,6 +503,7 @@ MonoBehaviour:
   goNoteLeft:
   - {fileID: 0}
   imNoteLeft: []
+  canvasRect: {fileID: 0}
   fFOVmin: 10
   fFOVmax: 10.6
 --- !u!114 &1633790102752681175

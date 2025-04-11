@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4557529767917046153}
   - component: {fileID: 192196032585685232}
   - component: {fileID: 8007070330677980914}
-  m_Layer: 7
+  m_Layer: 12
   m_Name: Enemie1
   m_TagString: Enemies 1
   m_Icon: {fileID: 0}
@@ -57,6 +57,7 @@ MonoBehaviour:
   iCurrentDirection: 0
   FRadius: 6
   FAngle: 60
+  proximityRadius: 2
   minRotation: 135
   maxRotation: 225
   rotationStep: 45
@@ -123,7 +124,7 @@ GameObject:
   - component: {fileID: 7692883549778554603}
   - component: {fileID: 5877689220337500475}
   - component: {fileID: 2307551756231764101}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: ConeVision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -252,7 +253,7 @@ GameObject:
   - component: {fileID: 8623585792747630623}
   - component: {fileID: 4607990046573462715}
   - component: {fileID: 2559347695758500737}
-  m_Layer: 7
+  m_Layer: 12
   m_Name: Chara
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -351,7 +352,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1092225882516846331}
-  m_Layer: 7
+  m_Layer: 12
   m_Name: VFX_Suspicous
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -383,7 +384,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6088383388118375192}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: pointDePivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -415,7 +416,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6810061585118000077}
   - component: {fileID: 5988288753295923841}
-  m_Layer: 7
+  m_Layer: 12
   m_Name: BackFeedback
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -463,7 +464,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6174438838370372638}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: VFX_Disable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -496,7 +497,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8830465477137299478}
   - component: {fileID: 3665022713942645450}
-  m_Layer: 7
+  m_Layer: 12
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -631,7 +632,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8214355654380026554}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: VFX_Detected
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -717,6 +718,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PS_FoesDetect 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6762333665443787573, guid: 981eda3cafd8fdb43801293ab8d8e08a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -746,6 +752,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PS_Stun_Infinite
+      objectReference: {fileID: 0}
+    - target: {fileID: 5057797360871712323, guid: b17742f4a57897842a2ba55bdfdbfe89,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 7962904576538720930, guid: b17742f4a57897842a2ba55bdfdbfe89,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 9093060196067363116, guid: b17742f4a57897842a2ba55bdfdbfe89,
         type: 3}
@@ -820,6 +836,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PS_FoesAlert
+      objectReference: {fileID: 0}
+    - target: {fileID: 2687102755452251648, guid: 55126132d8f57444ab2da4c605ba0a55,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3051752590244625280, guid: 55126132d8f57444ab2da4c605ba0a55,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 3673025719264384840, guid: 55126132d8f57444ab2da4c605ba0a55,
         type: 3}
@@ -970,6 +996,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Pod
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3fb4e7d6e6b907e429e841f0bfed57a3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
