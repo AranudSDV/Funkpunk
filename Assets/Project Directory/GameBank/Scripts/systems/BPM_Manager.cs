@@ -59,12 +59,14 @@ public class BPM_Manager : MonoBehaviour
     private double fMusicTimer = 0f;
     private double[] fNextReach = new double[4];
     [SerializeField] private UnityEngine.UI.Image soul_Feedback;
+    [SerializeField] private RectTransform[] goSeparator;
     [SerializeField] private RectTransform[] goNoteRight;
     [SerializeField] private UnityEngine.UI.Image[] imNoteRight;
     [SerializeField] private RectTransform[] goNoteLeft;
     [SerializeField] private UnityEngine.UI.Image[] imNoteLeft;
     [SerializeField] private RectTransform canvasRect;
     private Vector2 newPos;
+    private Vector2[] posSeparator = new Vector2[2];
 
     [SerializeField] private float fFOVmin = 10f;
     [SerializeField] private float fFOVmax = 10.6f;
@@ -83,6 +85,12 @@ public class BPM_Manager : MonoBehaviour
         FZoneGoodTiming = FGoodTiming;
         FZonePerfectTiming = FPerfectTiming;
         FWaitTime = FZonePerfectTiming;
+        posSeparator[0] = new Vector2((canvasRect.rect.width / 2f)*4/14f, 0f);
+        posSeparator[1] = new Vector2((canvasRect.rect.width / 2f) * 8 / 14f, 0f);
+        goSeparator[0].anchoredPosition = posSeparator[0];
+        goSeparator[1].anchoredPosition = posSeparator[1];
+        goSeparator[2].anchoredPosition = -posSeparator[0];
+        goSeparator[3].anchoredPosition = -posSeparator[1];
         //fNextReach[0] = AudioSettings.dspTime + FWaitTime;
         soundManager = GetComponent<SoundManager>();
         newPos = new Vector2(canvasRect.rect.width / 2f + goNoteLeft[0].rect.width / 2f, 0f);
@@ -238,6 +246,7 @@ public class BPM_Manager : MonoBehaviour
                     scPlayer.FDetectionLevel -= 2f;
                     SoundManager.Instance.PlayOneShot(sfx_BadRythm, this.transform.position);
                 }
+                Debug.Log("bad");
             }
             else if (BGood == true)
             {
@@ -255,6 +264,7 @@ public class BPM_Manager : MonoBehaviour
                     scPlayer.FDetectionLevel -= 5f;
                     SoundManager.Instance.PlayOneShot(sfx_OkRythm, this.transform.position);
                 }
+                Debug.Log("good");
             }
             else if (BPerfect == true)
             {
@@ -272,6 +282,11 @@ public class BPM_Manager : MonoBehaviour
                     scPlayer.FDetectionLevel -= 10f;
                     SoundManager.Instance.PlayOneShot(sfx_PerfectRythm, this.transform.position);
                 }
+                Debug.Log("perfect");
+            }
+            else
+            {
+                Debug.Log("miss");
             }
             NotesFade();
             scPlayer.bcanRotate = false;
