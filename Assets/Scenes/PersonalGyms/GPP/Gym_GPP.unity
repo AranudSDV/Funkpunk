@@ -3179,6 +3179,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 722103128}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &725767250 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5025421958945651714, guid: 65f34271cad0dda4d8a49134617b7571,
+    type: 3}
+  m_PrefabInstance: {fileID: 5502365842165218856}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &726295821
 GameObject:
   m_ObjectHideFlags: 0
@@ -10895,6 +10907,11 @@ PrefabInstance:
       propertyPath: FSPB
       value: 0.67
       objectReference: {fileID: 0}
+    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: textTimer
+      value: 
+      objectReference: {fileID: 725767250}
     - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: canvasRect

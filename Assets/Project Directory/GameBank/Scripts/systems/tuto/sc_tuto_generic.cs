@@ -301,7 +301,8 @@ public class sc_tuto_generic : MonoBehaviour
     private IEnumerator ImuneToTuto(BPM_Manager bpmmanager)
     {
         scPlayer.bIsImune = true;
-        yield return new WaitForSecondsRealtime(bpmmanager.FSPB * 2);
+        bpmmanager.iTimer = 3;
+        yield return new WaitForSecondsRealtime(bpmmanager.FSPB * 3);
         scPlayer.bIsImune = false;
     }
     private void IntoTheGameCam() //ENABLE THE REAL CAMERA

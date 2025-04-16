@@ -288,6 +288,7 @@ public class MenuManager : MonoBehaviour
                 EventSystem.firstSelectedGameObject = null;
             }
             StartCoroutine(wait());
+            StartCoroutine(ImuneToPause(scPlayer.bpmManager));
             PauseGame();
         }
     }
@@ -609,5 +610,13 @@ public class MenuManager : MonoBehaviour
                 EventSystem.firstSelectedGameObject = GoScoringFirstButtonSelected;
             }
         }
+    }
+
+    private IEnumerator ImuneToPause(BPM_Manager bpmmanager)
+    {
+        scPlayer.bIsImune = true;
+        bpmmanager.iTimer = 3;
+        yield return new WaitForSecondsRealtime(bpmmanager.FSPB * 3);
+        scPlayer.bIsImune = false;
     }
 }
