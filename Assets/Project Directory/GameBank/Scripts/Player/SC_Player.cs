@@ -1184,27 +1184,24 @@ public class SC_Player : MonoBehaviour
             }
             PlayerDataUpdate(data);
             //BUTTONS
-            UnityEngine.UI.Button[] buttonScorring = new UnityEngine.UI.Button[3];
-            TextMeshProUGUI[] txt = new TextMeshProUGUI[3];
-            for (int i =0; i<3; i++)
+            UnityEngine.UI.Button[] buttonScorring = new UnityEngine.UI.Button[2];
+            TextMeshProUGUI[] txt = new TextMeshProUGUI[2];
+            for (int i =0; i<2; i++)
             {
                 buttonScorring[i] = menuManager.GoScoringButtons.transform.GetChild(i).GetComponent<UnityEngine.UI.Button>();
                 txt[i] = menuManager.GoScoringButtons.transform.GetChild(i).transform.GetChild(0).GetComponent<TextMeshProUGUI>();
             }
-            buttonScorring[0].onClick.AddListener(delegate { menuManager.LoadScene("next"); });
+            buttonScorring[0].onClick.AddListener(delegate { menuManager.LoadScene("Scenes/World/LevelChoosing"); });
             buttonScorring[1].onClick.AddListener(delegate { menuManager.LoadScene("retry"); });
-            buttonScorring[2].onClick.AddListener(delegate { menuManager.LoadScene("Scenes/World/LevelChoosing"); });
             if (data.iLanguageNbPlayer == 1)
             {
                 txt[0].text = "Continuer";
                 txt[1].text = "Réessayer";
-                txt[2].text = "Revoir la carte";
             }
             else
             {
                 txt[0].text = "Next";
                 txt[1].text = "Retry";
-                txt[2].text = "See Map";
             }
         }
         else
@@ -1223,27 +1220,24 @@ public class SC_Player : MonoBehaviour
             menuManager.txtScoringJudgment.text = sJugement(hasWon)[0];
             menuManager.txtScoringScore.text = sJugement(hasWon)[1];
             //BUTTONS
-            UnityEngine.UI.Button[] buttonScorring = new UnityEngine.UI.Button[3];
-            TextMeshProUGUI[] txt = new TextMeshProUGUI[3];
-            for (int i = 0; i < 3; i++)
+            UnityEngine.UI.Button[] buttonScorring = new UnityEngine.UI.Button[2];
+            TextMeshProUGUI[] txt = new TextMeshProUGUI[2];
+            for (int i = 0; i < 2; i++)
             {
                 buttonScorring[i] = menuManager.GoScoringButtons.transform.GetChild(i).GetComponent<UnityEngine.UI.Button>();
                 txt[i] = menuManager.GoScoringButtons.transform.GetChild(i).transform.GetChild(0).GetComponent<TextMeshProUGUI>();
             }
             buttonScorring[0].onClick.AddListener(delegate { menuManager.LoadScene("retry"); });
             buttonScorring[1].onClick.AddListener(delegate { menuManager.LoadScene("Scenes/World/LevelChoosing"); });
-            buttonScorring[2].onClick.AddListener(delegate { menuManager.LoadScene("Scenes/World/GameChoose"); });
             if (data.iLanguageNbPlayer == 1)
             {
                 txt[0].text = "Réessayer";
                 txt[1].text = "Revoir la carte";
-                txt[2].text = "Retour au menu";
             }
             else
             {
                 txt[0].text = "Retry";
                 txt[1].text = "See Map";
-                txt[2].text = "Back to Menu";
             }
         }
         if (menuManager.controllerConnected) //Si controller
