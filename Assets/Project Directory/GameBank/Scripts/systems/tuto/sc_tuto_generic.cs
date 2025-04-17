@@ -43,11 +43,11 @@ public class sc_tuto_generic : MonoBehaviour
     private bool cameraDone = false;
 
     [Header("BD limits")]
-    [SerializeField] private int intBdYCam = 1;
-    [SerializeField] private int intYGameCam = 3;
-    [SerializeField] private int intYDetectionTuto = 9;
-    [SerializeField] private int intYBaitTuto = 9;
-    [SerializeField] private float tresholdZ;
+    [SerializeField][Tooltip("The parent Rectransform number where the Camera has to begin the Backtrack.")] private int intBdYCam = 1;
+    [SerializeField][Tooltip("The parent Rectransform number where the player now begins the game and is ready.")] private int intYGameCam = 3;
+    [SerializeField][Tooltip("The parent Rectransform number of the tutorial to learn the detection.")] private int intYDetectionTuto = 9;
+    [SerializeField][Tooltip("The parent Rectransform number of the tutorial to learn the bait.")] private int intYBaitTuto = 9;
+    [SerializeField][Tooltip("Where the backtrack's Camera will switch to be the player's one")] private float tresholdZ;
     private float fSpeed = 5f;
 
     private bool bWaitNext = false;
