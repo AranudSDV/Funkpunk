@@ -353,7 +353,7 @@ public class SC_Player : MonoBehaviour
                                     if (ingTag.textOnWall.text == i.ToString() + "/3")
                                     {
                                         ingTag.textOnWall.text = (i + 1).ToString() + "/3";
-                                        StartCoroutine(TaggingFeedback(bpmManager.FSPB, vectDir));
+                                        TaggingFeedback(bpmManager.FSPB, vectDir);
                                         StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
                                         break;
                                     }
@@ -365,13 +365,13 @@ public class SC_Player : MonoBehaviour
                                         if (i < 2)
                                         {
                                             ingTag.textOnWall.text = (i + 2).ToString() + "/3";
-                                            StartCoroutine(TaggingFeedback(bpmManager.FSPB, vectDir));
+                                            TaggingFeedback(bpmManager.FSPB, vectDir);
                                             StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
                                         }
                                         else
                                         {
                                             ingTag.textOnWall.text = "3/3";
-                                            StartCoroutine(TaggingFeedback(bpmManager.FSPB, vectDir));
+                                            TaggingFeedback(bpmManager.FSPB, vectDir);
                                             StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
                                         }
                                         break;
@@ -380,7 +380,7 @@ public class SC_Player : MonoBehaviour
                                 else if (bpmManager.bPlayPerfect)
                                 {
                                     ingTag.textOnWall.text = "3/3";
-                                    StartCoroutine(TaggingFeedback(bpmManager.FSPB, vectDir));
+                                    TaggingFeedback(bpmManager.FSPB, vectDir);
                                     StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
                                     break;
                                 }
@@ -462,7 +462,7 @@ public class SC_Player : MonoBehaviour
                                 if(ingTag.textOnWall.text == i.ToString() + "/3")
                                 {
                                     ingTag.textOnWall.text = (i + 1).ToString() + "/3";
-                                    StartCoroutine(TaggingFeedback(bpmManager.FSPB, vectDir));
+                                    TaggingFeedback(bpmManager.FSPB, vectDir);
                                     StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
                                     break;
                                 }
@@ -474,13 +474,13 @@ public class SC_Player : MonoBehaviour
                                     if (i < 2)
                                     {
                                         ingTag.textOnWall.text = (i + 2).ToString() + "/3";
-                                        StartCoroutine(TaggingFeedback(bpmManager.FSPB, vectDir));
+                                        TaggingFeedback(bpmManager.FSPB, vectDir);
                                         StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
                                     }
                                     else
                                     {
                                         ingTag.textOnWall.text = "3/3";
-                                        StartCoroutine(TaggingFeedback(bpmManager.FSPB, vectDir));
+                                        TaggingFeedback(bpmManager.FSPB, vectDir);
                                         StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
                                     }
                                     break;
@@ -489,7 +489,7 @@ public class SC_Player : MonoBehaviour
                             else if(bpmManager.bPlayPerfect)
                             {
                                 ingTag.textOnWall.text = "3/3";
-                                StartCoroutine(TaggingFeedback(bpmManager.FSPB, vectDir));
+                                TaggingFeedback(bpmManager.FSPB, vectDir);
                                 StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
                                 break;
                             }
@@ -583,7 +583,7 @@ public class SC_Player : MonoBehaviour
                             {
                                 bIsBeingAnimated = true;
                                 fThrowMultiplier = floatNumber - 1f;
-                                StartCoroutine(ThrowingFeedback(bpmManager.FSPB));
+                                ThrowingFeedback(bpmManager.FSPB);
                                 return;
                             }
                             else if (col.transform.CompareTag("Enemies 1")) //il y a un ennemi devant le joueur
@@ -594,7 +594,7 @@ public class SC_Player : MonoBehaviour
                                 scEnemy.bIsDisabled = true;
                                 scEnemy.FoeDisabled(scEnemy.bIsDisabled);
                                 scEnemy.i_EnnemyBeat = -iTimeFoeDisabled;
-                                StartCoroutine(ThrowingFeedback(bpmManager.FSPB));
+                                ThrowingFeedback(bpmManager.FSPB);
                                 //Unable l'ennemi
                                 return;
                             }
@@ -608,7 +608,7 @@ public class SC_Player : MonoBehaviour
                     {
                         bIsBeingAnimated = true;
                         fThrowMultiplier = floatNumber - 1f;
-                        StartCoroutine(ThrowingFeedback(bpmManager.FSPB));
+                        ThrowingFeedback(bpmManager.FSPB);
                         return;
                     }
                     else
@@ -623,7 +623,7 @@ public class SC_Player : MonoBehaviour
                     {
                         bIsBeingAnimated = true;
                         fThrowMultiplier = floatNumber - 1f;
-                        StartCoroutine(ThrowingFeedback(bpmManager.FSPB));
+                        ThrowingFeedback(bpmManager.FSPB);
                         return;
                     }
                     else if (hitInfo1.transform.CompareTag("Enemies 1")) //il y a un ennemi devant le joueur
@@ -634,7 +634,7 @@ public class SC_Player : MonoBehaviour
                         scEnemy.bIsDisabled = true;
                         scEnemy.FoeDisabled(scEnemy.bIsDisabled);
                         scEnemy.i_EnnemyBeat = -iTimeFoeDisabled;
-                        StartCoroutine(ThrowingFeedback(bpmManager.FSPB));
+                        ThrowingFeedback(bpmManager.FSPB);
                         //Unable l'ennemi
                         return;
                     }
@@ -647,7 +647,7 @@ public class SC_Player : MonoBehaviour
                 {
                     bIsBeingAnimated = true;
                     fThrowMultiplier = floatNumber - 1f;
-                    StartCoroutine(ThrowingFeedback(bpmManager.FSPB));
+                    ThrowingFeedback(bpmManager.FSPB);
                     return;
                 }
                 else
@@ -822,37 +822,39 @@ public class SC_Player : MonoBehaviour
         menuManager.LoadScene("LevelChoosing");
         UnityEngine.Cursor.lockState = CursorLockMode.None;
     }
-    private IEnumerator TaggingFeedback(float time, Vector3 dir)
+    private void TaggingFeedback(float time, Vector3 dir)
     {
         if (dir.x != 0)
         {
-            PlayerCapsule.transform.DOMoveY(posMesh.y + 1f, time * 1 / 6).SetAutoKill(true);
-            PlayerCapsule.transform.DOLocalMoveZ(localPosMesh.z + 0.75f, time * 1 / 6).SetAutoKill(true);
-            PlayerCapsule.transform.DORotate(new Vector3(0, -60f, 0), time * 1 / 6, RotateMode.LocalAxisAdd).SetAutoKill(true);
-            yield return new WaitForSeconds(time * 1 / 6);
-            PlayerCapsule.transform.DORotate(new Vector3(0, 120f, 0), time * 2 / 6, RotateMode.LocalAxisAdd).SetAutoKill(true);
-            PlayerCapsule.transform.DOLocalMoveZ(localPosMesh.z - 0.75f, time * 1 / 6).SetAutoKill(true);
-            yield return new WaitForSeconds(time * 2 / 6);
-            PlayerCapsule.transform.DORotate(new Vector3(0, -60, 0), time * 1 / 6, RotateMode.LocalAxisAdd).SetAutoKill(true);
-            PlayerCapsule.transform.DOLocalMoveZ(localPosMesh.z, time * 1 / 6).SetAutoKill(true);
-            PlayerCapsule.transform.DOMoveY(posMesh.y, time * 1 / 6).SetAutoKill(true);
-            yield return new WaitForSeconds(time * 1 / 6);
-            PlayerCapsule.transform.localPosition = localPosMesh;
+            DG.Tweening.Sequence taggingSequence = DOTween.Sequence();
+            taggingSequence.Append(PlayerCapsule.transform.DOMoveY(posMesh.y + 1f, time * 1 / 6));
+            taggingSequence.Join(PlayerCapsule.transform.DOLocalMoveZ(localPosMesh.z + 0.75f, time * 1 / 6));
+            taggingSequence.Join(PlayerCapsule.transform.DORotate(new Vector3(0, -60f, 0), time * 1 / 6, RotateMode.LocalAxisAdd));
+            taggingSequence.Append(PlayerCapsule.transform.DORotate(new Vector3(0, 120f, 0), time * 2 / 6, RotateMode.LocalAxisAdd));
+            taggingSequence.Join(PlayerCapsule.transform.DOLocalMoveZ(localPosMesh.z - 0.75f, time * 1 / 6));
+            taggingSequence.Append(PlayerCapsule.transform.DORotate(new Vector3(0, -60, 0), time * 1 / 6, RotateMode.LocalAxisAdd));
+            taggingSequence.Join(PlayerCapsule.transform.DOLocalMoveZ(localPosMesh.z, time * 1 / 6));
+            taggingSequence.Join(PlayerCapsule.transform.DOMoveY(posMesh.y, time * 1 / 6));
+            taggingSequence.OnComplete(() =>
+            {
+                PlayerCapsule.transform.localPosition = localPosMesh;
+            });
         }
         else if(dir.z != 0)
         {
-            PlayerCapsule.transform.DOMoveY(posMesh.y + 1f, time * 1 / 6).SetAutoKill(true);
-            PlayerCapsule.transform.DOLocalMoveX(localPosMesh.z + 0.75f, time * 1 / 6).SetAutoKill(true);
-            PlayerCapsule.transform.DORotate(new Vector3(0, -30f, 0), time * 1 / 6, RotateMode.LocalAxisAdd).SetAutoKill(true);
-            yield return new WaitForSeconds(time * 1 / 6);
-            PlayerCapsule.transform.DORotate(new Vector3(0, 60f, 0), time * 2 / 6, RotateMode.LocalAxisAdd).SetAutoKill(true);
-            PlayerCapsule.transform.DOLocalMoveX(localPosMesh.z - 0.75f, time * 1 / 6).SetAutoKill(true);
-            yield return new WaitForSeconds(time * 2 / 6);
-            PlayerCapsule.transform.DORotate(new Vector3(0, -30, 0), time * 1 / 6, RotateMode.LocalAxisAdd).SetAutoKill(true);
-            PlayerCapsule.transform.DOLocalMoveX(localPosMesh.z, time * 1 / 6).SetAutoKill(true);
-            PlayerCapsule.transform.DOMoveY(posMesh.y, time * 1 / 6).SetAutoKill(true);
-            yield return new WaitForSeconds(time * 1 / 6);
-            PlayerCapsule.transform.localPosition = localPosMesh;
+            DG.Tweening.Sequence taggingSequence = DOTween.Sequence();
+            taggingSequence.Append(PlayerCapsule.transform.DOMoveY(posMesh.y + 1f, time * 1 / 6));
+            taggingSequence.Join(PlayerCapsule.transform.DOLocalMoveX(localPosMesh.z + 0.75f, time * 1 / 6));
+            taggingSequence.Join(PlayerCapsule.transform.DORotate(new Vector3(0, -30f, 0), time * 1 / 6, RotateMode.LocalAxisAdd));
+            taggingSequence.Append(PlayerCapsule.transform.DORotate(new Vector3(0, 60f, 0), time * 2 / 6, RotateMode.LocalAxisAdd));
+            taggingSequence.Join(PlayerCapsule.transform.DOLocalMoveX(localPosMesh.z - 0.75f, time * 1 / 6));
+            taggingSequence.Append(PlayerCapsule.transform.DORotate(new Vector3(0, -30, 0), time * 1 / 6, RotateMode.LocalAxisAdd));
+            taggingSequence.Join(PlayerCapsule.transform.DOLocalMoveX(localPosMesh.z, time * 1 / 6));
+            taggingSequence.Join(PlayerCapsule.transform.DOMoveY(posMesh.y, time * 1 / 6));
+            taggingSequence.OnComplete(() =>
+            {
+                PlayerCapsule.transform.localPosition = localPosMesh;
+            });
         }
     }
     private IEnumerator TagFeedback(Vector3 dir, float time)
@@ -865,17 +867,19 @@ public class SC_Player : MonoBehaviour
         vfx_tag.Stop();
         GoVfxTag.transform.localPosition = dir + new Vector3(0f, 50f, 0f);
     }
-    private IEnumerator ThrowingFeedback(float time)
+    private void ThrowingFeedback(float time)
     {
-        PlayerCapsule.transform.DOMoveY(posMesh.y + 1f, time * 1/9).SetAutoKill(true);
-        yield return new WaitForSeconds(time * 1/9);
-        PlayerCapsule.transform.DORotate(new Vector3(-45, 0, 0), time * 1/6, RotateMode.LocalAxisAdd).SetAutoKill(true);
-        yield return new WaitForSeconds(time * 2 / 6);
-        PlayerCapsule.transform.DORotate(new Vector3(45, 0, 0), time * 1 / 6, RotateMode.LocalAxisAdd).SetAutoKill(true);
-        yield return new WaitForSeconds(time * 4/9);
-        PlayerCapsule.transform.DOMoveY(posMesh.y, time * 1/9).SetAutoKill(true);
-        yield return new WaitForSeconds(time *1/9);
-        PlayerCapsule.transform.localPosition = localPosMesh;
+        DG.Tweening.Sequence throwingSequence = DOTween.Sequence();
+        throwingSequence.Append(PlayerCapsule.transform.DOMoveY(posMesh.y + 1f, time * 1 / 9));
+        throwingSequence.Append(PlayerCapsule.transform.DORotate(new Vector3(-45, 0, 0), time * 1 / 6, RotateMode.LocalAxisAdd));
+        throwingSequence.AppendInterval(time * 1 / 6);
+        throwingSequence.Append(PlayerCapsule.transform.DORotate(new Vector3(45, 0, 0), time * 1 / 6, RotateMode.LocalAxisAdd));
+        throwingSequence.AppendInterval(time * 5/18);
+        throwingSequence.Append(PlayerCapsule.transform.DOMoveY(posMesh.y, time * 1 / 9));
+        throwingSequence.OnComplete(() =>
+        {
+            PlayerCapsule.transform.localPosition = localPosMesh;
+        });
     }
     private IEnumerator BaitCameraShake(float intensity, float time)
     {

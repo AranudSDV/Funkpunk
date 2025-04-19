@@ -136,7 +136,7 @@ public class sc_tuto_Loft : MonoBehaviour
         if (bImune)
         {
             fTimer += timer;
-            if (fTimer >= bpmmanager.FSPB*2)
+            if (fTimer >= bpmmanager.FSPB*3)
             {
                 scPlayer.bIsImune = false;
                 bImune = false;

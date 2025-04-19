@@ -20,6 +20,8 @@ public class MenuManager : MonoBehaviour
     public bool controllerConnected = false;
     public SC_Player scPlayer;
     public bool bGameIsPaused = false;
+    private sc_levelChoosing_ _scLevels;
+    private int iPreviousLevelPlayed = 0;
 
     [Header("Sound")]
     public FMOD.Studio.VCA musicVCA;
@@ -162,6 +164,10 @@ public class MenuManager : MonoBehaviour
         if (isLoadingScene)
         {
             progressBar.value = Mathf.Clamp01(loadingOperation.progress / 0.9f);
+        }
+        else
+        {
+            progressBar.value = 0f;
         }
         //Racourcis
         if(Input.GetKeyDown(KeyCode.J))
@@ -339,9 +345,9 @@ public class MenuManager : MonoBehaviour
             }
             else if (SceneManager.GetActiveScene().name == "LevelChoosing")
             {
-                GoLevelsButton = new GameObject[GoTargetUI.Length -5];
+                GoLevelsButton = new GameObject[GoTargetUI.Length -6];
                 GoLevelStars = new GameObject[4];
-                _levels = new Level[GoTargetUI.Length -5];
+                _levels = new Level[GoTargetUI.Length -6];
                 for (int i = 0; i < GoTargetUI.Length ; i++)
                 {
                     for (int y = 0; y < GoTargetUI.Length; y++)
@@ -358,6 +364,11 @@ public class MenuManager : MonoBehaviour
                         else if (GoTargetUI[i].name == "StarsLvl" + y)
                         {
                             GoLevelStars[y] = GoTargetUI[i];
+                        }
+                        else if(GoTargetUI[i].name == "LevelChoosing")
+                        {
+                            _scLevels = GoTargetUI[i].GetComponent<sc_levelChoosing_>();
+                            _scLevels.iPreviousLvl = iPreviousLevelPlayed;
                         }
                     }
                 }
@@ -420,12 +431,10 @@ public class MenuManager : MonoBehaviour
                     {
                         if (_playerData.iStarsPlayer[5*i+y] ==1)
                         {
-                            Debug.Log("true " +y);
                             GoLevelStars[i].transform.GetChild(y).GetComponent<UnityEngine.UI.Image>().color = new Color32(255,255, 255, 255);
                         }
                         else
                         {
-                            Debug.Log(y);
                             GoLevelStars[i].transform.GetChild(y).GetComponent<UnityEngine.UI.Image>().color = new Color32(0, 0, 0, 255);
                         }
                     }
@@ -466,6 +475,13 @@ public class MenuManager : MonoBehaviour
             menuLoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
             menuLoopInstance.release();
             StartCoroutine(StartLoad(sceneToLoad));
+            for(int i =0; i<4; i++)
+            {
+                if(sceneToLoad == "SceneLvl" + i.ToString())
+                {
+                    iPreviousLevelPlayed = i;
+                }
+            }
         }
         else if (sceneToLoad == "LevelChoosing")
         {
@@ -514,9 +530,8 @@ public class MenuManager : MonoBehaviour
     private IEnumerator StartLoad(string sceneToLoad)
     {
         CgLoadingScreen.alpha = 1f;
-        RtLoadingScreen.anchorMin = new Vector2(0, 1);
-        RtLoadingScreen.anchorMax = new Vector2(0, 1);
-        CgScoring.alpha = 1f;
+        RtLoadingScreen.anchorMin = new Vector2(0, 0);
+        RtLoadingScreen.anchorMax = new Vector2(1, 1);
         RtScoring.anchorMin = new Vector2(0, 1);
         RtScoring.anchorMax = new Vector2(0, 1);
         yield return StartCoroutine(FadeLoadingScreen(1, 0.5f));
@@ -531,7 +546,6 @@ public class MenuManager : MonoBehaviour
         CgLoadingScreen.alpha = 0f;
         RtLoadingScreen.anchorMin = new Vector2(0, 1);
         RtLoadingScreen.anchorMax = new Vector2(1, 2);
-        CgScoring.alpha = 0f;
         RtScoring.anchorMin = new Vector2(0, 1);
         RtScoring.anchorMax = new Vector2(1, 2);
     }
