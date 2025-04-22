@@ -21,7 +21,7 @@ public class SC_FieldOfView : MonoBehaviour
     public float FRadius;
     [Range(0,70)]
     public float FAngle;
-    [SerializeField]private float proximityRadius = 2f;
+    [SerializeField] private float proximityRadius = 1f;
 
     //ROTATION
     [Header("Rotation")]

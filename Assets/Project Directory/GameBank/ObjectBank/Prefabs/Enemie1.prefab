@@ -57,7 +57,7 @@ MonoBehaviour:
   iCurrentDirection: 0
   FRadius: 6
   FAngle: 60
-  proximityRadius: 2
+  proximityRadius: 1
   minRotation: 135
   maxRotation: 225
   rotationStep: 45

@@ -9,6 +9,9 @@ using TMPro;
 using UnityEngine.UIElements;
 using Unity.Burst.CompilerServices;
 using UnityEngine.Rendering;
+using System.Text.RegularExpressions;
+using System;
+using UnityEngine.SceneManagement;
 
 public class sc_tuto_generic : MonoBehaviour
 {
@@ -66,6 +69,18 @@ public class sc_tuto_generic : MonoBehaviour
         {
             iBubbleNbAdd[i] = iBubbleNbAdd[i-1] + iBubbleNb[i-1];
         }
+        if(Int32.Parse(Regex.Match(SceneManager.GetActiveScene().name, @"\d+").Value) == 0)
+        {
+            fSpeed = 5f;
+        }
+        else if(Int32.Parse(Regex.Match(SceneManager.GetActiveScene().name, @"\d+").Value) == 1 || Int32.Parse(Regex.Match(SceneManager.GetActiveScene().name, @"\d+").Value) == 3)
+        {
+            fSpeed = 10f;
+        }
+        else if (Int32.Parse(Regex.Match(SceneManager.GetActiveScene().name, @"\d+").Value) == 2)
+        {
+            fSpeed = 15f;
+        }
         bTuto[0] = true;
     }
 
@@ -99,7 +114,7 @@ public class sc_tuto_generic : MonoBehaviour
                     bOnceSkip = true;
                     if (_y == intBdYCam)
                     {
-                        fSpeed = 10f;
+                        fSpeed = fSpeed*2;
                     }
                 }
                 if (bWaitNext && !bOnceNext && ((scPlayer.bIsOnComputer == false && scPlayer.control.GamePlay.Move.triggered) || Input.GetButtonDown("Jump"))) //INPUT TO SHOW NEXT WHOLE BUBBLES
