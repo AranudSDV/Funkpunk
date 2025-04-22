@@ -50,7 +50,6 @@ public class MenuManager : MonoBehaviour
 
     //SCORING
     [Header("Scoring")]
-    [SerializeField] private GameObject GoScoring;
     public CanvasGroup CgScoring;
     public RectTransform RtScoring;
     public TMP_Text txtScoringJudgment;
@@ -62,6 +61,32 @@ public class MenuManager : MonoBehaviour
     public RectTransform RtScoringSuccess;
     public GameObject GoScoringButtons;
     public RectTransform RtScoringButtons;
+
+    [Header("EndDialogue")]
+    public CanvasGroup CgEndDialogue;
+    public RectTransform RtEndDialogue;
+    public UnityEngine.UI.Image ImgEndDialogueBackground;
+    [Tooltip("int from the chara to be on the right, then on the left, for each levels")][SerializeField] private int[] iWhichCharaToRightToLeft;
+    public Sprite[] spritesEndDialogueBackground;
+    public Sprite[] spritesEndDialogueCharacters;
+    [Tooltip("0 is right, 1 is left.")][SerializeField] private UnityEngine.UI.Image[] imgCharactersSpace;
+    public bool bIsOnEndDialogue = false;
+
+    [Header("EndDialogueDetails")]
+    private int iNbTextNow = 0;
+    [Tooltip("0 is right, 1 is left.")][SerializeField] private RectTransform[] charactersImages;
+    [SerializeField] private RectTransform rectBoxTextImage;
+    [SerializeField] private UnityEngine.UI.Image imgBoxText;
+    [Tooltip("0 is the 1st character's boxe,  1 is the other, 2 is the last.")][SerializeField] private Sprite[] spritesCharactersBoxes;
+    [SerializeField] private sc_textChange _sc_textChange;
+    [SerializeField] private int[] iNbDialoguePerLevel;
+    [SerializeField] private int[] iNbDialoguePerLevelAdd;
+    [Tooltip("0 is the 1st,  1 is the other, 2 is the last.")] public int[] iCharaToSpeakPerTextes;
+    [Tooltip("0 is the 1st,  1 is the other, 2 is the last.")] private int[] iCharaToNotSpeakPerTextes;
+    [SerializeField] private string[] sDialogueEnglish;
+    [SerializeField] private string[] sDialogueFrench;
+    public bool bWaitNextDialogue = false;
+
 
     //SCENE LOADING
     [Header("Loading Scene")]
@@ -75,7 +100,7 @@ public class MenuManager : MonoBehaviour
 
     //DATA PLAYER
     [Header("Datas")]
-    private PlayerData _playerData;
+    public PlayerData _playerData;
     public Level[] _levels;
     [SerializeField] private EventReference menuLoop;
     private FMOD.Studio.EventInstance menuLoopInstance;
@@ -176,7 +201,10 @@ public class MenuManager : MonoBehaviour
             _playerData.iLevelPlayer = 1;
             _playerData.iScorePerLvlPlayer[0] = 70;
         }
+        CheckDialogue();
     }
+
+    //CHECKS AND UI CHANGES
     private void CheckControllerStatus()
     {
         string[] controllers = Input.GetJoystickNames();
@@ -204,98 +232,6 @@ public class MenuManager : MonoBehaviour
             {
                 Debug.Log("No controllers connected!");
             }
-        }
-    }
-    private void UXNavigation()
-    {
-        if ((Input.GetKey(KeyCode.Escape)|| (controllerConnected && control.GamePlay.Pausing.triggered)))
-        {
-            PauseMenu();
-        }
-        /*else if((GoPauseMenu.activeInHierarchy == false && GoScoring == null) || (GoPauseMenu.activeInHierarchy==false && GoScoring.activeInHierarchy == false))
-        {
-            if(SceneManager.GetActiveScene().name == "GameChoose")
-            {
-                EventSystem.firstSelectedGameObject = GoGameChoose[0];
-            }
-            else if (SceneManager.GetActiveScene().name == "LevelChoosing")
-            {
-                EventSystem.firstSelectedGameObject = GoLevelsButton[0];
-            }
-        }*/
-    }
-    public void PauseMenu()
-    {
-        if (CgPauseMenu.alpha == 0f && !bActif) // On ouvre la fenetre, le jeu est en pause
-        {
-            CgPauseMenu.alpha = 1f;
-            CgPauseMenu.interactable = true;
-            RtPauseMenu.anchorMin = new Vector2(-0.5f, 0);
-            RtPauseMenu.anchorMax = new Vector2(1.5f, 1);
-            RtPauseMenu.offsetMax = new Vector2(0f, 0f);
-            RtPauseMenu.offsetMin = new Vector2(0f, 0f);
-            EventSystem.firstSelectedGameObject = GoPausedFirstButtonSelected; 
-            GoPausedFirstButtonSelected.GetComponent<UnityEngine.UI.Button>().Select();
-            if (controllerConnected)
-            {
-                UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-            }
-            else
-            {
-                UnityEngine.Cursor.lockState = CursorLockMode.None;
-            }
-            bGameIsPaused = true;
-            PauseGame();
-            StartCoroutine(wait());
-        }
-        else if (CgPauseMenu.alpha == 1f && bActif) // On ferme la fenetre, le jeu reprend
-        {
-            CgPauseMenu.alpha = 0f;
-            CgPauseMenu.interactable = false;
-            RtPauseMenu.anchorMin = new Vector2(0, 1);
-            RtPauseMenu.anchorMax = new Vector2(1, 2);
-            RtPauseMenu.offsetMax = new Vector2(0f, 0f);
-            RtPauseMenu.offsetMin = new Vector2(0f, 0f);
-            CloseOptions();
-            if ((scPlayer != null && scPlayer.bisTuto == true && SceneManager.GetActiveScene().name != "Loft") || (scPlayer != null && CgScoring.alpha == 1f))
-            {
-                bGameIsPaused = true;
-            }
-            else
-            {
-                bGameIsPaused = false;
-            }
-            if (!controllerConnected && SceneManager.GetActiveScene().name != "GameChoose" && SceneManager.GetActiveScene().name != "LevelChoosing" && SceneManager.GetActiveScene().name != "MainMenu") //SI keyboard et mouse et que la scene n'est pas un menu avec souris
-            {
-                UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-            }
-            else if(!controllerConnected && (SceneManager.GetActiveScene().name == "GameChoose" || SceneManager.GetActiveScene().name == "LevelChoosing" || SceneManager.GetActiveScene().name == "MainMenu")) //si keyboard er que la scene est un menu avec souris
-            {
-                UnityEngine.Cursor.lockState = CursorLockMode.None;
-            }
-            else if (controllerConnected) //si controlleur gamepad
-            {
-                UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-            }
-            if (CgScoring.alpha == 1f)
-            {
-                EventSystem.firstSelectedGameObject = GoScoringFirstButtonSelected;
-                if (controllerConnected) //Si controller
-                {
-                    UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-                }
-                else //sinon keyboard
-                {
-                    UnityEngine.Cursor.lockState = CursorLockMode.None;
-                }
-            }
-            else
-            {
-                EventSystem.firstSelectedGameObject = null;
-            }
-            StartCoroutine(wait());
-            StartCoroutine(ImuneToPause(scPlayer.bpmManager));
-            PauseGame();
         }
     }
     private IEnumerator wait()
@@ -449,25 +385,15 @@ public class MenuManager : MonoBehaviour
             }
         }
     }
-    public void OptionsGame()
+    private IEnumerator ImuneToPause(BPM_Manager bpmmanager)
     {
-        Debug.Log("OptionsOpen");
-        CgSoundManager.alpha = 1f;
-        CgSoundManager.interactable = true;
-        RtSoundManager.anchorMin = new Vector2(0, 0);
-        RtSoundManager.anchorMax = new Vector2(1, 1);
-        RtSoundManager.offsetMax = new Vector2(0f, 0f);
-        RtSoundManager.offsetMin = new Vector2(0f, 0f);
+        scPlayer.bIsImune = true;
+        bpmmanager.iTimer = 3;
+        yield return new WaitForSecondsRealtime(bpmmanager.FSPB * 3);
+        scPlayer.bIsImune = false;
     }
-    public void CloseOptions()
-    {
-        CgSoundManager.alpha = 0f;
-        CgSoundManager.interactable = false;
-        RtSoundManager.anchorMin = new Vector2(0, 1);
-        RtSoundManager.anchorMax = new Vector2(1, 2);
-        RtSoundManager.offsetMax = new Vector2(0f, 0f);
-        RtSoundManager.offsetMin = new Vector2(0f, 0f);
-    }
+
+    //SCENE LOADING
     public void LoadScene(string sceneToLoad)
     {
         if (sceneToLoad == "SceneLvl0" || sceneToLoad == "SceneLvl1" || sceneToLoad == "Loft" || sceneToLoad == "SceneLvl2" || sceneToLoad == "SceneLvl3")
@@ -571,6 +497,119 @@ public class MenuManager : MonoBehaviour
         CgLoadingScreen.alpha = targetValue;
         EventSystem = GameObject.FindObjectOfType<EventSystem>();
     }
+
+    //PAUSE AND SETTINGS
+    private void UXNavigation()
+    {
+        if ((Input.GetKey(KeyCode.Escape) || (controllerConnected && control.GamePlay.Pausing.triggered)))
+        {
+            PauseMenu();
+        }
+        /*else if((GoPauseMenu.activeInHierarchy == false && GoScoring == null) || (GoPauseMenu.activeInHierarchy==false && GoScoring.activeInHierarchy == false))
+        {
+            if(SceneManager.GetActiveScene().name == "GameChoose")
+            {
+                EventSystem.firstSelectedGameObject = GoGameChoose[0];
+            }
+            else if (SceneManager.GetActiveScene().name == "LevelChoosing")
+            {
+                EventSystem.firstSelectedGameObject = GoLevelsButton[0];
+            }
+        }*/
+    }
+    public void PauseMenu()
+    {
+        if (CgPauseMenu.alpha == 0f && !bActif) // On ouvre la fenetre, le jeu est en pause
+        {
+            CgPauseMenu.alpha = 1f;
+            CgPauseMenu.interactable = true;
+            RtPauseMenu.anchorMin = new Vector2(-0.5f, 0);
+            RtPauseMenu.anchorMax = new Vector2(1.5f, 1);
+            RtPauseMenu.offsetMax = new Vector2(0f, 0f);
+            RtPauseMenu.offsetMin = new Vector2(0f, 0f);
+            EventSystem.firstSelectedGameObject = GoPausedFirstButtonSelected;
+            GoPausedFirstButtonSelected.GetComponent<UnityEngine.UI.Button>().Select();
+            if (controllerConnected)
+            {
+                UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+            }
+            else
+            {
+                UnityEngine.Cursor.lockState = CursorLockMode.None;
+            }
+            bGameIsPaused = true;
+            PauseGame();
+            StartCoroutine(wait());
+        }
+        else if (CgPauseMenu.alpha == 1f && bActif) // On ferme la fenetre, le jeu reprend
+        {
+            CgPauseMenu.alpha = 0f;
+            CgPauseMenu.interactable = false;
+            RtPauseMenu.anchorMin = new Vector2(0, 1);
+            RtPauseMenu.anchorMax = new Vector2(1, 2);
+            RtPauseMenu.offsetMax = new Vector2(0f, 0f);
+            RtPauseMenu.offsetMin = new Vector2(0f, 0f);
+            CloseOptions();
+            if ((scPlayer != null && scPlayer.bisTuto == true && SceneManager.GetActiveScene().name != "Loft") || (scPlayer != null && CgScoring.alpha == 1f))
+            {
+                bGameIsPaused = true;
+            }
+            else
+            {
+                bGameIsPaused = false;
+            }
+            if (!controllerConnected && SceneManager.GetActiveScene().name != "GameChoose" && SceneManager.GetActiveScene().name != "LevelChoosing" && SceneManager.GetActiveScene().name != "MainMenu") //SI keyboard et mouse et que la scene n'est pas un menu avec souris
+            {
+                UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+            }
+            else if (!controllerConnected && (SceneManager.GetActiveScene().name == "GameChoose" || SceneManager.GetActiveScene().name == "LevelChoosing" || SceneManager.GetActiveScene().name == "MainMenu")) //si keyboard er que la scene est un menu avec souris
+            {
+                UnityEngine.Cursor.lockState = CursorLockMode.None;
+            }
+            else if (controllerConnected) //si controlleur gamepad
+            {
+                UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+            }
+            if (CgScoring.alpha == 1f)
+            {
+                EventSystem.firstSelectedGameObject = GoScoringFirstButtonSelected;
+                if (controllerConnected) //Si controller
+                {
+                    UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+                }
+                else //sinon keyboard
+                {
+                    UnityEngine.Cursor.lockState = CursorLockMode.None;
+                }
+            }
+            else
+            {
+                EventSystem.firstSelectedGameObject = null;
+            }
+            StartCoroutine(wait());
+            StartCoroutine(ImuneToPause(scPlayer.bpmManager));
+            PauseGame();
+        }
+    }
+    public void OptionsGame()
+    {
+        Debug.Log("OptionsOpen");
+        CgSoundManager.alpha = 1f;
+        CgSoundManager.interactable = true;
+        RtSoundManager.anchorMin = new Vector2(0, 0);
+        RtSoundManager.anchorMax = new Vector2(1, 1);
+        RtSoundManager.offsetMax = new Vector2(0f, 0f);
+        RtSoundManager.offsetMin = new Vector2(0f, 0f);
+    }
+    public void CloseOptions()
+    {
+        CgSoundManager.alpha = 0f;
+        CgSoundManager.interactable = false;
+        RtSoundManager.anchorMin = new Vector2(0, 1);
+        RtSoundManager.anchorMax = new Vector2(1, 2);
+        RtSoundManager.offsetMax = new Vector2(0f, 0f);
+        RtSoundManager.offsetMin = new Vector2(0f, 0f);
+    }
     public void QuitGame()
     {
 #if UNITY_EDITOR
@@ -626,11 +665,137 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    private IEnumerator ImuneToPause(BPM_Manager bpmmanager)
+    //DIALOGUE
+    private void CheckDialogue()
     {
-        scPlayer.bIsImune = true;
-        bpmmanager.iTimer = 3;
-        yield return new WaitForSecondsRealtime(bpmmanager.FSPB * 3);
-        scPlayer.bIsImune = false;
+        if (bIsOnEndDialogue && bWaitNextDialogue && (Input.GetKey(KeyCode.Space)|| (controllerConnected && control.GamePlay.Move.triggered)))
+        {
+            bWaitNextDialogue = false;
+            BeginDialogue(false);
+        }
+    }
+    public void BeginDialogue(bool first)
+    {
+        if (first ==true)
+        {
+            bIsOnEndDialogue = true;
+        }
+        if (iNbTextNow == iNbDialoguePerLevel[iPreviousLevelPlayed] -1)
+        {
+            EndDialogue();
+            bIsOnEndDialogue = false;
+        }
+        else
+        {
+            NextBox(_playerData.iLanguageNbPlayer, first, iPreviousLevelPlayed);
+        }
+    }
+    private void NextBox(int iLanguage, bool bIsFirst, int iLevel)
+    {
+        if (!bIsFirst)
+        {
+            iNbTextNow += 1;
+        }
+        else
+        {
+            if (iLevel - 1 == -1)
+            {
+                iNbTextNow = 0;
+                iCharaToNotSpeakPerTextes = new int[iCharaToSpeakPerTextes.Length];
+                Debug.Log(iCharaToSpeakPerTextes[iNbTextNow]);
+            }
+            else
+            {
+                iNbTextNow = iNbDialoguePerLevel[iLevel - 1];
+            }
+            SetCharacters(iLevel);
+        }
+        SetSpeaker(iCharaToSpeakPerTextes[iNbTextNow], iLevel);
+        if (iLanguage == 0)
+        {
+            _sc_textChange.StartWriting(sDialogueEnglish[iNbTextNow]);
+        }
+        else
+        {
+            _sc_textChange.StartWriting(sDialogueFrench[iNbTextNow]);
+        }
+    }
+    private void SetCharacters(int iLevel)
+    {
+        imgCharactersSpace[0].sprite = spritesEndDialogueCharacters[iWhichCharaToRightToLeft[iLevel * 2]]; // Le sprite de droite est rempli par par le sprite du chara qui est à droite en fonction du lvl
+        imgCharactersSpace[1].sprite = spritesEndDialogueCharacters[iWhichCharaToRightToLeft[iLevel*2+1]];// Le sprite de gauche est rempli par par le sprite du chara qui est à gauche en fonction du lvl
+        if(iLevel - 1 == -1)
+        {
+            for (int i = 0; i < iNbDialoguePerLevel[0]; i++)
+            {
+                if(iCharaToSpeakPerTextes[i] == iWhichCharaToRightToLeft[iLevel * 2 + 1])
+                {
+                    iCharaToNotSpeakPerTextes[i] = iWhichCharaToRightToLeft[iLevel * 2];
+                }
+                else
+                {
+                    iCharaToNotSpeakPerTextes[i] = iWhichCharaToRightToLeft[iLevel * 2+1];
+                }
+            }
+        }
+        else
+        {
+            for (int i = iNbDialoguePerLevelAdd[iLevel-1]; i < iNbDialoguePerLevelAdd[iLevel]; i++)
+            {
+                if (iCharaToSpeakPerTextes[i] == iWhichCharaToRightToLeft[iLevel * 2 + 1])
+                {
+                    iCharaToNotSpeakPerTextes[i] = iWhichCharaToRightToLeft[iLevel * 2];
+                }
+                else
+                {
+                    iCharaToNotSpeakPerTextes[i] = iWhichCharaToRightToLeft[iLevel * 2 + 1];
+                }
+            }
+        }
+    }
+    private void SetSpeaker(int speakingCharacterIndex, int iLevel) //on connait le numero du character mais est-il à gauche ou à droite?
+    {
+        // Change the text box to the one of the character speaking
+        imgBoxText.sprite = spritesCharactersBoxes[speakingCharacterIndex];
+        //Is right or left character speaking ? 
+        if (iWhichCharaToRightToLeft[iLevel * 2] == speakingCharacterIndex) //Le sprite de droite est-il celui du chara qui parle ?
+        {
+            Debug.Log("chara droite parle");
+            // Non-speaking character goes below
+            charactersImages[1].SetSiblingIndex(0);
+            // Ensure the dialogue box is at index 1 (middle layer)
+            rectBoxTextImage.SetSiblingIndex(1);
+            // Speaking character goes above
+            charactersImages[0].SetSiblingIndex(2); //Alors le character de droite est devant
+
+            rectBoxTextImage.anchorMin = new Vector2(0f, 0);
+            rectBoxTextImage.anchorMax = new Vector2(0.8f, 0.4f);
+            rectBoxTextImage.offsetMax = new Vector2(0f, 0f);
+            rectBoxTextImage.offsetMin = new Vector2(0f, 0f);
+        }
+        else
+        {
+            Debug.Log("chara gauche parle");
+            // Non-speaking character goes below
+            charactersImages[0].SetSiblingIndex(0);
+            // Ensure the dialogue box is at index 1 (middle layer)
+            rectBoxTextImage.SetSiblingIndex(1);
+            // Speaking character goes above
+            charactersImages[1].SetSiblingIndex(2);//Sinon le character de gauche est devant
+
+            rectBoxTextImage.anchorMin = new Vector2(0.2f, 0);
+            rectBoxTextImage.anchorMax = new Vector2(1f, 0.4f);
+            rectBoxTextImage.offsetMax = new Vector2(0f, 0f);
+            rectBoxTextImage.offsetMin = new Vector2(0f, 0f);
+        }
+    }
+    private void EndDialogue()
+    {
+        CgEndDialogue.alpha = 0f;
+        RtEndDialogue.anchorMin = new Vector2(0, 1);
+        RtEndDialogue.anchorMax = new Vector2(1, 2);
+        RtEndDialogue.offsetMax = new Vector2(0f, 0f);
+        RtEndDialogue.offsetMin = new Vector2(0f, 0f);
+        scPlayer.EndGame(true, _playerData);
     }
 }

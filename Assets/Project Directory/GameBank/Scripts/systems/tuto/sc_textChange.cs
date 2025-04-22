@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEngine.UI;
 using FMODUnity;
 
 public class sc_textChange : MonoBehaviour
@@ -15,8 +16,22 @@ public class sc_textChange : MonoBehaviour
     [SerializeField] private string sJoystickFrench;
     [SerializeField] private bool bHasInput;
     [SerializeField] private bool bIsOnManager;
+    [SerializeField] private bool bIsToTip = false;
+    private TMP_Text tmpProText;
+    private Coroutine coroutine;
+    [SerializeField] float delayBeforeStart = 0f;
+    [SerializeField] float timeBtwChars = 0.06f;
+    private float timeBtwCharsNow = 0.06f;
+    [SerializeField] float FastTimeBtwChars = 0.02f;
+    [SerializeField] bool leadingCharBeforeDelay = false;
+    [SerializeField] string leadingChar = "";
+    private string writer;
+    private float f_pressed = 0f;
     private bool bnotfound;
     private bool bInitialized;
+    [SerializeField] private MenuManager menuManager;
+    private bool bTextWritten = false;
+    private float bTimer = 0f;
 
     public void Init()
     {
@@ -47,25 +62,75 @@ public class sc_textChange : MonoBehaviour
         {
             this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sEnglish;
         }
+
+        if(bIsToTip)
+        {
+            tmpProText = this.GetComponent<TextMeshProUGUI>();
+        }
     }
 
     private void Update()
     {
-        if(!bInitialized)
+        if (!bInitialized)
         {
             Init();
             bInitialized = true;
         }
-        if (_playerData != null && scPlayer != null)
+        if (bIsToTip)
         {
-            bInitialized = false;
-        }
-        if(bHasInput)
-        {
-            if(scPlayer != null)
+            CheckKeyHold();
+            LongTouch();
+            if (bTextWritten)
             {
-                if (scPlayer.bIsOnComputer)
+                bTimer += Time.unscaledDeltaTime;
+                if (bTimer >= 1f)
                 {
+                    bTimer = 0f;
+                    bTextWritten = false;
+                    menuManager.bWaitNextDialogue = true;
+                }
+            }
+        }
+        else
+        {
+            if (_playerData != null && scPlayer != null)
+            {
+                bInitialized = false;
+            }
+            if (bHasInput)
+            {
+                if (scPlayer != null)
+                {
+                    if (scPlayer.bIsOnComputer)
+                    {
+                        if (_playerData != null && _playerData.iLanguageNbPlayer == 1)
+                        {
+                            this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sFrench;
+                        }
+                        else
+                        {
+                            this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sEnglish;
+                        }
+                    }
+                    else
+                    {
+                        if (_playerData != null && _playerData.iLanguageNbPlayer == 1)
+                        {
+                            this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sJoystickFrench;
+                        }
+                        else
+                        {
+                            this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sJoystickEnglish;
+                        }
+                    }
+                }
+                else
+                {
+                    if ((SceneManager.GetActiveScene().name == "SceneLvl1" || SceneManager.GetActiveScene().name == "SceneLvl0"))
+                    {
+                        scPlayer = GameObject.FindWithTag("Player").transform.GetComponent<SC_Player>();
+                        _playerData = scPlayer.menuManager.gameObject.transform.GetComponent<PlayerData>();
+                    }
                     if (_playerData != null && _playerData.iLanguageNbPlayer == 1)
                     {
                         this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sFrench;
@@ -75,23 +140,11 @@ public class sc_textChange : MonoBehaviour
                         this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sEnglish;
                     }
                 }
-                else
-                {
-                    if (_playerData != null && _playerData.iLanguageNbPlayer == 1)
-                    {
-                        this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sJoystickFrench;
-                    }
-                    else
-                    {
-                        this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sJoystickEnglish;
-                    }
-                }
             }
             else
             {
-                if ((SceneManager.GetActiveScene().name == "SceneLvl1" || SceneManager.GetActiveScene().name == "SceneLvl0"))
+                if ((SceneManager.GetActiveScene().name == "SceneLvl1" || SceneManager.GetActiveScene().name == "SceneLvl0") && !bIsOnManager)
                 {
-                    scPlayer = GameObject.FindWithTag("Player").transform.GetComponent<SC_Player>();
                     _playerData = scPlayer.menuManager.gameObject.transform.GetComponent<PlayerData>();
                 }
                 if (_playerData != null && _playerData.iLanguageNbPlayer == 1)
@@ -104,20 +157,67 @@ public class sc_textChange : MonoBehaviour
                 }
             }
         }
+    }
+    private void CheckKeyHold()
+    {
+        bool isKeyDown = Input.GetKey(KeyCode.Space);
+        bool isControllerTriggered = menuManager.controllerConnected && menuManager.control.GamePlay.Move.ReadValue<float>() > 0.1f;
+
+        if (isKeyDown || isControllerTriggered)
+        {
+            // Key or controller is being held
+            f_pressed += Time.unscaledDeltaTime;
+        }
         else
         {
-            if ((SceneManager.GetActiveScene().name == "SceneLvl1" || SceneManager.GetActiveScene().name == "SceneLvl0") && !bIsOnManager)
+            // Key or controller is not being held
+            if (f_pressed > 0f)
             {
-                _playerData = scPlayer.menuManager.gameObject.transform.GetComponent<PlayerData>();
+                f_pressed -= Time.unscaledDeltaTime;
+                if (f_pressed < 0f) f_pressed = 0f;
             }
-            if (_playerData != null && _playerData.iLanguageNbPlayer == 1)
+        }
+    }
+    private void LongTouch()
+    {
+        if (f_pressed > 0)
+        {
+            timeBtwCharsNow = FastTimeBtwChars;
+        }
+        else
+        {
+            timeBtwCharsNow = timeBtwChars;
+        }
+    }
+
+    public void StartWriting(string sDialogue)
+    {
+        writer = sDialogue;
+        tmpProText.text = "";
+        StartCoroutine("TypeWriterTMP");
+    }
+    private IEnumerator TypeWriterTMP()
+    {
+        yield return new WaitForSecondsRealtime(delayBeforeStart);
+
+        foreach (char c in writer)
+        {
+            if (tmpProText.text.Length > 0)
             {
-                this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sFrench;
+                tmpProText.text = tmpProText.text.Substring(0, tmpProText.text.Length - leadingChar.Length);
             }
-            else
-            {
-                this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sEnglish;
-            }
+            tmpProText.text += c;
+            tmpProText.text += leadingChar;
+            yield return new WaitForSecondsRealtime(timeBtwCharsNow);
+        }
+
+        if (leadingChar != "")
+        {
+            tmpProText.text = tmpProText.text.Substring(0, tmpProText.text.Length - leadingChar.Length);
+        }
+        if(tmpProText.text == writer)
+        {
+            bTextWritten = true;
         }
     }
 }

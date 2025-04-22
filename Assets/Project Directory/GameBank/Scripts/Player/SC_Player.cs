@@ -182,7 +182,7 @@ public class SC_Player : MonoBehaviour
         TMPScore.SetText(Mathf.Round(fPercentScore).ToString() + "%");
         if(FDetectionLevel>= fDetectionLevelMax && !bIsEndGame)
         {
-            EndGame(false);
+            EndGame(false, menuManager._playerData);
         }
         if(FDetectionLevel <0)
         {
@@ -408,7 +408,7 @@ public class SC_Player : MonoBehaviour
                                 itagDone += 1;
                                 if (ingTag.transform.gameObject.name == "EndingWall")
                                 {
-                                    EndGame(true);
+                                    EndDialogue();
                                 }
                                 return;
                             }
@@ -517,7 +517,7 @@ public class SC_Player : MonoBehaviour
                             itagDone += 1;
                             if (ingTag.transform.gameObject.name == "EndingWall")
                             {
-                                EndGame(true);
+                                EndDialogue();
                             }
                             return;
                         }
@@ -1131,12 +1131,26 @@ public class SC_Player : MonoBehaviour
     }
 
     //LA FIN DU NIVEAU
-    private void EndGame(bool hasWon)
+    private void EndDialogue()
     {
         Time.timeScale = 0f;
         menuManager.bGameIsPaused = true;
         menuManager.PauseGame();
-        PlayerData data = menuManager.gameObject.GetComponent<PlayerData>();
+
+        menuManager.CgEndDialogue.alpha = 1f;
+        menuManager.RtEndDialogue.anchorMin = new Vector2(0, 0);
+        menuManager.RtEndDialogue.anchorMax = new Vector2(1, 1);
+        menuManager.RtEndDialogue.offsetMax = new Vector2(0f, 0f);
+        menuManager.RtEndDialogue.offsetMin = new Vector2(0f, 0f);
+
+        menuManager.BeginDialogue(true);
+    }
+    public void EndGame(bool hasWon, PlayerData data)
+    {
+        Time.timeScale = 0f;
+        menuManager.bGameIsPaused = true;
+        menuManager.PauseGame();
+        //PlayerData data = menuManager.gameObject.GetComponent<PlayerData>();
 
         menuManager.CgScoring.alpha = 1f;
         menuManager.CgScoring.interactable = true;
