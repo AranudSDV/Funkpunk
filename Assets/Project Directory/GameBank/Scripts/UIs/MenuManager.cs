@@ -356,7 +356,7 @@ public class MenuManager : MonoBehaviour
         {
             for (int i = 0; i < GoLevelsButton.Length; i++)
             {
-                if ( _playerData.iLevelPlayer >= i)
+                if ( _playerData.iLevelPlayer >= i) //Pour tous les niveaux faits
                 {
                     int captured = i;
                     _levels[i].button_level.onClick.AddListener(() => LoadScene(_levels[captured].sScene_Level));
@@ -365,7 +365,7 @@ public class MenuManager : MonoBehaviour
                     textChild.color = new Color32(0, 255, 255, 255);
                     for(int y = 0; y< 5; y++)
                     {
-                        if (_playerData.iStarsPlayer[5*i+y] ==1)
+                        if (_playerData.iStarsPlayer[5*i+y] ==1) //Si une étoile est faite ou non
                         {
                             GoLevelStars[i].transform.GetChild(y).GetComponent<UnityEngine.UI.Image>().color = new Color32(255,255, 255, 255);
                         }
@@ -374,12 +374,21 @@ public class MenuManager : MonoBehaviour
                             GoLevelStars[i].transform.GetChild(y).GetComponent<UnityEngine.UI.Image>().color = new Color32(0, 0, 0, 255);
                         }
                     }
+                    if (i>0)
+                    {
+                        GoLevelStars[i].transform.GetChild(5).GetComponent<UnityEngine.UI.Image>().color = new Color32(0, 0, 0, 0);
+                    }
                 }
-               else if(GoLevelsButton.Length- _playerData.iLevelPlayer > i)
+               else if(GoLevelsButton.Length- _playerData.iLevelPlayer > i) //Pour tous les niveaux non faits
                {
                     _levels[i].img_lvl.color = colorFoes;
                     TextMeshProUGUI textChild = _levels[i].Go_LevelButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
                     textChild.color = new Color32(255, 255, 0, 255);
+                    for (int y = 0; y < 5; y++)
+                    {
+                         GoLevelStars[i].transform.GetChild(y).GetComponent<UnityEngine.UI.Image>().color = new Color32(0, 0, 0, 0);
+                    }
+                    GoLevelStars[i].transform.GetChild(5).GetComponent<UnityEngine.UI.Image>().color = new Color32(255, 255, 255, 255);
                 }
                 GoLevelBackButton.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => LoadScene("Loft"));
             }
