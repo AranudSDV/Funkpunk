@@ -37,7 +37,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 0e48b08108673bb43a43bb3a73282fb8, type: 3}
+        m_Texture: {fileID: 2800000, guid: 1a8cc9e3f106ce6488c5c9f3c7b49f0f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Metallic:
@@ -101,6 +101,7 @@ Material:
     - _FallOffThreshold: 2.56
     - _FallOffThreshold1: 0.45
     - _FullShadingHalfShading: 0
+    - _LightindDone: 0
     - _LitThreshold: 0.58
     - _LitThreshold1: 0.42
     - _MTL_Pow: 0
