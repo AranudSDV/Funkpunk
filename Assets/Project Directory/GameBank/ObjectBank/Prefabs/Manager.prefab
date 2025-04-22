@@ -184,8 +184,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: a2faf8967438424409b0bbc582f8cabd, type: 3}
   _sc_textChange: {fileID: 4024850880641299129}
   iNbDialoguePerLevel: 15000000000000000000000000000000
+  iNbDialoguePerLevelAdd: 15000000000000000000000000000000
   iCharaToSpeakPerTextes: 010000000000000001000000000000000100000000000000010000000100000000000000010000000000000001000000000000000100000001000000000000000100000001000000000000000100000000000000
-  iCharaToNotSpeakPerTextes: 000000000100000000000000010000000000000001000000000000000000000001000000000000000100000000000000010000000000000000000000010000000000000000000000010000000000000001000000
   sDialogueEnglish:
   - Hello camrade!
   - 'WHAT THE-- '
@@ -216,27 +216,37 @@ MonoBehaviour:
     a lot of those gangsters, be aware.
   - No need to worry, I'm kinda awesome too you'll see. Also, my name's Jett.
   sDialogueFrench:
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - 'Hello camarade ! '
+  - 'QU''EST-CE QUE-- '
+  - "wowowo calme toi... Tu voudrais pas qu'ils te rep\xE8rent non ? "
+  - 'Ouai ouai, mais qu''est-ce que quoi, j''ai rien pris encore, je crois... '
+  - "Nan je suis bien r\xE9el. Je suis m\xEAme l\xE0 pour t'aider, j'm'appelle Scraffi.
+    Tu veux savoir qui sont ces gangsters? "
+  - Euh oui Scratchi, ils font peur.
+  - Oh le punk, pas Scratchi, ScraFFi.
+  - "Bref, ces gars l\xE0 sont ici pour d\xE9truire la libert\xE9 de l'art. Et comme
+    tu peux le voir, je suis une bombe de peinture, alors c'est pas mon kiff. "
+  - 'Ah ouais, et tu saurais pourquoi je dance h24? '
+  - "Comme je t'ai dit, je peux t'aider. C'est leur moyen de t'emp\xEAcher de peindre. "
+  - "Mec c'est trop mal\xE9fique, qu'est-ce que j'dois faire alors ? J'pense pas
+    pouvoir les fight... "
+  - "C'est pour \xE7a que je suis l\xE0, je connais le chemin qui m\xE8ne \xE0 leur
+    QG et je suis plut\xF4t sp\xE9cial ehe... "
+  - "Tu m'\xE9tonnes, j'ai jamais vu une bombe de peinture parlante avec un nom aussi
+    ringard que Scratchi. "
+  - 'De nouveau, Scraffi. Et mon nom est super cool. Bon j''vais te dire pourquoi
+    je suis meilleur que toi. '
+  - "En fait je suis pas humain et c'est pour \xE7a que ma peinture est anti-d\xE9moniaque.
+    Tu peux m'appeler ton ange gardien m\xEAme. "
+  - "Wa je pensais pas qu'il y aurait une histoire religieuse derri\xE8re tout \xE7a... "
+  - "Oh le punk, j'suis pas vraiment un ange, c'est une mani\xE8re de parler! "
+  - 'Bref, tu me prends avec toi ou pas ? '
+  - "Ah! Bah c'est chiant de se faire contr\xF4ler par des gars mal\xE9fiques alors
+    oui bien s\xFBr, o\xF9 va-t-on ? "
+  - "La grande rue l\xE0 en face de toi nous am\xE8ne directement \xE0 un raccourci,
+    mais il y a plein de ces gangsters alors fais gaffe. "
+  - "T'en fais pas, je suis plut\xF4t cool moi aussi, tu verras. Mon nom est Jett
+    d'ailleurs."
   bWaitNextDialogue: 0
   sSceneToLoad: Scenes/World/GameChoose
   progressBar: {fileID: 5376875976944638836}
@@ -2519,7 +2529,7 @@ MonoBehaviour:
   bIsToTip: 1
   delayBeforeStart: 0
   timeBtwChars: 0.06
-  FastTimeBtwChars: 0.02
+  FastTimeBtwChars: 0
   leadingCharBeforeDelay: 0
   leadingChar: 
   menuManager: {fileID: 269850063720091022}
