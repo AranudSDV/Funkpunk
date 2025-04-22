@@ -15,6 +15,7 @@ public class sc_tuto_generic : MonoBehaviour
     [Header("General")]
     [SerializeField] private SC_Player scPlayer;
     [SerializeField] private bool isMeshable;
+    private bool bTutoMeshableDone = false;
     [SerializeField] private bool isOnLvlTuto = false;
     private bool bIsOnBD = true;
     [SerializeField] private sc_tuto_generic scTuto = null;
@@ -109,6 +110,7 @@ public class sc_tuto_generic : MonoBehaviour
                     if (_y == intYGameCam)
                     {
                         scPlayer.bisTuto = false;
+                        ImuneToTuto(scPlayer.bpmManager);
                         bIsOnBD = false;
                     }
                     else if(_y == intYDetectionTuto || _y == intYBaitTuto)
@@ -116,6 +118,7 @@ public class sc_tuto_generic : MonoBehaviour
                         bIsOnBD = false;
                         scPlayer.menuManager.bGameIsPaused = false;
                         scPlayer.menuManager.PauseGame();
+                        ImuneToTuto(scPlayer.bpmManager);
                     }
                     if (!cameraIsTracking)
                     {
@@ -145,7 +148,7 @@ public class sc_tuto_generic : MonoBehaviour
                     bOnceBubble = false;
                     bHasClickedSkip = false;
                     bWaitNext = false;
-                    StartCoroutine(ImuneToTuto(scPlayer.bpmManager));
+                    scPlayer.bIsImune = true;
                 }
             }
         }
@@ -298,12 +301,10 @@ public class sc_tuto_generic : MonoBehaviour
         RtTuto[i].offsetMin = new Vector2(0f, 0f);
         RtTuto[i+1].offsetMin = Vector2.zero;
     }
-    private IEnumerator ImuneToTuto(BPM_Manager bpmmanager)
+    private void ImuneToTuto(BPM_Manager bpmmanager)
     {
         scPlayer.bIsImune = true;
         bpmmanager.iTimer = 3;
-        yield return new WaitForSecondsRealtime(bpmmanager.FSPB * 3);
-        scPlayer.bIsImune = false;
     }
     private void IntoTheGameCam() //ENABLE THE REAL CAMERA
     {
@@ -349,9 +350,10 @@ public class sc_tuto_generic : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject.CompareTag("Player") && isMeshable)
+        if (collision.gameObject.CompareTag("Player") && isMeshable && !bTutoMeshableDone)
         {
-                scTuto.StartTutoDetection();
+            bTutoMeshableDone = true;
+            scTuto.StartTutoDetection();
         }
     }
 }

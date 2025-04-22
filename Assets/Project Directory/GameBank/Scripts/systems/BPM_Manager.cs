@@ -31,7 +31,7 @@ public class BPM_Manager : MonoBehaviour
     private bool isPlaying = false; // Prevent multiple starts
     private bool b_hasStarted = false;
     private int i_B = 0;
-    [SerializeField] private TextMeshProUGUI textTimer;
+    public TextMeshProUGUI textTimer;
     public int iTimer = 3;
 
     //FEEDBACK ON TIMING
@@ -198,9 +198,15 @@ public class BPM_Manager : MonoBehaviour
         {
             scPlayer.FDetectionLevel += 20f;
         }
+        IsImuneCheck();
+        scPlayer.EyeDetection();
+        StartCoroutine(wait());
+    }
+    private void IsImuneCheck()
+    {
         if (scPlayer.bisTuto == false)
         {
-            if(scPlayer.bIsImune)
+            if (scPlayer.bIsImune)
             {
                 scPlayer.CheckForward(Vector3.zero, scPlayer.taggingRange);
                 iTimer -= 1;
@@ -212,6 +218,7 @@ public class BPM_Manager : MonoBehaviour
                 else
                 {
                     textTimer.color = new Color32(255, 255, 255, 0);
+                    scPlayer.bIsImune = false;
                 }
             }
             else
@@ -220,11 +227,13 @@ public class BPM_Manager : MonoBehaviour
                 if (iTimer <= 0)
                 {
                     textTimer.color = new Color32(255, 255, 255, 0);
+                    if (scPlayer.bIsImune == true)
+                    {
+                        scPlayer.bIsImune = false;
+                    }
                 }
             }
         }
-        scPlayer.EyeDetection();
-        StartCoroutine(wait());
     }
     private void CheckIfInputOnTempo()
     {
