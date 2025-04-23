@@ -27,8 +27,44 @@ Material:
         m_Texture: {fileID: 8400000, guid: 3b5a8f3bdc928d94ab140bad48ca053d, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _TextureSample0:
+    - _InteractiveGrid1:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _InteractiveGrid2:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _InteractiveGrid3:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _InteractiveGrid4:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _InteractiveGrid5:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _InteractiveGrid6:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _InteractiveGrid7:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _InteractiveGrid8:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _InteractiveGrid9:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample0:
+        m_Texture: {fileID: 2800000, guid: b3cc4ebc465894140acd8f79cd43c5cb, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
@@ -52,7 +88,9 @@ Material:
     - _Alpha: 0.39
     - _AlphaCutoff: 0.5
     - _Alphaclip: 0.001
+    - _BlurSharpness: -38.05
     - _DiagonalSize: 0.95
+    - _Float0: 0
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ShapeSize: 0.96
@@ -61,6 +99,8 @@ Material:
     m_Colors:
     - _BaseColor: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColore: {r: 0.72327036, g: 0.72327036, b: 0.72327036, a: 0}
+    - _Color0: {r: 0, g: 1, b: 0.7394278, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _PlayerColor: {r: 0, g: 1.4980394, b: 0.7950044, a: 0}
+    - _OffsetThickness: {r: 5.45, g: 10, b: 0, a: 0}
+    - _PlayerColor: {r: 0, g: 2.9960785, b: 1.5900087, a: 0}
   m_BuildTextureStacks: []

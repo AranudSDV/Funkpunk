@@ -347,11 +347,11 @@ Shader "SHR_BeatBulgeTest"
 				float clampResult84 = clamp( temp_output_74_0 , 0.0 , 1.0 );
 				float4 transform99 = mul(GetWorldToObjectMatrix(),float4( 0,0,0,1 ));
 				float _BPM_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_BeatBulgeTest,_BPM);
-				float mulTime5_g8 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
-				float temp_output_52_0_g8 = ( mulTime5_g8 - _TopVertexDelay.x );
-				float temp_output_16_0_g8 = ( PI / 1.0 );
-				float temp_output_19_0_g8 = cos( ( temp_output_52_0_g8 * temp_output_16_0_g8 ) );
-				float saferPower20_g8 = abs( abs( temp_output_19_0_g8 ) );
+				float mulTime5_g10 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float temp_output_52_0_g10 = ( mulTime5_g10 - _TopVertexDelay.x );
+				float temp_output_16_0_g10 = ( PI / 1.0 );
+				float temp_output_19_0_g10 = cos( ( temp_output_52_0_g10 * temp_output_16_0_g10 ) );
+				float saferPower20_g10 = abs( abs( temp_output_19_0_g10 ) );
 				float mulTime5_g7 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
 				float temp_output_52_0_g7 = ( mulTime5_g7 - _BaseVertexOffsetDelay.x );
 				float temp_output_16_0_g7 = ( PI / 1.0 );
@@ -362,17 +362,17 @@ Shader "SHR_BeatBulgeTest"
 				float temp_output_16_0_g9 = ( PI / 1.0 );
 				float temp_output_19_0_g9 = cos( ( temp_output_52_0_g9 * temp_output_16_0_g9 ) );
 				float saferPower20_g9 = abs( abs( temp_output_19_0_g9 ) );
-				float mulTime5_g6 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
-				float temp_output_52_0_g6 = ( mulTime5_g6 - _BaseVertexOffsetDelay.y );
-				float temp_output_16_0_g6 = ( PI / 1.0 );
-				float temp_output_19_0_g6 = cos( ( temp_output_52_0_g6 * temp_output_16_0_g6 ) );
-				float saferPower20_g6 = abs( abs( temp_output_19_0_g6 ) );
+				float mulTime5_g8 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float temp_output_52_0_g8 = ( mulTime5_g8 - _BaseVertexOffsetDelay.y );
+				float temp_output_16_0_g8 = ( PI / 1.0 );
+				float temp_output_19_0_g8 = cos( ( temp_output_52_0_g8 * temp_output_16_0_g8 ) );
+				float saferPower20_g8 = abs( abs( temp_output_19_0_g8 ) );
 				float mulTime5_g5 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
 				float temp_output_52_0_g5 = ( mulTime5_g5 - _BaseVertexOffsetDelay.z );
 				float temp_output_16_0_g5 = ( PI / 1.0 );
 				float temp_output_19_0_g5 = cos( ( temp_output_52_0_g5 * temp_output_16_0_g5 ) );
 				float saferPower20_g5 = abs( abs( temp_output_19_0_g5 ) );
-				float3 appendResult44 = (float3(( ( clampResult84 * ( transform99.x * ( pow( saferPower20_g8 , 20.0 ) * _TopVertexOffsetValue.x ) ) ) + ( v.vertex.xyz.x * ( pow( saferPower20_g7 , 20.0 ) * _BaseVertexOffsetValue.x ) ) ) , ( ( clampResult84 * ( transform99.y * ( pow( saferPower20_g9 , 20.0 ) * _TopVertexOffsetValue.y ) ) ) + ( v.vertex.xyz.y * ( pow( saferPower20_g6 , 20.0 ) * _BaseVertexOffsetValue.y ) ) ) , ( v.vertex.xyz.z * ( pow( saferPower20_g5 , 20.0 ) * _BaseVertexOffsetValue.z ) )));
+				float3 appendResult44 = (float3(( ( clampResult84 * ( transform99.x * ( pow( saferPower20_g10 , 20.0 ) * _TopVertexOffsetValue.x ) ) ) + ( v.vertex.xyz.x * ( pow( saferPower20_g7 , 20.0 ) * _BaseVertexOffsetValue.x ) ) ) , ( ( clampResult84 * ( transform99.y * ( pow( saferPower20_g9 , 20.0 ) * _TopVertexOffsetValue.y ) ) ) + ( v.vertex.xyz.y * ( pow( saferPower20_g8 , 20.0 ) * _BaseVertexOffsetValue.y ) ) ) , ( v.vertex.xyz.z * ( pow( saferPower20_g5 , 20.0 ) * _BaseVertexOffsetValue.z ) )));
 				
 				o.ase_texcoord8 = v.vertex;
 
@@ -960,11 +960,11 @@ Shader "SHR_BeatBulgeTest"
 				float clampResult84 = clamp( temp_output_74_0 , 0.0 , 1.0 );
 				float4 transform99 = mul(GetWorldToObjectMatrix(),float4( 0,0,0,1 ));
 				float _BPM_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_BeatBulgeTest,_BPM);
-				float mulTime5_g8 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
-				float temp_output_52_0_g8 = ( mulTime5_g8 - _TopVertexDelay.x );
-				float temp_output_16_0_g8 = ( PI / 1.0 );
-				float temp_output_19_0_g8 = cos( ( temp_output_52_0_g8 * temp_output_16_0_g8 ) );
-				float saferPower20_g8 = abs( abs( temp_output_19_0_g8 ) );
+				float mulTime5_g10 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float temp_output_52_0_g10 = ( mulTime5_g10 - _TopVertexDelay.x );
+				float temp_output_16_0_g10 = ( PI / 1.0 );
+				float temp_output_19_0_g10 = cos( ( temp_output_52_0_g10 * temp_output_16_0_g10 ) );
+				float saferPower20_g10 = abs( abs( temp_output_19_0_g10 ) );
 				float mulTime5_g7 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
 				float temp_output_52_0_g7 = ( mulTime5_g7 - _BaseVertexOffsetDelay.x );
 				float temp_output_16_0_g7 = ( PI / 1.0 );
@@ -975,17 +975,17 @@ Shader "SHR_BeatBulgeTest"
 				float temp_output_16_0_g9 = ( PI / 1.0 );
 				float temp_output_19_0_g9 = cos( ( temp_output_52_0_g9 * temp_output_16_0_g9 ) );
 				float saferPower20_g9 = abs( abs( temp_output_19_0_g9 ) );
-				float mulTime5_g6 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
-				float temp_output_52_0_g6 = ( mulTime5_g6 - _BaseVertexOffsetDelay.y );
-				float temp_output_16_0_g6 = ( PI / 1.0 );
-				float temp_output_19_0_g6 = cos( ( temp_output_52_0_g6 * temp_output_16_0_g6 ) );
-				float saferPower20_g6 = abs( abs( temp_output_19_0_g6 ) );
+				float mulTime5_g8 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float temp_output_52_0_g8 = ( mulTime5_g8 - _BaseVertexOffsetDelay.y );
+				float temp_output_16_0_g8 = ( PI / 1.0 );
+				float temp_output_19_0_g8 = cos( ( temp_output_52_0_g8 * temp_output_16_0_g8 ) );
+				float saferPower20_g8 = abs( abs( temp_output_19_0_g8 ) );
 				float mulTime5_g5 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
 				float temp_output_52_0_g5 = ( mulTime5_g5 - _BaseVertexOffsetDelay.z );
 				float temp_output_16_0_g5 = ( PI / 1.0 );
 				float temp_output_19_0_g5 = cos( ( temp_output_52_0_g5 * temp_output_16_0_g5 ) );
 				float saferPower20_g5 = abs( abs( temp_output_19_0_g5 ) );
-				float3 appendResult44 = (float3(( ( clampResult84 * ( transform99.x * ( pow( saferPower20_g8 , 20.0 ) * _TopVertexOffsetValue.x ) ) ) + ( v.vertex.xyz.x * ( pow( saferPower20_g7 , 20.0 ) * _BaseVertexOffsetValue.x ) ) ) , ( ( clampResult84 * ( transform99.y * ( pow( saferPower20_g9 , 20.0 ) * _TopVertexOffsetValue.y ) ) ) + ( v.vertex.xyz.y * ( pow( saferPower20_g6 , 20.0 ) * _BaseVertexOffsetValue.y ) ) ) , ( v.vertex.xyz.z * ( pow( saferPower20_g5 , 20.0 ) * _BaseVertexOffsetValue.z ) )));
+				float3 appendResult44 = (float3(( ( clampResult84 * ( transform99.x * ( pow( saferPower20_g10 , 20.0 ) * _TopVertexOffsetValue.x ) ) ) + ( v.vertex.xyz.x * ( pow( saferPower20_g7 , 20.0 ) * _BaseVertexOffsetValue.x ) ) ) , ( ( clampResult84 * ( transform99.y * ( pow( saferPower20_g9 , 20.0 ) * _TopVertexOffsetValue.y ) ) ) + ( v.vertex.xyz.y * ( pow( saferPower20_g8 , 20.0 ) * _BaseVertexOffsetValue.y ) ) ) , ( v.vertex.xyz.z * ( pow( saferPower20_g5 , 20.0 ) * _BaseVertexOffsetValue.z ) )));
 				
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
@@ -1307,11 +1307,11 @@ Shader "SHR_BeatBulgeTest"
 				float clampResult84 = clamp( temp_output_74_0 , 0.0 , 1.0 );
 				float4 transform99 = mul(GetWorldToObjectMatrix(),float4( 0,0,0,1 ));
 				float _BPM_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_BeatBulgeTest,_BPM);
-				float mulTime5_g8 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
-				float temp_output_52_0_g8 = ( mulTime5_g8 - _TopVertexDelay.x );
-				float temp_output_16_0_g8 = ( PI / 1.0 );
-				float temp_output_19_0_g8 = cos( ( temp_output_52_0_g8 * temp_output_16_0_g8 ) );
-				float saferPower20_g8 = abs( abs( temp_output_19_0_g8 ) );
+				float mulTime5_g10 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float temp_output_52_0_g10 = ( mulTime5_g10 - _TopVertexDelay.x );
+				float temp_output_16_0_g10 = ( PI / 1.0 );
+				float temp_output_19_0_g10 = cos( ( temp_output_52_0_g10 * temp_output_16_0_g10 ) );
+				float saferPower20_g10 = abs( abs( temp_output_19_0_g10 ) );
 				float mulTime5_g7 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
 				float temp_output_52_0_g7 = ( mulTime5_g7 - _BaseVertexOffsetDelay.x );
 				float temp_output_16_0_g7 = ( PI / 1.0 );
@@ -1322,17 +1322,17 @@ Shader "SHR_BeatBulgeTest"
 				float temp_output_16_0_g9 = ( PI / 1.0 );
 				float temp_output_19_0_g9 = cos( ( temp_output_52_0_g9 * temp_output_16_0_g9 ) );
 				float saferPower20_g9 = abs( abs( temp_output_19_0_g9 ) );
-				float mulTime5_g6 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
-				float temp_output_52_0_g6 = ( mulTime5_g6 - _BaseVertexOffsetDelay.y );
-				float temp_output_16_0_g6 = ( PI / 1.0 );
-				float temp_output_19_0_g6 = cos( ( temp_output_52_0_g6 * temp_output_16_0_g6 ) );
-				float saferPower20_g6 = abs( abs( temp_output_19_0_g6 ) );
+				float mulTime5_g8 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float temp_output_52_0_g8 = ( mulTime5_g8 - _BaseVertexOffsetDelay.y );
+				float temp_output_16_0_g8 = ( PI / 1.0 );
+				float temp_output_19_0_g8 = cos( ( temp_output_52_0_g8 * temp_output_16_0_g8 ) );
+				float saferPower20_g8 = abs( abs( temp_output_19_0_g8 ) );
 				float mulTime5_g5 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
 				float temp_output_52_0_g5 = ( mulTime5_g5 - _BaseVertexOffsetDelay.z );
 				float temp_output_16_0_g5 = ( PI / 1.0 );
 				float temp_output_19_0_g5 = cos( ( temp_output_52_0_g5 * temp_output_16_0_g5 ) );
 				float saferPower20_g5 = abs( abs( temp_output_19_0_g5 ) );
-				float3 appendResult44 = (float3(( ( clampResult84 * ( transform99.x * ( pow( saferPower20_g8 , 20.0 ) * _TopVertexOffsetValue.x ) ) ) + ( v.vertex.xyz.x * ( pow( saferPower20_g7 , 20.0 ) * _BaseVertexOffsetValue.x ) ) ) , ( ( clampResult84 * ( transform99.y * ( pow( saferPower20_g9 , 20.0 ) * _TopVertexOffsetValue.y ) ) ) + ( v.vertex.xyz.y * ( pow( saferPower20_g6 , 20.0 ) * _BaseVertexOffsetValue.y ) ) ) , ( v.vertex.xyz.z * ( pow( saferPower20_g5 , 20.0 ) * _BaseVertexOffsetValue.z ) )));
+				float3 appendResult44 = (float3(( ( clampResult84 * ( transform99.x * ( pow( saferPower20_g10 , 20.0 ) * _TopVertexOffsetValue.x ) ) ) + ( v.vertex.xyz.x * ( pow( saferPower20_g7 , 20.0 ) * _BaseVertexOffsetValue.x ) ) ) , ( ( clampResult84 * ( transform99.y * ( pow( saferPower20_g9 , 20.0 ) * _TopVertexOffsetValue.y ) ) ) + ( v.vertex.xyz.y * ( pow( saferPower20_g8 , 20.0 ) * _BaseVertexOffsetValue.y ) ) ) , ( v.vertex.xyz.z * ( pow( saferPower20_g5 , 20.0 ) * _BaseVertexOffsetValue.z ) )));
 				
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
@@ -1627,11 +1627,11 @@ Shader "SHR_BeatBulgeTest"
 				float clampResult84 = clamp( temp_output_74_0 , 0.0 , 1.0 );
 				float4 transform99 = mul(GetWorldToObjectMatrix(),float4( 0,0,0,1 ));
 				float _BPM_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_BeatBulgeTest,_BPM);
-				float mulTime5_g8 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
-				float temp_output_52_0_g8 = ( mulTime5_g8 - _TopVertexDelay.x );
-				float temp_output_16_0_g8 = ( PI / 1.0 );
-				float temp_output_19_0_g8 = cos( ( temp_output_52_0_g8 * temp_output_16_0_g8 ) );
-				float saferPower20_g8 = abs( abs( temp_output_19_0_g8 ) );
+				float mulTime5_g10 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float temp_output_52_0_g10 = ( mulTime5_g10 - _TopVertexDelay.x );
+				float temp_output_16_0_g10 = ( PI / 1.0 );
+				float temp_output_19_0_g10 = cos( ( temp_output_52_0_g10 * temp_output_16_0_g10 ) );
+				float saferPower20_g10 = abs( abs( temp_output_19_0_g10 ) );
 				float mulTime5_g7 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
 				float temp_output_52_0_g7 = ( mulTime5_g7 - _BaseVertexOffsetDelay.x );
 				float temp_output_16_0_g7 = ( PI / 1.0 );
@@ -1642,17 +1642,17 @@ Shader "SHR_BeatBulgeTest"
 				float temp_output_16_0_g9 = ( PI / 1.0 );
 				float temp_output_19_0_g9 = cos( ( temp_output_52_0_g9 * temp_output_16_0_g9 ) );
 				float saferPower20_g9 = abs( abs( temp_output_19_0_g9 ) );
-				float mulTime5_g6 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
-				float temp_output_52_0_g6 = ( mulTime5_g6 - _BaseVertexOffsetDelay.y );
-				float temp_output_16_0_g6 = ( PI / 1.0 );
-				float temp_output_19_0_g6 = cos( ( temp_output_52_0_g6 * temp_output_16_0_g6 ) );
-				float saferPower20_g6 = abs( abs( temp_output_19_0_g6 ) );
+				float mulTime5_g8 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float temp_output_52_0_g8 = ( mulTime5_g8 - _BaseVertexOffsetDelay.y );
+				float temp_output_16_0_g8 = ( PI / 1.0 );
+				float temp_output_19_0_g8 = cos( ( temp_output_52_0_g8 * temp_output_16_0_g8 ) );
+				float saferPower20_g8 = abs( abs( temp_output_19_0_g8 ) );
 				float mulTime5_g5 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
 				float temp_output_52_0_g5 = ( mulTime5_g5 - _BaseVertexOffsetDelay.z );
 				float temp_output_16_0_g5 = ( PI / 1.0 );
 				float temp_output_19_0_g5 = cos( ( temp_output_52_0_g5 * temp_output_16_0_g5 ) );
 				float saferPower20_g5 = abs( abs( temp_output_19_0_g5 ) );
-				float3 appendResult44 = (float3(( ( clampResult84 * ( transform99.x * ( pow( saferPower20_g8 , 20.0 ) * _TopVertexOffsetValue.x ) ) ) + ( v.vertex.xyz.x * ( pow( saferPower20_g7 , 20.0 ) * _BaseVertexOffsetValue.x ) ) ) , ( ( clampResult84 * ( transform99.y * ( pow( saferPower20_g9 , 20.0 ) * _TopVertexOffsetValue.y ) ) ) + ( v.vertex.xyz.y * ( pow( saferPower20_g6 , 20.0 ) * _BaseVertexOffsetValue.y ) ) ) , ( v.vertex.xyz.z * ( pow( saferPower20_g5 , 20.0 ) * _BaseVertexOffsetValue.z ) )));
+				float3 appendResult44 = (float3(( ( clampResult84 * ( transform99.x * ( pow( saferPower20_g10 , 20.0 ) * _TopVertexOffsetValue.x ) ) ) + ( v.vertex.xyz.x * ( pow( saferPower20_g7 , 20.0 ) * _BaseVertexOffsetValue.x ) ) ) , ( ( clampResult84 * ( transform99.y * ( pow( saferPower20_g9 , 20.0 ) * _TopVertexOffsetValue.y ) ) ) + ( v.vertex.xyz.y * ( pow( saferPower20_g8 , 20.0 ) * _BaseVertexOffsetValue.y ) ) ) , ( v.vertex.xyz.z * ( pow( saferPower20_g5 , 20.0 ) * _BaseVertexOffsetValue.z ) )));
 				
 				o.ase_texcoord4 = v.vertex;
 
@@ -1955,11 +1955,11 @@ Shader "SHR_BeatBulgeTest"
 				float clampResult84 = clamp( temp_output_74_0 , 0.0 , 1.0 );
 				float4 transform99 = mul(GetWorldToObjectMatrix(),float4( 0,0,0,1 ));
 				float _BPM_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_BeatBulgeTest,_BPM);
-				float mulTime5_g8 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
-				float temp_output_52_0_g8 = ( mulTime5_g8 - _TopVertexDelay.x );
-				float temp_output_16_0_g8 = ( PI / 1.0 );
-				float temp_output_19_0_g8 = cos( ( temp_output_52_0_g8 * temp_output_16_0_g8 ) );
-				float saferPower20_g8 = abs( abs( temp_output_19_0_g8 ) );
+				float mulTime5_g10 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float temp_output_52_0_g10 = ( mulTime5_g10 - _TopVertexDelay.x );
+				float temp_output_16_0_g10 = ( PI / 1.0 );
+				float temp_output_19_0_g10 = cos( ( temp_output_52_0_g10 * temp_output_16_0_g10 ) );
+				float saferPower20_g10 = abs( abs( temp_output_19_0_g10 ) );
 				float mulTime5_g7 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
 				float temp_output_52_0_g7 = ( mulTime5_g7 - _BaseVertexOffsetDelay.x );
 				float temp_output_16_0_g7 = ( PI / 1.0 );
@@ -1970,17 +1970,17 @@ Shader "SHR_BeatBulgeTest"
 				float temp_output_16_0_g9 = ( PI / 1.0 );
 				float temp_output_19_0_g9 = cos( ( temp_output_52_0_g9 * temp_output_16_0_g9 ) );
 				float saferPower20_g9 = abs( abs( temp_output_19_0_g9 ) );
-				float mulTime5_g6 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
-				float temp_output_52_0_g6 = ( mulTime5_g6 - _BaseVertexOffsetDelay.y );
-				float temp_output_16_0_g6 = ( PI / 1.0 );
-				float temp_output_19_0_g6 = cos( ( temp_output_52_0_g6 * temp_output_16_0_g6 ) );
-				float saferPower20_g6 = abs( abs( temp_output_19_0_g6 ) );
+				float mulTime5_g8 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float temp_output_52_0_g8 = ( mulTime5_g8 - _BaseVertexOffsetDelay.y );
+				float temp_output_16_0_g8 = ( PI / 1.0 );
+				float temp_output_19_0_g8 = cos( ( temp_output_52_0_g8 * temp_output_16_0_g8 ) );
+				float saferPower20_g8 = abs( abs( temp_output_19_0_g8 ) );
 				float mulTime5_g5 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
 				float temp_output_52_0_g5 = ( mulTime5_g5 - _BaseVertexOffsetDelay.z );
 				float temp_output_16_0_g5 = ( PI / 1.0 );
 				float temp_output_19_0_g5 = cos( ( temp_output_52_0_g5 * temp_output_16_0_g5 ) );
 				float saferPower20_g5 = abs( abs( temp_output_19_0_g5 ) );
-				float3 appendResult44 = (float3(( ( clampResult84 * ( transform99.x * ( pow( saferPower20_g8 , 20.0 ) * _TopVertexOffsetValue.x ) ) ) + ( v.vertex.xyz.x * ( pow( saferPower20_g7 , 20.0 ) * _BaseVertexOffsetValue.x ) ) ) , ( ( clampResult84 * ( transform99.y * ( pow( saferPower20_g9 , 20.0 ) * _TopVertexOffsetValue.y ) ) ) + ( v.vertex.xyz.y * ( pow( saferPower20_g6 , 20.0 ) * _BaseVertexOffsetValue.y ) ) ) , ( v.vertex.xyz.z * ( pow( saferPower20_g5 , 20.0 ) * _BaseVertexOffsetValue.z ) )));
+				float3 appendResult44 = (float3(( ( clampResult84 * ( transform99.x * ( pow( saferPower20_g10 , 20.0 ) * _TopVertexOffsetValue.x ) ) ) + ( v.vertex.xyz.x * ( pow( saferPower20_g7 , 20.0 ) * _BaseVertexOffsetValue.x ) ) ) , ( ( clampResult84 * ( transform99.y * ( pow( saferPower20_g9 , 20.0 ) * _TopVertexOffsetValue.y ) ) ) + ( v.vertex.xyz.y * ( pow( saferPower20_g8 , 20.0 ) * _BaseVertexOffsetValue.y ) ) ) , ( v.vertex.xyz.z * ( pow( saferPower20_g5 , 20.0 ) * _BaseVertexOffsetValue.z ) )));
 				
 				o.ase_texcoord2 = v.vertex;
 
@@ -2278,11 +2278,11 @@ Shader "SHR_BeatBulgeTest"
 				float clampResult84 = clamp( temp_output_74_0 , 0.0 , 1.0 );
 				float4 transform99 = mul(GetWorldToObjectMatrix(),float4( 0,0,0,1 ));
 				float _BPM_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_BeatBulgeTest,_BPM);
-				float mulTime5_g8 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
-				float temp_output_52_0_g8 = ( mulTime5_g8 - _TopVertexDelay.x );
-				float temp_output_16_0_g8 = ( PI / 1.0 );
-				float temp_output_19_0_g8 = cos( ( temp_output_52_0_g8 * temp_output_16_0_g8 ) );
-				float saferPower20_g8 = abs( abs( temp_output_19_0_g8 ) );
+				float mulTime5_g10 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float temp_output_52_0_g10 = ( mulTime5_g10 - _TopVertexDelay.x );
+				float temp_output_16_0_g10 = ( PI / 1.0 );
+				float temp_output_19_0_g10 = cos( ( temp_output_52_0_g10 * temp_output_16_0_g10 ) );
+				float saferPower20_g10 = abs( abs( temp_output_19_0_g10 ) );
 				float mulTime5_g7 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
 				float temp_output_52_0_g7 = ( mulTime5_g7 - _BaseVertexOffsetDelay.x );
 				float temp_output_16_0_g7 = ( PI / 1.0 );
@@ -2293,17 +2293,17 @@ Shader "SHR_BeatBulgeTest"
 				float temp_output_16_0_g9 = ( PI / 1.0 );
 				float temp_output_19_0_g9 = cos( ( temp_output_52_0_g9 * temp_output_16_0_g9 ) );
 				float saferPower20_g9 = abs( abs( temp_output_19_0_g9 ) );
-				float mulTime5_g6 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
-				float temp_output_52_0_g6 = ( mulTime5_g6 - _BaseVertexOffsetDelay.y );
-				float temp_output_16_0_g6 = ( PI / 1.0 );
-				float temp_output_19_0_g6 = cos( ( temp_output_52_0_g6 * temp_output_16_0_g6 ) );
-				float saferPower20_g6 = abs( abs( temp_output_19_0_g6 ) );
+				float mulTime5_g8 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float temp_output_52_0_g8 = ( mulTime5_g8 - _BaseVertexOffsetDelay.y );
+				float temp_output_16_0_g8 = ( PI / 1.0 );
+				float temp_output_19_0_g8 = cos( ( temp_output_52_0_g8 * temp_output_16_0_g8 ) );
+				float saferPower20_g8 = abs( abs( temp_output_19_0_g8 ) );
 				float mulTime5_g5 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
 				float temp_output_52_0_g5 = ( mulTime5_g5 - _BaseVertexOffsetDelay.z );
 				float temp_output_16_0_g5 = ( PI / 1.0 );
 				float temp_output_19_0_g5 = cos( ( temp_output_52_0_g5 * temp_output_16_0_g5 ) );
 				float saferPower20_g5 = abs( abs( temp_output_19_0_g5 ) );
-				float3 appendResult44 = (float3(( ( clampResult84 * ( transform99.x * ( pow( saferPower20_g8 , 20.0 ) * _TopVertexOffsetValue.x ) ) ) + ( v.vertex.xyz.x * ( pow( saferPower20_g7 , 20.0 ) * _BaseVertexOffsetValue.x ) ) ) , ( ( clampResult84 * ( transform99.y * ( pow( saferPower20_g9 , 20.0 ) * _TopVertexOffsetValue.y ) ) ) + ( v.vertex.xyz.y * ( pow( saferPower20_g6 , 20.0 ) * _BaseVertexOffsetValue.y ) ) ) , ( v.vertex.xyz.z * ( pow( saferPower20_g5 , 20.0 ) * _BaseVertexOffsetValue.z ) )));
+				float3 appendResult44 = (float3(( ( clampResult84 * ( transform99.x * ( pow( saferPower20_g10 , 20.0 ) * _TopVertexOffsetValue.x ) ) ) + ( v.vertex.xyz.x * ( pow( saferPower20_g7 , 20.0 ) * _BaseVertexOffsetValue.x ) ) ) , ( ( clampResult84 * ( transform99.y * ( pow( saferPower20_g9 , 20.0 ) * _TopVertexOffsetValue.y ) ) ) + ( v.vertex.xyz.y * ( pow( saferPower20_g8 , 20.0 ) * _BaseVertexOffsetValue.y ) ) ) , ( v.vertex.xyz.z * ( pow( saferPower20_g5 , 20.0 ) * _BaseVertexOffsetValue.z ) )));
 				
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
@@ -2680,11 +2680,11 @@ Shader "SHR_BeatBulgeTest"
 				float clampResult84 = clamp( temp_output_74_0 , 0.0 , 1.0 );
 				float4 transform99 = mul(GetWorldToObjectMatrix(),float4( 0,0,0,1 ));
 				float _BPM_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_BeatBulgeTest,_BPM);
-				float mulTime5_g8 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
-				float temp_output_52_0_g8 = ( mulTime5_g8 - _TopVertexDelay.x );
-				float temp_output_16_0_g8 = ( PI / 1.0 );
-				float temp_output_19_0_g8 = cos( ( temp_output_52_0_g8 * temp_output_16_0_g8 ) );
-				float saferPower20_g8 = abs( abs( temp_output_19_0_g8 ) );
+				float mulTime5_g10 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float temp_output_52_0_g10 = ( mulTime5_g10 - _TopVertexDelay.x );
+				float temp_output_16_0_g10 = ( PI / 1.0 );
+				float temp_output_19_0_g10 = cos( ( temp_output_52_0_g10 * temp_output_16_0_g10 ) );
+				float saferPower20_g10 = abs( abs( temp_output_19_0_g10 ) );
 				float mulTime5_g7 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
 				float temp_output_52_0_g7 = ( mulTime5_g7 - _BaseVertexOffsetDelay.x );
 				float temp_output_16_0_g7 = ( PI / 1.0 );
@@ -2695,17 +2695,17 @@ Shader "SHR_BeatBulgeTest"
 				float temp_output_16_0_g9 = ( PI / 1.0 );
 				float temp_output_19_0_g9 = cos( ( temp_output_52_0_g9 * temp_output_16_0_g9 ) );
 				float saferPower20_g9 = abs( abs( temp_output_19_0_g9 ) );
-				float mulTime5_g6 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
-				float temp_output_52_0_g6 = ( mulTime5_g6 - _BaseVertexOffsetDelay.y );
-				float temp_output_16_0_g6 = ( PI / 1.0 );
-				float temp_output_19_0_g6 = cos( ( temp_output_52_0_g6 * temp_output_16_0_g6 ) );
-				float saferPower20_g6 = abs( abs( temp_output_19_0_g6 ) );
+				float mulTime5_g8 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float temp_output_52_0_g8 = ( mulTime5_g8 - _BaseVertexOffsetDelay.y );
+				float temp_output_16_0_g8 = ( PI / 1.0 );
+				float temp_output_19_0_g8 = cos( ( temp_output_52_0_g8 * temp_output_16_0_g8 ) );
+				float saferPower20_g8 = abs( abs( temp_output_19_0_g8 ) );
 				float mulTime5_g5 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
 				float temp_output_52_0_g5 = ( mulTime5_g5 - _BaseVertexOffsetDelay.z );
 				float temp_output_16_0_g5 = ( PI / 1.0 );
 				float temp_output_19_0_g5 = cos( ( temp_output_52_0_g5 * temp_output_16_0_g5 ) );
 				float saferPower20_g5 = abs( abs( temp_output_19_0_g5 ) );
-				float3 appendResult44 = (float3(( ( clampResult84 * ( transform99.x * ( pow( saferPower20_g8 , 20.0 ) * _TopVertexOffsetValue.x ) ) ) + ( v.vertex.xyz.x * ( pow( saferPower20_g7 , 20.0 ) * _BaseVertexOffsetValue.x ) ) ) , ( ( clampResult84 * ( transform99.y * ( pow( saferPower20_g9 , 20.0 ) * _TopVertexOffsetValue.y ) ) ) + ( v.vertex.xyz.y * ( pow( saferPower20_g6 , 20.0 ) * _BaseVertexOffsetValue.y ) ) ) , ( v.vertex.xyz.z * ( pow( saferPower20_g5 , 20.0 ) * _BaseVertexOffsetValue.z ) )));
+				float3 appendResult44 = (float3(( ( clampResult84 * ( transform99.x * ( pow( saferPower20_g10 , 20.0 ) * _TopVertexOffsetValue.x ) ) ) + ( v.vertex.xyz.x * ( pow( saferPower20_g7 , 20.0 ) * _BaseVertexOffsetValue.x ) ) ) , ( ( clampResult84 * ( transform99.y * ( pow( saferPower20_g9 , 20.0 ) * _TopVertexOffsetValue.y ) ) ) + ( v.vertex.xyz.y * ( pow( saferPower20_g8 , 20.0 ) * _BaseVertexOffsetValue.y ) ) ) , ( v.vertex.xyz.z * ( pow( saferPower20_g5 , 20.0 ) * _BaseVertexOffsetValue.z ) )));
 				
 				o.ase_texcoord8 = v.vertex;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
@@ -3141,11 +3141,11 @@ Shader "SHR_BeatBulgeTest"
 				float clampResult84 = clamp( temp_output_74_0 , 0.0 , 1.0 );
 				float4 transform99 = mul(GetWorldToObjectMatrix(),float4( 0,0,0,1 ));
 				float _BPM_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_BeatBulgeTest,_BPM);
-				float mulTime5_g8 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
-				float temp_output_52_0_g8 = ( mulTime5_g8 - _TopVertexDelay.x );
-				float temp_output_16_0_g8 = ( PI / 1.0 );
-				float temp_output_19_0_g8 = cos( ( temp_output_52_0_g8 * temp_output_16_0_g8 ) );
-				float saferPower20_g8 = abs( abs( temp_output_19_0_g8 ) );
+				float mulTime5_g10 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float temp_output_52_0_g10 = ( mulTime5_g10 - _TopVertexDelay.x );
+				float temp_output_16_0_g10 = ( PI / 1.0 );
+				float temp_output_19_0_g10 = cos( ( temp_output_52_0_g10 * temp_output_16_0_g10 ) );
+				float saferPower20_g10 = abs( abs( temp_output_19_0_g10 ) );
 				float mulTime5_g7 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
 				float temp_output_52_0_g7 = ( mulTime5_g7 - _BaseVertexOffsetDelay.x );
 				float temp_output_16_0_g7 = ( PI / 1.0 );
@@ -3156,17 +3156,17 @@ Shader "SHR_BeatBulgeTest"
 				float temp_output_16_0_g9 = ( PI / 1.0 );
 				float temp_output_19_0_g9 = cos( ( temp_output_52_0_g9 * temp_output_16_0_g9 ) );
 				float saferPower20_g9 = abs( abs( temp_output_19_0_g9 ) );
-				float mulTime5_g6 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
-				float temp_output_52_0_g6 = ( mulTime5_g6 - _BaseVertexOffsetDelay.y );
-				float temp_output_16_0_g6 = ( PI / 1.0 );
-				float temp_output_19_0_g6 = cos( ( temp_output_52_0_g6 * temp_output_16_0_g6 ) );
-				float saferPower20_g6 = abs( abs( temp_output_19_0_g6 ) );
+				float mulTime5_g8 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float temp_output_52_0_g8 = ( mulTime5_g8 - _BaseVertexOffsetDelay.y );
+				float temp_output_16_0_g8 = ( PI / 1.0 );
+				float temp_output_19_0_g8 = cos( ( temp_output_52_0_g8 * temp_output_16_0_g8 ) );
+				float saferPower20_g8 = abs( abs( temp_output_19_0_g8 ) );
 				float mulTime5_g5 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
 				float temp_output_52_0_g5 = ( mulTime5_g5 - _BaseVertexOffsetDelay.z );
 				float temp_output_16_0_g5 = ( PI / 1.0 );
 				float temp_output_19_0_g5 = cos( ( temp_output_52_0_g5 * temp_output_16_0_g5 ) );
 				float saferPower20_g5 = abs( abs( temp_output_19_0_g5 ) );
-				float3 appendResult44 = (float3(( ( clampResult84 * ( transform99.x * ( pow( saferPower20_g8 , 20.0 ) * _TopVertexOffsetValue.x ) ) ) + ( v.vertex.xyz.x * ( pow( saferPower20_g7 , 20.0 ) * _BaseVertexOffsetValue.x ) ) ) , ( ( clampResult84 * ( transform99.y * ( pow( saferPower20_g9 , 20.0 ) * _TopVertexOffsetValue.y ) ) ) + ( v.vertex.xyz.y * ( pow( saferPower20_g6 , 20.0 ) * _BaseVertexOffsetValue.y ) ) ) , ( v.vertex.xyz.z * ( pow( saferPower20_g5 , 20.0 ) * _BaseVertexOffsetValue.z ) )));
+				float3 appendResult44 = (float3(( ( clampResult84 * ( transform99.x * ( pow( saferPower20_g10 , 20.0 ) * _TopVertexOffsetValue.x ) ) ) + ( v.vertex.xyz.x * ( pow( saferPower20_g7 , 20.0 ) * _BaseVertexOffsetValue.x ) ) ) , ( ( clampResult84 * ( transform99.y * ( pow( saferPower20_g9 , 20.0 ) * _TopVertexOffsetValue.y ) ) ) + ( v.vertex.xyz.y * ( pow( saferPower20_g8 , 20.0 ) * _BaseVertexOffsetValue.y ) ) ) , ( v.vertex.xyz.z * ( pow( saferPower20_g5 , 20.0 ) * _BaseVertexOffsetValue.z ) )));
 				
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
@@ -3425,11 +3425,11 @@ Shader "SHR_BeatBulgeTest"
 				float clampResult84 = clamp( temp_output_74_0 , 0.0 , 1.0 );
 				float4 transform99 = mul(GetWorldToObjectMatrix(),float4( 0,0,0,1 ));
 				float _BPM_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_BeatBulgeTest,_BPM);
-				float mulTime5_g8 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
-				float temp_output_52_0_g8 = ( mulTime5_g8 - _TopVertexDelay.x );
-				float temp_output_16_0_g8 = ( PI / 1.0 );
-				float temp_output_19_0_g8 = cos( ( temp_output_52_0_g8 * temp_output_16_0_g8 ) );
-				float saferPower20_g8 = abs( abs( temp_output_19_0_g8 ) );
+				float mulTime5_g10 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float temp_output_52_0_g10 = ( mulTime5_g10 - _TopVertexDelay.x );
+				float temp_output_16_0_g10 = ( PI / 1.0 );
+				float temp_output_19_0_g10 = cos( ( temp_output_52_0_g10 * temp_output_16_0_g10 ) );
+				float saferPower20_g10 = abs( abs( temp_output_19_0_g10 ) );
 				float mulTime5_g7 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
 				float temp_output_52_0_g7 = ( mulTime5_g7 - _BaseVertexOffsetDelay.x );
 				float temp_output_16_0_g7 = ( PI / 1.0 );
@@ -3440,17 +3440,17 @@ Shader "SHR_BeatBulgeTest"
 				float temp_output_16_0_g9 = ( PI / 1.0 );
 				float temp_output_19_0_g9 = cos( ( temp_output_52_0_g9 * temp_output_16_0_g9 ) );
 				float saferPower20_g9 = abs( abs( temp_output_19_0_g9 ) );
-				float mulTime5_g6 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
-				float temp_output_52_0_g6 = ( mulTime5_g6 - _BaseVertexOffsetDelay.y );
-				float temp_output_16_0_g6 = ( PI / 1.0 );
-				float temp_output_19_0_g6 = cos( ( temp_output_52_0_g6 * temp_output_16_0_g6 ) );
-				float saferPower20_g6 = abs( abs( temp_output_19_0_g6 ) );
+				float mulTime5_g8 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float temp_output_52_0_g8 = ( mulTime5_g8 - _BaseVertexOffsetDelay.y );
+				float temp_output_16_0_g8 = ( PI / 1.0 );
+				float temp_output_19_0_g8 = cos( ( temp_output_52_0_g8 * temp_output_16_0_g8 ) );
+				float saferPower20_g8 = abs( abs( temp_output_19_0_g8 ) );
 				float mulTime5_g5 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
 				float temp_output_52_0_g5 = ( mulTime5_g5 - _BaseVertexOffsetDelay.z );
 				float temp_output_16_0_g5 = ( PI / 1.0 );
 				float temp_output_19_0_g5 = cos( ( temp_output_52_0_g5 * temp_output_16_0_g5 ) );
 				float saferPower20_g5 = abs( abs( temp_output_19_0_g5 ) );
-				float3 appendResult44 = (float3(( ( clampResult84 * ( transform99.x * ( pow( saferPower20_g8 , 20.0 ) * _TopVertexOffsetValue.x ) ) ) + ( v.vertex.xyz.x * ( pow( saferPower20_g7 , 20.0 ) * _BaseVertexOffsetValue.x ) ) ) , ( ( clampResult84 * ( transform99.y * ( pow( saferPower20_g9 , 20.0 ) * _TopVertexOffsetValue.y ) ) ) + ( v.vertex.xyz.y * ( pow( saferPower20_g6 , 20.0 ) * _BaseVertexOffsetValue.y ) ) ) , ( v.vertex.xyz.z * ( pow( saferPower20_g5 , 20.0 ) * _BaseVertexOffsetValue.z ) )));
+				float3 appendResult44 = (float3(( ( clampResult84 * ( transform99.x * ( pow( saferPower20_g10 , 20.0 ) * _TopVertexOffsetValue.x ) ) ) + ( v.vertex.xyz.x * ( pow( saferPower20_g7 , 20.0 ) * _BaseVertexOffsetValue.x ) ) ) , ( ( clampResult84 * ( transform99.y * ( pow( saferPower20_g9 , 20.0 ) * _TopVertexOffsetValue.y ) ) ) + ( v.vertex.xyz.y * ( pow( saferPower20_g8 , 20.0 ) * _BaseVertexOffsetValue.y ) ) ) , ( v.vertex.xyz.z * ( pow( saferPower20_g5 , 20.0 ) * _BaseVertexOffsetValue.z ) )));
 				
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
@@ -3597,15 +3597,15 @@ Version=19200
 Node;AmplifyShaderEditor.CommentaryNode;117;-3007.979,-1380.562;Inherit;False;2213.736;1069.384;;23;73;84;79;67;68;62;101;63;102;80;77;78;92;111;74;110;109;113;115;99;65;114;126;TopVertexOffset;1,0.3930817,0.6767163,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;116;-3007.31,-243.7299;Inherit;False;2323.009;1021.379;;20;106;54;50;52;32;43;103;104;38;105;49;53;56;31;40;81;48;46;107;97;BaseVertexOffset;0.6469972,0.2421383,1,1;0;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;22.52203,-770.2533;Float;False;True;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;SHR_BeatBulgeTest;94348b07e5e8bab40bd6c8a1e3df54cd;True;Forward;0;1;Forward;20;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;1;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForward;False;False;0;;0;0;Standard;41;Workflow;1;0;Surface;0;0;  Refraction Model;0;0;  Blend;0;0;Two Sided;1;0;Fragment Normal Space,InvertActionOnDeselection;0;0;Forward Only;0;0;Transmission;0;0;  Transmission Shadow;0.5,False,;0;Translucency;0;0;  Translucency Strength;1,False,;0;  Normal Distortion;0.5,False,;0;  Scattering;2,False,;0;  Direct;0.9,False,;0;  Ambient;0.1,False,;0;  Shadow;0.5,False,;0;Cast Shadows;1;0;  Use Shadow Threshold;0;0;Receive Shadows;1;0;GPU Instancing;1;0;LOD CrossFade;1;0;Built-in Fog;1;0;_FinalColorxAlpha;0;0;Meta Pass;1;0;Override Baked GI;0;0;Extra Pre Pass;0;0;DOTS Instancing;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Write Depth;0;0;  Early Z;0;0;Vertex Position,InvertActionOnDeselection;1;0;Debug Display;0;0;Clear Coat;0;0;0;10;False;True;True;True;True;True;True;True;True;True;False;;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;-28.52795,-630.6168;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ExtraPrePass;0;0;ExtraPrePass;5;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;0;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;2;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;3;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;DepthOnly;0;3;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;True;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;True;1;LightMode=DepthOnly;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;4;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Meta;0;4;Meta;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;5;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Universal2D;0;5;Universal2D;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;1;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=Universal2D;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;6;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;DepthNormals;0;6;DepthNormals;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=DepthNormals;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;7;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;GBuffer;0;7;GBuffer;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;1;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalGBuffer;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;8;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;SceneSelectionPass;0;8;SceneSelectionPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=SceneSelectionPass;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;9;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;1;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ScenePickingPass;0;9;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;0;-28.52795,-630.6168;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ExtraPrePass;0;0;ExtraPrePass;5;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;0;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;2;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;3;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;DepthOnly;0;3;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;True;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;True;1;LightMode=DepthOnly;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;4;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Meta;0;4;Meta;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;5;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;Universal2D;0;5;Universal2D;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;1;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=Universal2D;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;6;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;DepthNormals;0;6;DepthNormals;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=DepthNormals;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;7;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;GBuffer;0;7;GBuffer;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;1;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalGBuffer;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;8;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;SceneSelectionPass;0;8;SceneSelectionPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=SceneSelectionPass;False;False;0;;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;9;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ScenePickingPass;0;9;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.RangedFloatNode;23;-243.0102,-698.803;Inherit;False;Constant;_Float0;Float 0;1;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;24;-234.497,-620.9827;Inherit;False;Constant;_Float1;Float 1;1;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.DynamicAppendNode;44;-259.0201,-483.7567;Inherit;False;FLOAT3;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT3;0
@@ -3626,10 +3626,9 @@ Node;AmplifyShaderEditor.Vector3Node;31;-2745.215,292.2705;Inherit;False;Propert
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;40;-1270.746,58.49626;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.WireNode;81;-1777.875,132.1848;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;48;-1543.09,342.1845;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;46;-2011.766,247.0138;Inherit;False;SHF_Beat;0;;6;98b937ed0bb6230429680ab88ee4981b;0;1;54;FLOAT;0;False;3;FLOAT;33;FLOAT;34;FLOAT;0
+Node;AmplifyShaderEditor.FunctionNode;46;-2011.766,247.0138;Inherit;False;SHF_Beat;0;;8;98b937ed0bb6230429680ab88ee4981b;0;1;54;FLOAT;0;False;3;FLOAT;33;FLOAT;34;FLOAT;0
 Node;AmplifyShaderEditor.WireNode;107;-2957.31,377.072;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.Vector3Node;97;-2744.921,485.564;Inherit;False;Property;_BaseVertexOffsetDelay;BaseVertexOffsetDelay;4;0;Create;True;0;0;0;False;0;False;0,0,0;0,0,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
-Node;AmplifyShaderEditor.ComponentMaskNode;73;-2637.761,-1072.341;Inherit;True;False;False;True;True;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.ClampOpNode;84;-1458.003,-890.7761;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;79;-1213.208,-798.5179;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;67;-1582.438,-475.6729;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
@@ -3648,17 +3647,17 @@ Node;AmplifyShaderEditor.RangedFloatNode;110;-2157.475,-1114.642;Inherit;False;P
 Node;AmplifyShaderEditor.PowerNode;109;-2021.351,-1330.562;Inherit;False;False;2;0;FLOAT;0;False;1;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.FunctionNode;115;-2708.256,-471.1768;Inherit;False;SHF_Beat;0;;9;98b937ed0bb6230429680ab88ee4981b;0;1;54;FLOAT;0;False;3;FLOAT;33;FLOAT;34;FLOAT;0
 Node;AmplifyShaderEditor.WorldToObjectTransfNode;99;-2712.04,-817.3395;Inherit;False;1;0;FLOAT4;0,0,0,1;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.WireNode;108;-3116.421,-946.4361;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.WireNode;118;-87.72718,-1015.326;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.WireNode;86;-381.3893,-617.0975;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.WireNode;87;-420.5322,-463.2242;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.WireNode;85;-327.5849,485.1995;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;65;-2703.156,-626.9379;Inherit;False;SHF_Beat;0;;8;98b937ed0bb6230429680ab88ee4981b;0;1;54;FLOAT;0;False;3;FLOAT;33;FLOAT;34;FLOAT;0
+Node;AmplifyShaderEditor.FunctionNode;65;-2703.156,-626.9379;Inherit;False;SHF_Beat;0;;10;98b937ed0bb6230429680ab88ee4981b;0;1;54;FLOAT;0;False;3;FLOAT;33;FLOAT;34;FLOAT;0
 Node;AmplifyShaderEditor.PosVertexDataNode;11;-3452.478,-271.599;Inherit;False;0;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.WireNode;106;-1383.109,-146.3581;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.Vector2Node;114;-2957.979,-562.1346;Inherit;False;Property;_TopVertexDelay;TopVertexDelay;8;1;[Header];Create;True;0;0;0;False;0;False;0,0;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
 Node;AmplifyShaderEditor.Vector2Node;113;-2340.544,-580.5311;Inherit;False;Property;_TopVertexOffsetValue;TopVertexOffset Value;7;0;Create;True;0;0;0;False;0;False;0,0;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
 Node;AmplifyShaderEditor.ClampOpNode;126;-2350.269,-433.013;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;-1;False;2;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.ComponentMaskNode;73;-2515.027,-1070.726;Inherit;True;False;False;True;True;1;0;FLOAT;0;False;1;FLOAT;0
 WireConnection;1;0;118;0
 WireConnection;1;3;23;0
 WireConnection;1;4;24;0
@@ -3689,7 +3688,6 @@ WireConnection;48;0;46;0
 WireConnection;48;1;31;2
 WireConnection;46;54;104;0
 WireConnection;107;0;11;3
-WireConnection;73;0;108;0
 WireConnection;84;0;74;0
 WireConnection;79;0;84;0
 WireConnection;79;1;62;0
@@ -3715,7 +3713,6 @@ WireConnection;74;1;92;0
 WireConnection;109;0;73;0
 WireConnection;109;1;110;0
 WireConnection;115;54;114;2
-WireConnection;108;0;11;3
 WireConnection;118;0;74;0
 WireConnection;86;0;77;0
 WireConnection;87;0;78;0
@@ -3723,5 +3720,6 @@ WireConnection;85;0;32;0
 WireConnection;65;54;114;1
 WireConnection;106;0;11;1
 WireConnection;126;0;115;33
+WireConnection;73;0;11;3
 ASEEND*/
-//CHKSM=73F849A38330748DB43F87964229186187E0018F
+//CHKSM=D75E655A60C1A936558F40E350F58B5559DC1120

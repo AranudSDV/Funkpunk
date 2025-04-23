@@ -1,0 +1,1445 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c789d55c4f1cff34799abba03737e8f7, type: 3}
+  m_Name: ftGlobalStorage
+  m_EditorClassIdentifier: 
+  modifiedAssetPathList:
+  - Assets/Bakery/examples/content/sponza/sponza.FBX
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Bouteille/OB_Bouteille_001_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Poubelle/OB_Poubelle_002_B.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Batiment_001/KA_Window_001_D.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Sac_Poubelle/OB_Sac_Poubelle_004_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Sac_Poubelle/OB_Sac_Poubelle_001_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Sac_Poubelle/OB_Sac_Poubelle_002_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Sac_Poubelle/OB_Sac_Poubelle_003_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Whisky/OB_P_Whisky_001C.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Bouteille/OB_P_Bouteille_003C.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Canette/Version_B/OB_Canette_003_B.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Canette/Version_A/OB_Canette_003_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Gobelet/OB_P_gobelet_001C.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Moyen/Benne/OB_Benne_001_B.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Batiment_001/KA_Window_001_C.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Canette/Version_B/OB_Canette_002_B.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Moyen/Mailbox/V2/OB_P_MailBox_002B.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Batiment_001/KA_Wall_001.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Moyen/Mailbox/V2/OB_P_MailBox_003B.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Pneu/OB_Pneu_001_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Carton/gros_Carton/OB_Grosse_Boite_Carton_001_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Gobelet/OB_P_gobelet_001D.fbx
+  - "Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Batiment_003/KA_Batiment_003_Fen\xEAtre_003_A.fbx"
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Canette/Version_B/OB_Canette_001_B.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Batiment_001/KA_Wall_002_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Bloc_Beton/OB_Bloc_Beton_002_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Pizza/Version_A/OB_Pizza_003_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Moyen/Machine_a_laver/OB_P_machine_laver_001A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Moyen/Baril/OB_P_Baril001_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Grand/Lampadaire/Lampadaire_signalisation/V1/OB_P_Lampadaire_signalisation_001A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Batiment_001/KA_Window_001_B.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Grand/Echaffaudage/OB_P_Echafffaudage_003A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Whisky/OB_P_Whisky_001A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Batiment_002/KA_Batiment_002_Wall_001_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Batiment_002/KA_Batiment_002_Barriere_001_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Batiment_002/KA_Batiment_002_Window_003_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Grand/Echaffaudage/OB_P_Echafffaudage_007A
+    1.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Moyen/Palette/OB_P_Palette_001B.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Batiment_001/KA_Window_002_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Poubelle/OB_Poubelle_003_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Pneu/V2/OB_P_Pneu_003A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Moyen/Grillage/grillage
+    chantier/P_pillone_grillage_chantier.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Batiment_001/KA_Window_001_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Climatiseur/OB_Climatiseur_001_B.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Moyen/Frigo/OB_P_Frigo_001A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Taule/OB_P_Taule_005A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Poteaux/V1/OB_P_Poteau_002A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Moyen/Palissade/OB_P_palissade_001B.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Moyen/Benne/OB_Benne_001_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Boite_Plastique/OB_Boite_Plastique_004_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Batiment_001/KA_Window_001_E.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Cone_Chantier/OB_Cone_Chantier_001_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Canette/Version_A/OB_Canette_004_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Whisky/OB_P_Whisky_001B.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Climatiseur/OB_Climatiseur_001_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Moyen/Grillage/grillage
+    chantier/OB_Grillage_Chantier_006A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Bouteille/OB_P_Bouteille_003B.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Grand/Echaffaudage/OB_P_Echafffaudage_004A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Batiment_001/KA_Window_002_B.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Batiment_001/KA_Door_002_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Poteaux/V1/OB_P_Poteau_005A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Bouche a incendie/OB_P_Bouche_Incendie_002A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Moyen/Grillage/grillage
+    chantier/OB_Grillage_Chantier_002A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Moyen/Mailbox/V1/OB_P_MailBox_002A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Pizza/Version_A/OB_Pizza_001_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Moyen/Frigo/OB_P_Porte_Frigo_BOTTOM_001A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Grand/Balcon_escalier/OB_P_Baclon_001_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Poubelle/OB_Poubelle_002_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Bloc_Beton/OB_Bloc_Beton_001_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Poubelle/OB_Poubelle_003_B.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Moyen/Palissade/OB_P_palissade_001D.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Carton/gros_Carton/OB_Grosse_Boite_Carton_004_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Moyen/Matelas/OB_P_Matelas_001B.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/PlaqueEgout/Plaque_002/OB_P_Plaque_Egout_002A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Gobelet/OB_P_gobelet_001B.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Moyen/Grillage/grillage
+    chantier/OB_Grillage_Chantier_001A.fbx
+  - "Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Batiment_003/KA_Batiment_003_Fen\xEAtre_002_A.fbx"
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Taule/OB_P_Taule_001A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Box/V5/OB_P_Box_001E.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Pneu/OB_Pneu_002_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Poubelle/OB_Poubelle_001_B.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Canette/Version_A/OB_Canette_002_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Pizza/Version_B/OB_Pizza_003_B.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Canette/Version_A/OB_Canette_001_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Moyen/Matelas/OB_P_Matelas_001C.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Batiment_002/KA_Batiment_002_Wall_002_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Bouche a incendie/OB_P_Bouche_Incendie_007A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Grand/Neon/Rock/OB_P_Neon_ROCK_001A.fbx
+  - "Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Batiment_003/KA_Batiment_003_Fen\xEAtre_001_A.fbx"
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Moyen/Palette/OB_P_Palette_001A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Batiment_002/KA_Batiment_002_Wall_003_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Grand/Echaffaudage/OB_P_Echafffaudage_005A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Carton/gros_Carton/OB_Grosse_Boite_Carton_003_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Boite_Plastique/OB_Boite_Plastique_002_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Taule/OB_P_Taule_004A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Grand/Voiture/OB_Voiture_002A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Cone_Chantier/OB_Cone_Chantier_003_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Grand/Echaffaudage/OB_P_Echaffaudage_001A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/BoitePlastique/OB_P_Boite_Plastique_002A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Chips/OB_Chips_001_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Batiment_003/KA_Batiment_003_Mur_001_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Taule/Petite
+    plaque/OB_P_Taule_003B.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Bouteille/OB_P_Bouteille_003A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Pizza/Version_A/OB_Pizza_002_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Grand/Lampadaire/OB_Lampadaire_004A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Grand/Lampadaire/OB_Lampadaire_002A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Bouche a incendie/OB_P_Bouche_Incendie_003A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Grand/Neon/Boogie/OB_P_Neon_BOOGIE_ETOILE_001A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Batiment_001/KA_Corner_002_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Box/V6/OB_P_Box_001F.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Moyen/Machine_a_laver/OB_P_machine_laver_001B.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Bouteille/OB_Bouteille_004_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Grand/Lampadaire/OB_Lampadaire_001A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Moyen/Matelas/OB_P_Matelas_001A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Moyen/Frigo/OB_P_Frigo_002A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Bouteille/OB_Bouteille_002_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Moyen/Machine_a_laver/OB_P_machine_laver_001C.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/BoitePlastique/OB_P_Boite_Plastique_002C.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Moyen/Palissade/OB_P_palissade_001C.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Moyen/Mailbox/V2/OB_P_MailBox_005B.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Moyen/Frigo/OB_P_Porte_Frigo_TOP_001A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Moyen/Palissade/OB_P_palissade_001A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Bouche a incendie/OB_P_Bouche_Incendie_001A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Grand/Echaffaudage/OB_P_Echafffaudage_007A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Bouche a incendie/OB_P_Bouche_Incendie_005A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Poteaux/V1/OB_P_Poteau_003A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Grand/Neon/Boogie/OB_P_Neon_BOOGIE_001A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Carton/gros_Carton/OB_Grosse_Boite_Carton_002_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Bouteille/OB_Bouteille_003_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Chips/OB_Chips_003_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Batiment_002/KA_Batiment_002_Window_002_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Grand/Neon/Cafe jazz/OB_Neon_JAZZ_001A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Moyen/Grillage/grillage
+    chantier/OB_Grillage_Chantier_003A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Moyen/Grillage/grillage
+    chantier/OB_Grillage_Chantier_007A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Moyen/Mailbox/V1/OB_P_MailBox_005A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Taule/OB_P_Taule_002A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Moyen/Mailbox/V1/OB_P_MailBox_006A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Cone_Chantier/OB_Cone_Chantier_002_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Pneu/V2/OB_P_Pneu_002A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Batiment_003/KA_Batiment_003_Store_001_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Moyen/Mailbox/V1/OB_P_MailBox_004A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Batiment_001/KA_Corner_001_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Chips/OB_Chips_002_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Moyen/Mailbox/V2/OB_P_MailBox_004B.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Grand/Neon/Guitare/OB_P_Neon_Guitare_001A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Grand/Neon/Hardcore
+    Rock/OB_P_NEon_HARDKORE_CAFE_001A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Bouche a incendie/OB_P_Bouche_Incendie_004A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Boite_Plastique/OB_Boite_Plastique_001_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Batiment_003/KA_Batiment_003_Mur_003_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Moyen/Mailbox/V1/OB_P_MailBox_001A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Grand/Voiture/OB_Voiture_004A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Batiment_002/KA_Batiment_002_Door_001_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Grand/Lampadaire/Lampadaire_signalisation/V1/OB_P_Lampadaire_signalisation_002A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Bouche a incendie/OB_P_Bouche_Incendie_006A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Moyen/Mailbox/V2/OB_P_MailBox_001B.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Poteaux/V1/OB_P_Poteau_001A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Grand/Voiture/OB_Voiture_003A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/BoitePlastique/OB_P_Boite_Plastique_002B.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Taule/OB_P_Taule_003A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Grand/Neon/Punk/OB_P_Neon_PUNK_001A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Moyen/Grillage/grillage
+    chantier/OB_Grillage_Chantier_005A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Grand/Neon/Cafe jazz/OB_P_Neon_JAZZ_Cafe_001A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Taule/Petite
+    plaque/OB_P_Taule_001B.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Gobelet/OB_P_gobelet_001A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Batiment_002/KA_Batiment_002_Window_001_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Moyen/Mailbox/V1/OB_P_MailBox_003A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Moyen/Grillage/grillage
+    chantier/OB_Grillage_Chantier_004A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Grand/Lampadaire/OB_Lampadaire_003A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Moyen/Matelas/OB_P_Matelas_001D.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Boite_Plastique/OB_Boite_Plastique_003_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Batiment_003/KA_Batiment_003_Mur_004_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/BoomBox/V1/OB_P_BoomBox_002A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Taule/Petite
+    plaque/OB_P_Taule_002B.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Moyen/Canape/OB_P_Canape_001A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/BoitePlastique/OB_P_Boite_Plastique_002D.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Grand/satnd hot dog/OB_P_Hot_Dog_002A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Pneu/V2/OB_P_Pneu_001A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Grand/Neon/Music/OB_P_Neon_MUSIC_001A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Grand/Voiture/Voiturefbx.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Moyen/Grillage/grillage
+    chantier/OB_Grillage_Chantier_008A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Poteaux/V1/OB_P_Poteau_004A.fbx
+  modifiedAssetPaddingHash: d6a958ffecc1249125f90151377e93638f50cf35fdb209ced0318883ce318883ecc12491ecc12491ecc12491ecc12491ecc12491824139eeb7f23a06ecc12491f827c115df4dfff0dd5131ee344ffff0dd5131eeecc124918109ecc0ecc124919d4dfff09d4dfff0db5634b797c6d8901067e2a8885031ee08dc894b5bc2a693ecc12491df4dfff0695031eeb4c2a693da7d93635bc2a693885031ee270193dd0ba3dddeecc12491fa4dfff07c3980333ec5d89038c2a693ecc124918cdb894b62bfe86bf427c1158109ecc0de4608c8ecc12491ecc1249178c6d890bb7d9363ecc1249156f23a0698f23a066d67e2a8ecc12491c44608c838c2a693f827c1159050cf35534ffff08109ecc0270193dd9d4dfff0387308838cdb894b75f23a06be3980331228c115ecc1249138c2a69323c5d89038c2a69395c2a693344ffff0a445a60decc12491d1318883ecc12491be3980339d4dfff0c44608c86209ecc095c2a6935bc2a69342dd894b56f23a061067e2a842dd894b56f23a06f1f23a06de4608c8da7d9363ee37ed04ecc12491df4dfff078c6d890ecc124919550cf3556f23a0656f23a06c44608c827dc894b9d4dfff0df4dfff097c6d890ecc1249156f23a06eddb894b3ec5d890ecc1249197c6d890c34608c838c2a693a768e2a8fe27c115c2c4d890c44608c8c7d15080ec37ed04ecc12491c04dfff01067e2a8ecc12491ecc124916d67e2a8885031ee38c2a693bb7d9363f727c11556f23a06f827c115dd4608c80da3ddde2bf43a06f827c115df4dfff0ecc12491dd5131ee19c2a69395c2a693c44608c842dd894b907f9363f827c115bb09ecc0377e9363885031eec44608c8dd5131eeecc12491f1f23a06344ffff056f23a06fd7d9363f166e2a897c6d890717f9363ecc12491bb09ecc0f827c115bb7d936356f23a06eddb894b133b80339d4dfff0bd4608c8717f9363d9398033f627c1156d67e2a8af5634b7885031eef1f23a06f927c115ecc12491
+  modifiedMeshList: []
+  modifiedMeshPaddingList: 
+  modifiedAssets:
+  - meshName:
+    - sponza_00
+    - sponza_01
+    - sponza_03
+    - sponza_05
+    - sponza_06
+    - sponza_07
+    - sponza_08
+    - sponza_09
+    - sponza_10
+    - sponza_11
+    - sponza_12
+    - sponza_13
+    - sponza_14
+    - sponza_15
+    - sponza_16
+    - sponza_17
+    - sponza_18
+    - sponza_19
+    - sponza_20
+    - sponza_21
+    - sponza_22
+    - sponza_23
+    - sponza_24
+    - sponza_25
+    - sponza_26
+    - sponza_27
+    - sponza_28
+    - sponza_29
+    - sponza_30
+    - sponza_31
+    - sponza_32
+    - sponza_33
+    - sponza_34
+    - sponza_35
+    - sponza_36
+    - sponza_37
+    - sponza_38
+    - sponza_39
+    - sponza_40
+    - sponza_41
+    - sponza_42
+    - sponza_43
+    - sponza_44
+    - sponza_45
+    - sponza_46
+    - sponza_47
+    - sponza_48
+    - sponza_49
+    - sponza_50
+    - sponza_51
+    - sponza_52
+    - sponza_53
+    - sponza_54
+    - sponza_55
+    - sponza_56
+    - sponza_57
+    - sponza_58
+    - sponza_59
+    - sponza_60
+    - sponza_61
+    - sponza_62
+    - sponza_63
+    - sponza_64
+    - sponza_65
+    - sponza_67
+    - sponza_68
+    - sponza_69
+    - sponza_70
+    - sponza_71
+    - sponza_72
+    - sponza_73
+    - sponza_74
+    - sponza_75
+    - sponza_76
+    - sponza_77
+    - sponza_78
+    - sponza_79
+    - sponza_80
+    - sponza_81
+    - sponza_82
+    - sponza_83
+    - sponza_84
+    - sponza_85
+    - sponza_86
+    - sponza_87
+    - sponza_88
+    - sponza_89
+    - sponza_90
+    - sponza_91
+    - sponza_92
+    - sponza_93
+    - sponza_94
+    - sponza_95
+    - sponza_96
+    - sponza_97
+    - sponza_98
+    - sponza_99
+    - sponza_100
+    - sponza_101
+    - sponza_102
+    - sponza_103
+    - sponza_104
+    - sponza_105
+    - sponza_106
+    - sponza_107
+    - sponza_108
+    - sponza_109
+    - sponza_110
+    - sponza_111
+    - sponza_112
+    - sponza_113
+    - sponza_114
+    - sponza_115
+    - sponza_116
+    - sponza_117
+    - sponza_118
+    - sponza_119
+    - sponza_120
+    - sponza_121
+    - sponza_122
+    - sponza_123
+    - sponza_124
+    - sponza_125
+    - sponza_126
+    - sponza_127
+    - sponza_128
+    - sponza_129
+    - sponza_130
+    - sponza_131
+    - sponza_132
+    - sponza_133
+    - sponza_134
+    - sponza_135
+    - sponza_136
+    - sponza_137
+    - sponza_138
+    - sponza_139
+    - sponza_140
+    - sponza_141
+    - sponza_142
+    - sponza_143
+    - sponza_144
+    - sponza_145
+    - sponza_146
+    - sponza_147
+    - sponza_148
+    - sponza_149
+    - sponza_150
+    - sponza_151
+    - sponza_152
+    - sponza_153
+    - sponza_154
+    - sponza_155
+    - sponza_156
+    - sponza_157
+    - sponza_158
+    - sponza_159
+    - sponza_160
+    - sponza_161
+    - sponza_162
+    - sponza_163
+    - sponza_164
+    - sponza_165
+    - sponza_166
+    - sponza_167
+    - sponza_168
+    - sponza_169
+    - sponza_170
+    - sponza_171
+    - sponza_172
+    - sponza_173
+    - sponza_174
+    - sponza_175
+    - sponza_176
+    - sponza_177
+    - sponza_178
+    - sponza_179
+    - sponza_180
+    - sponza_181
+    - sponza_182
+    - sponza_183
+    - sponza_184
+    - sponza_185
+    - sponza_186
+    - sponza_187
+    - sponza_188
+    - sponza_189
+    - sponza_190
+    - sponza_191
+    - sponza_192
+    - sponza_193
+    - sponza_194
+    - sponza_195
+    - sponza_196
+    - sponza_197
+    - sponza_198
+    - sponza_199
+    - sponza_200
+    - sponza_201
+    - sponza_202
+    - sponza_203
+    - sponza_204
+    - sponza_205
+    - sponza_206
+    - sponza_207
+    - sponza_208
+    - sponza_209
+    - sponza_210
+    - sponza_211
+    - sponza_212
+    - sponza_213
+    - sponza_214
+    - sponza_215
+    - sponza_216
+    - sponza_217
+    - sponza_218
+    - sponza_219
+    - sponza_220
+    - sponza_221
+    - sponza_222
+    - sponza_223
+    - sponza_224
+    - sponza_225
+    - sponza_226
+    - sponza_227
+    - sponza_228
+    - sponza_229
+    - sponza_230
+    - sponza_231
+    - sponza_232
+    - sponza_233
+    - sponza_234
+    - sponza_235
+    - sponza_236
+    - sponza_237
+    - sponza_238
+    - sponza_239
+    - sponza_240
+    - sponza_241
+    - sponza_242
+    - sponza_243
+    - sponza_244
+    - sponza_245
+    - sponza_246
+    - sponza_247
+    - sponza_248
+    - sponza_249
+    - sponza_250
+    - sponza_251
+    - sponza_252
+    - sponza_253
+    - sponza_254
+    - sponza_255
+    - sponza_256
+    - sponza_257
+    - sponza_259
+    - sponza_260
+    - sponza_261
+    - sponza_262
+    - sponza_263
+    - sponza_264
+    - sponza_265
+    - sponza_266
+    - sponza_267
+    - sponza_268
+    - sponza_269
+    - sponza_270
+    - sponza_271
+    - sponza_272
+    - sponza_273
+    - sponza_274
+    - sponza_275
+    - sponza_276
+    - sponza_277
+    - sponza_278
+    - sponza_279
+    - sponza_280
+    - sponza_281
+    - sponza_282
+    - sponza_283
+    - sponza_284
+    - sponza_285
+    - sponza_286
+    - sponza_287
+    - sponza_288
+    - sponza_289
+    - sponza_290
+    - sponza_291
+    - sponza_292
+    - sponza_293
+    - sponza_294
+    - sponza_295
+    - sponza_296
+    - sponza_297
+    - sponza_298
+    - sponza_299
+    - sponza_300
+    - sponza_301
+    - sponza_302
+    - sponza_303
+    - sponza_304
+    - sponza_305
+    - sponza_306
+    - sponza_307
+    - sponza_308
+    - sponza_309
+    - sponza_310
+    - sponza_311
+    - sponza_312
+    - sponza_313
+    - sponza_314
+    - sponza_315
+    - sponza_316
+    - sponza_317
+    - sponza_318
+    - sponza_319
+    - sponza_320
+    - sponza_321
+    - sponza_322
+    - sponza_323
+    - sponza_324
+    - sponza_325
+    - sponza_326
+    - sponza_327
+    - sponza_328
+    - sponza_329
+    - sponza_330
+    - sponza_331
+    - sponza_332
+    - sponza_333
+    - sponza_334
+    - sponza_335
+    - sponza_336
+    - sponza_337
+    - sponza_338
+    - sponza_339
+    - sponza_340
+    - sponza_341
+    - sponza_342
+    - sponza_343
+    - sponza_344
+    - sponza_345
+    - sponza_346
+    - sponza_347
+    - sponza_348
+    - sponza_349
+    - sponza_350
+    - sponza_351
+    - sponza_352
+    - sponza_353
+    - sponza_354
+    - sponza_355
+    - sponza_356
+    - sponza_357
+    - sponza_358
+    - sponza_359
+    - sponza_360
+    - sponza_361
+    - sponza_362
+    - sponza_363
+    - sponza_364
+    - sponza_365
+    - sponza_366
+    - sponza_367
+    - sponza_368
+    - sponza_369
+    - sponza_370
+    - sponza_371
+    - sponza_372
+    - sponza_373
+    - sponza_374
+    - sponza_375
+    - sponza_376
+    - sponza_377
+    - sponza_378
+    - sponza_381
+    padding: 2e000000460000002a000000110000000e0000000c0000000400000033000000330000003300000033000000330000003300000033000000330000000a00000007000000060000002b0000002b00000011000000140000001400000014000000140000002a0000001d000000320000003200000032000000320000002a000000080000000d0000000500000087000000fa00000087000000fa00000087000000fa00000087000000fa00000087000000fb00000087000000fb00000087000000fb00000087000000fb00000087000000fb00000051000000510000005100000051000000510000005100000051000000510000005100000051000000510000000c00000006000000060000002700000028000000390000002b000000150000002700000000010000ba0000009b0000009b000000b70000009d000000b7000000b7000000b70000009b000000b70000009d000000b7000000b7000000b70000009b0000009b0000009b00000083000000ba00000000010000ba0000009b0000009b000000b70000009d000000b7000000b7000000b70000009b000000b70000009d000000b7000000b7000000b70000009b0000009b0000009b00000083000000000100002700000006000000270000002700000027000000270000002d0000001000000010000000230000006a000000000100006a000000000100006a000000000100006a000000000100001e0000002c000000210000005c000000000100005c000000000100005c000000000100005c000000000100001a00000026000000210000005c000000000100005c000000000100005c000000000100005c000000000100001a00000026000000210000005c000000000100005c000000000100005c000000000100005c000000000100001a00000026000000210000005c000000000100005c000000000100005c000000000100005c000000000100001a00000026000000210000005c000000000100005c000000000100005c000000000100005c000000000100001a00000026000000210000005c000000000100005c000000000100005c000000000100005c000000000100001a00000026000000210000005c000000000100005c000000000100005c000000000100005c000000000100001a00000026000000210000005c000000000100005c000000000100005c000000000100005c000000000100001a00000026000000210000005c000000000100005c000000000100005c000000000100005c000000000100001a00000026000000210000005c000000000100005c000000000100005c000000000100005c000000000100001a00000026000000230000006a000000000100006a000000000100006a000000000100006a000000000100001e0000002c000000630000004300000000010000000100004300000000010000430000000001000043000000430000009400000094000000430000009400000043000000940000004300000024000000270000004600000030000000360000002d000000360000001d0000001d0000001d0000001d0000001d0000001d0000001d0000001d00000000010000ad0000000001000000010000ad0000000001000000010000ad0000000001000000010000ad0000000001000000010000ad0000000001000000010000ad0000000001000000010000ad0000000001000000010000ad0000000001000000010000ad0000000001000000010000ad000000000100001b0000001b0000001b0000001b0000001b0000001b0000001b0000001b0000001b0000001b000000000100000001000000010000000100008c00000000010000000100000001000000010000000100000001000000010000000100008c00000000010000000100000001000000010000000100000001000000010000000100008c00000000010000000100000001000000010000000100000001000000010000000100008c000000000100000001000000010000000100004600000046000000460000004900000049000000490000004900000024000000240000002400000024000000220000001800000004000000
+    unwrapper: 
+  - meshName:
+    - Bouteille_A_001
+    padding: 00010000
+    unwrapper: 00000000
+  - meshName:
+    - Top_Poubelle_B_002
+    - Poubelle_B_002
+    padding: 9e0000005a000000
+    unwrapper: 0000000000000000
+  - meshName:
+    - Object019
+    padding: 21000000
+    unwrapper: 00000000
+  - meshName:
+    - Sac_Poubelle_004
+    padding: c2000000
+    unwrapper: 00000000
+  - meshName:
+    - Sac_Poubelle_001
+    padding: a5000000
+    unwrapper: 00000000
+  - meshName:
+    - Sac_Poubelle_002
+    padding: b6000000
+    unwrapper: 00000000
+  - meshName:
+    - Sac_Poubelle_003
+    padding: b4000000
+    unwrapper: 00000000
+  - meshName:
+    - Bouteille_B_005
+    padding: 00010000
+    unwrapper: 00000000
+  - meshName:
+    - Cylinder006
+    padding: 00010000
+    unwrapper: 00000000
+  - meshName:
+    - Canette_B_003
+    padding: 00010000
+    unwrapper: 00000000
+  - meshName:
+    - Canette_A_004
+    padding: 00010000
+    unwrapper: 00000000
+  - meshName:
+    - Cup_A_007
+    padding: 00010000
+    unwrapper: 00000000
+  - meshName:
+    - porte_Benne_A_G_002
+    - porte_Benne_A_G_001
+    - Benne_A_001
+    padding: 620000006200000022000000
+    unwrapper: 000000000000000000000000
+  - meshName:
+    - Object018
+    padding: 28000000
+    unwrapper: 00000000
+  - meshName:
+    - Canette_B_002
+    padding: 00010000
+    unwrapper: 00000000
+  - meshName:
+    - Box108
+    padding: 66000000
+    unwrapper: 00000000
+  - meshName:
+    - Wall_001
+    padding: 30000000
+    unwrapper: 00000000
+  - meshName:
+    - Box109
+    padding: 61000000
+    unwrapper: 00000000
+  - meshName:
+    - Pneu_A_001
+    padding: 62000000
+    unwrapper: 00000000
+  - meshName:
+    - Boite_Bois_001
+    padding: 61000000
+    unwrapper: 00000000
+  - meshName:
+    - Cup_A_006
+    padding: 00010000
+    unwrapper: 00000000
+  - meshName:
+    - Object002
+    padding: 2a000000
+    unwrapper: 00000000
+  - meshName:
+    - Canette_B_001
+    padding: 00010000
+    unwrapper: 00000000
+  - meshName:
+    - Wall002
+    padding: 44000000
+    unwrapper: 00000000
+  - meshName:
+    - Bloc_Beton_001
+    padding: 44000000
+    unwrapper: 00000000
+  - meshName:
+    - Boite_Pizza_A_002
+    padding: ef000000
+    unwrapper: 00000000
+  - meshName:
+    - Box004
+    padding: 54000000
+    unwrapper: 00000000
+  - meshName:
+    - baril
+    padding: 3d000000
+    unwrapper: 00000000
+  - meshName:
+    - Cylinder023
+    padding: 2f000000
+    unwrapper: 00000000
+  - meshName:
+    - Object017
+    padding: 24000000
+    unwrapper: 00000000
+  - meshName:
+    - Object060
+    padding: 3b000000
+    unwrapper: 00000000
+  - meshName:
+    - Bouteille_B_001
+    padding: 00010000
+    unwrapper: 00000000
+  - meshName:
+    - KA_Batiment_002_Wall_001_A
+    padding: 30000000
+    unwrapper: 00000000
+  - meshName:
+    - KA_Batiment_002_Barriere_001_A
+    padding: 39000000
+    unwrapper: 00000000
+  - meshName:
+    - KA_Batiment_002_Window_003_A
+    padding: 1d000000
+    unwrapper: 00000000
+  - meshName:
+    - Object061
+    padding: 3f000000
+    unwrapper: 00000000
+  - meshName:
+    - Box013
+    padding: 3b000000
+    unwrapper: 00000000
+  - meshName:
+    - Object014
+    padding: 2f000000
+    unwrapper: 00000000
+  - meshName:
+    - Top_Poubelle_A_0012
+    - Poubelle_A_002
+    padding: aa00000059000000
+    unwrapper: 0000000000000000
+  - meshName:
+    - ROUE001
+    padding: 8d000000
+    unwrapper: 00000000
+  - meshName:
+    - Pillone_Grillage_chantier
+    padding: 00010000
+    unwrapper: 00000000
+  - meshName:
+    - Object016
+    padding: 26000000
+    unwrapper: 00000000
+  - meshName:
+    - Climatiseur_002
+    padding: 41000000
+    unwrapper: 00000000
+  - meshName:
+    - Box071
+    padding: 22000000
+    unwrapper: 00000000
+  - meshName:
+    - Box081
+    padding: 45000000
+    unwrapper: 00000000
+  - meshName:
+    - Cylinder026
+    padding: 00010000
+    unwrapper: 00000000
+  - meshName:
+    - Box057
+    padding: 4c000000
+    unwrapper: 00000000
+  - meshName:
+    - porte_Benne_B_G_002
+    - porte_Benne_B_G_001
+    - Benne_B_001
+    padding: 5a0000005a00000022000000
+    unwrapper: 000000000000000000000000
+  - meshName:
+    - Boite_Plastique_A_004
+    padding: 6a000000
+    unwrapper: 00000000
+  - meshName:
+    - Object020
+    padding: 2a000000
+    unwrapper: 00000000
+  - meshName:
+    - Plot_A_002
+    padding: d2000000
+    unwrapper: 00000000
+  - meshName:
+    - Canette_A_001
+    padding: 00010000
+    unwrapper: 00000000
+  - meshName:
+    - Bouteille_B_004
+    padding: 00010000
+    unwrapper: 00000000
+  - meshName:
+    - Climatiseur_001
+    padding: 5e000000
+    unwrapper: 00000000
+  - meshName:
+    - Grillage_CHantier_006A
+    padding: 49000000
+    unwrapper: 00000000
+  - meshName:
+    - Cylinder005
+    padding: 00010000
+    unwrapper: 00000000
+  - meshName:
+    - Object057
+    padding: 46000000
+    unwrapper: 00000000
+  - meshName:
+    - Object015
+    padding: 32000000
+    unwrapper: 00000000
+  - meshName:
+    - Door002
+    padding: 1f000000
+    unwrapper: 00000000
+  - meshName:
+    - Cylinder029
+    padding: 00010000
+    unwrapper: 00000000
+  - meshName:
+    - Cylinder016
+    padding: 77000000
+    unwrapper: 00000000
+  - meshName:
+    - Grillage_CHantier_002A
+    padding: 45000000
+    unwrapper: 00000000
+  - meshName:
+    - Box103
+    padding: 66000000
+    unwrapper: 00000000
+  - meshName:
+    - Boite_Pizza_A_001
+    padding: c3000000
+    unwrapper: 00000000
+  - meshName:
+    - Box072
+    padding: 58000000
+    unwrapper: 00000000
+  - meshName:
+    - Box018
+    padding: 2a000000
+    unwrapper: 00000000
+  - meshName:
+    - Top_Poubelle_A_001
+    - Poubelle_A_001
+    padding: aa00000059000000
+    unwrapper: 0000000000000000
+  - meshName:
+    - Bloc_Beton_002
+    padding: 44000000
+    unwrapper: 00000000
+  - meshName:
+    - Top_Poubelle_B_003
+    - Poubelle_B_003
+    padding: aa0000005d000000
+    unwrapper: 0000000000000000
+  - meshName:
+    - Box058
+    padding: 4c000000
+    unwrapper: 00000000
+  - meshName:
+    - Boite_Bois_004
+    padding: 3c000000
+    unwrapper: 00000000
+  - meshName:
+    - Mateals_2
+    padding: 2d000000
+    unwrapper: 00000000
+  - meshName:
+    - Plaque_Egout_001A
+    padding: cf000000
+    unwrapper: 00000000
+  - meshName:
+    - Cup_A_005
+    padding: 00010000
+    unwrapper: 00000000
+  - meshName:
+    - Grillage_CHantier_001A
+    padding: 45000000
+    unwrapper: 00000000
+  - meshName:
+    - Object001
+    padding: 2c000000
+    unwrapper: 00000000
+  - meshName:
+    - Box001
+    padding: 45000000
+    unwrapper: 00000000
+  - meshName:
+    - Box128
+    padding: 27000000
+    unwrapper: 00000000
+  - meshName:
+    - Pneu_A_002
+    padding: 62000000
+    unwrapper: 00000000
+  - meshName:
+    - Top_Poubelle_B_001
+    - Poubelle_B_001
+    padding: aa00000061000000
+    unwrapper: 0000000000000000
+  - meshName:
+    - Canette_A_003
+    padding: 00010000
+    unwrapper: 00000000
+  - meshName:
+    - Boite_Pizza_B_003
+    padding: b7000000
+    unwrapper: 00000000
+  - meshName:
+    - Canette_A_002
+    padding: 00010000
+    unwrapper: 00000000
+  - meshName:
+    - Mateals_3
+    padding: 2d000000
+    unwrapper: 00000000
+  - meshName:
+    - KA_Batiment_002_Wall_002_A
+    padding: 44000000
+    unwrapper: 00000000
+  - meshName:
+    - Cylinder022
+    padding: 77000000
+    unwrapper: 00000000
+  - meshName:
+    - Box114
+    padding: 34000000
+    unwrapper: 00000000
+  - meshName:
+    - Object003
+    padding: 27000000
+    unwrapper: 00000000
+  - meshName:
+    - Box012
+    padding: 3b000000
+    unwrapper: 00000000
+  - meshName:
+    - KA_Batiment_002_Wall_003_A
+    padding: 60000000
+    unwrapper: 00000000
+  - meshName:
+    - Object053
+    padding: 46000000
+    unwrapper: 00000000
+  - meshName:
+    - Boite_Bois_003
+    padding: 3d000000
+    unwrapper: 00000000
+  - meshName:
+    - Boite_Plastique_A_002
+    padding: 60000000
+    unwrapper: 00000000
+  - meshName:
+    - Box080
+    padding: 46000000
+    unwrapper: 00000000
+  - meshName:
+    - Box051
+    padding: 14000000
+    unwrapper: 00000000
+  - meshName:
+    - Plot_A_004
+    padding: d2000000
+    unwrapper: 00000000
+  - meshName:
+    - Object059
+    padding: 3f000000
+    unwrapper: 00000000
+  - meshName:
+    - Box009
+    padding: 7a000000
+    unwrapper: 00000000
+  - meshName:
+    - Emballage_A_003
+    padding: 00010000
+    unwrapper: 00000000
+  - meshName:
+    - Object004
+    padding: 30000000
+    unwrapper: 00000000
+  - meshName:
+    - Box082
+    padding: 5e000000
+    unwrapper: 00000000
+  - meshName:
+    - Cylinder001
+    padding: 00010000
+    unwrapper: 00000000
+  - meshName:
+    - Boite_Pizza_A_003
+    padding: c0000000
+    unwrapper: 00000000
+  - meshName:
+    - Object014
+    padding: 46000000
+    unwrapper: 00000000
+  - meshName:
+    - Object015
+    padding: 46000000
+    unwrapper: 00000000
+  - meshName:
+    - Cylinder018
+    padding: 77000000
+    unwrapper: 00000000
+  - meshName:
+    - Object052
+    padding: 1a000000
+    unwrapper: 00000000
+  - meshName:
+    - Angle002
+    padding: 44000000
+    unwrapper: 00000000
+  - meshName:
+    - Object070
+    padding: 30000000
+    unwrapper: 00000000
+  - meshName:
+    - Box006
+    padding: 54000000
+    unwrapper: 00000000
+  - meshName:
+    - Bouteille_A_002
+    padding: 00010000
+    unwrapper: 00000000
+  - meshName:
+    - Cylinder003
+    padding: 46000000
+    unwrapper: 00000000
+  - meshName:
+    - Mateals_1
+    padding: 2e000000
+    unwrapper: 00000000
+  - meshName:
+    - Box074
+    padding: 22000000
+    unwrapper: 00000000
+  - meshName:
+    - Bouteille_A_003
+    padding: 00010000
+    unwrapper: 00000000
+  - meshName:
+    - Box005
+    padding: 54000000
+    unwrapper: 00000000
+  - meshName:
+    - Box015
+    padding: 76000000
+    unwrapper: 00000000
+  - meshName:
+    - Box070
+    padding: 45000000
+    unwrapper: 00000000
+  - meshName:
+    - Box113
+    padding: 5b000000
+    unwrapper: 00000000
+  - meshName:
+    - Object024
+    padding: 6c000000
+    unwrapper: 00000000
+  - meshName:
+    - Object021
+    padding: 4a000000
+    unwrapper: 00000000
+  - meshName:
+    - Cylinder017
+    padding: 77000000
+    unwrapper: 00000000
+  - meshName:
+    - Object067
+    padding: ac000000
+    unwrapper: 00000000
+  - meshName:
+    - Cylinder020
+    padding: 78000000
+    unwrapper: 00000000
+  - meshName:
+    - Cylinder027
+    padding: 00010000
+    unwrapper: 00000000
+  - meshName:
+    - Object044
+    padding: 3a000000
+    unwrapper: 00000000
+  - meshName:
+    - Boite_Bois_002
+    padding: 3d000000
+    unwrapper: 00000000
+  - meshName:
+    - Bouteille_A_004
+    padding: 00010000
+    unwrapper: 00000000
+  - meshName:
+    - Emballage_A_002
+    padding: 00010000
+    unwrapper: 00000000
+  - meshName:
+    - KA_Batiment_002_Window_002_A
+    padding: 1f000000
+    unwrapper: 00000000
+  - meshName:
+    - Box115
+    padding: 2f000000
+    unwrapper: 00000000
+  - meshName:
+    - Grillage_CHantier_003A
+    padding: 45000000
+    unwrapper: 00000000
+  - meshName:
+    - Grillage_CHantier_007A
+    padding: 49000000
+    unwrapper: 00000000
+  - meshName:
+    - Box107
+    padding: 65000000
+    unwrapper: 00000000
+  - meshName:
+    - Box079
+    padding: 46000000
+    unwrapper: 00000000
+  - meshName:
+    - Box105
+    padding: 66000000
+    unwrapper: 00000000
+  - meshName:
+    - Plot_A_003
+    padding: d3000000
+    unwrapper: 00000000
+  - meshName:
+    - ROUE002
+    padding: 8f000000
+    unwrapper: 00000000
+  - meshName:
+    - Plane003
+    padding: 50000000
+    unwrapper: 00000000
+  - meshName:
+    - Box106
+    padding: 66000000
+    unwrapper: 00000000
+  - meshName:
+    - Angle001
+    padding: 30000000
+    unwrapper: 00000000
+  - meshName:
+    - Emballage_A_001
+    padding: 00010000
+    unwrapper: 00000000
+  - meshName:
+    - Box110
+    padding: 61000000
+    unwrapper: 00000000
+  - meshName:
+    - Cylinder033
+    padding: 4f000000
+    unwrapper: 00000000
+  - meshName:
+    - Object033
+    padding: 27000000
+    unwrapper: 00000000
+  - meshName:
+    - Cylinder019
+    padding: 77000000
+    unwrapper: 00000000
+  - meshName:
+    - Boite_Plastique_A_001
+    padding: 60000000
+    unwrapper: 00000000
+  - meshName:
+    - Object007
+    padding: 53000000
+    unwrapper: 00000000
+  - meshName:
+    - Box102
+    padding: 66000000
+    unwrapper: 00000000
+  - meshName:
+    - Box049
+    padding: 16000000
+    unwrapper: 00000000
+  - meshName:
+    - KA_Batiment_002_Door_001_A
+    padding: 21000000
+    unwrapper: 00000000
+  - meshName:
+    - Object027
+    padding: 2f000000
+    unwrapper: 00000000
+  - meshName:
+    - Cylinder021
+    padding: 77000000
+    unwrapper: 00000000
+  - meshName:
+    - Box112
+    padding: 61000000
+    unwrapper: 00000000
+  - meshName:
+    - Cylinder024
+    padding: 00010000
+    unwrapper: 00000000
+  - meshName:
+    - Box050
+    padding: 14000000
+    unwrapper: 00000000
+  - meshName:
+    - Box016
+    padding: 62000000
+    unwrapper: 00000000
+  - meshName:
+    - Box078
+    padding: 46000000
+    unwrapper: 00000000
+  - meshName:
+    - Object034
+    padding: 35000000
+    unwrapper: 00000000
+  - meshName:
+    - Grillage_CHantier_005A
+    padding: 47000000
+    unwrapper: 00000000
+  - meshName:
+    - Object051
+    padding: 54000000
+    unwrapper: 00000000
+  - meshName:
+    - Box077
+    padding: 5d000000
+    unwrapper: 00000000
+  - meshName:
+    - Cup_A_001
+    padding: 00010000
+    unwrapper: 00000000
+  - meshName:
+    - KA_Batiment_002_Window_001_A
+    padding: 16000000
+    unwrapper: 00000000
+  - meshName:
+    - Box104
+    padding: 66000000
+    unwrapper: 00000000
+  - meshName:
+    - Grillage_CHantier_004A
+    padding: 49000000
+    unwrapper: 00000000
+  - meshName:
+    - Object015ben
+    padding: 46000000
+    unwrapper: 00000000
+  - meshName:
+    - Mateals_4
+    padding: 2e000000
+    unwrapper: 00000000
+  - meshName:
+    - Boite_Plastique_A_003
+    padding: 5f000000
+    unwrapper: 00000000
+  - meshName:
+    - Object005
+    padding: 44000000
+    unwrapper: 00000000
+  - meshName:
+    - Box097
+    padding: 70000000
+    unwrapper: 00000000
+  - meshName:
+    - Box083
+    padding: 5d000000
+    unwrapper: 00000000
+  - meshName:
+    - Canape_001A
+    padding: 23000000
+    unwrapper: 00000000
+  - meshName:
+    - Box014
+    padding: 64000000
+    unwrapper: 00000000
+  - meshName:
+    - Box114
+    padding: 1f000000
+    unwrapper: 00000000
+  - meshName:
+    - ROUE000
+    padding: 88000000
+    unwrapper: 00000000
+  - meshName:
+    - Object030
+    padding: 2f000000
+    unwrapper: 00000000
+  - meshName:
+    - Box002
+    padding: 14000000
+    unwrapper: 00000000
+  - meshName:
+    - Box019
+    padding: 67000000
+    unwrapper: 00000000
+  - meshName:
+    - Cylinder028
+    padding: 00010000
+    unwrapper: 00000000
+  assetList:
+  - Assets/Bakery/examples/content/sponza/bush.FBX
+  - Assets/Bakery/examples/content/floor_lamp.FBX
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Road_002/KA_Road_002_F.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Road_001_A/KA_Trottoire_002_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Road_001_A/KA_Route_001_I.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Road_001_A/KA_Route_001_J.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Road_001_A/KA_Trottoire_001_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Road_001_A/KA_Route_001_H.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Road_002/KA_Trottoire_003_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KIT_Goutiere_001/KA_GoutiereSortie_001_B.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Road_001_A/KA_Route_001_C.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KIT_Goutiere_001/KA_GoutiereDroit_001_B.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Road_001_A/KA_Route_001_B.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Road_001_A/KA_Route_001_D.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Road_001_A/KA_Route_001_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KIT_Goutiere_001/KA_GoutiereDroit_001_C.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Road_001_A/KA_Route_001_F.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Road_001_A/KA_Trottoire_004_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Road_002/KA_Trottoire_003_B.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/PlaqueEgout/Plaque_002/OB_P_SUPP_plaque_egout_002A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Road_001_A/KA_Route_001_E.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Road_002/KA_BordureTrottoire_001_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Road_002/KA_Road_002_C.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KIT_Goutiere_001/KA_GoutiereSortie_001_C.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Road_001_A/KA_Trottoire_003_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Road_002/KA_Road_002_A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Road_002/KA_BordureTrottoire_001_B.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Road_002/KA_Road_002_E.fbx
+  uvOverlapAssetList: 00000000ffffffff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000101000000000000
+  xatlasWarningShown: 0
+  foundCompatibleSetup: 1
+  gpuName: NVIDIA GeForce GTX 1080
+  runsNonRTX: 1
+  runsOptix5: 1
+  runsOptix6: 1
+  runsOptix7: 1
+  runsOIDN: 1
+  runsOIDN2: 0
+  alwaysEnableRTX: 0
+  checkerPreviewOn: 0
+  rtSceneViewPreviewOn: 0
+  renderSettingsBounces: 5
+  renderSettingsGISamples: 16
+  renderSettingsGIBackFaceWeight: 0
+  renderSettingsTileSize: 512
+  renderSettingsPriority: 2
+  renderSettingsTexelsPerUnit: 20
+  renderSettingsForceRefresh: 1
+  renderSettingsForceRebuildGeometry: 1
+  renderSettingsPerformRendering: 1
+  renderSettingsUserRenderMode: 0
+  renderSettingsDistanceShadowmask: 0
+  renderSettingsSettingsMode: 0
+  renderSettingsFixSeams: 1
+  renderSettingsDenoise: 1
+  renderSettingsDenoise2x: 0
+  renderSettingsEncode: 1
+  renderSettingsEncodeMode: 0
+  renderSettingsOverwriteWarning: 0
+  renderSettingsAutoAtlas: 1
+  renderSettingsUnwrapUVs: 1
+  renderSettingsForceDisableUnwrapUVs: 0
+  renderSettingsMaxAutoResolution: 4096
+  renderSettingsMinAutoResolution: 16
+  renderSettingsUnloadScenes: 1
+  renderSettingsAdjustSamples: 1
+  renderSettingsGILODMode: 2
+  renderSettingsGILODModeEnabled: 0
+  renderSettingsCheckOverlaps: 0
+  renderSettingsSkipOutOfBoundsUVs: 1
+  renderSettingsHackEmissiveBoost: 1
+  renderSettingsHackIndirectBoost: 1
+  renderSettingsTempPath: 
+  renderSettingsOutPath: 
+  renderSettingsUseScenePath: 0
+  renderSettingsHackAOIntensity: 0
+  renderSettingsHackAOSamples: 16
+  renderSettingsHackAORadius: 1
+  renderSettingsShowAOSettings: 0
+  renderSettingsShowTasks: 1
+  renderSettingsShowTasks2: 0
+  renderSettingsShowPaths: 1
+  renderSettingsShowNet: 1
+  renderSettingsOcclusionProbes: 0
+  renderSettingsTexelsPerMap: 0
+  renderSettingsTexelsColor: 1
+  renderSettingsTexelsMask: 1
+  renderSettingsTexelsDir: 1
+  renderSettingsShowDirWarning: 1
+  renderSettingsRenderDirMode: 0
+  renderSettingsShowCheckerSettings: 0
+  renderSettingsSamplesWarning: 1
+  renderSettingsSuppressPopups: 0
+  renderSettingsPrefabWarning: 1
+  renderSettingsSplitByScene: 0
+  renderSettingsSplitByTag: 0
+  renderSettingsUVPaddingMax: 0
+  renderSettingsPostPacking: 1
+  renderSettingsHoleFilling: 0
+  renderSettingsBeepOnFinish: 0
+  renderSettingsExportTerrainAsHeightmap: 1
+  renderSettingsRTXMode: 0
+  renderSettingsLightProbeMode: 1
+  renderSettingsClientMode: 0
+  renderSettingsServerAddress: 127.0.0.1
+  renderSettingsUnwrapper: 0
+  renderSettingsDenoiserType: 100
+  renderSettingsExportTerrainTrees: 0
+  renderSettingsShowPerf: 1
+  renderSettingsSampleDiv: 1
+  renderSettingsAtlasPacker: 0
+  renderSettingsBatchPoints: 1
+  renderSettingsCompressVolumes: 0
+  renderSettingsBatchAreaLightSampleLimit: 0
+  renderSettingsRTPVExport: 1
+  renderSettingsRTPVSceneView: 0
+  renderSettingsRTPVHDR: 0
+  renderSettingsRTPVWidth: 640
+  renderSettingsRTPVHeight: 360
+  tagOverrides: []
+  modifiedMeshPaddingArray: 00010000
+  modifiedMeshUnwrapperArray: 00000000

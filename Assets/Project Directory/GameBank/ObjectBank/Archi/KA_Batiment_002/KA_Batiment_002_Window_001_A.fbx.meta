@@ -30,7 +30,8 @@ ModelImporter:
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    extraUserProperties: []
+    extraUserProperties:
+    - '#BAKERY{"meshName":["KA_Batiment_002_Window_001_A"],"padding":[22],"unwrapper":[0]}'
     clipAnimations: []
     isReadable: 0
   meshes:

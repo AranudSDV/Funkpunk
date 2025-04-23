@@ -38,7 +38,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaCutoff: 0.5
-    - _BPM: 130
+    - _BPM: 90
     - _EnvironmentReflections: 1
     - _Float2: 0
     - _QueueControl: 0
@@ -55,9 +55,9 @@ Material:
     - _pujvr: 0
     m_Colors:
     - _BaseVertexOffsetDelay: {r: 0, g: 0, b: 0, a: 0}
-    - _BaseVertexOffsetValue: {r: 0.2, g: 0.2, b: 0.2, a: 0}
+    - _BaseVertexOffsetValue: {r: 0.5, g: 0.5, b: 0.2, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _TopVertexDelay: {r: 0, g: 0, b: 0, a: 0}
-    - _TopVertexOffsetValue: {r: -0.5, g: 0, b: 0, a: 0}
+    - _TopVertexDelay: {r: 0.1, g: 0, b: 0, a: 0}
+    - _TopVertexOffsetValue: {r: -0.3, g: 0, b: 0, a: 0}
     - _VertexOffsetValue: {r: 0.1, g: 0.1, b: 0.1, a: 0}
   m_BuildTextureStacks: []

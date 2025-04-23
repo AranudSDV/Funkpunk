@@ -30,7 +30,8 @@ ModelImporter:
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    extraUserProperties: []
+    extraUserProperties:
+    - '#BAKERY{"meshName":["Top_Poubelle_B_001","Poubelle_B_001"],"padding":[170,97],"unwrapper":[0,0]}'
     clipAnimations: []
     isReadable: 0
   meshes:

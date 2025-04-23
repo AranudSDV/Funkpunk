@@ -1,0 +1,489 @@
+2025-4-22
+Rendering UV GBuffer for SceneLvl1_LM0 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Rendering UV GBuffer for SceneLvl1_LMA1 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Rendering UV GBuffer for SceneLvl1_LMA2 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Rendering UV GBuffer for SceneLvl1_LMA3 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Rendering UV GBuffer for SceneLvl1_LMA4 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Rendering UV GBuffer for SceneLvl1_LMA5 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Rendering UV GBuffer for probes 256
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Done
+Done
+Running ftrace fixpos12 "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "uvpos_SceneLvl1_LM0.lz4" 2 0 0 0
+Running ftrace fixpos12 "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "uvpos_SceneLvl1_LMA1.lz4" 2 0 1 0
+Running ftrace fixpos12 "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "uvpos_SceneLvl1_LMA3.lz4" 2 0 3 0
+Running ftrace fixpos12 "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "uvpos_SceneLvl1_LMA2.lz4" 2 0 2 0
+Running ftrace fixpos12 "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "uvpos_SceneLvl1_LMA4.lz4" 2 0 4 0
+Running ftrace fixpos12 "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "uvpos_SceneLvl1_LMA5.lz4" 2 0 5 0
+Running ftrace addmul "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "probes" 4 0 6 comp_6.bin
+Running ftrace addmul "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LM0" 4 0 0 comp_0.bin
+Running ftrace addmul "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA1" 4 0 1 comp_1.bin
+Running ftrace addmul "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA3" 4 0 3 comp_3.bin
+Running ftrace addmul "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA2" 4 0 2 comp_2.bin
+Running ftrace addmul "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA4" 4 0 4 comp_4.bin
+Running ftrace addmul "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA5" 4 0 5 comp_5.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LM0_diffuse" 4 16 0 "gi_SceneLvl1_LM00.bin" "SceneLvl1_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA1_diffuse" 4 16 1 "gi_SceneLvl1_LMA10.bin" "SceneLvl1_LMA1_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA3_diffuse" 4 16 3 "gi_SceneLvl1_LMA30.bin" "SceneLvl1_LMA3_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA2_diffuse" 4 16 2 "gi_SceneLvl1_LMA20.bin" "SceneLvl1_LMA2_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA4_diffuse" 4 16 4 "gi_SceneLvl1_LMA40.bin" "SceneLvl1_LMA4_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA5_diffuse" 4 16 5 "gi_SceneLvl1_LMA50.bin" "SceneLvl1_LMA5_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LM0_diffuse" 4 16 0 "gi_SceneLvl1_LM01.bin" "SceneLvl1_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA1_diffuse" 4 16 1 "gi_SceneLvl1_LMA11.bin" "SceneLvl1_LMA1_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA3_diffuse" 4 16 3 "gi_SceneLvl1_LMA31.bin" "SceneLvl1_LMA3_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA2_diffuse" 4 16 2 "gi_SceneLvl1_LMA21.bin" "SceneLvl1_LMA2_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA4_diffuse" 4 16 4 "gi_SceneLvl1_LMA41.bin" "SceneLvl1_LMA4_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA5_diffuse" 4 16 5 "gi_SceneLvl1_LMA51.bin" "SceneLvl1_LMA5_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LM0_diffuse" 4 16 0 "gi_SceneLvl1_LM02.bin" "SceneLvl1_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA1_diffuse" 4 16 1 "gi_SceneLvl1_LMA12.bin" "SceneLvl1_LMA1_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA3_diffuse" 4 16 3 "gi_SceneLvl1_LMA32.bin" "SceneLvl1_LMA3_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA2_diffuse" 4 16 2 "gi_SceneLvl1_LMA22.bin" "SceneLvl1_LMA2_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA4_diffuse" 4 16 4 "gi_SceneLvl1_LMA42.bin" "SceneLvl1_LMA4_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA5_diffuse" 4 16 5 "gi_SceneLvl1_LMA52.bin" "SceneLvl1_LMA5_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LM0_diffuse" 4 16 0 "gi_SceneLvl1_LM03.bin" "SceneLvl1_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA1_diffuse" 4 16 1 "gi_SceneLvl1_LMA13.bin" "SceneLvl1_LMA1_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA3_diffuse" 4 16 3 "gi_SceneLvl1_LMA33.bin" "SceneLvl1_LMA3_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA2_diffuse" 4 16 2 "gi_SceneLvl1_LMA23.bin" "SceneLvl1_LMA2_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA4_diffuse" 4 16 4 "gi_SceneLvl1_LMA43.bin" "SceneLvl1_LMA4_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA5_diffuse" 4 16 5 "gi_SceneLvl1_LMA53.bin" "SceneLvl1_LMA5_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgiprobesh "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "probes_final" 1924 16 6 "gi_probes4.bin" "probes_lights_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LM0_final" 4 16 0 "gi_SceneLvl1_LM04.bin" "SceneLvl1_LM0_lights_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA1_final" 4 16 1 "gi_SceneLvl1_LMA14.bin" "SceneLvl1_LMA1_lights_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA3_final" 4 16 3 "gi_SceneLvl1_LMA34.bin" "SceneLvl1_LMA3_lights_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA2_final" 4 16 2 "gi_SceneLvl1_LMA24.bin" "SceneLvl1_LMA2_lights_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA4_final" 4 16 4 "gi_SceneLvl1_LMA44.bin" "SceneLvl1_LMA4_lights_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA5_final" 4 16 5 "gi_SceneLvl1_LMA54.bin" "SceneLvl1_LMA5_lights_HDR.lz4" vbTraceTex.bin
+Running ftrace addsh "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "probes_final_" 4 0 6 shcomp_6.bin
+Running denoiserOIDN c "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LM0_final_HDR.lz4" "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LM0_final_HDR.lz4" 2048 0
+Running seamfixer "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "0" "SceneLvl1_LM0_final_HDR.lz4"
+Running denoiserOIDN c "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA1_final_HDR.lz4" "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA1_final_HDR.lz4" 2048 0
+Running seamfixer "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "1" "SceneLvl1_LMA1_final_HDR.lz4"
+Running denoiserOIDN c "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA3_final_HDR.lz4" "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA3_final_HDR.lz4" 256 0
+Running seamfixer "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "3" "SceneLvl1_LMA3_final_HDR.lz4"
+Running denoiserOIDN c "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA2_final_HDR.lz4" "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA2_final_HDR.lz4" 512 0
+Running seamfixer "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "2" "SceneLvl1_LMA2_final_HDR.lz4"
+Running denoiserOIDN c "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA4_final_HDR.lz4" "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA4_final_HDR.lz4" 256 0
+Running seamfixer "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "4" "SceneLvl1_LMA4_final_HDR.lz4"
+Running denoiserOIDN c "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA5_final_HDR.lz4" "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA5_final_HDR.lz4" 128 0
+Running seamfixer "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "5" "SceneLvl1_LMA5_final_HDR.lz4"
+Running halffloat2hdr "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LM0_final_HDR.lz4" "C:/Users/d_ladeira/Documents/Projects/Funkpunk/Assets/BakeryLightmaps/SceneLvl1_LM0_final.hdr" 1024
+Running halffloat2hdr "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA1_final_HDR.lz4" "C:/Users/d_ladeira/Documents/Projects/Funkpunk/Assets/BakeryLightmaps/SceneLvl1_LMA1_final.hdr" 1024
+Running halffloat2hdr "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA3_final_HDR.lz4" "C:/Users/d_ladeira/Documents/Projects/Funkpunk/Assets/BakeryLightmaps/SceneLvl1_LMA3_final.hdr" 1024
+Running halffloat2hdr "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA2_final_HDR.lz4" "C:/Users/d_ladeira/Documents/Projects/Funkpunk/Assets/BakeryLightmaps/SceneLvl1_LMA2_final.hdr" 1024
+Running halffloat2hdr "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA4_final_HDR.lz4" "C:/Users/d_ladeira/Documents/Projects/Funkpunk/Assets/BakeryLightmaps/SceneLvl1_LMA4_final.hdr" 1024
+Running halffloat2hdr "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA5_final_HDR.lz4" "C:/Users/d_ladeira/Documents/Projects/Funkpunk/Assets/BakeryLightmaps/SceneLvl1_LMA5_final.hdr" 1024
+Done
+Done
+Done
+Done
+Loaded vertex shader: quad.vso
+Loaded pixel shader: skyOutput.pso
+Loaded pixel shader: cookieOutput.pso
+initShaders done
+initScene done
+Done
+Rendering UV GBuffer for SceneLvl1_LM0 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Rendering UV GBuffer for SceneLvl1_LMA1 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Rendering UV GBuffer for SceneLvl1_LMA2 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Rendering UV GBuffer for SceneLvl1_LMA3 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Rendering UV GBuffer for SceneLvl1_LMA4 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Rendering UV GBuffer for probes 256
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Done
+Done
+Running ftrace fixpos12 "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "uvpos_SceneLvl1_LMA1.lz4" 2 0 1 0
+Running ftrace fixpos12 "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "uvpos_SceneLvl1_LM0.lz4" 2 0 0 0
+Running ftrace fixpos12 "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "uvpos_SceneLvl1_LMA2.lz4" 2 0 2 0
+Running ftrace fixpos12 "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "uvpos_SceneLvl1_LMA3.lz4" 2 0 3 0
+Running ftrace fixpos12 "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "uvpos_SceneLvl1_LMA4.lz4" 2 0 4 0
+Running ftrace addmul "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "probes" 4 0 5 comp_5.bin
+Running ftrace addmul "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA1" 4 0 1 comp_1.bin
+Running ftrace diradd "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA1_lights_Dir.lz4" 64 0 1 dircomp_1.bin
+Running ftrace addmul "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LM0" 4 0 0 comp_0.bin
+Running ftrace diradd "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LM0_lights_Dir.lz4" 64 0 0 dircomp_0.bin
+Running ftrace addmul "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA2" 4 0 2 comp_2.bin
+Running ftrace diradd "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA2_lights_Dir.lz4" 64 0 2 dircomp_2.bin
+Running ftrace addmul "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA3" 4 0 3 comp_3.bin
+Running ftrace diradd "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA3_lights_Dir.lz4" 64 0 3 dircomp_3.bin
+Running ftrace addmul "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA4" 4 0 4 comp_4.bin
+Running ftrace diradd "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA4_lights_Dir.lz4" 64 0 4 dircomp_4.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA1_diffuse" 4 16 1 "gi_SceneLvl1_LMA10.bin" "SceneLvl1_LMA1_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LM0_diffuse" 4 16 0 "gi_SceneLvl1_LM00.bin" "SceneLvl1_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA2_diffuse" 4 16 2 "gi_SceneLvl1_LMA20.bin" "SceneLvl1_LMA2_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA3_diffuse" 4 16 3 "gi_SceneLvl1_LMA30.bin" "SceneLvl1_LMA3_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA4_diffuse" 4 16 4 "gi_SceneLvl1_LMA40.bin" "SceneLvl1_LMA4_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA1_diffuse" 4 16 1 "gi_SceneLvl1_LMA11.bin" "SceneLvl1_LMA1_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LM0_diffuse" 4 16 0 "gi_SceneLvl1_LM01.bin" "SceneLvl1_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA2_diffuse" 4 16 2 "gi_SceneLvl1_LMA21.bin" "SceneLvl1_LMA2_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA3_diffuse" 4 16 3 "gi_SceneLvl1_LMA31.bin" "SceneLvl1_LMA3_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA4_diffuse" 4 16 4 "gi_SceneLvl1_LMA41.bin" "SceneLvl1_LMA4_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgiprobesh "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "probes_final" 1940 16 5 "gi_probes2.bin" "probes_lights_HDR.lz4" vbTraceTex.bin
+Running ftrace texgidir "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA1_final" 84 16 1 "gi_SceneLvl1_LMA12.bin" "SceneLvl1_LMA1_lights_HDR.lz4" vbTraceTex.bin
+Running ftrace texgidir "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LM0_final" 84 16 0 "gi_SceneLvl1_LM02.bin" "SceneLvl1_LM0_lights_HDR.lz4" vbTraceTex.bin
+Running ftrace texgidir "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA2_final" 84 16 2 "gi_SceneLvl1_LMA22.bin" "SceneLvl1_LMA2_lights_HDR.lz4" vbTraceTex.bin
+Running ftrace texgidir "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA3_final" 84 16 3 "gi_SceneLvl1_LMA32.bin" "SceneLvl1_LMA3_lights_HDR.lz4" vbTraceTex.bin
+Running ftrace texgidir "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA4_final" 84 16 4 "gi_SceneLvl1_LMA42.bin" "SceneLvl1_LMA4_lights_HDR.lz4" vbTraceTex.bin
+Running ftrace add "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "probes_final_HDR.lz4" 4 0 5 comp_indirect5.bin
+Running ftrace add "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA1_final_HDR.lz4" 4 0 1 comp_indirect1.bin
+Running ftrace diradd "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA1_final_Dir.lz4" 64 0 1 dircomp_indirect1.bin
+Running ftrace add "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LM0_final_HDR.lz4" 4 0 0 comp_indirect0.bin
+Running ftrace diradd "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LM0_final_Dir.lz4" 64 0 0 dircomp_indirect0.bin
+Running ftrace add "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA2_final_HDR.lz4" 4 0 2 comp_indirect2.bin
+Running ftrace diradd "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA2_final_Dir.lz4" 64 0 2 dircomp_indirect2.bin
+Running ftrace add "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA3_final_HDR.lz4" 4 0 3 comp_indirect3.bin
+Running ftrace diradd "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA3_final_Dir.lz4" 64 0 3 dircomp_indirect3.bin
+Running ftrace add "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA4_final_HDR.lz4" 4 0 4 comp_indirect4.bin
+Running ftrace diradd "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA4_final_Dir.lz4" 64 0 4 dircomp_indirect4.bin
+Running ftrace addsh "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "probes_final_" 4 0 5 shcomp_5.bin
+Running denoiserOIDN D "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA1_final_Dir.lz4" "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA1_final_Dir.lz4" 2048 0
+Running denoiserOIDN c "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA1_final_HDR.lz4" "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA1_final_HDR.lz4" 2048 0
+Running seamfixer "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "1" "SceneLvl1_LMA1_final_HDR.lz4" "SceneLvl1_LMA1_final_Dir.lz4
+Running denoiserOIDN D "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LM0_final_Dir.lz4" "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LM0_final_Dir.lz4" 2048 0
+Running denoiserOIDN c "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LM0_final_HDR.lz4" "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LM0_final_HDR.lz4" 2048 0
+Running seamfixer "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "0" "SceneLvl1_LM0_final_HDR.lz4" "SceneLvl1_LM0_final_Dir.lz4
+Running denoiserOIDN D "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA2_final_Dir.lz4" "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA2_final_Dir.lz4" 512 0
+Running denoiserOIDN c "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA2_final_HDR.lz4" "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA2_final_HDR.lz4" 512 0
+Running seamfixer "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "2" "SceneLvl1_LMA2_final_HDR.lz4" "SceneLvl1_LMA2_final_Dir.lz4
+Running denoiserOIDN D "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA3_final_Dir.lz4" "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA3_final_Dir.lz4" 512 0
+Running denoiserOIDN c "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA3_final_HDR.lz4" "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA3_final_HDR.lz4" 512 0
+Running seamfixer "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "3" "SceneLvl1_LMA3_final_HDR.lz4" "SceneLvl1_LMA3_final_Dir.lz4
+Running denoiserOIDN D "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA4_final_Dir.lz4" "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA4_final_Dir.lz4" 128 0
+Running denoiserOIDN c "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA4_final_HDR.lz4" "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA4_final_HDR.lz4" 128 0
+Running seamfixer "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "4" "SceneLvl1_LMA4_final_HDR.lz4" "SceneLvl1_LMA4_final_Dir.lz4
+Running halffloat2hdr "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA1_final_HDR.lz4" "C:/Users/d_ladeira/Documents/Projects/Funkpunk/Assets/BakeryLightmaps/SceneLvl1_LMA1_final.hdr" 1024
+Running rgba2tga "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA1_final_Dir.lz4" "C:/Users/d_ladeira/Documents/Projects/Funkpunk/Assets/BakeryLightmaps/SceneLvl1_LMA1_dir.tga" 
+Running halffloat2hdr "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LM0_final_HDR.lz4" "C:/Users/d_ladeira/Documents/Projects/Funkpunk/Assets/BakeryLightmaps/SceneLvl1_LM0_final.hdr" 1024
+Running rgba2tga "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LM0_final_Dir.lz4" "C:/Users/d_ladeira/Documents/Projects/Funkpunk/Assets/BakeryLightmaps/SceneLvl1_LM0_dir.tga" 
+Running halffloat2hdr "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA2_final_HDR.lz4" "C:/Users/d_ladeira/Documents/Projects/Funkpunk/Assets/BakeryLightmaps/SceneLvl1_LMA2_final.hdr" 1024
+Running rgba2tga "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA2_final_Dir.lz4" "C:/Users/d_ladeira/Documents/Projects/Funkpunk/Assets/BakeryLightmaps/SceneLvl1_LMA2_dir.tga" 
+Running halffloat2hdr "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA3_final_HDR.lz4" "C:/Users/d_ladeira/Documents/Projects/Funkpunk/Assets/BakeryLightmaps/SceneLvl1_LMA3_final.hdr" 1024
+Running rgba2tga "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA3_final_Dir.lz4" "C:/Users/d_ladeira/Documents/Projects/Funkpunk/Assets/BakeryLightmaps/SceneLvl1_LMA3_dir.tga" 
+Running halffloat2hdr "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA4_final_HDR.lz4" "C:/Users/d_ladeira/Documents/Projects/Funkpunk/Assets/BakeryLightmaps/SceneLvl1_LMA4_final.hdr" 1024
+Running rgba2tga "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA4_final_Dir.lz4" "C:/Users/d_ladeira/Documents/Projects/Funkpunk/Assets/BakeryLightmaps/SceneLvl1_LMA4_dir.tga" 
+Done
+Done
+Done
+Done
+Loaded vertex shader: quad.vso
+Loaded pixel shader: skyOutput.pso
+Loaded pixel shader: cookieOutput.pso
+initShaders done
+initScene done
+Done
+Rendering UV GBuffer for SceneLvl1_LM0 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Rendering UV GBuffer for SceneLvl1_LMA1 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Rendering UV GBuffer for SceneLvl1_LMA2 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Rendering UV GBuffer for SceneLvl1_LMA3 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Rendering UV GBuffer for SceneLvl1_LMA4 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Rendering UV GBuffer for probes 256
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Done
+Done
+Running ftrace fixpos12 "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "uvpos_SceneLvl1_LMA1.lz4" 2 0 1 0
+Running ftrace fixpos12 "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "uvpos_SceneLvl1_LM0.lz4" 2 0 0 0
+Running ftrace fixpos12 "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "uvpos_SceneLvl1_LMA2.lz4" 2 0 2 0
+Running ftrace fixpos12 "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "uvpos_SceneLvl1_LMA3.lz4" 2 0 3 0
+Running ftrace fixpos12 "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "uvpos_SceneLvl1_LMA4.lz4" 2 0 4 0
+Running ftrace ao "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA1_ao" 8 16 1
+Running ftrace ao "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LM0_ao" 8 16 0
+Running ftrace ao "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA2_ao" 8 16 2
+Running ftrace ao "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA3_ao" 8 16 3
+Running ftrace ao "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA4_ao" 8 16 4
+Running ftrace batchpointlightprobeshlegacy "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "PointBatch_5_0_127" 1924 0 5 batchpointlight_5_0_127.bin
+Running ftrace batchpointlightprobeshlegacy "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "PointBatch_5_128_160" 1924 0 5 batchpointlight_5_128_160.bin
+Running ftrace addmul "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "probes" 4 0 5 comp_5.bin
+Running ftrace batchpointlightlegacy "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "PointBatch_1_0_127" 4 0 1 batchpointlight_1_0_127.bin
+Running ftrace batchpointlightlegacy "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "PointBatch_1_128_160" 4 0 1 batchpointlight_1_128_160.bin
+Running ftrace addmul "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA1" 4 0 1 comp_1.bin
+Running ftrace diradd "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA1_lights_Dir.lz4" 64 0 1 dircomp_1.bin
+Running ftrace batchpointlightlegacy "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "PointBatch_0_0_127" 4 0 0 batchpointlight_0_0_127.bin
+Running ftrace batchpointlightlegacy "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "PointBatch_0_128_160" 4 0 0 batchpointlight_0_128_160.bin
+Running ftrace addmul "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LM0" 4 0 0 comp_0.bin
+Running ftrace diradd "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LM0_lights_Dir.lz4" 64 0 0 dircomp_0.bin
+Running ftrace batchpointlightlegacy "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "PointBatch_2_0_135" 4 0 2 batchpointlight_2_0_135.bin
+Running ftrace batchpointlightlegacy "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "PointBatch_2_136_160" 4 0 2 batchpointlight_2_136_160.bin
+Running ftrace addmul "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA2" 4 0 2 comp_2.bin
+Running ftrace diradd "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA2_lights_Dir.lz4" 64 0 2 dircomp_2.bin
+Running ftrace batchpointlightlegacy "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "PointBatch_3_0_127" 4 0 3 batchpointlight_3_0_127.bin
+Running ftrace batchpointlightlegacy "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "PointBatch_3_128_160" 4 0 3 batchpointlight_3_128_160.bin
+Running ftrace addmul "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA3" 4 0 3 comp_3.bin
+Running ftrace diradd "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA3_lights_Dir.lz4" 64 0 3 dircomp_3.bin
+Running ftrace batchpointlightlegacy "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "PointBatch_4_0_160" 4 0 4 batchpointlight_4_0_160.bin
+Running ftrace addmul "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA4" 4 0 4 comp_4.bin
+Running ftrace diradd "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA4_lights_Dir.lz4" 64 0 4 dircomp_4.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA1_diffuse" 4 16 1 "gi_SceneLvl1_LMA10.bin" "SceneLvl1_LMA1_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LM0_diffuse" 4 16 0 "gi_SceneLvl1_LM00.bin" "SceneLvl1_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA2_diffuse" 4 16 2 "gi_SceneLvl1_LMA20.bin" "SceneLvl1_LMA2_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA3_diffuse" 4 16 3 "gi_SceneLvl1_LMA30.bin" "SceneLvl1_LMA3_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA4_diffuse" 4 16 4 "gi_SceneLvl1_LMA40.bin" "SceneLvl1_LMA4_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA1_diffuse" 4 16 1 "gi_SceneLvl1_LMA11.bin" "SceneLvl1_LMA1_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LM0_diffuse" 4 16 0 "gi_SceneLvl1_LM01.bin" "SceneLvl1_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA2_diffuse" 4 16 2 "gi_SceneLvl1_LMA21.bin" "SceneLvl1_LMA2_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA3_diffuse" 4 16 3 "gi_SceneLvl1_LMA31.bin" "SceneLvl1_LMA3_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA4_diffuse" 4 16 4 "gi_SceneLvl1_LMA41.bin" "SceneLvl1_LMA4_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgiprobesh "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "probes_final" 1940 16 5 "gi_probes2.bin" "probes_lights_HDR.lz4" vbTraceTex.bin
+Running ftrace texgidir "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA1_final" 84 16 1 "gi_SceneLvl1_LMA12.bin" "SceneLvl1_LMA1_lights_HDR.lz4" vbTraceTex.bin
+Running ftrace texgidir "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LM0_final" 84 16 0 "gi_SceneLvl1_LM02.bin" "SceneLvl1_LM0_lights_HDR.lz4" vbTraceTex.bin
+Running ftrace texgidir "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA2_final" 84 16 2 "gi_SceneLvl1_LMA22.bin" "SceneLvl1_LMA2_lights_HDR.lz4" vbTraceTex.bin
+Running ftrace texgidir "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA3_final" 84 16 3 "gi_SceneLvl1_LMA32.bin" "SceneLvl1_LMA3_lights_HDR.lz4" vbTraceTex.bin
+Running ftrace texgidir "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA4_final" 84 16 4 "gi_SceneLvl1_LMA42.bin" "SceneLvl1_LMA4_lights_HDR.lz4" vbTraceTex.bin
+Running ftrace add "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "probes_final_HDR.lz4" 4 0 5 comp_indirect5.bin
+Running ftrace add "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA1_final_HDR.lz4" 4 0 1 comp_indirect1.bin
+Running ftrace diradd "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA1_final_Dir.lz4" 64 0 1 dircomp_indirect1.bin
+Running ftrace add "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LM0_final_HDR.lz4" 4 0 0 comp_indirect0.bin
+Running ftrace diradd "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LM0_final_Dir.lz4" 64 0 0 dircomp_indirect0.bin
+Running ftrace add "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA2_final_HDR.lz4" 4 0 2 comp_indirect2.bin
+Running ftrace diradd "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA2_final_Dir.lz4" 64 0 2 dircomp_indirect2.bin
+Running ftrace add "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA3_final_HDR.lz4" 4 0 3 comp_indirect3.bin
+Running ftrace diradd "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA3_final_Dir.lz4" 64 0 3 dircomp_indirect3.bin
+Running ftrace add "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA4_final_HDR.lz4" 4 0 4 comp_indirect4.bin
+Running ftrace diradd "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA4_final_Dir.lz4" 64 0 4 dircomp_indirect4.bin
+Running ftrace addsh "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "probes_final_" 4 0 5 shcomp_5.bin
+Running denoiserOIDN D "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA1_final_Dir.lz4" "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA1_final_Dir.lz4" 2048 0
+Running ftrace addao "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA1_final_HDR.lz4" 4 0 1 addao_1.bin
+Running denoiserOIDN c "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA1_final_HDR.lz4" "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA1_final_HDR.lz4" 2048 0
+Running seamfixer "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "1" "SceneLvl1_LMA1_final_HDR.lz4" "SceneLvl1_LMA1_final_Dir.lz4
+Running denoiserOIDN D "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LM0_final_Dir.lz4" "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LM0_final_Dir.lz4" 2048 0
+Running ftrace addao "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LM0_final_HDR.lz4" 4 0 0 addao_0.bin
+Running denoiserOIDN c "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LM0_final_HDR.lz4" "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LM0_final_HDR.lz4" 2048 0
+Running seamfixer "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "0" "SceneLvl1_LM0_final_HDR.lz4" "SceneLvl1_LM0_final_Dir.lz4
+Running denoiserOIDN D "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA2_final_Dir.lz4" "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA2_final_Dir.lz4" 512 0
+Running ftrace addao "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA2_final_HDR.lz4" 4 0 2 addao_2.bin
+Running denoiserOIDN c "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA2_final_HDR.lz4" "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA2_final_HDR.lz4" 512 0
+Running seamfixer "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "2" "SceneLvl1_LMA2_final_HDR.lz4" "SceneLvl1_LMA2_final_Dir.lz4
+Running denoiserOIDN D "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA3_final_Dir.lz4" "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA3_final_Dir.lz4" 512 0
+Running ftrace addao "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA3_final_HDR.lz4" 4 0 3 addao_3.bin
+Running denoiserOIDN c "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA3_final_HDR.lz4" "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA3_final_HDR.lz4" 512 0
+Running seamfixer "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "3" "SceneLvl1_LMA3_final_HDR.lz4" "SceneLvl1_LMA3_final_Dir.lz4
+Running denoiserOIDN D "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA4_final_Dir.lz4" "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA4_final_Dir.lz4" 128 0
+Running ftrace addao "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA4_final_HDR.lz4" 4 0 4 addao_4.bin
+Running denoiserOIDN c "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA4_final_HDR.lz4" "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA4_final_HDR.lz4" 128 0
+Running seamfixer "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "4" "SceneLvl1_LMA4_final_HDR.lz4" "SceneLvl1_LMA4_final_Dir.lz4
+Running halffloat2hdr "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA1_final_HDR.lz4" "C:/Users/d_ladeira/Documents/Projects/Funkpunk/Assets/BakeryLightmaps/SceneLvl1_LMA1_final.hdr" 1024
+Running rgba2tga "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA1_final_Dir.lz4" "C:/Users/d_ladeira/Documents/Projects/Funkpunk/Assets/BakeryLightmaps/SceneLvl1_LMA1_dir.tga" 
+Running halffloat2hdr "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LM0_final_HDR.lz4" "C:/Users/d_ladeira/Documents/Projects/Funkpunk/Assets/BakeryLightmaps/SceneLvl1_LM0_final.hdr" 1024
+Running rgba2tga "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LM0_final_Dir.lz4" "C:/Users/d_ladeira/Documents/Projects/Funkpunk/Assets/BakeryLightmaps/SceneLvl1_LM0_dir.tga" 
+Running halffloat2hdr "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA2_final_HDR.lz4" "C:/Users/d_ladeira/Documents/Projects/Funkpunk/Assets/BakeryLightmaps/SceneLvl1_LMA2_final.hdr" 1024
+Running rgba2tga "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA2_final_Dir.lz4" "C:/Users/d_ladeira/Documents/Projects/Funkpunk/Assets/BakeryLightmaps/SceneLvl1_LMA2_dir.tga" 
+Running halffloat2hdr "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA3_final_HDR.lz4" "C:/Users/d_ladeira/Documents/Projects/Funkpunk/Assets/BakeryLightmaps/SceneLvl1_LMA3_final.hdr" 1024
+Running rgba2tga "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA3_final_Dir.lz4" "C:/Users/d_ladeira/Documents/Projects/Funkpunk/Assets/BakeryLightmaps/SceneLvl1_LMA3_dir.tga" 
+Running halffloat2hdr "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA4_final_HDR.lz4" "C:/Users/d_ladeira/Documents/Projects/Funkpunk/Assets/BakeryLightmaps/SceneLvl1_LMA4_final.hdr" 1024
+Running rgba2tga "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA4_final_Dir.lz4" "C:/Users/d_ladeira/Documents/Projects/Funkpunk/Assets/BakeryLightmaps/SceneLvl1_LMA4_dir.tga" 
+Done
+Done
+Done
+Done
+Loaded vertex shader: quad.vso
+Loaded pixel shader: skyOutput.pso
+Loaded pixel shader: cookieOutput.pso
+initShaders done
+initScene done
+Done
+Rendering UV GBuffer for SceneLvl1_LM0 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Rendering UV GBuffer for SceneLvl1_LMA1 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Rendering UV GBuffer for SceneLvl1_LMA2 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Rendering UV GBuffer for SceneLvl1_LMA3 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Rendering UV GBuffer for SceneLvl1_LMA4 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Rendering UV GBuffer for probes 256
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Done
+Done
+Running ftrace fixpos12 "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "uvpos_SceneLvl1_LMA1.lz4" 2 0 1 0
+Running ftrace fixpos12 "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "uvpos_SceneLvl1_LM0.lz4" 2 0 0 0
+Running ftrace fixpos12 "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "uvpos_SceneLvl1_LMA2.lz4" 2 0 2 0
+Running ftrace fixpos12 "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "uvpos_SceneLvl1_LMA3.lz4" 2 0 3 0
+Running ftrace fixpos12 "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "uvpos_SceneLvl1_LMA4.lz4" 2 0 4 0
+Running ftrace ao "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA1_ao" 8 16 1
+Running ftrace ao "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LM0_ao" 8 16 0
+Running ftrace ao "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA2_ao" 8 16 2
+Running ftrace ao "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA3_ao" 8 16 3
+Running ftrace ao "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA4_ao" 8 16 4
+Running ftrace batchpointlightprobeshlegacy "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "PointBatch_5_0_127" 1924 0 5 batchpointlight_5_0_127.bin
+Running ftrace batchpointlightprobeshlegacy "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "PointBatch_5_128_160" 1924 0 5 batchpointlight_5_128_160.bin
+Running ftrace addmul "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "probes" 4 0 5 comp_5.bin
+Running ftrace batchpointlightlegacy "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "PointBatch_1_0_127" 68 0 1 batchpointlight_1_0_127.bin
+Running ftrace batchpointlightlegacy "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "PointBatch_1_128_160" 68 0 1 batchpointlight_1_128_160.bin
+Running ftrace addmul "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA1" 4 0 1 comp_1.bin
+Running ftrace diradd "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA1_lights_Dir.lz4" 64 0 1 dircomp_1.bin
+Running ftrace batchpointlightlegacy "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "PointBatch_0_0_127" 68 0 0 batchpointlight_0_0_127.bin
+Running ftrace batchpointlightlegacy "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "PointBatch_0_128_160" 68 0 0 batchpointlight_0_128_160.bin
+Running ftrace addmul "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LM0" 4 0 0 comp_0.bin
+Running ftrace diradd "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LM0_lights_Dir.lz4" 64 0 0 dircomp_0.bin
+Running ftrace batchpointlightlegacy "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "PointBatch_2_0_135" 68 0 2 batchpointlight_2_0_135.bin
+Running ftrace batchpointlightlegacy "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "PointBatch_2_136_160" 68 0 2 batchpointlight_2_136_160.bin
+Running ftrace addmul "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA2" 4 0 2 comp_2.bin
+Running ftrace diradd "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA2_lights_Dir.lz4" 64 0 2 dircomp_2.bin
+Running ftrace batchpointlightlegacy "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "PointBatch_3_0_127" 68 0 3 batchpointlight_3_0_127.bin
+Running ftrace batchpointlightlegacy "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "PointBatch_3_128_160" 68 0 3 batchpointlight_3_128_160.bin
+Running ftrace addmul "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA3" 4 0 3 comp_3.bin
+Running ftrace diradd "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA3_lights_Dir.lz4" 64 0 3 dircomp_3.bin
+Running ftrace batchpointlightlegacy "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "PointBatch_4_0_160" 68 0 4 batchpointlight_4_0_160.bin
+Running ftrace addmul "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA4" 4 0 4 comp_4.bin
+Running ftrace diradd "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA4_lights_Dir.lz4" 64 0 4 dircomp_4.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA1_diffuse" 4 16 1 "gi_SceneLvl1_LMA10.bin" "SceneLvl1_LMA1_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LM0_diffuse" 4 16 0 "gi_SceneLvl1_LM00.bin" "SceneLvl1_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA2_diffuse" 4 16 2 "gi_SceneLvl1_LMA20.bin" "SceneLvl1_LMA2_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA3_diffuse" 4 16 3 "gi_SceneLvl1_LMA30.bin" "SceneLvl1_LMA3_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA4_diffuse" 4 16 4 "gi_SceneLvl1_LMA40.bin" "SceneLvl1_LMA4_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA1_diffuse" 4 16 1 "gi_SceneLvl1_LMA11.bin" "SceneLvl1_LMA1_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LM0_diffuse" 4 16 0 "gi_SceneLvl1_LM01.bin" "SceneLvl1_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA2_diffuse" 4 16 2 "gi_SceneLvl1_LMA21.bin" "SceneLvl1_LMA2_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA3_diffuse" 4 16 3 "gi_SceneLvl1_LMA31.bin" "SceneLvl1_LMA3_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgi "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA4_diffuse" 4 16 4 "gi_SceneLvl1_LMA41.bin" "SceneLvl1_LMA4_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftrace texgiprobesh "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "probes_final" 1940 16 5 "gi_probes2.bin" "probes_lights_HDR.lz4" vbTraceTex.bin
+Running ftrace texgidir "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA1_final" 84 16 1 "gi_SceneLvl1_LMA12.bin" "SceneLvl1_LMA1_lights_HDR.lz4" vbTraceTex.bin
+Running ftrace texgidir "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LM0_final" 84 16 0 "gi_SceneLvl1_LM02.bin" "SceneLvl1_LM0_lights_HDR.lz4" vbTraceTex.bin
+Running ftrace texgidir "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA2_final" 84 16 2 "gi_SceneLvl1_LMA22.bin" "SceneLvl1_LMA2_lights_HDR.lz4" vbTraceTex.bin
+Running ftrace texgidir "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA3_final" 84 16 3 "gi_SceneLvl1_LMA32.bin" "SceneLvl1_LMA3_lights_HDR.lz4" vbTraceTex.bin
+Running ftrace texgidir "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA4_final" 84 16 4 "gi_SceneLvl1_LMA42.bin" "SceneLvl1_LMA4_lights_HDR.lz4" vbTraceTex.bin
+Running ftrace add "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "probes_final_HDR.lz4" 4 0 5 comp_indirect5.bin
+Running ftrace add "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA1_final_HDR.lz4" 4 0 1 comp_indirect1.bin
+Running ftrace diradd "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA1_final_Dir.lz4" 64 0 1 dircomp_indirect1.bin
+Running ftrace add "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LM0_final_HDR.lz4" 4 0 0 comp_indirect0.bin
+Running ftrace diradd "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LM0_final_Dir.lz4" 64 0 0 dircomp_indirect0.bin
+Running ftrace add "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA2_final_HDR.lz4" 4 0 2 comp_indirect2.bin
+Running ftrace diradd "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA2_final_Dir.lz4" 64 0 2 dircomp_indirect2.bin
+Running ftrace add "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA3_final_HDR.lz4" 4 0 3 comp_indirect3.bin
+Running ftrace diradd "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA3_final_Dir.lz4" 64 0 3 dircomp_indirect3.bin
+Running ftrace add "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA4_final_HDR.lz4" 4 0 4 comp_indirect4.bin
+Running ftrace diradd "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA4_final_Dir.lz4" 64 0 4 dircomp_indirect4.bin
+Running ftrace addsh "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "probes_final_" 4 0 5 shcomp_5.bin
+Running denoiserOIDN D "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA1_final_Dir.lz4" "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA1_final_Dir.lz4" 2048 0
+Running ftrace addao "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA1_final_HDR.lz4" 4 0 1 addao_1.bin
+Running denoiserOIDN c "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA1_final_HDR.lz4" "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA1_final_HDR.lz4" 2048 0
+Running seamfixer "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "1" "SceneLvl1_LMA1_final_HDR.lz4" "SceneLvl1_LMA1_final_Dir.lz4
+Running denoiserOIDN D "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LM0_final_Dir.lz4" "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LM0_final_Dir.lz4" 2048 0
+Running ftrace addao "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LM0_final_HDR.lz4" 4 0 0 addao_0.bin
+Running denoiserOIDN c "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LM0_final_HDR.lz4" "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LM0_final_HDR.lz4" 2048 0
+Running seamfixer "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "0" "SceneLvl1_LM0_final_HDR.lz4" "SceneLvl1_LM0_final_Dir.lz4
+Running denoiserOIDN D "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA2_final_Dir.lz4" "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA2_final_Dir.lz4" 512 0
+Running ftrace addao "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA2_final_HDR.lz4" 4 0 2 addao_2.bin
+Running denoiserOIDN c "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA2_final_HDR.lz4" "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA2_final_HDR.lz4" 512 0
+Running seamfixer "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "2" "SceneLvl1_LMA2_final_HDR.lz4" "SceneLvl1_LMA2_final_Dir.lz4
+Running denoiserOIDN D "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA3_final_Dir.lz4" "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA3_final_Dir.lz4" 512 0
+Running ftrace addao "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA3_final_HDR.lz4" 4 0 3 addao_3.bin
+Running denoiserOIDN c "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA3_final_HDR.lz4" "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA3_final_HDR.lz4" 512 0
+Running seamfixer "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "3" "SceneLvl1_LMA3_final_HDR.lz4" "SceneLvl1_LMA3_final_Dir.lz4
+Running denoiserOIDN D "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA4_final_Dir.lz4" "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA4_final_Dir.lz4" 128 0
+Running ftrace addao "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "SceneLvl1_LMA4_final_HDR.lz4" 4 0 4 addao_4.bin
+Running denoiserOIDN c "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA4_final_HDR.lz4" "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA4_final_HDR.lz4" 128 0
+Running seamfixer "C:\Users\D_LADE~1\AppData\Local\Temp\frender" "4" "SceneLvl1_LMA4_final_HDR.lz4" "SceneLvl1_LMA4_final_Dir.lz4
+Running halffloat2hdr "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA1_final_HDR.lz4" "C:/Users/d_ladeira/Documents/Projects/Funkpunk/Assets/BakeryLightmaps/SceneLvl1_LMA1_final.hdr" 1024
+Running rgba2tga "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA1_final_Dir.lz4" "C:/Users/d_ladeira/Documents/Projects/Funkpunk/Assets/BakeryLightmaps/SceneLvl1_LMA1_dir.tga" 
+Running halffloat2hdr "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LM0_final_HDR.lz4" "C:/Users/d_ladeira/Documents/Projects/Funkpunk/Assets/BakeryLightmaps/SceneLvl1_LM0_final.hdr" 1024
+Running rgba2tga "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LM0_final_Dir.lz4" "C:/Users/d_ladeira/Documents/Projects/Funkpunk/Assets/BakeryLightmaps/SceneLvl1_LM0_dir.tga" 
+Running halffloat2hdr "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA2_final_HDR.lz4" "C:/Users/d_ladeira/Documents/Projects/Funkpunk/Assets/BakeryLightmaps/SceneLvl1_LMA2_final.hdr" 1024
+Running rgba2tga "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA2_final_Dir.lz4" "C:/Users/d_ladeira/Documents/Projects/Funkpunk/Assets/BakeryLightmaps/SceneLvl1_LMA2_dir.tga" 
+Running halffloat2hdr "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA3_final_HDR.lz4" "C:/Users/d_ladeira/Documents/Projects/Funkpunk/Assets/BakeryLightmaps/SceneLvl1_LMA3_final.hdr" 1024
+Running rgba2tga "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA3_final_Dir.lz4" "C:/Users/d_ladeira/Documents/Projects/Funkpunk/Assets/BakeryLightmaps/SceneLvl1_LMA3_dir.tga" 
+Running halffloat2hdr "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA4_final_HDR.lz4" "C:/Users/d_ladeira/Documents/Projects/Funkpunk/Assets/BakeryLightmaps/SceneLvl1_LMA4_final.hdr" 1024
+Running rgba2tga "C:\Users\D_LADE~1\AppData\Local\Temp\frender/SceneLvl1_LMA4_final_Dir.lz4" "C:/Users/d_ladeira/Documents/Projects/Funkpunk/Assets/BakeryLightmaps/SceneLvl1_LMA4_dir.tga" 
+Done
+Done
+Done
+Done

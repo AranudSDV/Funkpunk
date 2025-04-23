@@ -30,7 +30,8 @@ ModelImporter:
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    extraUserProperties: []
+    extraUserProperties:
+    - '#BAKERY{"meshName":["porte_Benne_B_G_002","porte_Benne_B_G_001","Benne_B_001"],"padding":[90,90,34],"unwrapper":[0,0,0]}'
     clipAnimations: []
     isReadable: 0
   meshes:
