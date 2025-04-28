@@ -11,4 +11,5 @@ public class ing_Tag : MonoBehaviour
     public Material taggedMaterial;
     public Renderer _renderer;
     public GameObject goArrow;
+    public SC_FieldOfView[] scFoes;
 }

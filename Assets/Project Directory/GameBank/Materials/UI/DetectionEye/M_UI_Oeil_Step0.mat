@@ -79,7 +79,7 @@ Material:
     - _3Tex: 0
     - _AlphaCutoff: 0.5
     - _Alphacliptresh: 0.1
-    - _BPM: 120
+    - _BPM: 110
     - _BaseOpacity: 1
     - _IsVerticalOrLateral: 0
     - _MaxSizeX: 1
@@ -93,6 +93,7 @@ Material:
     - _QueueOffset: 0
     - _ScaleX: 1
     - _ScaleY: 1
+    - _TimeDelay: 0
     - _UpLorDownR: 0
     - _UsingX: 0
     - _UsingXMove: 0

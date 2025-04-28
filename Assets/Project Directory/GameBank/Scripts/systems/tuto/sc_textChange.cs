@@ -31,7 +31,9 @@ public class sc_textChange : MonoBehaviour
     private bool bInitialized;
     [SerializeField] private MenuManager menuManager;
     private bool bTextWritten = false;
-    private float bTimer = 0f;
+    private bool bTextBegon = false;
+    private float bTimerWritten = 0f;
+    private float bTimerBegon = 0f;
 
     public void Init()
     {
@@ -79,13 +81,13 @@ public class sc_textChange : MonoBehaviour
         if (bIsToTip)
         {
             CheckKeyHold();
-            LongTouch();
+            LongKeyHold();
             if (bTextWritten)
             {
-                bTimer += Time.unscaledDeltaTime;
-                if (bTimer >= 1f)
+                bTimerWritten += Time.unscaledDeltaTime;
+                if (bTimerWritten >= 0.5f)
                 {
-                    bTimer = 0f;
+                    bTimerWritten = 0f;
                     bTextWritten = false;
                     menuManager.bWaitNextDialogue = true;
                 }
@@ -178,7 +180,7 @@ public class sc_textChange : MonoBehaviour
             }
         }
     }
-    private void LongTouch()
+    private void LongKeyHold()
     {
         if (f_pressed > 0)
         {

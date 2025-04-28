@@ -20,6 +20,7 @@ using System.Text.RegularExpressions;
 using DG.Tweening;
 using UnityEditor;
 using UnityEngine.EventSystems;
+using UnityEditor.SearchService;
 //using UnityEditor.PackageManager;
 
 public class SC_Player : MonoBehaviour
@@ -406,6 +407,15 @@ public class SC_Player : MonoBehaviour
                                 ingTag.transform.gameObject.tag = "Wall";
                                 ingTag.goArrow.transform.localPosition = new Vector3(ingTag.goArrow.transform.localPosition.x, ingTag.goArrow.transform.localPosition.y + 50f, ingTag.goArrow.transform.localPosition.z);
                                 itagDone += 1;
+                                if (ingTag.scFoes != null)
+                                {
+                                    foreach (SC_FieldOfView foe in ingTag.scFoes)
+                                    {
+                                        foe.bIsDisabled = true;
+                                        foe.FoeDisabled(foe.bIsDisabled);
+                                        foe.i_EnnemyBeat = -iTimeFoeDisabled * 10;
+                                    }
+                                }
                                 if (ingTag.transform.gameObject.name == "EndingWall")
                                 {
                                     EndDialogue();
@@ -513,8 +523,17 @@ public class SC_Player : MonoBehaviour
                             ingTag.textOnWall.color = bpmManager.colorPerfect;
                             ingTag._renderer.material = ingTag.taggedMaterial; //le joueur tag
                             ingTag.transform.gameObject.tag = "Wall";
-                                ingTag.goArrow.transform.localPosition = new Vector3(ingTag.goArrow.transform.localPosition.x, ingTag.goArrow.transform.localPosition.y + 50f, ingTag.goArrow.transform.localPosition.z);
+                            ingTag.goArrow.transform.localPosition = new Vector3(ingTag.goArrow.transform.localPosition.x, ingTag.goArrow.transform.localPosition.y + 50f, ingTag.goArrow.transform.localPosition.z);
                             itagDone += 1;
+                            if(ingTag.scFoes!= null)
+                            {
+                                foreach(SC_FieldOfView foe in ingTag.scFoes)
+                                {
+                                    foe.bIsDisabled = true;
+                                    foe.FoeDisabled(foe.bIsDisabled);
+                                    foe.i_EnnemyBeat = -iTimeFoeDisabled*10;
+                                }
+                            }
                             if (ingTag.transform.gameObject.name == "EndingWall")
                             {
                                 EndDialogue();
