@@ -156,6 +156,9 @@ MonoBehaviour:
   RtScoringSuccess: {fileID: 8015505184261164506}
   GoScoringButtons: {fileID: 204593627366668587}
   RtScoringButtons: {fileID: 4188449928365972951}
+  CgReplaying: {fileID: 0}
+  replayingCg: 0
+  RtReplaying: {fileID: 0}
   CgEndDialogue: {fileID: 4738519578689300175}
   RtEndDialogue: {fileID: 6801879387423613945}
   ImgEndDialogueBackground: {fileID: 3243719424844046227}
@@ -1746,10 +1749,10 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 0, b: 0.4285717, a: 1}
+    m_NormalColor: {r: 0.5411765, g: 0.1764706, b: 0.33333334, a: 1}
     m_HighlightedColor: {r: 1, g: 0.35283017, b: 0.6294637, a: 1}
     m_PressedColor: {r: 1, g: 0, b: 0.427451, a: 1}
-    m_SelectedColor: {r: 0.5396226, g: 0.17817722, b: 0.3337081, a: 1}
+    m_SelectedColor: {r: 1, g: 0.3529412, b: 0.6313726, a: 1}
     m_DisabledColor: {r: 0.7509433, g: 0, b: 0.32099158, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -6477,10 +6480,10 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.22352943, g: 0.7960785, b: 0.56078434, a: 1}
+    m_NormalColor: {r: 0.13333334, g: 0.5647059, b: 0.40784314, a: 1}
     m_HighlightedColor: {r: 0.18039216, g: 1, b: 0.7058824, a: 1}
     m_PressedColor: {r: 0.10980392, g: 0.65882355, b: 0.4627451, a: 1}
-    m_SelectedColor: {r: 0.13333334, g: 0.5647059, b: 0.40784314, a: 1}
+    m_SelectedColor: {r: 0.18039216, g: 1, b: 0.7058824, a: 1}
     m_DisabledColor: {r: 0.10980392, g: 0.65882355, b: 0.4627451, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1

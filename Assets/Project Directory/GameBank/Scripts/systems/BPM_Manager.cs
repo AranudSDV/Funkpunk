@@ -8,15 +8,19 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class BPM_Manager : MonoBehaviour
 {
     [SerializeField] private SC_Player scPlayer;
     private SoundManager soundManager;
+    public int iReplaying = 3;
 
     //LE BEAT
     [Header("Beat")]
     public float FBPM;
+    [SerializeField] private float fDelayMusic = 0.1f;
+    private float fTimer = 0f;
     //private float FBPS;
     public float FSPB;
     [SerializeField] private CinemachineFollowZoom FOVS;
@@ -70,7 +74,7 @@ public class BPM_Manager : MonoBehaviour
 
     [SerializeField] private float fFOVmin = 10f;
     [SerializeField] private float fFOVmax = 10.6f;
-    private bool bInitialized;
+    private bool[] bInitialized = new bool[2] { false, false};
 
     private void Start()
     {
@@ -99,28 +103,35 @@ public class BPM_Manager : MonoBehaviour
     {
         StartCoroutine(wait());
     }
-    public void Init()
+    public void Init(float f_Timer)
     {
-        StartCoroutine(wait());
-        BMiss = true;
-        if (playerLoopInstance.isValid())
+        if (!bInitialized[1])
         {
-            playerLoopInstance.getPlaybackState(out PLAYBACK_STATE state);
-            if (state != PLAYBACK_STATE.STOPPED) return; // Only create a new instance if it's actually stopped
+            StartCoroutine(wait());
+            BMiss = true;
+            if (playerLoopInstance.isValid())
+            {
+                playerLoopInstance.getPlaybackState(out PLAYBACK_STATE state);
+                if (state != PLAYBACK_STATE.STOPPED) return; // Only create a new instance if it's actually stopped
+            }
+            bInitialized[1] = true;
         }
-
+        fTimer += f_Timer;
         // Create and start the instance
-        playerLoopInstance = RuntimeManager.CreateInstance(levelLoop);
-        playerLoopInstance.start();
+        if (fTimer >= fDelayMusic)
+        {
+            playerLoopInstance = RuntimeManager.CreateInstance(levelLoop);
+            playerLoopInstance.start();
 
-        isPlaying = true;
+            isPlaying = true;
+            bInitialized[0] = true;
+        }
     }
     private void Update()
     {
-        if (!bInitialized)
+        if (!bInitialized[0])
         {
-            Init();
-            bInitialized = true;
+            Init(Time.unscaledDeltaTime);
         }
         /*if(BMiss)
         {
@@ -188,15 +199,32 @@ public class BPM_Manager : MonoBehaviour
             bPlayGood = false;
             bPlayPerfect = false;
             scPlayer.bHasNoMiss = false;
-            if (!scPlayer.BisDetectedByAnyEnemy && SceneManager.GetActiveScene().name != "Loft")
+            if (!scPlayer.BisDetectedByAnyEnemy && SceneManager.GetActiveScene().name != "Loft" && !scPlayer.bIsImune)
             {
                 scPlayer.FDetectionLevel += 2f;
             }
             NotesFade();
         }
-        if (scPlayer.BisDetectedByAnyEnemy)
+        if (scPlayer.BisDetectedByAnyEnemy &&!scPlayer.bIsImune)
         {
             scPlayer.FDetectionLevel += 20f;
+        }
+        if(scPlayer.bIsReplaying)
+        {
+            iReplaying -= 1;
+            scPlayer.menuManager.progressBar.value = (iReplaying-3) / 3;
+            if (iReplaying<=0)
+            {
+                scPlayer.menuManager.CgLoadingScreen.alpha = 0f;
+                scPlayer.menuManager.RtLoadingScreen.anchorMin = new Vector2(0, 1);
+                scPlayer.menuManager.RtLoadingScreen.anchorMax = new Vector2(1, 2);
+                scPlayer.menuManager.RtLoadingScreen.offsetMax = new Vector2(0f, 0f);
+                scPlayer.menuManager.RtLoadingScreen.offsetMin = new Vector2(0f, 0f);
+                StartCoroutine(scPlayer.menuManager.ImuneToPause(this));
+                scPlayer.bIsReplaying = false;
+                iReplaying = 3;
+                scPlayer.menuManager.progressBar.value = (iReplaying - 3) / 3;
+            }
         }
         IsImuneCheck();
         scPlayer.EyeDetection();

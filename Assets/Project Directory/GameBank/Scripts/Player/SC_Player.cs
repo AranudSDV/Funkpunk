@@ -103,6 +103,20 @@ public class SC_Player : MonoBehaviour
     [SerializeField] private GameObject GoVfxTag;
     [SerializeField] private ParticleSystem vfx_tag;
     [SerializeField] private LayerMask LMask;
+
+    //CHECKPOINTS STATS
+    [Header("Checkpoints Stats")]
+    [SerializeField] private sc_CheckPoint[] checkpoints;
+    [SerializeField] private ing_Tag[] allTagsUntil1stCheckPoint;
+    [SerializeField] private Vector3 posLastCheckPoint;
+    [SerializeField] private float posYInit;
+    private int iTagPreviouslyDone = 0;
+    private float FPreviousScore = 0f;
+    private float fPreviousNbBeat = 0f;
+    public int iCheckPoint = 0;
+    public bool bIsReplaying = false;
+
+
     static int Hasard(int a, int b) //Choisi un random.
     {
         System.Random rdm = new System.Random();
@@ -739,22 +753,29 @@ public class SC_Player : MonoBehaviour
     private void Move(Vector3 direction)
     {
         // diagonale ?
-
-        if (direction.x != 0 && direction.z != 0 && direction != Vector3.right)
+        if(bIsReplaying)
         {
-            Vector3 newPos = this.transform.position + new Vector3(Mathf.Sign(direction.x), 0, Mathf.Sign(direction.z));
+            Vector3 newPos = posLastCheckPoint + Vector3.zero;
             this.transform.DOJump(newPos, 1f, 0, bpmManager.FSPB).SetEase(Ease.OutBack).SetAutoKill(true);
-            //DOMove(newPos, bpmManager.FSPB).SetAutoKill(true);
-            //this.transform.GetChild(0).gameObject.transform.DOJump(newPos, 1f, 0, bpmManager.FSPB).SetEase(Ease.OutBack).SetAutoKill(true);
-            //this.transform.DOJump(newPos, 1f, 0, bpmManager.FSPB, true).SetEase(Ease.OutBack).SetAutoKill(true);
         }
         else
         {
-            Vector3 newPos = this.transform.position + direction;
-            this.transform.DOJump(newPos, 1f, 0, bpmManager.FSPB).SetEase(Ease.OutBack).SetAutoKill(true);
-            //DOMove(newPos, bpmManager.FSPB).SetAutoKill(true);
-            //this.transform.GetChild(0).gameObject.transform.DOJump(newPos, 1f, 0, bpmManager.FSPB).SetEase(Ease.OutBack).SetAutoKill(true);
-            //this.transform.DOJump(newPos, 1f, 0, bpmManager.FSPB, true).SetEase(Ease.OutBack).SetAutoKill(true);
+            if (direction.x != 0 && direction.z != 0 && direction != Vector3.right)
+            {
+                Vector3 newPos = this.transform.position + new Vector3(Mathf.Sign(direction.x), 0, Mathf.Sign(direction.z));
+                this.transform.DOJump(newPos, 1f, 0, bpmManager.FSPB).SetEase(Ease.OutBack).SetAutoKill(true);
+                //DOMove(newPos, bpmManager.FSPB).SetAutoKill(true);
+                //this.transform.GetChild(0).gameObject.transform.DOJump(newPos, 1f, 0, bpmManager.FSPB).SetEase(Ease.OutBack).SetAutoKill(true);
+                //this.transform.DOJump(newPos, 1f, 0, bpmManager.FSPB, true).SetEase(Ease.OutBack).SetAutoKill(true);
+            }
+            else
+            {
+                Vector3 newPos = this.transform.position + direction;
+                this.transform.DOJump(newPos, 1f, 0, bpmManager.FSPB).SetEase(Ease.OutBack).SetAutoKill(true);
+                //DOMove(newPos, bpmManager.FSPB).SetAutoKill(true);
+                //this.transform.GetChild(0).gameObject.transform.DOJump(newPos, 1f, 0, bpmManager.FSPB).SetEase(Ease.OutBack).SetAutoKill(true);
+                //this.transform.DOJump(newPos, 1f, 0, bpmManager.FSPB, true).SetEase(Ease.OutBack).SetAutoKill(true);
+            }
         }
         StartCoroutine(MouvementVFX(bpmManager.FSPB));
         canMove = false;
@@ -1180,16 +1201,6 @@ public class SC_Player : MonoBehaviour
 
         if (hasWon && fPercentScore >= 35)
         {
-            //APPARITION
-            menuManager.CgScoringSuccess.alpha = 1f;
-            menuManager.RtScoringSuccess.anchorMin = new Vector2(0, 0);
-            menuManager.RtScoringSuccess.anchorMax = new Vector2(1, 1);
-            menuManager.RtScoringSuccess.offsetMax = new Vector2(0f, 0f);
-            menuManager.RtScoringSuccess.offsetMin = new Vector2(0f, 0f);
-
-            menuManager.RtScoringButtons.anchorMin = new Vector2(0.75f, 0.05f);
-            menuManager.RtScoringButtons.anchorMax = new Vector2(0.9f, 0.3f);
-            menuManager.ImgScoringBackground.sprite = menuManager.spritesScoringBackground[0];
             //LE SCORING
             menuManager.txtScoringJudgment.text = sJugement(hasWon)[0];
             menuManager.txtScoringScore.text = sJugement(hasWon)[1];
@@ -1240,19 +1251,19 @@ public class SC_Player : MonoBehaviour
                 txt[0].text = "Next";
                 txt[1].text = "Retry";
             }
-        }
-        else
-        {
             //APPARITION
-            menuManager.CgScoringSuccess.alpha = 0f;
-            menuManager.RtScoringSuccess.anchorMin = new Vector2(0, 1);
-            menuManager.RtScoringSuccess.anchorMax = new Vector2(1, 2);
+            menuManager.CgScoringSuccess.alpha = 1f;
+            menuManager.RtScoringSuccess.anchorMin = new Vector2(0, 0);
+            menuManager.RtScoringSuccess.anchorMax = new Vector2(1, 1);
             menuManager.RtScoringSuccess.offsetMax = new Vector2(0f, 0f);
             menuManager.RtScoringSuccess.offsetMin = new Vector2(0f, 0f);
 
-            menuManager.RtScoringButtons.anchorMin = new Vector2(0.75f, 0.35f);
-            menuManager.RtScoringButtons.anchorMax = new Vector2(0.9f, 0.6f);
-            menuManager.ImgScoringBackground.sprite = menuManager.spritesScoringBackground[1];
+            menuManager.RtScoringButtons.anchorMin = new Vector2(0.75f, 0.05f);
+            menuManager.RtScoringButtons.anchorMax = new Vector2(0.9f, 0.3f);
+            menuManager.ImgScoringBackground.sprite = menuManager.spritesScoringBackground[0];
+        }
+        else
+        {
             //LE SCORING
             menuManager.txtScoringJudgment.text = sJugement(hasWon)[0];
             menuManager.txtScoringScore.text = sJugement(hasWon)[1];
@@ -1264,7 +1275,7 @@ public class SC_Player : MonoBehaviour
                 buttonScorring[i] = menuManager.GoScoringButtons.transform.GetChild(i).GetComponent<UnityEngine.UI.Button>();
                 txt[i] = menuManager.GoScoringButtons.transform.GetChild(i).transform.GetChild(0).GetComponent<TextMeshProUGUI>();
             }
-            buttonScorring[0].onClick.AddListener(delegate { menuManager.LoadScene("retry"); });
+            buttonScorring[0].onClick.AddListener(delegate { CheckPoint(true, iCheckPoint); });
             buttonScorring[1].onClick.AddListener(delegate { menuManager.LoadScene("Scenes/World/LevelChoosing"); });
             if (data.iLanguageNbPlayer == 1)
             {
@@ -1276,6 +1287,16 @@ public class SC_Player : MonoBehaviour
                 txt[0].text = "Retry";
                 txt[1].text = "See Map";
             }
+            //APPARITION
+            menuManager.CgScoringSuccess.alpha = 0f;
+            menuManager.RtScoringSuccess.anchorMin = new Vector2(0, 1);
+            menuManager.RtScoringSuccess.anchorMax = new Vector2(1, 2);
+            menuManager.RtScoringSuccess.offsetMax = new Vector2(0f, 0f);
+            menuManager.RtScoringSuccess.offsetMin = new Vector2(0f, 0f);
+
+            menuManager.RtScoringButtons.anchorMin = new Vector2(0.75f, 0.35f);
+            menuManager.RtScoringButtons.anchorMax = new Vector2(0.9f, 0.6f);
+            menuManager.ImgScoringBackground.sprite = menuManager.spritesScoringBackground[1];
         }
         if (menuManager.controllerConnected) //Si controller
         {
@@ -1288,6 +1309,88 @@ public class SC_Player : MonoBehaviour
         menuManager.EventSystem.firstSelectedGameObject = menuManager.GoScoringFirstButtonSelected;
         menuManager.GoScoringFirstButtonSelected.GetComponent<UnityEngine.UI.Button>().Select();
         bIsEndGame = true;
+    }
+    public void CheckPoint(bool isRetrying, int iPreviousCheckPoint)
+    {
+        if(isRetrying) //has to regain all stats from the previous checkpoint
+        {
+            bIsReplaying = true;
+            bIsEndGame = false;
+
+            this.gameObject.transform.position = posLastCheckPoint;
+
+            ReStartThings(iPreviousCheckPoint);
+
+            menuManager.CgScoring.alpha = 0f;
+            menuManager.CgScoring.interactable = false;
+            menuManager.RtScoring.anchorMin = new Vector2(0, 1);
+            menuManager.RtScoring.anchorMax = new Vector2(1, 2);
+            menuManager.RtScoring.offsetMax = new Vector2(0f, 0f);
+            menuManager.RtScoring.offsetMin = new Vector2(0f, 0f);
+
+            menuManager.CgLoadingScreen.alpha = 1f;
+            menuManager.RtLoadingScreen.anchorMin = new Vector2(0, 0);
+            menuManager.RtLoadingScreen.anchorMax = new Vector2(1, 1);
+            menuManager.RtLoadingScreen.offsetMax = new Vector2(0f, 0f);
+            menuManager.RtLoadingScreen.offsetMin = new Vector2(0f, 0f);
+
+            Time.timeScale = 1f;
+            menuManager.bGameIsPaused = false;
+            menuManager.PauseGame();
+            bIsImune = true;
+        }
+        else //has to remember all stats from this checkpoint
+        {
+            posLastCheckPoint = new Vector3(this.gameObject.transform.position.x, posYInit, this.gameObject.transform.position.z);
+            iTagPreviouslyDone = itagDone;
+            FPreviousScore = FScore;
+            fPreviousNbBeat = fNbBeat;
+            iCheckPoint = iPreviousCheckPoint;
+        }
+    }
+    private void ReStartThings(int iPreviousCheckPoint)
+    {
+        //RESTART TAGS
+        if (iPreviousCheckPoint == 0)
+        {
+            itagDone = 0;
+            FScore = 0;
+            fNbBeat = 0;
+            foreach (ing_Tag tag in allTagsUntil1stCheckPoint)
+            {
+                tag.textOnWall.text = "0/3";
+                tag.transform.gameObject.tag = "Tagging";
+                tag._renderer.material = tag.untaggedMaterial; //pas de tag
+            }
+        }
+        else
+        {
+            itagDone = iTagPreviouslyDone;
+            FScore = FPreviousScore;
+            fNbBeat = fPreviousNbBeat;
+            foreach (ing_Tag tag in checkpoints[iCheckPoint-1].tags)
+            {
+                tag.textOnWall.text = "0/3";
+                tag.transform.gameObject.tag = "Tagging";
+                tag._renderer.material = tag.untaggedMaterial; //pas de tag
+            }
+        }
+
+        //RESTART ENNEMIES
+        foreach (SC_FieldOfView foe in allEnemies)
+        {
+            foe.BCanSee = false;
+            foe.bSeenOnce = false;
+            foe.bHasHeard = false;
+            foe.bIsDisabled = false;
+            foe.BIsNear = false;
+            foe.ResetAllVFX();
+        }
+        FDetectionLevel = 0f;
+        BisDetectedByAnyEnemy = false;
+
+        //RESTART FEEDBACKS ENNEMIES
+
     }
     private List<int> iStars()
     {

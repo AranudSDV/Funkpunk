@@ -64,7 +64,7 @@ public class SC_FieldOfView : MonoBehaviour
     public bool bSeenOnce;
     public bool bHasHeard = false;
     public bool bIsDisabled = false;
-    private bool BIsNear = false;
+    public bool BIsNear = false;
 
     private void Start()
     {
@@ -153,7 +153,7 @@ public class SC_FieldOfView : MonoBehaviour
         }
         DetectionChecks();
     }
-    IEnumerator NumDetectedVFX(bool bNewDetected, float height)
+    private IEnumerator NumDetectedVFX(bool bNewDetected, float height)
     {
         if (bNewDetected && height>30)
         {
@@ -170,7 +170,7 @@ public class SC_FieldOfView : MonoBehaviour
             PS_detected.Stop();
         }
     }
-    IEnumerator NumSuspiciousVFX(bool bNewDetected, float height)
+    private IEnumerator NumSuspiciousVFX(bool bNewDetected, float height)
     {
         if (bNewDetected && height>30)
         {
@@ -397,5 +397,12 @@ public class SC_FieldOfView : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void ResetAllVFX()
+    {
+        StartCoroutine(NumDetectedVFX(false, 0f));
+        StartCoroutine(NumSuspiciousVFX(false, 0f));
+        FoeDisabled(false);
     }
 }

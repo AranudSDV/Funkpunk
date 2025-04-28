@@ -87,15 +87,14 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private string[] sDialogueFrench;
     public bool bWaitNextDialogue = false;
 
-
     //SCENE LOADING
     [Header("Loading Scene")]
     public string sSceneToLoad;
     public static bool isLoadingScene = false;
-    [SerializeField] private UnityEngine.UI.Slider progressBar;
+    public UnityEngine.UI.Slider progressBar;
     [SerializeField] private GameObject loadingScreen;
-    [SerializeField] private CanvasGroup CgLoadingScreen;
-    [SerializeField] private RectTransform RtLoadingScreen;
+    public CanvasGroup CgLoadingScreen;
+    public RectTransform RtLoadingScreen;
     private AsyncOperation loadingOperation;
 
     //DATA PLAYER
@@ -190,7 +189,7 @@ public class MenuManager : MonoBehaviour
         {
             progressBar.value = Mathf.Clamp01(loadingOperation.progress / 0.9f);
         }
-        else
+        else if((scPlayer !=null && !scPlayer.bIsReplaying) || scPlayer == null)
         {
             progressBar.value = 0f;
         }
@@ -234,7 +233,7 @@ public class MenuManager : MonoBehaviour
             }
         }
     }
-    private IEnumerator wait()
+    public IEnumerator wait()
     {
         yield return new WaitForSecondsRealtime(0.5f);
         if (CgPauseMenu.alpha == 1f && !bActif)
@@ -394,11 +393,15 @@ public class MenuManager : MonoBehaviour
             }
         }
     }
-    private IEnumerator ImuneToPause(BPM_Manager bpmmanager)
+    public IEnumerator ImuneToPause(BPM_Manager bpmmanager)
     {
         scPlayer.bIsImune = true;
         bpmmanager.iTimer = 3;
         yield return new WaitForSecondsRealtime(bpmmanager.FSPB * 3);
+        if(scPlayer.bIsReplaying)
+        {
+            scPlayer.bIsReplaying = false;
+        }
         scPlayer.bIsImune = false;
     }
 

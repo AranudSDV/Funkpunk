@@ -9,6 +9,7 @@ public class ing_Tag : MonoBehaviour
 {
     public TextMeshPro textOnWall;
     public Material taggedMaterial;
+    public Material untaggedMaterial;
     public Renderer _renderer;
     public GameObject goArrow;
     public SC_FieldOfView[] scFoes;
