@@ -1284,7 +1284,7 @@ PrefabInstance:
         type: 3}
       propertyPath: sliderDetection
       value: 
-      objectReference: {fileID: 1076419033}
+      objectReference: {fileID: 0}
     - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: allEnemies.Array.size
@@ -6767,6 +6767,13 @@ MonoBehaviour:
   sJoystickFrench: A pour passer
   bHasInput: 1
   bIsOnManager: 0
+  bIsToTip: 0
+  delayBeforeStart: 0
+  timeBtwChars: 0.06
+  FastTimeBtwChars: 0.02
+  leadingCharBeforeDelay: 0
+  leadingChar: 
+  menuManager: {fileID: 0}
 --- !u!114 &256704478
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6789,7 +6796,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: Space to skip
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2aefc435c742ba1458d64549d96e081c, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -6853,7 +6860,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &256704479
@@ -9255,6 +9262,13 @@ MonoBehaviour:
   sJoystickFrench: A pour passer
   bHasInput: 1
   bIsOnManager: 0
+  bIsToTip: 0
+  delayBeforeStart: 0
+  timeBtwChars: 0.06
+  FastTimeBtwChars: 0.02
+  leadingCharBeforeDelay: 0
+  leadingChar: 
+  menuManager: {fileID: 0}
 --- !u!114 &336852382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9277,7 +9291,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: Space to skip
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2aefc435c742ba1458d64549d96e081c, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -9341,7 +9355,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &336852383
@@ -12675,6 +12689,13 @@ MonoBehaviour:
   sJoystickFrench: 
   bHasInput: 0
   bIsOnManager: 0
+  bIsToTip: 0
+  delayBeforeStart: 0
+  timeBtwChars: 0.06
+  FastTimeBtwChars: 0.02
+  leadingCharBeforeDelay: 0
+  leadingChar: 
+  menuManager: {fileID: 0}
 --- !u!114 &431576278
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12697,7 +12718,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\xE7a a l'air cool non ? La musique est folle !"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 3f52a2b6b8c689348b23db622c94397c, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2aefc435c742ba1458d64549d96e081c, type: 2}
   m_sharedMaterial: {fileID: 5754595664658875564, guid: 3f52a2b6b8c689348b23db622c94397c,
     type: 2}
   m_fontSharedMaterials: []
@@ -12762,7 +12783,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &431576279
@@ -19976,6 +19997,13 @@ MonoBehaviour:
   sJoystickFrench: A pour continuer
   bHasInput: 1
   bIsOnManager: 0
+  bIsToTip: 0
+  delayBeforeStart: 0
+  timeBtwChars: 0.06
+  FastTimeBtwChars: 0.02
+  leadingCharBeforeDelay: 0
+  leadingChar: 
+  menuManager: {fileID: 0}
 --- !u!114 &769152410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19998,7 +20026,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: Space to continue
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2aefc435c742ba1458d64549d96e081c, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -20062,7 +20090,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &769152411
@@ -20336,6 +20364,13 @@ MonoBehaviour:
   sJoystickFrench: A pour continuer
   bHasInput: 1
   bIsOnManager: 0
+  bIsToTip: 0
+  delayBeforeStart: 0
+  timeBtwChars: 0.06
+  FastTimeBtwChars: 0.02
+  leadingCharBeforeDelay: 0
+  leadingChar: 
+  menuManager: {fileID: 0}
 --- !u!114 &796350020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20358,7 +20393,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: Space to continue
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2aefc435c742ba1458d64549d96e081c, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -20422,7 +20457,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &796350021
@@ -24371,6 +24406,13 @@ MonoBehaviour:
   sJoystickFrench: 
   bHasInput: 0
   bIsOnManager: 0
+  bIsToTip: 0
+  delayBeforeStart: 0
+  timeBtwChars: 0.06
+  FastTimeBtwChars: 0.02
+  leadingCharBeforeDelay: 0
+  leadingChar: 
+  menuManager: {fileID: 0}
 --- !u!114 &936318161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24393,7 +24435,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: C'est ici...
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 3f52a2b6b8c689348b23db622c94397c, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2aefc435c742ba1458d64549d96e081c, type: 2}
   m_sharedMaterial: {fileID: 5754595664658875564, guid: 3f52a2b6b8c689348b23db622c94397c,
     type: 2}
   m_fontSharedMaterials: []
@@ -24458,7 +24500,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &936318162
@@ -25565,6 +25607,13 @@ MonoBehaviour:
   sJoystickFrench: 
   bHasInput: 0
   bIsOnManager: 0
+  bIsToTip: 0
+  delayBeforeStart: 0
+  timeBtwChars: 0.06
+  FastTimeBtwChars: 0.02
+  leadingCharBeforeDelay: 0
+  leadingChar: 
+  menuManager: {fileID: 0}
 --- !u!114 &961403433
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25587,7 +25636,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: they're gonna be mad as hell
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 3f52a2b6b8c689348b23db622c94397c, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2aefc435c742ba1458d64549d96e081c, type: 2}
   m_sharedMaterial: {fileID: 5754595664658875564, guid: 3f52a2b6b8c689348b23db622c94397c,
     type: 2}
   m_fontSharedMaterials: []
@@ -25652,7 +25701,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &961403434
@@ -25689,7 +25738,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 961698156}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.63328874, y: 0.000000051681084, z: -0.000000042290207, w: 0.77391565}
+  m_LocalRotation: {x: 0.63328874, y: -0.000000051681095, z: 0.000000042290214, w: 0.77391565}
   m_LocalPosition: {x: 4, y: 19.01, z: 8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -28279,18 +28328,6 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1076419030}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1076419033 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5717512106540431713, guid: 65f34271cad0dda4d8a49134617b7571,
-    type: 3}
-  m_PrefabInstance: {fileID: 1076419030}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1076419034 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7565665392885058225, guid: 65f34271cad0dda4d8a49134617b7571,
@@ -30422,6 +30459,13 @@ MonoBehaviour:
   sJoystickFrench: 
   bHasInput: 0
   bIsOnManager: 0
+  bIsToTip: 0
+  delayBeforeStart: 0
+  timeBtwChars: 0.06
+  FastTimeBtwChars: 0.02
+  leadingCharBeforeDelay: 0
+  leadingChar: 
+  menuManager: {fileID: 0}
 --- !u!114 &1153943154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30444,7 +30488,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: We gotta tag that too
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 3f52a2b6b8c689348b23db622c94397c, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2aefc435c742ba1458d64549d96e081c, type: 2}
   m_sharedMaterial: {fileID: 5754595664658875564, guid: 3f52a2b6b8c689348b23db622c94397c,
     type: 2}
   m_fontSharedMaterials: []
@@ -30509,7 +30553,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1153943155
@@ -31494,7 +31538,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1210185276}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.63328874, y: 0.000000051681084, z: -0.000000042290207, w: 0.77391565}
+  m_LocalRotation: {x: 0.63328874, y: -0.000000051681095, z: 0.000000042290214, w: 0.77391565}
   m_LocalPosition: {x: 4, y: 19.01, z: 8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -34897,6 +34941,13 @@ MonoBehaviour:
   sJoystickFrench: 
   bHasInput: 0
   bIsOnManager: 0
+  bIsToTip: 0
+  delayBeforeStart: 0
+  timeBtwChars: 0.06
+  FastTimeBtwChars: 0.02
+  leadingCharBeforeDelay: 0
+  leadingChar: 
+  menuManager: {fileID: 0}
 --- !u!114 &1399212550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34919,7 +34970,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: here's the goal
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 3f52a2b6b8c689348b23db622c94397c, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2aefc435c742ba1458d64549d96e081c, type: 2}
   m_sharedMaterial: {fileID: 5754595664658875564, guid: 3f52a2b6b8c689348b23db622c94397c,
     type: 2}
   m_fontSharedMaterials: []
@@ -34984,7 +35035,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1399212551
@@ -38157,6 +38208,13 @@ MonoBehaviour:
   sJoystickFrench: A pour passer
   bHasInput: 1
   bIsOnManager: 0
+  bIsToTip: 0
+  delayBeforeStart: 0
+  timeBtwChars: 0.06
+  FastTimeBtwChars: 0.02
+  leadingCharBeforeDelay: 0
+  leadingChar: 
+  menuManager: {fileID: 0}
 --- !u!114 &1473645312
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38179,7 +38237,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: Space to skip
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2aefc435c742ba1458d64549d96e081c, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -38243,7 +38301,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1473645313
@@ -39640,6 +39698,13 @@ MonoBehaviour:
   sJoystickFrench: 
   bHasInput: 0
   bIsOnManager: 0
+  bIsToTip: 0
+  delayBeforeStart: 0
+  timeBtwChars: 0.06
+  FastTimeBtwChars: 0.02
+  leadingCharBeforeDelay: 0
+  leadingChar: 
+  menuManager: {fileID: 0}
 --- !u!114 &1528544648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39662,7 +39727,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: i'm this way
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 3f52a2b6b8c689348b23db622c94397c, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2aefc435c742ba1458d64549d96e081c, type: 2}
   m_sharedMaterial: {fileID: 5754595664658875564, guid: 3f52a2b6b8c689348b23db622c94397c,
     type: 2}
   m_fontSharedMaterials: []
@@ -39727,7 +39792,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1528544649
@@ -50792,6 +50857,13 @@ MonoBehaviour:
   sJoystickFrench: A pour continuer
   bHasInput: 1
   bIsOnManager: 0
+  bIsToTip: 0
+  delayBeforeStart: 0
+  timeBtwChars: 0.06
+  FastTimeBtwChars: 0.02
+  leadingCharBeforeDelay: 0
+  leadingChar: 
+  menuManager: {fileID: 0}
 --- !u!114 &1975820149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50814,7 +50886,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: Space to continue
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2aefc435c742ba1458d64549d96e081c, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -50878,7 +50950,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1975820150
