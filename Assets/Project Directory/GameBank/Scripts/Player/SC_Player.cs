@@ -69,6 +69,7 @@ public class SC_Player : MonoBehaviour
     private GameObject GO_BaitInst;
     public bool hasAlreadyBaited = false;
     private float fThrowMultiplier = 1f;
+    private float fShakeFoeBasic = 9f;
 
     //LE SCORE
     [Header("Score")]
@@ -328,7 +329,7 @@ public class SC_Player : MonoBehaviour
             bait.newPos = _spawnpos;
             bait.midPos = new Vector3(this.transform.position.x, this.transform.position.y + 2.5f, this.transform.position.z) + (lastMoveDirection * fThrowMultiplier / 2);
             bait.bIsBeingThrown = true;
-            StartCoroutine(BaitCameraShake(fThrowMultiplier*1/3, bpmManager.FSPB*1/4));
+            StartCoroutine(CameraShake(fThrowMultiplier*1/3, bpmManager.FSPB*1/4));
         }
     }
 
@@ -429,10 +430,18 @@ public class SC_Player : MonoBehaviour
                                         foe.FoeDisabled(foe.bIsDisabled);
                                         foe.i_EnnemyBeat = -iTimeFoeDisabled * 10;
                                     }
+                                    CameraShake(fShakeFoeBasic, bpmManager.FSPB * 1 / 3);
                                 }
                                 if (ingTag.transform.gameObject.name == "EndingWall")
                                 {
                                     EndDialogue();
+                                }
+                                if (ingTag.bBossTag)
+                                {
+                                    ingTag.scBoss.iNbTaggsDone += 1;
+                                    ingTag.scBoss.BossTagAngle();
+                                    //feedback degat boss
+                                    CameraShake(fShakeFoeBasic * 2, bpmManager.FSPB * 1 / 3);
                                 }
                                 return;
                             }
@@ -547,10 +556,18 @@ public class SC_Player : MonoBehaviour
                                     foe.FoeDisabled(foe.bIsDisabled);
                                     foe.i_EnnemyBeat = -iTimeFoeDisabled*10;
                                 }
+                                StartCoroutine(CameraShake(fShakeFoeBasic, bpmManager.FSPB * 1 / 3));
                             }
                             if (ingTag.transform.gameObject.name == "EndingWall")
                             {
                                 EndDialogue();
+                            }
+                            if(ingTag.bBossTag)
+                            {
+                                ingTag.scBoss.iNbTaggsDone += 1;
+                                ingTag.scBoss.BossTagAngle();
+                                //feedback degat boss
+                                StartCoroutine(CameraShake(fShakeFoeBasic * 2, bpmManager.FSPB * 1 / 3));
                             }
                             return;
                         }
@@ -921,10 +938,9 @@ public class SC_Player : MonoBehaviour
             PlayerCapsule.transform.localPosition = localPosMesh;
         });
     }
-    private IEnumerator BaitCameraShake(float intensity, float time)
+    private IEnumerator CameraShake(float intensity, float time)
     {
         cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = intensity;
-        Debug.Log("CAMERA INTENSITE");
         yield return new WaitForSeconds(time);
         cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = 0f;
     }
@@ -1079,11 +1095,14 @@ public class SC_Player : MonoBehaviour
         {
             if (enemy.bIsDisabled)
             {
-                enemy.i_EnnemyBeat += 1;
-                if(enemy.i_EnnemyBeat >= 0)
+                if (!bIsImune)
                 {
-                    enemy.bIsDisabled = false;
-                    enemy.FoeDisabled(enemy.bIsDisabled);
+                    enemy.i_EnnemyBeat += 1;
+                    if (enemy.i_EnnemyBeat >= 0)
+                    {
+                        enemy.bIsDisabled = false;
+                        enemy.FoeDisabled(enemy.bIsDisabled);
+                    }
                 }
             }
             else if (enemy.BCanSee)
@@ -1094,7 +1113,10 @@ public class SC_Player : MonoBehaviour
             else if(enemy.bHasHeard)
             {
                 enemy.BaitHeard(GO_BaitInst);
-                enemy.i_EnnemyBeat += 1;
+                if (!bIsImune)
+                {
+                    enemy.i_EnnemyBeat += 1;
+                }
             }
             else
             {
@@ -1105,16 +1127,22 @@ public class SC_Player : MonoBehaviour
                 else if (enemy.isBoss && !enemy.bIsRemovingTag && enemy.iRemovingRoutine!=10)
                 {
                     enemy.EnemieRotation(bpmManager.FSPB);
-                    enemy.iRemovingRoutine -= 1;
-                    if(enemy.iRemovingRoutine == 0)
+                    if(!bIsImune)
                     {
-                        enemy.TagChecking();
+                        enemy.iRemovingRoutine -= 1;
+                        if (enemy.iRemovingRoutine == 0)
+                        {
+                            enemy.TagChecking();
+                        }
                     }
                 }
                 else if(enemy.isBoss && enemy.bIsRemovingTag)
                 {
-                    enemy.iTimeBeforeRemovingThird -= 1;
-                    enemy.RemovingTag();
+                    if (!bIsImune)
+                    {
+                        enemy.iTimeBeforeRemovingThird -= 1;
+                        enemy.RemovingTag();
+                    }
                 }
             }
         }

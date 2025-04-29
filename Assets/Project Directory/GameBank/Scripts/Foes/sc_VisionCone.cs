@@ -11,6 +11,8 @@ public class sc_VisionCone : MonoBehaviour
     [SerializeField] private Material mHeardCone;
     [SerializeField] private SC_FieldOfView scFieldView;
     [SerializeField] private SC_VisionConeCasting scVisionCone;
+    private float fTimerBlinck = 0f;
+    private bool bBlincking = false;
 
     private void Start()
     {
@@ -31,5 +33,17 @@ public class sc_VisionCone : MonoBehaviour
         {
             scVisionCone.ConeRenderer.material = mVisionCone;
         }
+
+        /*if (bBlincking)
+        {
+            fTimerBlinck += Time.deltaTime;
+            if (fTimerBlinck > 0.1f)
+            {
+                scVisionCone.ConeRenderer.material._Opacity = 0f;
+            }
+            else if()
+        {
+        }
+        }*/
     }
 }

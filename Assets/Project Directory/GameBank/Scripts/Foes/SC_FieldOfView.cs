@@ -8,6 +8,7 @@ using UnityEngine;
 public class SC_FieldOfView : MonoBehaviour
 {
     public int i_typeFoe = 1;
+    [SerializeField] private SC_Player scPlayer = null;
 
     //LE DEPLACEMENT
     [Header("Deplacement")]
@@ -68,7 +69,6 @@ public class SC_FieldOfView : MonoBehaviour
 
     [Header("Boss")]
     public bool isBoss = false;
-    [SerializeField] private SC_Player scPlayer = null;
     [SerializeField] private ing_Tag[] bossTags;
     [SerializeField] private ing_Bait[] bossBaits = new ing_Bait[4];
     [SerializeField] private Vector3[] posBait;
@@ -80,7 +80,7 @@ public class SC_FieldOfView : MonoBehaviour
     [SerializeField] private int iRemovingThird = 3;
     public int iTimeBeforeRemovingThird = 3;
     private List<ing_Tag> listTaggsDone = new List<ing_Tag>();
-    private List<ing_Tag> listAngleRemove = new List<ing_Tag>();
+    public int iNbTaggsDone = 0;
 
     private int Hasard(int a, int b) //Choisi un random.
     {
@@ -88,7 +88,6 @@ public class SC_FieldOfView : MonoBehaviour
         int hasard = rdm.Next(a, b + 1); //Aller jusqu'a le b inclu.
         return hasard;
     }
-
     private void Start()
     {
         if (GOPlayerRef == null)
@@ -175,7 +174,6 @@ public class SC_FieldOfView : MonoBehaviour
             BIsNear = false;
         }
         DetectionChecks();
-        BossTagAngle();
     }
     private IEnumerator NumDetectedVFX(bool bNewDetected, float height)
     {
@@ -373,32 +371,41 @@ public class SC_FieldOfView : MonoBehaviour
     {
         if (i_typeFoe == 1) //Si l'ennemi est statique, ne bouge que sa rotation
         {
-            if (!isReversing && currentRotation >= maxRotation)
+            if(!scPlayer.bIsImune)
             {
-                isReversing = true;
-            }
-            else if (isReversing && currentRotation <= minRotation)
-            {
-                isReversing = false;
-            }
+                if (!isReversing && currentRotation >= maxRotation)
+                {
+                    isReversing = true;
+                }
+                else if (isReversing && currentRotation <= minRotation)
+                {
+                    isReversing = false;
+                }
 
-            if (isReversing)
-            {
-                currentRotation -= rotationStep;
+                if (isReversing)
+                {
+                    currentRotation -= rotationStep;
+                }
+                else
+                {
+                    currentRotation += rotationStep;
+                }
+                currentRotation = Mathf.Clamp(currentRotation, minRotation, maxRotation);
+                transform.eulerAngles = new Vector3(0, currentRotation, 0);
+                vectLastRot = transform.eulerAngles;
             }
-            else
-            {
-                currentRotation += rotationStep;
-            }
-            currentRotation = Mathf.Clamp(currentRotation, minRotation, maxRotation);
-            transform.eulerAngles = new Vector3(0, currentRotation, 0);
-            vectLastRot = transform.eulerAngles;
         }
         else if (i_typeFoe == 2)//Si l'ennemi suit un chemin, est movible
         {
-            Vector3 newPos = this.transform.position + new Vector3(posDirections[iCurrentDirection].x - this.transform.position.x, 0, posDirections[iCurrentDirection].z - this.transform.position.z).normalized;
-            this.transform.DOJump(new Vector3(Mathf.Round(newPos.x), newPos.y, Mathf.Round(newPos.z)), 1f, 0, ftime).SetEase(Ease.OutBack).SetAutoKill(true);
-            //this.transform.DOMove(new Vector3(Mathf.Round(newPos.x), newPos.y, Mathf.Round(newPos.z)), ftime, false).SetAutoKill(true);
+            if(!scPlayer.bIsImune)
+            {
+                Vector3 newPos = this.transform.position + new Vector3(posDirections[iCurrentDirection].x - this.transform.position.x, 0, posDirections[iCurrentDirection].z - this.transform.position.z).normalized;
+                this.transform.DOJump(new Vector3(Mathf.Round(newPos.x), newPos.y, Mathf.Round(newPos.z)), 1f, 0, ftime).SetEase(Ease.OutBack).SetAutoKill(true);
+            }
+            else
+            {
+                this.transform.DOJump(new Vector3(Mathf.Round(this.transform.position.x), this.transform.position.y, Mathf.Round(this.transform.position.z)), 1f, 0, ftime).SetEase(Ease.OutBack).SetAutoKill(true);
+            }
             Vector3 preLastPos = posDirections[iCurrentDirection] - new Vector3(posDirections[iCurrentDirection].x - this.transform.position.x, 0, posDirections[iCurrentDirection].z - this.transform.position.z).normalized;
             if (this.transform.position.x == Mathf.Round(posDirections[iCurrentDirection].x) && this.transform.position.z == Mathf.Round(posDirections[iCurrentDirection].z)) //pile à la position de changement.
             {
@@ -537,6 +544,8 @@ public class SC_FieldOfView : MonoBehaviour
                 chosenTag.textOnWall.text = "0/3";
                 iRemovingRoutine = 9;
                 bIsRemovingTag = false;
+                iNbTaggsDone -= 1;
+                BossTagAngle();
             }
             else if (chosenTag.textOnWall.text == "2/3")
             {
@@ -550,24 +559,12 @@ public class SC_FieldOfView : MonoBehaviour
             }
         }
     }
-    private void BossTagAngle()
+    public void BossTagAngle()
     {
-        if (isBoss)
+        FAngle = 60 - (iNbTaggsDone * 5);
+        if(iNbTaggsDone == bossTags.Length)
         {
-            listAngleRemove.Clear();
-            foreach (ing_Tag tag in bossTags)
-            {
-                if (tag.transform.gameObject.tag == "Wall")
-                {
-                    listAngleRemove.Add(tag);
-                }
-            }
-            int removeIndex = listAngleRemove.Count;
-            FAngle = 60 - (removeIndex * 5);
-            if(listAngleRemove.Count == bossTags.Length)
-            {
-                scPlayer.EndDialogue();
-            }
+            scPlayer.EndDialogue();
         }
     }
 }
