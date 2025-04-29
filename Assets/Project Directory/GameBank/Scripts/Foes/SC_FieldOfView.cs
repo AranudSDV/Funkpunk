@@ -68,6 +68,7 @@ public class SC_FieldOfView : MonoBehaviour
 
     [Header("Boss")]
     public bool isBoss = false;
+    [SerializeField] private SC_Player scPlayer = null;
     [SerializeField] private ing_Tag[] bossTags;
     [SerializeField] private ing_Bait[] bossBaits = new ing_Bait[4];
     [SerializeField] private Vector3[] posBait;
@@ -76,6 +77,7 @@ public class SC_FieldOfView : MonoBehaviour
     public bool bIsRemovingTag = false;
     private bool bRoutineAgain = true;
     public int iRemovingRoutine = 9;
+    [SerializeField] private int iRemovingThird = 3;
     public int iTimeBeforeRemovingThird = 3;
     private List<ing_Tag> listTaggsDone = new List<ing_Tag>();
     private List<ing_Tag> listAngleRemove = new List<ing_Tag>();
@@ -334,7 +336,7 @@ public class SC_FieldOfView : MonoBehaviour
                 {
                     transform.eulerAngles = vectLastRot;
                     iRemovingRoutine = 9;
-                    iTimeBeforeRemovingThird = 3;
+                    iTimeBeforeRemovingThird = iRemovingThird;
                     bRoutineAgain = true;
                 }
             }
@@ -516,12 +518,12 @@ public class SC_FieldOfView : MonoBehaviour
         {
             BaitShuffle();
             bIsRemovingTag = true;
-            iTimeBeforeRemovingThird = 3;
+            iTimeBeforeRemovingThird = iRemovingThird;
         }
         else
         {
             iRemovingRoutine = 9;
-            iTimeBeforeRemovingThird = 3;
+            iTimeBeforeRemovingThird = iRemovingThird;
         }
     }
     public void RemovingTag()
@@ -529,7 +531,7 @@ public class SC_FieldOfView : MonoBehaviour
         transform.LookAt(chosenTag.transform);
         if (iTimeBeforeRemovingThird == 0)
         {
-            iTimeBeforeRemovingThird = 3;
+            iTimeBeforeRemovingThird = iRemovingThird;
             if (chosenTag.textOnWall.text == "1/3")
             {
                 chosenTag.textOnWall.text = "0/3";
@@ -562,6 +564,10 @@ public class SC_FieldOfView : MonoBehaviour
             }
             int removeIndex = listAngleRemove.Count;
             FAngle = 60 - (removeIndex * 5);
+            if(listAngleRemove.Count == bossTags.Length)
+            {
+                scPlayer.EndDialogue();
+            }
         }
     }
 }

@@ -1188,7 +1188,7 @@ public class SC_Player : MonoBehaviour
     }
 
     //LA FIN DU NIVEAU
-    private void EndDialogue()
+    public void EndDialogue()
     {
         Time.timeScale = 0f;
         menuManager.bGameIsPaused = true;
