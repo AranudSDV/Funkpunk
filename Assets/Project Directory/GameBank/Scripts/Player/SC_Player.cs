@@ -1098,7 +1098,24 @@ public class SC_Player : MonoBehaviour
             }
             else
             {
-                enemy.EnemieRotation(bpmManager.FSPB); 
+                if (!enemy.isBoss)
+                {
+                    enemy.EnemieRotation(bpmManager.FSPB);
+                }
+                else if (enemy.isBoss && !enemy.bIsRemovingTag && enemy.iRemovingRoutine!=10)
+                {
+                    enemy.EnemieRotation(bpmManager.FSPB);
+                    enemy.iRemovingRoutine -= 1;
+                    if(enemy.iRemovingRoutine == 0)
+                    {
+                        enemy.TagChecking();
+                    }
+                }
+                else if(enemy.isBoss && enemy.bIsRemovingTag)
+                {
+                    enemy.iTimeBeforeRemovingThird -= 1;
+                    enemy.RemovingTag();
+                }
             }
         }
     }

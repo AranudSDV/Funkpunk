@@ -10,7 +10,7 @@ public class SC_FieldOfView : MonoBehaviour
     public int i_typeFoe = 1;
 
     //LE DEPLACEMENT
-    [Header("Déplacement")]
+    [Header("Deplacement")]
     [SerializeField] private Vector3[] posDirections;
     [SerializeField] private int iFirstPos = 0;
     [SerializeField] private int iCurrentDirection = 0;
@@ -65,6 +65,27 @@ public class SC_FieldOfView : MonoBehaviour
     public bool bHasHeard = false;
     public bool bIsDisabled = false;
     public bool BIsNear = false;
+
+    [Header("Boss")]
+    public bool isBoss = false;
+    [SerializeField] private ing_Tag[] bossTags;
+    [SerializeField] private ing_Bait[] bossBaits = new ing_Bait[4];
+    [SerializeField] private Vector3[] posBait;
+    [SerializeField][Tooltip("xz, x-z, -x-z, -xz")] private int[] iNbPosBaitPerZoneAdditive = new int[4];
+    private ing_Tag chosenTag = null;
+    public bool bIsRemovingTag = false;
+    private bool bRoutineAgain = true;
+    public int iRemovingRoutine = 9;
+    public int iTimeBeforeRemovingThird = 3;
+    private List<ing_Tag> listTaggsDone = new List<ing_Tag>();
+    private List<ing_Tag> listAngleRemove = new List<ing_Tag>();
+
+    private int Hasard(int a, int b) //Choisi un random.
+    {
+        System.Random rdm = new System.Random();
+        int hasard = rdm.Next(a, b + 1); //Aller jusqu'a le b inclu.
+        return hasard;
+    }
 
     private void Start()
     {
@@ -152,6 +173,7 @@ public class SC_FieldOfView : MonoBehaviour
             BIsNear = false;
         }
         DetectionChecks();
+        BossTagAngle();
     }
     private IEnumerator NumDetectedVFX(bool bNewDetected, float height)
     {
@@ -236,6 +258,16 @@ public class SC_FieldOfView : MonoBehaviour
             PS_Suspicious.Stop();
             Go_vfx_detected.transform.localPosition = new Vector3(pos_vfx_detected.x, 50f, pos_vfx_detected.z);
             PS_detected.Stop();
+            if(isBoss)
+            {
+                if(bIsRemovingTag)
+                {
+                    iRemovingRoutine = 10;
+                    iTimeBeforeRemovingThird = 10;
+                }
+                bIsRemovingTag = false;
+                bRoutineAgain = false;
+            }
         }
         else if (bSeenOnce)
         {
@@ -245,16 +277,46 @@ public class SC_FieldOfView : MonoBehaviour
             StartCoroutine(NumDetectedVFX(true, Go_vfx_detected.transform.localPosition.y));
             Go_vfx_Suspicious.transform.localPosition = new Vector3(pos_vfx_supicious.x, 50f, pos_vfx_supicious.z);
             PS_Suspicious.Stop();
+            if (isBoss)
+            {
+                if (bIsRemovingTag)
+                {
+                    iRemovingRoutine = 10;
+                    iTimeBeforeRemovingThird = 10;
+                }
+                bIsRemovingTag = false;
+                bRoutineAgain = false;
+            }
         }
         else if (BIsNear)
         {
             bHasHeard = false;
             StartCoroutine(NumSuspiciousVFX(true, Go_vfx_Suspicious.transform.localPosition.y));
             transform.LookAt(GOPlayerRef.transform);
+            if (isBoss)
+            {
+                if (bIsRemovingTag)
+                {
+                    iRemovingRoutine = 10;
+                    iTimeBeforeRemovingThird = 10;
+                }
+                bIsRemovingTag = false;
+                bRoutineAgain = false;
+            }
         }
-        else  if (bHasHeard == true)
+        else  if (bHasHeard)
         {
             StartCoroutine(NumSuspiciousVFX(true, Go_vfx_Suspicious.transform.localPosition.y));
+            if (isBoss)
+            {
+                if (bIsRemovingTag)
+                {
+                    iRemovingRoutine = 10;
+                    iTimeBeforeRemovingThird = 10;
+                }
+                bIsRemovingTag = false;
+                bRoutineAgain = false;
+            }
         }
         else
         {
@@ -264,7 +326,17 @@ public class SC_FieldOfView : MonoBehaviour
         {
             if (i_typeFoe == 1)
             {
-                transform.eulerAngles = vectLastRot;
+                if (!isBoss)
+                {
+                    transform.eulerAngles = vectLastRot;
+                }
+                else if (isBoss && !bIsRemovingTag && !bRoutineAgain)
+                {
+                    transform.eulerAngles = vectLastRot;
+                    iRemovingRoutine = 9;
+                    iTimeBeforeRemovingThird = 3;
+                    bRoutineAgain = true;
+                }
             }
             else
             {
@@ -398,11 +470,98 @@ public class SC_FieldOfView : MonoBehaviour
             }
         }
     }
-
     public void ResetAllVFX()
     {
         StartCoroutine(NumDetectedVFX(false, 0f));
         StartCoroutine(NumSuspiciousVFX(false, 0f));
         FoeDisabled(false);
+    }
+    private void BaitShuffle()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            if(i-1==-1)
+            {
+                bossBaits[i].transform.position = posBait[Hasard(0, iNbPosBaitPerZoneAdditive[i]-1)];
+            }
+            else
+            {
+                bossBaits[i].transform.position = posBait[Hasard(iNbPosBaitPerZoneAdditive[i - 1], iNbPosBaitPerZoneAdditive[i]-1)];
+            }
+        }
+    }
+    public void TagChecking()
+    {
+        listTaggsDone.Clear();
+        foreach (ing_Tag tag in bossTags)
+        {
+            if(tag.transform.gameObject.tag == "Wall")
+            {
+                listTaggsDone.Add(tag);
+            }
+        }
+        if (listTaggsDone.Count>1)
+        {
+            chosenTag = listTaggsDone[Hasard(0, listTaggsDone.Count-1)];
+        }
+        else if(listTaggsDone.Count == 1)
+        {
+            chosenTag = listTaggsDone[0];
+        }
+        else
+        {
+            chosenTag = null;
+        }
+        if(chosenTag!= null)
+        {
+            BaitShuffle();
+            bIsRemovingTag = true;
+            iTimeBeforeRemovingThird = 3;
+        }
+        else
+        {
+            iRemovingRoutine = 9;
+            iTimeBeforeRemovingThird = 3;
+        }
+    }
+    public void RemovingTag()
+    {
+        transform.LookAt(chosenTag.transform);
+        if (iTimeBeforeRemovingThird == 0)
+        {
+            iTimeBeforeRemovingThird = 3;
+            if (chosenTag.textOnWall.text == "1/3")
+            {
+                chosenTag.textOnWall.text = "0/3";
+                iRemovingRoutine = 9;
+                bIsRemovingTag = false;
+            }
+            else if (chosenTag.textOnWall.text == "2/3")
+            {
+                chosenTag.textOnWall.text = "1/3";
+            }
+            else
+            {
+                chosenTag.transform.gameObject.tag = "Tagging";
+                chosenTag._renderer.material = chosenTag.untaggedMaterial;
+                chosenTag.textOnWall.text = "2/3";
+            }
+        }
+    }
+    private void BossTagAngle()
+    {
+        if (isBoss)
+        {
+            listAngleRemove.Clear();
+            foreach (ing_Tag tag in bossTags)
+            {
+                if (tag.transform.gameObject.tag == "Wall")
+                {
+                    listAngleRemove.Add(tag);
+                }
+            }
+            int removeIndex = listAngleRemove.Count;
+            FAngle = 60 - (removeIndex * 5);
+        }
     }
 }
