@@ -1350,7 +1350,13 @@ MonoBehaviour:
   - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Road_002/KA_BordureTrottoire_001_B.fbx
   - Assets/Project Directory/GameBank/ObjectBank/Archi/KA_Road_002/KA_Road_002_E.fbx
   - Assets/Project Directory/GameBank/ObjectBank/Props/Props Grand/Voiture/OB_P_Voiture_005A.fbx
-  uvOverlapAssetList: 00000000ffffffff000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010100000000000001010000
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Grand/Neon/Party/OB_P_Neon_Party_001A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Grand/Neon/Casino/OB_P_Neon_Casino_001A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Grand/Neon/Poker/OB_P_Neon_Poker_001A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Grand/Neon/The_BAr/OB_P_Neon_Bar_001A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Grand/Neon/Coktail/OB_P_Neon_Coktail_001A.fbx
+  - Assets/Project Directory/GameBank/ObjectBank/Props/Props Petits/Outils/OB_P_Scie_V2_001A.fbx
+  uvOverlapAssetList: 00000000ffffffff000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010100000000000001010000010100000101000001010000010100000101000001010000
   xatlasWarningShown: 0
   foundCompatibleSetup: 1
   gpuName: NVIDIA GeForce GTX 1080
