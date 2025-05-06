@@ -183,70 +183,71 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 150ddb32dac74ac40860dbd4121ab520, type: 3}
   - {fileID: 21300000, guid: a2faf8967438424409b0bbc582f8cabd, type: 3}
   _sc_textChange: {fileID: 4024850880641299129}
-  iNbDialoguePerLevel: 15000000000000000000000000000000
-  iNbDialoguePerLevelAdd: 15000000000000000000000000000000
-  iCharaToSpeakPerTextes: 010000000000000001000000000000000100000000000000010000000100000000000000010000000000000001000000000000000100000001000000000000000100000001000000000000000100000000000000
+  iNbDialoguePerLevel: 0c0000000a0000000000000000000000
+  iNbDialoguePerLevelAdd: 0c000000160000000000000000000000
+  iCharaToSpeakPerTextes: 00000000010000000000000001000000000000000100000001000000000000000100000000000000000000000000000001000000000000000000000000000000010000000100000001000000000000000100000001000000
   sDialogueEnglish:
-  - Hello camrade!
-  - 'WHAT THE-- '
-  - 'wowowo keep it down... You wouldn''t want them to find you right ? '
-  - 'Yeah yeah, but what the hell, i''ve not taken anything yet, i think... '
-  - 'No I''m real y''know. Actually I''m here to help you, my name''s Scraffi. You
-    wanna know who are those gangsters ? '
-  - I mean yes Scratchi, they're scary.
-  - Not Scratchi you punk, ScraFFi.
-  - Well, those guys are here to destroy liberty of art. And as you can see, I'm
-    a spray paint, so I'm not down for it.
-  - Sure but do you also know something 'bout why I'm dancing none stop ?
-  - As I've said, I can help you. It's their way of disabling you of painting.
-  - Man that's so evil, what should I do about it ? I'm not sure I can fight them..
-  - That's why I'm here, I know the way to their headquarters and I'm pretty special
-    too..
-  - For sure, I've never seen a talking spray paint that has a name as lame as Scratchi.
-  - Again, Scraffi. And my name's awesome. So now I'm going to tell you how I'm better
-    than you.
-  - Actually, I'm not human and that's why my paint is anti-devil. You could say
-    I'm a gardian angel.
-  - I wasn't expectin' some religious thing...
-  - I'm not really an angel you punk, it's a matter of speach!
-  - Anyway, do you take me with you or not?
-  - Oh I see, well it's annoying as hell to be controlled by evil guys so yes of
-    course, where should we go ?
-  - The big street right in front of you will guide us to a shortway, but there's
-    a lot of those gangsters, be aware.
-  - No need to worry, I'm kinda awesome too you'll see. Also, my name's Jett.
+  - There. Now that's a tag they won't forget. (*graff done*)
+  - Bingo! That's the spirit!
+  - Yea--!! Wait, what? What?
+  - Yeah! That tag's got a real punk soul. I've been looking for someone just like
+    you!
+  - W-Who are you?
+  - 'I''m the amazing Scraffi, pleased to meet your funky being. '
+  - Do you accept being my pal in order to screw those music thugs together?
+  - ... Did I take something? Am I seriously talking to my spray can?
+  - I'm still here you know. And yes I may look like a spray can, but I chose to
+    be in there so your graffiti would actually hit those thugs where it hurts. So,
+    you in?
+  - That's strange... but I guess I HAVE to trust my spray can... I've used it so
+    many times...
+  - 'Ok we''re pals now! Those gangsters are called "Marshalls" by the way. '
+  - 'And I''m Jett Rush. '
+  - 'The situation''s way worse than I thought. There were so many Marshalls there! '
+  - 'They''ve always been a really big crew. But they weren''t like that before. '
+  - 'Sure, they were gangsters, but not like... this!  '
+  - 'Do you know what changed them? '
+  - Yes. They're not themselves anymore. They're being manipulated by the power of
+    an evil spirit.
+  - 'By the way, I''m also a spirit. But a kind one. And way much wiser. '
+  - I have the power to transform the paint in your spray can into an anti-evil-spirit
+    paint. Kind of.
+  - 'That''s why my graffiti are that powerful? '
+  - Combined to your punk drive, we're unstoppable.
+  - Anyway, we don't have much time. We have to hurry.
   sDialogueFrench:
-  - 'Hello camarade ! '
-  - 'QU''EST-CE QUE-- '
-  - "wowowo calme toi... Tu voudrais pas qu'ils te rep\xE8rent non ? "
-  - 'Ouai ouai, mais qu''est-ce que quoi, j''ai rien pris encore, je crois... '
-  - "Nan je suis bien r\xE9el. Je suis m\xEAme l\xE0 pour t'aider, j'm'appelle Scraffi.
-    Tu veux savoir qui sont ces gangsters? "
-  - Euh oui Scratchi, ils font peur.
-  - Oh le punk, pas Scratchi, ScraFFi.
-  - "Bref, ces gars l\xE0 sont ici pour d\xE9truire la libert\xE9 de l'art. Et comme
-    tu peux le voir, je suis une bombe de peinture, alors c'est pas mon kiff. "
-  - 'Ah ouais, et tu saurais pourquoi je dance h24? '
-  - "Comme je t'ai dit, je peux t'aider. C'est leur moyen de t'emp\xEAcher de peindre. "
-  - "Mec c'est trop mal\xE9fique, qu'est-ce que j'dois faire alors ? J'pense pas
-    pouvoir les fight... "
-  - "C'est pour \xE7a que je suis l\xE0, je connais le chemin qui m\xE8ne \xE0 leur
-    QG et je suis plut\xF4t sp\xE9cial ehe... "
-  - "Tu m'\xE9tonnes, j'ai jamais vu une bombe de peinture parlante avec un nom aussi
-    ringard que Scratchi. "
-  - 'De nouveau, Scraffi. Et mon nom est super cool. Bon j''vais te dire pourquoi
-    je suis meilleur que toi. '
-  - "En fait je suis pas humain et c'est pour \xE7a que ma peinture est anti-d\xE9moniaque.
-    Tu peux m'appeler ton ange gardien m\xEAme. "
-  - "Wa je pensais pas qu'il y aurait une histoire religieuse derri\xE8re tout \xE7a... "
-  - "Oh le punk, j'suis pas vraiment un ange, c'est une mani\xE8re de parler! "
-  - 'Bref, tu me prends avec toi ou pas ? '
-  - "Ah! Bah c'est chiant de se faire contr\xF4ler par des gars mal\xE9fiques alors
-    oui bien s\xFBr, o\xF9 va-t-on ? "
-  - "La grande rue l\xE0 en face de toi nous am\xE8ne directement \xE0 un raccourci,
-    mais il y a plein de ces gangsters alors fais gaffe. "
-  - "T'en fais pas, je suis plut\xF4t cool moi aussi, tu verras. Mon nom est Jett
-    d'ailleurs."
+  - "Voil\xE0. \xC7a, c'est un tag qu'ils ne vont pas oublier. (*tag fait*)"
+  - "C'est \xE7a l'esprit !"
+  - Ouai--!! Attends quoi ? Quoi ?!
+  - "Yep, ce tag a une pure \xE9nergie punk. C'est quelqu'un comme toi que je cherchais
+    !"
+  - T-T'es qui ?
+  - "Je suis le sublime Scraffi, enchant\xE9 magnifique \xEAtre de funk."
+  - "T'accepterais de devenir mon gars s\xFBr pour nous d\xE9barasser de ces fous
+    de la musique ?"
+  - "... J'ai pris un truc ou quoi ? Je parle vraiment \xE0 ma bombe de peinture
+    ?"
+  - "Je suis toujours l\xE0 tu sais. Et oui, je ressemble peut-\xEAtre \xE0 une bombe
+    de peinture, mais c'est moi qui ai choisi d'y entrer pour que tes graffs aient
+    un vrai impact contre ces gangsters. Alors, t'en es?"
+  - "C'est bizarre... mais bon, j'peux pas ne PAS faire confiance \xE0 une bombe
+    que j'ai tant utilis\xE9e..."
+  - "Ok, on est potes s\xFBrs maintenant ! Ces gangsters ? Ils s'appellent les Marshalls. "
+  - 'Et moi, c''est Jett Rush. '
+  - "La situation est bien pire que ce que je pensais. Il y avait tellement de Marshalls
+    l\xE0 !"
+  - "Ils ont toujours \xE9t\xE9 un tr\xE8s grand groupe, mais ils n'\xE9taient pas
+    comme \xE7a avant. "
+  - "Oui, c'\xE9taient des gangsters, mais pas comme... \xE7a !"
+  - "u sais ce qui les a chang\xE9s ? "
+  - "Oui. Ils ne sont plus eux-m\xEAmes. Ils sont manipul\xE9s par le pouvoir d'un
+    Malin mal\xE9fique."
+  - 'Au fait, je suis aussi un Malin. Mais un gentil. Et bien plus sage. '
+  - "J'ai le pouvoir de transformer ta peinture en peinture anti-Malin-mal\xE9fique.
+    Plus ou moins."
+  - "C'est pour \xE7a que mes graffitis sont si puissants ? "
+  - "Combin\xE9 \xE0 ton esprit punk, nous sommes inarr\xEAtables. "
+  - 'Bref, la situation est grave. Il faut faire vite. '
   bWaitNextDialogue: 0
   sSceneToLoad: Scenes/World/GameChoose
   progressBar: {fileID: 5376875976944638836}
