@@ -11,7 +11,7 @@ public class sc_levelChoosing_ : MonoBehaviour
     [SerializeField][Tooltip("5 for each level since there are 5 stars")] private UnityEngine.RectTransform[] rectStarsLevels = new UnityEngine.RectTransform[20];
     private PlayerData _playerData;
     public int iPreviousLvl = 0;
-    private bool[] bAnimStars = new bool[5] { false, false, false, false, false};
+    private bool[] bAnimStars = new bool[5] { false, false, false, false, false };
     private bool bBegin = false;
 
     private float jumpHeight = 50f;       // how high the image jumps
@@ -23,6 +23,9 @@ public class sc_levelChoosing_ : MonoBehaviour
     private float dropDistance = 20f;      // how much it drops below original
     private float dropDuration = 0.2f;
     private Vector3[] originalPosition = new Vector3[20];
+    [SerializeField] private Vector2[] ArrowAnchoredMin;
+    [SerializeField] private Vector2[] ArrowAnchoredMax;
+    [SerializeField] private RectTransform rectArrow;
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -40,7 +43,7 @@ public class sc_levelChoosing_ : MonoBehaviour
     private IEnumerator WaitAndAnimate()
     {
         yield return new WaitForSecondsRealtime(0.5f);
-        CheckPreviousLvl(); 
+        CheckPreviousLvl();
     }
     private void CheckPreviousLvl()
     {
@@ -53,6 +56,7 @@ public class sc_levelChoosing_ : MonoBehaviour
             iPreviousLvl = _playerData.iLevelPlayer - 1;
             bBegin = true;
             bAnimStars[0] = true;
+            AnimateArrow(iPreviousLvl, _playerData.iLevelPlayer, 3f);
         }
         else
         {
@@ -60,6 +64,17 @@ public class sc_levelChoosing_ : MonoBehaviour
             bBegin = true;
             bAnimStars[0] = true;
         }
+    }
+    private void AnimateArrow(int iPrevious, int next, float duration)
+    {
+        Debug.Log("animate ARROW");
+        DOTween.To(() => 0f, x => {
+            rectArrow.anchorMin = Vector2.Lerp(ArrowAnchoredMin[iPrevious], ArrowAnchoredMin[next], x);
+            rectArrow.anchorMax = Vector2.Lerp(ArrowAnchoredMax[iPrevious], ArrowAnchoredMax[next], x);
+            // Reset offsets to maintain size and layout
+            rectArrow.offsetMin = Vector2.Lerp(rectArrow.offsetMin, Vector2.zero, x);
+            rectArrow.offsetMax = Vector2.Lerp(rectArrow.offsetMax, Vector2.zero, x);
+        }, 1f, duration).SetEase(Ease.InOutQuad);
     }
     private void Update()
     {
@@ -119,7 +134,6 @@ public class sc_levelChoosing_ : MonoBehaviour
                     .SetUpdate(true)
             );
         }
-
         starSequence.OnComplete(() =>
         {
             if (i + 1 < 5)

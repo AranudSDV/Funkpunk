@@ -155,7 +155,7 @@ public class MenuManager : MonoBehaviour
     }
     private void Start()
     {
-        if (SceneManager.GetActiveScene().name == "MainMenu")
+        if (SceneManager.GetActiveScene().name == "MainMenu"|| SceneManager.GetActiveScene().name == "LevelChoosing")
         {
             if (menuLoopInstance.isValid())
             {
@@ -412,6 +412,7 @@ public class MenuManager : MonoBehaviour
         {
             menuLoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
             menuLoopInstance.release();
+            isPlaying = false;
             StartCoroutine(StartLoad(sceneToLoad));
             for(int i =0; i<4; i++)
             {
@@ -535,8 +536,8 @@ public class MenuManager : MonoBehaviour
         {
             CgPauseMenu.alpha = 1f;
             CgPauseMenu.interactable = true;
-            RtPauseMenu.anchorMin = new Vector2(-0.5f, 0);
-            RtPauseMenu.anchorMax = new Vector2(1.5f, 1);
+            RtPauseMenu.anchorMin = new Vector2(0, 0);
+            RtPauseMenu.anchorMax = new Vector2(1, 1);
             RtPauseMenu.offsetMax = new Vector2(0f, 0f);
             RtPauseMenu.offsetMin = new Vector2(0f, 0f);
             EventSystem.firstSelectedGameObject = GoPausedFirstButtonSelected;
