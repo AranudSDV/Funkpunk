@@ -73,7 +73,6 @@ public class SoundManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
-
     public void PlayOneShot(EventReference eventReference)
     {
         string eventPath = eventReference.Guid.ToString();
@@ -83,7 +82,6 @@ public class SoundManager : MonoBehaviour
             soundCooldowns[eventPath] = Time.time + cooldownDuration;
         }
     }
-
     public EventInstance CreateEventInstance(EventReference eventReference)
     {
         return RuntimeManager.CreateInstance(eventReference);

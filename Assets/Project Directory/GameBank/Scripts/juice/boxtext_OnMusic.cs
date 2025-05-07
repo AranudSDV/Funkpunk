@@ -65,7 +65,6 @@ public class boxtext_OnMusic : MonoBehaviour
             activeTweens.RemoveAt(0);
         }
     }
-
     private void StartContinuousBounce()
     {
         // Infinite looping bounce
@@ -100,7 +99,6 @@ public class boxtext_OnMusic : MonoBehaviour
             .SetLoops(-1, LoopType.Restart); // Reprend sa taille normale
         activeTweens.Add(shakeTween);
     }
-
     private void StartContinuousShake()
     {
         // Infinite looping shake
@@ -110,7 +108,6 @@ public class boxtext_OnMusic : MonoBehaviour
             .SetEase(Ease.OutBack); // Optional: Smooth out the loop
         activeTweens.Add(shakeTween);
     }
-
     private void OnDisable()
     {
         // Stop the shake when the object is disabled to avoid memory leaks
@@ -120,7 +117,6 @@ public class boxtext_OnMusic : MonoBehaviour
             shakeTween = null;
         }
     }
-
     private void OnEnable()
     {
         if (shakeTween != null && shakeTween.IsActive())
@@ -128,5 +124,9 @@ public class boxtext_OnMusic : MonoBehaviour
             shakeTween.Kill();
         }
         StartContinuousShake();
+    }
+    private void OnDestroy() // Clean up to prevent memory leaks
+    {
+        DOTween.KillAll();
     }
 }

@@ -56,7 +56,6 @@ public class sc_levelChoosing_ : MonoBehaviour
             iPreviousLvl = _playerData.iLevelPlayer - 1;
             bBegin = true;
             bAnimStars[0] = true;
-            Debug.Log(_playerData.iLevelPlayer);
             AnimateArrow(iPreviousLvl, _playerData.iLevelPlayer, 3f);
         }
         else
@@ -64,20 +63,18 @@ public class sc_levelChoosing_ : MonoBehaviour
             iPreviousLvl = 0;
             bBegin = true;
             bAnimStars[0] = true;
-            Debug.Log(_playerData.iLevelPlayer);
             AnimateArrow(iPreviousLvl, _playerData.iLevelPlayer, 3f);
         }
     }
     private void AnimateArrow(int iPrevious, int next, float duration)
     {
-        Debug.Log("animate ARROW");
         DOTween.To(() => 0f, x => {
             rectArrow.anchorMin = Vector2.Lerp(ArrowAnchoredMin[iPrevious], ArrowAnchoredMin[next], x);
             rectArrow.anchorMax = Vector2.Lerp(ArrowAnchoredMax[iPrevious], ArrowAnchoredMax[next], x);
             // Reset offsets to maintain size and layout
             rectArrow.offsetMin = Vector2.Lerp(rectArrow.offsetMin, Vector2.zero, x);
             rectArrow.offsetMax = Vector2.Lerp(rectArrow.offsetMax, Vector2.zero, x);
-        }, 1f, duration).SetEase(Ease.InOutQuad);
+        }, 1f, duration).SetEase(Ease.InOutQuad).SetUpdate(true);
     }
     private void Update()
     {
@@ -92,7 +89,6 @@ public class sc_levelChoosing_ : MonoBehaviour
             }
         }
     }
-
     public void Animate(UnityEngine.RectTransform rectTransform, Vector3 originalPosition_, int i, int i_true)
     {
         bAnimStars[i] = false;
@@ -148,5 +144,8 @@ public class sc_levelChoosing_ : MonoBehaviour
             }
         });
     }
-
+    private void OnDestroy() // Clean up to prevent memory leaks
+    {
+        DOTween.KillAll();
+    }
 }

@@ -182,7 +182,6 @@ public class MenuManager : MonoBehaviour
         music_detected_VCA = FMODUnity.RuntimeManager.GetVCA("vca:/Music_detected");
         sfxVCA = FMODUnity.RuntimeManager.GetVCA("vca:/SFX");
         ambianceVCA = FMODUnity.RuntimeManager.GetVCA("vca:/Ambiance");
-        Debug.Log(music_basic_VCA.isValid() ? "VCA Loaded!" : "VCA Failed to Load!");
         SetMusicVolume();
         SetSFXVolume();
     }
@@ -616,7 +615,6 @@ public class MenuManager : MonoBehaviour
     }
     public void OptionsGame()
     {
-        Debug.Log("OptionsOpen");
         CgSoundManager.alpha = 1f;
         CgSoundManager.interactable = true;
         RtSoundManager.anchorMin = new Vector2(0, 0);
@@ -641,7 +639,6 @@ public class MenuManager : MonoBehaviour
             UnityEditor.EditorApplication.isPlaying = false;
         }
 #endif
-        Debug.Log("quit game been clicked");
         Application.Quit();
     }
     public void SetMusicVolume()
@@ -740,7 +737,6 @@ public class MenuManager : MonoBehaviour
             {
                 iNbTextNow = 0;
                 iCharaToNotSpeakPerTextes = new int[iCharaToSpeakPerTextes.Length];
-                Debug.Log(iCharaToSpeakPerTextes[iNbTextNow]);
             }
             else
             {
@@ -798,7 +794,6 @@ public class MenuManager : MonoBehaviour
         //Is right or left character speaking ? 
         if (iWhichCharaToRightToLeft[iLevel * 2] == speakingCharacterIndex) //Le sprite de droite est-il celui du chara qui parle ?
         {
-            Debug.Log("chara droite parle");
             // Non-speaking character goes below
             charactersImages[1].SetSiblingIndex(0);
             // Ensure the dialogue box is at index 1 (middle layer)
@@ -813,7 +808,6 @@ public class MenuManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("chara gauche parle");
             // Non-speaking character goes below
             charactersImages[0].SetSiblingIndex(0);
             // Ensure the dialogue box is at index 1 (middle layer)

@@ -29,7 +29,6 @@ public class FoesJuice : MonoBehaviour
         AnimateScale(f_beat);
         AnimateRotation(f_beat);
     }
-
     private void AnimateBounce(float beatDuration)
     {
         float startY = transform.position.y;

@@ -15,12 +15,15 @@ public class sc_anim_fakePlayer : MonoBehaviour
         beatDuration = bpmManager.FSPB;
         AnimateMaterialPulse();
     }
-
     private void AnimateMaterialPulse()
     {
         objectMaterial.SetColor("_BaseColor", originalColor);
         objectMaterial.DOColor(pulseColor, "_BaseColor", beatDuration / 2)
             .SetEase(Ease.InOutSine)
             .SetLoops(-1, LoopType.Yoyo);
+    }
+    private void OnDestroy() // Clean up to prevent memory leaks
+    {
+        DOTween.KillAll();
     }
 }

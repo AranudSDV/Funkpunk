@@ -192,7 +192,6 @@ public class SC_Player : MonoBehaviour
         {
             FScore = Mathf.Round(fPercentScore);
             fNbBeat = 1;
-            Debug.Log("reset Score");
         }
         TMPScore.SetText(Mathf.Round(fPercentScore).ToString() + "%");
         if(FDetectionLevel>= fDetectionLevelMax && !bIsEndGame)
@@ -469,7 +468,6 @@ public class SC_Player : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("Diagonal blocked, finding new direction...");
                     Vector3 newDirection = FindNewDirection(vectDir, fRange);
                     if (newDirection != Vector3.zero)
                     {
@@ -1576,5 +1574,9 @@ public class SC_Player : MonoBehaviour
                 Debug.Log("No controllers connected!");
             }
         }
+    }
+    private void OnDestroy() // Clean up to prevent memory leaks
+    {
+        DOTween.KillAll();
     }
 }

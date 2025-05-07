@@ -444,5 +444,6 @@ public class BPM_Manager : MonoBehaviour
             beatLoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
             beatLoopInstance.release();
         }
+        DOTween.KillAll();
     }
 }
