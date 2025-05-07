@@ -127,11 +127,11 @@ MonoBehaviour:
   bGameIsPaused: 0
   playerMusicVolume: 1
   fDetectedVolume: 0
-  fBeatMusicVolume: 0
+  fBeatMusicVolume: 0.7
   fBeatVolume:
-  - 0
-  - 0.3
-  - 0.6
+  - 0.7
+  - 0.8
+  - 0.9
   - 1
   CgSoundManager: {fileID: 5012095105389482774}
   RtSoundManager: {fileID: 3499776594213287319}

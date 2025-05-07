@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.02.00">
 	<object class="MixerVCA" id="{678f6f59-8abb-4d87-bcaa-acad738384ef}">
+		<property name="volume">
+			<value>-5</value>
+		</property>
 		<property name="name">
 			<value>SFX</value>
 		</property>

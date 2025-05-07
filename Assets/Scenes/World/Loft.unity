@@ -5652,32 +5652,32 @@ PrefabInstance:
     - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: levelLoop.Path
-      value: event:/music_loft
+      value: event:/music_Loft_basic
       objectReference: {fileID: 0}
     - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: levelLoopBeat.Path
-      value: event:/music_loft_beat
+      value: event:/music_Loft_beat
       objectReference: {fileID: 0}
     - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: levelLoop.Guid.Data1
-      value: -643190749
+      value: 1904928535
       objectReference: {fileID: 0}
     - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: levelLoop.Guid.Data2
-      value: 1112584462
+      value: 1230092903
       objectReference: {fileID: 0}
     - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: levelLoop.Guid.Data3
-      value: -18245201
+      value: 1550325126
       objectReference: {fileID: 0}
     - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: levelLoop.Guid.Data4
-      value: 1966081244
+      value: -1636053928
       objectReference: {fileID: 0}
     - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
@@ -5707,7 +5707,7 @@ PrefabInstance:
     - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: levelLoopDetected.Path
-      value: event:/music_loft_detected
+      value: event:/music_Loft_detected
       objectReference: {fileID: 0}
     - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
@@ -5812,22 +5812,22 @@ PrefabInstance:
     - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: levelLoopDetected.Guid.Data1
-      value: -659118675
+      value: 1905251223
       objectReference: {fileID: 0}
     - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: levelLoopDetected.Guid.Data2
-      value: 1078915355
+      value: 1212071362
       objectReference: {fileID: 0}
     - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: levelLoopDetected.Guid.Data3
-      value: 1165442967
+      value: 662242964
       objectReference: {fileID: 0}
     - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: levelLoopDetected.Guid.Data4
-      value: 519089993
+      value: 1723023356
       objectReference: {fileID: 0}
     - target: {fileID: 4730769081125081926, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
@@ -6065,7 +6065,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1007357399}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.6145184, y: 0.00000010650524, z: -0.00000008296262, w: 0.7889025}
+  m_LocalRotation: {x: 0.6145184, y: -0.00000010650524, z: 0.00000008296262, w: 0.7889025}
   m_LocalPosition: {x: 4.013, y: 13.97, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -7888,7 +7888,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1222981277}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.6145184, y: 0.00000010650524, z: -0.00000008296262, w: 0.7889025}
+  m_LocalRotation: {x: 0.6145184, y: -0.00000010650524, z: 0.00000008296262, w: 0.7889025}
   m_LocalPosition: {x: 4.013, y: 13.97, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

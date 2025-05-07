@@ -31,8 +31,8 @@ public class MenuManager : MonoBehaviour
     public FMOD.Studio.VCA ambianceVCA;
     public float playerMusicVolume = 1f;
     public float fDetectedVolume = 0f;
-    public float fBeatMusicVolume = 0f;
-    public float[] fBeatVolume = new float[4] {0.5f, 0.75f, 0.85f,1f };
+    public float fBeatMusicVolume = 0.7f;
+    public float[] fBeatVolume = new float[4] {0.7f, 0.8f, 0.9f,1f };
     public CanvasGroup CgSoundManager;
     public RectTransform RtSoundManager;
     [SerializeField] private UnityEngine.UI.Slider SfxSlider;
@@ -649,12 +649,14 @@ public class MenuManager : MonoBehaviour
             Debug.LogError("VCA is not valid! Check FMOD path.");
             return;
         }
-        if (scPlayer!=null)
+        if (SceneManager.GetActiveScene().name == "SceneLvl0" || SceneManager.GetActiveScene().name == "SceneLvl1" || SceneManager.GetActiveScene().name == "SceneLvl2" || SceneManager.GetActiveScene().name == "SceneLvl3" || SceneManager.GetActiveScene().name == "Loft")
         {
-            fDetectedVolume = scPlayer.FDetectionLevel / 100f;
-            music_basic_VCA.setVolume((playerMusicVolume - fDetectedVolume)*0.9f);
-            music_detected_VCA.setVolume(fDetectedVolume*0.9f);
-            music_beat_VCA.setVolume(fBeatMusicVolume);
+            fDetectedVolume = (scPlayer.FDetectionLevel / 100f)*0.7f;
+            music_basic_VCA.setVolume((playerMusicVolume - fDetectedVolume)*0.7f);
+            music_detected_VCA.setVolume(fDetectedVolume*0.7f);
+            music_beat_VCA.setVolume(fBeatMusicVolume * playerMusicVolume);
+            music_beat_VCA.getVolume(out float checkVolume);
+            Debug.Log("beat volume is " + checkVolume + " and we set it at " + fBeatMusicVolume);
         }
         else
         {

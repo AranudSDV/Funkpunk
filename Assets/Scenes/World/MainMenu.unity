@@ -1745,6 +1745,16 @@ PrefabInstance:
       objectReference: {fileID: 1833294169}
     - target: {fileID: 269850063720091022, guid: 45351d2d758839e409953a510c2e4a78,
         type: 3}
+      propertyPath: fBeatVolume.Array.data[0]
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 269850063720091022, guid: 45351d2d758839e409953a510c2e4a78,
+        type: 3}
+      propertyPath: fBeatVolume.Array.data[1]
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 269850063720091022, guid: 45351d2d758839e409953a510c2e4a78,
+        type: 3}
       propertyPath: sDialogueEnglish.Array.data[0]
       value: There. Now that's a tag they won't forget. (*graff done*)
       objectReference: {fileID: 0}
