@@ -27,11 +27,11 @@ public class BPM_Manager : MonoBehaviour
     private bool b_more = false;
     private bool b_less = false;
     [SerializeField] private EventReference levelLoop;
-    [SerializeField] private EventReference sfx_MissRythm;
-    [SerializeField] private EventReference sfx_BadRythm;
-    [SerializeField] private EventReference sfx_OkRythm;
-    [SerializeField] private EventReference sfx_PerfectRythm;
-    public FMOD.Studio.EventInstance playerLoopInstance;
+    [SerializeField] private EventReference levelLoopDetected;
+    [SerializeField] private EventReference levelLoopBeat;
+    public FMOD.Studio.EventInstance basicLoopInstance;
+    public FMOD.Studio.EventInstance detectedLoopInstance;
+    public FMOD.Studio.EventInstance beatLoopInstance;
     private bool isPlaying = false; // Prevent multiple starts
     private bool b_hasStarted = false;
     private int i_B = 0;
@@ -109,9 +109,9 @@ public class BPM_Manager : MonoBehaviour
         {
             StartCoroutine(wait());
             BMiss = true;
-            if (playerLoopInstance.isValid())
+            if (basicLoopInstance.isValid())
             {
-                playerLoopInstance.getPlaybackState(out PLAYBACK_STATE state);
+                basicLoopInstance.getPlaybackState(out PLAYBACK_STATE state);
                 if (state != PLAYBACK_STATE.STOPPED) return; // Only create a new instance if it's actually stopped
             }
             bInitialized[1] = true;
@@ -120,8 +120,16 @@ public class BPM_Manager : MonoBehaviour
         // Create and start the instance
         if (fTimer >= fDelayMusic)
         {
-            playerLoopInstance = RuntimeManager.CreateInstance(levelLoop);
-            playerLoopInstance.start();
+            basicLoopInstance = RuntimeManager.CreateInstance(levelLoop);
+            basicLoopInstance.start();
+
+            detectedLoopInstance = RuntimeManager.CreateInstance(levelLoopDetected);
+            detectedLoopInstance.start();
+
+            beatLoopInstance = RuntimeManager.CreateInstance(levelLoopBeat);
+            beatLoopInstance.start();
+
+            scPlayer.menuManager.SetMusicVolume();
 
             isPlaying = true;
             bInitialized[0] = true;
@@ -189,10 +197,10 @@ public class BPM_Manager : MonoBehaviour
         scPlayer.canMove = false;
         if (BBad == false && BGood == false && BPerfect == false && scPlayer.bcanRotate == true) // LE JOUEUR MISS
         {
+            scPlayer.menuManager.fBeatMusicVolume = scPlayer.menuManager.fBeatVolume[0];
             if (!scPlayer.bIsImune)
             {
                 scPlayer.fNbBeat += 1f;
-                SoundManager.Instance.PlayOneShot(sfx_MissRythm, this.transform.position);
             }
             soul_Feedback.color = colorMiss;
             bPlayBad = false;
@@ -228,6 +236,7 @@ public class BPM_Manager : MonoBehaviour
         }
         IsImuneCheck();
         scPlayer.EyeDetection();
+        scPlayer.menuManager.SetMusicVolume();
         StartCoroutine(wait());
     }
     private void IsImuneCheck()
@@ -274,6 +283,7 @@ public class BPM_Manager : MonoBehaviour
                     scPlayer.FScore = scPlayer.FScore + 35f;
                     scPlayer.fNbBeat += 1f;
                 }
+                scPlayer.menuManager.fBeatMusicVolume = scPlayer.menuManager.fBeatVolume[1];
                 soul_Feedback.color = colorBad;
                 bPlayBad = true;
                 bPlayGood = false;
@@ -281,7 +291,6 @@ public class BPM_Manager : MonoBehaviour
                 if (!scPlayer.BisDetectedByAnyEnemy)
                 {
                     scPlayer.FDetectionLevel -= 2f;
-                    SoundManager.Instance.PlayOneShot(sfx_BadRythm, this.transform.position);
                 }
             }
             else if (BGood == true)
@@ -291,6 +300,7 @@ public class BPM_Manager : MonoBehaviour
                     scPlayer.FScore = scPlayer.FScore + 75f;
                     scPlayer.fNbBeat += 1f;
                 }
+                scPlayer.menuManager.fBeatMusicVolume = scPlayer.menuManager.fBeatVolume[2];
                 soul_Feedback.color = colorGood;
                 bPlayBad = false;
                 bPlayGood = true;
@@ -298,7 +308,6 @@ public class BPM_Manager : MonoBehaviour
                 if (!scPlayer.BisDetectedByAnyEnemy)
                 {
                     scPlayer.FDetectionLevel -= 5f;
-                    SoundManager.Instance.PlayOneShot(sfx_OkRythm, this.transform.position);
                 }
             }
             else if (BPerfect == true)
@@ -308,6 +317,7 @@ public class BPM_Manager : MonoBehaviour
                     scPlayer.FScore = scPlayer.FScore + 100f;
                     scPlayer.fNbBeat += 1f;
                 }
+                scPlayer.menuManager.fBeatMusicVolume = scPlayer.menuManager.fBeatVolume[3];
                 soul_Feedback.color = colorPerfect;
                 bPlayBad = false;
                 bPlayGood = false;
@@ -315,7 +325,6 @@ public class BPM_Manager : MonoBehaviour
                 if (!scPlayer.BisDetectedByAnyEnemy)
                 {
                     scPlayer.FDetectionLevel -= 10f;
-                    SoundManager.Instance.PlayOneShot(sfx_PerfectRythm, this.transform.position);
                 }
             }
             NotesFade();
@@ -420,10 +429,20 @@ public class BPM_Manager : MonoBehaviour
     }
     private void OnDestroy() // Clean up to prevent memory leaks
     {
-        if (playerLoopInstance.isValid())
+        if (basicLoopInstance.isValid())
         {
-            playerLoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-            playerLoopInstance.release();
+            basicLoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            basicLoopInstance.release();
+        }
+        if(detectedLoopInstance.isValid())
+        {
+            detectedLoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            detectedLoopInstance.release();
+        }
+        if (beatLoopInstance.isValid())
+        {
+            beatLoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            beatLoopInstance.release();
         }
     }
 }

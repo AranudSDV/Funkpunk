@@ -5652,27 +5652,32 @@ PrefabInstance:
     - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: levelLoop.Path
-      value: event:/Loft
+      value: event:/music_loft
+      objectReference: {fileID: 0}
+    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: levelLoopBeat.Path
+      value: event:/music_loft_beat
       objectReference: {fileID: 0}
     - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: levelLoop.Guid.Data1
-      value: -1452726108
+      value: -643190749
       objectReference: {fileID: 0}
     - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: levelLoop.Guid.Data2
-      value: 1174316610
+      value: 1112584462
       objectReference: {fileID: 0}
     - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: levelLoop.Guid.Data3
-      value: -2089772626
+      value: -18245201
       objectReference: {fileID: 0}
     - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: levelLoop.Guid.Data4
-      value: -1915741898
+      value: 1966081244
       objectReference: {fileID: 0}
     - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
@@ -5698,6 +5703,11 @@ PrefabInstance:
         type: 3}
       propertyPath: imNoteRight.Array.size
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: levelLoopDetected.Path
+      value: event:/music_loft_detected
       objectReference: {fileID: 0}
     - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
@@ -5729,6 +5739,26 @@ PrefabInstance:
       propertyPath: imNoteLeft.Array.data[2]
       value: 
       objectReference: {fileID: 2116011454}
+    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: levelLoopBeat.Guid.Data1
+      value: 1733707329
+      objectReference: {fileID: 0}
+    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: levelLoopBeat.Guid.Data2
+      value: 1337085090
+      objectReference: {fileID: 0}
+    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: levelLoopBeat.Guid.Data3
+      value: 1359273910
+      objectReference: {fileID: 0}
+    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: levelLoopBeat.Guid.Data4
+      value: -1267395333
+      objectReference: {fileID: 0}
     - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: goNoteRight.Array.data[0]
@@ -5779,6 +5809,26 @@ PrefabInstance:
       propertyPath: imNoteRight.Array.data[2]
       value: 
       objectReference: {fileID: 2116011449}
+    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: levelLoopDetected.Guid.Data1
+      value: -659118675
+      objectReference: {fileID: 0}
+    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: levelLoopDetected.Guid.Data2
+      value: 1078915355
+      objectReference: {fileID: 0}
+    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: levelLoopDetected.Guid.Data3
+      value: 1165442967
+      objectReference: {fileID: 0}
+    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: levelLoopDetected.Guid.Data4
+      value: 519089993
+      objectReference: {fileID: 0}
     - target: {fileID: 4730769081125081926, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: m_StaticEditorFlags
@@ -8565,6 +8615,13 @@ MonoBehaviour:
     pour te r\xE9veiller."
   bHasInput: 1
   bIsOnManager: 0
+  bIsToTip: 0
+  delayBeforeStart: 0
+  timeBtwChars: 0.06
+  FastTimeBtwChars: 0.02
+  leadingCharBeforeDelay: 0
+  leadingChar: 
+  menuManager: {fileID: 0}
 --- !u!1001 &1290845248
 PrefabInstance:
   m_ObjectHideFlags: 0

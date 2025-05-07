@@ -62,7 +62,7 @@ public class SoundManager : MonoBehaviour
     }*/
     public static SoundManager Instance { get; private set; }
     private Dictionary<string, float> soundCooldowns = new Dictionary<string, float>();
-    private float cooldownDuration = 0.05f; // Adjust based on your needs
+    private float cooldownDuration = 0.05f;
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -74,12 +74,12 @@ public class SoundManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public void PlayOneShot(EventReference eventReference, Vector3 spawnPos)
+    public void PlayOneShot(EventReference eventReference)
     {
         string eventPath = eventReference.Guid.ToString();
         if (CanPlaySound(eventPath))
         {
-            RuntimeManager.PlayOneShot(eventPath, spawnPos);
+            RuntimeManager.PlayOneShot(eventPath);
             soundCooldowns[eventPath] = Time.time + cooldownDuration;
         }
     }
@@ -96,5 +96,4 @@ public class SoundManager : MonoBehaviour
         }
         return false;
     }
-
 }

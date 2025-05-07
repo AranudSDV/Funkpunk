@@ -1484,6 +1484,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1538046242}
   m_CullTransparentMesh: 1
+--- !u!114 &1833294169 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 772669210243803284, guid: 45351d2d758839e409953a510c2e4a78,
+    type: 3}
+  m_PrefabInstance: {fileID: 7336378467628824434}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1892449413
 GameObject:
   m_ObjectHideFlags: 0
@@ -1728,6 +1740,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 269850063720091022, guid: 45351d2d758839e409953a510c2e4a78,
         type: 3}
+      propertyPath: AmbianceSlider
+      value: 
+      objectReference: {fileID: 1833294169}
+    - target: {fileID: 269850063720091022, guid: 45351d2d758839e409953a510c2e4a78,
+        type: 3}
       propertyPath: sDialogueEnglish.Array.data[0]
       value: There. Now that's a tag they won't forget. (*graff done*)
       objectReference: {fileID: 0}
@@ -1746,6 +1763,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1575342385369516845, guid: 45351d2d758839e409953a510c2e4a78,
+        type: 3}
+      propertyPath: m_Name
+      value: AmbianceSlider
+      objectReference: {fileID: 0}
     - target: {fileID: 1877356355425069567, guid: 45351d2d758839e409953a510c2e4a78,
         type: 3}
       propertyPath: m_Interactable
@@ -1754,6 +1776,16 @@ PrefabInstance:
     - target: {fileID: 2307437532454967113, guid: 45351d2d758839e409953a510c2e4a78,
         type: 3}
       propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2384241113092239938, guid: 45351d2d758839e409953a510c2e4a78,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2384241113092239938, guid: 45351d2d758839e409953a510c2e4a78,
+        type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4275895622485197985, guid: 45351d2d758839e409953a510c2e4a78,
@@ -1798,6 +1830,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5012095105389482774, guid: 45351d2d758839e409953a510c2e4a78,
         type: 3}
+      propertyPath: m_Alpha
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5012095105389482774, guid: 45351d2d758839e409953a510c2e4a78,
+        type: 3}
       propertyPath: m_Interactable
       value: 0
       objectReference: {fileID: 0}
@@ -1814,6 +1851,21 @@ PrefabInstance:
     - target: {fileID: 6701976518110861898, guid: 45351d2d758839e409953a510c2e4a78,
         type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7558329770660553485, guid: 45351d2d758839e409953a510c2e4a78,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7558329770660553485, guid: 45351d2d758839e409953a510c2e4a78,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7558329770660553485, guid: 45351d2d758839e409953a510c2e4a78,
+        type: 3}
+      propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8814022224180311209, guid: 45351d2d758839e409953a510c2e4a78,

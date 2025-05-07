@@ -420,6 +420,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
+      propertyPath: textTimer
+      value: 
+      objectReference: {fileID: 1076419033}
+    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
       propertyPath: goNoteLeft
       value: 
       objectReference: {fileID: 1076419031}
@@ -446,27 +451,32 @@ PrefabInstance:
     - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: levelLoop.Path
-      value: event:/Lvl1
+      value: event:/music_lvl_3_basic
+      objectReference: {fileID: 0}
+    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: levelLoopBeat.Path
+      value: event:/music_lvl_3_beat
       objectReference: {fileID: 0}
     - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: levelLoop.Guid.Data1
-      value: -2121238641
+      value: 299879588
       objectReference: {fileID: 0}
     - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: levelLoop.Guid.Data2
-      value: 1103654163
+      value: 1247268762
       objectReference: {fileID: 0}
     - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: levelLoop.Guid.Data3
-      value: -142828137
+      value: -150216042
       objectReference: {fileID: 0}
     - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: levelLoop.Guid.Data4
-      value: -1481070280
+      value: -907518251
       objectReference: {fileID: 0}
     - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
@@ -487,6 +497,11 @@ PrefabInstance:
         type: 3}
       propertyPath: imNoteRight.Array.size
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: levelLoopDetected.Path
+      value: event:/music_lvl_3_detected
       objectReference: {fileID: 0}
     - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
@@ -520,6 +535,26 @@ PrefabInstance:
       objectReference: {fileID: 1076419034}
     - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
+      propertyPath: levelLoopBeat.Guid.Data1
+      value: -1633657236
+      objectReference: {fileID: 0}
+    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: levelLoopBeat.Guid.Data2
+      value: 1292528207
+      objectReference: {fileID: 0}
+    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: levelLoopBeat.Guid.Data3
+      value: 203730595
+      objectReference: {fileID: 0}
+    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: levelLoopBeat.Guid.Data4
+      value: 197608975
+      objectReference: {fileID: 0}
+    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
       propertyPath: goNoteRight.Array.data[0]
       value: 
       objectReference: {fileID: 1076419045}
@@ -548,6 +583,26 @@ PrefabInstance:
       propertyPath: imNoteRight.Array.data[2]
       value: 
       objectReference: {fileID: 1076419039}
+    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: levelLoopDetected.Guid.Data1
+      value: -1961948793
+      objectReference: {fileID: 0}
+    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: levelLoopDetected.Guid.Data2
+      value: 1230707761
+      objectReference: {fileID: 0}
+    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: levelLoopDetected.Guid.Data3
+      value: 282694572
+      objectReference: {fileID: 0}
+    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: levelLoopDetected.Guid.Data4
+      value: 820041197
+      objectReference: {fileID: 0}
     - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: bisTuto
@@ -14799,7 +14854,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 961698156}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.63328874, y: -0.000000051681095, z: 0.000000042290214, w: 0.77391565}
+  m_LocalRotation: {x: 0.63328874, y: 0.000000051681084, z: -0.000000042290207, w: 0.77391565}
   m_LocalPosition: {x: 64.2, y: 20.17, z: 8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -16742,6 +16797,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1076419030}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1076419033 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5025421958945651714, guid: 65f34271cad0dda4d8a49134617b7571,
+    type: 3}
+  m_PrefabInstance: {fileID: 1076419030}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1076419034 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7565665392885058225, guid: 65f34271cad0dda4d8a49134617b7571,
@@ -18520,7 +18587,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1210185276}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.63328874, y: -0.000000051681095, z: 0.000000042290214, w: 0.77391565}
+  m_LocalRotation: {x: 0.63328874, y: 0.000000051681084, z: -0.000000042290207, w: 0.77391565}
   m_LocalPosition: {x: 64.2, y: 20.17, z: 8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

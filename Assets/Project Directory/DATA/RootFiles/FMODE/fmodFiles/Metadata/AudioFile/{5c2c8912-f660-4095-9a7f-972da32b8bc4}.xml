@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{5c2c8912-f660-4095-9a7f-972da32b8bc4}">
+		<property name="assetPath">
+			<value>sfx_ambiance_fire.mp3</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>32</value>
+		</property>
+		<property name="channelCount">
+			<value>1</value>
+		</property>
+		<property name="length">
+			<value>130.21199999999999</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{c86393dc-a908-4e16-a729-c1c7b5d6d973}</destination>
+		</relationship>
+	</object>
+</objects>

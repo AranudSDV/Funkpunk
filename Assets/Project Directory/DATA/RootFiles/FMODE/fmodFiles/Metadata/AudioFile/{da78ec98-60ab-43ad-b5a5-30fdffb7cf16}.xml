@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{da78ec98-60ab-43ad-b5a5-30fdffb7cf16}">
+		<property name="assetPath">
+			<value>sfx_gameplay_tag_3.mp3</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>1.3440000000000001</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{c86393dc-a908-4e16-a729-c1c7b5d6d973}</destination>
+		</relationship>
+	</object>
+</objects>

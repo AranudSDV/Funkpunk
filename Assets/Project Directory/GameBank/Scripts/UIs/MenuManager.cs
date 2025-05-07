@@ -24,13 +24,20 @@ public class MenuManager : MonoBehaviour
     private int iPreviousLevelPlayed = 0;
 
     [Header("Sound")]
-    public FMOD.Studio.VCA musicVCA;
+    public FMOD.Studio.VCA music_basic_VCA;
+    public FMOD.Studio.VCA music_detected_VCA;
+    public FMOD.Studio.VCA music_beat_VCA;
     public FMOD.Studio.VCA sfxVCA;
+    public FMOD.Studio.VCA ambianceVCA;
     public float playerMusicVolume = 1f;
+    public float fDetectedVolume = 0f;
+    public float fBeatMusicVolume = 0f;
+    public float[] fBeatVolume = new float[4] {0.5f, 0.75f, 0.85f,1f };
     public CanvasGroup CgSoundManager;
     public RectTransform RtSoundManager;
     [SerializeField] private UnityEngine.UI.Slider SfxSlider;
     [SerializeField] private UnityEngine.UI.Slider MusicSlider;
+    [SerializeField] private UnityEngine.UI.Slider AmbianceSlider;
 
     //NAVIGATION UX
     [Header("Navigation UX")]
@@ -170,9 +177,12 @@ public class MenuManager : MonoBehaviour
 
             isPlaying = true;
         }
-        musicVCA = FMODUnity.RuntimeManager.GetVCA("vca:/Music");
+        music_basic_VCA = FMODUnity.RuntimeManager.GetVCA("vca:/Music_basic");
+        music_beat_VCA = FMODUnity.RuntimeManager.GetVCA("vca:/Music_beat");
+        music_detected_VCA = FMODUnity.RuntimeManager.GetVCA("vca:/Music_detected");
         sfxVCA = FMODUnity.RuntimeManager.GetVCA("vca:/SFX");
-        Debug.Log(musicVCA.isValid() ? "VCA Loaded!" : "VCA Failed to Load!");
+        ambianceVCA = FMODUnity.RuntimeManager.GetVCA("vca:/Ambiance");
+        Debug.Log(music_basic_VCA.isValid() ? "VCA Loaded!" : "VCA Failed to Load!");
         SetMusicVolume();
         SetSFXVolume();
     }
@@ -636,19 +646,30 @@ public class MenuManager : MonoBehaviour
     }
     public void SetMusicVolume()
     {
-        float volume = MusicSlider.value;
-        Debug.Log("Slider Value: " + volume);
-        if (!musicVCA.isValid())
+        playerMusicVolume = MusicSlider.value;
+        if (!music_basic_VCA.isValid() && !music_beat_VCA.isValid() && !music_detected_VCA.isValid())
         {
             Debug.LogError("VCA is not valid! Check FMOD path.");
             return;
         }
-        playerMusicVolume = volume;
-        musicVCA.setVolume(volume);
-        float checkVolume;
-        musicVCA.getVolume(out checkVolume); // Check if FMOD applied it
-
-        Debug.Log($"Slider Value: {volume}, FMOD Applied Volume: {checkVolume}");
+        if (scPlayer!=null)
+        {
+            fDetectedVolume = scPlayer.FDetectionLevel / 100f;
+            music_basic_VCA.setVolume((playerMusicVolume - fDetectedVolume)*0.9f);
+            music_detected_VCA.setVolume(fDetectedVolume*0.9f);
+            music_beat_VCA.setVolume(fBeatMusicVolume);
+        }
+        else
+        {
+            music_basic_VCA.setVolume(playerMusicVolume);
+            music_detected_VCA.setVolume(0f);
+            music_beat_VCA.setVolume(0f);
+        }
+    }
+    public void SetAmbianceVolume()
+    {
+        float volume = AmbianceSlider.value;
+        ambianceVCA.setVolume(volume);
     }
     public void SetSFXVolume()
     {
@@ -662,15 +683,19 @@ public class MenuManager : MonoBehaviour
             Time.timeScale = 0f;
             if (scPlayer != null && scPlayer.bisTuto == false)
             {
-                musicVCA.getVolume(out float currentVolume); // Get current volume
-                musicVCA.setVolume(currentVolume * 0.8f);
+                music_basic_VCA.getVolume(out float currentVolume); // Get current volume
+                music_basic_VCA.setVolume(currentVolume * 0.8f);
+                music_detected_VCA.getVolume(out float currentVolume_); // Get current volume
+                music_detected_VCA.setVolume(currentVolume_ * 0.8f);
                 //bpmManager.playerLoopInstance.setParameterByName("fPausedVolume", 0.8f);
             }
         }
         else
         {
             Time.timeScale = 1f;
-            musicVCA.setVolume(playerMusicVolume);
+            music_basic_VCA.setVolume(playerMusicVolume - fDetectedVolume);
+            music_detected_VCA.setVolume(fDetectedVolume);
+            music_beat_VCA.setVolume(0f);
             if (CgScoring.alpha == 1f)
             {
                 EventSystem.firstSelectedGameObject = GoScoringFirstButtonSelected;

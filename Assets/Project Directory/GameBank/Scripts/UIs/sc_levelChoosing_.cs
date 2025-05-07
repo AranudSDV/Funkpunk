@@ -56,6 +56,7 @@ public class sc_levelChoosing_ : MonoBehaviour
             iPreviousLvl = _playerData.iLevelPlayer - 1;
             bBegin = true;
             bAnimStars[0] = true;
+            Debug.Log(_playerData.iLevelPlayer);
             AnimateArrow(iPreviousLvl, _playerData.iLevelPlayer, 3f);
         }
         else
@@ -63,6 +64,8 @@ public class sc_levelChoosing_ : MonoBehaviour
             iPreviousLvl = 0;
             bBegin = true;
             bAnimStars[0] = true;
+            Debug.Log(_playerData.iLevelPlayer);
+            AnimateArrow(iPreviousLvl, _playerData.iLevelPlayer, 3f);
         }
     }
     private void AnimateArrow(int iPrevious, int next, float duration)
@@ -93,7 +96,6 @@ public class sc_levelChoosing_ : MonoBehaviour
     public void Animate(UnityEngine.RectTransform rectTransform, Vector3 originalPosition_, int i, int i_true)
     {
         bAnimStars[i] = false;
-
         Sequence starSequence = DOTween.Sequence().SetUpdate(true); // Ensures it runs independently of timeScale
 
         if (i_true == 1)
