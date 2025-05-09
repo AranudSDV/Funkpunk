@@ -59,7 +59,7 @@ public class sc_tuto_Loft : MonoBehaviour
             bInitialized = true;
         }
 
-        if(scPlayer.bisTuto && bWaitSpace && (scPlayer.bpmManager.BGood || scPlayer.bpmManager.BPerfect) &&((scPlayer.bIsOnComputer == false && scPlayer.control.GamePlay.Move.triggered) || Input.GetButtonDown("Jump")))
+        if(scPlayer.bisTuto && bWaitSpace && (scPlayer.bpmManager.BGood || scPlayer.bpmManager.BPerfect) &&(scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered))
         {
             if (imgStars[0].color != colorStars)
             {

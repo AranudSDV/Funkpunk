@@ -12,9 +12,6 @@ public class sc_textChange : MonoBehaviour
     [SerializeField] private PlayerData _playerData;
     [SerializeField] private string sEnglish;
     [SerializeField] private string sFrench;
-    [SerializeField] private string sJoystickEnglish;
-    [SerializeField] private string sJoystickFrench;
-    [SerializeField] private bool bHasInput = false;
     [SerializeField] private bool bIsOnManager = false;
     [SerializeField] private bool bIsDifficulty = false;
     [SerializeField] private bool bIsToTip = false;
@@ -100,102 +97,55 @@ public class sc_textChange : MonoBehaviour
             {
                 bInitialized = false;
             }
-            if (bHasInput)
+            if(!bIsDifficulty)
             {
-                if (scPlayer != null)
+                if (_playerData == null && (SceneManager.GetActiveScene().name == "SceneLvl1" || SceneManager.GetActiveScene().name == "SceneLvl0") && !bIsOnManager)
                 {
-                    if (scPlayer.bIsOnComputer)
-                    {
-                        if (_playerData != null && _playerData.iLanguageNbPlayer == 1)
-                        {
-                            this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sFrench;
-                        }
-                        else
-                        {
-                            this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sEnglish;
-                        }
-                    }
-                    else
-                    {
-                        if (_playerData != null && _playerData.iLanguageNbPlayer == 1)
-                        {
-                            this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sJoystickFrench;
-                        }
-                        else
-                        {
-                            this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sJoystickEnglish;
-                        }
-                    }
+                    _playerData = scPlayer.menuManager.gameObject.transform.GetComponent<PlayerData>();
+                }
+                if (_playerData != null && _playerData.iLanguageNbPlayer == 1)
+                {
+                    this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sFrench;
                 }
                 else
                 {
-                    if ((SceneManager.GetActiveScene().name == "SceneLvl1" || SceneManager.GetActiveScene().name == "SceneLvl0"))
-                    {
-                        scPlayer = GameObject.FindWithTag("Player").transform.GetComponent<SC_Player>();
-                        _playerData = scPlayer.menuManager.gameObject.transform.GetComponent<PlayerData>();
-                    }
-                    if (_playerData != null && _playerData.iLanguageNbPlayer == 1)
-                    {
-                        this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sFrench;
-                    }
-                    else
-                    {
-                        this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sEnglish;
-                    }
+                    this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sEnglish;
                 }
             }
             else
             {
-                if(!bIsDifficulty)
+                if (_playerData == null && (SceneManager.GetActiveScene().name == "SceneLvl1" || SceneManager.GetActiveScene().name == "SceneLvl0") && !bIsOnManager)
                 {
-                    if (_playerData == null && (SceneManager.GetActiveScene().name == "SceneLvl1" || SceneManager.GetActiveScene().name == "SceneLvl0") && !bIsOnManager)
+                    _playerData = scPlayer.menuManager.gameObject.transform.GetComponent<PlayerData>();
+                }
+                if (_playerData != null && menuManager != null && _playerData.iLanguageNbPlayer == 1)
+                {
+                    if(menuManager.iDifficulty == 0)
                     {
-                        _playerData = scPlayer.menuManager.gameObject.transform.GetComponent<PlayerData>();
+                        this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = "Difficile";
                     }
-                    if (_playerData != null && _playerData.iLanguageNbPlayer == 1)
+                    else if (menuManager.iDifficulty == 1)
                     {
-                        this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sFrench;
+                        this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = "Normal";
                     }
                     else
                     {
-                        this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sEnglish;
+                        this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = "Facile";
                     }
                 }
                 else
                 {
-                    if (_playerData == null && (SceneManager.GetActiveScene().name == "SceneLvl1" || SceneManager.GetActiveScene().name == "SceneLvl0") && !bIsOnManager)
+                    if (menuManager.iDifficulty == 0)
                     {
-                        _playerData = scPlayer.menuManager.gameObject.transform.GetComponent<PlayerData>();
+                        this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = "Hard";
                     }
-                    if (_playerData != null && menuManager != null && _playerData.iLanguageNbPlayer == 1)
+                    else if (menuManager.iDifficulty == 1)
                     {
-                        if(menuManager.iDifficulty == 0)
-                        {
-                            this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = "Difficile";
-                        }
-                        else if (menuManager.iDifficulty == 1)
-                        {
-                            this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = "Normal";
-                        }
-                        else
-                        {
-                            this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = "Facile";
-                        }
+                        this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = "Normal";
                     }
                     else
                     {
-                        if (menuManager.iDifficulty == 0)
-                        {
-                            this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = "Hard";
-                        }
-                        else if (menuManager.iDifficulty == 1)
-                        {
-                            this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = "Normal";
-                        }
-                        else
-                        {
-                            this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = "Easy";
-                        }
+                        this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = "Easy";
                     }
                 }
             }

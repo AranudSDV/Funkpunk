@@ -272,7 +272,7 @@ public class BPM_Manager : MonoBehaviour
     }
     private void CheckIfInputOnTempo()
     {
-        if (scPlayer.bcanRotate && scPlayer.canMove && (((!scPlayer.bIsOnComputer || scPlayer.bOnControllerConstraint) && scPlayer.control.GamePlay.Move.triggered) || (scPlayer.bIsOnComputer && !scPlayer.bOnControllerConstraint && Input.GetButtonDown("Jump"))))
+        if (scPlayer.bcanRotate && scPlayer.canMove && (!scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered))
         {
             if (BBad == true)
             {

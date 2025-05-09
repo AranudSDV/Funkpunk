@@ -16,13 +16,19 @@ using static Unity.VisualScripting.Icons;
 
 public class MenuManager : MonoBehaviour
 {
-    public PlayerControl control;
     public EventSystem EventSystem;
-    public bool controllerConnected = false;
     public SC_Player scPlayer;
     public bool bGameIsPaused = false;
     private sc_levelChoosing_ _scLevels;
     private int iPreviousLevelPlayed = 0;
+
+    //NAVIGATION UX
+    [Header("Controller")]
+    public PlayerControl control;
+    public bool controllerConnected = false;
+    private bool bWaitController = false;
+    public CanvasGroup CgControllerWarning;
+    public RectTransform RtControllerWarning;
 
     //NAVIGATION UX
     [Header("Options General")]
@@ -196,7 +202,7 @@ public class MenuManager : MonoBehaviour
     void Update()
     {
         CheckControllerStatus();
-        if (GoMainMenu != null && ((Input.anyKeyDown && !(Input.GetMouseButtonDown(0)|| Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2) || Input.GetKeyDown(KeyCode.J)) && !controllerConnected) || (controllerConnected && control.GamePlay.Move.triggered)))
+        if (GoMainMenu != null && controllerConnected && control.GamePlay.Move.triggered)
         {
             LoadScene(sSceneToLoad);
         }
@@ -530,21 +536,34 @@ public class MenuManager : MonoBehaviour
     //PAUSE AND SETTINGS
     private void UXNavigation()
     {
-        if ((Input.GetKey(KeyCode.Escape) || (controllerConnected && control.GamePlay.Pausing.triggered)))
+        if (controllerConnected && control.GamePlay.Pausing.triggered)
         {
             PauseMenu();
         }
-        /*else if((GoPauseMenu.activeInHierarchy == false && GoScoring == null) || (GoPauseMenu.activeInHierarchy==false && GoScoring.activeInHierarchy == false))
+        if(!controllerConnected)
         {
-            if(SceneManager.GetActiveScene().name == "GameChoose")
-            {
-                EventSystem.firstSelectedGameObject = GoGameChoose[0];
-            }
-            else if (SceneManager.GetActiveScene().name == "LevelChoosing")
-            {
-                EventSystem.firstSelectedGameObject = GoLevelsButton[0];
-            }
-        }*/
+            bWaitController = true;
+            bGameIsPaused = true;
+            PauseGame();
+            CgControllerWarning.alpha = 1;
+            CgControllerWarning.blocksRaycasts = true;
+            RtControllerWarning.anchorMin = new Vector2(0, 0);
+            RtControllerWarning.anchorMax = new Vector2(1, 1);
+            RtControllerWarning.offsetMax = new Vector2(0f, 0f);
+            RtControllerWarning.offsetMin = new Vector2(0f, 0f);
+        }
+        if(bWaitController && controllerConnected)
+        {
+            bWaitController = false;
+            bGameIsPaused = false;
+            PauseGame();
+            CgControllerWarning.alpha = 0;
+            CgControllerWarning.blocksRaycasts = false;
+            RtControllerWarning.anchorMin = new Vector2(0, 1);
+            RtControllerWarning.anchorMax = new Vector2(1, 2);
+            RtControllerWarning.offsetMax = new Vector2(0f, 0f);
+            RtControllerWarning.offsetMin = new Vector2(0f, 0f);
+        }
     }
     public void PauseMenu()
     {
@@ -630,7 +649,6 @@ public class MenuManager : MonoBehaviour
         RtOptionPannel.offsetMax = new Vector2(0f, 0f);
         RtOptionPannel.offsetMin = new Vector2(0f, 0f);
     }
-
     public void Options(bool bGeneral)
     {
         if(bGeneral)
@@ -666,7 +684,7 @@ public class MenuManager : MonoBehaviour
     {
         if(iDifficulty < 2)
         {
-            iDifficulty += 1;
+            iDifficulty += 1; 
         }
         else
         {

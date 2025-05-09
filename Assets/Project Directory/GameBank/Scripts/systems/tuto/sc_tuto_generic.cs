@@ -117,7 +117,7 @@ public class sc_tuto_generic : MonoBehaviour
                         fSpeed = fSpeed*2;
                     }
                 }
-                if (bWaitNext && !bOnceNext && ((scPlayer.bIsOnComputer == false && scPlayer.control.GamePlay.Move.triggered) || Input.GetButtonDown("Jump"))) //INPUT TO SHOW NEXT WHOLE BUBBLES
+                if (bWaitNext && !bOnceNext && (scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered)) //INPUT TO SHOW NEXT WHOLE BUBBLES
                 {
                     bOnceSkip = false;
                     bOnceNext = true;
@@ -141,7 +141,7 @@ public class sc_tuto_generic : MonoBehaviour
                     }
                     bWaitNext = false;
                 }
-                else if (!bHasClickedSkip && !bWaitNext && ((scPlayer.bIsOnComputer == false && scPlayer.control.GamePlay.Move.triggered) || Input.GetButtonDown("Jump"))) // INPUT TO SKIP 
+                else if (!bHasClickedSkip && !bWaitNext && (scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered)) // INPUT TO SKIP 
                 {
                     bHasClickedSkip = true;
                 }

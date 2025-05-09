@@ -39,6 +39,7 @@ RectTransform:
   - {fileID: 266337310515374496}
   - {fileID: 1584574258793729974}
   - {fileID: 3499776594213287319}
+  - {fileID: 5055767787967681477}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -122,9 +123,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EventSystem: {fileID: 0}
-  controllerConnected: 0
   scPlayer: {fileID: 0}
   bGameIsPaused: 0
+  controllerConnected: 0
+  CgControllerWarning: {fileID: 2664458770303033238}
+  RtControllerWarning: {fileID: 5055767787967681477}
   CgOptionPannel: {fileID: 5012095105389482774}
   RtOptionPannel: {fileID: 3499776594213287319}
   CgOptionGeneral: {fileID: 3089581025230898165}
@@ -567,9 +570,6 @@ MonoBehaviour:
   _playerData: {fileID: 1165491372627732135}
   sEnglish: MUSIC
   sFrench: MUSIQUE
-  sJoystickEnglish: 
-  sJoystickFrench: 
-  bHasInput: 0
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
@@ -1182,6 +1182,81 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1113319157723592516
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2290918557532030375}
+  - component: {fileID: 6522722902652578728}
+  - component: {fileID: 340515270784699608}
+  m_Layer: 5
+  m_Name: Controller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2290918557532030375
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1113319157723592516}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5055767787967681477}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.4, y: 0.35}
+  m_AnchorMax: {x: 0.6, y: 0.7}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &6522722902652578728
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1113319157723592516}
+  m_CullTransparentMesh: 1
+--- !u!114 &340515270784699608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1113319157723592516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 42c2ebcfbb64c6247aa6b78d3a83be1c, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &1196234340882153892
 GameObject:
   m_ObjectHideFlags: 0
@@ -1334,9 +1409,6 @@ MonoBehaviour:
   _playerData: {fileID: 1165491372627732135}
   sEnglish: secret
   sFrench: secret
-  sJoystickEnglish: 
-  sJoystickFrench: 
-  bHasInput: 0
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
@@ -1485,9 +1557,6 @@ MonoBehaviour:
   _playerData: {fileID: 1165491372627732135}
   sEnglish: Quit
   sFrench: Quitter
-  sJoystickEnglish: 
-  sJoystickFrench: 
-  bHasInput: 0
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
@@ -1603,9 +1672,6 @@ MonoBehaviour:
   _playerData: {fileID: 1165491372627732135}
   sEnglish: Quit
   sFrench: Quitter
-  sJoystickEnglish: 
-  sJoystickFrench: 
-  bHasInput: 0
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
@@ -1805,9 +1871,6 @@ MonoBehaviour:
   _playerData: {fileID: 1165491372627732135}
   sEnglish: 
   sFrench: 
-  sJoystickEnglish: 
-  sJoystickFrench: 
-  bHasInput: 0
   bIsOnManager: 1
   bIsDifficulty: 1
   bIsToTip: 0
@@ -2482,9 +2545,6 @@ MonoBehaviour:
   _playerData: {fileID: 1165491372627732135}
   sEnglish: AMBIANCE
   sFrench: AMBIANCE
-  sJoystickEnglish: 
-  sJoystickFrench: 
-  bHasInput: 0
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
@@ -2684,9 +2744,6 @@ MonoBehaviour:
   _playerData: {fileID: 1165491372627732135}
   sEnglish: ReTry
   sFrench: "R\xE9essayer"
-  sJoystickEnglish: 
-  sJoystickFrench: 
-  bHasInput: 0
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
@@ -3002,9 +3059,6 @@ MonoBehaviour:
   _playerData: {fileID: 1165491372627732135}
   sEnglish: General
   sFrench: "G\xE9n\xE9ral"
-  sJoystickEnglish: 
-  sJoystickFrench: 
-  bHasInput: 0
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
@@ -3412,9 +3466,6 @@ MonoBehaviour:
   _playerData: {fileID: 1165491372627732135}
   sEnglish: English
   sFrench: "Fran\xE7ais"
-  sJoystickEnglish: 
-  sJoystickFrench: 
-  bHasInput: 0
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
@@ -3576,9 +3627,6 @@ MonoBehaviour:
   _playerData: {fileID: 1165491372627732135}
   sEnglish: 
   sFrench: 
-  sJoystickEnglish: 
-  sJoystickFrench: 
-  bHasInput: 0
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 1
@@ -3931,6 +3979,170 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &3566656276330626718
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8178508615693930533}
+  - component: {fileID: 6173086718545240015}
+  - component: {fileID: 923726322979728437}
+  - component: {fileID: 6621995848762808190}
+  m_Layer: 5
+  m_Name: WarningText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &8178508615693930533
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3566656276330626718}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5055767787967681477}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.2, y: 0.2}
+  m_AnchorMax: {x: 0.8, y: 0.3}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &6173086718545240015
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3566656276330626718}
+  m_CullTransparentMesh: 1
+--- !u!114 &923726322979728437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3566656276330626718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: "Pour une exp\xE9rience optimale, ce jeu a besoin d'une manette. Attrapes-en
+    une et on y retourne !"
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 2aefc435c742ba1458d64549d96e081c, type: 2}
+  m_sharedMaterial: {fileID: 7120875131993628362, guid: 2aefc435c742ba1458d64549d96e081c,
+    type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 57.55
+  m_fontSizeBase: 36
+  m_fontWeight: 400
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &6621995848762808190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3566656276330626718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c108fd3a76764d42b690a6365b1bae6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scPlayer: {fileID: 0}
+  _playerData: {fileID: 1165491372627732135}
+  sEnglish: This game needs a controller for best experience. Grab a controller and
+    kick back !
+  sFrench: "Pour une exp\xE9rience optimale, ce jeu a besoin d'une manette. Attrapes-en
+    une et on y retourne !"
+  bIsOnManager: 1
+  bIsDifficulty: 0
+  bIsToTip: 0
+  delayBeforeStart: 0
+  timeBtwChars: 0.06
+  FastTimeBtwChars: 0.02
+  leadingCharBeforeDelay: 0
+  leadingChar: 
+  menuManager: {fileID: 269850063720091022}
 --- !u!1 &3739087773515740591
 GameObject:
   m_ObjectHideFlags: 0
@@ -4419,9 +4631,6 @@ MonoBehaviour:
   _playerData: {fileID: 1165491372627732135}
   sEnglish: Difficulty
   sFrench: "Difficult\xE9"
-  sJoystickEnglish: 
-  sJoystickFrench: 
-  bHasInput: 0
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
@@ -4583,9 +4792,6 @@ MonoBehaviour:
   _playerData: {fileID: 1165491372627732135}
   sEnglish: Clean
   sFrench: "Carr\xE9"
-  sJoystickEnglish: 
-  sJoystickFrench: 
-  bHasInput: 0
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
@@ -5128,9 +5334,6 @@ MonoBehaviour:
   _playerData: {fileID: 1165491372627732135}
   sEnglish: SOUND AND MUSIC
   sFrench: SON ET MUSIQUE
-  sJoystickEnglish: 
-  sJoystickFrench: 
-  bHasInput: 0
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
@@ -5208,6 +5411,96 @@ MonoBehaviour:
   m_Sprite: {fileID: 21300000, guid: 30ccb1782c739244b9d7df05cf1a1f29, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!1 &5280111904838886972
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5055767787967681477}
+  - component: {fileID: 2664458770303033238}
+  - component: {fileID: 4156933345142510762}
+  - component: {fileID: 8524609312851026286}
+  m_Layer: 5
+  m_Name: ControllerNeeded
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &5055767787967681477
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5280111904838886972}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2290918557532030375}
+  - {fileID: 8178508615693930533}
+  m_Father: {fileID: 8814022224180311209}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 1, y: 2}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &2664458770303033238
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5280111904838886972}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
+--- !u!222 &4156933345142510762
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5280111904838886972}
+  m_CullTransparentMesh: 1
+--- !u!114 &8524609312851026286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5280111904838886972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.78431374}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -5367,9 +5660,6 @@ MonoBehaviour:
   _playerData: {fileID: 1165491372627732135}
   sEnglish: Shadow
   sFrench: Ombre
-  sJoystickEnglish: 
-  sJoystickFrench: 
-  bHasInput: 0
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
@@ -5442,9 +5732,6 @@ MonoBehaviour:
   _playerData: {fileID: 1165491372627732135}
   sEnglish: Options
   sFrench: Options
-  sJoystickEnglish: 
-  sJoystickFrench: 
-  bHasInput: 0
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
@@ -5560,9 +5847,6 @@ MonoBehaviour:
   _playerData: {fileID: 1165491372627732135}
   sEnglish: Options
   sFrench: "Param\xE8tres"
-  sJoystickEnglish: 
-  sJoystickFrench: 
-  bHasInput: 0
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
@@ -6155,9 +6439,6 @@ MonoBehaviour:
   _playerData: {fileID: 1165491372627732135}
   sEnglish: BACK
   sFrench: RETOUR
-  sJoystickEnglish: 
-  sJoystickFrench: 
-  bHasInput: 0
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
@@ -6230,9 +6511,6 @@ MonoBehaviour:
   _playerData: {fileID: 1165491372627732135}
   sEnglish: Resume
   sFrench: Reprendre
-  sJoystickEnglish: 
-  sJoystickFrench: 
-  bHasInput: 0
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
@@ -6348,9 +6626,6 @@ MonoBehaviour:
   _playerData: {fileID: 1165491372627732135}
   sEnglish: Resume
   sFrench: Reprendre
-  sJoystickEnglish: 
-  sJoystickFrench: 
-  bHasInput: 0
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
@@ -6772,9 +7047,6 @@ MonoBehaviour:
   _playerData: {fileID: 1165491372627732135}
   sEnglish: Next
   sFrench: Suivant
-  sJoystickEnglish: 
-  sJoystickFrench: 
-  bHasInput: 0
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
@@ -7069,9 +7341,6 @@ MonoBehaviour:
   _playerData: {fileID: 1165491372627732135}
   sEnglish: Congratulations!
   sFrench: "F\xE9licitations !"
-  sJoystickEnglish: 
-  sJoystickFrench: 
-  bHasInput: 0
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
@@ -8090,9 +8359,6 @@ MonoBehaviour:
   _playerData: {fileID: 1165491372627732135}
   sEnglish: True artist
   sFrench: Vrai.e artiste
-  sJoystickEnglish: 
-  sJoystickFrench: 
-  bHasInput: 0
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
@@ -8387,9 +8653,6 @@ MonoBehaviour:
   _playerData: {fileID: 1165491372627732135}
   sEnglish: Boogie Woogie
   sFrench: Boogie Woogie
-  sJoystickEnglish: 
-  sJoystickFrench: 
-  bHasInput: 0
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
@@ -8626,9 +8889,6 @@ MonoBehaviour:
   _playerData: {fileID: 1165491372627732135}
   sEnglish: Language
   sFrench: Langage
-  sJoystickEnglish: 
-  sJoystickFrench: 
-  bHasInput: 0
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
@@ -8982,9 +9242,6 @@ MonoBehaviour:
   _playerData: {fileID: 1165491372627732135}
   sEnglish: Save
   sFrench: Sauvegarder
-  sJoystickEnglish: 
-  sJoystickFrench: 
-  bHasInput: 0
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
@@ -9100,9 +9357,6 @@ MonoBehaviour:
   _playerData: {fileID: 1165491372627732135}
   sEnglish: Save
   sFrench: Sauvegarder
-  sJoystickEnglish: 
-  sJoystickFrench: 
-  bHasInput: 0
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0

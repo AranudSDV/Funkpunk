@@ -26,8 +26,7 @@ public class SC_Player : MonoBehaviour
 {
     public bool bisTuto = false;
     public MenuManager menuManager;
-    public bool bIsOnComputer = true;
-    public bool bOnControllerConstraint = false;
+    public bool bHasController = true;
     public BPM_Manager bpmManager;
     public sc_tuto_generic tutoGen = null;
 
@@ -126,7 +125,7 @@ public class SC_Player : MonoBehaviour
 
     public void InitializeGamepad()
     {
-        if (!bIsOnComputer)
+        if (bHasController)
         {
             control = new PlayerControl();
             control.GamePlay.Enable();
@@ -134,7 +133,7 @@ public class SC_Player : MonoBehaviour
     }
     public void DisableGamepad()
     {
-        if (!bIsOnComputer)
+        if (bHasController)
         {
             control.GamePlay.Disable();
         }
@@ -152,20 +151,20 @@ public class SC_Player : MonoBehaviour
             GameObject goMenu = GameObject.FindWithTag("Manager");
             if (goMenu == null)
             {
-                bIsOnComputer = true;
+                bHasController = false;
             }
             else
             {
                 menuManager = goMenu.GetComponent<MenuManager>();
                 control = menuManager.control;
-                bIsOnComputer = !menuManager.controllerConnected;
+                bHasController = menuManager.controllerConnected;
                 menuManager.scPlayer = this;
             }
         }
         else
         {
             control = menuManager.control;
-            bIsOnComputer = !menuManager.controllerConnected;
+            bHasController = menuManager.controllerConnected;
             menuManager.scPlayer = this;
         }
         EyeDetection();
@@ -174,7 +173,7 @@ public class SC_Player : MonoBehaviour
     //L'UPDATE
     public void Update()
     {
-        if (!bIsOnComputer && control == null)
+        if (bHasController && control == null)
         {
             Debug.Log("no control");
             InitializeGamepad();
@@ -214,20 +213,16 @@ public class SC_Player : MonoBehaviour
     private void UpdateDirAndMovOnJoystickOrPC()
     {
         //MOUVEMENT SUR CLAVIER OU MANETTE?
-        if (!bIsOnComputer || bOnControllerConstraint)
+        if (bHasController)
         {
             move = control.GamePlay.Orientation.ReadValue<Vector2>();
-        }
-        else if (bIsOnComputer)
-        {
-            move = new Vector2(1, 0);
         }
         //UDPATE LA DIRECTION
         if (move != Vector2.zero)
         {
             lastLastMoveDirection = lastMoveDirection;
             Vector3 direction = Vector3.zero;
-            if (!bIsOnComputer || bOnControllerConstraint)
+            if (bHasController)
             {
                 direction = GetDirectionFromJoystick(move);
                 if (!bIsBeingAnimated)
@@ -235,7 +230,7 @@ public class SC_Player : MonoBehaviour
                     RotationVFX(direction, bpmManager.FSPB / 5);
                 }
             }
-            else if (bIsOnComputer)
+            else if (bHasController)
             {
                 direction = GetDirectionFromClavier();
                 if (!bIsBeingAnimated)
@@ -1561,11 +1556,11 @@ public class SC_Player : MonoBehaviour
             }
         }
         // Detect changes in connection status
-        if (isConnected == bIsOnComputer)
+        if (isConnected != bHasController)
         {
-            bIsOnComputer = !isConnected;
+            bHasController = isConnected;
 
-            if (!bIsOnComputer)
+            if (bHasController)
             {
                 Debug.Log("Controller connected!");
             }
