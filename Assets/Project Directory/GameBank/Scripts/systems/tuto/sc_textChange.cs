@@ -14,8 +14,9 @@ public class sc_textChange : MonoBehaviour
     [SerializeField] private string sFrench;
     [SerializeField] private string sJoystickEnglish;
     [SerializeField] private string sJoystickFrench;
-    [SerializeField] private bool bHasInput;
-    [SerializeField] private bool bIsOnManager;
+    [SerializeField] private bool bHasInput = false;
+    [SerializeField] private bool bIsOnManager = false;
+    [SerializeField] private bool bIsDifficulty = false;
     [SerializeField] private bool bIsToTip = false;
     private TMP_Text tmpProText;
     private Coroutine coroutine;
@@ -145,17 +146,57 @@ public class sc_textChange : MonoBehaviour
             }
             else
             {
-                if ((SceneManager.GetActiveScene().name == "SceneLvl1" || SceneManager.GetActiveScene().name == "SceneLvl0") && !bIsOnManager)
+                if(!bIsDifficulty)
                 {
-                    _playerData = scPlayer.menuManager.gameObject.transform.GetComponent<PlayerData>();
-                }
-                if (_playerData != null && _playerData.iLanguageNbPlayer == 1)
-                {
-                    this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sFrench;
+                    if (_playerData == null && (SceneManager.GetActiveScene().name == "SceneLvl1" || SceneManager.GetActiveScene().name == "SceneLvl0") && !bIsOnManager)
+                    {
+                        _playerData = scPlayer.menuManager.gameObject.transform.GetComponent<PlayerData>();
+                    }
+                    if (_playerData != null && _playerData.iLanguageNbPlayer == 1)
+                    {
+                        this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sFrench;
+                    }
+                    else
+                    {
+                        this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sEnglish;
+                    }
                 }
                 else
                 {
-                    this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sEnglish;
+                    if (_playerData == null && (SceneManager.GetActiveScene().name == "SceneLvl1" || SceneManager.GetActiveScene().name == "SceneLvl0") && !bIsOnManager)
+                    {
+                        _playerData = scPlayer.menuManager.gameObject.transform.GetComponent<PlayerData>();
+                    }
+                    if (_playerData != null && menuManager != null && _playerData.iLanguageNbPlayer == 1)
+                    {
+                        if(menuManager.iDifficulty == 0)
+                        {
+                            this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = "Difficile";
+                        }
+                        else if (menuManager.iDifficulty == 1)
+                        {
+                            this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = "Normal";
+                        }
+                        else
+                        {
+                            this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = "Facile";
+                        }
+                    }
+                    else
+                    {
+                        if (menuManager.iDifficulty == 0)
+                        {
+                            this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = "Hard";
+                        }
+                        else if (menuManager.iDifficulty == 1)
+                        {
+                            this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = "Normal";
+                        }
+                        else
+                        {
+                            this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = "Easy";
+                        }
+                    }
                 }
             }
         }

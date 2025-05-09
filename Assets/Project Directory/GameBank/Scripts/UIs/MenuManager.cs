@@ -12,6 +12,7 @@ using FMODUnity;
 using UnityEngine.LowLevel;
 using FMOD.Studio;
 using UnityEngine.UIElements;
+using static Unity.VisualScripting.Icons;
 
 public class MenuManager : MonoBehaviour
 {
@@ -23,6 +24,13 @@ public class MenuManager : MonoBehaviour
     private sc_levelChoosing_ _scLevels;
     private int iPreviousLevelPlayed = 0;
 
+    //NAVIGATION UX
+    [Header("Options General")]
+    public CanvasGroup CgOptionPannel;
+    public RectTransform RtOptionPannel;
+    public CanvasGroup CgOptionGeneral;
+    public int iDifficulty = 0;
+
     [Header("Sound")]
     public FMOD.Studio.VCA music_basic_VCA;
     public FMOD.Studio.VCA music_detected_VCA;
@@ -33,8 +41,7 @@ public class MenuManager : MonoBehaviour
     public float fDetectedVolume = 0f;
     public float fBeatMusicVolume = 0.7f;
     public float[] fBeatVolume = new float[4] {0.7f, 0.8f, 0.9f,1f };
-    public CanvasGroup CgSoundManager;
-    public RectTransform RtSoundManager;
+    public CanvasGroup CgOptionAudio;
     [SerializeField] private UnityEngine.UI.Slider SfxSlider;
     [SerializeField] private UnityEngine.UI.Slider MusicSlider;
     [SerializeField] private UnityEngine.UI.Slider AmbianceSlider;
@@ -189,7 +196,7 @@ public class MenuManager : MonoBehaviour
     void Update()
     {
         CheckControllerStatus();
-        if (GoMainMenu != null && GoMainMenu.transform.GetComponent<MainMenuNameChanging>().isOk && ((Input.anyKeyDown && !(Input.GetMouseButtonDown(0)|| Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2) || Input.GetKeyDown(KeyCode.J)) && !controllerConnected) || (controllerConnected && control.GamePlay.Move.triggered)))
+        if (GoMainMenu != null && ((Input.anyKeyDown && !(Input.GetMouseButtonDown(0)|| Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2) || Input.GetKeyDown(KeyCode.J)) && !controllerConnected) || (controllerConnected && control.GamePlay.Move.triggered)))
         {
             LoadScene(sSceneToLoad);
         }
@@ -615,21 +622,71 @@ public class MenuManager : MonoBehaviour
     }
     public void OptionsGame()
     {
-        CgSoundManager.alpha = 1f;
-        CgSoundManager.interactable = true;
-        RtSoundManager.anchorMin = new Vector2(0, 0);
-        RtSoundManager.anchorMax = new Vector2(1, 1);
-        RtSoundManager.offsetMax = new Vector2(0f, 0f);
-        RtSoundManager.offsetMin = new Vector2(0f, 0f);
+        CgOptionPannel.alpha = 1f;
+        CgOptionPannel.interactable = true;
+        CgOptionPannel.blocksRaycasts = true;
+        RtOptionPannel.anchorMin = new Vector2(0, 0);
+        RtOptionPannel.anchorMax = new Vector2(1, 1);
+        RtOptionPannel.offsetMax = new Vector2(0f, 0f);
+        RtOptionPannel.offsetMin = new Vector2(0f, 0f);
+    }
+
+    public void Options(bool bGeneral)
+    {
+        if(bGeneral)
+        {
+            CgOptionAudio.alpha = 0f;
+            CgOptionGeneral.interactable = false;
+            CgOptionGeneral.blocksRaycasts = false;
+            CgOptionGeneral.alpha = 1f;
+            CgOptionGeneral.interactable = true;
+            CgOptionGeneral.blocksRaycasts = true;
+        }
+        else
+        {
+            CgOptionGeneral.alpha = 0f;
+            CgOptionGeneral.interactable = false;
+            CgOptionGeneral.blocksRaycasts = false;
+            CgOptionAudio.alpha = 1f;
+            CgOptionGeneral.interactable = true;
+            CgOptionGeneral.blocksRaycasts = true;
+        }
     }
     public void CloseOptions()
     {
-        CgSoundManager.alpha = 0f;
-        CgSoundManager.interactable = false;
-        RtSoundManager.anchorMin = new Vector2(0, 1);
-        RtSoundManager.anchorMax = new Vector2(1, 2);
-        RtSoundManager.offsetMax = new Vector2(0f, 0f);
-        RtSoundManager.offsetMin = new Vector2(0f, 0f);
+        CgOptionPannel.alpha = 0f;
+        CgOptionPannel.interactable = false;
+        CgOptionPannel.blocksRaycasts = false;
+        RtOptionPannel.anchorMin = new Vector2(0, 1);
+        RtOptionPannel.anchorMax = new Vector2(1, 2);
+        RtOptionPannel.offsetMax = new Vector2(0f, 0f);
+        RtOptionPannel.offsetMin = new Vector2(0f, 0f);
+    }
+    public void Difficulty()
+    {
+        if(iDifficulty < 2)
+        {
+            iDifficulty += 1;
+        }
+        else
+        {
+            iDifficulty = 0;
+        }
+        if (scPlayer!=null && scPlayer.bpmManager!=null)
+        {
+            scPlayer.bpmManager.StartBPM();
+        }
+    }
+    public void LanguageButton()
+    {
+        if (_playerData.iLanguageNbPlayer == 1)
+        {
+            _playerData.iLanguageNbPlayer = 0;
+        }
+        else
+        {
+            _playerData.iLanguageNbPlayer = 1;
+        }
     }
     public void QuitGame()
     {

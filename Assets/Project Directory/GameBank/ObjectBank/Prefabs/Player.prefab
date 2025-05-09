@@ -423,6 +423,12 @@ MonoBehaviour:
   LMask:
     serializedVersion: 2
     m_Bits: 4224
+  checkpoints: []
+  allTagsUntil1stCheckPoint: []
+  posLastCheckPoint: {x: 0, y: 0, z: 0}
+  posYInit: 0
+  iCheckPoint: 0
+  bIsReplaying: 0
 --- !u!114 &82293833679279999
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -436,7 +442,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scPlayer: {fileID: 6830452445873526929}
+  iReplaying: 3
   FBPM: 90
+  fDelayMusic: 0.1
   FSPB: 0.67
   FOVS: {fileID: 0}
   levelLoop:
@@ -446,34 +454,22 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
-  sfx_MissRythm:
+  levelLoopDetected:
     Guid:
-      Data1: 1865414260
-      Data2: 1328692699
-      Data3: -1732967745
-      Data4: 1087638052
-    Path: event:/sfx_rythm_miss
-  sfx_BadRythm:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  levelLoopBeat:
     Guid:
-      Data1: -486517848
-      Data2: 1077326717
-      Data3: -1146326105
-      Data4: 1557811378
-    Path: event:/sfx_rythm_bad
-  sfx_OkRythm:
-    Guid:
-      Data1: -461129906
-      Data2: 1142745261
-      Data3: -2075825991
-      Data4: 721637169
-    Path: event:/sfx_rythm_ok2
-  sfx_PerfectRythm:
-    Guid:
-      Data1: -1520879992
-      Data2: 1226509461
-      Data3: 311780276
-      Data4: 174280761
-    Path: event:/sfx_rythm_perfect2
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  textTimer: {fileID: 0}
+  iTimer: 3
   colorMiss:
     serializedVersion: 2
     rgba: 4294770917
@@ -497,6 +493,7 @@ MonoBehaviour:
   bPlayGood: 0
   bPlayPerfect: 0
   soul_Feedback: {fileID: 0}
+  goSeparator: []
   goNoteRight:
   - {fileID: 0}
   imNoteRight: []
