@@ -70,6 +70,7 @@ public class MenuManager : MonoBehaviour
 
     //SCORING
     [Header("Scoring")]
+    public TMP_Text txt_Title;
     public CanvasGroup CgScoring;
     public RectTransform RtScoring;
     public TMP_Text txtScoringJudgment;

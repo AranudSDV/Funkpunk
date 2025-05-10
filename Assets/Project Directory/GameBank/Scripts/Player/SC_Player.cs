@@ -58,6 +58,7 @@ public class SC_Player : MonoBehaviour
     public bool bcanRotate = false;
     public bool bIsImune = false;
     private bool bIsBeingAnimated = false;
+    private bool bEnsureRotation = false;
 
     //LE BAIT
     [Header("Bait")]
@@ -205,6 +206,11 @@ public class SC_Player : MonoBehaviour
         if (bcanRotate == true)
         {
             UpdateDirAndMovOnJoystickOrPC();
+            bEnsureRotation = false;
+        }
+        else
+        {
+            EnsureRotation();
         }
         EnemieDetection();
     }
@@ -230,57 +236,10 @@ public class SC_Player : MonoBehaviour
                     RotationVFX(direction, bpmManager.FSPB / 5);
                 }
             }
-            else if (bHasController)
-            {
-                direction = GetDirectionFromClavier();
-                if (!bIsBeingAnimated)
-                {
-                    RotationVFX(direction, bpmManager.FSPB / 5);
-                }
-            }
             if (direction != Vector3.zero)
             {
                 lastMoveDirection = direction;
             }
-        }
-    }
-    Vector3 GetDirectionFromClavier()
-    {
-        if (Input.GetKeyDown(KeyCode.A) && Input.GetKeyDown(KeyCode.S))
-        {
-            return new Vector3(-1, 0, -1);
-        }
-        else if (Input.GetKeyDown(KeyCode.A) && Input.GetKeyDown(KeyCode.W))
-        {
-            return new Vector3(-1, 0, 1);
-        }
-        else if (Input.GetKeyDown(KeyCode.W) && Input.GetKeyDown(KeyCode.D))
-        {
-            return new Vector3(1, 0, 1);
-        }
-        else if (Input.GetKeyDown(KeyCode.D) && Input.GetKeyDown(KeyCode.S))
-        {
-            return new Vector3(1, 0, -1);
-        }
-        else if (Input.GetKeyDown(KeyCode.A))
-        {
-            return Vector3.left;
-        }
-        else if (Input.GetKeyDown(KeyCode.W))
-        {
-            return Vector3.forward;
-        }
-        else if (Input.GetKeyDown(KeyCode.D))
-        {
-            return Vector3.right;
-        }
-        else if (Input.GetKeyDown(KeyCode.S))
-        {
-            return Vector3.back;
-        }
-        else
-        {
-            return Vector3.zero;
         }
     }
     private Vector3 GetDirectionFromJoystick(Vector2 moveInput)
@@ -441,8 +400,8 @@ public class SC_Player : MonoBehaviour
                         }
                         else if (collider.CompareTag("MapObject"))
                         {
-                            TextMeshPro textOnWall = collider.transform.GetChild(0).GetComponent<TextMeshPro>();
-                            StartCoroutine(EnoughPercentLoft(textOnWall));
+                            //TextMeshPro textOnWall = collider.transform.GetChild(0).GetComponent<TextMeshPro>();
+                            StartCoroutine(EnoughPercentLoft());
                             /*if (fPercentScore>= 50f)
                             {
                                 TextMeshPro textOnWall = hitInfo.transform.GetChild(0).GetComponent<TextMeshPro>();
@@ -580,8 +539,8 @@ public class SC_Player : MonoBehaviour
                     }
                     else if(hitInfo.transform.CompareTag("MapObject"))
                     {
-                        TextMeshPro textOnWall = hitInfo.transform.GetChild(0).GetComponent<TextMeshPro>();
-                        StartCoroutine(EnoughPercentLoft(textOnWall));
+                        //TextMeshPro textOnWall = hitInfo.transform.GetChild(0).GetComponent<TextMeshPro>();
+                        StartCoroutine(EnoughPercentLoft());
                         /*if (fPercentScore>= 50f)
                         {
                             TextMeshPro textOnWall = hitInfo.transform.GetChild(0).GetComponent<TextMeshPro>();
@@ -789,63 +748,67 @@ public class SC_Player : MonoBehaviour
         StartCoroutine(MouvementVFX(bpmManager.FSPB));
         canMove = false;
     }
-
-    //CONCERNANT L'UI ET LES FEEDBACKS IMPORTANTS
-    private void UpdateDirectionUI()
+    private void EnsureRotation()
     {
-        if (Mathf.Abs(lastMoveDirection.x) > tolerance && Mathf.Abs(lastMoveDirection.z) <= tolerance)
+        if (!bEnsureRotation)
         {
-            // Mouvement gauche ou droite
-            if (Mathf.Sign(lastMoveDirection.x) == -1)
+            if (Mathf.Abs(lastMoveDirection.x) > tolerance && Mathf.Abs(lastMoveDirection.z) <= tolerance)
             {
-                currentAngleIndex = 1;
-                PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
+                // Mouvement gauche ou droite
+                if (Mathf.Sign(lastMoveDirection.x) == -1)
+                {
+                    currentAngleIndex = 1;
+                    PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
+                }
+                else if (Mathf.Sign(lastMoveDirection.x) == 1)
+                {
+                    currentAngleIndex = 5;
+                    PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
+                }
             }
-            else if (Mathf.Sign(lastMoveDirection.x) == 1)
+            else if (Mathf.Abs(lastMoveDirection.z) > tolerance && Mathf.Abs(lastMoveDirection.x) <= tolerance)
             {
-                currentAngleIndex = 5;
-                PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
+                // Mouvement haut ou bas
+                if (Mathf.Sign(lastMoveDirection.z) == 1)
+                {
+                    currentAngleIndex = 3;
+                    PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
+                }
+                else if (Mathf.Sign(lastMoveDirection.z) == -1)
+                {
+                    currentAngleIndex = 7;
+                    PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
+                }
             }
-        }
-        else if (Mathf.Abs(lastMoveDirection.z) > tolerance && Mathf.Abs(lastMoveDirection.x) <= tolerance)
-        {
-            // Mouvement haut ou bas
-            if (Mathf.Sign(lastMoveDirection.z) == 1)
+            else if (Mathf.Abs(lastMoveDirection.x) > tolerance && Mathf.Abs(lastMoveDirection.z) > tolerance)
             {
-                currentAngleIndex = 3;
-                PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
+                // Mouvement diagonal
+                if (Mathf.Sign(lastMoveDirection.x) == -1 && Mathf.Sign(lastMoveDirection.z) == 1)
+                {
+                    currentAngleIndex = 2;
+                    PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
+                }
+                else if (Mathf.Sign(lastMoveDirection.x) == 1 && Mathf.Sign(lastMoveDirection.z) == 1)
+                {
+                    currentAngleIndex = 4;
+                    PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
+                }
+                else if (Mathf.Sign(lastMoveDirection.x) == -1 && Mathf.Sign(lastMoveDirection.z) == -1)
+                {
+                    currentAngleIndex = 0;
+                    PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
+                }
+                else if (Mathf.Sign(lastMoveDirection.x) == 1 && Mathf.Sign(lastMoveDirection.z) == -1)
+                {
+                    currentAngleIndex = 6;
+                    PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
+                }
             }
-            else if (Mathf.Sign(lastMoveDirection.z) == -1)
-            {
-                currentAngleIndex = 7;
-                PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
-            }
-        }
-        else if (Mathf.Abs(lastMoveDirection.x) > tolerance && Mathf.Abs(lastMoveDirection.z) > tolerance)
-        {
-            // Mouvement diagonal
-            if (Mathf.Sign(lastMoveDirection.x) == -1 && Mathf.Sign(lastMoveDirection.z) == 1)
-            {
-                currentAngleIndex = 2;
-                PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
-            }
-            else if (Mathf.Sign(lastMoveDirection.x) == 1 && Mathf.Sign(lastMoveDirection.z) == 1)
-            {
-                currentAngleIndex = 4;
-                PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
-            }
-            else if (Mathf.Sign(lastMoveDirection.x) == -1 && Mathf.Sign(lastMoveDirection.z) == -1)
-            {
-                currentAngleIndex = 0;
-                PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
-            }
-            else if (Mathf.Sign(lastMoveDirection.x) == 1 && Mathf.Sign(lastMoveDirection.z) == -1)
-            {
-                currentAngleIndex = 6;
-                PlayerCapsule.transform.rotation = Quaternion.Euler(0, angles[currentAngleIndex], 0);
-            }
+            bEnsureRotation = true;
         }
     }
+
+    //CONCERNANT L'UI ET LES FEEDBACKS IMPORTANTS
     private IEnumerator MouvementVFX(float time)
     {
         yield return new WaitForSeconds(time * 2/5f);
@@ -855,18 +818,18 @@ public class SC_Player : MonoBehaviour
         vfx_steps.Stop();
         GoVfxSteps.transform.localPosition = fPosVFX_steps + new Vector3(0f,50f,0f);
     }
-    private IEnumerator NotEnoughPercentLoft(TextMeshPro txt)
+    private IEnumerator NotEnoughPercentLoft()
     {
-        txt.text = "50%";
-        txt.color = bpmManager.colorMiss;
+        /*txt.text = "50%";
+        txt.color = bpmManager.colorMiss;*/
         yield return new WaitForSeconds(0.7f);
-        txt.color = new Color32(255, 114, 255, 255);
-        txt.text = "! ! !";
+        /*txt.color = new Color32(255, 114, 255, 255);
+        txt.text = "! ! !";*/
     }
-    private IEnumerator EnoughPercentLoft(TextMeshPro txt)
+    private IEnumerator EnoughPercentLoft()
     {
-        txt.text = Mathf.Round(fPercentScore).ToString() + "%";
-        txt.color = bpmManager.colorPerfect;
+        /*txt.text = Mathf.Round(fPercentScore).ToString() + "%";
+        txt.color = bpmManager.colorPerfect;*/
         yield return new WaitForSeconds(0.7f);
         menuManager.LoadScene("LevelChoosing");
         UnityEngine.Cursor.lockState = CursorLockMode.None;
@@ -1239,8 +1202,16 @@ public class SC_Player : MonoBehaviour
         if (hasWon && fPercentScore >= 35)
         {
             //LE SCORING
-            menuManager.txtScoringJudgment.text = sJugement(hasWon)[0];
-            menuManager.txtScoringScore.text = sJugement(hasWon)[1];
+            menuManager.txtScoringJudgment.text = sJugement(hasWon, data)[0];
+            menuManager.txtScoringScore.text = sJugement(hasWon, data)[1];
+            if(data.iLanguageNbPlayer == 1)
+            {
+                menuManager.txt_Title.text = "Félicitation!";
+            }
+            else
+            {
+                menuManager.txt_Title.text = "Congratulation!";
+            }
             //LES EXPLOITS
             List<int> ints = iStars();
             UnityEngine.UI.Image[] imgStars = new UnityEngine.UI.Image[ints.Count];
@@ -1302,8 +1273,9 @@ public class SC_Player : MonoBehaviour
         else
         {
             //LE SCORING
-            menuManager.txtScoringJudgment.text = sJugement(hasWon)[0];
-            menuManager.txtScoringScore.text = sJugement(hasWon)[1];
+            menuManager.txtScoringJudgment.text = sJugement(hasWon, data)[0];
+            menuManager.txtScoringScore.text = sJugement(hasWon, data)[1];
+            menuManager.txt_Title.text = "Game Over!";
             //BUTTONS
             UnityEngine.UI.Button[] buttonScorring = new UnityEngine.UI.Button[2];
             TextMeshProUGUI[] txt = new TextMeshProUGUI[2];
@@ -1334,14 +1306,6 @@ public class SC_Player : MonoBehaviour
             menuManager.RtScoringButtons.anchorMin = new Vector2(0.75f, 0.35f);
             menuManager.RtScoringButtons.anchorMax = new Vector2(0.9f, 0.6f);
             menuManager.ImgScoringBackground.sprite = menuManager.spritesScoringBackground[1];
-        }
-        if (menuManager.controllerConnected) //Si controller
-        {
-            UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-        }
-        else //sinon keyboard
-        {
-            UnityEngine.Cursor.lockState = CursorLockMode.None;
         }
         menuManager.EventSystem.firstSelectedGameObject = menuManager.GoScoringFirstButtonSelected;
         menuManager.GoScoringFirstButtonSelected.GetComponent<UnityEngine.UI.Button>().Select();
@@ -1473,7 +1437,7 @@ public class SC_Player : MonoBehaviour
         List.Add(0); 
         return List;
     }
-    private List<string> sJugement(bool finished)
+    private List<string> sJugement(bool finished, PlayerData data)
     {
         if (fPercentScore >= 95 && finished)
         {
@@ -1502,8 +1466,16 @@ public class SC_Player : MonoBehaviour
         }
         else if (!finished)
         {
-            List<string> List = new List<string> { "Busted", Mathf.Round(fPercentScore).ToString() + "%" };
-            return List;
+            if(data.iLanguageNbPlayer == 1)
+            {
+                List<string> List = new List<string> { "Grillé", Mathf.Round(fPercentScore).ToString() + "%" };
+                return List;
+            }
+            else
+            {
+                List<string> List = new List<string> { "Busted", Mathf.Round(fPercentScore).ToString() + "%" };
+                return List;
+            }
         }
         else
         {

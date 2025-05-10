@@ -157,6 +157,7 @@ MonoBehaviour:
     rgba: 4292198144
   GoScoringFirstButtonSelected: {fileID: 2042124641858762371}
   GoPausedFirstButtonSelected: {fileID: 8117903037627878143}
+  txt_Title: {fileID: 5259525979806897907}
   CgScoring: {fileID: 1877356355425069567}
   RtScoring: {fileID: 3803594740852749823}
   txtScoringJudgment: {fileID: 3903931835335953578}
@@ -2179,8 +2180,8 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1771719604172920210}
   m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
+  m_Alpha: 0
+  m_Interactable: 0
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
 --- !u!1 &2042124641858762371
@@ -2603,7 +2604,6 @@ GameObject:
   - component: {fileID: 6341142485940296295}
   - component: {fileID: 7919765185738961467}
   - component: {fileID: 1312874031530048315}
-  - component: {fileID: 7672343405345487818}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -2728,31 +2728,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &7672343405345487818
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2754361229327238044}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c108fd3a76764d42b690a6365b1bae6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scPlayer: {fileID: 0}
-  _playerData: {fileID: 1165491372627732135}
-  sEnglish: ReTry
-  sFrench: "R\xE9essayer"
-  bIsOnManager: 1
-  bIsDifficulty: 0
-  bIsToTip: 0
-  delayBeforeStart: 0
-  timeBtwChars: 0.06
-  FastTimeBtwChars: 0.02
-  leadingCharBeforeDelay: 0
-  leadingChar: 
-  menuManager: {fileID: 0}
 --- !u!1 &2779121210829161145
 GameObject:
   m_ObjectHideFlags: 0
@@ -6906,7 +6881,6 @@ GameObject:
   - component: {fileID: 6851301538062920194}
   - component: {fileID: 7101127952642158364}
   - component: {fileID: 1948003045785557227}
-  - component: {fileID: 7248380541733966302}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -7031,31 +7005,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &7248380541733966302
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6953407603974129501}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c108fd3a76764d42b690a6365b1bae6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scPlayer: {fileID: 0}
-  _playerData: {fileID: 1165491372627732135}
-  sEnglish: Next
-  sFrench: Suivant
-  bIsOnManager: 1
-  bIsDifficulty: 0
-  bIsToTip: 0
-  delayBeforeStart: 0
-  timeBtwChars: 0.06
-  FastTimeBtwChars: 0.02
-  leadingCharBeforeDelay: 0
-  leadingChar: 
-  menuManager: {fileID: 0}
 --- !u!1 &7023820599647813581
 GameObject:
   m_ObjectHideFlags: 0
@@ -7200,7 +7149,6 @@ GameObject:
   - component: {fileID: 471612764286218279}
   - component: {fileID: 2811644944151145953}
   - component: {fileID: 5259525979806897907}
-  - component: {fileID: 5315140269843683027}
   m_Layer: 5
   m_Name: Title
   m_TagString: Untagged
@@ -7325,31 +7273,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &5315140269843683027
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7049833610305785513}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c108fd3a76764d42b690a6365b1bae6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scPlayer: {fileID: 0}
-  _playerData: {fileID: 1165491372627732135}
-  sEnglish: Congratulations!
-  sFrench: "F\xE9licitations !"
-  bIsOnManager: 1
-  bIsDifficulty: 0
-  bIsToTip: 0
-  delayBeforeStart: 0
-  timeBtwChars: 0.06
-  FastTimeBtwChars: 0.02
-  leadingCharBeforeDelay: 0
-  leadingChar: 
-  menuManager: {fileID: 0}
 --- !u!1 &7091410515730763743
 GameObject:
   m_ObjectHideFlags: 0
