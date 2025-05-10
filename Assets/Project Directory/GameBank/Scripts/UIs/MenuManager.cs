@@ -731,7 +731,7 @@ public class MenuManager : MonoBehaviour
             music_detected_VCA.setVolume(fDetectedVolume*0.7f);
             music_beat_VCA.setVolume(fBeatMusicVolume * playerMusicVolume);
             music_beat_VCA.getVolume(out float checkVolume);
-            Debug.Log("beat volume is " + checkVolume + " and we set it at " + fBeatMusicVolume);
+            //Debug.Log("beat volume is " + checkVolume + " and we set it at " + fBeatMusicVolume);
         }
         else
         {

@@ -375,8 +375,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bisTuto: 1
   menuManager: {fileID: 0}
-  bIsOnComputer: 1
-  bOnControllerConstraint: 0
+  bHasController: 1
   bpmManager: {fileID: 82293833679279999}
   tutoGen: {fileID: 0}
   bHasNoMiss: 1
@@ -470,6 +469,26 @@ MonoBehaviour:
     Path: 
   textTimer: {fileID: 0}
   iTimer: 3
+  iDifficulty: 0
+  fAllTolerence:
+  - 2
+  - 3
+  - 6
+  - 3
+  - 3
+  - 4
+  - 5
+  - 2
+  - 4
+  - 6
+  - 3
+  - 1
+  fTolerence:
+  - 2
+  - 4
+  - 6
+  - 2
+  fFraction: 14
   colorMiss:
     serializedVersion: 2
     rgba: 4294770917

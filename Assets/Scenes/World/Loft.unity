@@ -5958,6 +5958,11 @@ PrefabInstance:
       objectReference: {fileID: 2060351483}
     - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
+      propertyPath: iDifficulty
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
       propertyPath: txt_Feedback
       value: 
       objectReference: {fileID: 0}
@@ -6161,41 +6166,6 @@ PrefabInstance:
       propertyPath: imNoteRight.Array.data[2]
       value: 
       objectReference: {fileID: 2116011449}
-    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
-        type: 3}
-      propertyPath: fAllTolerence.Array.data[4]
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
-        type: 3}
-      propertyPath: fAllTolerence.Array.data[5]
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
-        type: 3}
-      propertyPath: fAllTolerence.Array.data[6]
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
-        type: 3}
-      propertyPath: fAllTolerence.Array.data[8]
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
-        type: 3}
-      propertyPath: fAllTolerence.Array.data[9]
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
-        type: 3}
-      propertyPath: fAllTolerence.Array.data[10]
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
-        type: 3}
-      propertyPath: fAllTolerence.Array.data[11]
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: levelLoopDetected.Guid.Data1
@@ -8997,11 +8967,8 @@ MonoBehaviour:
   sEnglish: New day, new journey ! Press space in rythm in order to wake up.
   sFrench: "Nouvelle journ\xE9e, nouvelle aventure ! Appuie sur espace en rythme
     pour te r\xE9veiller."
-  sJoystickEnglish: New day, new journey ! Press A in rythm in order to wake up.
-  sJoystickFrench: "Nouvelle journ\xE9e, nouvelle aventure ! Appuie sur A en rythme
-    pour te r\xE9veiller."
-  bHasInput: 1
   bIsOnManager: 0
+  bIsDifficulty: 0
   bIsToTip: 0
   delayBeforeStart: 0
   timeBtwChars: 0.06
