@@ -5,14 +5,21 @@ using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine.SceneManagement;
 using System.Security.Cryptography;
+using static System.Net.Mime.MediaTypeNames;
+using UnityEngine.EventSystems;
 
 public class sc_levelChoosing_ : MonoBehaviour
 {
     [SerializeField][Tooltip("5 for each level since there are 5 stars")] private UnityEngine.RectTransform[] rectStarsLevels = new UnityEngine.RectTransform[20];
+    private MenuManager menuManager;
     private PlayerData _playerData;
-    public int iPreviousLvl = 0;
+    private int iLastLvl = 0;
+    public int iPreviousLvlDone = 0;
     private bool[] bAnimStars = new bool[5] { false, false, false, false, false };
     private bool bBegin = false;
+    [SerializeField] private GameObject[] GoLevels;
+    private bool[] bNowSelected = new bool[4] { false,false,false,false};
+    private int iSelected = 0;
 
     private float jumpHeight = 50f;       // how high the image jumps
     private float jumpDuration = 0.15f;     // time to go up
@@ -26,6 +33,9 @@ public class sc_levelChoosing_ : MonoBehaviour
     [SerializeField] private Vector2[] ArrowAnchoredMin;
     [SerializeField] private Vector2[] ArrowAnchoredMax;
     [SerializeField] private RectTransform rectArrow;
+    [SerializeField] private Vector2[] CharaAnchoredMin;
+    [SerializeField] private Vector2[] CharaAnchoredMax;
+    [SerializeField] private RectTransform rectChara;
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -37,6 +47,7 @@ public class sc_levelChoosing_ : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         GameObject goMenu = GameObject.FindWithTag("Manager");
+        menuManager = goMenu.GetComponent<MenuManager>();
         _playerData = goMenu.GetComponent<PlayerData>();
         StartCoroutine(WaitAndAnimate());
     }
@@ -53,17 +64,43 @@ public class sc_levelChoosing_ : MonoBehaviour
         }
         if (_playerData.iLevelPlayer != 0)
         {
-            iPreviousLvl = _playerData.iLevelPlayer - 1;
+            if(menuManager!=null)
+            {
+                iPreviousLvlDone = menuManager.iPreviousLevelPlayed;
+            }
+            if(iPreviousLvlDone == _playerData.iLevelPlayer - 1)
+            {
+                iLastLvl = _playerData.iLevelPlayer - 1;
+            }
+            else
+            {
+                iLastLvl = _playerData.iLevelPlayer;
+            }
             bBegin = true;
             bAnimStars[0] = true;
-            AnimateArrow(iPreviousLvl, _playerData.iLevelPlayer, 3f);
+            rectChara.anchorMin = CharaAnchoredMin[iPreviousLvlDone];
+            rectChara.anchorMax = CharaAnchoredMax[iPreviousLvlDone];
+            rectChara.offsetMin = new Vector2(0f, 0f);
+            rectChara.offsetMax = new Vector2(0f,0f);
+            menuManager.EventSystem.firstSelectedGameObject = GoLevels[iPreviousLvlDone];
+            bNowSelected[iPreviousLvlDone] = true;
+            iSelected = iPreviousLvlDone;
+            AnimateArrow(iLastLvl, _playerData.iLevelPlayer, 1.5f);
         }
         else
         {
-            iPreviousLvl = 0;
+            iPreviousLvlDone = 0;
+            iLastLvl = 0;
             bBegin = true;
             bAnimStars[0] = true;
-            AnimateArrow(iPreviousLvl, _playerData.iLevelPlayer, 3f);
+            rectChara.anchorMin = CharaAnchoredMin[iPreviousLvlDone];
+            rectChara.anchorMax = CharaAnchoredMax[iPreviousLvlDone];
+            rectChara.offsetMin = new Vector2(0f, 0f);
+            rectChara.offsetMax = new Vector2(0f, 0f);
+            menuManager.EventSystem.firstSelectedGameObject = GoLevels[0];
+            bNowSelected[0] = true;
+            iSelected = 0;
+            AnimateArrow(iLastLvl, _playerData.iLevelPlayer, 1.5f);
         }
     }
     private void AnimateArrow(int iPrevious, int next, float duration)
@@ -74,7 +111,18 @@ public class sc_levelChoosing_ : MonoBehaviour
             // Reset offsets to maintain size and layout
             rectArrow.offsetMin = Vector2.Lerp(rectArrow.offsetMin, Vector2.zero, x);
             rectArrow.offsetMax = Vector2.Lerp(rectArrow.offsetMax, Vector2.zero, x);
-        }, 1f, duration).SetEase(Ease.InOutQuad).SetUpdate(true);
+        }, 1f, duration).SetEase(Ease.InOutBack).SetUpdate(true);
+    }
+    private void AnimateChara(int iPrevious, int next, float duration)
+    {
+        DOTween.To(() => 0f, x => {
+            rectChara.anchorMin = Vector2.Lerp(CharaAnchoredMin[iPrevious], CharaAnchoredMin[next], x);
+            rectChara.anchorMax = Vector2.Lerp(CharaAnchoredMax[iPrevious], CharaAnchoredMax[next], x);
+            // Reset offsets to maintain size and layout
+            rectChara.offsetMin = Vector2.Lerp(rectChara.offsetMin, Vector2.zero, x);
+            rectChara.offsetMax = Vector2.Lerp(rectChara.offsetMax, Vector2.zero, x);
+        }, 1f, duration).SetEase(Ease.OutBounce).SetUpdate(true);
+        iSelected = next;
     }
     private void Update()
     {
@@ -84,7 +132,19 @@ public class sc_levelChoosing_ : MonoBehaviour
             {
                 if (bAnimStars[i] == true)
                 {
-                    Animate(rectStarsLevels[i + (5 * iPreviousLvl)], originalPosition[i + (5 * iPreviousLvl)], i, _playerData.iStarsPlayer[i + (5 * iPreviousLvl)]);
+                    Animate(rectStarsLevels[i + (5 * iPreviousLvlDone)], originalPosition[i + (5 * iPreviousLvlDone)], i, _playerData.iStarsPlayer[i + (5 * iPreviousLvlDone)]);
+                }
+            }
+        }
+        if(menuManager!=null)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                if (menuManager.EventSystem.currentSelectedGameObject == GoLevels[i] && !bNowSelected[i])
+                {
+                    bNowSelected[iSelected] = false;
+                    AnimateChara(iSelected, i, 1.5f);
+                    bNowSelected[i] = true;
                 }
             }
         }

@@ -747,7 +747,12 @@ MonoBehaviour:
   - {fileID: 869495859}
   - {fileID: 320840007}
   - {fileID: 270775589}
-  iPreviousLvl: 0
+  iPreviousLvlDone: 0
+  GoLevels:
+  - {fileID: 2044029126}
+  - {fileID: 275782024}
+  - {fileID: 728683767}
+  - {fileID: 490209843}
   ArrowAnchoredMin:
   - {x: 0.26, y: 0.28}
   - {x: 0.372, y: 0.425}
@@ -759,6 +764,17 @@ MonoBehaviour:
   - {x: 0.56, y: 0.7365}
   - {x: 0.7185, y: 0.86}
   rectArrow: {fileID: 1226272946}
+  CharaAnchoredMin:
+  - {x: 0.317, y: 0.237}
+  - {x: 0.445, y: 0.36}
+  - {x: 0.56, y: 0.53}
+  - {x: 0.71, y: 0.65}
+  CharaAnchoredMax:
+  - {x: 0.374, y: 0.33}
+  - {x: 0.5, y: 0.456}
+  - {x: 0.614, y: 0.625}
+  - {x: 0.764, y: 0.747}
+  rectChara: {fileID: 1355433475}
 --- !u!1 &320840006
 GameObject:
   m_ObjectHideFlags: 0
@@ -2689,7 +2705,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1355433475
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2704,8 +2720,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 305639491}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.317, y: 0.23700002}
-  m_AnchorMax: {x: 0.37339583, y: 0.32962966}
+  m_AnchorMin: {x: 0.317, y: 0.237}
+  m_AnchorMax: {x: 0.374, y: 0.33}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}

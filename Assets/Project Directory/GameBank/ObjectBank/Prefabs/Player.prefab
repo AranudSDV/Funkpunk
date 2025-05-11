@@ -378,6 +378,7 @@ MonoBehaviour:
   bHasController: 1
   bpmManager: {fileID: 82293833679279999}
   tutoGen: {fileID: 0}
+  CgInGame: {fileID: 0}
   bHasNoMiss: 1
   lastMoveDirection: {x: 0, y: 0, z: 0}
   PlayerCapsule: {fileID: 4589980624701841776}
@@ -469,7 +470,7 @@ MonoBehaviour:
     Path: 
   textTimer: {fileID: 0}
   iTimer: 3
-  iDifficulty: 0
+  iDifficulty: 1
   fAllTolerence:
   - 2
   - 3

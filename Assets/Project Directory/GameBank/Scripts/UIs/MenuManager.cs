@@ -20,7 +20,7 @@ public class MenuManager : MonoBehaviour
     public SC_Player scPlayer;
     public bool bGameIsPaused = false;
     private sc_levelChoosing_ _scLevels;
-    private int iPreviousLevelPlayed = 0;
+    public int iPreviousLevelPlayed = 0;
 
     //NAVIGATION UX
     [Header("Controller")]
@@ -326,7 +326,7 @@ public class MenuManager : MonoBehaviour
                         else if(GoTargetUI[i].name == "LevelChoosing")
                         {
                             _scLevels = GoTargetUI[i].GetComponent<sc_levelChoosing_>();
-                            _scLevels.iPreviousLvl = iPreviousLevelPlayed;
+                            _scLevels.iPreviousLvlDone = iPreviousLevelPlayed;
                         }
                     }
                 }

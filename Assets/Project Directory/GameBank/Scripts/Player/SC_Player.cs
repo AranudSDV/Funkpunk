@@ -29,6 +29,7 @@ public class SC_Player : MonoBehaviour
     public bool bHasController = true;
     public BPM_Manager bpmManager;
     public sc_tuto_generic tutoGen = null;
+    [SerializeField] private CanvasGroup CgInGame;
 
     //LES CHALLENGES
     private bool bHasBeenDetectedOneTime = false;
@@ -180,39 +181,48 @@ public class SC_Player : MonoBehaviour
             InitializeGamepad();
         }
         CheckControllerStatus();
-        if(fNbBeat>0&& FScore>0)
+        if(menuManager!=null && !menuManager.bGameIsPaused)
         {
-            fPercentScore = FScore / fNbBeat;
+            CgInGame.alpha = 1f;
+            if (fNbBeat > 0 && FScore > 0)
+            {
+                fPercentScore = FScore / fNbBeat;
+            }
+            else
+            {
+                fPercentScore = 0;
+            }
+            if (SceneManager.GetActiveScene().name == "Loft" && fNbBeat >= 10f)
+            {
+                FScore = Mathf.Round(fPercentScore);
+                fNbBeat = 1;
+            }
+            TMPScore.SetText(Mathf.Round(fPercentScore).ToString() + "%");
+            if (FDetectionLevel >= fDetectionLevelMax && !bIsEndGame)
+            {
+                EndGame(false, menuManager._playerData);
+            }
+            if (FDetectionLevel < 0)
+            {
+                FDetectionLevel = 0;
+                EyeDetection();
+            }
+            if (bcanRotate == true)
+            {
+                UpdateDirAndMovOnJoystickOrPC();
+                bEnsureRotation = false;
+            }
+            else
+            {
+                EnsureRotation();
+            }
+            EnemieDetection();
         }
-        else
+        else if(menuManager != null && menuManager.bGameIsPaused && !bisTuto)
         {
-            fPercentScore = 0;
+            bIsImune = true;
+            CgInGame.alpha = 0f;
         }
-        if(SceneManager.GetActiveScene().name == "Loft" && fNbBeat >=10f)
-        {
-            FScore = Mathf.Round(fPercentScore);
-            fNbBeat = 1;
-        }
-        TMPScore.SetText(Mathf.Round(fPercentScore).ToString() + "%");
-        if(FDetectionLevel>= fDetectionLevelMax && !bIsEndGame)
-        {
-            EndGame(false, menuManager._playerData);
-        }
-        if(FDetectionLevel <0)
-        {
-            FDetectionLevel = 0;
-            EyeDetection();
-        }
-        if (bcanRotate == true)
-        {
-            UpdateDirAndMovOnJoystickOrPC();
-            bEnsureRotation = false;
-        }
-        else
-        {
-            EnsureRotation();
-        }
-        EnemieDetection();
     }
 
     //CONCERNANT LES CONTROLS

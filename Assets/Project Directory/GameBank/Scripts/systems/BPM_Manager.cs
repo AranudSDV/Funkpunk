@@ -155,8 +155,11 @@ public class BPM_Manager : MonoBehaviour
         {
             iDifficulty = scPlayer.menuManager.iDifficulty;
         }
-        CheckIfInputOnTempo();
-        CameraRythm(Time.deltaTime, fFOVmax, fFOVmin);
+        if(scPlayer!=null&&scPlayer.menuManager!=null&&!scPlayer.menuManager.bGameIsPaused)
+        {
+            CheckIfInputOnTempo();
+        }
+        CameraRythm(Time.unscaledDeltaTime, fFOVmax, fFOVmin);
     }
 
     //LE TEMPO
@@ -168,7 +171,7 @@ public class BPM_Manager : MonoBehaviour
         }
         scPlayer.RotationEnemies();
         MusicNotesMovingStart();
-        yield return new WaitForSeconds(FTiming[3]);
+        yield return new WaitForSecondsRealtime(FTiming[3]);
         StartCoroutine(bad());
     }
     IEnumerator bad()
@@ -176,21 +179,21 @@ public class BPM_Manager : MonoBehaviour
         scPlayer.canMove = true;
         soul_Feedback.color = colorBase;
         BBad = true;
-        yield return new WaitForSeconds(FTiming[2]);
+        yield return new WaitForSecondsRealtime(FTiming[2]);
         BBad = false;
         StartCoroutine(good());
     }
     IEnumerator good()
     {
         BGood = true;
-        yield return new WaitForSeconds(FTiming[1]);
+        yield return new WaitForSecondsRealtime(FTiming[1]);
         BGood = false;
         StartCoroutine(perfect());
     }
     IEnumerator perfect()
     {
         BPerfect = true;
-        yield return new WaitForSeconds(FTiming[0]);
+        yield return new WaitForSecondsRealtime(FTiming[0]);
         BPerfect = false;
         scPlayer.canMove = false;
         if (BBad == false && BGood == false && BPerfect == false && scPlayer.bcanRotate == true) // LE JOUEUR MISS
@@ -280,7 +283,6 @@ public class BPM_Manager : MonoBehaviour
         {
             if (BBad == true)
             {
-                Debug.Log("bad");
                 if (!scPlayer.bIsImune)
                 {
                     scPlayer.FScore = scPlayer.FScore + 35f;
@@ -298,7 +300,6 @@ public class BPM_Manager : MonoBehaviour
             }
             else if (BGood == true)
             {
-                Debug.Log("good");
                 if (!scPlayer.bIsImune)
                 {
                     scPlayer.FScore = scPlayer.FScore + 75f;
@@ -316,7 +317,6 @@ public class BPM_Manager : MonoBehaviour
             }
             else if (BPerfect == true)
             {
-                Debug.Log("perfect");
                 if (!scPlayer.bIsImune)
                 {
                     scPlayer.FScore = scPlayer.FScore + 100f;
@@ -399,9 +399,10 @@ public class BPM_Manager : MonoBehaviour
             goNoteLeft[0].anchoredPosition = new Vector2(-newPos.x * (1 + 3 * canvas), 0f);
             imNoteRight[0].color = new Color32(0, 197, 255, 255);
             imNoteLeft[0].color = new Color32(0, 197, 255, 255);
+            sequences[0].Kill();
             sequences[0] = DOTween.Sequence();
-            sequences[0].Append(goNoteRight[0].DOAnchorPos(new Vector2(goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true));
-            sequences[0].Join(goNoteLeft[0].DOAnchorPos(new Vector2(-goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true));
+            sequences[0].Append(goNoteRight[0].DOAnchorPos(new Vector2(goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            sequences[0].Join(goNoteLeft[0].DOAnchorPos(new Vector2(-goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
             /*sequences[0].OnComplete(() =>
             {
                 imNoteRight[0].color = new Color32(255, 255, 255, 0);
@@ -416,9 +417,10 @@ public class BPM_Manager : MonoBehaviour
             goNoteLeft[1].anchoredPosition = new Vector2(-newPos.x * (1 + 3 * canvas), 0f);
             imNoteRight[1].color = new Color32(0, 197, 255, 255);
             imNoteLeft[1].color = new Color32(0, 197, 255, 255);
+            sequences[1].Kill();
             sequences[1] = DOTween.Sequence();
-            sequences[1].Append(goNoteRight[1].DOAnchorPos(new Vector2(goNoteLeft[0].rect.width / 4f, 0f), FSPB *3, false).SetEase(Ease.Linear).SetAutoKill(true));
-            sequences[1].Join(goNoteLeft[1].DOAnchorPos(new Vector2(-goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true));
+            sequences[1].Append(goNoteRight[1].DOAnchorPos(new Vector2(goNoteLeft[0].rect.width / 4f, 0f), FSPB *3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            sequences[1].Join(goNoteLeft[1].DOAnchorPos(new Vector2(-goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
             /*sequences[1].OnComplete(() =>
             {
                 imNoteRight[1].color = new Color32(255, 255, 255, 0);
@@ -433,9 +435,10 @@ public class BPM_Manager : MonoBehaviour
             goNoteLeft[2].anchoredPosition = new Vector2(-newPos.x * (1 + 3 * canvas), 0f);
             imNoteRight[2].color = new Color32(0, 197, 255, 255);
             imNoteLeft[2].color = new Color32(0, 197, 255, 255);
+            sequences[2].Kill();
             sequences[2] = DOTween.Sequence();
-            sequences[2].Append(goNoteRight[2].DOAnchorPos(new Vector2(goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true));
-            sequences[2].Join(goNoteLeft[2].DOAnchorPos(new Vector2(-goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true));
+            sequences[2].Append(goNoteRight[2].DOAnchorPos(new Vector2(goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            sequences[2].Join(goNoteLeft[2].DOAnchorPos(new Vector2(-goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
             /*sequences[2].OnComplete(() =>
             {
                 imNoteRight[2].color = new Color32(255, 255, 255, 0);
@@ -449,9 +452,10 @@ public class BPM_Manager : MonoBehaviour
             iNowNote = 0;
             goNoteRight[0].anchoredPosition = new Vector2(newPos.x * (1+ canvas), 0f);
             goNoteLeft[0].anchoredPosition = new Vector2(-newPos.x * (1 + canvas), 0f);
+            sequences[0].Kill();
             sequences[0] = DOTween.Sequence();
-            sequences[0].Append(goNoteRight[0].DOAnchorPos(new Vector2(goNoteLeft[0].rect.width / 4f, 0f), FSPB, false).SetEase(Ease.Linear).SetAutoKill(true));
-            sequences[0].Join(goNoteLeft[0].DOAnchorPos(new Vector2(-goNoteLeft[0].rect.width / 4f, 0f), FSPB, false).SetEase(Ease.Linear).SetAutoKill(true));
+            sequences[0].Append(goNoteRight[0].DOAnchorPos(new Vector2(goNoteLeft[0].rect.width / 4f, 0f), FSPB, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            sequences[0].Join(goNoteLeft[0].DOAnchorPos(new Vector2(-goNoteLeft[0].rect.width / 4f, 0f), FSPB, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
             /*sequences[0].OnComplete(() =>
             {
                 imNoteRight[0].color = new Color32(255, 255, 255, 0);
@@ -461,9 +465,10 @@ public class BPM_Manager : MonoBehaviour
 
             goNoteRight[1].anchoredPosition = new Vector2(newPos.x * (1+2* canvas), 0f);
             goNoteLeft[1].anchoredPosition = new Vector2(-newPos.x * (1+2* canvas), 0f);
+            sequences[1].Kill();
             sequences[1] = DOTween.Sequence();
-            sequences[1].Append(goNoteRight[1].DOAnchorPos(new Vector2(goNoteLeft[0].rect.width / 4f, 0f), FSPB * 2, false).SetEase(Ease.Linear).SetAutoKill(true));
-            sequences[1].Join(goNoteLeft[1].DOAnchorPos(new Vector2(-goNoteLeft[0].rect.width / 4f, 0f), FSPB * 2, false).SetEase(Ease.Linear).SetAutoKill(true));
+            sequences[1].Append(goNoteRight[1].DOAnchorPos(new Vector2(goNoteLeft[0].rect.width / 4f, 0f), FSPB * 2, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            sequences[1].Join(goNoteLeft[1].DOAnchorPos(new Vector2(-goNoteLeft[0].rect.width / 4f, 0f), FSPB * 2, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
             /*sequences[1].OnComplete(() =>
             {
                 imNoteRight[1].color = new Color32(255, 255, 255, 0);
@@ -473,9 +478,10 @@ public class BPM_Manager : MonoBehaviour
 
             goNoteRight[2].anchoredPosition = new Vector2(newPos.x * (1+canvas), 0f);
             goNoteLeft[2].anchoredPosition = new Vector2(-newPos.x * (1+canvas), 0f);
+            sequences[2].Kill();
             sequences[2] = DOTween.Sequence();
-            sequences[2].Append(goNoteRight[2].DOAnchorPos(new Vector2(goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true));
-            sequences[2].Join(goNoteLeft[2].DOAnchorPos(new Vector2(-goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true));
+            sequences[2].Append(goNoteRight[2].DOAnchorPos(new Vector2(goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            sequences[2].Join(goNoteLeft[2].DOAnchorPos(new Vector2(-goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
             /*sequences[2].OnComplete(() =>
             {
                 imNoteRight[2].color = new Color32(255, 255, 255, 0);
