@@ -32,6 +32,7 @@ public class sc_textChange : MonoBehaviour
     private bool bTextBegon = false;
     private float bTimerWritten = 0f;
     private float bTimerBegon = 0f;
+    private bool isControllerTriggered;
 
     public void Init()
     {
@@ -153,10 +154,12 @@ public class sc_textChange : MonoBehaviour
     }
     private void CheckKeyHold()
     {
-        bool isKeyDown = Input.GetKey(KeyCode.Space);
-        bool isControllerTriggered = menuManager.controllerConnected && menuManager.control.GamePlay.Move.ReadValue<float>() > 0.1f;
+        if (menuManager!=null && menuManager.control!=null)
+        {
+            isControllerTriggered = menuManager.controllerConnected && menuManager.control.GamePlay.Move.ReadValue<float>() > 0.1f;
+        }
 
-        if (isKeyDown || isControllerTriggered)
+        if (isControllerTriggered)
         {
             // Key or controller is being held
             f_pressed += Time.unscaledDeltaTime;

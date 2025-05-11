@@ -70,6 +70,10 @@ public class SC_Player : MonoBehaviour
     public bool hasAlreadyBaited = false;
     private float fThrowMultiplier = 1f;
     private float fShakeFoeBasic = 9f;
+    [SerializeField] private EventReference sfx_baitStun;
+    [SerializeField] private EventReference sfx_baitThrown;
+    [SerializeField] private EventReference[] sfx_tag = new EventReference[3];
+    [SerializeField] private EventReference sfx_wall_hit;
 
     //LE SCORE
     [Header("Score")]
@@ -99,11 +103,13 @@ public class SC_Player : MonoBehaviour
 
     //LE TAG
     [Header("Tag")]
+    [SerializeField] private CinemachineVirtualCamera VCam_Cinematic;
     public float taggingRange = 1f;
     private RaycastHit[] hitInfo = new RaycastHit[4];
     [SerializeField] private GameObject GoVfxTag;
     [SerializeField] private ParticleSystem vfx_tag;
     [SerializeField] private LayerMask LMask;
+    private Vector3[] points;
 
     //CHECKPOINTS STATS
     [Header("Checkpoints Stats")]
@@ -116,8 +122,6 @@ public class SC_Player : MonoBehaviour
     private float fPreviousNbBeat = 0f;
     public int iCheckPoint = 0;
     public bool bIsReplaying = false;
-
-
     static int Hasard(int a, int b) //Choisi un random.
     {
         System.Random rdm = new System.Random();
@@ -331,6 +335,7 @@ public class SC_Player : MonoBehaviour
                                     if (ingTag.textOnWall.text == i.ToString() + "/3")
                                     {
                                         ingTag.textOnWall.text = (i + 1).ToString() + "/3";
+                                        PlayCinematicFocus(collider.transform.gameObject, vectDir, bpmManager.FSPB, i+1);
                                         TaggingFeedback(bpmManager.FSPB, vectDir);
                                         StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
                                         break;
@@ -343,12 +348,14 @@ public class SC_Player : MonoBehaviour
                                         if (i < 2)
                                         {
                                             ingTag.textOnWall.text = (i + 2).ToString() + "/3";
+                                            PlayCinematicFocus(collider.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
                                             TaggingFeedback(bpmManager.FSPB, vectDir);
                                             StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
                                         }
                                         else
                                         {
                                             ingTag.textOnWall.text = "3/3";
+                                            PlayCinematicFocus(collider.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
                                             TaggingFeedback(bpmManager.FSPB, vectDir);
                                             StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
                                         }
@@ -358,6 +365,7 @@ public class SC_Player : MonoBehaviour
                                 else if (bpmManager.bPlayPerfect)
                                 {
                                     ingTag.textOnWall.text = "3/3";
+                                    PlayCinematicFocus(collider.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
                                     TaggingFeedback(bpmManager.FSPB, vectDir);
                                     StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
                                     break;
@@ -371,14 +379,17 @@ public class SC_Player : MonoBehaviour
                             }
                             if (ingTag.textOnWall.text == "1/3")
                             {
+                                SoundManager.Instance.PlayOneShot(sfx_tag[0]);
                                 ingTag.textOnWall.color = bpmManager.colorBad;
                             }
                             else if (ingTag.textOnWall.text == "2/3")
                             {
+                                SoundManager.Instance.PlayOneShot(sfx_tag[1]);
                                 ingTag.textOnWall.color = bpmManager.colorGood;
                             }
                             else if (ingTag.textOnWall.text == "3/3")
                             {
+                                SoundManager.Instance.PlayOneShot(sfx_tag[2]);
                                 ingTag.textOnWall.color = bpmManager.colorPerfect;
                                 ingTag._renderer.material = ingTag.taggedMaterial; //le joueur tag
                                 ingTag.transform.gameObject.tag = "Wall";
@@ -456,6 +467,7 @@ public class SC_Player : MonoBehaviour
                                 if(ingTag.textOnWall.text == i.ToString() + "/3")
                                 {
                                     ingTag.textOnWall.text = (i + 1).ToString() + "/3";
+                                    PlayCinematicFocus(hitInfo.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
                                     TaggingFeedback(bpmManager.FSPB, vectDir);
                                     StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
                                     break;
@@ -468,12 +480,14 @@ public class SC_Player : MonoBehaviour
                                     if (i < 2)
                                     {
                                         ingTag.textOnWall.text = (i + 2).ToString() + "/3";
+                                        PlayCinematicFocus(hitInfo.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
                                         TaggingFeedback(bpmManager.FSPB, vectDir);
                                         StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
                                     }
                                     else
                                     {
                                         ingTag.textOnWall.text = "3/3";
+                                        PlayCinematicFocus(hitInfo.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
                                         TaggingFeedback(bpmManager.FSPB, vectDir);
                                         StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
                                     }
@@ -483,6 +497,7 @@ public class SC_Player : MonoBehaviour
                             else if(bpmManager.bPlayPerfect)
                             {
                                 ingTag.textOnWall.text = "3/3";
+                                PlayCinematicFocus(hitInfo.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
                                 TaggingFeedback(bpmManager.FSPB, vectDir);
                                 StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
                                 break;
@@ -496,14 +511,17 @@ public class SC_Player : MonoBehaviour
                         }
                         if (ingTag.textOnWall.text == "1/3")
                         {
+                            SoundManager.Instance.PlayOneShot(sfx_tag[0]);
                             ingTag.textOnWall.color = bpmManager.colorBad;
                         }
                         else if(ingTag.textOnWall.text == "2/3")
                         {
+                            SoundManager.Instance.PlayOneShot(sfx_tag[1]);
                             ingTag.textOnWall.color = bpmManager.colorGood;
                         }
                         else if (ingTag.textOnWall.text == "3/3")
                         {
+                            SoundManager.Instance.PlayOneShot(sfx_tag[2]);
                             ingTag.textOnWall.color = bpmManager.colorPerfect;
                             ingTag._renderer.material = ingTag.taggedMaterial; //le joueur tag
                             ingTag.transform.gameObject.tag = "Wall";
@@ -536,6 +554,7 @@ public class SC_Player : MonoBehaviour
                     else if (hitInfo.transform.CompareTag("Wall") || hitInfo.transform.CompareTag("Enemies 1"))
                     {
                         // Wall detected, find a new direction
+                        SoundManager.Instance.PlayOneShot(sfx_wall_hit);
                         Vector3 newDirection = FindNewDirection(vectDir, fRange);
                         if (newDirection != Vector3.zero)
                         {
@@ -594,7 +613,7 @@ public class SC_Player : MonoBehaviour
                             {
                                 bIsBeingAnimated = true;
                                 fThrowMultiplier = floatNumber - 1f;
-                                ThrowingFeedback(bpmManager.FSPB);
+                                ThrowingFeedback(bpmManager.FSPB, false);
                                 return;
                             }
                             else if (col.transform.CompareTag("Enemies 1")) //il y a un ennemi devant le joueur
@@ -605,7 +624,7 @@ public class SC_Player : MonoBehaviour
                                 scEnemy.bIsDisabled = true;
                                 scEnemy.FoeDisabled(scEnemy.bIsDisabled);
                                 scEnemy.i_EnnemyBeat = -iTimeFoeDisabled;
-                                ThrowingFeedback(bpmManager.FSPB);
+                                ThrowingFeedback(bpmManager.FSPB, true);
                                 //Unable l'ennemi
                                 return;
                             }
@@ -619,7 +638,7 @@ public class SC_Player : MonoBehaviour
                     {
                         bIsBeingAnimated = true;
                         fThrowMultiplier = floatNumber - 1f;
-                        ThrowingFeedback(bpmManager.FSPB);
+                        ThrowingFeedback(bpmManager.FSPB, false);
                         return;
                     }
                     else
@@ -634,7 +653,7 @@ public class SC_Player : MonoBehaviour
                     {
                         bIsBeingAnimated = true;
                         fThrowMultiplier = floatNumber - 1f;
-                        ThrowingFeedback(bpmManager.FSPB);
+                        ThrowingFeedback(bpmManager.FSPB, false);
                         return;
                     }
                     else if (hitInfo1.transform.CompareTag("Enemies 1")) //il y a un ennemi devant le joueur
@@ -645,7 +664,7 @@ public class SC_Player : MonoBehaviour
                         scEnemy.bIsDisabled = true;
                         scEnemy.FoeDisabled(scEnemy.bIsDisabled);
                         scEnemy.i_EnnemyBeat = -iTimeFoeDisabled;
-                        ThrowingFeedback(bpmManager.FSPB);
+                        ThrowingFeedback(bpmManager.FSPB, true);
                         //Unable l'ennemi
                         return;
                     }
@@ -658,7 +677,7 @@ public class SC_Player : MonoBehaviour
                 {
                     bIsBeingAnimated = true;
                     fThrowMultiplier = floatNumber - 1f;
-                    ThrowingFeedback(bpmManager.FSPB);
+                    ThrowingFeedback(bpmManager.FSPB, false);
                     return;
                 }
                 else
@@ -731,10 +750,14 @@ public class SC_Player : MonoBehaviour
     private void Move(Vector3 direction)
     {
         // diagonale ?
-        if(bIsReplaying)
+        if (bIsReplaying)
         {
             Vector3 newPos = posLastCheckPoint + Vector3.zero;
             this.transform.DOJump(newPos, 1f, 0, bpmManager.FSPB).SetEase(Ease.OutBack).SetAutoKill(true);
+        }
+        else if(bIsImune)
+        {
+            this.transform.DOJump(this.transform.position, 1f, 0, bpmManager.FSPB).SetEase(Ease.OutBack).SetAutoKill(true);
         }
         else
         {
@@ -819,6 +842,7 @@ public class SC_Player : MonoBehaviour
     }
 
     //CONCERNANT L'UI ET LES FEEDBACKS IMPORTANTS
+    //Mouvement
     private IEnumerator MouvementVFX(float time)
     {
         yield return new WaitForSeconds(time * 2/5f);
@@ -844,71 +868,7 @@ public class SC_Player : MonoBehaviour
         menuManager.LoadScene("LevelChoosing");
         UnityEngine.Cursor.lockState = CursorLockMode.None;
     }
-    private void TaggingFeedback(float time, Vector3 dir)
-    {
-        if (dir.x != 0)
-        {
-            DG.Tweening.Sequence taggingSequence = DOTween.Sequence();
-            taggingSequence.Append(PlayerCapsule.transform.DOMoveY(posMesh.y + 1f, time * 1 / 6));
-            taggingSequence.Join(PlayerCapsule.transform.DOLocalMoveZ(localPosMesh.z + 0.75f, time * 1 / 6));
-            taggingSequence.Join(PlayerCapsule.transform.DORotate(new Vector3(0, -60f, 0), time * 1 / 6, RotateMode.LocalAxisAdd));
-            taggingSequence.Append(PlayerCapsule.transform.DORotate(new Vector3(0, 120f, 0), time * 2 / 6, RotateMode.LocalAxisAdd));
-            taggingSequence.Join(PlayerCapsule.transform.DOLocalMoveZ(localPosMesh.z - 0.75f, time * 1 / 6));
-            taggingSequence.Append(PlayerCapsule.transform.DORotate(new Vector3(0, -60, 0), time * 1 / 6, RotateMode.LocalAxisAdd));
-            taggingSequence.Join(PlayerCapsule.transform.DOLocalMoveZ(localPosMesh.z, time * 1 / 6));
-            taggingSequence.Join(PlayerCapsule.transform.DOMoveY(posMesh.y, time * 1 / 6));
-            taggingSequence.OnComplete(() =>
-            {
-                PlayerCapsule.transform.localPosition = localPosMesh;
-            });
-        }
-        else if(dir.z != 0)
-        {
-            DG.Tweening.Sequence taggingSequence = DOTween.Sequence();
-            taggingSequence.Append(PlayerCapsule.transform.DOMoveY(posMesh.y + 1f, time * 1 / 6));
-            taggingSequence.Join(PlayerCapsule.transform.DOLocalMoveX(localPosMesh.z + 0.75f, time * 1 / 6));
-            taggingSequence.Join(PlayerCapsule.transform.DORotate(new Vector3(0, -30f, 0), time * 1 / 6, RotateMode.LocalAxisAdd));
-            taggingSequence.Append(PlayerCapsule.transform.DORotate(new Vector3(0, 60f, 0), time * 2 / 6, RotateMode.LocalAxisAdd));
-            taggingSequence.Join(PlayerCapsule.transform.DOLocalMoveX(localPosMesh.z - 0.75f, time * 1 / 6));
-            taggingSequence.Append(PlayerCapsule.transform.DORotate(new Vector3(0, -30, 0), time * 1 / 6, RotateMode.LocalAxisAdd));
-            taggingSequence.Join(PlayerCapsule.transform.DOLocalMoveX(localPosMesh.z, time * 1 / 6));
-            taggingSequence.Join(PlayerCapsule.transform.DOMoveY(posMesh.y, time * 1 / 6));
-            taggingSequence.OnComplete(() =>
-            {
-                PlayerCapsule.transform.localPosition = localPosMesh;
-            });
-        }
-    }
-    private IEnumerator TagFeedback(Vector3 dir, float time)
-    {
-        yield return new WaitForSeconds(time * 1 / 6);
-        GoVfxTag.transform.localEulerAngles = dir;
-        GoVfxTag.transform.localPosition = -dir *0.01f;
-        vfx_tag.Play();
-        yield return new WaitForSeconds(time*4/6);
-        vfx_tag.Stop();
-        GoVfxTag.transform.localPosition = dir + new Vector3(0f, 50f, 0f);
-    }
-    private void ThrowingFeedback(float time)
-    {
-        DG.Tweening.Sequence throwingSequence = DOTween.Sequence();
-        throwingSequence.Append(PlayerCapsule.transform.DOMoveY(posMesh.y + 1f, time * 1 / 9));
-        throwingSequence.Append(PlayerCapsule.transform.DORotate(new Vector3(-45, 0, 0), time * 1 / 6, RotateMode.LocalAxisAdd));
-        throwingSequence.AppendInterval(time * 1 / 6);
-        throwingSequence.Append(PlayerCapsule.transform.DORotate(new Vector3(45, 0, 0), time * 1 / 6, RotateMode.LocalAxisAdd));
-        throwingSequence.AppendInterval(time * 5/18);
-        throwingSequence.Append(PlayerCapsule.transform.DOMoveY(posMesh.y, time * 1 / 9));
-        throwingSequence.OnComplete(() =>
-        {
-            PlayerCapsule.transform.localPosition = localPosMesh;
-        });
-    }
-    private IEnumerator CameraShake(float intensity, float time)
-    {
-        cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = intensity;
-        yield return new WaitForSeconds(time);
-        cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = 0f;
-    }
+    //Rotation
     private IEnumerator RotationToRight(float time)
     {
         GoVfxRotToRight.transform.localPosition = fPosVFX_RotToRight;
@@ -990,7 +950,7 @@ public class SC_Player : MonoBehaviour
 
         if (lastLastMoveDirection != dir && dir != Vector3.zero)
         {
-            if(lastLastMoveDirection.z >0)
+            if (lastLastMoveDirection.z > 0)
             {
                 float valeur = lastLastMoveDirection.x - dir.x;
                 if (valeur > 0)
@@ -1014,7 +974,7 @@ public class SC_Player : MonoBehaviour
                     }
                 }
             }
-            else if(lastLastMoveDirection.z < 0)
+            else if (lastLastMoveDirection.z < 0)
             {
                 float valeur = lastLastMoveDirection.x - dir.x;
                 if (valeur > 0)
@@ -1051,6 +1011,135 @@ public class SC_Player : MonoBehaviour
                 }
             }
         }
+    }
+    //Tag
+    private void TaggingFeedback(float time, Vector3 dir)
+    {
+        if (dir.x != 0)
+        {
+            DG.Tweening.Sequence taggingSequence = DOTween.Sequence();
+            taggingSequence.Append(PlayerCapsule.transform.DOMoveY(posMesh.y + 1f, time * 1 / 6));
+            taggingSequence.Join(PlayerCapsule.transform.DOLocalMoveZ(localPosMesh.z + 0.75f, time * 1 / 6));
+            taggingSequence.Join(PlayerCapsule.transform.DORotate(new Vector3(0, -60f, 0), time * 1 / 6, RotateMode.LocalAxisAdd));
+            taggingSequence.Append(PlayerCapsule.transform.DORotate(new Vector3(0, 120f, 0), time * 2 / 6, RotateMode.LocalAxisAdd));
+            taggingSequence.Join(PlayerCapsule.transform.DOLocalMoveZ(localPosMesh.z - 0.75f, time * 1 / 6));
+            taggingSequence.Append(PlayerCapsule.transform.DORotate(new Vector3(0, -60, 0), time * 1 / 6, RotateMode.LocalAxisAdd));
+            taggingSequence.Join(PlayerCapsule.transform.DOLocalMoveZ(localPosMesh.z, time * 1 / 6));
+            taggingSequence.Join(PlayerCapsule.transform.DOMoveY(posMesh.y, time * 1 / 6));
+            taggingSequence.OnComplete(() =>
+            {
+                PlayerCapsule.transform.localPosition = localPosMesh;
+            });
+        }
+        else if(dir.z != 0)
+        {
+            DG.Tweening.Sequence taggingSequence = DOTween.Sequence();
+            taggingSequence.Append(PlayerCapsule.transform.DOMoveY(posMesh.y + 1f, time * 1 / 6));
+            taggingSequence.Join(PlayerCapsule.transform.DOLocalMoveX(localPosMesh.z + 0.75f, time * 1 / 6));
+            taggingSequence.Join(PlayerCapsule.transform.DORotate(new Vector3(0, -30f, 0), time * 1 / 6, RotateMode.LocalAxisAdd));
+            taggingSequence.Append(PlayerCapsule.transform.DORotate(new Vector3(0, 60f, 0), time * 2 / 6, RotateMode.LocalAxisAdd));
+            taggingSequence.Join(PlayerCapsule.transform.DOLocalMoveX(localPosMesh.z - 0.75f, time * 1 / 6));
+            taggingSequence.Append(PlayerCapsule.transform.DORotate(new Vector3(0, -30, 0), time * 1 / 6, RotateMode.LocalAxisAdd));
+            taggingSequence.Join(PlayerCapsule.transform.DOLocalMoveX(localPosMesh.z, time * 1 / 6));
+            taggingSequence.Join(PlayerCapsule.transform.DOMoveY(posMesh.y, time * 1 / 6));
+            taggingSequence.OnComplete(() =>
+            {
+                PlayerCapsule.transform.localPosition = localPosMesh;
+            });
+        }
+    }
+    private IEnumerator TagFeedback(Vector3 dir, float time)
+    {
+        yield return new WaitForSeconds(time * 1 / 6);
+        GoVfxTag.transform.localEulerAngles = dir;
+        GoVfxTag.transform.localPosition = -dir *0.01f;
+        vfx_tag.Play();
+        yield return new WaitForSeconds(time*4/6);
+        vfx_tag.Stop();
+        GoVfxTag.transform.localPosition = dir + new Vector3(0f, 50f, 0f);
+    }
+    private void PlayCinematicFocus(GameObject GoTag, Vector3 dir, float time, int TagsDone)
+    {
+        Transform focusTarget = GoTag.transform;
+        if (dir.z != 0)
+        {
+            if(dir.x != 0) //alors c'est une diagonale
+            {
+                points = new Vector3[4]
+                { GoTag.transform.position - dir * 2 + new Vector3(this.transform.position.x - GoTag.transform.position.x, 2, 0),
+                GoTag.transform.position - dir * 2 + new Vector3(this.transform.position.x - GoTag.transform.position.x, 2, 0) + new Vector3(3, 2, 0),
+                GoTag.transform.position - dir * 2 + new Vector3(this.transform.position.x - GoTag.transform.position.x, 2, 0) + new Vector3(-2, 3, 0),
+                GoTag.transform.position - dir * 2 + new Vector3(this.transform.position.x - GoTag.transform.position.x, 2, 0) + new Vector3(1, 2, -1) };
+            }
+            else
+            {
+                points = new Vector3[4]
+                { GoTag.transform.position - dir * 3 + new Vector3(this.transform.position.x - GoTag.transform.position.x, 2, 0),
+                GoTag.transform.position - dir * 3 + new Vector3(this.transform.position.x - GoTag.transform.position.x, 2, 0) + new Vector3(3, 2, 0),
+                GoTag.transform.position - dir * 3 + new Vector3(this.transform.position.x - GoTag.transform.position.x, 2, 0) + new Vector3(-2, 3, 0),
+                GoTag.transform.position - dir * 3 + new Vector3(this.transform.position.x - GoTag.transform.position.x, 2, 0) + new Vector3(1, 2, -1) };
+            }
+        }
+        else if(dir.x != 0)
+        {
+            if(dir.z != 0)//alors c'est une diagonale
+            {
+                points = new Vector3[4]
+            { GoTag.transform.position - dir * 2 + new Vector3(0, 2, this.transform.position.z - GoTag.transform.position.z),
+                GoTag.transform.position - dir * 2 + new Vector3(0, 2, this.transform.position.z - GoTag.transform.position.z) + new Vector3(0, 2, 3),
+                GoTag.transform.position - dir * 2 + new Vector3(0, 2, this.transform.position.z - GoTag.transform.position.z) + new Vector3(0, 3, -2),
+                GoTag.transform.position - dir * 2 + new Vector3(0, 2, this.transform.position.z - GoTag.transform.position.z) + new Vector3(-1, 2, 1) };
+            }
+            else
+            {
+                points = new Vector3[4]
+            { GoTag.transform.position - dir * 3 + new Vector3(0, 2, this.transform.position.z - GoTag.transform.position.z),
+                GoTag.transform.position - dir * 3 + new Vector3(0, 2, this.transform.position.z - GoTag.transform.position.z) + new Vector3(0, 2, 3),
+                GoTag.transform.position - dir * 3 + new Vector3(0, 2, this.transform.position.z - GoTag.transform.position.z) + new Vector3(0, 3, -2),
+                GoTag.transform.position - dir * 3 + new Vector3(0, 2, this.transform.position.z - GoTag.transform.position.z) + new Vector3(-1, 2, 1) };
+            }
+        }
+        VCam_Cinematic.transform.position = points[TagsDone - 1];
+        VCam_Cinematic.LookAt = focusTarget;
+        cinemachineVirtualCamera.Priority = 5;
+        VCam_Cinematic.Priority = 10;
+
+        DG.Tweening.Sequence camSequence = DOTween.Sequence().SetUpdate(true); 
+        camSequence.Append(
+            VCam_Cinematic.transform.DOMove(points[TagsDone], time).SetEase(Ease.InOutSine)
+        );
+        camSequence.OnComplete(() =>
+        {
+            VCam_Cinematic.Priority = 5;
+            cinemachineVirtualCamera.Priority = 10;
+            VCam_Cinematic.LookAt = null;
+        });
+    }
+    //Bait
+    private void ThrowingFeedback(float time, bool bOnFoe)
+    {
+        SoundManager.Instance.PlayOneShot(sfx_baitThrown);
+        DG.Tweening.Sequence throwingSequence = DOTween.Sequence();
+        throwingSequence.Append(PlayerCapsule.transform.DOMoveY(posMesh.y + 1f, time * 1 / 9));
+        throwingSequence.Append(PlayerCapsule.transform.DORotate(new Vector3(-45, 0, 0), time * 1 / 6, RotateMode.LocalAxisAdd));
+        throwingSequence.AppendInterval(time * 1 / 6);
+        throwingSequence.Append(PlayerCapsule.transform.DORotate(new Vector3(45, 0, 0), time * 1 / 6, RotateMode.LocalAxisAdd));
+        throwingSequence.AppendInterval(time * 5/18);
+        throwingSequence.Append(PlayerCapsule.transform.DOMoveY(posMesh.y, time * 1 / 9));
+        throwingSequence.OnComplete(() =>
+        {
+            PlayerCapsule.transform.localPosition = localPosMesh;
+            if(bOnFoe)
+            {
+                SoundManager.Instance.PlayOneShot(sfx_baitStun);
+            }
+        });
+    }
+    private IEnumerator CameraShake(float intensity, float time)
+    {
+        cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = intensity;
+        yield return new WaitForSeconds(time);
+        cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = 0f;
     }
 
     //CONCERNANT LE RYTHME

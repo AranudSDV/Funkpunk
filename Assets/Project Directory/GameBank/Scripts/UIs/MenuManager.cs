@@ -36,6 +36,7 @@ public class MenuManager : MonoBehaviour
     public RectTransform RtOptionPannel;
     public CanvasGroup CgOptionGeneral;
     public int iDifficulty = 0;
+    [SerializeField] private EventReference[] sfx_ui_button;
 
     [Header("Sound")]
     public FMOD.Studio.VCA music_basic_VCA;
@@ -127,7 +128,12 @@ public class MenuManager : MonoBehaviour
     private bool isPlaying = false; // Prevent multiple starts
     //DATA LEVEL
     public int[] iNbTaggs = new int[4];
-
+    static int Hasard(int a, int b) //Choisi un random.
+    {
+        System.Random rdm = new System.Random();
+        int hasard = rdm.Next(a, b + 1); //Aller jusqu'a le b inclu.
+        return hasard;
+    }
     [System.Serializable]
     public class Level 
     {
@@ -146,7 +152,11 @@ public class MenuManager : MonoBehaviour
             img_lvl = Go_buttons[i_nb].GetComponent<UnityEngine.UI.Image>();
         }
     }
-    void OnEnable()
+    private void OnEnable()
+    {
+        OnEnableController();
+    }
+    private void OnEnableController()
     {
         if (controllerConnected)
         {
@@ -156,7 +166,7 @@ public class MenuManager : MonoBehaviour
     }
     void OnDisable()
     {
-        if (controllerConnected)
+        if (controllerConnected && control!=null)
         {
             control.GamePlay.Disable();
         }
@@ -203,7 +213,7 @@ public class MenuManager : MonoBehaviour
     void Update()
     {
         CheckControllerStatus();
-        if (GoMainMenu != null && controllerConnected && control.GamePlay.Move.triggered)
+        if (GoMainMenu != null && controllerConnected && control !=null && control.GamePlay.Move.triggered)
         {
             LoadScene(sSceneToLoad);
         }
@@ -249,6 +259,10 @@ public class MenuManager : MonoBehaviour
             if (controllerConnected)
             {
                 Debug.Log("Controller connected!");
+                if (control==null)
+                {
+                    OnEnableController();
+                }
             }
             else
             {
@@ -431,6 +445,11 @@ public class MenuManager : MonoBehaviour
     //SCENE LOADING
     public void LoadScene(string sceneToLoad)
     {
+        if (SceneManager.GetActiveScene().name != "Loft" && SceneManager.GetActiveScene().name != "MainMenu")
+        {
+            ButtonSound();
+        }
+
         if (sceneToLoad == "SceneLvl0" || sceneToLoad == "SceneLvl1" || sceneToLoad == "Loft" || sceneToLoad == "SceneLvl2" || sceneToLoad == "SceneLvl3")
         {
             menuLoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
@@ -537,7 +556,7 @@ public class MenuManager : MonoBehaviour
     //PAUSE AND SETTINGS
     private void UXNavigation()
     {
-        if (controllerConnected && control.GamePlay.Pausing.triggered)
+        if (controllerConnected && control !=null && control.GamePlay.Pausing.triggered)
         {
             PauseMenu();
         }
@@ -568,6 +587,7 @@ public class MenuManager : MonoBehaviour
     }
     public void PauseMenu()
     {
+        ButtonSound();
         if (CgPauseMenu.alpha == 0f && !bActif) // On ouvre la fenetre, le jeu est en pause
         {
             CgPauseMenu.alpha = 1f;
@@ -636,12 +656,27 @@ public class MenuManager : MonoBehaviour
                 EventSystem.firstSelectedGameObject = null;
             }
             StartCoroutine(wait());
-            StartCoroutine(ImuneToPause(scPlayer.bpmManager));
+            if(scPlayer!=null)
+            {
+                StartCoroutine(ImuneToPause(scPlayer.bpmManager));
+            }
             PauseGame();
+        }
+    }
+    private void ButtonSound()
+    {
+        if (sfx_ui_button.Length > 1)
+        {
+            SoundManager.Instance.PlayOneShot(sfx_ui_button[Hasard(0, sfx_ui_button.Length - 1)]);
+        }
+        else
+        {
+            SoundManager.Instance.PlayOneShot(sfx_ui_button[0]);
         }
     }
     public void OptionsGame()
     {
+        ButtonSound();
         CgOptionPannel.alpha = 1f;
         CgOptionPannel.interactable = true;
         CgOptionPannel.blocksRaycasts = true;
@@ -652,7 +687,8 @@ public class MenuManager : MonoBehaviour
     }
     public void Options(bool bGeneral)
     {
-        if(bGeneral)
+        ButtonSound();
+        if (bGeneral)
         {
             CgOptionAudio.alpha = 0f;
             CgOptionGeneral.interactable = false;
@@ -673,6 +709,7 @@ public class MenuManager : MonoBehaviour
     }
     public void CloseOptions()
     {
+        ButtonSound();
         CgOptionPannel.alpha = 0f;
         CgOptionPannel.interactable = false;
         CgOptionPannel.blocksRaycasts = false;
@@ -683,7 +720,8 @@ public class MenuManager : MonoBehaviour
     }
     public void Difficulty()
     {
-        if(iDifficulty < 2)
+        ButtonSound();
+        if (iDifficulty < 2)
         {
             iDifficulty += 1; 
         }
@@ -698,6 +736,7 @@ public class MenuManager : MonoBehaviour
     }
     public void LanguageButton()
     {
+        ButtonSound();
         if (_playerData.iLanguageNbPlayer == 1)
         {
             _playerData.iLanguageNbPlayer = 0;
@@ -709,6 +748,7 @@ public class MenuManager : MonoBehaviour
     }
     public void QuitGame()
     {
+        ButtonSound();
 #if UNITY_EDITOR
         if (UnityEditor.EditorApplication.isPlaying)
         {

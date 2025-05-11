@@ -117,7 +117,7 @@ public class sc_tuto_generic : MonoBehaviour
                         fSpeed = fSpeed*2;
                     }
                 }
-                if (bWaitNext && !bOnceNext && (scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered)) //INPUT TO SHOW NEXT WHOLE BUBBLES
+                if (bWaitNext && !bOnceNext && scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered) //INPUT TO SHOW NEXT WHOLE BUBBLES
                 {
                     bOnceSkip = false;
                     bOnceNext = true;
@@ -131,8 +131,7 @@ public class sc_tuto_generic : MonoBehaviour
                     else if(_y == intYDetectionTuto || _y == intYBaitTuto)
                     {
                         bIsOnBD = false;
-                        scPlayer.menuManager.bGameIsPaused = false;
-                        scPlayer.menuManager.PauseGame();
+                        scPlayer.bisTuto = false;
                         ImuneToTuto(scPlayer.bpmManager);
                     }
                     if (!cameraIsTracking)
@@ -141,7 +140,7 @@ public class sc_tuto_generic : MonoBehaviour
                     }
                     bWaitNext = false;
                 }
-                else if (!bHasClickedSkip && !bWaitNext && (scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered)) // INPUT TO SKIP 
+                else if (!bHasClickedSkip && !bWaitNext && scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered) // INPUT TO SKIP 
                 {
                     bHasClickedSkip = true;
                 }
@@ -345,8 +344,10 @@ public class sc_tuto_generic : MonoBehaviour
     }
     public void StartTutoDetection()
     {
-        scPlayer.menuManager.bGameIsPaused = true;
-        scPlayer.menuManager.PauseGame();
+        //scPlayer.menuManager.bGameIsPaused = true;
+        //scPlayer.menuManager.PauseGame();
+        scPlayer.bIsImune = true;
+        scPlayer.bisTuto = true;
         isOnLvlTuto = false;
         UIGameOn();
         _y = intYDetectionTuto;
@@ -356,8 +357,10 @@ public class sc_tuto_generic : MonoBehaviour
 
     public void StartTutoBait()
     {
-        scPlayer.menuManager.bGameIsPaused = true;
-        scPlayer.menuManager.PauseGame();
+        //scPlayer.menuManager.bGameIsPaused = true;
+        //scPlayer.menuManager.PauseGame();
+        scPlayer.bIsImune = true;
+        scPlayer.bisTuto = true;
         _y = intYBaitTuto;
         bIsOnBD = true;
         bWaitNext = false;
@@ -368,6 +371,7 @@ public class sc_tuto_generic : MonoBehaviour
         if (collision.gameObject.CompareTag("Player") && isMeshable && !bTutoMeshableDone)
         {
             bTutoMeshableDone = true;
+            scPlayer = collision.transform.GetComponent<SC_Player>();
             scTuto.StartTutoDetection();
         }
     }

@@ -14,5 +14,5 @@ public class ing_Tag : MonoBehaviour
     public GameObject goArrow;
     public SC_FieldOfView[] scFoes;
     public SC_FieldOfView scBoss = null;
-    public bool bBossTag = false;
+    public bool bBossTag = false; 
 }
