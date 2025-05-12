@@ -330,7 +330,7 @@ public class sc_tuto_generic : MonoBehaviour
     }
     private void UnreadBubble(int i, int max)
     {
-        if(spriteBdTuto !=null && i != 0 && _y ==0 && i< max-1)
+        if(spriteBdTuto !=null && spriteBdTuto.Length >0&& i != 0 && _y ==0 && i< max-1)
         {
             RtTuto[i-1].GetComponent<UnityEngine.UI.Image>().sprite = spriteBdTuto[i-1];
         }
