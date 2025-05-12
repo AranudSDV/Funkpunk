@@ -445,14 +445,17 @@ public class MenuManager : MonoBehaviour
     }
     public IEnumerator ImuneToPause(BPM_Manager bpmmanager)
     {
-        scPlayer.bIsImune = true;
-        bpmmanager.iTimer = 3;
-        yield return new WaitForSecondsRealtime(bpmmanager.FSPB * 3);
-        if(scPlayer.bIsReplaying)
+        if(!scPlayer.tutoGen.bIsOnBD)
         {
-            scPlayer.bIsReplaying = false;
+            scPlayer.bIsImune = true;
+            bpmmanager.iTimer = 3;
+            yield return new WaitForSecondsRealtime(bpmmanager.FSPB * 3);
+            if (scPlayer.bIsReplaying)
+            {
+                scPlayer.bIsReplaying = false;
+            }
+            scPlayer.bIsImune = false;
         }
-        scPlayer.bIsImune = false;
     }
 
     //SCENE LOADING

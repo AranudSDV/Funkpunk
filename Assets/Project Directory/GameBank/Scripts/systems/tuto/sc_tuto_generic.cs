@@ -20,13 +20,14 @@ public class sc_tuto_generic : MonoBehaviour
     [SerializeField] private bool isMeshable;
     private bool bTutoMeshableDone = false;
     [SerializeField] private bool isOnLvlTuto = false;
-    private bool bIsOnBD = true;
+    public bool bIsOnBD = true;
     [SerializeField] private sc_tuto_generic scTuto = null;
     //BD
     [Header("BD")]
     [SerializeField] private int[] iBubbleNb;
     private int[] iBubbleNbAdd;
     [SerializeField] private RectTransform[] RtTuto;
+    [SerializeField] private Sprite[]spriteBdTuto;
     [SerializeField] private RectTransform[] RtParentTuto;
     private int _y = 0;
     [SerializeField] private bool[] bTuto;
@@ -36,6 +37,7 @@ public class sc_tuto_generic : MonoBehaviour
 
     [Header("Camera")]
     [SerializeField] private GameObject GoFollowed;
+    [SerializeField] private CinemachineBrain cam_Brain;
     [SerializeField] private CinemachineVirtualCamera cam_Back;
     [SerializeField] private CinemachineVirtualCamera cam_Game;
     [SerializeField] private CinemachinePathBase m_Path;
@@ -45,6 +47,7 @@ public class sc_tuto_generic : MonoBehaviour
     private float m_Position;
     private bool cameraIsTracking = false;
     private bool cameraDone = false;
+    private bool bRightBlendCamera = false;
 
     [Header("BD limits")]
     [SerializeField][Tooltip("The parent Rectransform number where the Camera has to begin the Backtrack.")] private int intBdYCam = 1;
@@ -63,6 +66,7 @@ public class sc_tuto_generic : MonoBehaviour
 
     private void Initialized()
     {
+        cam_Brain.m_DefaultBlend.m_Time = 2f;
         iBubbleNbAdd = new int[iBubbleNb.Length +1];
         iBubbleNbAdd[0] = 0;
         for (int i =1; i< iBubbleNbAdd.Length; i++)
@@ -79,7 +83,7 @@ public class sc_tuto_generic : MonoBehaviour
         }
         else if (Int32.Parse(Regex.Match(SceneManager.GetActiveScene().name, @"\d+").Value) == 2)
         {
-            fSpeed = 15f;
+            fSpeed = 7f;
         }
         bTuto[0] = true;
     }
@@ -96,6 +100,7 @@ public class sc_tuto_generic : MonoBehaviour
 
             if (bIsOnBD)
             {
+                scPlayer.bIsImune = true;
                 if (!bWaitNext && !bHasClickedSkip && !bOnceSkip) //TO SHOW THE BUBBLES WITH TIME
                 {
                     bOnceNext = false;
@@ -165,6 +170,19 @@ public class sc_tuto_generic : MonoBehaviour
                     scPlayer.bIsImune = true;
                 }
             }
+            else
+            {
+                if(!bRightBlendCamera)
+                {
+                    _ftimer += Time.unscaledDeltaTime;
+                    if (_ftimer >= 3)
+                    {
+                        cam_Brain.m_DefaultBlend.m_Time = 0.2f;
+                        bRightBlendCamera = true;
+                        _ftimer = 0f;
+                    }
+                }
+            }
         }
     }
 
@@ -191,6 +209,7 @@ public class sc_tuto_generic : MonoBehaviour
             if(_ftimer >= fTimer[i] && b_[z])
             {
                 ShowBubble(i);
+                UnreadBubble(i, max);
                 b_[z] = false;
                 if(z!= iBubbleNb[_y] -2)
                 {
@@ -237,6 +256,7 @@ public class sc_tuto_generic : MonoBehaviour
         for (int i = iBubbleNbAdd[_y], z = 0; i < max && z < iBubbleNb[_y]; i++, z++)
         {
              ShowBubble(i);
+            UnreadBubble(i, max);
             if (z == iBubbleNb[_y] - 2)
             {
                 b_[z] = false;
@@ -306,6 +326,14 @@ public class sc_tuto_generic : MonoBehaviour
     private void ShowBubble(int i) //SHOW ONE BUBBLE
     {
         RtTuto[i].offsetMin = Vector2.zero;
+        RtTuto[i].offsetMax = Vector2.zero;
+    }
+    private void UnreadBubble(int i, int max)
+    {
+        if(spriteBdTuto !=null && i != 0 && _y ==0 && i< max-1)
+        {
+            RtTuto[i-1].GetComponent<UnityEngine.UI.Image>().sprite = spriteBdTuto[i-1];
+        }
     }
     private void ShowNextText(int i) //SHOW NEXT TEXT AND HIDE CONTINUE TEXT
     {
