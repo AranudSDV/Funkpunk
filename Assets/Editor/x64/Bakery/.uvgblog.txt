@@ -487,3 +487,397 @@ Done
 Done
 Done
 Done
+2025-4-29
+Rendering UV GBuffer for Propal_SceneLvl0_LM0 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Done
+Done
+Running ftraceRTX fixpos12 "C:\Users\DamLa\AppData\Local\Temp\frender" "uvpos_Propal_SceneLvl0_LM0.lz4" 2 0 0 0
+Running ftraceRTX addmul "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0" 4 0 0 comp_0.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM00.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM01.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM02.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM03.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_final" 4 16 0 "gi_Propal_SceneLvl0_LM04.bin" "Propal_SceneLvl0_LM0_lights_HDR.lz4" vbTraceTex.bin
+Running denoiserOIDN2 c "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LM0_final_HDR.lz4" "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LM0_final_HDR.lz4" 2048 0
+Running seamfixer "C:\Users\DamLa\AppData\Local\Temp\frender" "0" "Propal_SceneLvl0_LM0_final_HDR.lz4"
+Running halffloat2hdr "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LM0_final_HDR.lz4" "C:/Project/FunkPunk/Funkpunk/Assets/BakeryLightmaps/Propal_SceneLvl0_LM0_final.hdr" 1024
+Loaded vertex shader: quad.vso
+Loaded pixel shader: skyOutput.pso
+Loaded pixel shader: cookieOutput.pso
+initShaders done
+initScene done
+Done
+Rendering UV GBuffer for Propal_SceneLvl0_LM0 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Done
+Done
+Running ftraceRTX fixpos12 "C:\Users\DamLa\AppData\Local\Temp\frender" "uvpos_Propal_SceneLvl0_LM0.lz4" 2 0 0 0
+Running ftraceRTX batchpointlightlegacy "C:\Users\DamLa\AppData\Local\Temp\frender" "PointBatch_0_0_19" 4 0 0 batchpointlight_0_0_19.bin
+Running ftraceRTX addmul "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0" 4 0 0 comp_0.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM00.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM01.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM02.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM03.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_final" 4 16 0 "gi_Propal_SceneLvl0_LM04.bin" "Propal_SceneLvl0_LM0_lights_HDR.lz4" vbTraceTex.bin
+Running denoiserOIDN2 c "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LM0_final_HDR.lz4" "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LM0_final_HDR.lz4" 2048 0
+Running seamfixer "C:\Users\DamLa\AppData\Local\Temp\frender" "0" "Propal_SceneLvl0_LM0_final_HDR.lz4"
+Running halffloat2hdr "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LM0_final_HDR.lz4" "C:/Project/FunkPunk/Funkpunk/Assets/BakeryLightmaps/Propal_SceneLvl0_LM0_final.hdr" 1024
+Loaded vertex shader: quad.vso
+Loaded pixel shader: skyOutput.pso
+Loaded pixel shader: cookieOutput.pso
+initShaders done
+initScene done
+Done
+Rendering UV GBuffer for Propal_SceneLvl0_LM0 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Done
+Done
+Running ftraceRTX fixpos12 "C:\Users\DamLa\AppData\Local\Temp\frender" "uvpos_Propal_SceneLvl0_LM0.lz4" 2 0 0 0
+Running ftraceRTX batchpointlightlegacy "C:\Users\DamLa\AppData\Local\Temp\frender" "PointBatch_0_0_25" 4 0 0 batchpointlight_0_0_25.bin
+Running ftraceRTX addmul "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0" 4 0 0 comp_0.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM00.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM01.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM02.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM03.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_final" 4 16 0 "gi_Propal_SceneLvl0_LM04.bin" "Propal_SceneLvl0_LM0_lights_HDR.lz4" vbTraceTex.bin
+Running denoiserOIDN2 c "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LM0_final_HDR.lz4" "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LM0_final_HDR.lz4" 2048 0
+Running seamfixer "C:\Users\DamLa\AppData\Local\Temp\frender" "0" "Propal_SceneLvl0_LM0_final_HDR.lz4"
+Running halffloat2hdr "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LM0_final_HDR.lz4" "C:/Project/FunkPunk/Funkpunk/Assets/BakeryLightmaps/Propal_SceneLvl0_LM0_final.hdr" 1024
+Loaded vertex shader: quad.vso
+Loaded pixel shader: skyOutput.pso
+Loaded pixel shader: cookieOutput.pso
+initShaders done
+initScene done
+Done
+Rendering UV GBuffer for Propal_SceneLvl0_LM0 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Done
+Done
+Running ftraceRTX fixpos12 "C:\Users\DamLa\AppData\Local\Temp\frender" "uvpos_Propal_SceneLvl0_LM0.lz4" 2 0 0 0
+Running ftraceRTX batchpointlightlegacy "C:\Users\DamLa\AppData\Local\Temp\frender" "PointBatch_0_0_25" 4 0 0 batchpointlight_0_0_25.bin
+Running ftraceRTX addmul "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0" 4 0 0 comp_0.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM00.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM01.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM02.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM03.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_final" 4 16 0 "gi_Propal_SceneLvl0_LM04.bin" "Propal_SceneLvl0_LM0_lights_HDR.lz4" vbTraceTex.bin
+Running denoiserOIDN2 c "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LM0_final_HDR.lz4" "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LM0_final_HDR.lz4" 2048 0
+Running seamfixer "C:\Users\DamLa\AppData\Local\Temp\frender" "0" "Propal_SceneLvl0_LM0_final_HDR.lz4"
+Running halffloat2hdr "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LM0_final_HDR.lz4" "C:/Project/FunkPunk/Funkpunk/Assets/BakeryLightmaps/Propal_SceneLvl0_LM0_final.hdr" 1024
+Loaded vertex shader: quad.vso
+Loaded pixel shader: skyOutput.pso
+Loaded pixel shader: cookieOutput.pso
+initShaders done
+initScene done
+Done
+Rendering UV GBuffer for Propal_SceneLvl0_LM0 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Done
+Done
+Running ftraceRTX fixpos12 "C:\Users\DamLa\AppData\Local\Temp\frender" "uvpos_Propal_SceneLvl0_LM0.lz4" 2 0 0 0
+Running ftraceRTX batchpointlightlegacy "C:\Users\DamLa\AppData\Local\Temp\frender" "PointBatch_0_0_27" 4 0 0 batchpointlight_0_0_27.bin
+Running ftraceRTX addmul "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0" 4 0 0 comp_0.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM00.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM01.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM02.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM03.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_final" 4 16 0 "gi_Propal_SceneLvl0_LM04.bin" "Propal_SceneLvl0_LM0_lights_HDR.lz4" vbTraceTex.bin
+Running denoiserOIDN2 c "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LM0_final_HDR.lz4" "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LM0_final_HDR.lz4" 2048 0
+Running seamfixer "C:\Users\DamLa\AppData\Local\Temp\frender" "0" "Propal_SceneLvl0_LM0_final_HDR.lz4"
+Running halffloat2hdr "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LM0_final_HDR.lz4" "C:/Project/FunkPunk/Funkpunk/Assets/BakeryLightmaps/Propal_SceneLvl0_LM0_final.hdr" 1024
+Loaded vertex shader: quad.vso
+Loaded pixel shader: skyOutput.pso
+Loaded pixel shader: cookieOutput.pso
+initShaders done
+initScene done
+Done
+Rendering UV GBuffer for Propal_SceneLvl0_LM0 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Done
+Done
+Running ftraceRTX fixpos12 "C:\Users\DamLa\AppData\Local\Temp\frender" "uvpos_Propal_SceneLvl0_LM0.lz4" 2 0 0 0
+Running ftraceRTX batchpointlightlegacy "C:\Users\DamLa\AppData\Local\Temp\frender" "PointBatch_0_0_25" 4 0 0 batchpointlight_0_0_25.bin
+Running ftraceRTX addmul "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0" 4 0 0 comp_0.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM00.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM01.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM02.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM03.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_final" 4 16 0 "gi_Propal_SceneLvl0_LM04.bin" "Propal_SceneLvl0_LM0_lights_HDR.lz4" vbTraceTex.bin
+Running denoiserOIDN2 c "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LM0_final_HDR.lz4" "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LM0_final_HDR.lz4" 2048 0
+Running seamfixer "C:\Users\DamLa\AppData\Local\Temp\frender" "0" "Propal_SceneLvl0_LM0_final_HDR.lz4"
+Running halffloat2hdr "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LM0_final_HDR.lz4" "C:/Project/FunkPunk/Funkpunk/Assets/BakeryLightmaps/Propal_SceneLvl0_LM0_final.hdr" 1024
+Loaded vertex shader: quad.vso
+Loaded pixel shader: skyOutput.pso
+Loaded pixel shader: cookieOutput.pso
+initShaders done
+initScene done
+Done
+Rendering UV GBuffer for Propal_SceneLvl0_LM0 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Rendering UV GBuffer for Propal_SceneLvl0_LMA1 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Done
+Done
+Running ftraceRTX fixpos12 "C:\Users\DamLa\AppData\Local\Temp\frender" "uvpos_Propal_SceneLvl0_LM0.lz4" 2 0 0 0
+Running ftraceRTX fixpos12 "C:\Users\DamLa\AppData\Local\Temp\frender" "uvpos_Propal_SceneLvl0_LMA1.lz4" 2 0 1 0
+Running ftraceRTX batchpointlightlegacy "C:\Users\DamLa\AppData\Local\Temp\frender" "PointBatch_0_0_24" 4 0 0 batchpointlight_0_0_24.bin
+Running ftraceRTX addmul "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0" 4 0 0 comp_0.bin
+Running ftraceRTX batchpointlightlegacy "C:\Users\DamLa\AppData\Local\Temp\frender" "PointBatch_1_0_24" 4 0 1 batchpointlight_1_0_24.bin
+Running ftraceRTX addmul "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LMA1" 4 0 1 comp_1.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM00.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LMA1_diffuse" 4 16 1 "gi_Propal_SceneLvl0_LMA10.bin" "Propal_SceneLvl0_LMA1_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM01.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LMA1_diffuse" 4 16 1 "gi_Propal_SceneLvl0_LMA11.bin" "Propal_SceneLvl0_LMA1_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM02.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LMA1_diffuse" 4 16 1 "gi_Propal_SceneLvl0_LMA12.bin" "Propal_SceneLvl0_LMA1_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM03.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LMA1_diffuse" 4 16 1 "gi_Propal_SceneLvl0_LMA13.bin" "Propal_SceneLvl0_LMA1_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_final" 4 16 0 "gi_Propal_SceneLvl0_LM04.bin" "Propal_SceneLvl0_LM0_lights_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LMA1_final" 4 16 1 "gi_Propal_SceneLvl0_LMA14.bin" "Propal_SceneLvl0_LMA1_lights_HDR.lz4" vbTraceTex.bin
+Running denoiserOIDN2 c "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LM0_final_HDR.lz4" "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LM0_final_HDR.lz4" 2048 0
+Running seamfixer "C:\Users\DamLa\AppData\Local\Temp\frender" "0" "Propal_SceneLvl0_LM0_final_HDR.lz4"
+Running denoiserOIDN2 c "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LMA1_final_HDR.lz4" "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LMA1_final_HDR.lz4" 64 0
+Running seamfixer "C:\Users\DamLa\AppData\Local\Temp\frender" "1" "Propal_SceneLvl0_LMA1_final_HDR.lz4"
+Running halffloat2hdr "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LM0_final_HDR.lz4" "C:/Project/FunkPunk/Funkpunk/Assets/BakeryLightmaps/Propal_SceneLvl0_LM0_final.hdr" 1024
+Running halffloat2hdr "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LMA1_final_HDR.lz4" "C:/Project/FunkPunk/Funkpunk/Assets/BakeryLightmaps/Propal_SceneLvl0_LMA1_final.hdr" 1024
+Loaded vertex shader: quad.vso
+Loaded pixel shader: skyOutput.pso
+Loaded pixel shader: cookieOutput.pso
+initShaders done
+initScene done
+Done
+Rendering UV GBuffer for Propal_SceneLvl0_LM0 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Rendering UV GBuffer for Propal_SceneLvl0_LMA1 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Done
+Done
+Running ftraceRTX fixpos12 "C:\Users\DamLa\AppData\Local\Temp\frender" "uvpos_Propal_SceneLvl0_LM0.lz4" 2 0 0 0
+Running ftraceRTX fixpos12 "C:\Users\DamLa\AppData\Local\Temp\frender" "uvpos_Propal_SceneLvl0_LMA1.lz4" 2 0 1 0
+Running ftraceRTX batchpointlightlegacy "C:\Users\DamLa\AppData\Local\Temp\frender" "PointBatch_0_0_24" 4 0 0 batchpointlight_0_0_24.bin
+Running ftraceRTX addmul "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0" 4 0 0 comp_0.bin
+Running ftraceRTX batchpointlightlegacy "C:\Users\DamLa\AppData\Local\Temp\frender" "PointBatch_1_0_24" 4 0 1 batchpointlight_1_0_24.bin
+Running ftraceRTX addmul "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LMA1" 4 0 1 comp_1.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM00.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LMA1_diffuse" 4 16 1 "gi_Propal_SceneLvl0_LMA10.bin" "Propal_SceneLvl0_LMA1_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM01.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LMA1_diffuse" 4 16 1 "gi_Propal_SceneLvl0_LMA11.bin" "Propal_SceneLvl0_LMA1_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM02.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LMA1_diffuse" 4 16 1 "gi_Propal_SceneLvl0_LMA12.bin" "Propal_SceneLvl0_LMA1_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM03.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LMA1_diffuse" 4 16 1 "gi_Propal_SceneLvl0_LMA13.bin" "Propal_SceneLvl0_LMA1_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_final" 4 16 0 "gi_Propal_SceneLvl0_LM04.bin" "Propal_SceneLvl0_LM0_lights_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LMA1_final" 4 16 1 "gi_Propal_SceneLvl0_LMA14.bin" "Propal_SceneLvl0_LMA1_lights_HDR.lz4" vbTraceTex.bin
+Running denoiserOIDN2 c "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LM0_final_HDR.lz4" "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LM0_final_HDR.lz4" 2048 0
+Running seamfixer "C:\Users\DamLa\AppData\Local\Temp\frender" "0" "Propal_SceneLvl0_LM0_final_HDR.lz4"
+Running denoiserOIDN2 c "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LMA1_final_HDR.lz4" "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LMA1_final_HDR.lz4" 64 0
+Running seamfixer "C:\Users\DamLa\AppData\Local\Temp\frender" "1" "Propal_SceneLvl0_LMA1_final_HDR.lz4"
+Running halffloat2hdr "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LM0_final_HDR.lz4" "C:/Project/FunkPunk/Funkpunk/Assets/BakeryLightmaps/Propal_SceneLvl0_LM0_final.hdr" 1024
+Running halffloat2hdr "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LMA1_final_HDR.lz4" "C:/Project/FunkPunk/Funkpunk/Assets/BakeryLightmaps/Propal_SceneLvl0_LMA1_final.hdr" 1024
+Loaded vertex shader: quad.vso
+Loaded pixel shader: skyOutput.pso
+Loaded pixel shader: cookieOutput.pso
+initShaders done
+initScene done
+Done
+Rendering UV GBuffer for Propal_SceneLvl0_LM0 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Rendering UV GBuffer for Propal_SceneLvl0_LMA1 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Done
+Done
+Running ftraceRTX fixpos12 "C:\Users\DamLa\AppData\Local\Temp\frender" "uvpos_Propal_SceneLvl0_LM0.lz4" 2 0 0 0
+Running ftraceRTX fixpos12 "C:\Users\DamLa\AppData\Local\Temp\frender" "uvpos_Propal_SceneLvl0_LMA1.lz4" 2 0 1 0
+Running ftraceRTX batchpointlightlegacy "C:\Users\DamLa\AppData\Local\Temp\frender" "PointBatch_0_0_24" 4 0 0 batchpointlight_0_0_24.bin
+Running ftraceRTX addmul "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0" 4 0 0 comp_0.bin
+Running ftraceRTX batchpointlightlegacy "C:\Users\DamLa\AppData\Local\Temp\frender" "PointBatch_1_0_24" 4 0 1 batchpointlight_1_0_24.bin
+Running ftraceRTX addmul "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LMA1" 4 0 1 comp_1.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM00.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LMA1_diffuse" 4 16 1 "gi_Propal_SceneLvl0_LMA10.bin" "Propal_SceneLvl0_LMA1_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM01.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LMA1_diffuse" 4 16 1 "gi_Propal_SceneLvl0_LMA11.bin" "Propal_SceneLvl0_LMA1_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM02.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LMA1_diffuse" 4 16 1 "gi_Propal_SceneLvl0_LMA12.bin" "Propal_SceneLvl0_LMA1_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM03.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LMA1_diffuse" 4 16 1 "gi_Propal_SceneLvl0_LMA13.bin" "Propal_SceneLvl0_LMA1_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_final" 4 16 0 "gi_Propal_SceneLvl0_LM04.bin" "Propal_SceneLvl0_LM0_lights_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LMA1_final" 4 16 1 "gi_Propal_SceneLvl0_LMA14.bin" "Propal_SceneLvl0_LMA1_lights_HDR.lz4" vbTraceTex.bin
+Running denoiserOIDN2 c "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LM0_final_HDR.lz4" "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LM0_final_HDR.lz4" 2048 0
+Running seamfixer "C:\Users\DamLa\AppData\Local\Temp\frender" "0" "Propal_SceneLvl0_LM0_final_HDR.lz4"
+Running denoiserOIDN2 c "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LMA1_final_HDR.lz4" "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LMA1_final_HDR.lz4" 64 0
+Running seamfixer "C:\Users\DamLa\AppData\Local\Temp\frender" "1" "Propal_SceneLvl0_LMA1_final_HDR.lz4"
+Running halffloat2hdr "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LM0_final_HDR.lz4" "C:/Project/FunkPunk/Funkpunk/Assets/BakeryLightmaps/Propal_SceneLvl0_LM0_final.hdr" 1024
+Running halffloat2hdr "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LMA1_final_HDR.lz4" "C:/Project/FunkPunk/Funkpunk/Assets/BakeryLightmaps/Propal_SceneLvl0_LMA1_final.hdr" 1024
+Loaded vertex shader: quad.vso
+Loaded pixel shader: skyOutput.pso
+Loaded pixel shader: cookieOutput.pso
+initShaders done
+initScene done
+Done
+Rendering UV GBuffer for Propal_SceneLvl0_LM0 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Rendering UV GBuffer for Propal_SceneLvl0_LMA1 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Done
+Done
+Running ftraceRTX fixpos12 "C:\Users\DamLa\AppData\Local\Temp\frender" "uvpos_Propal_SceneLvl0_LM0.lz4" 2 0 0 0
+Running ftraceRTX fixpos12 "C:\Users\DamLa\AppData\Local\Temp\frender" "uvpos_Propal_SceneLvl0_LMA1.lz4" 2 0 1 0
+Running ftraceRTX batchpointlightlegacy "C:\Users\DamLa\AppData\Local\Temp\frender" "PointBatch_0_0_24" 4 0 0 batchpointlight_0_0_24.bin
+Running ftraceRTX addmul "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0" 4 0 0 comp_0.bin
+Running ftraceRTX batchpointlightlegacy "C:\Users\DamLa\AppData\Local\Temp\frender" "PointBatch_1_0_24" 4 0 1 batchpointlight_1_0_24.bin
+Running ftraceRTX addmul "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LMA1" 4 0 1 comp_1.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM00.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LMA1_diffuse" 4 16 1 "gi_Propal_SceneLvl0_LMA10.bin" "Propal_SceneLvl0_LMA1_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM01.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LMA1_diffuse" 4 16 1 "gi_Propal_SceneLvl0_LMA11.bin" "Propal_SceneLvl0_LMA1_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM02.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LMA1_diffuse" 4 16 1 "gi_Propal_SceneLvl0_LMA12.bin" "Propal_SceneLvl0_LMA1_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM03.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LMA1_diffuse" 4 16 1 "gi_Propal_SceneLvl0_LMA13.bin" "Propal_SceneLvl0_LMA1_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_final" 4 16 0 "gi_Propal_SceneLvl0_LM04.bin" "Propal_SceneLvl0_LM0_lights_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LMA1_final" 4 16 1 "gi_Propal_SceneLvl0_LMA14.bin" "Propal_SceneLvl0_LMA1_lights_HDR.lz4" vbTraceTex.bin
+Running denoiserOIDN2 c "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LM0_final_HDR.lz4" "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LM0_final_HDR.lz4" 2048 0
+Running seamfixer "C:\Users\DamLa\AppData\Local\Temp\frender" "0" "Propal_SceneLvl0_LM0_final_HDR.lz4"
+Running denoiserOIDN2 c "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LMA1_final_HDR.lz4" "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LMA1_final_HDR.lz4" 64 0
+Running seamfixer "C:\Users\DamLa\AppData\Local\Temp\frender" "1" "Propal_SceneLvl0_LMA1_final_HDR.lz4"
+Running halffloat2hdr "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LM0_final_HDR.lz4" "C:/Project/FunkPunk/Funkpunk/Assets/BakeryLightmaps/Propal_SceneLvl0_LM0_final.hdr" 1024
+Running halffloat2hdr "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LMA1_final_HDR.lz4" "C:/Project/FunkPunk/Funkpunk/Assets/BakeryLightmaps/Propal_SceneLvl0_LMA1_final.hdr" 1024
+2025-4-30
+Rendering UV GBuffer for Propal_SceneLvl0_LM0 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Rendering UV GBuffer for Propal_SceneLvl0_LMA1 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Done
+Done
+Running ftraceRTX fixpos12 "C:\Users\DamLa\AppData\Local\Temp\frender" "uvpos_Propal_SceneLvl0_LM0.lz4" 2 0 0 0
+Running ftraceRTX fixpos12 "C:\Users\DamLa\AppData\Local\Temp\frender" "uvpos_Propal_SceneLvl0_LMA1.lz4" 2 0 1 0
+Running ftraceRTX batchpointlightlegacy "C:\Users\DamLa\AppData\Local\Temp\frender" "PointBatch_0_0_24" 4 0 0 batchpointlight_0_0_24.bin
+Running ftraceRTX addmul "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0" 4 0 0 comp_0.bin
+Running ftraceRTX batchpointlightlegacy "C:\Users\DamLa\AppData\Local\Temp\frender" "PointBatch_1_0_24" 4 0 1 batchpointlight_1_0_24.bin
+Running ftraceRTX addmul "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LMA1" 4 0 1 comp_1.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM00.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LMA1_diffuse" 4 16 1 "gi_Propal_SceneLvl0_LMA10.bin" "Propal_SceneLvl0_LMA1_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM01.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LMA1_diffuse" 4 16 1 "gi_Propal_SceneLvl0_LMA11.bin" "Propal_SceneLvl0_LMA1_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM02.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LMA1_diffuse" 4 16 1 "gi_Propal_SceneLvl0_LMA12.bin" "Propal_SceneLvl0_LMA1_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM03.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LMA1_diffuse" 4 16 1 "gi_Propal_SceneLvl0_LMA13.bin" "Propal_SceneLvl0_LMA1_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_final" 4 16 0 "gi_Propal_SceneLvl0_LM04.bin" "Propal_SceneLvl0_LM0_lights_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LMA1_final" 4 16 1 "gi_Propal_SceneLvl0_LMA14.bin" "Propal_SceneLvl0_LMA1_lights_HDR.lz4" vbTraceTex.bin
+Running denoiserOIDN2 c "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LM0_final_HDR.lz4" "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LM0_final_HDR.lz4" 2048 0
+Running seamfixer "C:\Users\DamLa\AppData\Local\Temp\frender" "0" "Propal_SceneLvl0_LM0_final_HDR.lz4"
+Running denoiserOIDN2 c "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LMA1_final_HDR.lz4" "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LMA1_final_HDR.lz4" 64 0
+Running seamfixer "C:\Users\DamLa\AppData\Local\Temp\frender" "1" "Propal_SceneLvl0_LMA1_final_HDR.lz4"
+Running halffloat2hdr "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LM0_final_HDR.lz4" "C:/Project/FunkPunk/Funkpunk/Assets/BakeryLightmaps/Propal_SceneLvl0_LM0_final.hdr" 1024
+Running halffloat2hdr "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LMA1_final_HDR.lz4" "C:/Project/FunkPunk/Funkpunk/Assets/BakeryLightmaps/Propal_SceneLvl0_LMA1_final.hdr" 1024
+abort_threads: Failed aborting id: 000000000000639C, mono_thread_manage will ignore it
+
+abort_threads: Failed aborting id: 000000000000639C, mono_thread_manage will ignore it
+
+2025-5-1
+Rendering UV GBuffer for Propal_SceneLvl0_LM0 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Rendering UV GBuffer for Propal_SceneLvl0_LMA1 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Done
+Done
+Running ftraceRTX fixpos12 "C:\Users\DamLa\AppData\Local\Temp\frender" "uvpos_Propal_SceneLvl0_LM0.lz4" 2 0 0 0
+Running ftraceRTX fixpos12 "C:\Users\DamLa\AppData\Local\Temp\frender" "uvpos_Propal_SceneLvl0_LMA1.lz4" 2 0 1 0
+Running ftraceRTX ao "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_ao" 8 16 0
+Running ftraceRTX ao "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LMA1_ao" 8 16 1
+Running ftraceRTX batchpointlightlegacy "C:\Users\DamLa\AppData\Local\Temp\frender" "PointBatch_0_0_24" 4 0 0 batchpointlight_0_0_24.bin
+Running ftraceRTX addmul "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0" 4 0 0 comp_0.bin
+Running ftraceRTX batchpointlightlegacy "C:\Users\DamLa\AppData\Local\Temp\frender" "PointBatch_1_0_24" 4 0 1 batchpointlight_1_0_24.bin
+Running ftraceRTX addmul "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LMA1" 4 0 1 comp_1.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM00.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LMA1_diffuse" 4 16 1 "gi_Propal_SceneLvl0_LMA10.bin" "Propal_SceneLvl0_LMA1_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM01.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LMA1_diffuse" 4 16 1 "gi_Propal_SceneLvl0_LMA11.bin" "Propal_SceneLvl0_LMA1_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM02.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LMA1_diffuse" 4 16 1 "gi_Propal_SceneLvl0_LMA12.bin" "Propal_SceneLvl0_LMA1_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_diffuse" 4 16 0 "gi_Propal_SceneLvl0_LM03.bin" "Propal_SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LMA1_diffuse" 4 16 1 "gi_Propal_SceneLvl0_LMA13.bin" "Propal_SceneLvl0_LMA1_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_final" 4 16 0 "gi_Propal_SceneLvl0_LM04.bin" "Propal_SceneLvl0_LM0_lights_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LMA1_final" 4 16 1 "gi_Propal_SceneLvl0_LMA14.bin" "Propal_SceneLvl0_LMA1_lights_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX addao "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LM0_final_HDR.lz4" 4 0 0 addao_0.bin
+Running denoiserOIDN2 c "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LM0_final_HDR.lz4" "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LM0_final_HDR.lz4" 2048 0
+Running seamfixer "C:\Users\DamLa\AppData\Local\Temp\frender" "0" "Propal_SceneLvl0_LM0_final_HDR.lz4"
+Running ftraceRTX addao "C:\Users\DamLa\AppData\Local\Temp\frender" "Propal_SceneLvl0_LMA1_final_HDR.lz4" 4 0 1 addao_1.bin
+Running denoiserOIDN2 c "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LMA1_final_HDR.lz4" "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LMA1_final_HDR.lz4" 64 0
+Running seamfixer "C:\Users\DamLa\AppData\Local\Temp\frender" "1" "Propal_SceneLvl0_LMA1_final_HDR.lz4"
+Running halffloat2hdr "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LM0_final_HDR.lz4" "C:/Project/FunkPunk/Funkpunk/Assets/Scenes/PersonalGyms/Propal_SceneLvl0/Propal_SceneLvl0_LM0_final.hdr" 1024
+Running halffloat2hdr "C:\Users\DamLa\AppData\Local\Temp\frender/Propal_SceneLvl0_LMA1_final_HDR.lz4" "C:/Project/FunkPunk/Funkpunk/Assets/Scenes/PersonalGyms/Propal_SceneLvl0/Propal_SceneLvl0_LMA1_final.hdr" 1024

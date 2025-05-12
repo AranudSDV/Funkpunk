@@ -91,10 +91,11 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaCutoff: 0.5
+    - _BPM: 60
     - _BakedOrRT: 0
     - _Base_or_Tsample: 1
     - _Cels_FallOffThreshold: 3
-    - _Cels_LitThreshold: 0.5
+    - _Cels_LitThreshold: 0.6
     - _ColorOrTex: 1
     - _EnvironmentReflections: 1
     - _FallOffThreshold: 3
@@ -119,14 +120,20 @@ Material:
     - _Smoothness: 0
     - _Spec: 0
     - _SpecularHighlights: 1
+    - _TopMask: 0
+    - _Using3DMovements: 0
     m_Colors:
     - _ALB: {r: 1, g: 0, b: 0, a: 0}
     - _AO: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 0}
+    - _BaseVertexOffsetDelay: {r: 0, g: 0, b: 0, a: 0}
+    - _BaseVertexOffsetValue: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _MTL: {r: 0, g: 0, b: 0, a: 0}
     - _NRM: {r: 0, g: 0, b: 1, a: 1}
     - _SMH: {r: 0, g: 0, b: 0, a: 0}
     - _ShadowPatternDensity: {r: 10, g: 10, b: 0, a: 0}
+    - _TopVertexDelay: {r: 0, g: 0, b: 0, a: 0}
+    - _TopVertexOffsetValue: {r: 0, g: 0, b: 0, a: 0}
     - _Vector4: {r: 10, g: 10, b: 0, a: 0}
   m_BuildTextureStacks: []

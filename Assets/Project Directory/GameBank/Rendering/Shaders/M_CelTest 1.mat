@@ -38,7 +38,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 4b561bc26fed7cb438711e1c560265e1, type: 3}
+        m_Texture: {fileID: 2800000, guid: 5ad82bc74e356e244bd4443a9d766e27, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal1:
@@ -68,6 +68,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaCutoff: 0.5
+    - _BPM: 60
     - _BakedOrRT: 1
     - _Cels_FallOffThreshold: 0.45
     - _Cels_LitThreshold: 0.42
@@ -97,8 +98,14 @@ Material:
     - _Smoothness: 0
     - _Spec: 0
     - _SpecularHighlights: 1
+    - _TopMask: 0
+    - _Using3DMovements: 0
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseVertexOffsetDelay: {r: 0, g: 0, b: 0, a: 0}
+    - _BaseVertexOffsetValue: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _ShadowPatternDensity: {r: 1, g: 1, b: 0, a: 0}
+    - _TopVertexDelay: {r: 0, g: 0, b: 0, a: 0}
+    - _TopVertexOffsetValue: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
