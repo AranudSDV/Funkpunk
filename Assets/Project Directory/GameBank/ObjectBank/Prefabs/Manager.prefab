@@ -183,6 +183,9 @@ MonoBehaviour:
   GoPauseMenu: {fileID: 3498886556833193360}
   CgPauseMenu: {fileID: 6414411455229331570}
   RtPauseMenu: {fileID: 1584574258793729974}
+  spriteLevel_done: {fileID: 21300000, guid: 95591779bfbaf124c874d412a4958061, type: 3}
+  spriteLevel_notDone: {fileID: 21300000, guid: a2f545f850250f548ac7d7c26adf62cf,
+    type: 3}
   colorFoes:
     serializedVersion: 2
     rgba: 4278240709

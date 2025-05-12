@@ -268,11 +268,18 @@ public class BPM_Manager : MonoBehaviour
                 scPlayer.CheckForward(scPlayer.lastMoveDirection, scPlayer.taggingRange);
                 if (iTimer <= 0)
                 {
+                    textTimer.text = iTimer.ToString();
                     textTimer.color = new Color32(255, 255, 255, 0);
                     if (scPlayer.bIsImune == true)
                     {
                         scPlayer.bIsImune = false;
                     }
+                }
+                else
+                {
+                    iTimer -= 1;
+                    textTimer.text = iTimer.ToString();
+                    scPlayer.bIsImune = true;
                 }
             }
         }

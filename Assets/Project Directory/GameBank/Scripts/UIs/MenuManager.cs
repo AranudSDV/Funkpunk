@@ -76,6 +76,8 @@ public class MenuManager : MonoBehaviour
     public CanvasGroup CgPauseMenu;
     [SerializeField] private RectTransform RtPauseMenu;
     private bool bActif = false;
+    [SerializeField] private Sprite spriteLevel_done;
+    [SerializeField] private Sprite spriteLevel_notDone;
     [SerializeField] private Color32 colorFoes;
     [SerializeField] private Color32 colorPlayer;
     public GameObject GoScoringFirstButtonSelected;
@@ -242,13 +244,12 @@ public class MenuManager : MonoBehaviour
         //Racourcis
         if(Input.GetKeyDown(KeyCode.J))
         {
-            Debug.Log("passer le niveau 1");
-            _playerData.iLevelPlayer = 1;
-            _playerData.iScorePerLvlPlayer[0] = 70;
+            Debug.Log("passer le niveau");
+            _playerData.iLevelPlayer += 1;
+            _playerData.iScorePerLvlPlayer[_playerData.iLevelPlayer-1] = 70;
         }
         CheckDialogue();
     }
-
     //CHECKS AND UI CHANGES
     private void CheckControllerStatus()
     {
@@ -409,11 +410,19 @@ public class MenuManager : MonoBehaviour
                 {
                     int captured = i;
                     _levels[i].button_level.onClick.AddListener(() => LoadScene(_levels[captured].sScene_Level));
-                    _levels[i].img_lvl.color = colorPlayer;
+                    if(_playerData.iLevelPlayer>i)
+                    {
+                        _levels[i].img_lvl.sprite = spriteLevel_done;
+                    }
+                    else
+                    {
+                        _levels[i].img_lvl.sprite = spriteLevel_notDone;
+                    }
                     TextMeshProUGUI textChild = _levels[i].Go_LevelButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
                     textChild.color = new Color32(0, 255, 255, 255);
                     for(int y = 0; y< 5; y++)
                     {
+                        GoLevelStars[i].transform.GetChild(y).GetComponent<UnityEngine.UI.Image>().color = new Color32(255, 255, 255, 255);
                         if (_playerData.iStarsPlayer[5*i+y] ==1) //Si une étoile est faite ou non
                         {
                             GoLevelStars[i].transform.GetChild(y).GetComponent<UnityEngine.UI.Image>().sprite = sprite_star_completed; ;
@@ -430,22 +439,23 @@ public class MenuManager : MonoBehaviour
                 }
                else if(GoLevelsButton.Length- _playerData.iLevelPlayer > i) //Pour tous les niveaux non faits
                {
-                    _levels[i].img_lvl.color = colorFoes;
+                    _levels[i].img_lvl.sprite = spriteLevel_notDone;
                     TextMeshProUGUI textChild = _levels[i].Go_LevelButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
                     textChild.color = new Color32(255, 255, 0, 255);
                     for (int y = 0; y < 5; y++)
                     {
                          GoLevelStars[i].transform.GetChild(y).GetComponent<UnityEngine.UI.Image>().color = new Color32(0, 0, 0, 0);
                     }
-                    GoLevelStars[i].transform.GetChild(5).GetComponent<UnityEngine.UI.Image>().sprite = sprite_star_completed;
+                    GoLevelStars[i].transform.GetChild(5).GetComponent<UnityEngine.UI.Image>().color = new Color32(255, 255, 255, 255);
                 }
                 GoLevelBackButton.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => LoadScene("Loft"));
             }
+            EventSystem.SetSelectedGameObject(GoLevelsButton[0]);
         }
     }
     public IEnumerator ImuneToPause(BPM_Manager bpmmanager)
     {
-        if(!scPlayer.tutoGen.bIsOnBD)
+        if(scPlayer.tutoGen ==null || (scPlayer.tutoGen != null && !scPlayer.tutoGen.bIsOnBD))
         {
             scPlayer.bIsImune = true;
             bpmmanager.iTimer = 3;
@@ -457,7 +467,6 @@ public class MenuManager : MonoBehaviour
             scPlayer.bIsImune = false;
         }
     }
-
     //SCENE LOADING
     public void LoadScene(string sceneToLoad)
     {
@@ -497,7 +506,6 @@ public class MenuManager : MonoBehaviour
         {
             sceneToLoad = SceneManager.GetActiveScene().name;
             StartCoroutine(StartLoad(sceneToLoad));
-            Debug.Log("retry has been clicked");
         }
         else if (sceneToLoad == "next")
         {
@@ -548,6 +556,10 @@ public class MenuManager : MonoBehaviour
         RtLoadingScreen.anchorMax = new Vector2(1, 2);
         RtScoring.anchorMin = new Vector2(0, 1);
         RtScoring.anchorMax = new Vector2(1, 2);
+        if(sceneToLoad == "LevelChoosing")
+        {
+            EventSystem.SetSelectedGameObject(GoLevelsButton[0]);
+        }
     }
     private void LoaderScene(string sceneToLoad)
     {
@@ -571,7 +583,6 @@ public class MenuManager : MonoBehaviour
         CgLoadingScreen.alpha = targetValue;
         EventSystem = GameObject.FindObjectOfType<EventSystem>();
     }
-
     //PAUSE AND SETTINGS
     private void UXNavigation()
     {
@@ -684,6 +695,10 @@ public class MenuManager : MonoBehaviour
             else if(SceneManager.GetActiveScene().name == "GameChoose")
             {
                 EventSystem.SetSelectedGameObject(GoGameChoose[0]);
+            }
+            else if (SceneManager.GetActiveScene().name == "LevelChoosing")
+            {
+                EventSystem.SetSelectedGameObject(GoLevelsButton[0]);
             }
             else
             {
@@ -857,11 +872,10 @@ public class MenuManager : MonoBehaviour
             }
         }
     }
-
     //DIALOGUE
     private void CheckDialogue()
     {
-        if (bIsOnEndDialogue && bWaitNextDialogue && (Input.GetKey(KeyCode.Space)|| (controllerConnected && control.GamePlay.Move.triggered)))
+        if (bIsOnEndDialogue && bWaitNextDialogue && controllerConnected && control.GamePlay.Move.triggered)
         {
             bWaitNextDialogue = false;
             BeginDialogue(false);
