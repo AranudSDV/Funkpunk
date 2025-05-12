@@ -150,7 +150,6 @@ public class SC_Player : MonoBehaviour
         bIsEndGame = false;
         posMesh = PlayerCapsule.transform.position;
         CheckControllerStatus();
-        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         cinemachineBasicMultiChannelPerlin = cinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         if (menuManager == null)
         {
@@ -866,7 +865,6 @@ public class SC_Player : MonoBehaviour
         txt.color = bpmManager.colorPerfect;*/
         yield return new WaitForSeconds(0.7f);
         menuManager.LoadScene("LevelChoosing");
-        UnityEngine.Cursor.lockState = CursorLockMode.None;
     }
     //Rotation
     private IEnumerator RotationToRight(float time)
@@ -1277,6 +1275,7 @@ public class SC_Player : MonoBehaviour
         menuManager.PauseGame();
 
         menuManager.CgEndDialogue.alpha = 1f;
+        menuManager.CgEndDialogue.blocksRaycasts = true;
         menuManager.RtEndDialogue.anchorMin = new Vector2(0, 0);
         menuManager.RtEndDialogue.anchorMax = new Vector2(1, 1);
         menuManager.RtEndDialogue.offsetMax = new Vector2(0f, 0f);
@@ -1292,6 +1291,7 @@ public class SC_Player : MonoBehaviour
         //PlayerData data = menuManager.gameObject.GetComponent<PlayerData>();
 
         menuManager.CgScoring.alpha = 1f;
+        menuManager.CgScoring.blocksRaycasts = true;
         menuManager.CgScoring.interactable = true;
         menuManager.RtScoring.anchorMin = new Vector2(0, 0);
         menuManager.RtScoring.anchorMax = new Vector2(1, 1);
@@ -1321,12 +1321,12 @@ public class SC_Player : MonoBehaviour
                 texts[i] = menuManager.GoScoringSuccess.transform.GetChild(i).gameObject.transform.GetChild(1).gameObject.GetComponent<TMP_Text>();
                 if (ints[i] == 1) //vrai
                 {
-                    imgStars[i].color = new Color32(255, 0, 255, 255);
+                    imgStars[i].sprite = menuManager.sprite_star_completed;
                     texts[i].color = new Color32(255, 255, 255, 255);
                 }
                 else //Faux
                 {
-                    imgStars[i].color = new Color32(0, 255, 0, 255);
+                    imgStars[i].sprite = menuManager.sprite_star_empty;
                     if(i != ints.Count-1)
                     {
                         texts[i].color = new Color32(157, 157, 157, 255);
@@ -1360,6 +1360,7 @@ public class SC_Player : MonoBehaviour
             }
             //APPARITION
             menuManager.CgScoringSuccess.alpha = 1f;
+            menuManager.CgScoringSuccess.blocksRaycasts = true;
             menuManager.RtScoringSuccess.anchorMin = new Vector2(0, 0);
             menuManager.RtScoringSuccess.anchorMax = new Vector2(1, 1);
             menuManager.RtScoringSuccess.offsetMax = new Vector2(0f, 0f);
@@ -1397,6 +1398,7 @@ public class SC_Player : MonoBehaviour
             }
             //APPARITION
             menuManager.CgScoringSuccess.alpha = 0f;
+            menuManager.CgScoringSuccess.blocksRaycasts = false;
             menuManager.RtScoringSuccess.anchorMin = new Vector2(0, 1);
             menuManager.RtScoringSuccess.anchorMax = new Vector2(1, 2);
             menuManager.RtScoringSuccess.offsetMax = new Vector2(0f, 0f);
@@ -1406,7 +1408,7 @@ public class SC_Player : MonoBehaviour
             menuManager.RtScoringButtons.anchorMax = new Vector2(0.9f, 0.6f);
             menuManager.ImgScoringBackground.sprite = menuManager.spritesScoringBackground[1];
         }
-        menuManager.EventSystem.firstSelectedGameObject = menuManager.GoScoringFirstButtonSelected;
+        menuManager.EventSystem.SetSelectedGameObject(menuManager.GoScoringFirstButtonSelected);
         menuManager.GoScoringFirstButtonSelected.GetComponent<UnityEngine.UI.Button>().Select();
         bIsEndGame = true;
     }
@@ -1423,12 +1425,14 @@ public class SC_Player : MonoBehaviour
 
             menuManager.CgScoring.alpha = 0f;
             menuManager.CgScoring.interactable = false;
+            menuManager.CgScoring.blocksRaycasts = false;
             menuManager.RtScoring.anchorMin = new Vector2(0, 1);
             menuManager.RtScoring.anchorMax = new Vector2(1, 2);
             menuManager.RtScoring.offsetMax = new Vector2(0f, 0f);
             menuManager.RtScoring.offsetMin = new Vector2(0f, 0f);
 
             menuManager.CgLoadingScreen.alpha = 1f;
+            menuManager.CgLoadingScreen.blocksRaycasts = true;
             menuManager.RtLoadingScreen.anchorMin = new Vector2(0, 0);
             menuManager.RtLoadingScreen.anchorMax = new Vector2(1, 1);
             menuManager.RtLoadingScreen.offsetMax = new Vector2(0f, 0f);

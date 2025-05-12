@@ -328,7 +328,8 @@ public class sc_tuto_generic : MonoBehaviour
     private void UIGameOn() //SHOW GAME UIS
     {
         RtGameUI.offsetMin = Vector2.zero;
-        if(!isOnLvlTuto)
+        RtGameUI.offsetMax = Vector2.zero;
+        if (!isOnLvlTuto)
         {
             RtDetectionUI.offsetMin = Vector2.zero;
         }

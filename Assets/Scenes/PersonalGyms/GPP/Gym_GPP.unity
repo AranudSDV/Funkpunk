@@ -21203,6 +21203,11 @@ PrefabInstance:
       objectReference: {fileID: 1457390320}
     - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
+      propertyPath: iDifficulty
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
       propertyPath: txt_Feedback
       value: 
       objectReference: {fileID: 0}

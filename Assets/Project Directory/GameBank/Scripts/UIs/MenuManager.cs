@@ -32,6 +32,16 @@ public class MenuManager : MonoBehaviour
 
     //NAVIGATION UX
     [Header("Options General")]
+    private bool[] bOnce = new bool[2] { false, false };
+    [SerializeField] private GameObject GoOptionGeneralFirstButtonSelected;
+    [SerializeField] private UnityEngine.UI.Selectable ButtonOptionGeneral;
+    [SerializeField] private UnityEngine.UI.Button[] ButtonsOptionGeneral_fromGeneral;
+    [SerializeField] private UnityEngine.UI.Button[] ButtonsOptionAudio_fromGeneral;
+    [SerializeField] private GameObject GoOptionAudioButton;
+    [SerializeField] private UnityEngine.UI.Selectable ButtonOptionAudio;
+    [SerializeField] private UnityEngine.UI.Button[] ButtonsOptionGeneral_fromAudio;
+    [SerializeField] private UnityEngine.UI.Button[] ButtonsOptionAudio_fromAudio;
+    [SerializeField] private UnityEngine.UI.Slider[] SliderOptionAudio;
     public CanvasGroup CgOptionPannel;
     public RectTransform RtOptionPannel;
     public CanvasGroup CgOptionGeneral;
@@ -60,6 +70,8 @@ public class MenuManager : MonoBehaviour
     public GameObject[] GoLevelsButton;
     private GameObject GoLevelBackButton;
     public GameObject[] GoLevelStars;
+    public Sprite sprite_star_completed;
+    public Sprite sprite_star_empty;
     [SerializeField] private GameObject GoPauseMenu;
     public CanvasGroup CgPauseMenu;
     [SerializeField] private RectTransform RtPauseMenu;
@@ -186,6 +198,7 @@ public class MenuManager : MonoBehaviour
     }
     private void Start()
     {
+        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         if (SceneManager.GetActiveScene().name == "MainMenu"|| SceneManager.GetActiveScene().name == "LevelChoosing")
         {
             if (menuLoopInstance.isValid())
@@ -403,11 +416,11 @@ public class MenuManager : MonoBehaviour
                     {
                         if (_playerData.iStarsPlayer[5*i+y] ==1) //Si une étoile est faite ou non
                         {
-                            GoLevelStars[i].transform.GetChild(y).GetComponent<UnityEngine.UI.Image>().color = new Color32(255,255, 255, 255);
+                            GoLevelStars[i].transform.GetChild(y).GetComponent<UnityEngine.UI.Image>().sprite = sprite_star_completed; ;
                         }
                         else
                         {
-                            GoLevelStars[i].transform.GetChild(y).GetComponent<UnityEngine.UI.Image>().color = new Color32(0, 0, 0, 255);
+                            GoLevelStars[i].transform.GetChild(y).GetComponent<UnityEngine.UI.Image>().sprite = sprite_star_empty;
                         }
                     }
                     if (i>0)
@@ -424,7 +437,7 @@ public class MenuManager : MonoBehaviour
                     {
                          GoLevelStars[i].transform.GetChild(y).GetComponent<UnityEngine.UI.Image>().color = new Color32(0, 0, 0, 0);
                     }
-                    GoLevelStars[i].transform.GetChild(5).GetComponent<UnityEngine.UI.Image>().color = new Color32(255, 255, 255, 255);
+                    GoLevelStars[i].transform.GetChild(5).GetComponent<UnityEngine.UI.Image>().sprite = sprite_star_completed;
                 }
                 GoLevelBackButton.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => LoadScene("Loft"));
             }
@@ -501,6 +514,7 @@ public class MenuManager : MonoBehaviour
         if (CgScoring.alpha == 1f)
         {
             CgScoring.alpha = 0f;
+            CgScoring.blocksRaycasts = false;
             CgScoring.interactable = false;
             RtScoring.anchorMin = new Vector2(0, 1);
             RtScoring.anchorMax = new Vector2(1, 2);
@@ -511,6 +525,7 @@ public class MenuManager : MonoBehaviour
     private IEnumerator StartLoad(string sceneToLoad)
     {
         CgLoadingScreen.alpha = 1f;
+        CgLoadingScreen.blocksRaycasts = true;
         RtLoadingScreen.anchorMin = new Vector2(0, 0);
         RtLoadingScreen.anchorMax = new Vector2(1, 1);
         RtScoring.anchorMin = new Vector2(0, 1);
@@ -525,6 +540,7 @@ public class MenuManager : MonoBehaviour
         yield return StartCoroutine(FadeLoadingScreen(0, 0.001f));
         isLoadingScene = false;
         CgLoadingScreen.alpha = 0f;
+        CgLoadingScreen.blocksRaycasts = false;
         RtLoadingScreen.anchorMin = new Vector2(0, 1);
         RtLoadingScreen.anchorMax = new Vector2(1, 2);
         RtScoring.anchorMin = new Vector2(0, 1);
@@ -584,6 +600,43 @@ public class MenuManager : MonoBehaviour
             RtControllerWarning.offsetMax = new Vector2(0f, 0f);
             RtControllerWarning.offsetMin = new Vector2(0f, 0f);
         }
+        if(controllerConnected && CgOptionPannel.alpha == 1f)
+        {
+            if(CgOptionAudio.alpha ==1f && !bOnce[0])
+            {
+                var navigation = ButtonOptionAudio.navigation;
+                navigation.selectOnUp = SliderOptionAudio[0];
+                navigation.selectOnDown = SliderOptionAudio[1];
+                navigation.selectOnLeft = ButtonsOptionAudio_fromAudio[0];
+                navigation.selectOnRight = ButtonsOptionAudio_fromAudio[1];
+                ButtonOptionAudio.navigation = navigation;
+
+                var navigation1 = ButtonOptionGeneral.navigation;
+                navigation1.selectOnUp = SliderOptionAudio[0];
+                navigation1.selectOnDown = SliderOptionAudio[1];
+                navigation1.selectOnLeft = ButtonsOptionGeneral_fromAudio[0];
+                navigation1.selectOnRight = ButtonsOptionGeneral_fromAudio[1];
+                ButtonOptionGeneral.navigation = navigation1;
+                bOnce[0] = true;
+            }
+            else if(CgOptionGeneral.alpha == 1f && !bOnce[1])
+            {
+                var navigation = ButtonOptionAudio.navigation;
+                navigation.selectOnUp = ButtonsOptionAudio_fromGeneral[0];
+                navigation.selectOnDown = ButtonsOptionAudio_fromGeneral[1];
+                navigation.selectOnLeft = ButtonsOptionAudio_fromGeneral[2];
+                navigation.selectOnRight = ButtonsOptionAudio_fromGeneral[3];
+                ButtonOptionAudio.navigation = navigation;
+
+                var navigation1 = ButtonOptionGeneral.navigation;
+                navigation1.selectOnUp = ButtonsOptionGeneral_fromGeneral[0];
+                navigation1.selectOnDown = ButtonsOptionGeneral_fromGeneral[1];
+                navigation1.selectOnLeft = ButtonsOptionGeneral_fromGeneral[2];
+                navigation1.selectOnRight = ButtonsOptionGeneral_fromGeneral[3];
+                ButtonOptionGeneral.navigation = navigation1;
+                bOnce[1] = true;
+            }
+        }
     }
     public void PauseMenu()
     {
@@ -591,21 +644,14 @@ public class MenuManager : MonoBehaviour
         if (CgPauseMenu.alpha == 0f && !bActif) // On ouvre la fenetre, le jeu est en pause
         {
             CgPauseMenu.alpha = 1f;
+            CgPauseMenu.blocksRaycasts = true;
             CgPauseMenu.interactable = true;
             RtPauseMenu.anchorMin = new Vector2(0, 0);
             RtPauseMenu.anchorMax = new Vector2(1, 1);
             RtPauseMenu.offsetMax = new Vector2(0f, 0f);
             RtPauseMenu.offsetMin = new Vector2(0f, 0f);
-            EventSystem.firstSelectedGameObject = GoPausedFirstButtonSelected;
+            EventSystem.SetSelectedGameObject(GoPausedFirstButtonSelected);
             GoPausedFirstButtonSelected.GetComponent<UnityEngine.UI.Button>().Select();
-            if (controllerConnected)
-            {
-                UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-            }
-            else
-            {
-                UnityEngine.Cursor.lockState = CursorLockMode.None;
-            }
             bGameIsPaused = true;
             PauseGame();
             StartCoroutine(wait());
@@ -613,6 +659,7 @@ public class MenuManager : MonoBehaviour
         else if (CgPauseMenu.alpha == 1f && bActif) // On ferme la fenetre, le jeu reprend
         {
             CgPauseMenu.alpha = 0f;
+            CgPauseMenu.blocksRaycasts = false;
             CgPauseMenu.interactable = false;
             RtPauseMenu.anchorMin = new Vector2(0, 1);
             RtPauseMenu.anchorMax = new Vector2(1, 2);
@@ -627,33 +674,17 @@ public class MenuManager : MonoBehaviour
             {
                 bGameIsPaused = false;
             }
-            if (!controllerConnected && SceneManager.GetActiveScene().name != "GameChoose" && SceneManager.GetActiveScene().name != "LevelChoosing" && SceneManager.GetActiveScene().name != "MainMenu") //SI keyboard et mouse et que la scene n'est pas un menu avec souris
-            {
-                UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-            }
-            else if (!controllerConnected && (SceneManager.GetActiveScene().name == "GameChoose" || SceneManager.GetActiveScene().name == "LevelChoosing" || SceneManager.GetActiveScene().name == "MainMenu")) //si keyboard er que la scene est un menu avec souris
-            {
-                UnityEngine.Cursor.lockState = CursorLockMode.None;
-            }
-            else if (controllerConnected) //si controlleur gamepad
-            {
-                UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-            }
             if (CgScoring.alpha == 1f)
             {
-                EventSystem.firstSelectedGameObject = GoScoringFirstButtonSelected;
-                if (controllerConnected) //Si controller
-                {
-                    UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-                }
-                else //sinon keyboard
-                {
-                    UnityEngine.Cursor.lockState = CursorLockMode.None;
-                }
+                EventSystem.SetSelectedGameObject(GoScoringFirstButtonSelected);
+            }
+            else if(SceneManager.GetActiveScene().name == "GameChoose")
+            {
+                EventSystem.SetSelectedGameObject(GoGameChoose[0]);
             }
             else
             {
-                EventSystem.firstSelectedGameObject = null;
+                EventSystem.SetSelectedGameObject(null);
             }
             StartCoroutine(wait());
             if(scPlayer!=null)
@@ -677,6 +708,8 @@ public class MenuManager : MonoBehaviour
     public void OptionsGame()
     {
         ButtonSound();
+        EventSystem.SetSelectedGameObject(GoOptionGeneralFirstButtonSelected);
+        CgPauseMenu.interactable = false;
         CgOptionPannel.alpha = 1f;
         CgOptionPannel.interactable = true;
         CgOptionPannel.blocksRaycasts = true;
@@ -690,29 +723,33 @@ public class MenuManager : MonoBehaviour
         ButtonSound();
         if (bGeneral)
         {
+            bOnce[0] = false;
             CgOptionAudio.alpha = 0f;
-            CgOptionGeneral.interactable = false;
-            CgOptionGeneral.blocksRaycasts = false;
+            CgOptionAudio.interactable = false;
+            CgOptionAudio.blocksRaycasts = false;
             CgOptionGeneral.alpha = 1f;
             CgOptionGeneral.interactable = true;
             CgOptionGeneral.blocksRaycasts = true;
         }
         else
         {
+            bOnce[1] = false;
             CgOptionGeneral.alpha = 0f;
             CgOptionGeneral.interactable = false;
             CgOptionGeneral.blocksRaycasts = false;
             CgOptionAudio.alpha = 1f;
-            CgOptionGeneral.interactable = true;
-            CgOptionGeneral.blocksRaycasts = true;
+            CgOptionAudio.interactable = true;
+            CgOptionAudio.blocksRaycasts = true;
         }
     }
     public void CloseOptions()
     {
         ButtonSound();
+        CgPauseMenu.interactable = true;
         CgOptionPannel.alpha = 0f;
         CgOptionPannel.interactable = false;
         CgOptionPannel.blocksRaycasts = false;
+        EventSystem.SetSelectedGameObject(GoPausedFirstButtonSelected);
         RtOptionPannel.anchorMin = new Vector2(0, 1);
         RtOptionPannel.anchorMax = new Vector2(1, 2);
         RtOptionPannel.offsetMax = new Vector2(0f, 0f);
@@ -813,7 +850,7 @@ public class MenuManager : MonoBehaviour
             music_beat_VCA.setVolume(0f);
             if (CgScoring.alpha == 1f)
             {
-                EventSystem.firstSelectedGameObject = GoScoringFirstButtonSelected;
+                EventSystem.SetSelectedGameObject(GoScoringFirstButtonSelected);
             }
         }
     }
@@ -942,6 +979,7 @@ public class MenuManager : MonoBehaviour
     private void EndDialogue()
     {
         CgEndDialogue.alpha = 0f;
+        CgEndDialogue.blocksRaycasts = false;
         RtEndDialogue.anchorMin = new Vector2(0, 1);
         RtEndDialogue.anchorMax = new Vector2(1, 2);
         RtEndDialogue.offsetMax = new Vector2(0f, 0f);
