@@ -2313,8 +2313,6 @@ Node;AmplifyShaderEditor.SimpleAddOpNode;224;2080.017,1146.53;Inherit;True;2;2;0
 Node;AmplifyShaderEditor.GetLocalVarNode;223;1803.286,1145.401;Inherit;False;210;BackTexAlpha;1;0;OBJECT;;False;1;FLOAT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;222;1788.08,1232.254;Inherit;False;211;BackGroundTexAlpha;1;0;OBJECT;;False;1;FLOAT;0
 Node;AmplifyShaderEditor.LerpOp;264;2131.94,1763.546;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;310;-276.9903,718.9559;Inherit;False;Tex_NoColors;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.GetLocalVarNode;311;2464.517,1128.918;Inherit;False;310;Tex_NoColors;1;0;OBJECT;;False;1;COLOR;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;221;2437.764,1262.488;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.GetLocalVarNode;233;2871.097,1439.366;Inherit;False;211;BackGroundTexAlpha;1;0;OBJECT;;False;1;FLOAT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;231;2900.261,1505.96;Inherit;False;210;BackTexAlpha;1;0;OBJECT;;False;1;FLOAT;0
@@ -2356,6 +2354,8 @@ Node;AmplifyShaderEditor.GetLocalVarNode;228;2431.313,1360.109;Inherit;False;210
 Node;AmplifyShaderEditor.SimpleAddOpNode;225;2667.63,1361.153;Inherit;False;3;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;227;2430.773,1428.924;Inherit;False;212;MidTexAlpha;1;0;OBJECT;;False;1;FLOAT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;226;2403.525,1501.481;Inherit;False;211;BackGroundTexAlpha;1;0;OBJECT;;False;1;FLOAT;0
+Node;AmplifyShaderEditor.GetLocalVarNode;311;2464.517,1128.918;Inherit;False;310;Tex_NoColors;1;0;OBJECT;;False;1;COLOR;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;310;-295.0179,711.2298;Inherit;False;Tex_NoColors;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 WireConnection;54;0;44;1
 WireConnection;54;1;44;2
 WireConnection;12;1;53;0
@@ -2453,7 +2453,6 @@ WireConnection;224;1;222;0
 WireConnection;264;0;269;0
 WireConnection;264;1;268;0
 WireConnection;264;2;274;0
-WireConnection;310;0;97;0
 WireConnection;221;0;264;0
 WireConnection;221;1;224;0
 WireConnection;229;0;233;0
@@ -2498,5 +2497,6 @@ WireConnection;220;1;225;0
 WireConnection;225;0;228;0
 WireConnection;225;1;227;0
 WireConnection;225;2;226;0
+WireConnection;310;0;97;0
 ASEEND*/
-//CHKSM=75F67BC151F30839A7EA162C94D1EB76A72E9BD5
+//CHKSM=7623FD8572020E6F066858FF47B075B02B008E5A
