@@ -28,6 +28,7 @@ Shader "SHR_3DMaster"
 		[Toggle(_BAKEDORRT_ON)] _BakedOrRT("BakedOrRT", Float) = 0
 		[Toggle(_SHADOWS_PROCEDURALORTEXTURE_ON)] _Shadows_ProceduralOrTexture("Shadows_ProceduralOrTexture?", Float) = 0
 		_ShadowPatternDensity("ShadowPatternDensity", Vector) = (10,10,0,0)
+		[Toggle(_LIGHTINDDONE_ON)] _LightindDone("LightindDone?", Float) = 0
 		[Toggle(_USING3DMOVEMENTS_ON)] _Using3DMovements("Using3DMovements?", Float) = 0
 		_Texture0("Texture 0", 2D) = "white" {}
 		_WorldPosDiv("WorldPosDiv", Float) = 0
@@ -275,6 +276,7 @@ Shader "SHR_3DMaster"
 			#define ASE_NEEDS_FRAG_SHADOWCOORDS
 			#pragma shader_feature_local _USING3DMOVEMENTS_ON
 			#pragma multi_compile_instancing
+			#pragma shader_feature _LIGHTINDDONE_ON
 			#pragma shader_feature_local _FULLSHADINGHALFSHADING_ON
 			#pragma shader_feature_local _BAKEDORRT_ON
 			#pragma shader_feature_local _COLORORTEX_ON
@@ -373,13 +375,13 @@ Shader "SHR_3DMaster"
 				int _PassValue;
 			#endif
 
-			sampler2D _BumpNormal;
 			sampler2D _MainTex;
+			sampler2D _BumpNormal;
 			sampler2D _Texture0;
 			sampler2D _Normal;
 			UNITY_INSTANCING_BUFFER_START(SHR_3DMaster)
-				UNITY_DEFINE_INSTANCED_PROP(float4, _BumpNormal_ST)
 				UNITY_DEFINE_INSTANCED_PROP(float4, _MainTex_ST)
+				UNITY_DEFINE_INSTANCED_PROP(float4, _BumpNormal_ST)
 				UNITY_DEFINE_INSTANCED_PROP(float4, _Normal_ST)
 				UNITY_DEFINE_INSTANCED_PROP(float, _BPM)
 			UNITY_INSTANCING_BUFFER_END(SHR_3DMaster)
@@ -393,12 +395,12 @@ Shader "SHR_3DMaster"
 			//#endif
 
 			
-			float4 SampleLightmapHD11_g38( float2 UV )
+			float4 SampleLightmapHD11_g49( float2 UV )
 			{
 				return SAMPLE_TEXTURE2D( unity_Lightmap, samplerunity_Lightmap, UV );
 			}
 			
-			float4 URPDecodeInstruction19_g38(  )
+			float4 URPDecodeInstruction19_g49(  )
 			{
 				return float4(LIGHTMAP_HDR_MULTIPLIER, LIGHTMAP_HDR_EXPONENT, 0, 0);
 			}
@@ -425,7 +427,7 @@ Shader "SHR_3DMaster"
 				return float4(color, alpha);
 			}
 			
-			half4 CalculateShadowMask1_g29( half2 LightmapUV )
+			half4 CalculateShadowMask1_g44( half2 LightmapUV )
 			{
 				#if defined(SHADOWS_SHADOWMASK) && defined(LIGHTMAP_ON)
 				return SAMPLE_SHADOWMASK( LightmapUV.xy );
@@ -614,13 +616,13 @@ Shader "SHR_3DMaster"
 				float3 staticSwitch534 = float3( 0,0,0 );
 				#endif
 				
-				float2 texCoord2_g38 = v.texcoord1.xy * float2( 1,1 ) + float2( 0,0 );
-				float2 vertexToFrag10_g38 = ( ( texCoord2_g38 * (unity_LightmapST).xy ) + (unity_LightmapST).zw );
-				o.ase_texcoord8.xy = vertexToFrag10_g38;
+				float2 texCoord2_g49 = v.texcoord1.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 vertexToFrag10_g49 = ( ( texCoord2_g49 * (unity_LightmapST).xy ) + (unity_LightmapST).zw );
+				o.ase_texcoord8.zw = vertexToFrag10_g49;
 				float3 objectSpaceLightDir = mul( GetWorldToObjectMatrix(), _MainLightPosition ).xyz;
 				o.ase_texcoord9.xyz = objectSpaceLightDir;
 				
-				o.ase_texcoord8.zw = v.texcoord.xy;
+				o.ase_texcoord8.xy = v.texcoord.xy;
 				o.ase_normal = v.ase_normal;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -825,22 +827,25 @@ Shader "SHR_3DMaster"
 
 				WorldViewDirection = SafeNormalize( WorldViewDirection );
 
+				float4 _MainTex_ST_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_3DMaster,_MainTex_ST);
+				float2 uv_MainTex = IN.ase_texcoord8.xy * _MainTex_ST_Instance.xy + _MainTex_ST_Instance.zw;
+				float4 tex2DNode207 = tex2D( _MainTex, uv_MainTex );
 				Gradient gradient203 = NewGradient( 1, 5, 2, float4( 0.3207547, 0.3207547, 0.3207547, 0.1193713 ), float4( 0.3962264, 0.3962264, 0.3962264, 0.3913939 ), float4( 0.5031446, 0.5031446, 0.5031446, 0.616434 ), float4( 0.6100628, 0.6100628, 0.6100628, 0.8767071 ), float4( 1, 1, 1, 1 ), 0, 0, 0, float2( 1, 0 ), float2( 1, 1 ), 0, 0, 0, 0, 0, 0 );
-				float2 vertexToFrag10_g38 = IN.ase_texcoord8.xy;
-				float2 UV11_g38 = vertexToFrag10_g38;
-				float4 localSampleLightmapHD11_g38 = SampleLightmapHD11_g38( UV11_g38 );
-				float4 localURPDecodeInstruction19_g38 = URPDecodeInstruction19_g38();
-				float3 decodeLightMap6_g38 = DecodeLightmap(localSampleLightmapHD11_g38,localURPDecodeInstruction19_g38);
-				float3 temp_output_369_0 = decodeLightMap6_g38;
+				float2 vertexToFrag10_g49 = IN.ase_texcoord8.zw;
+				float2 UV11_g49 = vertexToFrag10_g49;
+				float4 localSampleLightmapHD11_g49 = SampleLightmapHD11_g49( UV11_g49 );
+				float4 localURPDecodeInstruction19_g49 = URPDecodeInstruction19_g49();
+				float3 decodeLightMap6_g49 = DecodeLightmap(localSampleLightmapHD11_g49,localURPDecodeInstruction19_g49);
+				float3 temp_output_369_0 = decodeLightMap6_g49;
 				float3 clampResult437 = clamp( (( temp_output_369_0 * _Cels_FallOffThreshold )*1.0 + _Cels_LitThreshold) , float3( 0,0,0 ) , float3( 1,1,1 ) );
-				float3 worldPosValue44_g35 = WorldPosition;
-				float3 WorldPosition86_g35 = worldPosValue44_g35;
+				float3 worldPosValue44_g46 = WorldPosition;
+				float3 WorldPosition86_g46 = worldPosValue44_g46;
 				float4 ase_screenPosNorm = ScreenPos / ScreenPos.w;
 				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
-				float2 ScreenUV75_g35 = (ase_screenPosNorm).xy;
-				float2 ScreenUV86_g35 = ScreenUV75_g35;
+				float2 ScreenUV75_g46 = (ase_screenPosNorm).xy;
+				float2 ScreenUV86_g46 = ScreenUV75_g46;
 				float4 _BumpNormal_ST_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_3DMaster,_BumpNormal_ST);
-				float2 uv_BumpNormal = IN.ase_texcoord8.zw * _BumpNormal_ST_Instance.xy + _BumpNormal_ST_Instance.zw;
+				float2 uv_BumpNormal = IN.ase_texcoord8.xy * _BumpNormal_ST_Instance.xy + _BumpNormal_ST_Instance.zw;
 				float3 unpack214 = UnpackNormalScale( tex2D( _BumpNormal, uv_BumpNormal ), _NormalScale );
 				unpack214.z = lerp( 1, unpack214.z, saturate(_NormalScale) );
 				float3 tanToWorld0 = float3( WorldTangent.x, WorldBiTangent.x, WorldNormal.x );
@@ -849,15 +854,15 @@ Shader "SHR_3DMaster"
 				float3 tanNormal212 = unpack214;
 				float3 worldNormal212 = normalize( float3(dot(tanToWorld0,tanNormal212), dot(tanToWorld1,tanNormal212), dot(tanToWorld2,tanNormal212)) );
 				float3 worldNormal209 = worldNormal212;
-				float3 worldNormalValue50_g35 = worldNormal209;
-				float3 WorldNormal86_g35 = worldNormalValue50_g35;
-				half2 LightmapUV1_g29 = temp_output_369_0.xy;
-				half4 localCalculateShadowMask1_g29 = CalculateShadowMask1_g29( LightmapUV1_g29 );
-				float4 shadowMaskValue33_g35 = localCalculateShadowMask1_g29;
-				float4 ShadowMask86_g35 = shadowMaskValue33_g35;
-				float3 localAdditionalLightsLambertMask14x86_g35 = AdditionalLightsLambertMask14x( WorldPosition86_g35 , ScreenUV86_g35 , WorldNormal86_g35 , ShadowMask86_g35 );
-				float3 lambertResult38_g35 = localAdditionalLightsLambertMask14x86_g35;
-				float3 break190 = lambertResult38_g35;
+				float3 worldNormalValue50_g46 = worldNormal209;
+				float3 WorldNormal86_g46 = worldNormalValue50_g46;
+				half2 LightmapUV1_g44 = temp_output_369_0.xy;
+				half4 localCalculateShadowMask1_g44 = CalculateShadowMask1_g44( LightmapUV1_g44 );
+				float4 shadowMaskValue33_g46 = localCalculateShadowMask1_g44;
+				float4 ShadowMask86_g46 = shadowMaskValue33_g46;
+				float3 localAdditionalLightsLambertMask14x86_g46 = AdditionalLightsLambertMask14x( WorldPosition86_g46 , ScreenUV86_g46 , WorldNormal86_g46 , ShadowMask86_g46 );
+				float3 lambertResult38_g46 = localAdditionalLightsLambertMask14x86_g46;
+				float3 break190 = lambertResult38_g46;
 				float ase_lightAtten = 0;
 				Light ase_mainLight = GetMainLight( ShadowCoords );
 				ase_lightAtten = ase_mainLight.distanceAttenuation * ase_mainLight.shadowAttenuation;
@@ -873,9 +878,6 @@ Shader "SHR_3DMaster"
 				#else
 				float4 staticSwitch388 = SampleGradient( gradient203, clampResult437.x );
 				#endif
-				float4 _MainTex_ST_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_3DMaster,_MainTex_ST);
-				float2 uv_MainTex = IN.ase_texcoord8.zw * _MainTex_ST_Instance.xy + _MainTex_ST_Instance.zw;
-				float4 tex2DNode207 = tex2D( _MainTex, uv_MainTex );
 				#ifdef _COLORORTEX_ON
 				float4 staticSwitch219 = tex2DNode207;
 				#else
@@ -893,7 +895,7 @@ Shader "SHR_3DMaster"
 				float time275 = 0.0;
 				float2 voronoiSmoothId275 = 0;
 				float voronoiSmooth275 = 0.0;
-				float2 texCoord270 = IN.ase_texcoord8.zw * float2( 1,1 ) + float2( 0,0 );
+				float2 texCoord270 = IN.ase_texcoord8.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 temp_output_616_0 = ( texCoord270 * _ShadowPatternDensity );
 				float2 coords275 = temp_output_616_0 * 1.0;
 				float2 id275 = 0;
@@ -911,7 +913,7 @@ Shader "SHR_3DMaster"
 				float2 temp_output_654_0 = ( temp_output_648_0 + temp_output_643_0 + temp_output_647_0 );
 				float3 temp_output_658_0 = ( WorldPosition * 0.0 );
 				float2 uv653 = 0;
-				float3 unityVoronoy653 = UnityVoronoi(IN.ase_texcoord8.zw,0.0,10.0,uv653);
+				float3 unityVoronoy653 = UnityVoronoi(IN.ase_texcoord8.xy,0.0,10.0,uv653);
 				#ifdef _USINGTRIPLANAR_ON
 				float2 staticSwitch629 = ( ( ( temp_output_648_0 / temp_output_654_0 ) * ( (temp_output_658_0).yz * unityVoronoy653.x ) ) + ( ( temp_output_643_0 / temp_output_654_0 ) * ( (temp_output_658_0).xz * unityVoronoy653.x ) ) + ( ( temp_output_647_0 / temp_output_654_0 ) * ( (temp_output_658_0).xy * unityVoronoy653.x ) ) );
 				#else
@@ -941,15 +943,20 @@ Shader "SHR_3DMaster"
 				#else
 				float4 staticSwitch305 = ( staticSwitch388 * lerpResult266 );
 				#endif
+				#ifdef _LIGHTINDDONE_ON
+				float4 staticSwitch480 = staticSwitch305;
+				#else
+				float4 staticSwitch480 = tex2DNode207;
+				#endif
 				
 				float4 _Normal_ST_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_3DMaster,_Normal_ST);
-				float2 uv_Normal = IN.ase_texcoord8.zw * _Normal_ST_Instance.xy + _Normal_ST_Instance.zw;
+				float2 uv_Normal = IN.ase_texcoord8.xy * _Normal_ST_Instance.xy + _Normal_ST_Instance.zw;
 				float4 _Normalmap54 = tex2D( _Normal, uv_Normal );
 				
 				float3 temp_cast_17 = (0.0).xxx;
 				
 
-				float3 BaseColor = staticSwitch305.rgb;
+				float3 BaseColor = staticSwitch480.rgb;
 				float3 Normal = _Normalmap54.rgb;
 				float3 Emission = 0;
 				float3 Specular = temp_cast_17;
@@ -1948,6 +1955,7 @@ Shader "SHR_3DMaster"
 			#define ASE_NEEDS_FRAG_SHADOWCOORDS
 			#pragma shader_feature_local _USING3DMOVEMENTS_ON
 			#pragma multi_compile_instancing
+			#pragma shader_feature _LIGHTINDDONE_ON
 			#pragma shader_feature_local _FULLSHADINGHALFSHADING_ON
 			#pragma shader_feature_local _BAKEDORRT_ON
 			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
@@ -2044,12 +2052,12 @@ Shader "SHR_3DMaster"
 				int _PassValue;
 			#endif
 
-			sampler2D _BumpNormal;
 			sampler2D _MainTex;
+			sampler2D _BumpNormal;
 			sampler2D _Texture0;
 			UNITY_INSTANCING_BUFFER_START(SHR_3DMaster)
-				UNITY_DEFINE_INSTANCED_PROP(float4, _BumpNormal_ST)
 				UNITY_DEFINE_INSTANCED_PROP(float4, _MainTex_ST)
+				UNITY_DEFINE_INSTANCED_PROP(float4, _BumpNormal_ST)
 				UNITY_DEFINE_INSTANCED_PROP(float, _BPM)
 			UNITY_INSTANCING_BUFFER_END(SHR_3DMaster)
 
@@ -2062,12 +2070,12 @@ Shader "SHR_3DMaster"
 			//#endif
 
 			
-			float4 SampleLightmapHD11_g38( float2 UV )
+			float4 SampleLightmapHD11_g49( float2 UV )
 			{
 				return SAMPLE_TEXTURE2D( unity_Lightmap, samplerunity_Lightmap, UV );
 			}
 			
-			float4 URPDecodeInstruction19_g38(  )
+			float4 URPDecodeInstruction19_g49(  )
 			{
 				return float4(LIGHTMAP_HDR_MULTIPLIER, LIGHTMAP_HDR_EXPONENT, 0, 0);
 			}
@@ -2094,7 +2102,7 @@ Shader "SHR_3DMaster"
 				return float4(color, alpha);
 			}
 			
-			half4 CalculateShadowMask1_g29( half2 LightmapUV )
+			half4 CalculateShadowMask1_g44( half2 LightmapUV )
 			{
 				#if defined(SHADOWS_SHADOWMASK) && defined(LIGHTMAP_ON)
 				return SAMPLE_SHADOWMASK( LightmapUV.xy );
@@ -2283,9 +2291,9 @@ Shader "SHR_3DMaster"
 				float3 staticSwitch534 = float3( 0,0,0 );
 				#endif
 				
-				float2 texCoord2_g38 = v.texcoord1.xy * float2( 1,1 ) + float2( 0,0 );
-				float2 vertexToFrag10_g38 = ( ( texCoord2_g38 * (unity_LightmapST).xy ) + (unity_LightmapST).zw );
-				o.ase_texcoord4.xy = vertexToFrag10_g38;
+				float2 texCoord2_g49 = v.texcoord1.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 vertexToFrag10_g49 = ( ( texCoord2_g49 * (unity_LightmapST).xy ) + (unity_LightmapST).zw );
+				o.ase_texcoord4.zw = vertexToFrag10_g49;
 				float4 ase_clipPos = TransformObjectToHClip((v.vertex).xyz);
 				float4 screenPos = ComputeScreenPos(ase_clipPos);
 				o.ase_texcoord5 = screenPos;
@@ -2299,7 +2307,7 @@ Shader "SHR_3DMaster"
 				float3 objectSpaceLightDir = mul( GetWorldToObjectMatrix(), _MainLightPosition ).xyz;
 				o.ase_texcoord9.xyz = objectSpaceLightDir;
 				
-				o.ase_texcoord4.zw = v.texcoord0.xy;
+				o.ase_texcoord4.xy = v.texcoord0.xy;
 				o.ase_normal = v.ase_normal;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -2458,23 +2466,26 @@ Shader "SHR_3DMaster"
 					#endif
 				#endif
 
+				float4 _MainTex_ST_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_3DMaster,_MainTex_ST);
+				float2 uv_MainTex = IN.ase_texcoord4.xy * _MainTex_ST_Instance.xy + _MainTex_ST_Instance.zw;
+				float4 tex2DNode207 = tex2D( _MainTex, uv_MainTex );
 				Gradient gradient203 = NewGradient( 1, 5, 2, float4( 0.3207547, 0.3207547, 0.3207547, 0.1193713 ), float4( 0.3962264, 0.3962264, 0.3962264, 0.3913939 ), float4( 0.5031446, 0.5031446, 0.5031446, 0.616434 ), float4( 0.6100628, 0.6100628, 0.6100628, 0.8767071 ), float4( 1, 1, 1, 1 ), 0, 0, 0, float2( 1, 0 ), float2( 1, 1 ), 0, 0, 0, 0, 0, 0 );
-				float2 vertexToFrag10_g38 = IN.ase_texcoord4.xy;
-				float2 UV11_g38 = vertexToFrag10_g38;
-				float4 localSampleLightmapHD11_g38 = SampleLightmapHD11_g38( UV11_g38 );
-				float4 localURPDecodeInstruction19_g38 = URPDecodeInstruction19_g38();
-				float3 decodeLightMap6_g38 = DecodeLightmap(localSampleLightmapHD11_g38,localURPDecodeInstruction19_g38);
-				float3 temp_output_369_0 = decodeLightMap6_g38;
+				float2 vertexToFrag10_g49 = IN.ase_texcoord4.zw;
+				float2 UV11_g49 = vertexToFrag10_g49;
+				float4 localSampleLightmapHD11_g49 = SampleLightmapHD11_g49( UV11_g49 );
+				float4 localURPDecodeInstruction19_g49 = URPDecodeInstruction19_g49();
+				float3 decodeLightMap6_g49 = DecodeLightmap(localSampleLightmapHD11_g49,localURPDecodeInstruction19_g49);
+				float3 temp_output_369_0 = decodeLightMap6_g49;
 				float3 clampResult437 = clamp( (( temp_output_369_0 * _Cels_FallOffThreshold )*1.0 + _Cels_LitThreshold) , float3( 0,0,0 ) , float3( 1,1,1 ) );
-				float3 worldPosValue44_g35 = WorldPosition;
-				float3 WorldPosition86_g35 = worldPosValue44_g35;
+				float3 worldPosValue44_g46 = WorldPosition;
+				float3 WorldPosition86_g46 = worldPosValue44_g46;
 				float4 screenPos = IN.ase_texcoord5;
 				float4 ase_screenPosNorm = screenPos / screenPos.w;
 				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
-				float2 ScreenUV75_g35 = (ase_screenPosNorm).xy;
-				float2 ScreenUV86_g35 = ScreenUV75_g35;
+				float2 ScreenUV75_g46 = (ase_screenPosNorm).xy;
+				float2 ScreenUV86_g46 = ScreenUV75_g46;
 				float4 _BumpNormal_ST_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_3DMaster,_BumpNormal_ST);
-				float2 uv_BumpNormal = IN.ase_texcoord4.zw * _BumpNormal_ST_Instance.xy + _BumpNormal_ST_Instance.zw;
+				float2 uv_BumpNormal = IN.ase_texcoord4.xy * _BumpNormal_ST_Instance.xy + _BumpNormal_ST_Instance.zw;
 				float3 unpack214 = UnpackNormalScale( tex2D( _BumpNormal, uv_BumpNormal ), _NormalScale );
 				unpack214.z = lerp( 1, unpack214.z, saturate(_NormalScale) );
 				float3 ase_worldTangent = IN.ase_texcoord6.xyz;
@@ -2486,15 +2497,15 @@ Shader "SHR_3DMaster"
 				float3 tanNormal212 = unpack214;
 				float3 worldNormal212 = normalize( float3(dot(tanToWorld0,tanNormal212), dot(tanToWorld1,tanNormal212), dot(tanToWorld2,tanNormal212)) );
 				float3 worldNormal209 = worldNormal212;
-				float3 worldNormalValue50_g35 = worldNormal209;
-				float3 WorldNormal86_g35 = worldNormalValue50_g35;
-				half2 LightmapUV1_g29 = temp_output_369_0.xy;
-				half4 localCalculateShadowMask1_g29 = CalculateShadowMask1_g29( LightmapUV1_g29 );
-				float4 shadowMaskValue33_g35 = localCalculateShadowMask1_g29;
-				float4 ShadowMask86_g35 = shadowMaskValue33_g35;
-				float3 localAdditionalLightsLambertMask14x86_g35 = AdditionalLightsLambertMask14x( WorldPosition86_g35 , ScreenUV86_g35 , WorldNormal86_g35 , ShadowMask86_g35 );
-				float3 lambertResult38_g35 = localAdditionalLightsLambertMask14x86_g35;
-				float3 break190 = lambertResult38_g35;
+				float3 worldNormalValue50_g46 = worldNormal209;
+				float3 WorldNormal86_g46 = worldNormalValue50_g46;
+				half2 LightmapUV1_g44 = temp_output_369_0.xy;
+				half4 localCalculateShadowMask1_g44 = CalculateShadowMask1_g44( LightmapUV1_g44 );
+				float4 shadowMaskValue33_g46 = localCalculateShadowMask1_g44;
+				float4 ShadowMask86_g46 = shadowMaskValue33_g46;
+				float3 localAdditionalLightsLambertMask14x86_g46 = AdditionalLightsLambertMask14x( WorldPosition86_g46 , ScreenUV86_g46 , WorldNormal86_g46 , ShadowMask86_g46 );
+				float3 lambertResult38_g46 = localAdditionalLightsLambertMask14x86_g46;
+				float3 break190 = lambertResult38_g46;
 				float ase_lightAtten = 0;
 				Light ase_mainLight = GetMainLight( ShadowCoords );
 				ase_lightAtten = ase_mainLight.distanceAttenuation * ase_mainLight.shadowAttenuation;
@@ -2510,9 +2521,6 @@ Shader "SHR_3DMaster"
 				#else
 				float4 staticSwitch388 = SampleGradient( gradient203, clampResult437.x );
 				#endif
-				float4 _MainTex_ST_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_3DMaster,_MainTex_ST);
-				float2 uv_MainTex = IN.ase_texcoord4.zw * _MainTex_ST_Instance.xy + _MainTex_ST_Instance.zw;
-				float4 tex2DNode207 = tex2D( _MainTex, uv_MainTex );
 				#ifdef _COLORORTEX_ON
 				float4 staticSwitch219 = tex2DNode207;
 				#else
@@ -2530,7 +2538,7 @@ Shader "SHR_3DMaster"
 				float time275 = 0.0;
 				float2 voronoiSmoothId275 = 0;
 				float voronoiSmooth275 = 0.0;
-				float2 texCoord270 = IN.ase_texcoord4.zw * float2( 1,1 ) + float2( 0,0 );
+				float2 texCoord270 = IN.ase_texcoord4.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 temp_output_616_0 = ( texCoord270 * _ShadowPatternDensity );
 				float2 coords275 = temp_output_616_0 * 1.0;
 				float2 id275 = 0;
@@ -2548,7 +2556,7 @@ Shader "SHR_3DMaster"
 				float2 temp_output_654_0 = ( temp_output_648_0 + temp_output_643_0 + temp_output_647_0 );
 				float3 temp_output_658_0 = ( WorldPosition * 0.0 );
 				float2 uv653 = 0;
-				float3 unityVoronoy653 = UnityVoronoi(IN.ase_texcoord4.zw,0.0,10.0,uv653);
+				float3 unityVoronoy653 = UnityVoronoi(IN.ase_texcoord4.xy,0.0,10.0,uv653);
 				#ifdef _USINGTRIPLANAR_ON
 				float2 staticSwitch629 = ( ( ( temp_output_648_0 / temp_output_654_0 ) * ( (temp_output_658_0).yz * unityVoronoy653.x ) ) + ( ( temp_output_643_0 / temp_output_654_0 ) * ( (temp_output_658_0).xz * unityVoronoy653.x ) ) + ( ( temp_output_647_0 / temp_output_654_0 ) * ( (temp_output_658_0).xy * unityVoronoy653.x ) ) );
 				#else
@@ -2578,9 +2586,14 @@ Shader "SHR_3DMaster"
 				#else
 				float4 staticSwitch305 = ( staticSwitch388 * lerpResult266 );
 				#endif
+				#ifdef _LIGHTINDDONE_ON
+				float4 staticSwitch480 = staticSwitch305;
+				#else
+				float4 staticSwitch480 = tex2DNode207;
+				#endif
 				
 
-				float3 BaseColor = staticSwitch305.rgb;
+				float3 BaseColor = staticSwitch480.rgb;
 				float3 Emission = 0;
 				float Alpha = 1;
 				float AlphaClipThreshold = 0.5;
@@ -2645,6 +2658,7 @@ Shader "SHR_3DMaster"
 			#define ASE_NEEDS_FRAG_SHADOWCOORDS
 			#pragma shader_feature_local _USING3DMOVEMENTS_ON
 			#pragma multi_compile_instancing
+			#pragma shader_feature _LIGHTINDDONE_ON
 			#pragma shader_feature_local _FULLSHADINGHALFSHADING_ON
 			#pragma shader_feature_local _BAKEDORRT_ON
 			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
@@ -2661,8 +2675,8 @@ Shader "SHR_3DMaster"
 			{
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
-				float4 ase_texcoord1 : TEXCOORD1;
 				float4 ase_texcoord : TEXCOORD0;
+				float4 ase_texcoord1 : TEXCOORD1;
 				float4 ase_tangent : TANGENT;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -2736,12 +2750,12 @@ Shader "SHR_3DMaster"
 				int _PassValue;
 			#endif
 
-			sampler2D _BumpNormal;
 			sampler2D _MainTex;
+			sampler2D _BumpNormal;
 			sampler2D _Texture0;
 			UNITY_INSTANCING_BUFFER_START(SHR_3DMaster)
-				UNITY_DEFINE_INSTANCED_PROP(float4, _BumpNormal_ST)
 				UNITY_DEFINE_INSTANCED_PROP(float4, _MainTex_ST)
+				UNITY_DEFINE_INSTANCED_PROP(float4, _BumpNormal_ST)
 				UNITY_DEFINE_INSTANCED_PROP(float, _BPM)
 			UNITY_INSTANCING_BUFFER_END(SHR_3DMaster)
 
@@ -2754,12 +2768,12 @@ Shader "SHR_3DMaster"
 			//#endif
 
 			
-			float4 SampleLightmapHD11_g38( float2 UV )
+			float4 SampleLightmapHD11_g49( float2 UV )
 			{
 				return SAMPLE_TEXTURE2D( unity_Lightmap, samplerunity_Lightmap, UV );
 			}
 			
-			float4 URPDecodeInstruction19_g38(  )
+			float4 URPDecodeInstruction19_g49(  )
 			{
 				return float4(LIGHTMAP_HDR_MULTIPLIER, LIGHTMAP_HDR_EXPONENT, 0, 0);
 			}
@@ -2786,7 +2800,7 @@ Shader "SHR_3DMaster"
 				return float4(color, alpha);
 			}
 			
-			half4 CalculateShadowMask1_g29( half2 LightmapUV )
+			half4 CalculateShadowMask1_g44( half2 LightmapUV )
 			{
 				#if defined(SHADOWS_SHADOWMASK) && defined(LIGHTMAP_ON)
 				return SAMPLE_SHADOWMASK( LightmapUV.xy );
@@ -2975,9 +2989,9 @@ Shader "SHR_3DMaster"
 				float3 staticSwitch534 = float3( 0,0,0 );
 				#endif
 				
-				float2 texCoord2_g38 = v.ase_texcoord1.xy * float2( 1,1 ) + float2( 0,0 );
-				float2 vertexToFrag10_g38 = ( ( texCoord2_g38 * (unity_LightmapST).xy ) + (unity_LightmapST).zw );
-				o.ase_texcoord2.xy = vertexToFrag10_g38;
+				float2 texCoord2_g49 = v.ase_texcoord1.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 vertexToFrag10_g49 = ( ( texCoord2_g49 * (unity_LightmapST).xy ) + (unity_LightmapST).zw );
+				o.ase_texcoord2.zw = vertexToFrag10_g49;
 				float4 ase_clipPos = TransformObjectToHClip((v.vertex).xyz);
 				float4 screenPos = ComputeScreenPos(ase_clipPos);
 				o.ase_texcoord3 = screenPos;
@@ -2991,7 +3005,7 @@ Shader "SHR_3DMaster"
 				float3 objectSpaceLightDir = mul( GetWorldToObjectMatrix(), _MainLightPosition ).xyz;
 				o.ase_texcoord7.xyz = objectSpaceLightDir;
 				
-				o.ase_texcoord2.zw = v.ase_texcoord.xy;
+				o.ase_texcoord2.xy = v.ase_texcoord.xy;
 				o.ase_normal = v.ase_normal;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -3040,8 +3054,8 @@ Shader "SHR_3DMaster"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
-				float4 ase_texcoord1 : TEXCOORD1;
 				float4 ase_texcoord : TEXCOORD0;
+				float4 ase_texcoord1 : TEXCOORD1;
 				float4 ase_tangent : TANGENT;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
@@ -3060,8 +3074,8 @@ Shader "SHR_3DMaster"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
-				o.ase_texcoord1 = v.ase_texcoord1;
 				o.ase_texcoord = v.ase_texcoord;
+				o.ase_texcoord1 = v.ase_texcoord1;
 				o.ase_tangent = v.ase_tangent;
 				return o;
 			}
@@ -3101,8 +3115,8 @@ Shader "SHR_3DMaster"
 				VertexInput o = (VertexInput) 0;
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
-				o.ase_texcoord1 = patch[0].ase_texcoord1 * bary.x + patch[1].ase_texcoord1 * bary.y + patch[2].ase_texcoord1 * bary.z;
 				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
+				o.ase_texcoord1 = patch[0].ase_texcoord1 * bary.x + patch[1].ase_texcoord1 * bary.y + patch[2].ase_texcoord1 * bary.z;
 				o.ase_tangent = patch[0].ase_tangent * bary.x + patch[1].ase_tangent * bary.y + patch[2].ase_tangent * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
@@ -3140,23 +3154,26 @@ Shader "SHR_3DMaster"
 					#endif
 				#endif
 
+				float4 _MainTex_ST_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_3DMaster,_MainTex_ST);
+				float2 uv_MainTex = IN.ase_texcoord2.xy * _MainTex_ST_Instance.xy + _MainTex_ST_Instance.zw;
+				float4 tex2DNode207 = tex2D( _MainTex, uv_MainTex );
 				Gradient gradient203 = NewGradient( 1, 5, 2, float4( 0.3207547, 0.3207547, 0.3207547, 0.1193713 ), float4( 0.3962264, 0.3962264, 0.3962264, 0.3913939 ), float4( 0.5031446, 0.5031446, 0.5031446, 0.616434 ), float4( 0.6100628, 0.6100628, 0.6100628, 0.8767071 ), float4( 1, 1, 1, 1 ), 0, 0, 0, float2( 1, 0 ), float2( 1, 1 ), 0, 0, 0, 0, 0, 0 );
-				float2 vertexToFrag10_g38 = IN.ase_texcoord2.xy;
-				float2 UV11_g38 = vertexToFrag10_g38;
-				float4 localSampleLightmapHD11_g38 = SampleLightmapHD11_g38( UV11_g38 );
-				float4 localURPDecodeInstruction19_g38 = URPDecodeInstruction19_g38();
-				float3 decodeLightMap6_g38 = DecodeLightmap(localSampleLightmapHD11_g38,localURPDecodeInstruction19_g38);
-				float3 temp_output_369_0 = decodeLightMap6_g38;
+				float2 vertexToFrag10_g49 = IN.ase_texcoord2.zw;
+				float2 UV11_g49 = vertexToFrag10_g49;
+				float4 localSampleLightmapHD11_g49 = SampleLightmapHD11_g49( UV11_g49 );
+				float4 localURPDecodeInstruction19_g49 = URPDecodeInstruction19_g49();
+				float3 decodeLightMap6_g49 = DecodeLightmap(localSampleLightmapHD11_g49,localURPDecodeInstruction19_g49);
+				float3 temp_output_369_0 = decodeLightMap6_g49;
 				float3 clampResult437 = clamp( (( temp_output_369_0 * _Cels_FallOffThreshold )*1.0 + _Cels_LitThreshold) , float3( 0,0,0 ) , float3( 1,1,1 ) );
-				float3 worldPosValue44_g35 = WorldPosition;
-				float3 WorldPosition86_g35 = worldPosValue44_g35;
+				float3 worldPosValue44_g46 = WorldPosition;
+				float3 WorldPosition86_g46 = worldPosValue44_g46;
 				float4 screenPos = IN.ase_texcoord3;
 				float4 ase_screenPosNorm = screenPos / screenPos.w;
 				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
-				float2 ScreenUV75_g35 = (ase_screenPosNorm).xy;
-				float2 ScreenUV86_g35 = ScreenUV75_g35;
+				float2 ScreenUV75_g46 = (ase_screenPosNorm).xy;
+				float2 ScreenUV86_g46 = ScreenUV75_g46;
 				float4 _BumpNormal_ST_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_3DMaster,_BumpNormal_ST);
-				float2 uv_BumpNormal = IN.ase_texcoord2.zw * _BumpNormal_ST_Instance.xy + _BumpNormal_ST_Instance.zw;
+				float2 uv_BumpNormal = IN.ase_texcoord2.xy * _BumpNormal_ST_Instance.xy + _BumpNormal_ST_Instance.zw;
 				float3 unpack214 = UnpackNormalScale( tex2D( _BumpNormal, uv_BumpNormal ), _NormalScale );
 				unpack214.z = lerp( 1, unpack214.z, saturate(_NormalScale) );
 				float3 ase_worldTangent = IN.ase_texcoord4.xyz;
@@ -3168,15 +3185,15 @@ Shader "SHR_3DMaster"
 				float3 tanNormal212 = unpack214;
 				float3 worldNormal212 = normalize( float3(dot(tanToWorld0,tanNormal212), dot(tanToWorld1,tanNormal212), dot(tanToWorld2,tanNormal212)) );
 				float3 worldNormal209 = worldNormal212;
-				float3 worldNormalValue50_g35 = worldNormal209;
-				float3 WorldNormal86_g35 = worldNormalValue50_g35;
-				half2 LightmapUV1_g29 = temp_output_369_0.xy;
-				half4 localCalculateShadowMask1_g29 = CalculateShadowMask1_g29( LightmapUV1_g29 );
-				float4 shadowMaskValue33_g35 = localCalculateShadowMask1_g29;
-				float4 ShadowMask86_g35 = shadowMaskValue33_g35;
-				float3 localAdditionalLightsLambertMask14x86_g35 = AdditionalLightsLambertMask14x( WorldPosition86_g35 , ScreenUV86_g35 , WorldNormal86_g35 , ShadowMask86_g35 );
-				float3 lambertResult38_g35 = localAdditionalLightsLambertMask14x86_g35;
-				float3 break190 = lambertResult38_g35;
+				float3 worldNormalValue50_g46 = worldNormal209;
+				float3 WorldNormal86_g46 = worldNormalValue50_g46;
+				half2 LightmapUV1_g44 = temp_output_369_0.xy;
+				half4 localCalculateShadowMask1_g44 = CalculateShadowMask1_g44( LightmapUV1_g44 );
+				float4 shadowMaskValue33_g46 = localCalculateShadowMask1_g44;
+				float4 ShadowMask86_g46 = shadowMaskValue33_g46;
+				float3 localAdditionalLightsLambertMask14x86_g46 = AdditionalLightsLambertMask14x( WorldPosition86_g46 , ScreenUV86_g46 , WorldNormal86_g46 , ShadowMask86_g46 );
+				float3 lambertResult38_g46 = localAdditionalLightsLambertMask14x86_g46;
+				float3 break190 = lambertResult38_g46;
 				float ase_lightAtten = 0;
 				Light ase_mainLight = GetMainLight( ShadowCoords );
 				ase_lightAtten = ase_mainLight.distanceAttenuation * ase_mainLight.shadowAttenuation;
@@ -3192,9 +3209,6 @@ Shader "SHR_3DMaster"
 				#else
 				float4 staticSwitch388 = SampleGradient( gradient203, clampResult437.x );
 				#endif
-				float4 _MainTex_ST_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_3DMaster,_MainTex_ST);
-				float2 uv_MainTex = IN.ase_texcoord2.zw * _MainTex_ST_Instance.xy + _MainTex_ST_Instance.zw;
-				float4 tex2DNode207 = tex2D( _MainTex, uv_MainTex );
 				#ifdef _COLORORTEX_ON
 				float4 staticSwitch219 = tex2DNode207;
 				#else
@@ -3212,7 +3226,7 @@ Shader "SHR_3DMaster"
 				float time275 = 0.0;
 				float2 voronoiSmoothId275 = 0;
 				float voronoiSmooth275 = 0.0;
-				float2 texCoord270 = IN.ase_texcoord2.zw * float2( 1,1 ) + float2( 0,0 );
+				float2 texCoord270 = IN.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 temp_output_616_0 = ( texCoord270 * _ShadowPatternDensity );
 				float2 coords275 = temp_output_616_0 * 1.0;
 				float2 id275 = 0;
@@ -3230,7 +3244,7 @@ Shader "SHR_3DMaster"
 				float2 temp_output_654_0 = ( temp_output_648_0 + temp_output_643_0 + temp_output_647_0 );
 				float3 temp_output_658_0 = ( WorldPosition * 0.0 );
 				float2 uv653 = 0;
-				float3 unityVoronoy653 = UnityVoronoi(IN.ase_texcoord2.zw,0.0,10.0,uv653);
+				float3 unityVoronoy653 = UnityVoronoi(IN.ase_texcoord2.xy,0.0,10.0,uv653);
 				#ifdef _USINGTRIPLANAR_ON
 				float2 staticSwitch629 = ( ( ( temp_output_648_0 / temp_output_654_0 ) * ( (temp_output_658_0).yz * unityVoronoy653.x ) ) + ( ( temp_output_643_0 / temp_output_654_0 ) * ( (temp_output_658_0).xz * unityVoronoy653.x ) ) + ( ( temp_output_647_0 / temp_output_654_0 ) * ( (temp_output_658_0).xy * unityVoronoy653.x ) ) );
 				#else
@@ -3260,9 +3274,14 @@ Shader "SHR_3DMaster"
 				#else
 				float4 staticSwitch305 = ( staticSwitch388 * lerpResult266 );
 				#endif
+				#ifdef _LIGHTINDDONE_ON
+				float4 staticSwitch480 = staticSwitch305;
+				#else
+				float4 staticSwitch480 = tex2DNode207;
+				#endif
 				
 
-				float3 BaseColor = staticSwitch305.rgb;
+				float3 BaseColor = staticSwitch480.rgb;
 				float Alpha = 1;
 				float AlphaClipThreshold = 0.5;
 
@@ -3758,6 +3777,7 @@ Shader "SHR_3DMaster"
 			#define ASE_NEEDS_FRAG_SHADOWCOORDS
 			#pragma shader_feature_local _USING3DMOVEMENTS_ON
 			#pragma multi_compile_instancing
+			#pragma shader_feature _LIGHTINDDONE_ON
 			#pragma shader_feature_local _FULLSHADINGHALFSHADING_ON
 			#pragma shader_feature_local _BAKEDORRT_ON
 			#pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
@@ -3859,13 +3879,13 @@ Shader "SHR_3DMaster"
 				int _PassValue;
 			#endif
 
-			sampler2D _BumpNormal;
 			sampler2D _MainTex;
+			sampler2D _BumpNormal;
 			sampler2D _Texture0;
 			sampler2D _Normal;
 			UNITY_INSTANCING_BUFFER_START(SHR_3DMaster)
-				UNITY_DEFINE_INSTANCED_PROP(float4, _BumpNormal_ST)
 				UNITY_DEFINE_INSTANCED_PROP(float4, _MainTex_ST)
+				UNITY_DEFINE_INSTANCED_PROP(float4, _BumpNormal_ST)
 				UNITY_DEFINE_INSTANCED_PROP(float4, _Normal_ST)
 				UNITY_DEFINE_INSTANCED_PROP(float, _BPM)
 			UNITY_INSTANCING_BUFFER_END(SHR_3DMaster)
@@ -3876,12 +3896,12 @@ Shader "SHR_3DMaster"
 			//#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/PBRGBufferPass.hlsl"
 
 			
-			float4 SampleLightmapHD11_g38( float2 UV )
+			float4 SampleLightmapHD11_g49( float2 UV )
 			{
 				return SAMPLE_TEXTURE2D( unity_Lightmap, samplerunity_Lightmap, UV );
 			}
 			
-			float4 URPDecodeInstruction19_g38(  )
+			float4 URPDecodeInstruction19_g49(  )
 			{
 				return float4(LIGHTMAP_HDR_MULTIPLIER, LIGHTMAP_HDR_EXPONENT, 0, 0);
 			}
@@ -3908,7 +3928,7 @@ Shader "SHR_3DMaster"
 				return float4(color, alpha);
 			}
 			
-			half4 CalculateShadowMask1_g29( half2 LightmapUV )
+			half4 CalculateShadowMask1_g44( half2 LightmapUV )
 			{
 				#if defined(SHADOWS_SHADOWMASK) && defined(LIGHTMAP_ON)
 				return SAMPLE_SHADOWMASK( LightmapUV.xy );
@@ -4097,13 +4117,13 @@ Shader "SHR_3DMaster"
 				float3 staticSwitch534 = float3( 0,0,0 );
 				#endif
 				
-				float2 texCoord2_g38 = v.texcoord1.xy * float2( 1,1 ) + float2( 0,0 );
-				float2 vertexToFrag10_g38 = ( ( texCoord2_g38 * (unity_LightmapST).xy ) + (unity_LightmapST).zw );
-				o.ase_texcoord8.xy = vertexToFrag10_g38;
+				float2 texCoord2_g49 = v.texcoord1.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 vertexToFrag10_g49 = ( ( texCoord2_g49 * (unity_LightmapST).xy ) + (unity_LightmapST).zw );
+				o.ase_texcoord8.zw = vertexToFrag10_g49;
 				float3 objectSpaceLightDir = mul( GetWorldToObjectMatrix(), _MainLightPosition ).xyz;
 				o.ase_texcoord9.xyz = objectSpaceLightDir;
 				
-				o.ase_texcoord8.zw = v.texcoord.xy;
+				o.ase_texcoord8.xy = v.texcoord.xy;
 				o.ase_normal = v.ase_normal;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -4301,22 +4321,25 @@ Shader "SHR_3DMaster"
 
 				WorldViewDirection = SafeNormalize( WorldViewDirection );
 
+				float4 _MainTex_ST_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_3DMaster,_MainTex_ST);
+				float2 uv_MainTex = IN.ase_texcoord8.xy * _MainTex_ST_Instance.xy + _MainTex_ST_Instance.zw;
+				float4 tex2DNode207 = tex2D( _MainTex, uv_MainTex );
 				Gradient gradient203 = NewGradient( 1, 5, 2, float4( 0.3207547, 0.3207547, 0.3207547, 0.1193713 ), float4( 0.3962264, 0.3962264, 0.3962264, 0.3913939 ), float4( 0.5031446, 0.5031446, 0.5031446, 0.616434 ), float4( 0.6100628, 0.6100628, 0.6100628, 0.8767071 ), float4( 1, 1, 1, 1 ), 0, 0, 0, float2( 1, 0 ), float2( 1, 1 ), 0, 0, 0, 0, 0, 0 );
-				float2 vertexToFrag10_g38 = IN.ase_texcoord8.xy;
-				float2 UV11_g38 = vertexToFrag10_g38;
-				float4 localSampleLightmapHD11_g38 = SampleLightmapHD11_g38( UV11_g38 );
-				float4 localURPDecodeInstruction19_g38 = URPDecodeInstruction19_g38();
-				float3 decodeLightMap6_g38 = DecodeLightmap(localSampleLightmapHD11_g38,localURPDecodeInstruction19_g38);
-				float3 temp_output_369_0 = decodeLightMap6_g38;
+				float2 vertexToFrag10_g49 = IN.ase_texcoord8.zw;
+				float2 UV11_g49 = vertexToFrag10_g49;
+				float4 localSampleLightmapHD11_g49 = SampleLightmapHD11_g49( UV11_g49 );
+				float4 localURPDecodeInstruction19_g49 = URPDecodeInstruction19_g49();
+				float3 decodeLightMap6_g49 = DecodeLightmap(localSampleLightmapHD11_g49,localURPDecodeInstruction19_g49);
+				float3 temp_output_369_0 = decodeLightMap6_g49;
 				float3 clampResult437 = clamp( (( temp_output_369_0 * _Cels_FallOffThreshold )*1.0 + _Cels_LitThreshold) , float3( 0,0,0 ) , float3( 1,1,1 ) );
-				float3 worldPosValue44_g35 = WorldPosition;
-				float3 WorldPosition86_g35 = worldPosValue44_g35;
+				float3 worldPosValue44_g46 = WorldPosition;
+				float3 WorldPosition86_g46 = worldPosValue44_g46;
 				float4 ase_screenPosNorm = ScreenPos / ScreenPos.w;
 				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
-				float2 ScreenUV75_g35 = (ase_screenPosNorm).xy;
-				float2 ScreenUV86_g35 = ScreenUV75_g35;
+				float2 ScreenUV75_g46 = (ase_screenPosNorm).xy;
+				float2 ScreenUV86_g46 = ScreenUV75_g46;
 				float4 _BumpNormal_ST_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_3DMaster,_BumpNormal_ST);
-				float2 uv_BumpNormal = IN.ase_texcoord8.zw * _BumpNormal_ST_Instance.xy + _BumpNormal_ST_Instance.zw;
+				float2 uv_BumpNormal = IN.ase_texcoord8.xy * _BumpNormal_ST_Instance.xy + _BumpNormal_ST_Instance.zw;
 				float3 unpack214 = UnpackNormalScale( tex2D( _BumpNormal, uv_BumpNormal ), _NormalScale );
 				unpack214.z = lerp( 1, unpack214.z, saturate(_NormalScale) );
 				float3 tanToWorld0 = float3( WorldTangent.x, WorldBiTangent.x, WorldNormal.x );
@@ -4325,15 +4348,15 @@ Shader "SHR_3DMaster"
 				float3 tanNormal212 = unpack214;
 				float3 worldNormal212 = normalize( float3(dot(tanToWorld0,tanNormal212), dot(tanToWorld1,tanNormal212), dot(tanToWorld2,tanNormal212)) );
 				float3 worldNormal209 = worldNormal212;
-				float3 worldNormalValue50_g35 = worldNormal209;
-				float3 WorldNormal86_g35 = worldNormalValue50_g35;
-				half2 LightmapUV1_g29 = temp_output_369_0.xy;
-				half4 localCalculateShadowMask1_g29 = CalculateShadowMask1_g29( LightmapUV1_g29 );
-				float4 shadowMaskValue33_g35 = localCalculateShadowMask1_g29;
-				float4 ShadowMask86_g35 = shadowMaskValue33_g35;
-				float3 localAdditionalLightsLambertMask14x86_g35 = AdditionalLightsLambertMask14x( WorldPosition86_g35 , ScreenUV86_g35 , WorldNormal86_g35 , ShadowMask86_g35 );
-				float3 lambertResult38_g35 = localAdditionalLightsLambertMask14x86_g35;
-				float3 break190 = lambertResult38_g35;
+				float3 worldNormalValue50_g46 = worldNormal209;
+				float3 WorldNormal86_g46 = worldNormalValue50_g46;
+				half2 LightmapUV1_g44 = temp_output_369_0.xy;
+				half4 localCalculateShadowMask1_g44 = CalculateShadowMask1_g44( LightmapUV1_g44 );
+				float4 shadowMaskValue33_g46 = localCalculateShadowMask1_g44;
+				float4 ShadowMask86_g46 = shadowMaskValue33_g46;
+				float3 localAdditionalLightsLambertMask14x86_g46 = AdditionalLightsLambertMask14x( WorldPosition86_g46 , ScreenUV86_g46 , WorldNormal86_g46 , ShadowMask86_g46 );
+				float3 lambertResult38_g46 = localAdditionalLightsLambertMask14x86_g46;
+				float3 break190 = lambertResult38_g46;
 				float ase_lightAtten = 0;
 				Light ase_mainLight = GetMainLight( ShadowCoords );
 				ase_lightAtten = ase_mainLight.distanceAttenuation * ase_mainLight.shadowAttenuation;
@@ -4349,9 +4372,6 @@ Shader "SHR_3DMaster"
 				#else
 				float4 staticSwitch388 = SampleGradient( gradient203, clampResult437.x );
 				#endif
-				float4 _MainTex_ST_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_3DMaster,_MainTex_ST);
-				float2 uv_MainTex = IN.ase_texcoord8.zw * _MainTex_ST_Instance.xy + _MainTex_ST_Instance.zw;
-				float4 tex2DNode207 = tex2D( _MainTex, uv_MainTex );
 				#ifdef _COLORORTEX_ON
 				float4 staticSwitch219 = tex2DNode207;
 				#else
@@ -4369,7 +4389,7 @@ Shader "SHR_3DMaster"
 				float time275 = 0.0;
 				float2 voronoiSmoothId275 = 0;
 				float voronoiSmooth275 = 0.0;
-				float2 texCoord270 = IN.ase_texcoord8.zw * float2( 1,1 ) + float2( 0,0 );
+				float2 texCoord270 = IN.ase_texcoord8.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 temp_output_616_0 = ( texCoord270 * _ShadowPatternDensity );
 				float2 coords275 = temp_output_616_0 * 1.0;
 				float2 id275 = 0;
@@ -4387,7 +4407,7 @@ Shader "SHR_3DMaster"
 				float2 temp_output_654_0 = ( temp_output_648_0 + temp_output_643_0 + temp_output_647_0 );
 				float3 temp_output_658_0 = ( WorldPosition * 0.0 );
 				float2 uv653 = 0;
-				float3 unityVoronoy653 = UnityVoronoi(IN.ase_texcoord8.zw,0.0,10.0,uv653);
+				float3 unityVoronoy653 = UnityVoronoi(IN.ase_texcoord8.xy,0.0,10.0,uv653);
 				#ifdef _USINGTRIPLANAR_ON
 				float2 staticSwitch629 = ( ( ( temp_output_648_0 / temp_output_654_0 ) * ( (temp_output_658_0).yz * unityVoronoy653.x ) ) + ( ( temp_output_643_0 / temp_output_654_0 ) * ( (temp_output_658_0).xz * unityVoronoy653.x ) ) + ( ( temp_output_647_0 / temp_output_654_0 ) * ( (temp_output_658_0).xy * unityVoronoy653.x ) ) );
 				#else
@@ -4417,15 +4437,20 @@ Shader "SHR_3DMaster"
 				#else
 				float4 staticSwitch305 = ( staticSwitch388 * lerpResult266 );
 				#endif
+				#ifdef _LIGHTINDDONE_ON
+				float4 staticSwitch480 = staticSwitch305;
+				#else
+				float4 staticSwitch480 = tex2DNode207;
+				#endif
 				
 				float4 _Normal_ST_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_3DMaster,_Normal_ST);
-				float2 uv_Normal = IN.ase_texcoord8.zw * _Normal_ST_Instance.xy + _Normal_ST_Instance.zw;
+				float2 uv_Normal = IN.ase_texcoord8.xy * _Normal_ST_Instance.xy + _Normal_ST_Instance.zw;
 				float4 _Normalmap54 = tex2D( _Normal, uv_Normal );
 				
 				float3 temp_cast_17 = (0.0).xxx;
 				
 
-				float3 BaseColor = staticSwitch305.rgb;
+				float3 BaseColor = staticSwitch480.rgb;
 				float3 Normal = _Normalmap54.rgb;
 				float3 Emission = 0;
 				float3 Specular = temp_cast_17;
@@ -5248,7 +5273,7 @@ Node;AmplifyShaderEditor.RegisterLocalVarNode;617;2311.111,525.059;Inherit;False
 Node;AmplifyShaderEditor.SimpleAddOpNode;248;-1269.215,-4367.004;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.DotProductOpNode;189;-1156.514,-4620.081;Inherit;False;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;183;-1557.887,-4983.049;Inherit;True;209;worldNormal;1;0;OBJECT;;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.FunctionNode;246;-1550.698,-4737.472;Inherit;False;Shadow Mask;-1;;29;b50f5becdd6b8504a861ba5b9b861159;0;1;3;FLOAT2;0,0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.FunctionNode;246;-1550.698,-4737.472;Inherit;False;Shadow Mask;-1;;44;b50f5becdd6b8504a861ba5b9b861159;0;1;3;FLOAT2;0,0;False;1;FLOAT4;0
 Node;AmplifyShaderEditor.GetLocalVarNode;202;-1555.202,-4649.046;Inherit;True;209;worldNormal;1;0;OBJECT;;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.WorldSpaceLightDirHlpNode;185;-1557.216,-4443.177;Inherit;False;True;1;0;FLOAT;0;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.ObjSpaceLightDirHlpNode;56;-1559.287,-4289.143;Inherit;False;1;0;FLOAT;0;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
@@ -5268,7 +5293,7 @@ Node;AmplifyShaderEditor.ScaleAndOffsetNode;187;-911.2591,-4614.499;Inherit;True
 Node;AmplifyShaderEditor.Vector2Node;445;-1115.424,-4506.981;Inherit;False;Constant;_RT_SO;RT_SO;17;0;Create;True;0;0;0;False;0;False;0,0;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
 Node;AmplifyShaderEditor.RangedFloatNode;440;-1579.952,-5143.151;Inherit;False;Property;_Cels_FallOffThreshold;Cels_FallOffThreshold;24;0;Create;True;0;0;0;False;0;False;0.45;0.45;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleAddOpNode;328;-543.3197,-4369.479;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;201;-1324.182,-4874.571;Inherit;False;SRP Additional Light;-1;;35;6c86746ad131a0a408ca599df5f40861;7,6,1,9,1,23,0,27,1,25,1,24,1,26,1;6;2;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;15;FLOAT3;0,0,0;False;14;FLOAT3;1,1,1;False;18;FLOAT;1;False;32;FLOAT4;0,0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.FunctionNode;201;-1324.182,-4874.571;Inherit;False;SRP Additional Light;-1;;46;6c86746ad131a0a408ca599df5f40861;7,6,1,9,1,23,0,27,1,25,1,24,1,26,1;6;2;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;15;FLOAT3;0,0,0;False;14;FLOAT3;1,1,1;False;18;FLOAT;1;False;32;FLOAT4;0,0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.BreakToComponentsNode;190;-1093.958,-4881.02;Inherit;True;FLOAT3;1;0;FLOAT3;0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
 Node;AmplifyShaderEditor.SimpleMaxOpNode;193;-882.1261,-4880.597;Inherit;True;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMaxOpNode;188;-667.8192,-4862.382;Inherit;True;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
@@ -5276,7 +5301,7 @@ Node;AmplifyShaderEditor.SimpleAddOpNode;423;-102.0052,-4609.139;Inherit;False;2
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;186;-274.8864,-4395.413;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.WireNode;446;-380.0405,-4545.772;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.StaticSwitch;388;581.8553,-4973.622;Inherit;True;Property;_Keyword0;Keyword 0;29;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Reference;379;True;True;All;9;1;COLOR;0,0,0,0;False;0;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;5;COLOR;0,0,0,0;False;6;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.FunctionNode;369;-1930.156,-4731.151;Inherit;True;FetchLightmapValue;9;;38;43de3d4ae59f645418fdd020d1b8e78e;0;0;1;FLOAT3;0
+Node;AmplifyShaderEditor.FunctionNode;369;-1930.156,-4731.151;Inherit;True;FetchLightmapValue;9;;49;43de3d4ae59f645418fdd020d1b8e78e;0;0;1;FLOAT3;0
 Node;AmplifyShaderEditor.GradientNode;203;-1220.971,-4975.521;Inherit;False;1;5;2;0.3207547,0.3207547,0.3207547,0.1193713;0.3962264,0.3962264,0.3962264,0.3913939;0.5031446,0.5031446,0.5031446,0.616434;0.6100628,0.6100628,0.6100628,0.8767071;1,1,1,1;1,0;1,1;0;1;OBJECT;0
 Node;AmplifyShaderEditor.WireNode;577;780.0012,-4180.368;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.GradientSampleNode;196;-36.82284,-4942.022;Inherit;True;2;0;OBJECT;;False;1;FLOAT;0;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
@@ -5436,7 +5461,7 @@ WireConnection;529;0;528;1
 WireConnection;532;0;521;33
 WireConnection;514;0;506;0
 WireConnection;514;1;499;0
-WireConnection;404;0;305;0
+WireConnection;404;0;480;0
 WireConnection;404;1;384;0
 WireConnection;404;9;368;0
 WireConnection;404;4;339;0
@@ -5555,7 +5580,6 @@ WireConnection;624;1;631;0
 WireConnection;448;1;624;0
 WireConnection;448;0;626;0
 WireConnection;639;17;453;0
-WireConnection;639;47;548;0
 WireConnection;275;0;616;0
 WireConnection;658;0;662;0
 WireConnection;658;1;657;0
@@ -5584,4 +5608,4 @@ WireConnection;654;2;647;0
 WireConnection;629;1;275;0
 WireConnection;629;0;671;0
 ASEEND*/
-//CHKSM=77AC41E3296BAE5E130ED91A75280D311EC7075C
+//CHKSM=8EE10B35892ED6DFA0FFEBDB8EA100A08DC10CFC
