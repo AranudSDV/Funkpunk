@@ -12,7 +12,6 @@ using FMODUnity;
 using UnityEngine.LowLevel;
 using FMOD.Studio;
 using UnityEngine.UIElements;
-using static Unity.VisualScripting.Icons;
 
 public class MenuManager : MonoBehaviour
 {

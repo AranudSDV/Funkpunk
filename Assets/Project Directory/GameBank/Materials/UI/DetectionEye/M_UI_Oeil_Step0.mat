@@ -13,6 +13,7 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _1TEX_ON
+  - _HANDLECOLORS_ON
   - _USINGXSCALE1_ON
   - _USINGXSCALE_ON
   - _USINGYSCALE1_ON
@@ -81,6 +82,7 @@ Material:
     - _Alphacliptresh: 0.1
     - _BPM: 110
     - _BaseOpacity: 1
+    - _HandleColors: 1
     - _IsVerticalOrLateral: 0
     - _MaxSizeX: 1
     - _MaxSizeY: 1.5

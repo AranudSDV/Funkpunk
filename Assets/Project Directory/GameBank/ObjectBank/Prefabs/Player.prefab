@@ -371,8 +371,14 @@ MonoBehaviour:
   FTimeWithoutLooseDetection: 5
   BisDetectedByAnyEnemy: 0
   iTimeFoeDisabled: 5
-  mEye: []
+  mEye:
+  - {fileID: 2100000, guid: 96115ad3a65b38944a6b18669f93d5e6, type: 2}
+  - {fileID: 2100000, guid: 247809ef0c259ba4eb11d572318a46d9, type: 2}
+  - {fileID: 2100000, guid: 5ba035be064cffb40b9b12bdbdeb1b07, type: 2}
+  - {fileID: 2100000, guid: 83377a1d38a276447abe04a8c2242fcc, type: 2}
+  - {fileID: 2100000, guid: 6f0a342120c31e04eab06c6789eca901, type: 2}
   imgEye: {fileID: 0}
+  VCam_Cinematic: {fileID: 0}
   taggingRange: 1
   GoVfxTag: {fileID: 766318065870670635}
   vfx_tag: {fileID: 8945544291399188229}
