@@ -12,7 +12,7 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _3TEX_ON
+  - _1TEX_ON
   - _USINGXSCALE1_ON
   - _USINGXSCALE_ON
   - _USINGYSCALE1_ON
@@ -73,14 +73,15 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _1Tex: 0
+    - _1Tex: 1
     - _2Alphas: 0
     - _2Tex: 0
-    - _3Tex: 1
+    - _3Tex: 0
     - _AlphaCutoff: 0.5
     - _Alphacliptresh: 0.1
     - _BPM: 120
     - _BaseOpacity: 1
+    - _HandleColors: 0
     - _IsVerticalOrLateral: 0
     - _MaxSizeX: 1
     - _MaxSizeY: 1.5
@@ -93,6 +94,7 @@ Material:
     - _QueueOffset: 0
     - _ScaleX: 1
     - _ScaleY: 1
+    - _TimeDelay: 0
     - _UpLorDownR: 0
     - _UsingX: 0
     - _UsingXMove: 0

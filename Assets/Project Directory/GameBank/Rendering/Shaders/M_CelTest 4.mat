@@ -12,7 +12,6 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _BAKEDORRT_ON
   - _COLORORTEX_ON
   - _USING3DMOVEMENTS_ON
   m_InvalidKeywords:
@@ -40,7 +39,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 496e900529b02f441b3612a7290d7313, type: 3}
+        m_Texture: {fileID: 2800000, guid: a8640eb1486537d4a8337c3c6f149f1f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal1:
@@ -48,6 +51,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ShadowTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture0:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -71,7 +78,8 @@ Material:
     m_Floats:
     - _AlphaCutoff: 0.5
     - _BPM: 60
-    - _BakedOrRT: 1
+    - _BakedOrRT: 0
+    - _BlendPow: 1
     - _Cels_FallOffThreshold: 1
     - _Cels_LitThreshold: 0.5
     - _ColorOrTex: 1
@@ -92,6 +100,7 @@ Material:
     - _ShadowPatternDensity: 19.37
     - _ShadowPatternRotator: 5.29
     - _ShadowSoftness: 1
+    - _ShadowTex_Pow: 0.27
     - _Shadow_FallOffThreshold: 0.27
     - _Shadow_LitThreshold: 0.8
     - _ShadowsFullCelShaded: 1
@@ -102,6 +111,8 @@ Material:
     - _SpecularHighlights: 1
     - _TopMask: 0
     - _Using3DMovements: 1
+    - _UsingTriplanar: 0
+    - _WorldPosDiv: 0
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseVertexOffsetDelay: {r: 0, g: 0, b: 0, a: 0}
