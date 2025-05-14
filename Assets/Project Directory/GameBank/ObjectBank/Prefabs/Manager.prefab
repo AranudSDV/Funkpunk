@@ -150,8 +150,25 @@ MonoBehaviour:
   - {fileID: 4029280696761519072}
   - {fileID: 6953012520679639207}
   SliderOptionAudio:
-  - {fileID: 1518392053266865558}
   - {fileID: 1751299479825783677}
+  - {fileID: 772669210243803284}
+  - {fileID: 1518392053266865558}
+  ButtonOptionGeneral_:
+  - {fileID: 8518256833580555983}
+  - {fileID: 4785640930153075559}
+  ImageSliderHandlerAudio:
+  - {fileID: 4902896615522867187}
+  - {fileID: 4029720078498340852}
+  - {fileID: 867639799032988846}
+  ImageButtonGeneral:
+  - {fileID: 1377030408477640852}
+  - {fileID: 3861486882111711090}
+  M_materialButtonGeneral:
+  - {fileID: 2100000, guid: bbd70956d18c2964ea2faa35d0177e91, type: 2}
+  - {fileID: 2100000, guid: d5a15ddec35357d448a35887f6d2be17, type: 2}
+  - {fileID: 2100000, guid: d1175f413a773fc408a780abf1afaa2f, type: 2}
+  - {fileID: 2100000, guid: 9a0214e3491a1b54fac6270a21e468d0, type: 2}
+  - {fileID: 2100000, guid: d4ad19a3bfb728546aacf9ba0373f99d, type: 2}
   CgOptionPannel: {fileID: 5012095105389482774}
   RtOptionPannel: {fileID: 3499776594213287319}
   CgOptionGeneral: {fileID: 3089581025230898165}
@@ -2354,7 +2371,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1771719604172920210}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0

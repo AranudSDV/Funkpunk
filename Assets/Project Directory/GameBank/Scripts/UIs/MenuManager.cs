@@ -31,7 +31,7 @@ public class MenuManager : MonoBehaviour
 
     //NAVIGATION UX
     [Header("Options General")]
-    private bool[] bOnce = new bool[2] { false, false };
+    private bool[] bOnce = new bool[3] { false, false, false };
     [SerializeField] private GameObject GoOptionGeneralFirstButtonSelected;
     [SerializeField] private UnityEngine.UI.Selectable ButtonOptionGeneral;
     [SerializeField] private UnityEngine.UI.Button[] ButtonsOptionGeneral_fromGeneral;
@@ -41,9 +41,10 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private UnityEngine.UI.Button[] ButtonsOptionGeneral_fromAudio;
     [SerializeField] private UnityEngine.UI.Button[] ButtonsOptionAudio_fromAudio;
     [SerializeField] private UnityEngine.UI.Slider[] SliderOptionAudio = new UnityEngine.UI.Slider[3];
-    [SerializeField] private UnityEngine.UI.Image[] ImageSliderHandlerAudio;
-    [SerializeField] private UnityEngine.UI.Image[] ImageButtonGeneral;
-    [Tooltip("first language, then difficulty")][SerializeField] private Material M_materialButtonGeneral;
+    [SerializeField] private UnityEngine.UI.Button[] ButtonOptionGeneral_ = new UnityEngine.UI.Button[2];
+    [SerializeField] private UnityEngine.UI.Image[] ImageSliderHandlerAudio = new UnityEngine.UI.Image[3];
+    [SerializeField] private UnityEngine.UI.Image[] ImageButtonGeneral = new UnityEngine.UI.Image[2];
+    [Tooltip("first language english, french, then difficulty hard to easy")][SerializeField] private Material[] M_materialButtonGeneral;
     public CanvasGroup CgOptionPannel;
     public RectTransform RtOptionPannel;
     public CanvasGroup CgOptionGeneral;
@@ -275,11 +276,11 @@ public class MenuManager : MonoBehaviour
                     {
                         iSelectedAudio = i;
                     }
-                    //ImageSliderHandlerAudio[iSelectedAudio].material._NoColorsWhiteValue = 1f;
+                    ImageSliderHandlerAudio[iSelectedAudio].material.SetFloat("NoColorsWhiteValue", 1f);
                 }
                 else
                 {
-                    //ImageSliderHandlerAudio[i].material._NoColorsWhiteValue = 0.5f;
+                    ImageSliderHandlerAudio[i].material.SetFloat("NoColorsWhiteValue", 0.5f);
                 }
                 if(i< bNowSelectedGeneral.Length)
                 {
@@ -290,9 +291,9 @@ public class MenuManager : MonoBehaviour
         }
         else if(CgOptionGeneral.alpha == 1f)
         {
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 2; i++)
             {
-                if (EventSystem.currentSelectedGameObject == ImageButtonGeneral[i] && !bNowSelectedGeneral[i])
+                if (EventSystem.currentSelectedGameObject == ButtonOptionGeneral_[i] && !bNowSelectedGeneral[i])
                 {
                     bNowSelectedAudio[i] = true;
                     if (iSelectedGeneral > -1)
@@ -304,11 +305,11 @@ public class MenuManager : MonoBehaviour
                     {
                         iSelectedGeneral = i;
                     }
-                    //ImageButtonGeneral[iSelectedGeneral].material._NoColorsWhiteValue = 1f;
+                    ImageButtonGeneral[iSelectedGeneral].material.SetFloat("NoColorsWhiteValue", 1f);
                 }
                 else
                 {
-                    //ImageButtonGeneral[i].material._NoColorsWhiteValue = 0.5f;
+                    ImageButtonGeneral[i].material.SetFloat("NoColorsWhiteValue", 0.5f);
                 }
                 if (i < bNowSelectedAudio.Length)
                 {
@@ -718,6 +719,30 @@ public class MenuManager : MonoBehaviour
                 ButtonOptionGeneral.navigation = navigation1;
                 bOnce[1] = true;
             }
+            else if(CgOptionGeneral.alpha == 1f && !bOnce[2])
+            {
+                if(_playerData.iLanguageNbPlayer==0) //english
+                {
+                    ImageButtonGeneral[0].material = M_materialButtonGeneral[0];
+                }
+                else
+                {
+                    ImageButtonGeneral[0].material = M_materialButtonGeneral[1];
+                }
+                if(iDifficulty==0) //hard
+                {
+                    ImageButtonGeneral[1].material = M_materialButtonGeneral[2];
+                }
+                else if(iDifficulty == 0) //normal
+                {
+                    ImageButtonGeneral[1].material = M_materialButtonGeneral[3];
+                }
+                else //easy
+                {
+                    ImageButtonGeneral[1].material = M_materialButtonGeneral[3];
+                }
+                bOnce[2] = true;
+            }
         }
     }
     public void PauseMenu()
@@ -843,6 +868,7 @@ public class MenuManager : MonoBehaviour
     }
     public void Difficulty()
     {
+        bOnce[2] = false;
         ButtonSound();
         if (iDifficulty < 2)
         {
@@ -859,6 +885,7 @@ public class MenuManager : MonoBehaviour
     }
     public void LanguageButton()
     {
+        bOnce[2] = false;
         ButtonSound();
         if (_playerData.iLanguageNbPlayer == 1)
         {
