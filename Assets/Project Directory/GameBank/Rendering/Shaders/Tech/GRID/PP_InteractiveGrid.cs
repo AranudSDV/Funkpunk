@@ -60,10 +60,10 @@ public class PP_InteractiveGrid : MonoBehaviour
     }
 
     // Affiche la texture dans une fenêtre GUI pour le débogage.
-    void OnGUI()
+    /*void OnGUI()
     {
         GUI.DrawTexture(new Rect(10, 10, 256, 256), maskTexture);
-    }
+    }*/
 
     void Update()
     {
