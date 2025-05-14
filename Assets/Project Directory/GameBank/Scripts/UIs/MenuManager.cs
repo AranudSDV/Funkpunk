@@ -40,12 +40,19 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private UnityEngine.UI.Selectable ButtonOptionAudio;
     [SerializeField] private UnityEngine.UI.Button[] ButtonsOptionGeneral_fromAudio;
     [SerializeField] private UnityEngine.UI.Button[] ButtonsOptionAudio_fromAudio;
-    [SerializeField] private UnityEngine.UI.Slider[] SliderOptionAudio;
+    [SerializeField] private UnityEngine.UI.Slider[] SliderOptionAudio = new UnityEngine.UI.Slider[3];
+    [SerializeField] private UnityEngine.UI.Image[] ImageSliderHandlerAudio;
+    [SerializeField] private UnityEngine.UI.Image[] ImageButtonGeneral;
+    [Tooltip("first language, then difficulty")][SerializeField] private Material M_materialButtonGeneral;
     public CanvasGroup CgOptionPannel;
     public RectTransform RtOptionPannel;
     public CanvasGroup CgOptionGeneral;
     public int iDifficulty = 0;
     [SerializeField] private EventReference[] sfx_ui_button;
+    private bool[] bNowSelectedGeneral = new bool[2] { false, false };
+    private bool[] bNowSelectedAudio = new bool[3] { false, false, false };
+    private int iSelectedGeneral = -1;
+    private int iSelectedAudio = -1;
 
     [Header("Sound")]
     public FMOD.Studio.VCA music_basic_VCA;
@@ -250,6 +257,67 @@ public class MenuManager : MonoBehaviour
         CheckDialogue();
     }
     //CHECKS AND UI CHANGES
+    private void CheckCurrentSelectable()
+    {
+        if(CgOptionAudio.alpha == 1f)
+        {
+            for(int i = 0; i<3; i++)
+            {
+                if(EventSystem.currentSelectedGameObject == SliderOptionAudio[i] && !bNowSelectedAudio[i])
+                {
+                    bNowSelectedAudio[i] = true;
+                    if(iSelectedAudio>-1)
+                    {
+                        bNowSelectedAudio[iSelectedAudio] = false;
+                        iSelectedAudio = i;
+                    }
+                    else
+                    {
+                        iSelectedAudio = i;
+                    }
+                    //ImageSliderHandlerAudio[iSelectedAudio].material._NoColorsWhiteValue = 1f;
+                }
+                else
+                {
+                    //ImageSliderHandlerAudio[i].material._NoColorsWhiteValue = 0.5f;
+                }
+                if(i< bNowSelectedGeneral.Length)
+                {
+                    bNowSelectedGeneral[i] = false;
+                }
+                iSelectedGeneral = -1;
+            }
+        }
+        else if(CgOptionGeneral.alpha == 1f)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                if (EventSystem.currentSelectedGameObject == ImageButtonGeneral[i] && !bNowSelectedGeneral[i])
+                {
+                    bNowSelectedAudio[i] = true;
+                    if (iSelectedGeneral > -1)
+                    {
+                        bNowSelectedAudio[iSelectedGeneral] = false;
+                        iSelectedGeneral = i;
+                    }
+                    else
+                    {
+                        iSelectedGeneral = i;
+                    }
+                    //ImageButtonGeneral[iSelectedGeneral].material._NoColorsWhiteValue = 1f;
+                }
+                else
+                {
+                    //ImageButtonGeneral[i].material._NoColorsWhiteValue = 0.5f;
+                }
+                if (i < bNowSelectedAudio.Length)
+                {
+                    bNowSelectedAudio[i] = false;
+                }
+                iSelectedAudio = -1;
+            }
+        }
+    }
     private void CheckControllerStatus()
     {
         string[] controllers = Input.GetJoystickNames();
@@ -615,7 +683,8 @@ public class MenuManager : MonoBehaviour
         }
         if(controllerConnected && CgOptionPannel.alpha == 1f)
         {
-            if(CgOptionAudio.alpha ==1f && !bOnce[0])
+            CheckCurrentSelectable();
+            if (CgOptionAudio.alpha ==1f && !bOnce[0])
             {
                 var navigation = ButtonOptionAudio.navigation;
                 navigation.selectOnUp = SliderOptionAudio[0];

@@ -16,6 +16,7 @@ using UnityEngine.SceneManagement;
 public class sc_tuto_generic : MonoBehaviour
 {
     [Header("General")]
+    [SerializeField] private bool bIsOnLoft = false;
     [SerializeField] private SC_Player scPlayer;
     [SerializeField] private bool isMeshable;
     private bool bTutoMeshableDone = false;
@@ -26,6 +27,7 @@ public class sc_tuto_generic : MonoBehaviour
     [Header("BD")]
     [SerializeField] private int[] iBubbleNb;
     private int[] iBubbleNbAdd;
+    [SerializeField] private RectTransform RtTutoAll;
     [SerializeField] private RectTransform[] RtTuto;
     [SerializeField] private Sprite[]spriteBdTuto;
     [SerializeField] private RectTransform[] RtParentTuto;
@@ -34,6 +36,8 @@ public class sc_tuto_generic : MonoBehaviour
     [SerializeField] private float[] fTimer;
     private float _ftimer = 0f;
     private bool[] b_;
+    [SerializeField] private RectTransform RtBg;
+    [SerializeField] private UnityEngine.UI.Image ImBg;
 
     [Header("Camera")]
     [SerializeField] private GameObject GoFollowed;
@@ -57,33 +61,52 @@ public class sc_tuto_generic : MonoBehaviour
     [SerializeField][Tooltip("Where the backtrack's Camera will switch to be the player's one")] private float tresholdZ;
     private float fSpeed = 5f;
 
-    private bool bWaitNext = false;
+    public bool bWaitNext = false;
     private bool bOnceSkip = false;
     private bool bOnceNext = false;
     private bool bOnceBubble = false;
     private bool bHasClickedSkip = false;
     private bool bInit = false;
+    private float iInput = 0;
 
     private void Initialized()
     {
-        cam_Brain.m_DefaultBlend.m_Time = 2f;
+        if(!bIsOnLoft)
+        {
+            cam_Brain.m_DefaultBlend.m_Time = 2f;
+            if (Int32.Parse(Regex.Match(SceneManager.GetActiveScene().name, @"\d+").Value) == 0)
+            {
+                fSpeed = 5f;
+            }
+            else if (Int32.Parse(Regex.Match(SceneManager.GetActiveScene().name, @"\d+").Value) == 1 || Int32.Parse(Regex.Match(SceneManager.GetActiveScene().name, @"\d+").Value) == 3)
+            {
+                fSpeed = 10f;
+            }
+            else if (Int32.Parse(Regex.Match(SceneManager.GetActiveScene().name, @"\d+").Value) == 2)
+            {
+                fSpeed = 7f;
+            }
+        }
+        else if(bIsOnLoft && scPlayer.menuManager.gameObject.GetComponent<PlayerData>().iLevelPlayer > 0)
+        {
+            RtTutoAll.anchorMin = new Vector2(0, 1);
+            RtTutoAll.anchorMax = new Vector2(1, 2);
+            RtTutoAll.offsetMax = new Vector2(0f, 0f);
+            RtTutoAll.offsetMin = new Vector2(0f, 0f);
+
+            RtBg.anchorMin = new Vector2(0f, 1f);
+            RtBg.anchorMax = new Vector2(1f, 2f);
+            RtBg.offsetMax = new Vector2(0f, 0f);
+            RtBg.offsetMin = new Vector2(0f, 0f);
+
+            scPlayer.bisTuto = false;
+            scPlayer.bIsImune = true;
+        }
         iBubbleNbAdd = new int[iBubbleNb.Length +1];
         iBubbleNbAdd[0] = 0;
         for (int i =1; i< iBubbleNbAdd.Length; i++)
         {
             iBubbleNbAdd[i] = iBubbleNbAdd[i-1] + iBubbleNb[i-1];
-        }
-        if(Int32.Parse(Regex.Match(SceneManager.GetActiveScene().name, @"\d+").Value) == 0)
-        {
-            fSpeed = 5f;
-        }
-        else if(Int32.Parse(Regex.Match(SceneManager.GetActiveScene().name, @"\d+").Value) == 1 || Int32.Parse(Regex.Match(SceneManager.GetActiveScene().name, @"\d+").Value) == 3)
-        {
-            fSpeed = 10f;
-        }
-        else if (Int32.Parse(Regex.Match(SceneManager.GetActiveScene().name, @"\d+").Value) == 2)
-        {
-            fSpeed = 7f;
         }
         bTuto[0] = true;
     }
@@ -101,86 +124,161 @@ public class sc_tuto_generic : MonoBehaviour
             if (bIsOnBD)
             {
                 scPlayer.bIsImune = true;
-                if (!bWaitNext && !bHasClickedSkip && !bOnceSkip) //TO SHOW THE BUBBLES WITH TIME
+                //APPARITION DES BULLES AUTO
+                if(!bIsOnLoft || (bIsOnLoft && bTuto[0] && iInput != 5) || (bIsOnLoft && bTuto[1]))
                 {
-                    bOnceNext = false;
-                    for (int z = 0; z < bTuto.Length; z++)
+                    if(iInput==0 || (bIsOnLoft && bTuto[1]))
                     {
-                        if (bTuto[z] == true)
+                        if (!bWaitNext && !bHasClickedSkip && !bOnceSkip) //TO SHOW THE BUBBLES WITH TIME
                         {
-                            BubbleTimer(Time.unscaledDeltaTime);
+                            bOnceNext = false;
+                            for (int z = 0; z < bTuto.Length; z++)
+                            {
+                                if (bTuto[z] == true)
+                                {
+                                    BubbleTimer(Time.unscaledDeltaTime);
+                                }
+                            }
+                        }
+                        else if (!bWaitNext && bHasClickedSkip && !bOnceSkip) //SKIP THE BUBBLES SHOWING
+                        {
+                            BubbleSkip();
+                            bHasClickedSkip = false;
+                            bOnceSkip = true;
+                            if (_y == intBdYCam)
+                            {
+                                fSpeed = fSpeed * 2;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if(!bWaitNext && !bHasClickedSkip && !bOnceSkip)
+                        {
+                            bOnceNext = false;
+                            bHasClickedSkip = false;
+                            _ftimer += Time.unscaledDeltaTime;
+                            if(_ftimer>0.2f)
+                            {
+                                bWaitNext = true;
+                                _ftimer = 0f;
+                            }
                         }
                     }
                 }
-                else if (!bWaitNext && bHasClickedSkip && !bOnceSkip) //SKIP THE BUBBLES SHOWING
+                else if(!cameraDone && bIsOnLoft && bTuto[0] && iInput == 5)
                 {
-                    BubbleSkip();
-                    bHasClickedSkip = false;
-                    bOnceSkip = true;
-                    if (_y == intBdYCam)
+                    _ftimer+= Time.unscaledDeltaTime;
+                    if(_ftimer>=2f)
                     {
-                        fSpeed = fSpeed*2;
-                    }
-                }
-                if (bWaitNext && !bOnceNext && scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered) //INPUT TO SHOW NEXT WHOLE BUBBLES
-                {
-                    bOnceSkip = false;
-                    bOnceNext = true;
-                    bOnceBubble = false;
-                    if (_y == intYGameCam)
-                    {
-                        scPlayer.bisTuto = false;
-                        ImuneToTuto(scPlayer.bpmManager);
-                        bIsOnBD = false;
-                    }
-                    else if(_y == intYDetectionTuto || _y == intYBaitTuto)
-                    {
-                        bIsOnBD = false;
-                        scPlayer.bisTuto = false;
-                        ImuneToTuto(scPlayer.bpmManager);
-                    }
-                    if (!cameraIsTracking)
-                    {
-                        NextWholeBubble();
-                    }
-                    bWaitNext = false;
-                }
-                else if (!bHasClickedSkip && !bWaitNext && scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered) // INPUT TO SKIP 
-                {
-                    bHasClickedSkip = true;
-                }
-
-                if (GoFollowed.transform.position.z > tresholdZ && cameraIsTracking && scPlayer.menuManager.CgPauseMenu.alpha == 0f) //CAMERA IS NOT AT THE PLAYER'S POSITION
-                {
-                    SetCartPosition(m_Position + fSpeed * Time.unscaledDeltaTime);
-                    scPlayer.menuManager.bGameIsPaused = false;
-                    scPlayer.menuManager.PauseGame();
-                }
-                else if (GoFollowed.transform.position.z <= tresholdZ && cameraIsTracking && scPlayer.menuManager.CgPauseMenu.alpha == 0f) //THE CAMERA IS AT THE PLAYER'S POSITION
-                {
-                    cameraIsTracking = false;
-                    cameraDone = true;
-                    IntoTheGameCam();
-                    NextWholeBubble();
-                    bOnceSkip = false;
-                    bOnceNext = true;
-                    bOnceBubble = false;
-                    bHasClickedSkip = false;
-                    bWaitNext = false;
-                    scPlayer.bIsImune = true;
-                }
-            }
-            else
-            {
-                if(!bRightBlendCamera)
-                {
-                    _ftimer += Time.unscaledDeltaTime;
-                    if (_ftimer >= 3)
-                    {
-                        cam_Brain.m_DefaultBlend.m_Time = 0.2f;
-                        bRightBlendCamera = true;
+                        bTuto[0] = false;
+                        bTuto[1] = true;
+                        cameraDone = true;
                         _ftimer = 0f;
                     }
+                }
+
+                //INPUT
+                if (!bIsOnLoft)
+                {
+                    if (bWaitNext && !bOnceNext && scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered) //INPUT TO SHOW NEXT WHOLE BUBBLES
+                    {
+                        bOnceSkip = false;
+                        bOnceNext = true;
+                        bOnceBubble = false;
+                        if (_y == intYGameCam || _y == intYDetectionTuto || _y == intYBaitTuto)
+                        {
+                            bIsOnBD = false;
+                            scPlayer.bisTuto = false;
+                            ImuneToTuto(scPlayer.bpmManager);
+                        }
+                        if (!cameraIsTracking)
+                        {
+                            NextWholeBubble();
+                        }
+                        bWaitNext = false;
+                    }
+                    else if (!bHasClickedSkip && !bWaitNext && scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered) // INPUT TO SKIP 
+                    {
+                        bHasClickedSkip = true;
+                    }
+                }
+                else if (bIsOnLoft)
+                {
+                    if(bTuto[0] && iInput==0 && (!bHasClickedSkip && !bWaitNext && scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered)) //TO SKIP
+                    {
+                        bHasClickedSkip = true;
+                    }
+                    else if(bTuto[0] && bWaitNext && !bOnceNext && scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered && (scPlayer.bpmManager.BGood || scPlayer.bpmManager.BPerfect) && (scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered))
+                    {
+                        iInput += 1;
+                        float opacity = 1 - iInput / 5;
+                        var tempColor = ImBg.color;
+                        tempColor.a = opacity;
+                        ImBg.color = tempColor;
+                        bOnceSkip = false;
+                        bOnceNext = true;
+                        bOnceBubble = false;
+                        if(iInput==5)
+                        {
+                            Time.timeScale = 1f;
+                            RtBg.anchorMin = new Vector2(0f, 1f);
+                            RtBg.anchorMax = new Vector2(1f, 2f);
+                            RtBg.offsetMax = new Vector2(0f, 0f);
+                            RtBg.offsetMin = new Vector2(0f, 0f);
+                            NextWholeBubble();
+                            cam_Back.Priority = 0;
+                            scPlayer.menuManager.bGameIsPaused = true;
+                        }
+                        bWaitNext = false;
+                    }
+                    else if(bTuto[1] && bWaitNext && !bOnceNext && scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered)
+                    {
+                        bOnceSkip = false;
+                        bOnceNext = true;
+                        bOnceBubble = false;
+                        RtTutoAll.anchorMin = new Vector2(0, 1);
+                        RtTutoAll.anchorMax = new Vector2(1, 2);
+                        RtTutoAll.offsetMax = new Vector2(0f, 0f);
+                        RtTutoAll.offsetMin = new Vector2(0f, 0f);
+                        Debug.Log("merde");
+                        bIsOnBD = false;
+                        scPlayer.bisTuto = false;
+                        bWaitNext = false;
+                    }
+                }
+
+                if(!bIsOnLoft)
+                {
+                    if (GoFollowed.transform.position.z > tresholdZ && cameraIsTracking && scPlayer.menuManager.CgPauseMenu.alpha == 0f) //CAMERA IS NOT AT THE PLAYER'S POSITION
+                    {
+                        SetCartPosition(m_Position + fSpeed * Time.unscaledDeltaTime);
+                        scPlayer.menuManager.bGameIsPaused = false;
+                        scPlayer.menuManager.PauseGame();
+                    }
+                    else if (GoFollowed.transform.position.z <= tresholdZ && cameraIsTracking && scPlayer.menuManager.CgPauseMenu.alpha == 0f) //THE CAMERA IS AT THE PLAYER'S POSITION
+                    {
+                        cameraIsTracking = false;
+                        cameraDone = true;
+                        IntoTheGameCam();
+                        NextWholeBubble();
+                        bOnceSkip = false;
+                        bOnceNext = true;
+                        bOnceBubble = false;
+                        bHasClickedSkip = false;
+                        bWaitNext = false;
+                        scPlayer.bIsImune = true;
+                    }
+                }
+            }
+            else if (!bRightBlendCamera && !bIsOnLoft)
+            {
+                _ftimer += Time.unscaledDeltaTime;
+                if (_ftimer >= 3)
+                {
+                    cam_Brain.m_DefaultBlend.m_Time = 0.2f;
+                    bRightBlendCamera = true;
+                    _ftimer = 0f;
                 }
             }
         }
@@ -219,23 +317,30 @@ public class sc_tuto_generic : MonoBehaviour
                 else
                 {
                     bHasClickedSkip = false;
-                    bTuto[_y] = false;
-                    if (_y + 1 < bTuto.Length)
+                    if(!bIsOnLoft)
                     {
-                        bTuto[_y + 1] = true;
-                    }
-                    if (_y == intYGameCam)
-                    {
-                        UIGameOn();
-                    }
-                    else if (_y == intBdYCam && !cameraDone)
-                    {
-                        Time.timeScale = 1f;
-                        cameraIsTracking = true;
-                        BubbleCameraOff();
+                        bTuto[_y] = false;
+                        if (_y + 1 < bTuto.Length)
+                        {
+                            bTuto[_y + 1] = true;
+                        }
+                        if (_y == intYGameCam)
+                        {
+                            UIGameOn();
+                        }
+                        else if (_y == intBdYCam && !cameraDone)
+                        {
+                            Time.timeScale = 1f;
+                            cameraIsTracking = true;
+                            BubbleCameraOff();
+                        }
                     }
                     bWaitNext = true;
                     ShowNextText(i);
+                    if(bIsOnLoft && bTuto[1])
+                    {
+                        scPlayer.menuManager.bGameIsPaused = false;
+                    }
                     return;
                 }
             }
@@ -260,22 +365,25 @@ public class sc_tuto_generic : MonoBehaviour
             if (z == iBubbleNb[_y] - 2)
             {
                 b_[z] = false;
-                bTuto[_y] = false;
+                if(!bIsOnLoft)
+                {
+                    bTuto[_y] = false;
+                    if (_y + 1 < bTuto.Length)
+                    {
+                        bTuto[_y + 1] = true;
+                    }
+                    if (_y == intYGameCam)
+                    {
+                        UIGameOn();
+                    }
+                    else if (_y == intBdYCam && !cameraDone)
+                    {
+                        Time.timeScale = 1f;
+                        cameraIsTracking = true;
+                        BubbleCameraOff();
+                    }
+                }
                 ShowNextText(i);
-                if (_y + 1 < bTuto.Length)
-                {
-                    bTuto[_y + 1] = true;
-                }
-                if (_y == intYGameCam)
-                {
-                    UIGameOn();
-                }
-                else if (_y == intBdYCam && !cameraDone)
-                {
-                    Time.timeScale = 1f;
-                    cameraIsTracking = true;
-                    BubbleCameraOff();
-                }
                 bWaitNext = true;
             }
         }
@@ -383,7 +491,6 @@ public class sc_tuto_generic : MonoBehaviour
         bIsOnBD = true;
         bWaitNext = false;
     }
-
     public void StartTutoBait()
     {
         //scPlayer.menuManager.bGameIsPaused = true;
@@ -394,7 +501,6 @@ public class sc_tuto_generic : MonoBehaviour
         bIsOnBD = true;
         bWaitNext = false;
     }
-
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.CompareTag("Player") && isMeshable && !bTutoMeshableDone)

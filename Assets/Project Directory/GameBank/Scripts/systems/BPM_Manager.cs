@@ -72,6 +72,7 @@ public class BPM_Manager : MonoBehaviour
     private Vector2 newPos;
     private Vector2[] posSeparator = new Vector2[3];
     private DG.Tweening.Sequence[] sequences = new DG.Tweening.Sequence[3];
+    private bool bInvisble = false;
 
     [SerializeField] private float fFOVmin = 10f;
     [SerializeField] private float fFOVmax = 10.6f;
@@ -154,6 +155,30 @@ public class BPM_Manager : MonoBehaviour
         if (scPlayer != null && scPlayer.menuManager != null)
         {
             iDifficulty = scPlayer.menuManager.iDifficulty;
+            if(scPlayer.menuManager.bGameIsPaused)
+            {
+                foreach (UnityEngine.UI.Image notesRight in imNoteRight)
+                {
+                    notesRight.color = new Color32(255,255,255,0);
+                }
+                foreach(UnityEngine.UI.Image notesLeft in imNoteLeft)
+                {
+                    notesLeft.color = new Color32(255, 255, 255, 0);
+                }
+                bInvisble = true;
+            }
+            else if(!scPlayer.menuManager.bGameIsPaused && bInvisble)
+            {
+                foreach (UnityEngine.UI.Image notesRight in imNoteRight)
+                {
+                    notesRight.color = new Color32(255, 255, 255, 255);
+                }
+                foreach (UnityEngine.UI.Image notesLeft in imNoteLeft)
+                {
+                    notesLeft.color = new Color32(255, 255, 255, 255);
+                }
+                bInvisble = false;
+            }
         }
         if(scPlayer!=null&&scPlayer.menuManager!=null&&!scPlayer.menuManager.bGameIsPaused)
         {
