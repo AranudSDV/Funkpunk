@@ -319,6 +319,38 @@ public class MenuManager : MonoBehaviour
             }
         }
     }
+    private void SelectionEnsurance()
+    {
+        if (EventSystem.currentSelectedGameObject == null)
+        {
+            if(CgPauseMenu.alpha == 0f)
+            {
+                if (SceneManager.GetActiveScene().name == "LevelChoosing")
+                {
+                    EventSystem.SetSelectedGameObject(GoLevelsButton[0]);
+                }
+                else if (SceneManager.GetActiveScene().name == "GameChoose")
+                {
+                    EventSystem.SetSelectedGameObject(GoGameChoose[0]);
+                }
+            }
+            else if(CgPauseMenu.alpha == 0f && CgScoring.alpha == 1f)
+            {
+                EventSystem.SetSelectedGameObject(GoScoringFirstButtonSelected);
+            }
+            else if(CgPauseMenu.alpha == 1f)
+            {
+                if(CgOptionPannel.alpha == 1f)
+                {
+                    EventSystem.SetSelectedGameObject(GoOptionGeneralFirstButtonSelected);
+                }
+                else
+                {
+                    EventSystem.SetSelectedGameObject(GoPausedFirstButtonSelected);
+                }
+            }
+        }
+    }
     private void CheckControllerStatus()
     {
         string[] controllers = Input.GetJoystickNames();
@@ -743,6 +775,11 @@ public class MenuManager : MonoBehaviour
                 }
                 bOnce[2] = true;
             }
+        }
+
+        if (controllerConnected && EventSystem!=null)
+        {
+            SelectionEnsurance();
         }
     }
     public void PauseMenu()

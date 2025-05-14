@@ -1445,7 +1445,7 @@ public class SC_Player : MonoBehaviour
         }
         else //has to remember all stats from this checkpoint
         {
-            posLastCheckPoint = new Vector3(this.gameObject.transform.position.x, posYInit, this.gameObject.transform.position.z);
+            posLastCheckPoint = new Vector3(Mathf.Round(this.gameObject.transform.position.x), posYInit, Mathf.Round(this.gameObject.transform.position.z));
             iTagPreviouslyDone = itagDone;
             FPreviousScore = FScore;
             fPreviousNbBeat = fNbBeat;

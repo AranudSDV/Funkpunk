@@ -405,6 +405,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scPlayer: {fileID: 6830452445873526929}
   iReplaying: 3
+  M_all_uis:
+  - {fileID: 2100000, guid: b4adeb103f0af5e4aa78d94baebe0f51, type: 2}
+  - {fileID: 2100000, guid: 5533a27084367fb4d99b47d7fcf56960, type: 2}
+  - {fileID: 2100000, guid: 94ba2be6c9f34ea4ba67000ae7060ab5, type: 2}
+  - {fileID: 2100000, guid: d1175f413a773fc408a780abf1afaa2f, type: 2}
+  - {fileID: 2100000, guid: d4ad19a3bfb728546aacf9ba0373f99d, type: 2}
+  - {fileID: 2100000, guid: 9a0214e3491a1b54fac6270a21e468d0, type: 2}
+  - {fileID: 2100000, guid: d5a15ddec35357d448a35887f6d2be17, type: 2}
+  - {fileID: 2100000, guid: bbd70956d18c2964ea2faa35d0177e91, type: 2}
+  - {fileID: 2100000, guid: 96115ad3a65b38944a6b18669f93d5e6, type: 2}
+  - {fileID: 2100000, guid: 247809ef0c259ba4eb11d572318a46d9, type: 2}
+  - {fileID: 2100000, guid: 5ba035be064cffb40b9b12bdbdeb1b07, type: 2}
+  - {fileID: 2100000, guid: 83377a1d38a276447abe04a8c2242fcc, type: 2}
+  - {fileID: 2100000, guid: 6f0a342120c31e04eab06c6789eca901, type: 2}
   FBPM: 90
   fDelayMusic: 0.1
   FSPB: 0.67
