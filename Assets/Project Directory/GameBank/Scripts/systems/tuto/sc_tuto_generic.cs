@@ -101,6 +101,11 @@ public class sc_tuto_generic : MonoBehaviour
 
             scPlayer.bisTuto = false;
             scPlayer.bIsImune = true;
+            bIsOnBD = false;
+            scPlayer.bisTuto = false;
+            Time.timeScale = 1f;
+            cam_Back.Priority = 0;
+            scPlayer.menuManager.bGameIsPaused = false;
         }
         iBubbleNbAdd = new int[iBubbleNb.Length +1];
         iBubbleNbAdd[0] = 0;
@@ -241,7 +246,6 @@ public class sc_tuto_generic : MonoBehaviour
                         RtTutoAll.anchorMax = new Vector2(1, 2);
                         RtTutoAll.offsetMax = new Vector2(0f, 0f);
                         RtTutoAll.offsetMin = new Vector2(0f, 0f);
-                        Debug.Log("merde");
                         bIsOnBD = false;
                         scPlayer.bisTuto = false;
                         bWaitNext = false;
