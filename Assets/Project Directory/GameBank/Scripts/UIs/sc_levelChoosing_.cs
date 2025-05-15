@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using System.Security.Cryptography;
 using static System.Net.Mime.MediaTypeNames;
 using UnityEngine.EventSystems;
+using UnityEngine.UIElements;
 
 public class sc_levelChoosing_ : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class sc_levelChoosing_ : MonoBehaviour
     private bool[] bAnimStars = new bool[5] { false, false, false, false, false };
     private bool bBegin = false;
     [SerializeField] private GameObject[] GoLevels;
+    [SerializeField] private UnityEngine.UI.Image imBackground;
+    [SerializeField] private Sprite[] sprites_Background;
     private bool[] bNowSelected = new bool[4] { false,false,false,false};
     private int iSelected = 0;
 
@@ -49,6 +52,7 @@ public class sc_levelChoosing_ : MonoBehaviour
         GameObject goMenu = GameObject.FindWithTag("Manager");
         menuManager = goMenu.GetComponent<MenuManager>();
         _playerData = goMenu.GetComponent<PlayerData>();
+        imBackground.sprite = sprites_Background[_playerData.iLevelPlayer];
         StartCoroutine(WaitAndAnimate());
     }
     private IEnumerator WaitAndAnimate()
