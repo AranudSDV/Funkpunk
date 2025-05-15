@@ -63,7 +63,6 @@ public class BPM_Manager : MonoBehaviour
     private bool bMusicOnce = false;
     private double fMusicTimer = 0f;
     private double[] fNextReach = new double[4];
-    [SerializeField] private UnityEngine.UI.Image soul_Feedback;
     [SerializeField] private RectTransform[] goSeparator;
     [SerializeField] private RectTransform[] goNoteRight;
     [SerializeField] private UnityEngine.UI.Image[] imNoteRight;
@@ -176,11 +175,11 @@ public class BPM_Manager : MonoBehaviour
             {
                 foreach (UnityEngine.UI.Image notesRight in imNoteRight)
                 {
-                    notesRight.color = new Color32(255, 255, 255, 255);
+                    notesRight.color = new Color32(255, 255, 255, 200);
                 }
                 foreach (UnityEngine.UI.Image notesLeft in imNoteLeft)
                 {
-                    notesLeft.color = new Color32(255, 255, 255, 255);
+                    notesLeft.color = new Color32(255, 255, 255, 200);
                 }
                 bInvisble = false;
             }
@@ -207,7 +206,6 @@ public class BPM_Manager : MonoBehaviour
     IEnumerator bad()
     {
         scPlayer.canMove = true;
-        soul_Feedback.color = colorBase;
         BBad = true;
         yield return new WaitForSecondsRealtime(FTiming[2]);
         BBad = false;
@@ -233,7 +231,6 @@ public class BPM_Manager : MonoBehaviour
             {
                 scPlayer.fNbBeat += 1f;
             }
-            soul_Feedback.color = colorMiss;
             bPlayBad = false;
             bPlayGood = false;
             bPlayPerfect = false;
@@ -326,7 +323,6 @@ public class BPM_Manager : MonoBehaviour
                     scPlayer.fNbBeat += 1f;
                 }
                 scPlayer.menuManager.fBeatMusicVolume = scPlayer.menuManager.fBeatVolume[1];
-                soul_Feedback.color = colorBad;
                 bPlayBad = true;
                 bPlayGood = false;
                 bPlayPerfect = false;
@@ -343,7 +339,6 @@ public class BPM_Manager : MonoBehaviour
                     scPlayer.fNbBeat += 1f;
                 }
                 scPlayer.menuManager.fBeatMusicVolume = scPlayer.menuManager.fBeatVolume[2];
-                soul_Feedback.color = colorGood;
                 bPlayBad = false;
                 bPlayGood = true;
                 bPlayPerfect = false;
@@ -360,7 +355,6 @@ public class BPM_Manager : MonoBehaviour
                     scPlayer.fNbBeat += 1f;
                 }
                 scPlayer.menuManager.fBeatMusicVolume = scPlayer.menuManager.fBeatVolume[3];
-                soul_Feedback.color = colorPerfect;
                 bPlayBad = false;
                 bPlayGood = false;
                 bPlayPerfect = true;

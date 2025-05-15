@@ -21110,6 +21110,16 @@ PrefabInstance:
       propertyPath: m_Color.g
       value: 0.77254903
       objectReference: {fileID: 0}
+    - target: {fileID: 3029174884773521976, guid: 65f34271cad0dda4d8a49134617b7571,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3029174884773521976, guid: 65f34271cad0dda4d8a49134617b7571,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3399386784160157605, guid: 65f34271cad0dda4d8a49134617b7571,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -21174,18 +21184,6 @@ PrefabInstance:
       addedObject: {fileID: 26573615}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 65f34271cad0dda4d8a49134617b7571, type: 3}
---- !u!114 &5502365842165218857 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6442767014001485582, guid: 65f34271cad0dda4d8a49134617b7571,
-    type: 3}
-  m_PrefabInstance: {fileID: 5502365842165218856}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &5502365842165218858 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 9033282562908710619, guid: 65f34271cad0dda4d8a49134617b7571,
@@ -21255,7 +21253,7 @@ PrefabInstance:
         type: 3}
       propertyPath: soul_Feedback
       value: 
-      objectReference: {fileID: 5502365842165218857}
+      objectReference: {fileID: 0}
     - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: levelLoop.Path

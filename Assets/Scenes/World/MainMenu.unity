@@ -272,18 +272,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 228748881}
   m_CullTransparentMesh: 1
---- !u!114 &240488999 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 269850063720091022, guid: 45351d2d758839e409953a510c2e4a78,
-    type: 3}
-  m_PrefabInstance: {fileID: 7336378467628824434}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7740000a65e35c348bf7957b79ddd07f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -731,7 +719,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 5a9257ce3ec3274448394f1ea0b2560b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 73840bd087badcb4bb09c75a4a26f21e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -829,7 +817,6 @@ GameObject:
   - component: {fileID: 909782872}
   - component: {fileID: 909782871}
   - component: {fileID: 909782870}
-  - component: {fileID: 909782874}
   m_Layer: 5
   m_Name: MainMenu
   m_TagString: SceneUITarget
@@ -920,23 +907,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &909782874
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 909782869}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79929ed37823a4543a7458c751093a1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  menuManager: {fileID: 240488999}
-  imgAnyKey: {fileID: 751149048}
-  spriteKey:
-  - {fileID: 21300000, guid: 5a9257ce3ec3274448394f1ea0b2560b, type: 3}
-  - {fileID: 21300000, guid: 73840bd087badcb4bb09c75a4a26f21e, type: 3}
 --- !u!114 &1833294169 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 772669210243803284, guid: 45351d2d758839e409953a510c2e4a78,

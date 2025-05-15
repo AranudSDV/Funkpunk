@@ -656,8 +656,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scPlayer: {fileID: 54573793}
   _playerData: {fileID: 0}
-  sEnglish: Space to skip
-  sFrench: Espace pour passer
+  sEnglish: A to skip
+  sFrench: A pour passer
   bIsOnManager: 0
   bIsDifficulty: 0
   bIsToTip: 0
@@ -687,7 +687,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Space to skip
+  m_text: A to skip
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2aefc435c742ba1458d64549d96e081c, type: 2}
   m_sharedMaterial: {fileID: 7120875131993628362, guid: 2aefc435c742ba1458d64549d96e081c,
@@ -10543,8 +10543,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scPlayer: {fileID: 54573793}
   _playerData: {fileID: 0}
-  sEnglish: Space to continue
-  sFrench: Espace pour continuer
+  sEnglish: A to continue
+  sFrench: A pour continuer
   bIsOnManager: 0
   bIsDifficulty: 0
   bIsToTip: 0
@@ -10574,7 +10574,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Space to continue
+  m_text: A to continue
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2aefc435c742ba1458d64549d96e081c, type: 2}
   m_sharedMaterial: {fileID: 7120875131993628362, guid: 2aefc435c742ba1458d64549d96e081c,
@@ -15528,8 +15528,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scPlayer: {fileID: 54573793}
   _playerData: {fileID: 0}
-  sEnglish: Space to continue
-  sFrench: Espace pour continuer
+  sEnglish: A to continue
+  sFrench: A pour continuer
   bIsOnManager: 0
   bIsDifficulty: 0
   bIsToTip: 0
@@ -15559,7 +15559,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Space to continue
+  m_text: A to continue
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2aefc435c742ba1458d64549d96e081c, type: 2}
   m_sharedMaterial: {fileID: 7120875131993628362, guid: 2aefc435c742ba1458d64549d96e081c,
@@ -21748,8 +21748,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scPlayer: {fileID: 54573793}
   _playerData: {fileID: 0}
-  sEnglish: Space to continue
-  sFrench: Espace pour continuer
+  sEnglish: A to continue
+  sFrench: A pour continuer
   bIsOnManager: 0
   bIsDifficulty: 0
   bIsToTip: 0
@@ -21779,7 +21779,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Space to continue
+  m_text: A to continue
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2aefc435c742ba1458d64549d96e081c, type: 2}
   m_sharedMaterial: {fileID: 7120875131993628362, guid: 2aefc435c742ba1458d64549d96e081c,
@@ -24288,8 +24288,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scPlayer: {fileID: 54573793}
   _playerData: {fileID: 0}
-  sEnglish: Space to skip
-  sFrench: Espace pour passer
+  sEnglish: A to skip
+  sFrench: A pour passer
   bIsOnManager: 0
   bIsDifficulty: 0
   bIsToTip: 0
@@ -24319,7 +24319,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Space to skip
+  m_text: A to skip
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2aefc435c742ba1458d64549d96e081c, type: 2}
   m_sharedMaterial: {fileID: 7120875131993628362, guid: 2aefc435c742ba1458d64549d96e081c,
@@ -53877,8 +53877,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scPlayer: {fileID: 54573793}
   _playerData: {fileID: 0}
-  sEnglish: Space to skip
-  sFrench: Espace pour passer
+  sEnglish: A to skip
+  sFrench: A pour passer
   bIsOnManager: 0
   bIsDifficulty: 0
   bIsToTip: 0
@@ -53908,7 +53908,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Space to skip
+  m_text: A to skip
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2aefc435c742ba1458d64549d96e081c, type: 2}
   m_sharedMaterial: {fileID: 7120875131993628362, guid: 2aefc435c742ba1458d64549d96e081c,
