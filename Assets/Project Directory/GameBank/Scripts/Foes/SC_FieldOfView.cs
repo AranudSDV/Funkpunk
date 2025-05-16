@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.ProBuilder.Shapes;
 
 public class SC_FieldOfView : MonoBehaviour
 {
@@ -23,6 +24,8 @@ public class SC_FieldOfView : MonoBehaviour
     [Range(0,70)]
     public float FAngle;
     [SerializeField] private float proximityRadius = 1f;
+    [SerializeField] private float InitialYCone = -0.05549997f;
+    [SerializeField] private GameObject GoCone;
 
     //ROTATION
     [Header("Rotation")]
@@ -120,6 +123,13 @@ public class SC_FieldOfView : MonoBehaviour
             {
                 backfeedback.ConeRenderer.enabled = false;
             }
+        }
+    }
+    private void Update()
+    {
+        if (GoCone.transform.localPosition.y != InitialYCone)
+        {
+            GoCone.transform.localPosition = new Vector3(GoCone.transform.localPosition.x, InitialYCone, GoCone.transform.localPosition.z);
         }
     }
     private IEnumerator FOVRoutine()
