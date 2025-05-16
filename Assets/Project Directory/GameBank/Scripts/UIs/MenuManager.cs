@@ -45,6 +45,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private UnityEngine.UI.Image[] ImageSliderHandlerAudio = new UnityEngine.UI.Image[3];
     [SerializeField] private UnityEngine.UI.Image[] ImageButtonGeneral = new UnityEngine.UI.Image[2];
     [Tooltip("first language english, french, then difficulty hard to easy")][SerializeField] private Material[] M_materialButtonGeneral;
+    [Tooltip("first language english, french, then difficulty hard to easy")][SerializeField] private Sprite[]spriteButtonGeneral;
     public CanvasGroup CgOptionPannel;
     public RectTransform RtOptionPannel;
     public CanvasGroup CgOptionGeneral;
@@ -105,13 +106,14 @@ public class MenuManager : MonoBehaviour
     public GameObject GoScoringButtons;
     public RectTransform RtScoringButtons;
 
+    //END DIALOGUE
     [Header("EndDialogue")]
     public CanvasGroup CgEndDialogue;
     public RectTransform RtEndDialogue;
     public UnityEngine.UI.Image ImgEndDialogueBackground;
-    [Tooltip("int from the chara to be on the right, then on the left, for each levels")][SerializeField] private int[] iWhichCharaToRightToLeft;
+    [Tooltip("int from the chara to be on the right, then on the left, for each levels, 0 is Jett, 1 is Scraffi, 2 is Scravinsky, 3 is Screonardo")][SerializeField] private int[] iWhichCharaToRightToLeft;
     public Sprite[] spritesEndDialogueBackground;
-    public Sprite[] spritesEndDialogueCharacters;
+    [Tooltip("0 is Jett (*3, basic, thinking, suprised), 1 is Scraffi (*3, basic, explaining, surprised), 2 is Scravinsky (*2), 3 is Screonardo (*2)")] public Sprite[] spritesEndDialogueCharacters;
     [Tooltip("0 is right, 1 is left.")][SerializeField] private UnityEngine.UI.Image[] imgCharactersSpace;
     public bool bIsOnEndDialogue = false;
 
@@ -125,8 +127,8 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private TMP_Text text_NameChara;
     [SerializeField] private int[] iNbDialoguePerLevel;
     [SerializeField] private int[] iNbDialoguePerLevelAdd;
-    [Tooltip("0 is the 1st,  1 is the other, 2 is the last.")] public int[] iCharaToSpeakPerTextes;
-    [Tooltip("0 is the 1st,  1 is the other, 2 is the last.")] private int[] iCharaToNotSpeakPerTextes;
+    [Tooltip("see int character and emotions, 0 to 2 for 0 | 3 to 5 for 1 | 6 to 7 for 2 | 8 to 9 for 3")] public int[] iCharaToSpeakPerTextes;
+    [Tooltip("see int character and emotions, 0 to 2 for 0 | 3 to 5 for 1 | 6 to 7 for 2 | 8 to 9 for 3")] public int[] iCharaToNotSpeakPerTextes;
     [SerializeField] private string[] sDialogueEnglish;
     [SerializeField] private string[] sDialogueFrench;
     public bool bWaitNextDialogue = false;
@@ -756,23 +758,28 @@ public class MenuManager : MonoBehaviour
             {
                 if(_playerData.iLanguageNbPlayer==0) //english
                 {
-                    ImageButtonGeneral[0].material = M_materialButtonGeneral[0];
+                    //ImageButtonGeneral[0].material = M_materialButtonGeneral[0];
+                    ImageButtonGeneral[0].sprite = spriteButtonGeneral[0];
                 }
                 else
                 {
-                    ImageButtonGeneral[0].material = M_materialButtonGeneral[1];
+                    //ImageButtonGeneral[0].material = M_materialButtonGeneral[1];
+                    ImageButtonGeneral[0].sprite = spriteButtonGeneral[1];
                 }
                 if(iDifficulty==0) //hard
                 {
-                    ImageButtonGeneral[1].material = M_materialButtonGeneral[2];
+                    //ImageButtonGeneral[1].material = M_materialButtonGeneral[2];
+                    ImageButtonGeneral[1].sprite = spriteButtonGeneral[2];
                 }
                 else if(iDifficulty == 0) //normal
                 {
-                    ImageButtonGeneral[1].material = M_materialButtonGeneral[3];
+                    //ImageButtonGeneral[1].material = M_materialButtonGeneral[3];
+                    ImageButtonGeneral[1].sprite = spriteButtonGeneral[3];
                 }
                 else //easy
                 {
-                    ImageButtonGeneral[1].material = M_materialButtonGeneral[3];
+                    //ImageButtonGeneral[1].material = M_materialButtonGeneral[4];
+                    ImageButtonGeneral[1].sprite = spriteButtonGeneral[4];
                 }
                 bOnce[2] = true;
             }
@@ -1019,8 +1026,16 @@ public class MenuManager : MonoBehaviour
         if (first ==true)
         {
             bIsOnEndDialogue = true;
+            if(iPreviousLevelPlayed!=0)
+            {
+                iNbTextNow = iNbDialoguePerLevelAdd[iPreviousLevelPlayed - 1];
+            }
+            else
+            {
+                iNbTextNow = 0;
+            }
         }
-        if (iNbTextNow == iNbDialoguePerLevel[iPreviousLevelPlayed] -1)
+        if (iNbTextNow == iNbDialoguePerLevelAdd[iPreviousLevelPlayed] -1)
         {
             EndDialogue();
             bIsOnEndDialogue = false;
@@ -1041,15 +1056,13 @@ public class MenuManager : MonoBehaviour
             if (iLevel - 1 == -1)
             {
                 iNbTextNow = 0;
-                iCharaToNotSpeakPerTextes = new int[iCharaToSpeakPerTextes.Length];
             }
             else
             {
                 iNbTextNow = iNbDialoguePerLevel[iLevel - 1];
             }
-            SetCharacters(iLevel);
         }
-        SetSpeaker(iCharaToSpeakPerTextes[iNbTextNow], iLevel);
+        SetSpeaker(iCharaToSpeakPerTextes[iNbTextNow], iCharaToNotSpeakPerTextes[iNbTextNow], iLevel);
         if (iLanguage == 0)
         {
             _sc_textChange.StartWriting(sDialogueEnglish[iNbTextNow]);
@@ -1059,47 +1072,18 @@ public class MenuManager : MonoBehaviour
             _sc_textChange.StartWriting(sDialogueFrench[iNbTextNow]);
         }
     }
-    private void SetCharacters(int iLevel)
-    {
-        imgCharactersSpace[0].sprite = spritesEndDialogueCharacters[iWhichCharaToRightToLeft[iLevel * 2]]; // Le sprite de droite est rempli par par le sprite du chara qui est à droite en fonction du lvl
-        imgCharactersSpace[1].sprite = spritesEndDialogueCharacters[iWhichCharaToRightToLeft[iLevel*2+1]];// Le sprite de gauche est rempli par par le sprite du chara qui est à gauche en fonction du lvl
-        if(iLevel - 1 == -1)
-        {
-            for (int i = 0; i < iNbDialoguePerLevel[0]; i++)
-            {
-                if(iCharaToSpeakPerTextes[i] == iWhichCharaToRightToLeft[iLevel * 2 + 1])
-                {
-                    iCharaToNotSpeakPerTextes[i] = iWhichCharaToRightToLeft[iLevel * 2];
-                }
-                else
-                {
-                    iCharaToNotSpeakPerTextes[i] = iWhichCharaToRightToLeft[iLevel * 2+1];
-                }
-            }
-        }
-        else
-        {
-            for (int i = iNbDialoguePerLevelAdd[iLevel-1]; i < iNbDialoguePerLevelAdd[iLevel]; i++)
-            {
-                if (iCharaToSpeakPerTextes[i] == iWhichCharaToRightToLeft[iLevel * 2 + 1])
-                {
-                    iCharaToNotSpeakPerTextes[i] = iWhichCharaToRightToLeft[iLevel * 2];
-                }
-                else
-                {
-                    iCharaToNotSpeakPerTextes[i] = iWhichCharaToRightToLeft[iLevel * 2 + 1];
-                }
-            }
-        }
-    }
-    private void SetSpeaker(int speakingCharacterIndex, int iLevel) //on connait le numero du character mais est-il à gauche ou à droite?
+    private void SetSpeaker(int speakingCharacterIndex, int notSpeakingCharacterIndex, int iLevel) //on connait le numero du character mais est-il à gauche ou à droite?
     {
         // Change the text box to the one of the character speaking
-        imgBoxText.sprite = spritesCharactersBoxes[speakingCharacterIndex];
+        int a = RightIntSpeakerAndNot(speakingCharacterIndex, notSpeakingCharacterIndex)[0];
+        int b = RightIntSpeakerAndNot(speakingCharacterIndex, notSpeakingCharacterIndex)[1];
+        imgBoxText.sprite = spritesCharactersBoxes[a];
         //Is right or left character speaking ? 
-        if (iWhichCharaToRightToLeft[iLevel * 2] == speakingCharacterIndex) //Le sprite de droite est-il celui du chara qui parle ?
+        if (iWhichCharaToRightToLeft[iLevel * 2] == a) //Le sprite de droite est-il celui du chara qui parle ?
         {
-            NameSpeaker(speakingCharacterIndex, false);
+            NameSpeaker(a, false);
+            imgCharactersSpace[0].sprite = spritesEndDialogueCharacters[speakingCharacterIndex]; // Le sprite de droite est rempli par le sprite du chara qui est à droite en fonction du lvl
+            imgCharactersSpace[1].sprite = spritesEndDialogueCharacters[notSpeakingCharacterIndex];// Le sprite de gauche est rempli par le sprite du chara qui est à gauche en fonction du lvl
             // Non-speaking character goes below
             charactersImages[1].SetSiblingIndex(0);
             // Ensure the dialogue box is at index 1 (middle layer)
@@ -1114,7 +1098,9 @@ public class MenuManager : MonoBehaviour
         }
         else
         {
-            NameSpeaker(speakingCharacterIndex, true);
+            imgCharactersSpace[0].sprite = spritesEndDialogueCharacters[notSpeakingCharacterIndex]; // Le sprite de droite est rempli par le sprite du chara qui est à droite en fonction du lvl
+            imgCharactersSpace[1].sprite = spritesEndDialogueCharacters[speakingCharacterIndex];// Le sprite de gauche est rempli par le sprite du chara qui est à gauche en fonction du lvl
+            NameSpeaker(a, true);
             // Non-speaking character goes below
             charactersImages[0].SetSiblingIndex(0);
             // Ensure the dialogue box is at index 1 (middle layer)
@@ -1128,6 +1114,43 @@ public class MenuManager : MonoBehaviour
             rectBoxTextImage.offsetMin = new Vector2(0f, 0f);
         }
     }
+    private int[] RightIntSpeakerAndNot(int speakingCharacterIndex, int notSpeakingCharacterIndex)
+    {
+        int[] a = new int[2];
+        if (speakingCharacterIndex <= 2) //Jett
+        {
+            a[0] = 0;
+        }
+        else if (speakingCharacterIndex > 2 && speakingCharacterIndex <= 5)
+        {
+            a[0] = 1;
+        }
+        else if (speakingCharacterIndex > 5 && speakingCharacterIndex <= 7)
+        {
+            a[0] = 2;
+        }
+        else
+        {
+            a[0] = 3;
+        }
+        if (notSpeakingCharacterIndex <= 2) //Jett
+        {
+            a[1] = 0;
+        }
+        else if (notSpeakingCharacterIndex > 2 && notSpeakingCharacterIndex <= 5)
+        {
+            a[1] = 1;
+        }
+        else if (notSpeakingCharacterIndex > 5 && notSpeakingCharacterIndex <= 7)
+        {
+            a[1] = 2;
+        }
+        else
+        {
+            a[1] = 3;
+        }
+        return a;
+    }
     private void NameSpeaker(int speakingCharacterIndex, bool bIsLeft)
     {
         if (speakingCharacterIndex == 0) //C'est Jett
@@ -1138,9 +1161,13 @@ public class MenuManager : MonoBehaviour
         {
             text_NameChara.text = "Scraffi";
         }
-        else //C'est Scravinsky
+        else if(speakingCharacterIndex == 2)//C'est Scravinsky
         {
             text_NameChara.text = "Scravinsky";
+        }
+        else
+        {
+            text_NameChara.text = "Screonardo";
         }
         if (bIsLeft)
         {

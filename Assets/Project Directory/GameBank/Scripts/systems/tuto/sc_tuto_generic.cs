@@ -46,6 +46,7 @@ public class sc_tuto_generic : MonoBehaviour
     [SerializeField] private CinemachineVirtualCamera cam_Game;
     [SerializeField] private CinemachinePathBase m_Path;
     [SerializeField] private RectTransform RtGameUI;
+    [SerializeField] private CanvasGroup CgGameUI;
     [SerializeField] private RectTransform RtDetectionUI;
     [SerializeField] private CinemachinePathBase.PositionUnits m_PositionUnits = CinemachinePathBase.PositionUnits.Distance;
     private float m_Position;
@@ -106,6 +107,11 @@ public class sc_tuto_generic : MonoBehaviour
             Time.timeScale = 1f;
             cam_Back.Priority = 0;
             scPlayer.menuManager.bGameIsPaused = false;
+        }
+        else if(bIsOnLoft && scPlayer.menuManager.gameObject.GetComponent<PlayerData>().iLevelPlayer == 0)
+        {
+            scPlayer.menuManager.bGameIsPaused = true;
+            CgGameUI.alpha = 0f;
         }
         iBubbleNbAdd = new int[iBubbleNb.Length +1];
         iBubbleNbAdd[0] = 0;
@@ -339,6 +345,12 @@ public class sc_tuto_generic : MonoBehaviour
                             BubbleCameraOff();
                         }
                     }
+                    else if(bIsOnLoft && bTuto[0])
+                    {
+                        CgGameUI.alpha = 1f;
+                        scPlayer.menuManager.bGameIsPaused = false;
+                        Debug.Log("end");
+                    }
                     bWaitNext = true;
                     ShowNextText(i);
                     if(bIsOnLoft && bTuto[1])
@@ -386,6 +398,12 @@ public class sc_tuto_generic : MonoBehaviour
                         cameraIsTracking = true;
                         BubbleCameraOff();
                     }
+                }
+                else if (bIsOnLoft && bTuto[0] && i==max-1)
+                {
+                    CgGameUI.alpha = 1f;
+                    scPlayer.menuManager.bGameIsPaused = false;
+                    Debug.Log("end skip");
                 }
                 ShowNextText(i);
                 bWaitNext = true;

@@ -1176,21 +1176,6 @@ PrefabInstance:
       propertyPath: fBeatVolume.Array.data[1]
       value: 0.8
       objectReference: {fileID: 0}
-    - target: {fileID: 269850063720091022, guid: 45351d2d758839e409953a510c2e4a78,
-        type: 3}
-      propertyPath: sDialogueEnglish.Array.data[0]
-      value: There. Now that's a tag they won't forget. (*graff done*)
-      objectReference: {fileID: 0}
-    - target: {fileID: 269850063720091022, guid: 45351d2d758839e409953a510c2e4a78,
-        type: 3}
-      propertyPath: sDialogueEnglish.Array.data[1]
-      value: Bingo! That's the spirit!
-      objectReference: {fileID: 0}
-    - target: {fileID: 269850063720091022, guid: 45351d2d758839e409953a510c2e4a78,
-        type: 3}
-      propertyPath: sDialogueEnglish.Array.data[2]
-      value: Yea--!! Wait, what? What?
-      objectReference: {fileID: 0}
     - target: {fileID: 1174892266719903533, guid: 45351d2d758839e409953a510c2e4a78,
         type: 3}
       propertyPath: m_AnchorMax.y
