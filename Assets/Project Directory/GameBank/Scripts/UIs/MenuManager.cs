@@ -20,6 +20,7 @@ public class MenuManager : MonoBehaviour
     public bool bGameIsPaused = false;
     private sc_levelChoosing_ _scLevels;
     public int iPreviousLevelPlayed = 0;
+    public bool bIsOnTestScene = false;
 
     //NAVIGATION UX
     [Header("Controller")]
@@ -695,15 +696,18 @@ public class MenuManager : MonoBehaviour
         }
         if(!controllerConnected)
         {
-            bWaitController = true;
-            bGameIsPaused = true;
-            PauseGame();
-            CgControllerWarning.alpha = 1;
-            CgControllerWarning.blocksRaycasts = true;
-            RtControllerWarning.anchorMin = new Vector2(0, 0);
-            RtControllerWarning.anchorMax = new Vector2(1, 1);
-            RtControllerWarning.offsetMax = new Vector2(0f, 0f);
-            RtControllerWarning.offsetMin = new Vector2(0f, 0f);
+            if(!bIsOnTestScene)
+            {
+                bWaitController = true;
+                bGameIsPaused = true;
+                PauseGame();
+                CgControllerWarning.alpha = 1;
+                CgControllerWarning.blocksRaycasts = true;
+                RtControllerWarning.anchorMin = new Vector2(0, 0);
+                RtControllerWarning.anchorMax = new Vector2(1, 1);
+                RtControllerWarning.offsetMax = new Vector2(0f, 0f);
+                RtControllerWarning.offsetMin = new Vector2(0f, 0f);
+            }
         }
         if(bWaitController && controllerConnected)
         {
@@ -1018,31 +1022,64 @@ public class MenuManager : MonoBehaviour
         if (bIsOnEndDialogue && bWaitNextDialogue && controllerConnected && control.GamePlay.Move.triggered)
         {
             bWaitNextDialogue = false;
-            BeginDialogue(false);
+            BeginDialogue(false, true);
         }
     }
-    public void BeginDialogue(bool first)
+    public void BeginDialogue(bool first, bool bHasWon)
     {
+        int iLevel = iPreviousLevelPlayed;
         if (first ==true)
         {
-            bIsOnEndDialogue = true;
-            if(iPreviousLevelPlayed!=0)
+            if(bHasWon)
             {
-                iNbTextNow = iNbDialoguePerLevelAdd[iPreviousLevelPlayed - 1];
-            }
-            else
-            {
-                iNbTextNow = 0;
-            }
+                bIsOnEndDialogue = true;
+                if (iLevel != 0)
+                {
+                    iNbTextNow = iNbDialoguePerLevelAdd[iLevel - 1];
+                }
+                else
+                {
+                    iNbTextNow = 0;
+                }
+                if (iLevel == 3)
+                {
+                    int iAllStars = _playerData.iStarsPlayer[1] + _playerData.iStarsPlayer[6] + _playerData.iStarsPlayer[11];
+                    if (iAllStars == 3)
+                    {
+                        iLevel = 5;
+                    }
+                    else
+                    {
+                        iLevel = 4;
+                    }
+                }
+                }
+                else
+                {
+                    if(iLevel != 3)
+                    {
+                        CgEndDialogue.alpha = 0f;
+                        CgEndDialogue.blocksRaycasts = false;
+                        RtEndDialogue.anchorMin = new Vector2(0, 1);
+                        RtEndDialogue.anchorMax = new Vector2(1, 2);
+                        RtEndDialogue.offsetMax = new Vector2(0f, 0f);
+                        RtEndDialogue.offsetMin = new Vector2(0f, 0f);
+                        scPlayer.EndGame(false, _playerData);
+                    }
+                    else
+                    {
+                        iLevel = 3;
+                    }
+                }
         }
-        if (iNbTextNow == iNbDialoguePerLevelAdd[iPreviousLevelPlayed] -1)
+        if (iNbTextNow == iNbDialoguePerLevelAdd[iLevel] -1)
         {
             EndDialogue();
             bIsOnEndDialogue = false;
         }
         else
         {
-            NextBox(_playerData.iLanguageNbPlayer, first, iPreviousLevelPlayed);
+            NextBox(_playerData.iLanguageNbPlayer, first, iLevel);
         }
     }
     private void NextBox(int iLanguage, bool bIsFirst, int iLevel)

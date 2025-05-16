@@ -1284,7 +1284,14 @@ public class SC_Player : MonoBehaviour
         menuManager.RtEndDialogue.offsetMax = new Vector2(0f, 0f);
         menuManager.RtEndDialogue.offsetMin = new Vector2(0f, 0f);
 
-        menuManager.BeginDialogue(true);
+        if(fPercentScore >= 35)
+        {
+            menuManager.BeginDialogue(true, true);
+        }
+        else
+        {
+            menuManager.BeginDialogue(true, false);
+        }
     }
     public void EndGame(bool hasWon, PlayerData data)
     {
