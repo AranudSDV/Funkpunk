@@ -1060,24 +1060,25 @@ public class SC_Player : MonoBehaviour
     private void PlayCinematicFocus(GameObject GoTag, Vector3 dir, float time, int TagsDone)
     {
         Transform focusTarget = GoTag.transform;
-        Vector3 newDire = -(GoTag.transform.position - cinemachineVirtualCamera.transform.position) * 4f/10f;
+        Vector3 position = cinemachineVirtualCamera.transform.position + (GoTag.transform.position- cinemachineVirtualCamera.transform.position)*50/100f;
+        //Vector3 newDire = -(GoTag.transform.position - cinemachineVirtualCamera.transform.position) * 4f/10f;
         if (dir.z != 0)
         {
             if(dir.x != 0) //alors c'est une diagonale
             {
                 points = new Vector3[4]
-                { newDire + new Vector3(this.transform.position.x - GoTag.transform.position.x, 2, 0),
-                newDire + new Vector3(this.transform.position.x - GoTag.transform.position.x, 2, 0) + new Vector3(3, 2, 0),
-                newDire + new Vector3(this.transform.position.x - GoTag.transform.position.x, 2, 0) + new Vector3(-2, 3, 0),
-                newDire + new Vector3(this.transform.position.x - GoTag.transform.position.x, 2, 0) + new Vector3(1, 2, -1) };
+                { position + new Vector3(this.transform.position.x - GoTag.transform.position.x, 0, this.transform.position.z - GoTag.transform.position.z),
+                position + new Vector3(this.transform.position.x - GoTag.transform.position.x, 0, this.transform.position.z - GoTag.transform.position.z) + new Vector3(1, 1, 0),
+                position + new Vector3(this.transform.position.x - GoTag.transform.position.x, 0, this.transform.position.z - GoTag.transform.position.z) + new Vector3(-1, 1, 0),
+                position + new Vector3(this.transform.position.x - GoTag.transform.position.x, 0, this.transform.position.z - GoTag.transform.position.z) + new Vector3(1, 1, -1) };
             }
             else
             {
                 points = new Vector3[4]
-                { newDire + new Vector3(this.transform.position.x - GoTag.transform.position.x, 2, 0),
-                newDire + new Vector3(this.transform.position.x - GoTag.transform.position.x, 2, 0) + new Vector3(3, 2, 0),
-                newDire + new Vector3(this.transform.position.x - GoTag.transform.position.x, 2, 0) + new Vector3(-2, 3, 0),
-                newDire + new Vector3(this.transform.position.x - GoTag.transform.position.x, 2, 0) + new Vector3(1, 2, -1) };
+                { position + new Vector3(this.transform.position.x - GoTag.transform.position.x, 0, 0),
+                position + new Vector3(this.transform.position.x - GoTag.transform.position.x, 0, 0) + new Vector3(1, 1, 0),
+                position + new Vector3(this.transform.position.x - GoTag.transform.position.x, 0, 0) + new Vector3(-1, 1, 0),
+                position + new Vector3(this.transform.position.x - GoTag.transform.position.x, 0, 0) + new Vector3(1, 1, -1) };
             }
         }
         else if(dir.x != 0)
@@ -1085,18 +1086,18 @@ public class SC_Player : MonoBehaviour
             if(dir.z != 0)//alors c'est une diagonale
             {
                 points = new Vector3[4]
-            { newDire + new Vector3(0, 2, this.transform.position.z - GoTag.transform.position.z),
-                newDire + new Vector3(0, 2, this.transform.position.z - GoTag.transform.position.z) + new Vector3(0, 2, 3),
-                newDire + new Vector3(0, 2, this.transform.position.z - GoTag.transform.position.z) + new Vector3(0, 3, -2),
-                newDire + new Vector3(0, 2, this.transform.position.z - GoTag.transform.position.z) + new Vector3(-1, 2, 1) };
+            { position + new Vector3(this.transform.position.x - GoTag.transform.position.x, 0, this.transform.position.z - GoTag.transform.position.z),
+                position + new Vector3(this.transform.position.x - GoTag.transform.position.x, 0, this.transform.position.z - GoTag.transform.position.z) + new Vector3(0, 1, 1),
+                position + new Vector3(this.transform.position.x - GoTag.transform.position.x, 0, this.transform.position.z - GoTag.transform.position.z) + new Vector3(0, 1, -1),
+                position + new Vector3(this.transform.position.x - GoTag.transform.position.x, 0, this.transform.position.z - GoTag.transform.position.z) + new Vector3(-1, 1, 1) };
             }
             else
             {
                 points = new Vector3[4]
-            { newDire + new Vector3(0, 2, this.transform.position.z - GoTag.transform.position.z),
-                newDire + new Vector3(0, 2, this.transform.position.z - GoTag.transform.position.z) + new Vector3(0, 2, 3),
-                newDire + new Vector3(0, 2, this.transform.position.z - GoTag.transform.position.z) + new Vector3(0, 3, -2),
-                newDire + new Vector3(0, 2, this.transform.position.z - GoTag.transform.position.z) + new Vector3(-1, 2, 1) };
+            { position + new Vector3(0, 0, this.transform.position.z - GoTag.transform.position.z),
+                position + new Vector3(0, 0, this.transform.position.z - GoTag.transform.position.z) + new Vector3(0, 1, 1),
+                position + new Vector3(0, 0, this.transform.position.z - GoTag.transform.position.z) + new Vector3(0, 1, -1),
+                position + new Vector3(0, 0, this.transform.position.z - GoTag.transform.position.z) + new Vector3(-1, 1, 1) };
             }
         }
         VCam_Cinematic.transform.position = points[TagsDone - 1];

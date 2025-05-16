@@ -52,12 +52,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   i_typeFoe: 1
+  scPlayer: {fileID: 0}
   posDirections: []
   iFirstPos: 0
   iCurrentDirection: 0
   FRadius: 6
   FAngle: 60
   proximityRadius: 1
+  InitialYCone: -0.05549997
+  GoCone: {fileID: 4079834716028363439}
   minRotation: 135
   maxRotation: 225
   rotationStep: 45
@@ -88,6 +91,21 @@ MonoBehaviour:
   bSeenOnce: 0
   bHasHeard: 0
   bIsDisabled: 0
+  BIsNear: 0
+  isBoss: 0
+  bossTags: []
+  bossBaits:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  posBait: []
+  iNbPosBaitPerZoneAdditive: 00000000000000000000000000000000
+  bIsRemovingTag: 0
+  iRemovingRoutine: 9
+  iRemovingThird: 3
+  iTimeBeforeRemovingThird: 3
+  iNbTaggsDone: 0
 --- !u!136 &8007070330677980914
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -269,7 +287,7 @@ Transform:
   m_GameObject: {fileID: 4499629275524614069}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.021, y: -0.874, z: 0.01}
+  m_LocalPosition: {x: 0.021, y: -0.8, z: 0.01}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
