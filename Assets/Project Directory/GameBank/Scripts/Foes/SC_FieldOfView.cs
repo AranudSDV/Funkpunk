@@ -19,7 +19,7 @@ public class SC_FieldOfView : MonoBehaviour
 
     //LE CONE DE VISION
     [Header("Cone de vision")]
-    [Range(0, 18)]
+    [Range(0, 25)]
     public float FRadius;
     [Range(0,70)]
     public float FAngle;
