@@ -14,6 +14,7 @@ public class SC_VisionConeCasting : MonoBehaviour
     [SerializeField] private LayerMask obstructionMask;     // Masque pour détecter les obstacles (murs, etc.)
     [SerializeField] private float guardVerticalOffset = 0f;  // Hauteur du garde (base)
     [SerializeField] private float farPointExtraOffset = 0f;  // Offset additionnel sur le point éloigné (optionnel)
+    [SerializeField] public float heightOffset = 0;
 
     [Header("Offset pour la partie interne")]
     [SerializeField] private float offsetAmount = 0f;         // Force d'offset appliquée aux vertices dans la moitié \"face au garde\"
@@ -60,7 +61,7 @@ public class SC_VisionConeCasting : MonoBehaviour
         else
         {
             farPoint = tentativeFarPoint;
-            farPoint.y = 0;
+            farPoint.y = 0 + heightOffset;
         }
         farPoint += transform.forward * farPointExtraOffset;
 

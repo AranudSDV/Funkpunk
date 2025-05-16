@@ -19,7 +19,7 @@ public class SC_FieldOfView : MonoBehaviour
 
     //LE CONE DE VISION
     [Header("Cone de vision")]
-    [Range(0, 8)]
+    [Range(0, 18)]
     public float FRadius;
     [Range(0,70)]
     public float FAngle;
@@ -417,13 +417,13 @@ public class SC_FieldOfView : MonoBehaviour
                 this.transform.DOJump(new Vector3(Mathf.Round(this.transform.position.x), this.transform.position.y, Mathf.Round(this.transform.position.z)), 1f, 0, ftime).SetEase(Ease.OutBack).SetAutoKill(true);
             }
             Vector3 preLastPos = posDirections[iCurrentDirection] - new Vector3(posDirections[iCurrentDirection].x - this.transform.position.x, 0, posDirections[iCurrentDirection].z - this.transform.position.z).normalized;
-            if (this.transform.position.x == Mathf.Round(posDirections[iCurrentDirection].x) && this.transform.position.z == Mathf.Round(posDirections[iCurrentDirection].z)) //pile à la position de changement.
+            if (this.transform.position.x == Mathf.Round(posDirections[iCurrentDirection].x) && this.transform.position.z == Mathf.Round(posDirections[iCurrentDirection].z)) //pile ï¿½ la position de changement.
             {
-                if (!isReversing && iCurrentDirection + 1 != posDirections.Length && posDirections.Length != 2) //Si ça ne reverse pas et que la prochaine direction existe
+                if (!isReversing && iCurrentDirection + 1 != posDirections.Length && posDirections.Length != 2) //Si ï¿½a ne reverse pas et que la prochaine direction existe
                 {
                     iCurrentDirection += 1;
                 }
-                else if (!isReversing && iCurrentDirection + 1 == posDirections.Length && posDirections.Length != 2) //Si ça ne reverse pas et que la prochaine direction n'existe pas ou aller-retour
+                else if (!isReversing && iCurrentDirection + 1 == posDirections.Length && posDirections.Length != 2) //Si ï¿½a ne reverse pas et que la prochaine direction n'existe pas ou aller-retour
                 {
                     if (iCurrentDirection != 0)
                     {
@@ -431,7 +431,7 @@ public class SC_FieldOfView : MonoBehaviour
                     }
                     isReversing = true;
                 }
-                else if (!isReversing && iCurrentDirection + 1 == posDirections.Length && posDirections.Length == 2) //Si ça ne reverse pas et que la prochaine direction n'existe pas ou aller-retour
+                else if (!isReversing && iCurrentDirection + 1 == posDirections.Length && posDirections.Length == 2) //Si ï¿½a ne reverse pas et que la prochaine direction n'existe pas ou aller-retour
                 {
                     if (iCurrentDirection == 1)
                     {
@@ -439,11 +439,11 @@ public class SC_FieldOfView : MonoBehaviour
                     }
                     isReversing = true;
                 }
-                else if (isReversing && iCurrentDirection - 1 != -1 && posDirections.Length != 2)//Si ça se reverse et que la prochaine direction existe
+                else if (isReversing && iCurrentDirection - 1 != -1 && posDirections.Length != 2)//Si ï¿½a se reverse et que la prochaine direction existe
                 {
                    iCurrentDirection -= 1;
                 }
-                else if (isReversing && (iCurrentDirection - 1 == -1 && posDirections.Length != 2))//Si ça se reverse et que la prochaine direction n'existe pas ou aller-retour
+                else if (isReversing && (iCurrentDirection - 1 == -1 && posDirections.Length != 2))//Si ï¿½a se reverse et que la prochaine direction n'existe pas ou aller-retour
                 {
                     iCurrentDirection += 1;
                     isReversing = false;
@@ -577,4 +577,5 @@ public class SC_FieldOfView : MonoBehaviour
             scPlayer.EndDialogue();
         }
     }
+
 }
