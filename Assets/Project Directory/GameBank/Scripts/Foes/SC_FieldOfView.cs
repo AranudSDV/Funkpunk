@@ -1,3 +1,4 @@
+using Cinemachine;
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
@@ -72,7 +73,10 @@ public class SC_FieldOfView : MonoBehaviour
 
     [Header("Boss")]
     public bool isBoss = false;
-    [SerializeField] private ing_Tag[] bossTags;
+    public bool bFinalPhase = false;
+    [SerializeField] private ing_Tag[] bossTagsPhase1;
+    [SerializeField] private ing_Tag[] bossTagsPhase2 = new ing_Tag[4];
+    [SerializeField] private int iAngleRemovePerTag = 10;
     [SerializeField] private ing_Bait[] bossBaits = new ing_Bait[4];
     [SerializeField] private Vector3[] posBait;
     [SerializeField][Tooltip("xz, x-z, -x-z, -xz")] private int[] iNbPosBaitPerZoneAdditive = new int[4];
@@ -80,10 +84,15 @@ public class SC_FieldOfView : MonoBehaviour
     public bool bIsRemovingTag = false;
     private bool bRoutineAgain = true;
     public int iRemovingRoutine = 9;
+    public int iRemovingRoutineSelection = 12;
     [SerializeField] private int iRemovingThird = 3;
     public int iTimeBeforeRemovingThird = 3;
     private List<ing_Tag> listTaggsDone = new List<ing_Tag>();
-    public int iNbTaggsDone = 0;
+    public int iNbTaggsDonePhase1 = 0;
+    public int iNbTaggsDonePhase2 = 0;
+    private bool bIsNearerRight = false;
+    [SerializeField] CinemachineVirtualCamera cineVirtualCam;
+    [SerializeField] private float fFinalPhaseAngle = 90f;
 
     private int Hasard(int a, int b) //Choisi un random.
     {
@@ -118,7 +127,7 @@ public class SC_FieldOfView : MonoBehaviour
                 isReversing = false;
                 iCurrentDirection = iFirstPos + 1;
             }
-            Go_vfx_Backward.transform.localPosition = new Vector3(pos_vfx_backward.x, 50f, pos_vfx_backward.z);
+            Go_vfx_Backward.transform.localPosition = new Vector3(pos_vfx_backward.x, -50f, pos_vfx_backward.z);
             if(backfeedback.initialized)
             {
                 backfeedback.ConeRenderer.enabled = false;
@@ -146,24 +155,93 @@ public class SC_FieldOfView : MonoBehaviour
     {
         if(bIsDisabled) return;
 
-        Collider[] rangeChecks = Physics.OverlapSphere(transform.position, FRadius, LMtargetMask);
+        Collider[] rangeChecks = Physics.OverlapSphere(transform.position, FRadius, LMtargetMask); //OverLapSphere on the whole radius
         Collider[] proximityChecks = Physics.OverlapSphere(transform.position, proximityRadius, LMtargetMask);
 
-        if (rangeChecks.Length != 0)
+        if (rangeChecks.Length != 0) //If something is inside the foe's radius
         {
-            Transform target = rangeChecks[0].transform;
-            Vector3 directionToTarget = (target.position - transform.position).normalized;
+            Transform target = rangeChecks[0].transform; //the said target
+            Vector3 directionToTarget = (target.position - transform.position).normalized; //the direction to the target
 
-            if (Vector3.Angle(transform.forward, directionToTarget) < FAngle / 2)
+            if (Vector3.Angle(transform.forward, directionToTarget) < FAngle / 2) //check if the angle between the target/this and the forward/this is inside the Angle
             {
-                float distanceToTarget = Vector3.Distance(transform.position, target.position);
-                if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, LMObstructionMask))
+                float distanceToTarget = Vector3.Distance(transform.position, target.position); //distance to the target
+                if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, LMObstructionMask)) //if a raycast can go to the target without obstruction
                 {
                     bSeenOnce = true; //vu une fois
                 }
                 else
                 {
                     BCanSee = false; //Ne voit pas
+                }
+            }
+            else if (Vector3.Angle(-transform.forward, directionToTarget) < FAngle / 2) //check if the angle between the target/this and the forward/this is inside the Angle
+            {
+                if (isBoss && bFinalPhase && iNbTaggsDonePhase2 >= 1)
+                {
+                    float distanceToTarget = Vector3.Distance(transform.position, target.position); //distance to the target
+                    if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, LMObstructionMask)) //if a raycast can go to the target without obstruction
+                    {
+                        bSeenOnce = true; //vu une fois
+                    }
+                    else //bIsNearerRight
+                    {
+                        BCanSee = false; //Ne voit pas
+                    }
+                }
+            }
+            else if (Vector3.Angle(transform.right, directionToTarget) < FAngle / 2) //check if the angle between the target/this and the forward/this is inside the Angle
+            {
+                if (isBoss && bFinalPhase && bIsNearerRight && iNbTaggsDonePhase2 >= 2)
+                {
+                    float distanceToTarget = Vector3.Distance(transform.position, target.position); //distance to the target
+                    if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, LMObstructionMask)) //if a raycast can go to the target without obstruction
+                    {
+                        bSeenOnce = true; //vu une fois
+                    }
+                    else 
+                    {
+                        BCanSee = false; //Ne voit pas
+                    }
+                }
+                else if (isBoss && bFinalPhase && !bIsNearerRight && iNbTaggsDonePhase2 >= 3)
+                {
+                    float distanceToTarget = Vector3.Distance(transform.position, target.position); //distance to the target
+                    if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, LMObstructionMask)) //if a raycast can go to the target without obstruction
+                    {
+                        bSeenOnce = true; //vu une fois
+                    }
+                    else
+                    {
+                        BCanSee = false; //Ne voit pas
+                    }
+                }
+            }
+            else if (Vector3.Angle(-transform.right, directionToTarget) < FAngle / 2) //check if the angle between the target/this and the forward/this is inside the Angle
+            {
+                if (isBoss && bFinalPhase && bIsNearerRight && iNbTaggsDonePhase2 >= 3)
+                {
+                    float distanceToTarget = Vector3.Distance(transform.position, target.position); //distance to the target
+                    if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, LMObstructionMask)) //if a raycast can go to the target without obstruction
+                    {
+                        bSeenOnce = true; //vu une fois
+                    }
+                    else
+                    {
+                        BCanSee = false; //Ne voit pas
+                    }
+                }
+                else if (isBoss && bFinalPhase && !bIsNearerRight && iNbTaggsDonePhase2 >= 2)
+                {
+                    float distanceToTarget = Vector3.Distance(transform.position, target.position); //distance to the target
+                    if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, LMObstructionMask)) //if a raycast can go to the target without obstruction
+                    {
+                        bSeenOnce = true; //vu une fois
+                    }
+                    else
+                    {
+                        BCanSee = false; //Ne voit pas
+                    }
                 }
             }
             else
@@ -196,7 +274,7 @@ public class SC_FieldOfView : MonoBehaviour
         }
         else if(!bNewDetected && height < 30)
         {
-            Go_vfx_detected.transform.localPosition = new Vector3 (pos_vfx_detected.x, 50f, pos_vfx_detected.z);
+            Go_vfx_detected.transform.localPosition = new Vector3 (pos_vfx_detected.x, -50f, pos_vfx_detected.z);
             PS_detected.Play();
             yield return new WaitForSeconds(0.5f);
             PS_detected.Stop();
@@ -213,7 +291,7 @@ public class SC_FieldOfView : MonoBehaviour
         }
         else if (!bNewDetected && height<30)
         {
-            Go_vfx_Suspicious.transform.localPosition = new Vector3(pos_vfx_supicious.x, 50f, pos_vfx_supicious.z);
+            Go_vfx_Suspicious.transform.localPosition = new Vector3(pos_vfx_supicious.x, -50f, pos_vfx_supicious.z);
             PS_Suspicious.Play();
             yield return new WaitForSeconds(0.5f);
             PS_Suspicious.Stop();
@@ -251,28 +329,28 @@ public class SC_FieldOfView : MonoBehaviour
     {
         if (_isDisable)
         {
-            Go_vfx_coneVision.transform.localPosition = new Vector3(pos_vfx_coneVision.x, 50f, pos_vfx_coneVision.z);
+            Go_vfx_coneVision.transform.localPosition = new Vector3(pos_vfx_coneVision.x, -50f, pos_vfx_coneVision.z);
             Go_vfx_disable.transform.localPosition = pos_vfx_disable;
         }
         else
         {
             Go_vfx_coneVision.transform.localPosition = pos_vfx_coneVision;
-            Go_vfx_disable.transform.localPosition = new Vector3(pos_vfx_disable.x, 50f, pos_vfx_disable.z);
+            Go_vfx_disable.transform.localPosition = new Vector3(pos_vfx_disable.x, -50f, pos_vfx_disable.z);
         }
     }
     private void DetectionChecks ()
     {
         if (bIsDisabled)
         {
-            Go_vfx_Suspicious.transform.localPosition = new Vector3(pos_vfx_supicious.x, 50f, pos_vfx_supicious.z);
+            Go_vfx_Suspicious.transform.localPosition = new Vector3(pos_vfx_supicious.x, -50f, pos_vfx_supicious.z);
             PS_Suspicious.Stop();
-            Go_vfx_detected.transform.localPosition = new Vector3(pos_vfx_detected.x, 50f, pos_vfx_detected.z);
+            Go_vfx_detected.transform.localPosition = new Vector3(pos_vfx_detected.x, -50f, pos_vfx_detected.z);
             PS_detected.Stop();
             if(isBoss)
             {
                 if(bIsRemovingTag)
                 {
-                    iRemovingRoutine = 10;
+                    iRemovingRoutine = iRemovingRoutineSelection*2;
                     iTimeBeforeRemovingThird = 10;
                 }
                 bIsRemovingTag = false;
@@ -285,13 +363,13 @@ public class SC_FieldOfView : MonoBehaviour
             bSeenOnce = false;
             BIsNear = false;
             StartCoroutine(NumDetectedVFX(true, Go_vfx_detected.transform.localPosition.y));
-            Go_vfx_Suspicious.transform.localPosition = new Vector3(pos_vfx_supicious.x, 50f, pos_vfx_supicious.z);
+            Go_vfx_Suspicious.transform.localPosition = new Vector3(pos_vfx_supicious.x, -50f, pos_vfx_supicious.z);
             PS_Suspicious.Stop();
             if (isBoss)
             {
                 if (bIsRemovingTag)
                 {
-                    iRemovingRoutine = 10;
+                    iRemovingRoutine = iRemovingRoutineSelection*2;
                     iTimeBeforeRemovingThird = 10;
                 }
                 bIsRemovingTag = false;
@@ -307,7 +385,7 @@ public class SC_FieldOfView : MonoBehaviour
             {
                 if (bIsRemovingTag)
                 {
-                    iRemovingRoutine = 10;
+                    iRemovingRoutine = iRemovingRoutineSelection * 2;
                     iTimeBeforeRemovingThird = 10;
                 }
                 bIsRemovingTag = false;
@@ -321,7 +399,7 @@ public class SC_FieldOfView : MonoBehaviour
             {
                 if (bIsRemovingTag)
                 {
-                    iRemovingRoutine = 10;
+                    iRemovingRoutine = iRemovingRoutineSelection * 2;
                     iTimeBeforeRemovingThird = 10;
                 }
                 bIsRemovingTag = false;
@@ -343,7 +421,7 @@ public class SC_FieldOfView : MonoBehaviour
                 else if (isBoss && !bIsRemovingTag && !bRoutineAgain)
                 {
                     transform.eulerAngles = vectLastRot;
-                    iRemovingRoutine = 9;
+                    iRemovingRoutine = iRemovingRoutineSelection;
                     iTimeBeforeRemovingThird = iRemovingThird;
                     bRoutineAgain = true;
                 }
@@ -385,11 +463,25 @@ public class SC_FieldOfView : MonoBehaviour
             {
                 if (!isReversing && currentRotation >= maxRotation)
                 {
-                    isReversing = true;
+                    if(isBoss)
+                    {
+                        currentRotation = minRotation;
+                    }
+                    else
+                    {
+                        isReversing = true;
+                    }
                 }
                 else if (isReversing && currentRotation <= minRotation)
                 {
-                    isReversing = false;
+                    if (isBoss)
+                    {
+                        currentRotation = maxRotation;
+                    }
+                    else
+                    {
+                        isReversing = false;
+                    }
                 }
 
                 if (isReversing)
@@ -453,7 +545,7 @@ public class SC_FieldOfView : MonoBehaviour
                     iCurrentDirection = 1;
                     isReversing = false;
                 }
-                Go_vfx_Backward.transform.localPosition = new Vector3(pos_vfx_backward.x, 50f, pos_vfx_backward.z);
+                Go_vfx_Backward.transform.localPosition = new Vector3(pos_vfx_backward.x, -50f, pos_vfx_backward.z);
                 if (backfeedback.initialized)
                 {
                     backfeedback.ConeRenderer.enabled = false;
@@ -512,7 +604,7 @@ public class SC_FieldOfView : MonoBehaviour
     public void TagChecking()
     {
         listTaggsDone.Clear();
-        foreach (ing_Tag tag in bossTags)
+        foreach (ing_Tag tag in bossTagsPhase1)
         {
             if(tag.transform.gameObject.tag == "Wall")
             {
@@ -539,7 +631,7 @@ public class SC_FieldOfView : MonoBehaviour
         }
         else
         {
-            iRemovingRoutine = 9;
+            iRemovingRoutine = iRemovingRoutineSelection;
             iTimeBeforeRemovingThird = iRemovingThird;
         }
     }
@@ -552,10 +644,10 @@ public class SC_FieldOfView : MonoBehaviour
             if (chosenTag.textOnWall.text == "1/3")
             {
                 chosenTag.textOnWall.text = "0/3";
-                iRemovingRoutine = 9;
+                iRemovingRoutine = iRemovingRoutineSelection;
                 bIsRemovingTag = false;
-                iNbTaggsDone -= 1;
-                BossTagAngle();
+                iNbTaggsDonePhase1 -= 1;
+                BossTagAnglePhase1();
             }
             else if (chosenTag.textOnWall.text == "2/3")
             {
@@ -569,13 +661,94 @@ public class SC_FieldOfView : MonoBehaviour
             }
         }
     }
-    public void BossTagAngle()
+    public void BossTagAnglePhase1()
     {
-        FAngle = 60 - (iNbTaggsDone * 5);
-        if(iNbTaggsDone == bossTags.Length)
+        FAngle = 60 - (iNbTaggsDonePhase1 * iAngleRemovePerTag);
+        if(iNbTaggsDonePhase1 == bossTagsPhase1.Length)
         {
+            bFinalPhase = true;
+            FAngle = fFinalPhaseAngle;
+            AnimatePhase2();
+        }
+    }
+    public void BossTagAnglePhase2()
+    {
+        if(iNbTaggsDonePhase2 == 2)
+        {
+            Vector3 directionToTarget = (scPlayer.transform.position - transform.position).normalized;
+            float directionFromRight = Vector3.Angle(transform.right, directionToTarget);
+            float directionFromLeft = Vector3.Angle(-transform.right, directionToTarget);
+            if(directionFromLeft > directionFromRight) // Le joueur est plus proche de la droite
+            {
+                bIsNearerRight = true;
+            }
+            else if(directionFromLeft < directionFromRight) // Le joueur est plus proche de la gauche
+            {
+                bIsNearerRight = false;
+            }
+            else //le joueur est au milieu, aléatoire
+            {
+                int hasard = Hasard(0,1);
+                if(hasard == 0) //droite
+                {
+                    bIsNearerRight = true;
+                }
+                else //gauche
+                {
+                    bIsNearerRight = false;
+                }
+            }
+        }
+        else if(iNbTaggsDonePhase2 == 4)
+        {
+            scPlayer.menuManager.bGameIsPaused = true;
+            scPlayer.bIsImune = true;
+            bIsDisabled = true;
             scPlayer.EndDialogue();
         }
     }
+    private void AnimatePhase2()
+    {
+        cineVirtualCam.Priority = 20;
+        scPlayer.menuManager.bGameIsPaused = true;
+        scPlayer.bIsImune = true;
+        bIsDisabled = true;
+        for(int i =0; i< bossTagsPhase1.Length; i++)
+        {
+            bossTagsPhase1[i].transform.parent.transform.position += new Vector3(0, -50f, 0);
+        }
+        Vector3 startPos = this.transform.position;
+        Quaternion startRot = this.transform.rotation;
+        DG.Tweening.Sequence seq = DOTween.Sequence();
 
+        // Target positions and rotations
+        Vector3 floatUpPos = startPos + new Vector3(0, 10f, 0);
+        Quaternion floatRot = Quaternion.Euler(startRot.eulerAngles + new Vector3(20, 40, 10));
+
+        // Float up and rotate slightly
+        seq.Append(transform.DOMove(floatUpPos, 1f).SetEase(Ease.OutSine));
+        seq.Join(transform.DORotateQuaternion(floatRot, 1f).SetEase(Ease.OutSine));
+
+        // Stagger (X/Z + small Y noise) while staying in air
+        seq.Append(transform.DOMove(floatUpPos + new Vector3(3f, 2f, -3f), 1f).SetEase(Ease.InOutSine));
+        seq.Append(transform.DOMove(floatUpPos + new Vector3(2f, 1f, 3f), 1f).SetEase(Ease.InOutSine));
+        seq.Append(transform.DOMove(floatUpPos + new Vector3(1f, 5f, 1f), 1f).SetEase(Ease.InOutSine));
+
+        // Fall back to original position and rotation
+        seq.Append(transform.DOMove(startPos, 0.8f).SetEase(Ease.InQuad));
+        seq.Join(transform.DORotateQuaternion(startRot, 0.8f).SetEase(Ease.InQuad));
+        seq.OnComplete(() =>
+        {
+            for (int i = 0; i < bossTagsPhase2.Length; i++)
+            {
+                bossTagsPhase2[i].transform.parent.transform.position += new Vector3(0, 50f, 0);
+            }
+            this.transform.position = startPos;
+            this.transform.rotation = startRot;
+            bIsDisabled = false;
+            scPlayer.menuManager.bGameIsPaused = false;
+            scPlayer.bIsImune = false;
+            cineVirtualCam.Priority = 2;
+        });
+    }
 }

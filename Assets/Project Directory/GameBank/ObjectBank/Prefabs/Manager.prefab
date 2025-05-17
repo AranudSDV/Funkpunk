@@ -126,6 +126,7 @@ MonoBehaviour:
   scPlayer: {fileID: 0}
   bGameIsPaused: 0
   iPreviousLevelPlayed: 0
+  bIsOnTestScene: 0
   controllerConnected: 0
   CgControllerWarning: {fileID: 2664458770303033238}
   RtControllerWarning: {fileID: 5055767787967681477}
@@ -266,10 +267,10 @@ MonoBehaviour:
   - {fileID: 21300000, guid: a2faf8967438424409b0bbc582f8cabd, type: 3}
   _sc_textChange: {fileID: 4024850880641299129}
   text_NameChara: {fileID: 6489292917810013333}
-  iNbDialoguePerLevel: 0c0000000a0000000700000000000000
-  iNbDialoguePerLevelAdd: 0c000000160000001d00000000000000
-  iCharaToSpeakPerTextes: 0000000003000000020000000300000002000000050000000300000001000000040000000100000000000000000000000300000000000000010000000200000005000000050000000500000001000000040000000300000001000000050000000400000001000000020000000500000003000000
-  iCharaToNotSpeakPerTextes: 0300000000000000030000000200000003000000020000000200000003000000010000000300000003000000030000000000000003000000030000000300000000000000020000000100000003000000000000000000000003000000000000000100000003000000030000000000000000000000
+  iNbDialoguePerLevel: 0c0000000a00000007000000080000000a00000013000000
+  iNbDialoguePerLevelAdd: 0c000000160000001d000000250000002f00000042000000
+  iCharaToSpeakPerTextes: 000000000300000002000000030000000200000005000000030000000100000004000000010000000000000000000000030000000000000001000000020000000500000005000000050000000100000004000000030000000100000005000000040000000100000002000000050000000300000006000000020000000400000006000000040000000600000004000000000000000700000005000000020000000500000000000000040000000000000005000000000000000000000007000000050000000200000005000000010000000500000008000000020000000500000008000000040000000800000002000000080000000100000009000000000000000800000000000000
+  iCharaToNotSpeakPerTextes: 030000000000000003000000020000000300000002000000020000000300000001000000030000000300000003000000000000000300000003000000030000000000000002000000010000000300000000000000000000000300000000000000010000000300000003000000000000000000000003000000060000000200000003000000070000000300000006000000060000000300000002000000030000000100000003000000000000000300000000000000030000000000000003000000020000000300000001000000010000000300000000000000020000000900000002000000090000000000000008000000020000000900000001000000090000000000000008000000
   sDialogueEnglish:
   - There. Now that's a tag they won't forget. (*graff done*)
   - Bingo! That's the spirit!
@@ -310,6 +311,57 @@ MonoBehaviour:
     out of the human world. '
   - If we fail, the music will take over all forms of art, and every human will be
     forced to dance until... DEATH.
+  - Ha, so you were here too, Scraffaello. Too bad you chose such a weak partner.
+  - Scraffaello ? How--
+  - No, Jett!
+  - Too late.
+  - Scravinsky, you can't rule over the human world! You know that!
+  - That's something you could have said... if you hadn't lost. Goodbye, dear friend
+    !
+  - Wai--
+  - And that's how Scravinsky and the evil spirits of music ruled over the world
+    for 666 days.
+  - Wait, no Scraffaello! Wai--
+  - "It seems like he\u2019s been sent away. Johnny\u2019s back to his senses...
+    but he\u2019s asleep right now. "
+  - 'Scraffaello ? '
+  - 'Yes, that''s my real name. I didn''t want to hide it from you, I just like "Scraffi"
+    more. '
+  - Well, that's okay. We saved the world !
+  - Indeed. Thanks for everything, pal.
+  - I should be the one thanking you. Humanity is free now! I'm so happy I don't
+    have to dance anymore.
+  - Well, it's a goodbye then. I'm no longer needed here.
+  - Thanks again, all the best !
+  - And that's how Scraffaello and Jett Rush saved the world.
+  - Wait, no Scraffaello! Wai--
+  - "It seems like he\u2019s been sent away. Johnny\u2019s back to his senses...
+    but he\u2019s asleep right now. "
+  - 'Scraffaello ? '
+  - Yes, that's my real name. Also, as a thank-you gift for everything you've done
+    for me, I would like you to meet someone.
+  - We saved the world ! Oh, thank you. Where are we going to meet this someone?
+  - Well... We don't have to go anywhere. He's coming to us.
+  - My, my... Hello, Scraffaello!
+  - Gosh, he's still there !!
+  - Don't worry Jett, he's not Scravinsky, he's the one I wanted you to meet. Let
+    me introduce you to Screonardo, my boss.
+  - 'So you''re the hero of the Human world! What was it again? Jeff... something? '
+  - 'I''ve already told you: That''s Jett Rush.'
+  - Yes, yes, thank you, Jeff. Thanks to your tagging spree, I can now be here with
+    you both! And soon, all our happy friends...
+  - Happy friends ?
+  - Yes, all of the painting spirits are ready to join us on the Human world. We'll
+    finally be able to spread the greatest art form!
+  - 'Wait... Isn''t that exactly what we were trying to stop ? '
+  - Jeff. I'm a bit disappointed by your comments. I thought you were a diligent
+    follower of us?
+  - I've just saved the world. And I'm ready to do it again. You've got the wrong
+    person.
+  - That's a shame! If you'd acted sooner, maybe you could have stopped what's coming.
+    Goodbye, Jett.
+  - 'And that''s how Scraffaello, Screonardo and the painting spirits ruled over
+    the world for 666 days. '
   sDialogueFrench:
   - "Voil\xE0. \xC7a, c'est un tag qu'ils ne vont pas oublier. (*tag fait*)"
   - "C'est \xE7a l'esprit !"
@@ -355,6 +407,63 @@ MonoBehaviour:
     Scravinsky d'o\xF9 il vient, c'est-\xE0-dire loin du monde des humains. "
   - "Si on se plante, la musique va dominer toutes les autres formes d'art et chaque
     humain devra danser... jusqu'\xE0 la MORT."
+  - "Ha, donc tu \xE9tais l\xE0 aussi, Scraffaello. Dommage que tu aies choisi un
+    acolyte si faible."
+  - Scraffaello ? Comment--
+  - Non Jett!
+  - Trop tard.
+  - Scravinsky, tu n'as pas le droit de dominer le monde des humains, tu le sais
+    !
+  - C'est quelque chose que t'aurais pu dire... si tu n'avais pas perdu. Au revoir,
+    cher ami !
+  - Atten--
+  - "Et c'est ainsi que Scravinsky et les Malins de la musique domin\xE8rent le monde
+    pendant 666 jours."
+  - Attends, non Scraffaello! Atten--
+  - "On dirait qu'il a \xE9t\xE9 renvoy\xE9 chez lui. Johnny est revenu \xE0 la raison...
+    Mais il dort encore."
+  - 'Scraffaello ? '
+  - "Oui, c'est mon vrai nom. Je ne voulais pas te le cacher, personnellement je
+    pr\xE9f\xE8re \"Scraffi\"."
+  - "Tout va bien. On a sauv\xE9 le monde, apr\xE8s tout !"
+  - En effet, merci pour tout, mon ami.e.
+  - "Ca devrait plut\xF4t \xEAtre \xE0 moi de te remercier. Les Humains sont libres
+    maintenant ! Quelle joie que de ne plus devoir danser."
+  - Allez, c'est un au revoir. On n'a plus besoin de moi ici maintenant.
+  - Merci encore, bonne continuation !
+  - "Et c'est ainsi que Scraffaello et Jett Rush sauv\xE8rent le monde."
+  - Attends, non Scraffaello! Atten--
+  - "On dirait qu'il a \xE9t\xE9 renvoy\xE9 chez lui. Johnny est revenu \xE0 la raison...
+    Mais il dort encore."
+  - 'Scraffaello ? '
+  - "Oui en fait c'est mon nom. Aussi, comme cadeau de remerciement pour tout ce
+    que t'as fait pour moi, j'aimerais te pr\xE9senter \xE0 quelqu'un."
+  - "Merci \xE0 toi aussi, on n'aurait pas pu sauver le monde sans toi. O\xF9 alons-nous
+    donc pour rencontrer ce quelqu'un ? "
+  - "Nulle part... Il va venir \xE0 nous."
+  - Eh ben dis donc. Salut Scraffaello !
+  - "Diable, il est toujours l\xE0!!"
+  - "Ne t'en fais pas Jett, ce n'est pas Scravinsky. C'est la personne que je voulais
+    te pr\xE9senter. Voici Screonardo, mon chef."
+  - "C'est donc toi le h\xE9ros du monde des Humains ! Comment c'est d\xE9j\xE0 ?
+    Jeff... quelque chose ?"
+  - "Je te l'ai d\xE9j\xE0 dit : Jett Rush. "
+  - "Oui oui, merci beaucoup Jeff. Gr\xE2ce \xE0 ta fr\xE9n\xE9sie du tag, je peux
+    \xEAtre ici avec vous deux. Et bient\xF4t tous nos joyeux amis pourront nous
+    rejoindre."
+  - Joyeux amis ?
+  - "Oui, tous les Malins de la peinture sont pr\xEAts \xE0 rejoindre le monde des
+    Humains. On va enfin pouvoir r\xE9pandre le plus grand de tous les arts !"
+  - "Attendez... Est-ce que ce n'est pas exactement ce qu'on essayait d'emp\xEAcher
+    ?"
+  - "Jeff. Je suis un peu d\xE9\xE7u de tes remarques. Je pensais que tu \xE9tais
+    avec nous sinc\xE8rement ?"
+  - Je viens tout juste de sauver le monde et je peux recommencer! Je ne suis pas
+    la personne que vous croyez.
+  - "Dommage ! Si t'avais fait quelque chose plus t\xF4t, t'aurais peut-\xEAtre pu
+    \xE9viter ce qui arrive. Au revoir, Jett."
+  - "Et c'est ainsi que Scraffaello, Screonardo et les Malins de la peinture domin\xE8rent
+    le monde pendant 666 jours."
   bWaitNextDialogue: 0
   sSceneToLoad: Scenes/World/GameChoose
   progressBar: {fileID: 5376875976944638836}
@@ -369,7 +478,7 @@ MonoBehaviour:
       Data2: 1156992341
       Data3: 1702016671
       Data4: 1227493856
-    Path: event:/MainMenuMusic
+    Path: event:/mainMenuMusic
   iNbTaggs: 01000000050000000500000005000000
 --- !u!114 &1165491372627732135
 MonoBehaviour:
@@ -384,8 +493,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iLevelPlayer: 0
-  iStarsPlayer: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  iScorePerLvlPlayer: 0000000000000000000000000000000000000000
+  iStarsPlayer: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  iScorePerLvlPlayer: 00000000000000000000000000000000
   iLanguageNbPlayer: 1
 --- !u!114 &8025381729888204121
 MonoBehaviour:
@@ -10413,14 +10522,14 @@ MonoBehaviour:
       - m_Target: {fileID: 269850063720091022}
         m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
         m_MethodName: CloseOptions
-        m_Mode: 1
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!1 &9130975813280179451
 GameObject:

@@ -11,7 +11,6 @@ using UnityEngine.EventSystems;
 using FMODUnity;
 using UnityEngine.LowLevel;
 using FMOD.Studio;
-using UnityEngine.UIElements;
 
 public class MenuManager : MonoBehaviour
 {
@@ -821,7 +820,7 @@ public class MenuManager : MonoBehaviour
             RtPauseMenu.anchorMax = new Vector2(1, 2);
             RtPauseMenu.offsetMax = new Vector2(0f, 0f);
             RtPauseMenu.offsetMin = new Vector2(0f, 0f);
-            CloseOptions();
+            CloseOptions(false);
             if ((scPlayer != null && scPlayer.bisTuto == true && SceneManager.GetActiveScene().name != "Loft") || (scPlayer != null && CgScoring.alpha == 1f))
             {
                 bGameIsPaused = true;
@@ -867,6 +866,7 @@ public class MenuManager : MonoBehaviour
     }
     public void OptionsGame()
     {
+        CgPauseMenu.alpha = 0f;
         ButtonSound();
         EventSystem.SetSelectedGameObject(GoOptionGeneralFirstButtonSelected);
         CgPauseMenu.interactable = false;
@@ -902,8 +902,19 @@ public class MenuManager : MonoBehaviour
             CgOptionAudio.blocksRaycasts = true;
         }
     }
-    public void CloseOptions()
+    public void CloseOptions(bool bFromPause)
     {
+        if (bFromPause)
+        {
+            CgPauseMenu.alpha = 1f;
+            bActif = true;
+            CgPauseMenu.blocksRaycasts = true;
+            CgPauseMenu.interactable = true;
+            RtPauseMenu.anchorMin = new Vector2(0, 0);
+            RtPauseMenu.anchorMax = new Vector2(1, 1);
+            RtPauseMenu.offsetMax = new Vector2(0f, 0f);
+            RtPauseMenu.offsetMin = new Vector2(0f, 0f);
+        }
         ButtonSound();
         CgPauseMenu.interactable = true;
         CgOptionPannel.alpha = 0f;
@@ -1030,7 +1041,8 @@ public class MenuManager : MonoBehaviour
         int iLevel = iPreviousLevelPlayed;
         if (first ==true)
         {
-            if(bHasWon)
+            ImgEndDialogueBackground.sprite = spritesEndDialogueBackground[iLevel];
+            if (bHasWon)
             {
                 bIsOnEndDialogue = true;
                 if (iLevel != 0)
@@ -1054,23 +1066,23 @@ public class MenuManager : MonoBehaviour
                     }
                 }
                 }
+            else
+            {
+                if(iLevel != 3)
+                {
+                    CgEndDialogue.alpha = 0f;
+                    CgEndDialogue.blocksRaycasts = false;
+                    RtEndDialogue.anchorMin = new Vector2(0, 1);
+                    RtEndDialogue.anchorMax = new Vector2(1, 2);
+                    RtEndDialogue.offsetMax = new Vector2(0f, 0f);
+                    RtEndDialogue.offsetMin = new Vector2(0f, 0f);
+                    scPlayer.EndGame(false, _playerData);
+                }
                 else
                 {
-                    if(iLevel != 3)
-                    {
-                        CgEndDialogue.alpha = 0f;
-                        CgEndDialogue.blocksRaycasts = false;
-                        RtEndDialogue.anchorMin = new Vector2(0, 1);
-                        RtEndDialogue.anchorMax = new Vector2(1, 2);
-                        RtEndDialogue.offsetMax = new Vector2(0f, 0f);
-                        RtEndDialogue.offsetMin = new Vector2(0f, 0f);
-                        scPlayer.EndGame(false, _playerData);
-                    }
-                    else
-                    {
-                        iLevel = 3;
-                    }
+                    iLevel = 3;
                 }
+            }
         }
         if (iNbTextNow == iNbDialoguePerLevelAdd[iLevel] -1)
         {

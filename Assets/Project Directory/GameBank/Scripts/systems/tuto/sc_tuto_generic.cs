@@ -349,7 +349,6 @@ public class sc_tuto_generic : MonoBehaviour
                     {
                         CgGameUI.alpha = 1f;
                         scPlayer.menuManager.bGameIsPaused = false;
-                        Debug.Log("end");
                     }
                     bWaitNext = true;
                     ShowNextText(i);
@@ -378,6 +377,11 @@ public class sc_tuto_generic : MonoBehaviour
         {
              ShowBubble(i);
             UnreadBubble(i, max);
+             if (bIsOnLoft && bTuto[0])
+            {
+                CgGameUI.alpha = 1f;
+                scPlayer.menuManager.bGameIsPaused = false;
+            }
             if (z == iBubbleNb[_y] - 2)
             {
                 b_[z] = false;
@@ -398,12 +402,6 @@ public class sc_tuto_generic : MonoBehaviour
                         cameraIsTracking = true;
                         BubbleCameraOff();
                     }
-                }
-                else if (bIsOnLoft && bTuto[0] && i==max-1)
-                {
-                    CgGameUI.alpha = 1f;
-                    scPlayer.menuManager.bGameIsPaused = false;
-                    Debug.Log("end skip");
                 }
                 ShowNextText(i);
                 bWaitNext = true;

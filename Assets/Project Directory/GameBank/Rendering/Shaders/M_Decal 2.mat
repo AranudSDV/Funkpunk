@@ -41,6 +41,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: f2a671a72a887e648a007c71d8062274, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_579a1f4a788e4990ba89a4c720217e6b_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 86f43e9c197b8ee43acad6ea1d608d49, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_5bf1a19edaa04d28bb8255d801927fa0_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: 8949bda8d9dc2274abf43660c88de72c, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -64,6 +68,9 @@ Material:
     m_Ints: []
     m_Floats:
     - _Alpha_Pow: 0.1
+    - _AtlasColonnes: 2
+    - _AtlasLignes: 2
+    - _DecalAngleFadeSupported: 1
     - _DecalMeshBiasType: 0
     - _DecalMeshDepthBias: 0
     - _DecalMeshViewBias: 0

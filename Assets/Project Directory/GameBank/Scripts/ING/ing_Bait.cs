@@ -74,7 +74,7 @@ public class ing_Bait : MonoBehaviour
         }
         if(b_BeenThrown)
         {
-            Go_vfxIdle.transform.localPosition = new Vector3(fPosBase_idlel.x, fPosBase_idlel.y + 50f, fPosBase_idlel.z);
+            Go_vfxIdle.transform.localPosition = new Vector3(fPosBase_idlel.x, fPosBase_idlel.y - 50f, fPosBase_idlel.z);
             foreach (SC_FieldOfView ennemy in allEnemies)
             {
                 if (ennemy.i_EnnemyBeat > 5)
@@ -104,7 +104,7 @@ public class ing_Bait : MonoBehaviour
         }
         if (bIsBeingThrown)
         {
-            Go_vfxIdle.transform.localPosition = new Vector3(fPosBase_idlel.x, fPosBase_idlel.y + 50f, fPosBase_idlel.z);
+            Go_vfxIdle.transform.localPosition = new Vector3(fPosBase_idlel.x, fPosBase_idlel.y - 50f, fPosBase_idlel.z);
             if (!bOnce)
             {
                 bGoingUp = true;
@@ -225,16 +225,16 @@ public class ing_Bait : MonoBehaviour
         PS_trail.Stop();
         PS_smash.Stop();
         yield return new WaitForSeconds(time * 1 / 6);
-        Go_vfx_Smash.transform.localPosition = new Vector3(fPosBase_smash.x, fPosBase_smash.y + 50f, fPosBase_smash.z);
+        Go_vfx_Smash.transform.localPosition = new Vector3(fPosBase_smash.x, fPosBase_smash.y - 50f, fPosBase_smash.z);
         bOnce = false;
     }
     private IEnumerator NumImpactVFX(float time)
     {
         Go_vfx_Impact.transform.localPosition = fPosBase_impact;
-        Go_vfxTrail.transform.localPosition = new Vector3(fPosBase_trail.x, fPosBase_trail.y +50f, fPosBase_trail.z);
+        Go_vfxTrail.transform.localPosition = new Vector3(fPosBase_trail.x, fPosBase_trail.y - 50f, fPosBase_trail.z);
         PS_Impact.Play();
         yield return new WaitForSeconds(time * 2/5);
         PS_Impact.Stop();
-        Go_vfx_Impact.transform.localPosition = new Vector3(fPosBase_impact.x, fPosBase_impact.y + 50f, fPosBase_impact.z);
+        Go_vfx_Impact.transform.localPosition = new Vector3(fPosBase_impact.x, fPosBase_impact.y - 50f, fPosBase_impact.z);
     }
 }

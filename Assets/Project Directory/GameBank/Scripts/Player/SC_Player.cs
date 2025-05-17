@@ -10,7 +10,6 @@ using Unity.VisualScripting;
 using UnityEditor.SceneManagement;
 #endif
 using UnityEngine.UI;
-using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
 using static UnityEngine.EventSystems.EventTrigger;
 using Cinemachine;
@@ -393,7 +392,7 @@ public class SC_Player : MonoBehaviour
                                 ingTag.textOnWall.color = bpmManager.colorPerfect;
                                 ingTag._renderer.material = ingTag.taggedMaterial; //le joueur tag
                                 ingTag.transform.gameObject.tag = "Wall";
-                                ingTag.goArrow.transform.localPosition = new Vector3(ingTag.goArrow.transform.localPosition.x, ingTag.goArrow.transform.localPosition.y + 50f, ingTag.goArrow.transform.localPosition.z);
+                                ingTag.goArrow.transform.localPosition = new Vector3(ingTag.goArrow.transform.localPosition.x, ingTag.goArrow.transform.localPosition.y - 50f, ingTag.goArrow.transform.localPosition.z);
                                 itagDone += 1;
                                 if (ingTag.scFoes != null)
                                 {
@@ -411,8 +410,16 @@ public class SC_Player : MonoBehaviour
                                 }
                                 if (ingTag.bBossTag)
                                 {
-                                    ingTag.scBoss.iNbTaggsDone += 1;
-                                    ingTag.scBoss.BossTagAngle();
+                                    if(!ingTag.scBoss.bFinalPhase)
+                                    {
+                                        ingTag.scBoss.iNbTaggsDonePhase1 += 1;
+                                        ingTag.scBoss.BossTagAnglePhase1();
+                                    }
+                                    else
+                                    {
+                                        ingTag.scBoss.iNbTaggsDonePhase2 += 1;
+                                        ingTag.scBoss.BossTagAnglePhase2();
+                                    }
                                     //feedback degat boss
                                     CameraShake(fShakeFoeBasic * 2, bpmManager.FSPB * 1 / 3);
                                 }
@@ -525,7 +532,7 @@ public class SC_Player : MonoBehaviour
                             ingTag.textOnWall.color = bpmManager.colorPerfect;
                             ingTag._renderer.material = ingTag.taggedMaterial; //le joueur tag
                             ingTag.transform.gameObject.tag = "Wall";
-                            ingTag.goArrow.transform.localPosition = new Vector3(ingTag.goArrow.transform.localPosition.x, ingTag.goArrow.transform.localPosition.y + 50f, ingTag.goArrow.transform.localPosition.z);
+                            ingTag.goArrow.transform.localPosition = new Vector3(ingTag.goArrow.transform.localPosition.x, ingTag.goArrow.transform.localPosition.y - 50f, ingTag.goArrow.transform.localPosition.z);
                             itagDone += 1;
                             if(ingTag.scFoes!= null)
                             {
@@ -543,8 +550,16 @@ public class SC_Player : MonoBehaviour
                             }
                             if(ingTag.bBossTag)
                             {
-                                ingTag.scBoss.iNbTaggsDone += 1;
-                                ingTag.scBoss.BossTagAngle();
+                                if (!ingTag.scBoss.bFinalPhase)
+                                {
+                                    ingTag.scBoss.iNbTaggsDonePhase1 += 1;
+                                    ingTag.scBoss.BossTagAnglePhase1();
+                                }
+                                else
+                                {
+                                    ingTag.scBoss.iNbTaggsDonePhase2 += 1;
+                                    ingTag.scBoss.BossTagAnglePhase2();
+                                }
                                 //feedback degat boss
                                 StartCoroutine(CameraShake(fShakeFoeBasic * 2, bpmManager.FSPB * 1 / 3));
                             }
@@ -850,7 +865,7 @@ public class SC_Player : MonoBehaviour
         vfx_steps.Play();
         yield return new WaitForSeconds(time * (1 - 2 / 5f));
         vfx_steps.Stop();
-        GoVfxSteps.transform.localPosition = fPosVFX_steps + new Vector3(0f,50f,0f);
+        GoVfxSteps.transform.localPosition = fPosVFX_steps + new Vector3(0f,-50f,0f);
     }
     private IEnumerator NotEnoughPercentLoft()
     {
@@ -874,7 +889,7 @@ public class SC_Player : MonoBehaviour
         vfx_RotToRight.Play();
         yield return new WaitForSeconds(time * 4 / 5);
         vfx_RotToRight.Stop();
-        GoVfxRotToRight.transform.localPosition = new Vector3(0f, 50f, 0f);
+        GoVfxRotToRight.transform.localPosition = new Vector3(0f, -50f, 0f);
     }
     private IEnumerator RotationToLeft(float time)
     {
@@ -882,7 +897,7 @@ public class SC_Player : MonoBehaviour
         vfx_RotToLeft.Play();
         yield return new WaitForSeconds(time * 4 / 5);
         vfx_RotToLeft.Stop();
-        GoVfxRotToLeft.transform.localPosition = new Vector3(0f, 50f, 0f);
+        GoVfxRotToLeft.transform.localPosition = new Vector3(0f, -50f, 0f);
     }
     private void RotationVFX(Vector3 dir, float time)
     {
@@ -1055,7 +1070,7 @@ public class SC_Player : MonoBehaviour
         vfx_tag.Play();
         yield return new WaitForSeconds(time*4/6);
         vfx_tag.Stop();
-        GoVfxTag.transform.localPosition = dir + new Vector3(0f, 50f, 0f);
+        GoVfxTag.transform.localPosition = dir + new Vector3(0f, -50f, 0f);
     }
     private void PlayCinematicFocus(GameObject GoTag, Vector3 dir, float time, int TagsDone)
     {
@@ -1133,6 +1148,7 @@ public class SC_Player : MonoBehaviour
             if(bOnFoe)
             {
                 SoundManager.Instance.PlayOneShot(sfx_baitStun);
+                GO_BaitInst.transform.position -= new Vector3(0, -50f, 0);
             }
         });
     }
@@ -1153,7 +1169,7 @@ public class SC_Player : MonoBehaviour
                 if (!bIsImune)
                 {
                     enemy.i_EnnemyBeat += 1;
-                    if (enemy.i_EnnemyBeat >= 0)
+                    if (enemy.i_EnnemyBeat >= 0 && enemy.isBoss)
                     {
                         enemy.bIsDisabled = false;
                         enemy.FoeDisabled(enemy.bIsDisabled);
@@ -1179,10 +1195,10 @@ public class SC_Player : MonoBehaviour
                 {
                     enemy.EnemieRotation(bpmManager.FSPB);
                 }
-                else if (enemy.isBoss && !enemy.bIsRemovingTag && enemy.iRemovingRoutine!=10)
+                else if (enemy.isBoss && !enemy.bIsRemovingTag && enemy.iRemovingRoutine!= enemy.iRemovingRoutineSelection*2)
                 {
                     enemy.EnemieRotation(bpmManager.FSPB);
-                    if(!bIsImune)
+                    if(!bIsImune && !enemy.bFinalPhase)
                     {
                         enemy.iRemovingRoutine -= 1;
                         if (enemy.iRemovingRoutine == 0)
@@ -1193,7 +1209,7 @@ public class SC_Player : MonoBehaviour
                 }
                 else if(enemy.isBoss && enemy.bIsRemovingTag)
                 {
-                    if (!bIsImune)
+                    if (!bIsImune && !enemy.bFinalPhase)
                     {
                         enemy.iTimeBeforeRemovingThird -= 1;
                         enemy.RemovingTag();
@@ -1239,7 +1255,7 @@ public class SC_Player : MonoBehaviour
         }
         else
         {
-            GoVfxDetected.transform.localPosition = fPosVFX_detected + new Vector3(0f,50f,0f);
+            GoVfxDetected.transform.localPosition = fPosVFX_detected + new Vector3(0f,-50f,0f);
         }
     }
     IEnumerator LooseDetectionLevel()

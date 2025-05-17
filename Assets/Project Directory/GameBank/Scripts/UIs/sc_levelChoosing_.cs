@@ -82,6 +82,10 @@ public class sc_levelChoosing_ : MonoBehaviour
                     AnimateChara(iSelected, i, 1.5f);
                     bNowSelected[i] = true;
                 }
+                else if(menuManager.EventSystem.currentSelectedGameObject != GoLevels[i] && bNowSelected[i])
+                {
+                    bNowSelected[i] = false;
+                }
             }
         }
     }
