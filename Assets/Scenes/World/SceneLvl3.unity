@@ -43245,7 +43245,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1210185276}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.41013232, y: -1e-45, z: -0, w: 0.91202605}
+  m_LocalRotation: {x: 0.41013232, y: -1e-45, z: 1e-45, w: 0.91202605}
   m_LocalPosition: {x: 63.25, y: 13, z: 69.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -62537,7 +62537,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1787756057}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.41013232, y: 3e-45, z: -1e-45, w: 0.91202605}
+  m_LocalRotation: {x: 0.41013232, y: -1e-45, z: -0, w: 0.91202605}
   m_LocalPosition: {x: 63.25, y: 13, z: 69.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -64515,6 +64515,7 @@ MonoBehaviour:
   cam_Game: {fileID: 961698158}
   m_Path: {fileID: 760839577}
   RtGameUI: {fileID: 1257275680}
+  CgGameUI: {fileID: 0}
   RtDetectionUI: {fileID: 1257275681}
   m_PositionUnits: 1
   intBdYCam: 1
@@ -67519,7 +67520,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1918084481}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 4e-45, z: -3e-45, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -1e-45, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
