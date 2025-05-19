@@ -370,8 +370,7 @@ Shader  "SHR_DecalMaster2"
 				float2 texCoord11 = texCoord0 * float2( 1,1 ) + float2( 0,0 );
 				float2 uv25 = texCoord11;
 				float4 matrixToPos29 = float4( GetObjectToWorldMatrix()[0][3],GetObjectToWorldMatrix()[1][3],GetObjectToWorldMatrix()[2][3],GetObjectToWorldMatrix()[3][3]);
-				float4 transform31 = mul(GetObjectToWorldMatrix(),matrixToPos29);
-				float4 break27 = transform31;
+				float4 break27 = matrixToPos29;
 				float2 appendResult28 = (float2(break27.x , break27.z));
 				float2 seed2D25 = appendResult28;
 				sampler2D tex25 = _tex;
@@ -823,8 +822,7 @@ Shader  "SHR_DecalMaster2"
 				float2 texCoord11 = texCoord0 * float2( 1,1 ) + float2( 0,0 );
 				float2 uv25 = texCoord11;
 				float4 matrixToPos29 = float4( GetObjectToWorldMatrix()[0][3],GetObjectToWorldMatrix()[1][3],GetObjectToWorldMatrix()[2][3],GetObjectToWorldMatrix()[3][3]);
-				float4 transform31 = mul(GetObjectToWorldMatrix(),matrixToPos29);
-				float4 break27 = transform31;
+				float4 break27 = matrixToPos29;
 				float2 appendResult28 = (float2(break27.x , break27.z));
 				float2 seed2D25 = appendResult28;
 				sampler2D tex25 = _tex;
@@ -1292,8 +1290,7 @@ Shader  "SHR_DecalMaster2"
 				float2 texCoord11 = texCoord0 * float2( 1,1 ) + float2( 0,0 );
 				float2 uv25 = texCoord11;
 				float4 matrixToPos29 = float4( GetObjectToWorldMatrix()[0][3],GetObjectToWorldMatrix()[1][3],GetObjectToWorldMatrix()[2][3],GetObjectToWorldMatrix()[3][3]);
-				float4 transform31 = mul(GetObjectToWorldMatrix(),matrixToPos29);
-				float4 break27 = transform31;
+				float4 break27 = matrixToPos29;
 				float2 appendResult28 = (float2(break27.x , break27.z));
 				float2 seed2D25 = appendResult28;
 				sampler2D tex25 = _tex;
@@ -1690,8 +1687,7 @@ Shader  "SHR_DecalMaster2"
 				float2 texCoord11 = packedInput.texCoord0.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 uv25 = texCoord11;
 				float4 matrixToPos29 = float4( GetObjectToWorldMatrix()[0][3],GetObjectToWorldMatrix()[1][3],GetObjectToWorldMatrix()[2][3],GetObjectToWorldMatrix()[3][3]);
-				float4 transform31 = mul(GetObjectToWorldMatrix(),matrixToPos29);
-				float4 break27 = transform31;
+				float4 break27 = matrixToPos29;
 				float2 appendResult28 = (float2(break27.x , break27.z));
 				float2 seed2D25 = appendResult28;
 				sampler2D tex25 = _tex;
@@ -2145,8 +2141,7 @@ Shader  "SHR_DecalMaster2"
 				float2 texCoord11 = packedInput.texCoord0.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 uv25 = texCoord11;
 				float4 matrixToPos29 = float4( GetObjectToWorldMatrix()[0][3],GetObjectToWorldMatrix()[1][3],GetObjectToWorldMatrix()[2][3],GetObjectToWorldMatrix()[3][3]);
-				float4 transform31 = mul(GetObjectToWorldMatrix(),matrixToPos29);
-				float4 break27 = transform31;
+				float4 break27 = matrixToPos29;
 				float2 appendResult28 = (float2(break27.x , break27.z));
 				float2 seed2D25 = appendResult28;
 				sampler2D tex25 = _tex;
@@ -2621,8 +2616,7 @@ Shader  "SHR_DecalMaster2"
 				float2 texCoord11 = packedInput.texCoord0.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 uv25 = texCoord11;
 				float4 matrixToPos29 = float4( GetObjectToWorldMatrix()[0][3],GetObjectToWorldMatrix()[1][3],GetObjectToWorldMatrix()[2][3],GetObjectToWorldMatrix()[3][3]);
-				float4 transform31 = mul(GetObjectToWorldMatrix(),matrixToPos29);
-				float4 break27 = transform31;
+				float4 break27 = matrixToPos29;
 				float2 appendResult28 = (float2(break27.x , break27.z));
 				float2 seed2D25 = appendResult28;
 				sampler2D tex25 = _tex;
@@ -2879,8 +2873,7 @@ Shader  "SHR_DecalMaster2"
 				float2 texCoord11 = packedInput.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 uv25 = texCoord11;
 				float4 matrixToPos29 = float4( GetObjectToWorldMatrix()[0][3],GetObjectToWorldMatrix()[1][3],GetObjectToWorldMatrix()[2][3],GetObjectToWorldMatrix()[3][3]);
-				float4 transform31 = mul(GetObjectToWorldMatrix(),matrixToPos29);
-				float4 break27 = transform31;
+				float4 break27 = matrixToPos29;
 				float2 appendResult28 = (float2(break27.x , break27.z));
 				float2 seed2D25 = appendResult28;
 				sampler2D tex25 = _tex;
@@ -2941,9 +2934,9 @@ Node;AmplifyShaderEditor.SwizzleNode;23;-1356.95,-499.6058;Inherit;True;FLOAT2;0
 Node;AmplifyShaderEditor.BreakToComponentsNode;27;-1449.202,-230.0352;Inherit;False;FLOAT4;1;0;FLOAT4;0,0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
 Node;AmplifyShaderEditor.DynamicAppendNode;28;-1280.202,-244.7686;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.WorldPosInputsNode;12;-1949.241,-317.141;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
-Node;AmplifyShaderEditor.ObjectToWorldTransfNode;31;-1730.871,-254.3018;Inherit;False;1;0;FLOAT4;0,0,0,1;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.PosFromTransformMatrix;29;-1936.271,-41.10181;Inherit;False;1;0;FLOAT4x4;1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.ObjectToWorldMatrixNode;33;-2175.46,-59.3021;Inherit;False;0;1;FLOAT4x4;0
+Node;AmplifyShaderEditor.PosFromTransformMatrix;29;-1960.271,-23.10181;Inherit;False;1;0;FLOAT4x4;1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ObjectToWorldTransfNode;31;-1778.871,-279.6352;Inherit;False;1;0;FLOAT4;1,1,1,1;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 WireConnection;9;0;25;0
 WireConnection;2;0;25;0
 WireConnection;2;1;9;3
@@ -2963,10 +2956,9 @@ WireConnection;25;11;20;0
 WireConnection;25;12;26;0
 WireConnection;25;13;21;0
 WireConnection;23;0;12;0
-WireConnection;27;0;31;0
+WireConnection;27;0;29;0
 WireConnection;28;0;27;0
 WireConnection;28;1;27;2
-WireConnection;31;0;29;0
 WireConnection;29;0;33;0
 ASEEND*/
-//CHKSM=199928270FAB5AF9CFE3C0943EF403B761A0BA7E
+//CHKSM=059E4385CCC6DB2F8336F2F127EAB2B02ACF336F
