@@ -477,12 +477,11 @@ Shader "SHR_Grid"
 				float2 break208 = ( ( rotator151 * float2( 2,2 ) ) - float2( 1,1 ) );
 				float smoothstepResult201 = smoothstep( _DiagonalSize , _DiagonalSize , length( break208.x ));
 				float smoothstepResult200 = smoothstep( _DiagonalSize , _DiagonalSize , length( break208.y ));
-				float temp_output_222_0 = ( ( 1.0 - ( ( ( 1.0 - smoothstepResult167 ) * ( 1.0 - smoothstepResult168 ) ) * ( ( 1.0 - smoothstepResult201 ) * ( 1.0 - smoothstepResult200 ) ) ) ) * _Alpha );
 				
 				float3 BakedAlbedo = 0;
 				float3 BakedEmission = 0;
 				float3 Color = lerpResult241.rgb;
-				float Alpha = ( temp_output_222_0 - ( tex2DNode228.b * temp_output_222_0 ) );
+				float Alpha = ( ( ( 1.0 - ( ( ( 1.0 - smoothstepResult167 ) * ( 1.0 - smoothstepResult168 ) ) * ( ( 1.0 - smoothstepResult201 ) * ( 1.0 - smoothstepResult200 ) ) ) ) * _Alpha * tex2DNode228.b ) - tex2DNode228.g );
 				float AlphaClipThreshold = _Alphaclip;
 				float AlphaClipThresholdShadow = 0.5;
 
@@ -774,12 +773,11 @@ Shader "SHR_Grid"
 				float2 break208 = ( ( rotator151 * float2( 2,2 ) ) - float2( 1,1 ) );
 				float smoothstepResult201 = smoothstep( _DiagonalSize , _DiagonalSize , length( break208.x ));
 				float smoothstepResult200 = smoothstep( _DiagonalSize , _DiagonalSize , length( break208.y ));
-				float temp_output_222_0 = ( ( 1.0 - ( ( ( 1.0 - smoothstepResult167 ) * ( 1.0 - smoothstepResult168 ) ) * ( ( 1.0 - smoothstepResult201 ) * ( 1.0 - smoothstepResult200 ) ) ) ) * _Alpha );
 				float2 uv_InteractiveGrid228 = IN.ase_texcoord2.xy;
 				float4 tex2DNode228 = tex2D( _InteractiveGrid, uv_InteractiveGrid228 );
 				
 
-				float Alpha = ( temp_output_222_0 - ( tex2DNode228.b * temp_output_222_0 ) );
+				float Alpha = ( ( ( 1.0 - ( ( ( 1.0 - smoothstepResult167 ) * ( 1.0 - smoothstepResult168 ) ) * ( ( 1.0 - smoothstepResult201 ) * ( 1.0 - smoothstepResult200 ) ) ) ) * _Alpha * tex2DNode228.b ) - tex2DNode228.g );
 				float AlphaClipThreshold = _Alphaclip;
 				float AlphaClipThresholdShadow = 0.5;
 
@@ -1032,12 +1030,11 @@ Shader "SHR_Grid"
 				float2 break208 = ( ( rotator151 * float2( 2,2 ) ) - float2( 1,1 ) );
 				float smoothstepResult201 = smoothstep( _DiagonalSize , _DiagonalSize , length( break208.x ));
 				float smoothstepResult200 = smoothstep( _DiagonalSize , _DiagonalSize , length( break208.y ));
-				float temp_output_222_0 = ( ( 1.0 - ( ( ( 1.0 - smoothstepResult167 ) * ( 1.0 - smoothstepResult168 ) ) * ( ( 1.0 - smoothstepResult201 ) * ( 1.0 - smoothstepResult200 ) ) ) ) * _Alpha );
 				float2 uv_InteractiveGrid228 = IN.ase_texcoord2.xy;
 				float4 tex2DNode228 = tex2D( _InteractiveGrid, uv_InteractiveGrid228 );
 				
 
-				float Alpha = ( temp_output_222_0 - ( tex2DNode228.b * temp_output_222_0 ) );
+				float Alpha = ( ( ( 1.0 - ( ( ( 1.0 - smoothstepResult167 ) * ( 1.0 - smoothstepResult168 ) ) * ( ( 1.0 - smoothstepResult201 ) * ( 1.0 - smoothstepResult200 ) ) ) ) * _Alpha * tex2DNode228.b ) - tex2DNode228.g );
 				float AlphaClipThreshold = _Alphaclip;
 
 				#ifdef _ALPHATEST_ON
@@ -1268,12 +1265,11 @@ Shader "SHR_Grid"
 				float2 break208 = ( ( rotator151 * float2( 2,2 ) ) - float2( 1,1 ) );
 				float smoothstepResult201 = smoothstep( _DiagonalSize , _DiagonalSize , length( break208.x ));
 				float smoothstepResult200 = smoothstep( _DiagonalSize , _DiagonalSize , length( break208.y ));
-				float temp_output_222_0 = ( ( 1.0 - ( ( ( 1.0 - smoothstepResult167 ) * ( 1.0 - smoothstepResult168 ) ) * ( ( 1.0 - smoothstepResult201 ) * ( 1.0 - smoothstepResult200 ) ) ) ) * _Alpha );
 				float2 uv_InteractiveGrid228 = IN.ase_texcoord.xy;
 				float4 tex2DNode228 = tex2D( _InteractiveGrid, uv_InteractiveGrid228 );
 				
 
-				surfaceDescription.Alpha = ( temp_output_222_0 - ( tex2DNode228.b * temp_output_222_0 ) );
+				surfaceDescription.Alpha = ( ( ( 1.0 - ( ( ( 1.0 - smoothstepResult167 ) * ( 1.0 - smoothstepResult168 ) ) * ( ( 1.0 - smoothstepResult201 ) * ( 1.0 - smoothstepResult200 ) ) ) ) * _Alpha * tex2DNode228.b ) - tex2DNode228.g );
 				surfaceDescription.AlphaClipThreshold = _Alphaclip;
 
 				#if _ALPHATEST_ON
@@ -1499,12 +1495,11 @@ Shader "SHR_Grid"
 				float2 break208 = ( ( rotator151 * float2( 2,2 ) ) - float2( 1,1 ) );
 				float smoothstepResult201 = smoothstep( _DiagonalSize , _DiagonalSize , length( break208.x ));
 				float smoothstepResult200 = smoothstep( _DiagonalSize , _DiagonalSize , length( break208.y ));
-				float temp_output_222_0 = ( ( 1.0 - ( ( ( 1.0 - smoothstepResult167 ) * ( 1.0 - smoothstepResult168 ) ) * ( ( 1.0 - smoothstepResult201 ) * ( 1.0 - smoothstepResult200 ) ) ) ) * _Alpha );
 				float2 uv_InteractiveGrid228 = IN.ase_texcoord.xy;
 				float4 tex2DNode228 = tex2D( _InteractiveGrid, uv_InteractiveGrid228 );
 				
 
-				surfaceDescription.Alpha = ( temp_output_222_0 - ( tex2DNode228.b * temp_output_222_0 ) );
+				surfaceDescription.Alpha = ( ( ( 1.0 - ( ( ( 1.0 - smoothstepResult167 ) * ( 1.0 - smoothstepResult168 ) ) * ( ( 1.0 - smoothstepResult201 ) * ( 1.0 - smoothstepResult200 ) ) ) ) * _Alpha * tex2DNode228.b ) - tex2DNode228.g );
 				surfaceDescription.AlphaClipThreshold = _Alphaclip;
 
 				#if _ALPHATEST_ON
@@ -1753,12 +1748,11 @@ Shader "SHR_Grid"
 				float2 break208 = ( ( rotator151 * float2( 2,2 ) ) - float2( 1,1 ) );
 				float smoothstepResult201 = smoothstep( _DiagonalSize , _DiagonalSize , length( break208.x ));
 				float smoothstepResult200 = smoothstep( _DiagonalSize , _DiagonalSize , length( break208.y ));
-				float temp_output_222_0 = ( ( 1.0 - ( ( ( 1.0 - smoothstepResult167 ) * ( 1.0 - smoothstepResult168 ) ) * ( ( 1.0 - smoothstepResult201 ) * ( 1.0 - smoothstepResult200 ) ) ) ) * _Alpha );
 				float2 uv_InteractiveGrid228 = IN.ase_texcoord1.xy;
 				float4 tex2DNode228 = tex2D( _InteractiveGrid, uv_InteractiveGrid228 );
 				
 
-				surfaceDescription.Alpha = ( temp_output_222_0 - ( tex2DNode228.b * temp_output_222_0 ) );
+				surfaceDescription.Alpha = ( ( ( 1.0 - ( ( ( 1.0 - smoothstepResult167 ) * ( 1.0 - smoothstepResult168 ) ) * ( ( 1.0 - smoothstepResult201 ) * ( 1.0 - smoothstepResult200 ) ) ) ) * _Alpha * tex2DNode228.b ) - tex2DNode228.g );
 				surfaceDescription.AlphaClipThreshold = _Alphaclip;
 
 				#if _ALPHATEST_ON
@@ -1838,7 +1832,7 @@ Node;AmplifyShaderEditor.RangedFloatNode;223;2056.016,538.9644;Inherit;False;Pro
 Node;AmplifyShaderEditor.RangedFloatNode;238;-614.8271,78.04102;Inherit;False;Constant;_Float6;Float 6;6;0;Create;True;0;0;0;False;0;False;50;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;224;892.4573,502.477;Inherit;False;Property;_DiagonalSize;DiagonalSize;2;0;Create;True;0;0;0;False;0;False;0.935;0.99;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;198;1526.813,499.5913;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;222;2287.482,464.6103;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;222;2287.482,464.6103;Inherit;False;3;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;171;1512.974,-145.2337;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.TextureCoordinatesNode;133;-319.2835,278.2641;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.TextureCoordinatesNode;204;-330.9067,-250.0701;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
@@ -1951,9 +1945,8 @@ Node;AmplifyShaderEditor.SamplerNode;228;1165.495,-730.9639;Inherit;True;Propert
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;416;3142.614,-2302.552;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.LerpOp;241;3263.811,-440.8758;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;262;2629.758,-328.2775;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;420;2423.046,214.0177;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleSubtractOpNode;250;2595.408,445.635;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;3546.072,581.2651;Float;False;True;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;13;SHR_Grid;2992e84f91cbeb14eab234972e07ea9d;True;Forward;0;1;Forward;8;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;UniversalMaterialType=Unlit;True;5;True;12;all;0;False;True;1;5;False;;10;False;;1;1;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForwardOnly;False;False;0;;0;0;Standard;23;Surface;1;638760089737395429;  Blend;0;638796515255660564;Two Sided;1;0;Forward Only;0;0;Cast Shadows;1;0;  Use Shadow Threshold;0;0;Receive Shadows;1;0;GPU Instancing;1;0;LOD CrossFade;0;0;Built-in Fog;0;0;DOTS Instancing;0;0;Meta Pass;0;0;Extra Pre Pass;0;0;Tessellation;0;638798776018827474;  Phong;0;638798775793944862;  Strength;0.5,False,;0;  Type;0;0;  Tess;1,False,;638798775913661033;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Vertex Position,InvertActionOnDeselection;1;0;0;10;False;True;True;True;False;False;True;True;True;False;False;;False;0
+Node;AmplifyShaderEditor.SimpleSubtractOpNode;250;2609.657,404.005;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 WireConnection;197;0;200;0
 WireConnection;200;0;196;0
 WireConnection;200;1;224;0
@@ -1992,6 +1985,7 @@ WireConnection;198;0;195;0
 WireConnection;198;1;197;0
 WireConnection;222;0;215;0
 WireConnection;222;1;223;0
+WireConnection;222;2;228;3
 WireConnection;171;0;169;0
 WireConnection;171;1;170;0
 WireConnection;133;0;218;0
@@ -2126,12 +2120,10 @@ WireConnection;241;1;254;0
 WireConnection;241;2;418;0
 WireConnection;262;0;228;1
 WireConnection;262;1;260;0
-WireConnection;420;0;228;3
-WireConnection;420;1;222;0
-WireConnection;250;0;222;0
-WireConnection;250;1;420;0
 WireConnection;1;2;241;0
 WireConnection;1;3;250;0
 WireConnection;1;4;221;0
+WireConnection;250;0;222;0
+WireConnection;250;1;228;2
 ASEEND*/
-//CHKSM=4F48DE40F64CD26FBDFFF812E10CFCC4F3096633
+//CHKSM=1285BE9CF6492C758F368665D7ACB8DCD348BCB2

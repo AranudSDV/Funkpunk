@@ -3,192 +3,194 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-
-public class PP_InteractiveGrid: MonoBehaviour
+public class PP_InteractiveGrid : MonoBehaviour
 {
-    [Header("Grid Settings")]
-    public int gridSizeX = 100;
-    public int gridSizeY = 100;
-    public int subdivisions = 4;
+    [Header("Grid & Plane Settings")]
+    public int gridSizeX = 100;            // parent cells in X
+    public int gridSizeY = 100;            // parent cells in Y
+    public Vector3 gridOrigin = Vector3.zero;
+    public int planeWidth = 100;           // world-units width
+    public int planeHeight = 100;          // world-units height
+    [Range(1, 4)]
+    public int Subdiv = 1;                 // subdivisions per cell
 
     [Header("Player Illumination")]
-    public Transform player;
-    public float illuminationRadius = 1f;
+    public GameObject player;
+    public float illuminationRadius = 2f;
+
+    [Header("Player Visibility")]
+    public float VisibilityRadius = 5f;
 
     [Header("Collision Settings")]
     public LayerMask blockedLayer;
+    [Range(0f, 1f)]
+    public float coverageThreshold = 0.3f; // % overlap to mark
+
+    [Header("Render Texture")]
+    public RenderTexture renderTexture;
 
     private Texture2D maskTexture;
     private int resX, resY;
-
-    // Data for obstacle groups
-    private List<List<Vector2Int>> obstacleGroups;
-    private List<Vector2> groupCentroids;
-    private List<float> groupMaxDistances;
+    private float worldSubW, worldSubH, subArea;
 
     void Start()
     {
-        resX = gridSizeX * subdivisions;
-        resY = gridSizeY * subdivisions;
+        // compute subdivided resolution
+        gridOrigin = transform.position;
+        planeWidth = Mathf.RoundToInt(transform.localScale.x);
+        planeHeight = Mathf.RoundToInt(transform.localScale.y);
+        resX = gridSizeX * Subdiv;
+        resY = gridSizeY * Subdiv;
 
-        // Create and clear the mask texture
+        // sub-cell world size
+        worldSubW = (float)planeWidth / resX;
+        worldSubH = (float)planeHeight / resY;
+        subArea = worldSubW * worldSubH;
+
+        // create maskTexture
         maskTexture = new Texture2D(resX, resY, TextureFormat.RGBA32, false)
         {
             filterMode = FilterMode.Point,
             wrapMode = TextureWrapMode.Clamp
         };
-        ClearTexture();
 
-        // Bake static collision and compute groups
+        // bake static collision once
         UpdateCollisionMask();
-        FindObstacleGroups();
-        ApplyGroupGradients();
 
-        maskTexture.Apply();  // Upload all SetPixel calls at once :contentReference[oaicite:0]{index=0}
+        // initial dynamic update & blit
+        ResetChannels();
+        UpdatePlayerIllumination();
+        UpdatePlayerVisibility();
+        maskTexture.Apply();
+        UpdateRenderTexture();
     }
 
     void Update()
     {
-        // Each frame: reset R & B, apply illumination and gradients
-        ResetChannel(0);
-        ResetChannel(2);
+        ResetChannels();
         UpdatePlayerIllumination();
-        ApplyGroupGradients();
-        maskTexture.Apply();  // Apply is expensive—batch your SetPixel calls :contentReference[oaicite:1]{index=1}
+        UpdatePlayerVisibility();
+        maskTexture.Apply();
+        UpdateRenderTexture();
     }
 
-    void ClearTexture()
-    {
-        Color clear = new Color(0, 0, 0, 1);
-        for (int x = 0; x < resX; x++)
-            for (int y = 0; y < resY; y++)
-                maskTexture.SetPixel(x, y, clear);
-    }
-
-    void ResetChannel(int channel)
+    void ResetChannels()
     {
         for (int x = 0; x < resX; x++)
             for (int y = 0; y < resY; y++)
             {
                 Color c = maskTexture.GetPixel(x, y);
-                c[channel] = 0;
+                c.r = 0f;
+                c.b = 0f;
                 maskTexture.SetPixel(x, y, c);
             }
     }
 
+    void UpdateCollisionMask()
+    {
+        // clear G
+        for (int x = 0; x < resX; x++)
+            for (int y = 0; y < resY; y++)
+            {
+                Color c = maskTexture.GetPixel(x, y);
+                c.g = 0f;
+                maskTexture.SetPixel(x, y, c);
+            }
+
+        // world AABB to gather colliders
+        Vector3 center = gridOrigin + new Vector3(planeWidth / 2f, 0, planeHeight / 2f);
+        Vector3 halfExtents = new Vector3(planeWidth / 2f, 1f, planeHeight / 2f);
+        Collider[] cols = Physics.OverlapBox(center, halfExtents, Quaternion.identity, blockedLayer);
+
+        foreach (var col in cols)
+        {
+            Bounds b = col.bounds;
+
+            int minX = Mathf.Clamp(Mathf.FloorToInt((b.min.x - gridOrigin.x) / worldSubW), 0, resX - 1);
+            int maxX = Mathf.Clamp(Mathf.FloorToInt((b.max.x - gridOrigin.x) / worldSubW), 0, resX - 1);
+            int minY = Mathf.Clamp(Mathf.FloorToInt((b.min.z - gridOrigin.z) / worldSubH), 0, resY - 1);
+            int maxY = Mathf.Clamp(Mathf.FloorToInt((b.max.z - gridOrigin.z) / worldSubH), 0, resY - 1);
+
+            for (int sx = minX; sx <= maxX; sx++)
+                for (int sy = minY; sy <= maxY; sy++)
+                {
+                    float x0 = gridOrigin.x + sx * worldSubW;
+                    float x1 = x0 + worldSubW;
+                    float z0 = gridOrigin.z + sy * worldSubH;
+                    float z1 = z0 + worldSubH;
+
+                    float ix0 = Mathf.Max(x0, b.min.x);
+                    float ix1 = Mathf.Min(x1, b.max.x);
+                    float iz0 = Mathf.Max(z0, b.min.z);
+                    float iz1 = Mathf.Min(z1, b.max.z);
+                    float ow = Mathf.Max(0f, ix1 - ix0);
+                    float oh = Mathf.Max(0f, iz1 - iz0);
+                    float overlap = ow * oh;
+
+                    if (overlap / subArea >= coverageThreshold)
+                    {
+                        Color c = maskTexture.GetPixel(sx, sy);
+                        c.g = 1f;
+                        maskTexture.SetPixel(sx, sy, c);
+                    }
+                }
+        }
+
+        maskTexture.Apply();
+    }
+
     void UpdatePlayerIllumination()
     {
-        Vector3 pos = player.position;
-        int cx = Mathf.FloorToInt((pos.x - transform.position.x) / gridSizeX * resX);
-        int cy = Mathf.FloorToInt((pos.z - transform.position.z) / gridSizeY * resY);
-        float cellW = (float)gridSizeX / resX;
-        float cellH = (float)gridSizeY / resY;
-        int range = Mathf.CeilToInt(illuminationRadius / Mathf.Max(cellW, cellH));
+        Vector3 pos = player.transform.position;
+        int cx = Mathf.FloorToInt((pos.x - gridOrigin.x) / worldSubW);
+        int cy = Mathf.FloorToInt((pos.z - gridOrigin.z) / worldSubH);
+        int range = Mathf.CeilToInt(illuminationRadius / Mathf.Max(worldSubW, worldSubH));
 
         for (int x = cx - range; x <= cx + range; x++)
             for (int y = cy - range; y <= cy + range; y++)
                 if (x >= 0 && x < resX && y >= 0 && y < resY)
                 {
-                    Vector3 world = new Vector3(
-                        transform.position.x + (x + 0.5f) * cellW,
+                    Vector3 wc = new Vector3(
+                        gridOrigin.x + (x + 0.5f) * worldSubW,
                         pos.y,
-                        transform.position.z + (y + 0.5f) * cellH
+                        gridOrigin.z + (y + 0.5f) * worldSubH
                     );
-                    if (Vector3.Distance(new Vector3(pos.x, 0, pos.z), new Vector3(world.x, 0, world.z)) <= illuminationRadius)
+                    if (Vector3.Distance(new Vector3(pos.x, 0, pos.z), new Vector3(wc.x, 0, wc.z)) <= illuminationRadius)
                     {
                         Color c = maskTexture.GetPixel(x, y);
-                        c.r = 1;
+                        c.r = 1f;
                         maskTexture.SetPixel(x, y, c);
                     }
                 }
     }
 
-    void UpdateCollisionMask()
+    void UpdatePlayerVisibility()
     {
-        Vector3 center = transform.position + new Vector3(gridSizeX / 2f, 0, gridSizeY / 2f);
-        Vector3 half = new Vector3(gridSizeX / 2f, 1, gridSizeY / 2f);
-        Collider[] cols = Physics.OverlapBox(center, half, Quaternion.identity, blockedLayer);
+        Vector3 pos = player.transform.position;
+        int cx = Mathf.FloorToInt((pos.x - gridOrigin.x) / worldSubW);
+        int cy = Mathf.FloorToInt((pos.z - gridOrigin.z) / worldSubH);
+        int range = Mathf.CeilToInt(VisibilityRadius / Mathf.Max(worldSubW, worldSubH));
 
-        foreach (var col in cols)
-        {
-            Bounds b = col.bounds;
-            int sx = Mathf.Clamp(Mathf.FloorToInt((b.min.x - transform.position.x) / gridSizeX * resX), 0, resX - 1);
-            int ex = Mathf.Clamp(Mathf.CeilToInt((b.max.x - transform.position.x) / gridSizeX * resX) - 1, 0, resX - 1);
-            int sy = Mathf.Clamp(Mathf.FloorToInt((b.min.z - transform.position.z) / gridSizeY * resY), 0, resY - 1);
-            int ey = Mathf.Clamp(Mathf.CeilToInt((b.max.z - transform.position.z) / gridSizeY * resY) - 1, 0, resY - 1);
-
-            for (int x = sx; x <= ex; x++)
-                for (int y = sy; y <= ey; y++)
+        for (int x = cx - range; x <= cx + range; x++)
+            for (int y = cy - range; y <= cy + range; y++)
+                if (x >= 0 && x < resX && y >= 0 && y < resY)
                 {
-                    Color c = maskTexture.GetPixel(x, y);
-                    c.g = 1;
-                    maskTexture.SetPixel(x, y, c);
-                }
-        }
-    }
-
-    void FindObstacleGroups()
-    {
-        bool[,] visited = new bool[resX, resY];
-        obstacleGroups = new List<List<Vector2Int>>();
-        groupCentroids = new List<Vector2>();
-        groupMaxDistances = new List<float>();
-
-        for (int x = 0; x < resX; x++)
-            for (int y = 0; y < resY; y++)
-            {
-                if (!visited[x, y] && maskTexture.GetPixel(x, y).g > 0.5f)
-                {
-                    var group = new List<Vector2Int>();
-                    var queue = new Queue<Vector2Int>();
-                    queue.Enqueue(new Vector2Int(x, y));
-                    visited[x, y] = true;
-
-                    while (queue.Count > 0)
+                    Vector3 wc = new Vector3(
+                        gridOrigin.x + (x + 0.5f) * worldSubW,
+                        pos.y,
+                        gridOrigin.z + (y + 0.5f) * worldSubH
+                    );
+                    if (Vector3.Distance(new Vector3(pos.x, 0, pos.z), new Vector3(wc.x, 0, wc.z)) <= VisibilityRadius)
                     {
-                        var cell = queue.Dequeue();
-                        group.Add(cell);
-                        var dirs = new[] { Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right };
-                        foreach (var d in dirs)
-                        {
-                            int nx = cell.x + d.x, ny = cell.y + d.y;
-                            if (nx >= 0 && nx < resX && ny >= 0 && ny < resY
-                                && !visited[nx, ny] && maskTexture.GetPixel(nx, ny).g > 0.5f)
-                            {
-                                visited[nx, ny] = true;
-                                queue.Enqueue(new Vector2Int(nx, ny));
-                            }
-                        }
+                        Color c = maskTexture.GetPixel(x, y);
+                        c.b = 1f;
+                        maskTexture.SetPixel(x, y, c);
                     }
-
-                    // Compute centroid & max distance
-                    Vector2 sum = Vector2.zero;
-                    float maxd = 0;
-                    foreach (var c in group) sum += c;
-                    var centroid = sum / group.Count;
-                    foreach (var c in group) maxd = Mathf.Max(maxd, Vector2.Distance(c, centroid));
-
-                    obstacleGroups.Add(group);
-                    groupCentroids.Add(centroid);
-                    groupMaxDistances.Add(maxd);
                 }
-            }
     }
 
-    void ApplyGroupGradients()
+    void UpdateRenderTexture()
     {
-        for (int i = 0; i < obstacleGroups.Count; i++)
-        {
-            var group = obstacleGroups[i];
-            var centroid = groupCentroids[i];
-            var maxd = Mathf.Max(groupMaxDistances[i], 1f);
-            foreach (var c in group)
-            {
-                float d = Vector2.Distance(c, centroid) / maxd;
-                Color col = maskTexture.GetPixel(c.x, c.y);
-                col.b = d;
-                maskTexture.SetPixel(c.x, c.y, col);
-            }
-        }
+        Graphics.Blit(maskTexture, renderTexture);
     }
 }
