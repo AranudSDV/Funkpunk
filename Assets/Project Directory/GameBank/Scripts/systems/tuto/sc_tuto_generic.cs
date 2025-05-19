@@ -503,23 +503,35 @@ public class sc_tuto_generic : MonoBehaviour
     {
         //scPlayer.menuManager.bGameIsPaused = true;
         //scPlayer.menuManager.PauseGame();
-        scPlayer.bIsImune = true;
-        scPlayer.bisTuto = true;
-        isOnLvlTuto = false;
-        UIGameOn();
-        _y = intYDetectionTuto;
-        bIsOnBD = true;
-        bWaitNext = false;
+        if(scPlayer.menuManager._playerData.iLevelPlayer ==0)
+        {
+            scPlayer.bIsImune = true;
+            scPlayer.bisTuto = true;
+            isOnLvlTuto = false;
+            UIGameOn();
+            _y = intYDetectionTuto;
+            bIsOnBD = true;
+            bWaitNext = false;
+        }
+        else
+        {
+            scPlayer.bisTuto = true;
+            isOnLvlTuto = false;
+            UIGameOn();
+        }
     }
     public void StartTutoBait()
     {
         //scPlayer.menuManager.bGameIsPaused = true;
         //scPlayer.menuManager.PauseGame();
-        scPlayer.bIsImune = true;
-        scPlayer.bisTuto = true;
-        _y = intYBaitTuto;
-        bIsOnBD = true;
-        bWaitNext = false;
+        if (scPlayer.menuManager._playerData.iLevelPlayer == 2)
+        {
+            scPlayer.bIsImune = true;
+            scPlayer.bisTuto = true;
+            _y = intYBaitTuto;
+            bIsOnBD = true;
+            bWaitNext = false;
+        }
     }
     private void OnTriggerEnter(Collider collision)
     {

@@ -110,6 +110,7 @@ public class SC_Player : MonoBehaviour
     [SerializeField] private ParticleSystem vfx_tag;
     [SerializeField] private LayerMask LMask;
     private Vector3[] points;
+    private int iBossDoorTag = 0;
 
     //CHECKPOINTS STATS
     [Header("Checkpoints Stats")]
@@ -326,14 +327,13 @@ public class SC_Player : MonoBehaviour
                         {
                             bIsBeingAnimated = true;
                             ing_Tag ingTag = collider.transform.gameObject.GetComponent<ing_Tag>();
-                            ingTag.textOnWall.color = bpmManager.colorMiss;
                             for (int i = 0; i < 4; i++)
                             {
                                 if (bpmManager.bPlayBad)
                                 {
-                                    if (ingTag.textOnWall.text == i.ToString() + "/3")
+                                    if (ingTag.iCompletition == i)
                                     {
-                                        ingTag.textOnWall.text = (i + 1).ToString() + "/3";
+                                        ingTag.iCompletition +=1;
                                         //PlayCinematicFocus(collider.transform.gameObject, vectDir, bpmManager.FSPB, i+1);
                                         TaggingFeedback(bpmManager.FSPB, vectDir);
                                         StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
@@ -342,18 +342,18 @@ public class SC_Player : MonoBehaviour
                                 }
                                 else if (bpmManager.bPlayGood)
                                 {
-                                    if (ingTag.textOnWall.text == i.ToString() + "/3")
+                                    if (ingTag.iCompletition == i)
                                     {
                                         if (i < 2)
                                         {
-                                            ingTag.textOnWall.text = (i + 2).ToString() + "/3";
+                                            ingTag.iCompletition += 2;
                                             //PlayCinematicFocus(collider.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
                                             TaggingFeedback(bpmManager.FSPB, vectDir);
                                             StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
                                         }
                                         else
                                         {
-                                            ingTag.textOnWall.text = "3/3";
+                                            ingTag.iCompletition = 3;
                                             //PlayCinematicFocus(collider.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
                                             TaggingFeedback(bpmManager.FSPB, vectDir);
                                             StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
@@ -363,7 +363,7 @@ public class SC_Player : MonoBehaviour
                                 }
                                 else if (bpmManager.bPlayPerfect)
                                 {
-                                    ingTag.textOnWall.text = "3/3";
+                                    ingTag.iCompletition = 3;
                                     //PlayCinematicFocus(collider.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
                                     TaggingFeedback(bpmManager.FSPB, vectDir);
                                     StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
@@ -376,20 +376,18 @@ public class SC_Player : MonoBehaviour
                                     return;
                                 }
                             }
-                            if (ingTag.textOnWall.text == "1/3")
+                            if (ingTag.iCompletition == 1)
                             {
                                 SoundManager.Instance.PlayOneShot(sfx_tag[0]);
-                                ingTag.textOnWall.color = bpmManager.colorBad;
                             }
-                            else if (ingTag.textOnWall.text == "2/3")
+                            else if (ingTag.iCompletition == 2)
                             {
                                 SoundManager.Instance.PlayOneShot(sfx_tag[1]);
-                                ingTag.textOnWall.color = bpmManager.colorGood;
                             }
-                            else if (ingTag.textOnWall.text == "3/3")
+                            else if (ingTag.iCompletition == 3)
                             {
                                 SoundManager.Instance.PlayOneShot(sfx_tag[2]);
-                                ingTag.textOnWall.color = bpmManager.colorPerfect;
+                                ingTag.vfx_completition.Play();
                                 ingTag._renderer.material = ingTag.taggedMaterial; //le joueur tag
                                 ingTag.transform.gameObject.tag = "Wall";
                                 ingTag.goArrow.transform.localPosition = new Vector3(ingTag.goArrow.transform.localPosition.x, ingTag.goArrow.transform.localPosition.y - 50f, ingTag.goArrow.transform.localPosition.z);
@@ -422,6 +420,15 @@ public class SC_Player : MonoBehaviour
                                     }
                                     //feedback degat boss
                                     CameraShake(fShakeFoeBasic * 2, bpmManager.FSPB * 1 / 3);
+                                }
+                                if(ingTag.bBossDoorTag)
+                                {
+                                    iBossDoorTag += 1;
+                                    ingTag.textOnWallBossDoor.text = (iBossDoorTag).ToString() + "/3";
+                                    if (iBossDoorTag == 3)
+                                    {
+                                        //Porte ouverte
+                                    }
                                 }
                                 return;
                             }
@@ -466,14 +473,13 @@ public class SC_Player : MonoBehaviour
                     {
                         bIsBeingAnimated = true;
                         ing_Tag ingTag = hitInfo.transform.gameObject.GetComponent< ing_Tag>();
-                        ingTag.textOnWall.color = bpmManager.colorMiss;
                         for (int i = 0;i<4; i++)
                         {
                             if(bpmManager.bPlayBad)
                             {
-                                if(ingTag.textOnWall.text == i.ToString() + "/3")
+                                if(ingTag.iCompletition == i)
                                 {
-                                    ingTag.textOnWall.text = (i + 1).ToString() + "/3";
+                                    ingTag.iCompletition +=1;
                                     //PlayCinematicFocus(hitInfo.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
                                     TaggingFeedback(bpmManager.FSPB, vectDir);
                                     StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
@@ -482,18 +488,18 @@ public class SC_Player : MonoBehaviour
                             }
                             else if (bpmManager.bPlayGood)
                             {
-                               if(ingTag.textOnWall.text == i.ToString() + "/3")
+                               if(ingTag.iCompletition == i)
                                 {
                                     if (i < 2)
                                     {
-                                        ingTag.textOnWall.text = (i + 2).ToString() + "/3";
+                                        ingTag.iCompletition += 2;
                                         //PlayCinematicFocus(hitInfo.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
                                         TaggingFeedback(bpmManager.FSPB, vectDir);
                                         StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
                                     }
                                     else
                                     {
-                                        ingTag.textOnWall.text = "3/3";
+                                        ingTag.iCompletition =3;
                                         //PlayCinematicFocus(hitInfo.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
                                         TaggingFeedback(bpmManager.FSPB, vectDir);
                                         StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
@@ -503,7 +509,7 @@ public class SC_Player : MonoBehaviour
                             }
                             else if(bpmManager.bPlayPerfect)
                             {
-                                ingTag.textOnWall.text = "3/3";
+                                ingTag.iCompletition = 3;
                                 //PlayCinematicFocus(hitInfo.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
                                 TaggingFeedback(bpmManager.FSPB, vectDir);
                                 StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
@@ -516,20 +522,18 @@ public class SC_Player : MonoBehaviour
                                 return ;
                             }
                         }
-                        if (ingTag.textOnWall.text == "1/3")
+                        if (ingTag.iCompletition == 1)
                         {
                             SoundManager.Instance.PlayOneShot(sfx_tag[0]);
-                            ingTag.textOnWall.color = bpmManager.colorBad;
                         }
-                        else if(ingTag.textOnWall.text == "2/3")
+                        else if(ingTag.iCompletition == 2)
                         {
                             SoundManager.Instance.PlayOneShot(sfx_tag[1]);
-                            ingTag.textOnWall.color = bpmManager.colorGood;
                         }
-                        else if (ingTag.textOnWall.text == "3/3")
+                        else if (ingTag.iCompletition == 3)
                         {
                             SoundManager.Instance.PlayOneShot(sfx_tag[2]);
-                            ingTag.textOnWall.color = bpmManager.colorPerfect;
+                            ingTag.vfx_completition.Play();
                             ingTag._renderer.material = ingTag.taggedMaterial; //le joueur tag
                             ingTag.transform.gameObject.tag = "Wall";
                             ingTag.goArrow.transform.localPosition = new Vector3(ingTag.goArrow.transform.localPosition.x, ingTag.goArrow.transform.localPosition.y - 50f, ingTag.goArrow.transform.localPosition.z);
@@ -562,6 +566,15 @@ public class SC_Player : MonoBehaviour
                                 }
                                 //feedback degat boss
                                 StartCoroutine(CameraShake(fShakeFoeBasic * 2, bpmManager.FSPB * 1 / 3));
+                            }
+                            if (ingTag.bBossDoorTag)
+                            {
+                                iBossDoorTag += 1;
+                                ingTag.textOnWallBossDoor.text = (iBossDoorTag).ToString() + "/3";
+                                if(iBossDoorTag == 3)
+                                {
+                                    //Porte ouverte
+                                }
                             }
                             return;
                         }
@@ -1488,7 +1501,7 @@ public class SC_Player : MonoBehaviour
             fNbBeat = 0;
             foreach (ing_Tag tag in allTagsUntil1stCheckPoint)
             {
-                tag.textOnWall.text = "0/3";
+                tag.iCompletition = 0;
                 tag.transform.gameObject.tag = "Tagging";
                 tag._renderer.material = tag.untaggedMaterial; //pas de tag
             }
@@ -1500,7 +1513,7 @@ public class SC_Player : MonoBehaviour
             fNbBeat = fPreviousNbBeat;
             foreach (ing_Tag tag in checkpoints[iCheckPoint-1].tags)
             {
-                tag.textOnWall.text = "0/3";
+                tag.iCompletition = 0;
                 tag.transform.gameObject.tag = "Tagging";
                 tag._renderer.material = tag.untaggedMaterial; //pas de tag
             }

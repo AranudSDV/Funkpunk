@@ -6185,7 +6185,6 @@ GameObject:
   - component: {fileID: 7491100792973975743}
   - component: {fileID: 2906117599415238348}
   - component: {fileID: 7324977762651136156}
-  - component: {fileID: 6529750914352965297}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -6234,8 +6233,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scPlayer: {fileID: 0}
   _playerData: {fileID: 1165491372627732135}
-  sEnglish: Options
-  sFrench: Options
+  sEnglish: Level Map
+  sFrench: Carte des niveaux
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
@@ -6244,7 +6243,7 @@ MonoBehaviour:
   FastTimeBtwChars: 0.02
   leadingCharBeforeDelay: 0
   leadingChar: 
-  menuManager: {fileID: 0}
+  menuManager: {fileID: 269850063720091022}
 --- !u!114 &7324977762651136156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6265,7 +6264,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Options
+  m_text: Level Map
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2aefc435c742ba1458d64549d96e081c, type: 2}
   m_sharedMaterial: {fileID: 7120875131993628362, guid: 2aefc435c742ba1458d64549d96e081c,
@@ -6293,7 +6292,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 100
+  m_fontSize: 96.85
   m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -6335,31 +6334,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &6529750914352965297
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5414176781137386473}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c108fd3a76764d42b690a6365b1bae6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scPlayer: {fileID: 0}
-  _playerData: {fileID: 1165491372627732135}
-  sEnglish: Options
-  sFrench: "Param\xE8tres"
-  bIsOnManager: 1
-  bIsDifficulty: 0
-  bIsToTip: 0
-  delayBeforeStart: 0
-  timeBtwChars: 0.06
-  FastTimeBtwChars: 0.02
-  leadingCharBeforeDelay: 0
-  leadingChar: 
-  menuManager: {fileID: 0}
 --- !u!1 &5432625432395009779
 GameObject:
   m_ObjectHideFlags: 0
@@ -7153,7 +7127,6 @@ GameObject:
   - component: {fileID: 313028031599998028}
   - component: {fileID: 1588471758218020496}
   - component: {fileID: 5161499568078350233}
-  - component: {fileID: 51439325177006202}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -7212,7 +7185,7 @@ MonoBehaviour:
   FastTimeBtwChars: 0.02
   leadingCharBeforeDelay: 0
   leadingChar: 
-  menuManager: {fileID: 0}
+  menuManager: {fileID: 269850063720091022}
 --- !u!114 &5161499568078350233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7303,31 +7276,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &51439325177006202
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6306777876035947637}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c108fd3a76764d42b690a6365b1bae6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scPlayer: {fileID: 0}
-  _playerData: {fileID: 1165491372627732135}
-  sEnglish: Resume
-  sFrench: Reprendre
-  bIsOnManager: 1
-  bIsDifficulty: 0
-  bIsToTip: 0
-  delayBeforeStart: 0
-  timeBtwChars: 0.06
-  FastTimeBtwChars: 0.02
-  leadingCharBeforeDelay: 0
-  leadingChar: 
-  menuManager: {fileID: 0}
 --- !u!1 &6472849178159383908
 GameObject:
   m_ObjectHideFlags: 0
@@ -8117,7 +8065,7 @@ GameObject:
   - component: {fileID: 5740112098538977718}
   - component: {fileID: 389004346845609884}
   m_Layer: 5
-  m_Name: SaveButton
+  m_Name: OptionButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8196,8 +8144,8 @@ MonoBehaviour:
   m_Navigation:
     m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 2947834071803811348}
-    m_SelectOnDown: {fileID: 2947834071803811348}
+    m_SelectOnUp: {fileID: 389004346845609884}
+    m_SelectOnDown: {fileID: 389004346845609884}
     m_SelectOnLeft: {fileID: 4267278213561499044}
     m_SelectOnRight: {fileID: 4267278213561499044}
   m_Transition: 1
@@ -8221,13 +8169,13 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 5740112098538977718}
+  m_TargetGraphic: {fileID: 7768247092771110376}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1165491372627732135}
-        m_TargetAssemblyTypeName: PlayerData, Assembly-CSharp
-        m_MethodName: SaveGame
+      - m_Target: {fileID: 269850063720091022}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+        m_MethodName: OptionsGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8515,7 +8463,7 @@ GameObject:
   - component: {fileID: 7768247092771110376}
   - component: {fileID: 2947834071803811348}
   m_Layer: 5
-  m_Name: OptionsButton
+  m_Name: MapButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8625,14 +8573,14 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 269850063720091022}
         m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
-        m_MethodName: OptionsGame
-        m_Mode: 1
+        m_MethodName: LoadScene
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: LevelChoosing
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!1 &7792934738204457119
@@ -10148,7 +10096,6 @@ GameObject:
   - component: {fileID: 1872974378542262525}
   - component: {fileID: 7556820787320449598}
   - component: {fileID: 8030125144599779060}
-  - component: {fileID: 1743397759594318175}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -10197,8 +10144,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scPlayer: {fileID: 0}
   _playerData: {fileID: 1165491372627732135}
-  sEnglish: Save
-  sFrench: Sauvegarder
+  sEnglish: Options
+  sFrench: "Param\xE8tres"
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
@@ -10207,7 +10154,7 @@ MonoBehaviour:
   FastTimeBtwChars: 0.02
   leadingCharBeforeDelay: 0
   leadingChar: 
-  menuManager: {fileID: 0}
+  menuManager: {fileID: 269850063720091022}
 --- !u!114 &8030125144599779060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10228,7 +10175,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Save
+  m_text: Options
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2aefc435c742ba1458d64549d96e081c, type: 2}
   m_sharedMaterial: {fileID: 7120875131993628362, guid: 2aefc435c742ba1458d64549d96e081c,
@@ -10298,31 +10245,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &1743397759594318175
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9060252912388153805}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c108fd3a76764d42b690a6365b1bae6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scPlayer: {fileID: 0}
-  _playerData: {fileID: 1165491372627732135}
-  sEnglish: Save
-  sFrench: Sauvegarder
-  bIsOnManager: 1
-  bIsDifficulty: 0
-  bIsToTip: 0
-  delayBeforeStart: 0
-  timeBtwChars: 0.06
-  FastTimeBtwChars: 0.02
-  leadingCharBeforeDelay: 0
-  leadingChar: 
-  menuManager: {fileID: 0}
 --- !u!1 &9094650927604580588
 GameObject:
   m_ObjectHideFlags: 0

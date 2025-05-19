@@ -644,23 +644,23 @@ public class SC_FieldOfView : MonoBehaviour
         if (iTimeBeforeRemovingThird == 0)
         {
             iTimeBeforeRemovingThird = iRemovingThird;
-            if (chosenTag.textOnWall.text == "1/3")
+            if (chosenTag.iCompletition == 1)
             {
-                chosenTag.textOnWall.text = "0/3";
+                chosenTag.iCompletition = 0;
                 iRemovingRoutine = iRemovingRoutineSelection;
                 bIsRemovingTag = false;
                 iNbTaggsDonePhase1 -= 1;
                 BossTagAnglePhase1();
             }
-            else if (chosenTag.textOnWall.text == "2/3")
+            else if (chosenTag.iCompletition == 2)
             {
-                chosenTag.textOnWall.text = "1/3";
+                chosenTag.iCompletition = 1;
             }
             else
             {
                 chosenTag.transform.gameObject.tag = "Tagging";
                 chosenTag._renderer.material = chosenTag.untaggedMaterial;
-                chosenTag.textOnWall.text = "2/3";
+                chosenTag.iCompletition = 2;
             }
         }
     }

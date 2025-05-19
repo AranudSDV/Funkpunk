@@ -1,18 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
 using TMPro;
+using UnityEngine;
 
 public class ing_Tag : MonoBehaviour
 {
-    public TextMeshPro textOnWall;
     public Material taggedMaterial;
     public Material untaggedMaterial;
     public Renderer _renderer;
     public GameObject goArrow;
     public SC_FieldOfView[] scFoes;
     public SC_FieldOfView scBoss = null;
-    public bool bBossTag = false; 
+    public bool bBossTag = false;
+    public int iCompletition = 0;
+    public ParticleSystem vfx_completition;
+    public bool bBossDoorTag = false;
+    public TextMeshPro textOnWallBossDoor = null;
 }

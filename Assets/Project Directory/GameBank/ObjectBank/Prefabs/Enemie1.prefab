@@ -53,6 +53,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   i_typeFoe: 1
   scPlayer: {fileID: 0}
+  sc_Cone: {fileID: 2307551756231764101}
   posDirections: []
   iFirstPos: 0
   iCurrentDirection: 0
@@ -66,6 +67,7 @@ MonoBehaviour:
   rotationStep: 45
   isReversing: 0
   GOPlayerRef: {fileID: 0}
+  GoMesh: {fileID: 4499629275524614069}
   Go_vfx_detected: {fileID: 8596425174089619149}
   pos_vfx_detected: {x: 0, y: 3, z: 0}
   PS_detected: {fileID: 4294292599964747629}
@@ -93,7 +95,14 @@ MonoBehaviour:
   bIsDisabled: 0
   BIsNear: 0
   isBoss: 0
-  bossTags: []
+  bFinalPhase: 0
+  bossTagsPhase1: []
+  bossTagsPhase2:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  iAngleRemovePerTag: 10
   bossBaits:
   - {fileID: 0}
   - {fileID: 0}
@@ -103,9 +112,14 @@ MonoBehaviour:
   iNbPosBaitPerZoneAdditive: 00000000000000000000000000000000
   bIsRemovingTag: 0
   iRemovingRoutine: 9
+  iRemovingRoutineSelection: 12
   iRemovingThird: 3
   iTimeBeforeRemovingThird: 3
-  iNbTaggsDone: 0
+  iNbTaggsDonePhase1: 0
+  iNbTaggsDonePhase2: 0
+  bIsPhase1Animated: 0
+  cineVirtualCam: {fileID: 0}
+  fFinalPhaseAngle: 90
 --- !u!136 &8007070330677980914
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -138,7 +152,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2388151405981938726}
-  - component: {fileID: 6714159724684641963}
   - component: {fileID: 7692883549778554603}
   - component: {fileID: 5877689220337500475}
   - component: {fileID: 2307551756231764101}
@@ -165,23 +178,6 @@ Transform:
   - {fileID: 6088383388118375192}
   m_Father: {fileID: 1153523707194027301}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6714159724684641963
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4079834716028363439}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3aad874d94851d04e89c35941f38bb1c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mVisionCone: {fileID: 2100000, guid: 11c3ce214a1959a4fa60f486c006fb81, type: 2}
-  mDetectedCone: {fileID: 2100000, guid: 7c24ffbd22a17bb40a52b8c2e43e5f08, type: 2}
-  mHeardCone: {fileID: 2100000, guid: 814e8480a611cef4b86a6b5b030f26e9, type: 2}
-  scFieldView: {fileID: 192196032585685232}
-  scVisionCone: {fileID: 2307551756231764101}
 --- !u!33 &7692883549778554603
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -244,8 +240,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 443c0a08d3e598c43b37121eddf24f2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  iBossTagsPhase2: 0
   mVisionCone: {fileID: 0}
   scFieldView: {fileID: 192196032585685232}
+  mDetectedCone: {fileID: 0}
+  mHeardCone: {fileID: 0}
   coneResolution: 30
   groundMask:
     serializedVersion: 2
@@ -358,9 +357,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b167c7cff07f964ca63297b7eef1ac9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  originalScale: {x: 0, y: 0, z: 0}
   bounceHeight: 0.1
   scaleMultiplier: 1.05
   bpmManager: {fileID: 0}
+  scFoe: {fileID: 0}
 --- !u!1 &5313263214736159296
 GameObject:
   m_ObjectHideFlags: 0
