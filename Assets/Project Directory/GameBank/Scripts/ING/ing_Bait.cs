@@ -77,7 +77,7 @@ public class ing_Bait : MonoBehaviour
             Go_vfxIdle.transform.localPosition = new Vector3(fPosBase_idlel.x, fPosBase_idlel.y - 50f, fPosBase_idlel.z);
             foreach (SC_FieldOfView ennemy in allEnemies)
             {
-                if (ennemy.i_EnnemyBeat > 5)
+                if (ennemy.i_EnnemyBeat > 10)
                 {
                     ennemy.bHasHeard = false;
                     ennemy.i_EnnemyBeat = 0;

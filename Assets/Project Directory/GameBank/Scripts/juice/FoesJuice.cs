@@ -6,10 +6,15 @@ using UnityEngine;
 
 public class FoesJuice : MonoBehaviour
 {
+    private float startY;
+    [SerializeField] private Vector3 originalScale;
+    private Quaternion startRot;
     [SerializeField] private float bounceHeight = 0.1f; // How high to bounce
     [SerializeField] private float scaleMultiplier = 1.2f; // Maximum scale during the pulse
     [SerializeField] private BPM_Manager bpmManager;
     private float rotationAngle = 10f; // Tilt angle
+    [SerializeField] private SC_FieldOfView scFoe;
+    private bool bOnce = false;
     static int Hasard(int a, int b) //Choisi un random.
     {
         System.Random rdm = new System.Random();
@@ -21,6 +26,28 @@ public class FoesJuice : MonoBehaviour
         int hasard = Hasard(-20, 20);
         rotationAngle = Convert.ToSingle(hasard);
         BaitRythm(bpmManager.FSPB);
+        startRot = this.transform.rotation;
+        originalScale = transform.localScale;
+        startY = transform.position.y;
+    }
+    private void Update()
+    {
+        if(scFoe.bIsPhase1Animated && !bOnce)
+        {
+            DOTween.Kill(this);
+            transform.rotation = startRot;
+            transform.localScale = originalScale;
+            transform.position = new Vector3(transform.position.x, startY, transform.position.z);
+            bOnce = true;
+        }
+        else if(!scFoe.bIsPhase1Animated && bOnce)
+        {
+            bOnce = false;
+
+            int hasard = Hasard(-20, 20);
+            rotationAngle = Convert.ToSingle(hasard);
+            BaitRythm(bpmManager.FSPB);
+        }
     }
     private void BaitRythm(float f_beat)
     {
@@ -31,7 +58,6 @@ public class FoesJuice : MonoBehaviour
     }
     private void AnimateBounce(float beatDuration)
     {
-        float startY = transform.position.y;
         transform.DOMoveY(startY + bounceHeight, beatDuration / 2) // Move up
             .SetEase(Ease.InOutSine)
             .SetLoops(-1, LoopType.Yoyo) // Loop back down
@@ -40,7 +66,6 @@ public class FoesJuice : MonoBehaviour
     }
     private void AnimateScale(float beatDuration)
     {
-        Vector3 originalScale = transform.localScale;
         transform.DOScale(originalScale * scaleMultiplier, beatDuration / 2)
             .SetEase(Ease.InOutSine)
             .SetLoops(-1, LoopType.Yoyo)// Scale up and back down

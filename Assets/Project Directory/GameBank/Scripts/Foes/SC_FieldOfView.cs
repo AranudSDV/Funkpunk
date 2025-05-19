@@ -11,6 +11,7 @@ public class SC_FieldOfView : MonoBehaviour
 {
     public int i_typeFoe = 1;
     [SerializeField] private SC_Player scPlayer = null;
+    [SerializeField] private SC_VisionConeCasting sc_Cone;
 
     //LE DEPLACEMENT
     [Header("Deplacement")]
@@ -42,6 +43,7 @@ public class SC_FieldOfView : MonoBehaviour
     //FEEDBACK SUR ENNEMIE
     [Header("Feedbacks")]
     public GameObject GOPlayerRef;
+    [SerializeField] private GameObject GoMesh;
     [SerializeField] private GameObject Go_vfx_detected;
     [SerializeField] private Vector3 pos_vfx_detected;
     [SerializeField] private ParticleSystem PS_detected;
@@ -90,6 +92,7 @@ public class SC_FieldOfView : MonoBehaviour
     private List<ing_Tag> listTaggsDone = new List<ing_Tag>();
     public int iNbTaggsDonePhase1 = 0;
     public int iNbTaggsDonePhase2 = 0;
+    public bool bIsPhase1Animated = false;
     private bool bIsNearerRight = false;
     [SerializeField] CinemachineVirtualCamera cineVirtualCam;
     [SerializeField] private float fFinalPhaseAngle = 90f;
@@ -706,9 +709,12 @@ public class SC_FieldOfView : MonoBehaviour
             bIsDisabled = true;
             scPlayer.EndDialogue();
         }
+        sc_Cone.iBossTagsPhase2 = iNbTaggsDonePhase2;
+
     }
     private void AnimatePhase2()
     {
+        bIsPhase1Animated = true;
         cineVirtualCam.Priority = 20;
         scPlayer.menuManager.bGameIsPaused = true;
         scPlayer.bIsImune = true;
@@ -717,34 +723,34 @@ public class SC_FieldOfView : MonoBehaviour
         {
             bossTagsPhase1[i].transform.parent.transform.position += new Vector3(0, -50f, 0);
         }
-        Vector3 startPos = this.transform.position;
-        Quaternion startRot = this.transform.rotation;
+        Vector3 startPos = GoMesh.transform.position;
+        Quaternion startRot = GoMesh.transform.rotation;
         DG.Tweening.Sequence seq = DOTween.Sequence();
 
         // Target positions and rotations
-        Vector3 floatUpPos = startPos + new Vector3(0, 10f, 0);
+        Vector3 floatUpPos = startPos + new Vector3(0, 3f, 0);
         Quaternion floatRot = Quaternion.Euler(startRot.eulerAngles + new Vector3(20, 40, 10));
 
         // Float up and rotate slightly
-        seq.Append(transform.DOMove(floatUpPos, 1f).SetEase(Ease.OutSine));
-        seq.Join(transform.DORotateQuaternion(floatRot, 1f).SetEase(Ease.OutSine));
+        seq.Append(GoMesh.transform.DOMove(floatUpPos, 2f).SetEase(Ease.OutSine));
+        seq.Join(GoMesh.transform.DORotateQuaternion(floatRot, 2f).SetEase(Ease.OutSine));
 
         // Stagger (X/Z + small Y noise) while staying in air
-        seq.Append(transform.DOMove(floatUpPos + new Vector3(3f, 2f, -3f), 1f).SetEase(Ease.InOutSine));
-        seq.Append(transform.DOMove(floatUpPos + new Vector3(2f, 1f, 3f), 1f).SetEase(Ease.InOutSine));
-        seq.Append(transform.DOMove(floatUpPos + new Vector3(1f, 5f, 1f), 1f).SetEase(Ease.InOutSine));
+        seq.Append(GoMesh.transform.DOMove(floatUpPos + new Vector3(1f, 1f, -1f), 1f).SetEase(Ease.InOutSine));
+        seq.Append(GoMesh.transform.DOMove(floatUpPos + new Vector3(-1f, 1f, 1f), 1f).SetEase(Ease.InOutSine));
 
         // Fall back to original position and rotation
-        seq.Append(transform.DOMove(startPos, 0.8f).SetEase(Ease.InQuad));
-        seq.Join(transform.DORotateQuaternion(startRot, 0.8f).SetEase(Ease.InQuad));
+        seq.Append(GoMesh.transform.DOMove(startPos, 0.8f).SetEase(Ease.InQuad));
+        seq.Join(GoMesh.transform.DORotateQuaternion(startRot, 0.8f).SetEase(Ease.InQuad));
         seq.OnComplete(() =>
         {
             for (int i = 0; i < bossTagsPhase2.Length; i++)
             {
                 bossTagsPhase2[i].transform.parent.transform.position += new Vector3(0, 50f, 0);
             }
-            this.transform.position = startPos;
-            this.transform.rotation = startRot;
+            bIsPhase1Animated = false;
+            GoMesh.transform.position = startPos;
+            GoMesh.transform.rotation = startRot;
             bIsDisabled = false;
             scPlayer.menuManager.bGameIsPaused = false;
             scPlayer.bIsImune = false;

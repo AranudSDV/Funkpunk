@@ -334,7 +334,7 @@ public class SC_Player : MonoBehaviour
                                     if (ingTag.textOnWall.text == i.ToString() + "/3")
                                     {
                                         ingTag.textOnWall.text = (i + 1).ToString() + "/3";
-                                        PlayCinematicFocus(collider.transform.gameObject, vectDir, bpmManager.FSPB, i+1);
+                                        //PlayCinematicFocus(collider.transform.gameObject, vectDir, bpmManager.FSPB, i+1);
                                         TaggingFeedback(bpmManager.FSPB, vectDir);
                                         StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
                                         break;
@@ -347,14 +347,14 @@ public class SC_Player : MonoBehaviour
                                         if (i < 2)
                                         {
                                             ingTag.textOnWall.text = (i + 2).ToString() + "/3";
-                                            PlayCinematicFocus(collider.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
+                                            //PlayCinematicFocus(collider.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
                                             TaggingFeedback(bpmManager.FSPB, vectDir);
                                             StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
                                         }
                                         else
                                         {
                                             ingTag.textOnWall.text = "3/3";
-                                            PlayCinematicFocus(collider.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
+                                            //PlayCinematicFocus(collider.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
                                             TaggingFeedback(bpmManager.FSPB, vectDir);
                                             StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
                                         }
@@ -364,7 +364,7 @@ public class SC_Player : MonoBehaviour
                                 else if (bpmManager.bPlayPerfect)
                                 {
                                     ingTag.textOnWall.text = "3/3";
-                                    PlayCinematicFocus(collider.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
+                                    //PlayCinematicFocus(collider.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
                                     TaggingFeedback(bpmManager.FSPB, vectDir);
                                     StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
                                     break;
@@ -474,7 +474,7 @@ public class SC_Player : MonoBehaviour
                                 if(ingTag.textOnWall.text == i.ToString() + "/3")
                                 {
                                     ingTag.textOnWall.text = (i + 1).ToString() + "/3";
-                                    PlayCinematicFocus(hitInfo.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
+                                    //PlayCinematicFocus(hitInfo.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
                                     TaggingFeedback(bpmManager.FSPB, vectDir);
                                     StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
                                     break;
@@ -487,14 +487,14 @@ public class SC_Player : MonoBehaviour
                                     if (i < 2)
                                     {
                                         ingTag.textOnWall.text = (i + 2).ToString() + "/3";
-                                        PlayCinematicFocus(hitInfo.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
+                                        //PlayCinematicFocus(hitInfo.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
                                         TaggingFeedback(bpmManager.FSPB, vectDir);
                                         StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
                                     }
                                     else
                                     {
                                         ingTag.textOnWall.text = "3/3";
-                                        PlayCinematicFocus(hitInfo.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
+                                        //PlayCinematicFocus(hitInfo.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
                                         TaggingFeedback(bpmManager.FSPB, vectDir);
                                         StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
                                     }
@@ -504,7 +504,7 @@ public class SC_Player : MonoBehaviour
                             else if(bpmManager.bPlayPerfect)
                             {
                                 ingTag.textOnWall.text = "3/3";
-                                PlayCinematicFocus(hitInfo.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
+                                //PlayCinematicFocus(hitInfo.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
                                 TaggingFeedback(bpmManager.FSPB, vectDir);
                                 StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
                                 break;

@@ -4,9 +4,14 @@ using System.Collections.Generic;
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class SC_VisionConeCasting : MonoBehaviour
 {
+    public int iBossTagsPhase2 = 0;
     [Header("Matériau & Paramètres du Field of View")]
     [SerializeField] private Material mVisionCone;
     [SerializeField] private SC_FieldOfView scFieldView; // Contient FAngle (en degrés) et FRadius (distance max)
+    [SerializeField] private Material mDetectedCone;
+    [SerializeField] private Material mHeardCone;
+    private float fTimerBlinck = 0f;
+    private bool bBlincking = false;
 
     [Header("Parameters")]
     [SerializeField] private int coneResolution = 30;       // Nombre de segments pour le cercle
@@ -40,7 +45,23 @@ public class SC_VisionConeCasting : MonoBehaviour
 
     private void Update()
     {
-        BuildCone();
+        BuildCone(); 
+        CheckStatus();
+    }
+    private void CheckStatus()
+    {
+        if (scFieldView.BCanSee)
+        {
+            ConeRenderer.material = mDetectedCone;
+        }
+        else if (scFieldView.bHasHeard)
+        {
+            ConeRenderer.material = mHeardCone;
+        }
+        else
+        {
+            ConeRenderer.material = mVisionCone;
+        }
     }
 
     private void BuildCone()
