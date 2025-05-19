@@ -28,7 +28,6 @@ Shader "SHR_3DMaster"
 		[Toggle(_BAKEDORRT_ON)] _BakedOrRT("BakedOrRT", Float) = 0
 		[Toggle(_SHADOWS_PROCEDURALORTEXTURE_ON)] _Shadows_ProceduralOrTexture("Shadows_ProceduralOrTexture?", Float) = 0
 		_ShadowPatternDensity("ShadowPatternDensity", Vector) = (10,10,0,0)
-		[Toggle(_LIGHTINDDONE_ON)] _LightindDone("LightindDone?", Float) = 0
 		[Toggle(_USING3DMOVEMENTS_ON)] _Using3DMovements("Using3DMovements?", Float) = 0
 		_Texture0("Texture 0", 2D) = "white" {}
 		_WorldPosDiv("WorldPosDiv", Float) = 0
@@ -208,6 +207,7 @@ Shader "SHR_3DMaster"
 			HLSLPROGRAM
 
 			#define _NORMAL_DROPOFF_TS 1
+			#pragma multi_compile_instancing
 			#pragma instancing_options renderinglayer
 			#pragma multi_compile_fragment _ LOD_FADE_CROSSFADE
 			#pragma multi_compile_fog
@@ -275,8 +275,6 @@ Shader "SHR_3DMaster"
 			#define ASE_NEEDS_FRAG_WORLD_BITANGENT
 			#define ASE_NEEDS_FRAG_SHADOWCOORDS
 			#pragma shader_feature_local _USING3DMOVEMENTS_ON
-			#pragma multi_compile_instancing
-			#pragma shader_feature _LIGHTINDDONE_ON
 			#pragma shader_feature_local _FULLSHADINGHALFSHADING_ON
 			#pragma shader_feature_local _BAKEDORRT_ON
 			#pragma shader_feature_local _COLORORTEX_ON
@@ -327,22 +325,26 @@ Shader "SHR_3DMaster"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _Normal_ST;
+			float4 _BumpNormal_ST;
 			float4 _BaseColor;
+			float4 _MainTex_ST;
 			float3 _BaseVertexOffsetDelay;
 			float3 _BaseVertexOffsetValue;
 			float2 _TopVertexDelay;
 			float2 _TopVertexOffsetValue;
 			float2 _ShadowPatternDensity;
-			float _TopMask;
-			float _Cels_FallOffThreshold;
-			float _Cels_LitThreshold;
-			float _NormalScale;
-			float _ShadingWhiteMult;
-			float _Shadow_FallOffThreshold;
-			float _Shadow_LitThreshold;
-			float _BlendPow;
 			float _ShadowTex_Pow;
+			float _BlendPow;
+			float _Shadow_LitThreshold;
+			float _Shadow_FallOffThreshold;
+			float _NormalScale;
 			float _WorldPosDiv;
+			float _Cels_LitThreshold;
+			float _Cels_FallOffThreshold;
+			float _TopMask;
+			float _ShadingWhiteMult;
+			float _BPM;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -375,16 +377,10 @@ Shader "SHR_3DMaster"
 				int _PassValue;
 			#endif
 
-			sampler2D _MainTex;
 			sampler2D _BumpNormal;
+			sampler2D _MainTex;
 			sampler2D _Texture0;
 			sampler2D _Normal;
-			UNITY_INSTANCING_BUFFER_START(SHR_3DMaster)
-				UNITY_DEFINE_INSTANCED_PROP(float4, _MainTex_ST)
-				UNITY_DEFINE_INSTANCED_PROP(float4, _BumpNormal_ST)
-				UNITY_DEFINE_INSTANCED_PROP(float4, _Normal_ST)
-				UNITY_DEFINE_INSTANCED_PROP(float, _BPM)
-			UNITY_INSTANCING_BUFFER_END(SHR_3DMaster)
 
 
 			//#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/Varyings.hlsl"
@@ -582,28 +578,27 @@ Shader "SHR_3DMaster"
 				float temp_output_533_0 = v.vertex.xyz.z;
 				float clampResult505 = clamp( ( temp_output_533_0 - _TopMask ) , 0.0 , 1.0 );
 				float4 transform522 = mul(GetWorldToObjectMatrix(),float4( 0,0,0,1 ));
-				float _BPM_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_3DMaster,_BPM);
-				float mulTime5_g43 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g43 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g43 = ( mulTime5_g43 - _TopVertexDelay.x );
 				float temp_output_16_0_g43 = ( PI / 1.0 );
 				float temp_output_19_0_g43 = cos( ( temp_output_52_0_g43 * temp_output_16_0_g43 ) );
 				float saferPower20_g43 = abs( abs( temp_output_19_0_g43 ) );
-				float mulTime5_g40 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g40 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g40 = ( mulTime5_g40 - _BaseVertexOffsetDelay.x );
 				float temp_output_16_0_g40 = ( PI / 1.0 );
 				float temp_output_19_0_g40 = cos( ( temp_output_52_0_g40 * temp_output_16_0_g40 ) );
 				float saferPower20_g40 = abs( abs( temp_output_19_0_g40 ) );
-				float mulTime5_g42 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g42 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g42 = ( mulTime5_g42 - _TopVertexDelay.y );
 				float temp_output_16_0_g42 = ( PI / 1.0 );
 				float temp_output_19_0_g42 = cos( ( temp_output_52_0_g42 * temp_output_16_0_g42 ) );
 				float saferPower20_g42 = abs( abs( temp_output_19_0_g42 ) );
-				float mulTime5_g41 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g41 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g41 = ( mulTime5_g41 - _BaseVertexOffsetDelay.y );
 				float temp_output_16_0_g41 = ( PI / 1.0 );
 				float temp_output_19_0_g41 = cos( ( temp_output_52_0_g41 * temp_output_16_0_g41 ) );
 				float saferPower20_g41 = abs( abs( temp_output_19_0_g41 ) );
-				float mulTime5_g39 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g39 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g39 = ( mulTime5_g39 - _BaseVertexOffsetDelay.z );
 				float temp_output_16_0_g39 = ( PI / 1.0 );
 				float temp_output_19_0_g39 = cos( ( temp_output_52_0_g39 * temp_output_16_0_g39 ) );
@@ -618,11 +613,11 @@ Shader "SHR_3DMaster"
 				
 				float2 texCoord2_g49 = v.texcoord1.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 vertexToFrag10_g49 = ( ( texCoord2_g49 * (unity_LightmapST).xy ) + (unity_LightmapST).zw );
-				o.ase_texcoord8.zw = vertexToFrag10_g49;
+				o.ase_texcoord8.xy = vertexToFrag10_g49;
 				float3 objectSpaceLightDir = mul( GetWorldToObjectMatrix(), _MainLightPosition ).xyz;
 				o.ase_texcoord9.xyz = objectSpaceLightDir;
 				
-				o.ase_texcoord8.xy = v.texcoord.xy;
+				o.ase_texcoord8.zw = v.texcoord.xy;
 				o.ase_normal = v.ase_normal;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -827,11 +822,8 @@ Shader "SHR_3DMaster"
 
 				WorldViewDirection = SafeNormalize( WorldViewDirection );
 
-				float4 _MainTex_ST_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_3DMaster,_MainTex_ST);
-				float2 uv_MainTex = IN.ase_texcoord8.xy * _MainTex_ST_Instance.xy + _MainTex_ST_Instance.zw;
-				float4 tex2DNode207 = tex2D( _MainTex, uv_MainTex );
 				Gradient gradient203 = NewGradient( 1, 5, 2, float4( 0.3207547, 0.3207547, 0.3207547, 0.1193713 ), float4( 0.3962264, 0.3962264, 0.3962264, 0.3913939 ), float4( 0.5031446, 0.5031446, 0.5031446, 0.616434 ), float4( 0.6100628, 0.6100628, 0.6100628, 0.8767071 ), float4( 1, 1, 1, 1 ), 0, 0, 0, float2( 1, 0 ), float2( 1, 1 ), 0, 0, 0, 0, 0, 0 );
-				float2 vertexToFrag10_g49 = IN.ase_texcoord8.zw;
+				float2 vertexToFrag10_g49 = IN.ase_texcoord8.xy;
 				float2 UV11_g49 = vertexToFrag10_g49;
 				float4 localSampleLightmapHD11_g49 = SampleLightmapHD11_g49( UV11_g49 );
 				float4 localURPDecodeInstruction19_g49 = URPDecodeInstruction19_g49();
@@ -844,8 +836,7 @@ Shader "SHR_3DMaster"
 				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
 				float2 ScreenUV75_g46 = (ase_screenPosNorm).xy;
 				float2 ScreenUV86_g46 = ScreenUV75_g46;
-				float4 _BumpNormal_ST_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_3DMaster,_BumpNormal_ST);
-				float2 uv_BumpNormal = IN.ase_texcoord8.xy * _BumpNormal_ST_Instance.xy + _BumpNormal_ST_Instance.zw;
+				float2 uv_BumpNormal = IN.ase_texcoord8.zw * _BumpNormal_ST.xy + _BumpNormal_ST.zw;
 				float3 unpack214 = UnpackNormalScale( tex2D( _BumpNormal, uv_BumpNormal ), _NormalScale );
 				unpack214.z = lerp( 1, unpack214.z, saturate(_NormalScale) );
 				float3 tanToWorld0 = float3( WorldTangent.x, WorldBiTangent.x, WorldNormal.x );
@@ -878,6 +869,8 @@ Shader "SHR_3DMaster"
 				#else
 				float4 staticSwitch388 = SampleGradient( gradient203, clampResult437.x );
 				#endif
+				float2 uv_MainTex = IN.ase_texcoord8.zw * _MainTex_ST.xy + _MainTex_ST.zw;
+				float4 tex2DNode207 = tex2D( _MainTex, uv_MainTex );
 				#ifdef _COLORORTEX_ON
 				float4 staticSwitch219 = tex2DNode207;
 				#else
@@ -895,7 +888,7 @@ Shader "SHR_3DMaster"
 				float time275 = 0.0;
 				float2 voronoiSmoothId275 = 0;
 				float voronoiSmooth275 = 0.0;
-				float2 texCoord270 = IN.ase_texcoord8.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 texCoord270 = IN.ase_texcoord8.zw * float2( 1,1 ) + float2( 0,0 );
 				float2 temp_output_616_0 = ( texCoord270 * _ShadowPatternDensity );
 				float2 coords275 = temp_output_616_0 * 1.0;
 				float2 id275 = 0;
@@ -913,7 +906,7 @@ Shader "SHR_3DMaster"
 				float2 temp_output_654_0 = ( temp_output_648_0 + temp_output_643_0 + temp_output_647_0 );
 				float3 temp_output_658_0 = ( WorldPosition * 0.0 );
 				float2 uv653 = 0;
-				float3 unityVoronoy653 = UnityVoronoi(IN.ase_texcoord8.xy,0.0,10.0,uv653);
+				float3 unityVoronoy653 = UnityVoronoi(IN.ase_texcoord8.zw,0.0,10.0,uv653);
 				#ifdef _USINGTRIPLANAR_ON
 				float2 staticSwitch629 = ( ( ( temp_output_648_0 / temp_output_654_0 ) * ( (temp_output_658_0).yz * unityVoronoy653.x ) ) + ( ( temp_output_643_0 / temp_output_654_0 ) * ( (temp_output_658_0).xz * unityVoronoy653.x ) ) + ( ( temp_output_647_0 / temp_output_654_0 ) * ( (temp_output_658_0).xy * unityVoronoy653.x ) ) );
 				#else
@@ -943,20 +936,14 @@ Shader "SHR_3DMaster"
 				#else
 				float4 staticSwitch305 = ( staticSwitch388 * lerpResult266 );
 				#endif
-				#ifdef _LIGHTINDDONE_ON
-				float4 staticSwitch480 = staticSwitch305;
-				#else
-				float4 staticSwitch480 = tex2DNode207;
-				#endif
 				
-				float4 _Normal_ST_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_3DMaster,_Normal_ST);
-				float2 uv_Normal = IN.ase_texcoord8.xy * _Normal_ST_Instance.xy + _Normal_ST_Instance.zw;
+				float2 uv_Normal = IN.ase_texcoord8.zw * _Normal_ST.xy + _Normal_ST.zw;
 				float4 _Normalmap54 = tex2D( _Normal, uv_Normal );
 				
 				float3 temp_cast_17 = (0.0).xxx;
 				
 
-				float3 BaseColor = staticSwitch480.rgb;
+				float3 BaseColor = staticSwitch305.rgb;
 				float3 Normal = _Normalmap54.rgb;
 				float3 Emission = 0;
 				float3 Specular = temp_cast_17;
@@ -1210,6 +1197,7 @@ Shader "SHR_3DMaster"
 			HLSLPROGRAM
 
 			#define _NORMAL_DROPOFF_TS 1
+			#pragma multi_compile_instancing
 			#pragma multi_compile_fragment _ LOD_FADE_CROSSFADE
 			#define ASE_FOG 1
 			#define _SPECULAR_SETUP 1
@@ -1239,7 +1227,6 @@ Shader "SHR_3DMaster"
 
 			#define ASE_NEEDS_VERT_POSITION
 			#pragma shader_feature_local _USING3DMOVEMENTS_ON
-			#pragma multi_compile_instancing
 
 
 			#if defined(ASE_EARLY_Z_DEPTH_OPTIMIZE) && (SHADER_TARGET >= 45)
@@ -1274,22 +1261,26 @@ Shader "SHR_3DMaster"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _Normal_ST;
+			float4 _BumpNormal_ST;
 			float4 _BaseColor;
+			float4 _MainTex_ST;
 			float3 _BaseVertexOffsetDelay;
 			float3 _BaseVertexOffsetValue;
 			float2 _TopVertexDelay;
 			float2 _TopVertexOffsetValue;
 			float2 _ShadowPatternDensity;
-			float _TopMask;
-			float _Cels_FallOffThreshold;
-			float _Cels_LitThreshold;
-			float _NormalScale;
-			float _ShadingWhiteMult;
-			float _Shadow_FallOffThreshold;
-			float _Shadow_LitThreshold;
-			float _BlendPow;
 			float _ShadowTex_Pow;
+			float _BlendPow;
+			float _Shadow_LitThreshold;
+			float _Shadow_FallOffThreshold;
+			float _NormalScale;
 			float _WorldPosDiv;
+			float _Cels_LitThreshold;
+			float _Cels_FallOffThreshold;
+			float _TopMask;
+			float _ShadingWhiteMult;
+			float _BPM;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -1322,10 +1313,7 @@ Shader "SHR_3DMaster"
 				int _PassValue;
 			#endif
 
-			UNITY_INSTANCING_BUFFER_START(SHR_3DMaster)
-				UNITY_DEFINE_INSTANCED_PROP(float, _BPM)
-			UNITY_INSTANCING_BUFFER_END(SHR_3DMaster)
-
+			
 
 			//#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/Varyings.hlsl"
 			//#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShadowCasterPass.hlsl"
@@ -1348,28 +1336,27 @@ Shader "SHR_3DMaster"
 				float temp_output_533_0 = v.vertex.xyz.z;
 				float clampResult505 = clamp( ( temp_output_533_0 - _TopMask ) , 0.0 , 1.0 );
 				float4 transform522 = mul(GetWorldToObjectMatrix(),float4( 0,0,0,1 ));
-				float _BPM_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_3DMaster,_BPM);
-				float mulTime5_g43 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g43 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g43 = ( mulTime5_g43 - _TopVertexDelay.x );
 				float temp_output_16_0_g43 = ( PI / 1.0 );
 				float temp_output_19_0_g43 = cos( ( temp_output_52_0_g43 * temp_output_16_0_g43 ) );
 				float saferPower20_g43 = abs( abs( temp_output_19_0_g43 ) );
-				float mulTime5_g40 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g40 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g40 = ( mulTime5_g40 - _BaseVertexOffsetDelay.x );
 				float temp_output_16_0_g40 = ( PI / 1.0 );
 				float temp_output_19_0_g40 = cos( ( temp_output_52_0_g40 * temp_output_16_0_g40 ) );
 				float saferPower20_g40 = abs( abs( temp_output_19_0_g40 ) );
-				float mulTime5_g42 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g42 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g42 = ( mulTime5_g42 - _TopVertexDelay.y );
 				float temp_output_16_0_g42 = ( PI / 1.0 );
 				float temp_output_19_0_g42 = cos( ( temp_output_52_0_g42 * temp_output_16_0_g42 ) );
 				float saferPower20_g42 = abs( abs( temp_output_19_0_g42 ) );
-				float mulTime5_g41 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g41 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g41 = ( mulTime5_g41 - _BaseVertexOffsetDelay.y );
 				float temp_output_16_0_g41 = ( PI / 1.0 );
 				float temp_output_19_0_g41 = cos( ( temp_output_52_0_g41 * temp_output_16_0_g41 ) );
 				float saferPower20_g41 = abs( abs( temp_output_19_0_g41 ) );
-				float mulTime5_g39 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g39 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g39 = ( mulTime5_g39 - _BaseVertexOffsetDelay.z );
 				float temp_output_16_0_g39 = ( PI / 1.0 );
 				float temp_output_19_0_g39 = cos( ( temp_output_52_0_g39 * temp_output_16_0_g39 ) );
@@ -1581,6 +1568,7 @@ Shader "SHR_3DMaster"
 			HLSLPROGRAM
 
 			#define _NORMAL_DROPOFF_TS 1
+			#pragma multi_compile_instancing
 			#pragma multi_compile_fragment _ LOD_FADE_CROSSFADE
 			#define ASE_FOG 1
 			#define _SPECULAR_SETUP 1
@@ -1608,7 +1596,6 @@ Shader "SHR_3DMaster"
 
 			#define ASE_NEEDS_VERT_POSITION
 			#pragma shader_feature_local _USING3DMOVEMENTS_ON
-			#pragma multi_compile_instancing
 
 
 			#if defined(ASE_EARLY_Z_DEPTH_OPTIMIZE) && (SHADER_TARGET >= 45)
@@ -1643,22 +1630,26 @@ Shader "SHR_3DMaster"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _Normal_ST;
+			float4 _BumpNormal_ST;
 			float4 _BaseColor;
+			float4 _MainTex_ST;
 			float3 _BaseVertexOffsetDelay;
 			float3 _BaseVertexOffsetValue;
 			float2 _TopVertexDelay;
 			float2 _TopVertexOffsetValue;
 			float2 _ShadowPatternDensity;
-			float _TopMask;
-			float _Cels_FallOffThreshold;
-			float _Cels_LitThreshold;
-			float _NormalScale;
-			float _ShadingWhiteMult;
-			float _Shadow_FallOffThreshold;
-			float _Shadow_LitThreshold;
-			float _BlendPow;
 			float _ShadowTex_Pow;
+			float _BlendPow;
+			float _Shadow_LitThreshold;
+			float _Shadow_FallOffThreshold;
+			float _NormalScale;
 			float _WorldPosDiv;
+			float _Cels_LitThreshold;
+			float _Cels_FallOffThreshold;
+			float _TopMask;
+			float _ShadingWhiteMult;
+			float _BPM;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -1691,10 +1682,7 @@ Shader "SHR_3DMaster"
 				int _PassValue;
 			#endif
 
-			UNITY_INSTANCING_BUFFER_START(SHR_3DMaster)
-				UNITY_DEFINE_INSTANCED_PROP(float, _BPM)
-			UNITY_INSTANCING_BUFFER_END(SHR_3DMaster)
-
+			
 
 			//#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/Varyings.hlsl"
 			//#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/DepthOnlyPass.hlsl"
@@ -1714,28 +1702,27 @@ Shader "SHR_3DMaster"
 				float temp_output_533_0 = v.vertex.xyz.z;
 				float clampResult505 = clamp( ( temp_output_533_0 - _TopMask ) , 0.0 , 1.0 );
 				float4 transform522 = mul(GetWorldToObjectMatrix(),float4( 0,0,0,1 ));
-				float _BPM_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_3DMaster,_BPM);
-				float mulTime5_g43 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g43 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g43 = ( mulTime5_g43 - _TopVertexDelay.x );
 				float temp_output_16_0_g43 = ( PI / 1.0 );
 				float temp_output_19_0_g43 = cos( ( temp_output_52_0_g43 * temp_output_16_0_g43 ) );
 				float saferPower20_g43 = abs( abs( temp_output_19_0_g43 ) );
-				float mulTime5_g40 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g40 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g40 = ( mulTime5_g40 - _BaseVertexOffsetDelay.x );
 				float temp_output_16_0_g40 = ( PI / 1.0 );
 				float temp_output_19_0_g40 = cos( ( temp_output_52_0_g40 * temp_output_16_0_g40 ) );
 				float saferPower20_g40 = abs( abs( temp_output_19_0_g40 ) );
-				float mulTime5_g42 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g42 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g42 = ( mulTime5_g42 - _TopVertexDelay.y );
 				float temp_output_16_0_g42 = ( PI / 1.0 );
 				float temp_output_19_0_g42 = cos( ( temp_output_52_0_g42 * temp_output_16_0_g42 ) );
 				float saferPower20_g42 = abs( abs( temp_output_19_0_g42 ) );
-				float mulTime5_g41 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g41 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g41 = ( mulTime5_g41 - _BaseVertexOffsetDelay.y );
 				float temp_output_16_0_g41 = ( PI / 1.0 );
 				float temp_output_19_0_g41 = cos( ( temp_output_52_0_g41 * temp_output_16_0_g41 ) );
 				float saferPower20_g41 = abs( abs( temp_output_19_0_g41 ) );
-				float mulTime5_g39 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g39 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g39 = ( mulTime5_g39 - _BaseVertexOffsetDelay.z );
 				float temp_output_16_0_g39 = ( PI / 1.0 );
 				float temp_output_19_0_g39 = cos( ( temp_output_52_0_g39 * temp_output_16_0_g39 ) );
@@ -1954,8 +1941,6 @@ Shader "SHR_3DMaster"
 			#define ASE_NEEDS_VERT_NORMAL
 			#define ASE_NEEDS_FRAG_SHADOWCOORDS
 			#pragma shader_feature_local _USING3DMOVEMENTS_ON
-			#pragma multi_compile_instancing
-			#pragma shader_feature _LIGHTINDDONE_ON
 			#pragma shader_feature_local _FULLSHADINGHALFSHADING_ON
 			#pragma shader_feature_local _BAKEDORRT_ON
 			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
@@ -2004,22 +1989,26 @@ Shader "SHR_3DMaster"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _Normal_ST;
+			float4 _BumpNormal_ST;
 			float4 _BaseColor;
+			float4 _MainTex_ST;
 			float3 _BaseVertexOffsetDelay;
 			float3 _BaseVertexOffsetValue;
 			float2 _TopVertexDelay;
 			float2 _TopVertexOffsetValue;
 			float2 _ShadowPatternDensity;
-			float _TopMask;
-			float _Cels_FallOffThreshold;
-			float _Cels_LitThreshold;
-			float _NormalScale;
-			float _ShadingWhiteMult;
-			float _Shadow_FallOffThreshold;
-			float _Shadow_LitThreshold;
-			float _BlendPow;
 			float _ShadowTex_Pow;
+			float _BlendPow;
+			float _Shadow_LitThreshold;
+			float _Shadow_FallOffThreshold;
+			float _NormalScale;
 			float _WorldPosDiv;
+			float _Cels_LitThreshold;
+			float _Cels_FallOffThreshold;
+			float _TopMask;
+			float _ShadingWhiteMult;
+			float _BPM;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -2052,14 +2041,9 @@ Shader "SHR_3DMaster"
 				int _PassValue;
 			#endif
 
-			sampler2D _MainTex;
 			sampler2D _BumpNormal;
+			sampler2D _MainTex;
 			sampler2D _Texture0;
-			UNITY_INSTANCING_BUFFER_START(SHR_3DMaster)
-				UNITY_DEFINE_INSTANCED_PROP(float4, _MainTex_ST)
-				UNITY_DEFINE_INSTANCED_PROP(float4, _BumpNormal_ST)
-				UNITY_DEFINE_INSTANCED_PROP(float, _BPM)
-			UNITY_INSTANCING_BUFFER_END(SHR_3DMaster)
 
 
 			//#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/Varyings.hlsl"
@@ -2257,28 +2241,27 @@ Shader "SHR_3DMaster"
 				float temp_output_533_0 = v.vertex.xyz.z;
 				float clampResult505 = clamp( ( temp_output_533_0 - _TopMask ) , 0.0 , 1.0 );
 				float4 transform522 = mul(GetWorldToObjectMatrix(),float4( 0,0,0,1 ));
-				float _BPM_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_3DMaster,_BPM);
-				float mulTime5_g43 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g43 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g43 = ( mulTime5_g43 - _TopVertexDelay.x );
 				float temp_output_16_0_g43 = ( PI / 1.0 );
 				float temp_output_19_0_g43 = cos( ( temp_output_52_0_g43 * temp_output_16_0_g43 ) );
 				float saferPower20_g43 = abs( abs( temp_output_19_0_g43 ) );
-				float mulTime5_g40 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g40 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g40 = ( mulTime5_g40 - _BaseVertexOffsetDelay.x );
 				float temp_output_16_0_g40 = ( PI / 1.0 );
 				float temp_output_19_0_g40 = cos( ( temp_output_52_0_g40 * temp_output_16_0_g40 ) );
 				float saferPower20_g40 = abs( abs( temp_output_19_0_g40 ) );
-				float mulTime5_g42 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g42 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g42 = ( mulTime5_g42 - _TopVertexDelay.y );
 				float temp_output_16_0_g42 = ( PI / 1.0 );
 				float temp_output_19_0_g42 = cos( ( temp_output_52_0_g42 * temp_output_16_0_g42 ) );
 				float saferPower20_g42 = abs( abs( temp_output_19_0_g42 ) );
-				float mulTime5_g41 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g41 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g41 = ( mulTime5_g41 - _BaseVertexOffsetDelay.y );
 				float temp_output_16_0_g41 = ( PI / 1.0 );
 				float temp_output_19_0_g41 = cos( ( temp_output_52_0_g41 * temp_output_16_0_g41 ) );
 				float saferPower20_g41 = abs( abs( temp_output_19_0_g41 ) );
-				float mulTime5_g39 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g39 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g39 = ( mulTime5_g39 - _BaseVertexOffsetDelay.z );
 				float temp_output_16_0_g39 = ( PI / 1.0 );
 				float temp_output_19_0_g39 = cos( ( temp_output_52_0_g39 * temp_output_16_0_g39 ) );
@@ -2293,7 +2276,7 @@ Shader "SHR_3DMaster"
 				
 				float2 texCoord2_g49 = v.texcoord1.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 vertexToFrag10_g49 = ( ( texCoord2_g49 * (unity_LightmapST).xy ) + (unity_LightmapST).zw );
-				o.ase_texcoord4.zw = vertexToFrag10_g49;
+				o.ase_texcoord4.xy = vertexToFrag10_g49;
 				float4 ase_clipPos = TransformObjectToHClip((v.vertex).xyz);
 				float4 screenPos = ComputeScreenPos(ase_clipPos);
 				o.ase_texcoord5 = screenPos;
@@ -2307,7 +2290,7 @@ Shader "SHR_3DMaster"
 				float3 objectSpaceLightDir = mul( GetWorldToObjectMatrix(), _MainLightPosition ).xyz;
 				o.ase_texcoord9.xyz = objectSpaceLightDir;
 				
-				o.ase_texcoord4.xy = v.texcoord0.xy;
+				o.ase_texcoord4.zw = v.texcoord0.xy;
 				o.ase_normal = v.ase_normal;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -2466,11 +2449,8 @@ Shader "SHR_3DMaster"
 					#endif
 				#endif
 
-				float4 _MainTex_ST_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_3DMaster,_MainTex_ST);
-				float2 uv_MainTex = IN.ase_texcoord4.xy * _MainTex_ST_Instance.xy + _MainTex_ST_Instance.zw;
-				float4 tex2DNode207 = tex2D( _MainTex, uv_MainTex );
 				Gradient gradient203 = NewGradient( 1, 5, 2, float4( 0.3207547, 0.3207547, 0.3207547, 0.1193713 ), float4( 0.3962264, 0.3962264, 0.3962264, 0.3913939 ), float4( 0.5031446, 0.5031446, 0.5031446, 0.616434 ), float4( 0.6100628, 0.6100628, 0.6100628, 0.8767071 ), float4( 1, 1, 1, 1 ), 0, 0, 0, float2( 1, 0 ), float2( 1, 1 ), 0, 0, 0, 0, 0, 0 );
-				float2 vertexToFrag10_g49 = IN.ase_texcoord4.zw;
+				float2 vertexToFrag10_g49 = IN.ase_texcoord4.xy;
 				float2 UV11_g49 = vertexToFrag10_g49;
 				float4 localSampleLightmapHD11_g49 = SampleLightmapHD11_g49( UV11_g49 );
 				float4 localURPDecodeInstruction19_g49 = URPDecodeInstruction19_g49();
@@ -2484,8 +2464,7 @@ Shader "SHR_3DMaster"
 				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
 				float2 ScreenUV75_g46 = (ase_screenPosNorm).xy;
 				float2 ScreenUV86_g46 = ScreenUV75_g46;
-				float4 _BumpNormal_ST_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_3DMaster,_BumpNormal_ST);
-				float2 uv_BumpNormal = IN.ase_texcoord4.xy * _BumpNormal_ST_Instance.xy + _BumpNormal_ST_Instance.zw;
+				float2 uv_BumpNormal = IN.ase_texcoord4.zw * _BumpNormal_ST.xy + _BumpNormal_ST.zw;
 				float3 unpack214 = UnpackNormalScale( tex2D( _BumpNormal, uv_BumpNormal ), _NormalScale );
 				unpack214.z = lerp( 1, unpack214.z, saturate(_NormalScale) );
 				float3 ase_worldTangent = IN.ase_texcoord6.xyz;
@@ -2521,6 +2500,8 @@ Shader "SHR_3DMaster"
 				#else
 				float4 staticSwitch388 = SampleGradient( gradient203, clampResult437.x );
 				#endif
+				float2 uv_MainTex = IN.ase_texcoord4.zw * _MainTex_ST.xy + _MainTex_ST.zw;
+				float4 tex2DNode207 = tex2D( _MainTex, uv_MainTex );
 				#ifdef _COLORORTEX_ON
 				float4 staticSwitch219 = tex2DNode207;
 				#else
@@ -2538,7 +2519,7 @@ Shader "SHR_3DMaster"
 				float time275 = 0.0;
 				float2 voronoiSmoothId275 = 0;
 				float voronoiSmooth275 = 0.0;
-				float2 texCoord270 = IN.ase_texcoord4.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 texCoord270 = IN.ase_texcoord4.zw * float2( 1,1 ) + float2( 0,0 );
 				float2 temp_output_616_0 = ( texCoord270 * _ShadowPatternDensity );
 				float2 coords275 = temp_output_616_0 * 1.0;
 				float2 id275 = 0;
@@ -2556,7 +2537,7 @@ Shader "SHR_3DMaster"
 				float2 temp_output_654_0 = ( temp_output_648_0 + temp_output_643_0 + temp_output_647_0 );
 				float3 temp_output_658_0 = ( WorldPosition * 0.0 );
 				float2 uv653 = 0;
-				float3 unityVoronoy653 = UnityVoronoi(IN.ase_texcoord4.xy,0.0,10.0,uv653);
+				float3 unityVoronoy653 = UnityVoronoi(IN.ase_texcoord4.zw,0.0,10.0,uv653);
 				#ifdef _USINGTRIPLANAR_ON
 				float2 staticSwitch629 = ( ( ( temp_output_648_0 / temp_output_654_0 ) * ( (temp_output_658_0).yz * unityVoronoy653.x ) ) + ( ( temp_output_643_0 / temp_output_654_0 ) * ( (temp_output_658_0).xz * unityVoronoy653.x ) ) + ( ( temp_output_647_0 / temp_output_654_0 ) * ( (temp_output_658_0).xy * unityVoronoy653.x ) ) );
 				#else
@@ -2586,14 +2567,9 @@ Shader "SHR_3DMaster"
 				#else
 				float4 staticSwitch305 = ( staticSwitch388 * lerpResult266 );
 				#endif
-				#ifdef _LIGHTINDDONE_ON
-				float4 staticSwitch480 = staticSwitch305;
-				#else
-				float4 staticSwitch480 = tex2DNode207;
-				#endif
 				
 
-				float3 BaseColor = staticSwitch480.rgb;
+				float3 BaseColor = staticSwitch305.rgb;
 				float3 Emission = 0;
 				float Alpha = 1;
 				float AlphaClipThreshold = 0.5;
@@ -2657,8 +2633,6 @@ Shader "SHR_3DMaster"
 			#define ASE_NEEDS_VERT_NORMAL
 			#define ASE_NEEDS_FRAG_SHADOWCOORDS
 			#pragma shader_feature_local _USING3DMOVEMENTS_ON
-			#pragma multi_compile_instancing
-			#pragma shader_feature _LIGHTINDDONE_ON
 			#pragma shader_feature_local _FULLSHADINGHALFSHADING_ON
 			#pragma shader_feature_local _BAKEDORRT_ON
 			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
@@ -2675,8 +2649,8 @@ Shader "SHR_3DMaster"
 			{
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
-				float4 ase_texcoord : TEXCOORD0;
 				float4 ase_texcoord1 : TEXCOORD1;
+				float4 ase_texcoord : TEXCOORD0;
 				float4 ase_tangent : TANGENT;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -2702,22 +2676,26 @@ Shader "SHR_3DMaster"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _Normal_ST;
+			float4 _BumpNormal_ST;
 			float4 _BaseColor;
+			float4 _MainTex_ST;
 			float3 _BaseVertexOffsetDelay;
 			float3 _BaseVertexOffsetValue;
 			float2 _TopVertexDelay;
 			float2 _TopVertexOffsetValue;
 			float2 _ShadowPatternDensity;
-			float _TopMask;
-			float _Cels_FallOffThreshold;
-			float _Cels_LitThreshold;
-			float _NormalScale;
-			float _ShadingWhiteMult;
-			float _Shadow_FallOffThreshold;
-			float _Shadow_LitThreshold;
-			float _BlendPow;
 			float _ShadowTex_Pow;
+			float _BlendPow;
+			float _Shadow_LitThreshold;
+			float _Shadow_FallOffThreshold;
+			float _NormalScale;
 			float _WorldPosDiv;
+			float _Cels_LitThreshold;
+			float _Cels_FallOffThreshold;
+			float _TopMask;
+			float _ShadingWhiteMult;
+			float _BPM;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -2750,14 +2728,9 @@ Shader "SHR_3DMaster"
 				int _PassValue;
 			#endif
 
-			sampler2D _MainTex;
 			sampler2D _BumpNormal;
+			sampler2D _MainTex;
 			sampler2D _Texture0;
-			UNITY_INSTANCING_BUFFER_START(SHR_3DMaster)
-				UNITY_DEFINE_INSTANCED_PROP(float4, _MainTex_ST)
-				UNITY_DEFINE_INSTANCED_PROP(float4, _BumpNormal_ST)
-				UNITY_DEFINE_INSTANCED_PROP(float, _BPM)
-			UNITY_INSTANCING_BUFFER_END(SHR_3DMaster)
 
 
 			//#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/Varyings.hlsl"
@@ -2955,28 +2928,27 @@ Shader "SHR_3DMaster"
 				float temp_output_533_0 = v.vertex.xyz.z;
 				float clampResult505 = clamp( ( temp_output_533_0 - _TopMask ) , 0.0 , 1.0 );
 				float4 transform522 = mul(GetWorldToObjectMatrix(),float4( 0,0,0,1 ));
-				float _BPM_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_3DMaster,_BPM);
-				float mulTime5_g43 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g43 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g43 = ( mulTime5_g43 - _TopVertexDelay.x );
 				float temp_output_16_0_g43 = ( PI / 1.0 );
 				float temp_output_19_0_g43 = cos( ( temp_output_52_0_g43 * temp_output_16_0_g43 ) );
 				float saferPower20_g43 = abs( abs( temp_output_19_0_g43 ) );
-				float mulTime5_g40 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g40 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g40 = ( mulTime5_g40 - _BaseVertexOffsetDelay.x );
 				float temp_output_16_0_g40 = ( PI / 1.0 );
 				float temp_output_19_0_g40 = cos( ( temp_output_52_0_g40 * temp_output_16_0_g40 ) );
 				float saferPower20_g40 = abs( abs( temp_output_19_0_g40 ) );
-				float mulTime5_g42 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g42 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g42 = ( mulTime5_g42 - _TopVertexDelay.y );
 				float temp_output_16_0_g42 = ( PI / 1.0 );
 				float temp_output_19_0_g42 = cos( ( temp_output_52_0_g42 * temp_output_16_0_g42 ) );
 				float saferPower20_g42 = abs( abs( temp_output_19_0_g42 ) );
-				float mulTime5_g41 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g41 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g41 = ( mulTime5_g41 - _BaseVertexOffsetDelay.y );
 				float temp_output_16_0_g41 = ( PI / 1.0 );
 				float temp_output_19_0_g41 = cos( ( temp_output_52_0_g41 * temp_output_16_0_g41 ) );
 				float saferPower20_g41 = abs( abs( temp_output_19_0_g41 ) );
-				float mulTime5_g39 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g39 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g39 = ( mulTime5_g39 - _BaseVertexOffsetDelay.z );
 				float temp_output_16_0_g39 = ( PI / 1.0 );
 				float temp_output_19_0_g39 = cos( ( temp_output_52_0_g39 * temp_output_16_0_g39 ) );
@@ -2991,7 +2963,7 @@ Shader "SHR_3DMaster"
 				
 				float2 texCoord2_g49 = v.ase_texcoord1.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 vertexToFrag10_g49 = ( ( texCoord2_g49 * (unity_LightmapST).xy ) + (unity_LightmapST).zw );
-				o.ase_texcoord2.zw = vertexToFrag10_g49;
+				o.ase_texcoord2.xy = vertexToFrag10_g49;
 				float4 ase_clipPos = TransformObjectToHClip((v.vertex).xyz);
 				float4 screenPos = ComputeScreenPos(ase_clipPos);
 				o.ase_texcoord3 = screenPos;
@@ -3005,7 +2977,7 @@ Shader "SHR_3DMaster"
 				float3 objectSpaceLightDir = mul( GetWorldToObjectMatrix(), _MainLightPosition ).xyz;
 				o.ase_texcoord7.xyz = objectSpaceLightDir;
 				
-				o.ase_texcoord2.xy = v.ase_texcoord.xy;
+				o.ase_texcoord2.zw = v.ase_texcoord.xy;
 				o.ase_normal = v.ase_normal;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -3054,8 +3026,8 @@ Shader "SHR_3DMaster"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
-				float4 ase_texcoord : TEXCOORD0;
 				float4 ase_texcoord1 : TEXCOORD1;
+				float4 ase_texcoord : TEXCOORD0;
 				float4 ase_tangent : TANGENT;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
@@ -3074,8 +3046,8 @@ Shader "SHR_3DMaster"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
-				o.ase_texcoord = v.ase_texcoord;
 				o.ase_texcoord1 = v.ase_texcoord1;
+				o.ase_texcoord = v.ase_texcoord;
 				o.ase_tangent = v.ase_tangent;
 				return o;
 			}
@@ -3115,8 +3087,8 @@ Shader "SHR_3DMaster"
 				VertexInput o = (VertexInput) 0;
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
-				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				o.ase_texcoord1 = patch[0].ase_texcoord1 * bary.x + patch[1].ase_texcoord1 * bary.y + patch[2].ase_texcoord1 * bary.z;
+				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				o.ase_tangent = patch[0].ase_tangent * bary.x + patch[1].ase_tangent * bary.y + patch[2].ase_tangent * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
@@ -3154,11 +3126,8 @@ Shader "SHR_3DMaster"
 					#endif
 				#endif
 
-				float4 _MainTex_ST_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_3DMaster,_MainTex_ST);
-				float2 uv_MainTex = IN.ase_texcoord2.xy * _MainTex_ST_Instance.xy + _MainTex_ST_Instance.zw;
-				float4 tex2DNode207 = tex2D( _MainTex, uv_MainTex );
 				Gradient gradient203 = NewGradient( 1, 5, 2, float4( 0.3207547, 0.3207547, 0.3207547, 0.1193713 ), float4( 0.3962264, 0.3962264, 0.3962264, 0.3913939 ), float4( 0.5031446, 0.5031446, 0.5031446, 0.616434 ), float4( 0.6100628, 0.6100628, 0.6100628, 0.8767071 ), float4( 1, 1, 1, 1 ), 0, 0, 0, float2( 1, 0 ), float2( 1, 1 ), 0, 0, 0, 0, 0, 0 );
-				float2 vertexToFrag10_g49 = IN.ase_texcoord2.zw;
+				float2 vertexToFrag10_g49 = IN.ase_texcoord2.xy;
 				float2 UV11_g49 = vertexToFrag10_g49;
 				float4 localSampleLightmapHD11_g49 = SampleLightmapHD11_g49( UV11_g49 );
 				float4 localURPDecodeInstruction19_g49 = URPDecodeInstruction19_g49();
@@ -3172,8 +3141,7 @@ Shader "SHR_3DMaster"
 				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
 				float2 ScreenUV75_g46 = (ase_screenPosNorm).xy;
 				float2 ScreenUV86_g46 = ScreenUV75_g46;
-				float4 _BumpNormal_ST_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_3DMaster,_BumpNormal_ST);
-				float2 uv_BumpNormal = IN.ase_texcoord2.xy * _BumpNormal_ST_Instance.xy + _BumpNormal_ST_Instance.zw;
+				float2 uv_BumpNormal = IN.ase_texcoord2.zw * _BumpNormal_ST.xy + _BumpNormal_ST.zw;
 				float3 unpack214 = UnpackNormalScale( tex2D( _BumpNormal, uv_BumpNormal ), _NormalScale );
 				unpack214.z = lerp( 1, unpack214.z, saturate(_NormalScale) );
 				float3 ase_worldTangent = IN.ase_texcoord4.xyz;
@@ -3209,6 +3177,8 @@ Shader "SHR_3DMaster"
 				#else
 				float4 staticSwitch388 = SampleGradient( gradient203, clampResult437.x );
 				#endif
+				float2 uv_MainTex = IN.ase_texcoord2.zw * _MainTex_ST.xy + _MainTex_ST.zw;
+				float4 tex2DNode207 = tex2D( _MainTex, uv_MainTex );
 				#ifdef _COLORORTEX_ON
 				float4 staticSwitch219 = tex2DNode207;
 				#else
@@ -3226,7 +3196,7 @@ Shader "SHR_3DMaster"
 				float time275 = 0.0;
 				float2 voronoiSmoothId275 = 0;
 				float voronoiSmooth275 = 0.0;
-				float2 texCoord270 = IN.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 texCoord270 = IN.ase_texcoord2.zw * float2( 1,1 ) + float2( 0,0 );
 				float2 temp_output_616_0 = ( texCoord270 * _ShadowPatternDensity );
 				float2 coords275 = temp_output_616_0 * 1.0;
 				float2 id275 = 0;
@@ -3244,7 +3214,7 @@ Shader "SHR_3DMaster"
 				float2 temp_output_654_0 = ( temp_output_648_0 + temp_output_643_0 + temp_output_647_0 );
 				float3 temp_output_658_0 = ( WorldPosition * 0.0 );
 				float2 uv653 = 0;
-				float3 unityVoronoy653 = UnityVoronoi(IN.ase_texcoord2.xy,0.0,10.0,uv653);
+				float3 unityVoronoy653 = UnityVoronoi(IN.ase_texcoord2.zw,0.0,10.0,uv653);
 				#ifdef _USINGTRIPLANAR_ON
 				float2 staticSwitch629 = ( ( ( temp_output_648_0 / temp_output_654_0 ) * ( (temp_output_658_0).yz * unityVoronoy653.x ) ) + ( ( temp_output_643_0 / temp_output_654_0 ) * ( (temp_output_658_0).xz * unityVoronoy653.x ) ) + ( ( temp_output_647_0 / temp_output_654_0 ) * ( (temp_output_658_0).xy * unityVoronoy653.x ) ) );
 				#else
@@ -3274,14 +3244,9 @@ Shader "SHR_3DMaster"
 				#else
 				float4 staticSwitch305 = ( staticSwitch388 * lerpResult266 );
 				#endif
-				#ifdef _LIGHTINDDONE_ON
-				float4 staticSwitch480 = staticSwitch305;
-				#else
-				float4 staticSwitch480 = tex2DNode207;
-				#endif
 				
 
-				float3 BaseColor = staticSwitch480.rgb;
+				float3 BaseColor = staticSwitch305.rgb;
 				float Alpha = 1;
 				float AlphaClipThreshold = 0.5;
 
@@ -3311,6 +3276,7 @@ Shader "SHR_3DMaster"
 			HLSLPROGRAM
 
 			#define _NORMAL_DROPOFF_TS 1
+			#pragma multi_compile_instancing
 			#pragma multi_compile_fragment _ LOD_FADE_CROSSFADE
 			#define ASE_FOG 1
 			#define _SPECULAR_SETUP 1
@@ -3340,7 +3306,6 @@ Shader "SHR_3DMaster"
 
 			#define ASE_NEEDS_VERT_POSITION
 			#pragma shader_feature_local _USING3DMOVEMENTS_ON
-			#pragma multi_compile_instancing
 
 
 			#if defined(ASE_EARLY_Z_DEPTH_OPTIMIZE) && (SHADER_TARGET >= 45)
@@ -3378,22 +3343,26 @@ Shader "SHR_3DMaster"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _Normal_ST;
+			float4 _BumpNormal_ST;
 			float4 _BaseColor;
+			float4 _MainTex_ST;
 			float3 _BaseVertexOffsetDelay;
 			float3 _BaseVertexOffsetValue;
 			float2 _TopVertexDelay;
 			float2 _TopVertexOffsetValue;
 			float2 _ShadowPatternDensity;
-			float _TopMask;
-			float _Cels_FallOffThreshold;
-			float _Cels_LitThreshold;
-			float _NormalScale;
-			float _ShadingWhiteMult;
-			float _Shadow_FallOffThreshold;
-			float _Shadow_LitThreshold;
-			float _BlendPow;
 			float _ShadowTex_Pow;
+			float _BlendPow;
+			float _Shadow_LitThreshold;
+			float _Shadow_FallOffThreshold;
+			float _NormalScale;
 			float _WorldPosDiv;
+			float _Cels_LitThreshold;
+			float _Cels_FallOffThreshold;
+			float _TopMask;
+			float _ShadingWhiteMult;
+			float _BPM;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -3427,10 +3396,6 @@ Shader "SHR_3DMaster"
 			#endif
 
 			sampler2D _Normal;
-			UNITY_INSTANCING_BUFFER_START(SHR_3DMaster)
-				UNITY_DEFINE_INSTANCED_PROP(float4, _Normal_ST)
-				UNITY_DEFINE_INSTANCED_PROP(float, _BPM)
-			UNITY_INSTANCING_BUFFER_END(SHR_3DMaster)
 
 
 			//#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/Varyings.hlsl"
@@ -3451,28 +3416,27 @@ Shader "SHR_3DMaster"
 				float temp_output_533_0 = v.vertex.xyz.z;
 				float clampResult505 = clamp( ( temp_output_533_0 - _TopMask ) , 0.0 , 1.0 );
 				float4 transform522 = mul(GetWorldToObjectMatrix(),float4( 0,0,0,1 ));
-				float _BPM_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_3DMaster,_BPM);
-				float mulTime5_g43 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g43 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g43 = ( mulTime5_g43 - _TopVertexDelay.x );
 				float temp_output_16_0_g43 = ( PI / 1.0 );
 				float temp_output_19_0_g43 = cos( ( temp_output_52_0_g43 * temp_output_16_0_g43 ) );
 				float saferPower20_g43 = abs( abs( temp_output_19_0_g43 ) );
-				float mulTime5_g40 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g40 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g40 = ( mulTime5_g40 - _BaseVertexOffsetDelay.x );
 				float temp_output_16_0_g40 = ( PI / 1.0 );
 				float temp_output_19_0_g40 = cos( ( temp_output_52_0_g40 * temp_output_16_0_g40 ) );
 				float saferPower20_g40 = abs( abs( temp_output_19_0_g40 ) );
-				float mulTime5_g42 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g42 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g42 = ( mulTime5_g42 - _TopVertexDelay.y );
 				float temp_output_16_0_g42 = ( PI / 1.0 );
 				float temp_output_19_0_g42 = cos( ( temp_output_52_0_g42 * temp_output_16_0_g42 ) );
 				float saferPower20_g42 = abs( abs( temp_output_19_0_g42 ) );
-				float mulTime5_g41 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g41 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g41 = ( mulTime5_g41 - _BaseVertexOffsetDelay.y );
 				float temp_output_16_0_g41 = ( PI / 1.0 );
 				float temp_output_19_0_g41 = cos( ( temp_output_52_0_g41 * temp_output_16_0_g41 ) );
 				float saferPower20_g41 = abs( abs( temp_output_19_0_g41 ) );
-				float mulTime5_g39 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g39 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g39 = ( mulTime5_g39 - _BaseVertexOffsetDelay.z );
 				float temp_output_16_0_g39 = ( PI / 1.0 );
 				float temp_output_19_0_g39 = cos( ( temp_output_52_0_g39 * temp_output_16_0_g39 ) );
@@ -3643,8 +3607,7 @@ Shader "SHR_3DMaster"
 					#endif
 				#endif
 
-				float4 _Normal_ST_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_3DMaster,_Normal_ST);
-				float2 uv_Normal = IN.ase_texcoord5.xy * _Normal_ST_Instance.xy + _Normal_ST_Instance.zw;
+				float2 uv_Normal = IN.ase_texcoord5.xy * _Normal_ST.xy + _Normal_ST.zw;
 				float4 _Normalmap54 = tex2D( _Normal, uv_Normal );
 				
 
@@ -3714,6 +3677,7 @@ Shader "SHR_3DMaster"
 			HLSLPROGRAM
 
 			#define _NORMAL_DROPOFF_TS 1
+			#pragma multi_compile_instancing
 			#pragma instancing_options renderinglayer
 			#pragma multi_compile_fragment _ LOD_FADE_CROSSFADE
 			#pragma multi_compile_fog
@@ -3776,8 +3740,6 @@ Shader "SHR_3DMaster"
 			#define ASE_NEEDS_FRAG_WORLD_BITANGENT
 			#define ASE_NEEDS_FRAG_SHADOWCOORDS
 			#pragma shader_feature_local _USING3DMOVEMENTS_ON
-			#pragma multi_compile_instancing
-			#pragma shader_feature _LIGHTINDDONE_ON
 			#pragma shader_feature_local _FULLSHADINGHALFSHADING_ON
 			#pragma shader_feature_local _BAKEDORRT_ON
 			#pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
@@ -3831,22 +3793,26 @@ Shader "SHR_3DMaster"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _Normal_ST;
+			float4 _BumpNormal_ST;
 			float4 _BaseColor;
+			float4 _MainTex_ST;
 			float3 _BaseVertexOffsetDelay;
 			float3 _BaseVertexOffsetValue;
 			float2 _TopVertexDelay;
 			float2 _TopVertexOffsetValue;
 			float2 _ShadowPatternDensity;
-			float _TopMask;
-			float _Cels_FallOffThreshold;
-			float _Cels_LitThreshold;
-			float _NormalScale;
-			float _ShadingWhiteMult;
-			float _Shadow_FallOffThreshold;
-			float _Shadow_LitThreshold;
-			float _BlendPow;
 			float _ShadowTex_Pow;
+			float _BlendPow;
+			float _Shadow_LitThreshold;
+			float _Shadow_FallOffThreshold;
+			float _NormalScale;
 			float _WorldPosDiv;
+			float _Cels_LitThreshold;
+			float _Cels_FallOffThreshold;
+			float _TopMask;
+			float _ShadingWhiteMult;
+			float _BPM;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -3879,16 +3845,10 @@ Shader "SHR_3DMaster"
 				int _PassValue;
 			#endif
 
-			sampler2D _MainTex;
 			sampler2D _BumpNormal;
+			sampler2D _MainTex;
 			sampler2D _Texture0;
 			sampler2D _Normal;
-			UNITY_INSTANCING_BUFFER_START(SHR_3DMaster)
-				UNITY_DEFINE_INSTANCED_PROP(float4, _MainTex_ST)
-				UNITY_DEFINE_INSTANCED_PROP(float4, _BumpNormal_ST)
-				UNITY_DEFINE_INSTANCED_PROP(float4, _Normal_ST)
-				UNITY_DEFINE_INSTANCED_PROP(float, _BPM)
-			UNITY_INSTANCING_BUFFER_END(SHR_3DMaster)
 
 
 			//#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/Varyings.hlsl"
@@ -4083,28 +4043,27 @@ Shader "SHR_3DMaster"
 				float temp_output_533_0 = v.vertex.xyz.z;
 				float clampResult505 = clamp( ( temp_output_533_0 - _TopMask ) , 0.0 , 1.0 );
 				float4 transform522 = mul(GetWorldToObjectMatrix(),float4( 0,0,0,1 ));
-				float _BPM_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_3DMaster,_BPM);
-				float mulTime5_g43 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g43 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g43 = ( mulTime5_g43 - _TopVertexDelay.x );
 				float temp_output_16_0_g43 = ( PI / 1.0 );
 				float temp_output_19_0_g43 = cos( ( temp_output_52_0_g43 * temp_output_16_0_g43 ) );
 				float saferPower20_g43 = abs( abs( temp_output_19_0_g43 ) );
-				float mulTime5_g40 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g40 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g40 = ( mulTime5_g40 - _BaseVertexOffsetDelay.x );
 				float temp_output_16_0_g40 = ( PI / 1.0 );
 				float temp_output_19_0_g40 = cos( ( temp_output_52_0_g40 * temp_output_16_0_g40 ) );
 				float saferPower20_g40 = abs( abs( temp_output_19_0_g40 ) );
-				float mulTime5_g42 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g42 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g42 = ( mulTime5_g42 - _TopVertexDelay.y );
 				float temp_output_16_0_g42 = ( PI / 1.0 );
 				float temp_output_19_0_g42 = cos( ( temp_output_52_0_g42 * temp_output_16_0_g42 ) );
 				float saferPower20_g42 = abs( abs( temp_output_19_0_g42 ) );
-				float mulTime5_g41 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g41 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g41 = ( mulTime5_g41 - _BaseVertexOffsetDelay.y );
 				float temp_output_16_0_g41 = ( PI / 1.0 );
 				float temp_output_19_0_g41 = cos( ( temp_output_52_0_g41 * temp_output_16_0_g41 ) );
 				float saferPower20_g41 = abs( abs( temp_output_19_0_g41 ) );
-				float mulTime5_g39 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g39 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g39 = ( mulTime5_g39 - _BaseVertexOffsetDelay.z );
 				float temp_output_16_0_g39 = ( PI / 1.0 );
 				float temp_output_19_0_g39 = cos( ( temp_output_52_0_g39 * temp_output_16_0_g39 ) );
@@ -4119,11 +4078,11 @@ Shader "SHR_3DMaster"
 				
 				float2 texCoord2_g49 = v.texcoord1.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 vertexToFrag10_g49 = ( ( texCoord2_g49 * (unity_LightmapST).xy ) + (unity_LightmapST).zw );
-				o.ase_texcoord8.zw = vertexToFrag10_g49;
+				o.ase_texcoord8.xy = vertexToFrag10_g49;
 				float3 objectSpaceLightDir = mul( GetWorldToObjectMatrix(), _MainLightPosition ).xyz;
 				o.ase_texcoord9.xyz = objectSpaceLightDir;
 				
-				o.ase_texcoord8.xy = v.texcoord.xy;
+				o.ase_texcoord8.zw = v.texcoord.xy;
 				o.ase_normal = v.ase_normal;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -4321,11 +4280,8 @@ Shader "SHR_3DMaster"
 
 				WorldViewDirection = SafeNormalize( WorldViewDirection );
 
-				float4 _MainTex_ST_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_3DMaster,_MainTex_ST);
-				float2 uv_MainTex = IN.ase_texcoord8.xy * _MainTex_ST_Instance.xy + _MainTex_ST_Instance.zw;
-				float4 tex2DNode207 = tex2D( _MainTex, uv_MainTex );
 				Gradient gradient203 = NewGradient( 1, 5, 2, float4( 0.3207547, 0.3207547, 0.3207547, 0.1193713 ), float4( 0.3962264, 0.3962264, 0.3962264, 0.3913939 ), float4( 0.5031446, 0.5031446, 0.5031446, 0.616434 ), float4( 0.6100628, 0.6100628, 0.6100628, 0.8767071 ), float4( 1, 1, 1, 1 ), 0, 0, 0, float2( 1, 0 ), float2( 1, 1 ), 0, 0, 0, 0, 0, 0 );
-				float2 vertexToFrag10_g49 = IN.ase_texcoord8.zw;
+				float2 vertexToFrag10_g49 = IN.ase_texcoord8.xy;
 				float2 UV11_g49 = vertexToFrag10_g49;
 				float4 localSampleLightmapHD11_g49 = SampleLightmapHD11_g49( UV11_g49 );
 				float4 localURPDecodeInstruction19_g49 = URPDecodeInstruction19_g49();
@@ -4338,8 +4294,7 @@ Shader "SHR_3DMaster"
 				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
 				float2 ScreenUV75_g46 = (ase_screenPosNorm).xy;
 				float2 ScreenUV86_g46 = ScreenUV75_g46;
-				float4 _BumpNormal_ST_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_3DMaster,_BumpNormal_ST);
-				float2 uv_BumpNormal = IN.ase_texcoord8.xy * _BumpNormal_ST_Instance.xy + _BumpNormal_ST_Instance.zw;
+				float2 uv_BumpNormal = IN.ase_texcoord8.zw * _BumpNormal_ST.xy + _BumpNormal_ST.zw;
 				float3 unpack214 = UnpackNormalScale( tex2D( _BumpNormal, uv_BumpNormal ), _NormalScale );
 				unpack214.z = lerp( 1, unpack214.z, saturate(_NormalScale) );
 				float3 tanToWorld0 = float3( WorldTangent.x, WorldBiTangent.x, WorldNormal.x );
@@ -4372,6 +4327,8 @@ Shader "SHR_3DMaster"
 				#else
 				float4 staticSwitch388 = SampleGradient( gradient203, clampResult437.x );
 				#endif
+				float2 uv_MainTex = IN.ase_texcoord8.zw * _MainTex_ST.xy + _MainTex_ST.zw;
+				float4 tex2DNode207 = tex2D( _MainTex, uv_MainTex );
 				#ifdef _COLORORTEX_ON
 				float4 staticSwitch219 = tex2DNode207;
 				#else
@@ -4389,7 +4346,7 @@ Shader "SHR_3DMaster"
 				float time275 = 0.0;
 				float2 voronoiSmoothId275 = 0;
 				float voronoiSmooth275 = 0.0;
-				float2 texCoord270 = IN.ase_texcoord8.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 texCoord270 = IN.ase_texcoord8.zw * float2( 1,1 ) + float2( 0,0 );
 				float2 temp_output_616_0 = ( texCoord270 * _ShadowPatternDensity );
 				float2 coords275 = temp_output_616_0 * 1.0;
 				float2 id275 = 0;
@@ -4407,7 +4364,7 @@ Shader "SHR_3DMaster"
 				float2 temp_output_654_0 = ( temp_output_648_0 + temp_output_643_0 + temp_output_647_0 );
 				float3 temp_output_658_0 = ( WorldPosition * 0.0 );
 				float2 uv653 = 0;
-				float3 unityVoronoy653 = UnityVoronoi(IN.ase_texcoord8.xy,0.0,10.0,uv653);
+				float3 unityVoronoy653 = UnityVoronoi(IN.ase_texcoord8.zw,0.0,10.0,uv653);
 				#ifdef _USINGTRIPLANAR_ON
 				float2 staticSwitch629 = ( ( ( temp_output_648_0 / temp_output_654_0 ) * ( (temp_output_658_0).yz * unityVoronoy653.x ) ) + ( ( temp_output_643_0 / temp_output_654_0 ) * ( (temp_output_658_0).xz * unityVoronoy653.x ) ) + ( ( temp_output_647_0 / temp_output_654_0 ) * ( (temp_output_658_0).xy * unityVoronoy653.x ) ) );
 				#else
@@ -4437,20 +4394,14 @@ Shader "SHR_3DMaster"
 				#else
 				float4 staticSwitch305 = ( staticSwitch388 * lerpResult266 );
 				#endif
-				#ifdef _LIGHTINDDONE_ON
-				float4 staticSwitch480 = staticSwitch305;
-				#else
-				float4 staticSwitch480 = tex2DNode207;
-				#endif
 				
-				float4 _Normal_ST_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_3DMaster,_Normal_ST);
-				float2 uv_Normal = IN.ase_texcoord8.xy * _Normal_ST_Instance.xy + _Normal_ST_Instance.zw;
+				float2 uv_Normal = IN.ase_texcoord8.zw * _Normal_ST.xy + _Normal_ST.zw;
 				float4 _Normalmap54 = tex2D( _Normal, uv_Normal );
 				
 				float3 temp_cast_17 = (0.0).xxx;
 				
 
-				float3 BaseColor = staticSwitch480.rgb;
+				float3 BaseColor = staticSwitch305.rgb;
 				float3 Normal = _Normalmap54.rgb;
 				float3 Emission = 0;
 				float3 Specular = temp_cast_17;
@@ -4598,7 +4549,6 @@ Shader "SHR_3DMaster"
 
 			#define ASE_NEEDS_VERT_POSITION
 			#pragma shader_feature_local _USING3DMOVEMENTS_ON
-			#pragma multi_compile_instancing
 
 
 			struct VertexInput
@@ -4618,22 +4568,26 @@ Shader "SHR_3DMaster"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _Normal_ST;
+			float4 _BumpNormal_ST;
 			float4 _BaseColor;
+			float4 _MainTex_ST;
 			float3 _BaseVertexOffsetDelay;
 			float3 _BaseVertexOffsetValue;
 			float2 _TopVertexDelay;
 			float2 _TopVertexOffsetValue;
 			float2 _ShadowPatternDensity;
-			float _TopMask;
-			float _Cels_FallOffThreshold;
-			float _Cels_LitThreshold;
-			float _NormalScale;
-			float _ShadingWhiteMult;
-			float _Shadow_FallOffThreshold;
-			float _Shadow_LitThreshold;
-			float _BlendPow;
 			float _ShadowTex_Pow;
+			float _BlendPow;
+			float _Shadow_LitThreshold;
+			float _Shadow_FallOffThreshold;
+			float _NormalScale;
 			float _WorldPosDiv;
+			float _Cels_LitThreshold;
+			float _Cels_FallOffThreshold;
+			float _TopMask;
+			float _ShadingWhiteMult;
+			float _BPM;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -4666,10 +4620,7 @@ Shader "SHR_3DMaster"
 				int _PassValue;
 			#endif
 
-			UNITY_INSTANCING_BUFFER_START(SHR_3DMaster)
-				UNITY_DEFINE_INSTANCED_PROP(float, _BPM)
-			UNITY_INSTANCING_BUFFER_END(SHR_3DMaster)
-
+			
 
 			//#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/Varyings.hlsl"
 			//#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/SelectionPickingPass.hlsl"
@@ -4697,28 +4648,27 @@ Shader "SHR_3DMaster"
 				float temp_output_533_0 = v.vertex.xyz.z;
 				float clampResult505 = clamp( ( temp_output_533_0 - _TopMask ) , 0.0 , 1.0 );
 				float4 transform522 = mul(GetWorldToObjectMatrix(),float4( 0,0,0,1 ));
-				float _BPM_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_3DMaster,_BPM);
-				float mulTime5_g43 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g43 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g43 = ( mulTime5_g43 - _TopVertexDelay.x );
 				float temp_output_16_0_g43 = ( PI / 1.0 );
 				float temp_output_19_0_g43 = cos( ( temp_output_52_0_g43 * temp_output_16_0_g43 ) );
 				float saferPower20_g43 = abs( abs( temp_output_19_0_g43 ) );
-				float mulTime5_g40 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g40 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g40 = ( mulTime5_g40 - _BaseVertexOffsetDelay.x );
 				float temp_output_16_0_g40 = ( PI / 1.0 );
 				float temp_output_19_0_g40 = cos( ( temp_output_52_0_g40 * temp_output_16_0_g40 ) );
 				float saferPower20_g40 = abs( abs( temp_output_19_0_g40 ) );
-				float mulTime5_g42 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g42 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g42 = ( mulTime5_g42 - _TopVertexDelay.y );
 				float temp_output_16_0_g42 = ( PI / 1.0 );
 				float temp_output_19_0_g42 = cos( ( temp_output_52_0_g42 * temp_output_16_0_g42 ) );
 				float saferPower20_g42 = abs( abs( temp_output_19_0_g42 ) );
-				float mulTime5_g41 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g41 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g41 = ( mulTime5_g41 - _BaseVertexOffsetDelay.y );
 				float temp_output_16_0_g41 = ( PI / 1.0 );
 				float temp_output_19_0_g41 = cos( ( temp_output_52_0_g41 * temp_output_16_0_g41 ) );
 				float saferPower20_g41 = abs( abs( temp_output_19_0_g41 ) );
-				float mulTime5_g39 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g39 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g39 = ( mulTime5_g39 - _BaseVertexOffsetDelay.z );
 				float temp_output_16_0_g39 = ( PI / 1.0 );
 				float temp_output_19_0_g39 = cos( ( temp_output_52_0_g39 * temp_output_16_0_g39 ) );
@@ -4901,7 +4851,6 @@ Shader "SHR_3DMaster"
 
 			#define ASE_NEEDS_VERT_POSITION
 			#pragma shader_feature_local _USING3DMOVEMENTS_ON
-			#pragma multi_compile_instancing
 
 
 			struct VertexInput
@@ -4921,22 +4870,26 @@ Shader "SHR_3DMaster"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
+			float4 _Normal_ST;
+			float4 _BumpNormal_ST;
 			float4 _BaseColor;
+			float4 _MainTex_ST;
 			float3 _BaseVertexOffsetDelay;
 			float3 _BaseVertexOffsetValue;
 			float2 _TopVertexDelay;
 			float2 _TopVertexOffsetValue;
 			float2 _ShadowPatternDensity;
-			float _TopMask;
-			float _Cels_FallOffThreshold;
-			float _Cels_LitThreshold;
-			float _NormalScale;
-			float _ShadingWhiteMult;
-			float _Shadow_FallOffThreshold;
-			float _Shadow_LitThreshold;
-			float _BlendPow;
 			float _ShadowTex_Pow;
+			float _BlendPow;
+			float _Shadow_LitThreshold;
+			float _Shadow_FallOffThreshold;
+			float _NormalScale;
 			float _WorldPosDiv;
+			float _Cels_LitThreshold;
+			float _Cels_FallOffThreshold;
+			float _TopMask;
+			float _ShadingWhiteMult;
+			float _BPM;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
 			#endif
@@ -4969,10 +4922,7 @@ Shader "SHR_3DMaster"
 				int _PassValue;
 			#endif
 
-			UNITY_INSTANCING_BUFFER_START(SHR_3DMaster)
-				UNITY_DEFINE_INSTANCED_PROP(float, _BPM)
-			UNITY_INSTANCING_BUFFER_END(SHR_3DMaster)
-
+			
 
 			//#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/Varyings.hlsl"
 			//#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/SelectionPickingPass.hlsl"
@@ -5000,28 +4950,27 @@ Shader "SHR_3DMaster"
 				float temp_output_533_0 = v.vertex.xyz.z;
 				float clampResult505 = clamp( ( temp_output_533_0 - _TopMask ) , 0.0 , 1.0 );
 				float4 transform522 = mul(GetWorldToObjectMatrix(),float4( 0,0,0,1 ));
-				float _BPM_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_3DMaster,_BPM);
-				float mulTime5_g43 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g43 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g43 = ( mulTime5_g43 - _TopVertexDelay.x );
 				float temp_output_16_0_g43 = ( PI / 1.0 );
 				float temp_output_19_0_g43 = cos( ( temp_output_52_0_g43 * temp_output_16_0_g43 ) );
 				float saferPower20_g43 = abs( abs( temp_output_19_0_g43 ) );
-				float mulTime5_g40 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g40 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g40 = ( mulTime5_g40 - _BaseVertexOffsetDelay.x );
 				float temp_output_16_0_g40 = ( PI / 1.0 );
 				float temp_output_19_0_g40 = cos( ( temp_output_52_0_g40 * temp_output_16_0_g40 ) );
 				float saferPower20_g40 = abs( abs( temp_output_19_0_g40 ) );
-				float mulTime5_g42 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g42 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g42 = ( mulTime5_g42 - _TopVertexDelay.y );
 				float temp_output_16_0_g42 = ( PI / 1.0 );
 				float temp_output_19_0_g42 = cos( ( temp_output_52_0_g42 * temp_output_16_0_g42 ) );
 				float saferPower20_g42 = abs( abs( temp_output_19_0_g42 ) );
-				float mulTime5_g41 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g41 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g41 = ( mulTime5_g41 - _BaseVertexOffsetDelay.y );
 				float temp_output_16_0_g41 = ( PI / 1.0 );
 				float temp_output_19_0_g41 = cos( ( temp_output_52_0_g41 * temp_output_16_0_g41 ) );
 				float saferPower20_g41 = abs( abs( temp_output_19_0_g41 ) );
-				float mulTime5_g39 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g39 = _TimeParameters.x * ( _BPM / 60.0 );
 				float temp_output_52_0_g39 = ( mulTime5_g39 - _BaseVertexOffsetDelay.z );
 				float temp_output_16_0_g39 = ( PI / 1.0 );
 				float temp_output_19_0_g39 = cos( ( temp_output_52_0_g39 * temp_output_16_0_g39 ) );
@@ -5461,7 +5410,7 @@ WireConnection;529;0;528;1
 WireConnection;532;0;521;33
 WireConnection;514;0;506;0
 WireConnection;514;1;499;0
-WireConnection;404;0;480;0
+WireConnection;404;0;305;0
 WireConnection;404;1;384;0
 WireConnection;404;9;368;0
 WireConnection;404;4;339;0
@@ -5608,4 +5557,4 @@ WireConnection;654;2;647;0
 WireConnection;629;1;275;0
 WireConnection;629;0;671;0
 ASEEND*/
-//CHKSM=8EE10B35892ED6DFA0FFEBDB8EA100A08DC10CFC
+//CHKSM=6A5A1C69AAE09EBB28C8615FDA2DF2AE1F134760
