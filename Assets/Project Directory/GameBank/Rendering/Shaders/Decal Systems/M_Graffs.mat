@@ -49,14 +49,15 @@ Material:
     - _DecalMeshDepthBias: 0
     - _DecalMeshViewBias: 0
     - _DrawOrder: 0
-    - _MaxOffset: 0.26
-    - _MaxRotation: 0.71
-    - _MaxScale: 3.24
-    - _MinOffset: 0
-    - _MinRotation: 0
-    - _MinScale: 1
-    - _NumGraffiti: 8
-    - _SeedMultiplier: 0
+    - _MaxOffset: 0.5
+    - _MaxRotation: 0.1
+    - _MaxScale: 3.76
+    - _MinOffset: -0.4
+    - _MinRotation: -0.85
+    - _MinScale: 1.58
+    - _NumGraffiti: 11.1
+    - _SeedMultiplier: 0.1
+    - _SeedScale: 10
     m_Colors:
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

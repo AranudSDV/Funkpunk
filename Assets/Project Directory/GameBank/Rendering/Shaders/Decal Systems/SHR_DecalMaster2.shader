@@ -17,6 +17,7 @@ Shader  "SHR_DecalMaster2"
         _MaxOffset("MaxOffset", Float) = 0
         _NumGraffiti("NumGraffiti", Int) = 0
         _SeedMultiplier("SeedMultiplier", Float) = 0
+        _SeedScale("SeedScale", Float) = 0
 
 
         [HideInInspector] _DrawOrder("Draw Order", Range(-50, 50)) = 0
@@ -116,7 +117,6 @@ Shader  "SHR_DecalMaster2"
 
 			#include "../HLSL/HLSL_GraffitiDecal.hlsl"
 			#define ASE_NEEDS_FRAG_TEXTURE_COORDINATES0
-			#define ASE_NEEDS_FRAG_WORLD_POSITION
 
 
 			struct SurfaceDescription
@@ -158,6 +158,7 @@ Shader  "SHR_DecalMaster2"
 			float _MaxRotation;
 			float _MinOffset;
 			float _MaxOffset;
+			float _SeedScale;
 			float _SeedMultiplier;
 			float _DrawOrder;
 			float _DecalMeshBiasType;
@@ -368,7 +369,11 @@ Shader  "SHR_DecalMaster2"
 
 				float2 texCoord11 = texCoord0 * float2( 1,1 ) + float2( 0,0 );
 				float2 uv25 = texCoord11;
-				float2 seed2D25 = (positionWS).xz;
+				float4 matrixToPos29 = float4( GetObjectToWorldMatrix()[0][3],GetObjectToWorldMatrix()[1][3],GetObjectToWorldMatrix()[2][3],GetObjectToWorldMatrix()[3][3]);
+				float4 transform31 = mul(GetObjectToWorldMatrix(),matrixToPos29);
+				float4 break27 = transform31;
+				float2 appendResult28 = (float2(break27.x , break27.z));
+				float2 seed2D25 = appendResult28;
 				sampler2D tex25 = _tex;
 				float NumGraffiti25 = (float)_NumGraffiti;
 				float AtlasCols25 = (float)_AtlasCols;
@@ -379,8 +384,9 @@ Shader  "SHR_DecalMaster2"
 				float MaxRota25 = _MaxRotation;
 				float MinOffset25 = _MinOffset;
 				float MaxOffset25 = _MaxOffset;
-				float SeedMult25 = _SeedMultiplier;
-				float4 localSampleGraffitis25 = SampleGraffitis( uv25 , seed2D25 , tex25 , NumGraffiti25 , AtlasCols25 , AtlasRows25 , MinScale25 , MaxScale25 , MinRota25 , MaxRota25 , MinOffset25 , MaxOffset25 , SeedMult25 );
+				float SeedScale25 = _SeedScale;
+				float SeedMultiplier25 = _SeedMultiplier;
+				float4 localSampleGraffitis25 = SampleGraffitis( uv25 , seed2D25 , tex25 , NumGraffiti25 , AtlasCols25 , AtlasRows25 , MinScale25 , MaxScale25 , MinRota25 , MaxRota25 , MinOffset25 , MaxOffset25 , SeedScale25 , SeedMultiplier25 );
 				
 
 				surfaceDescription.BaseColor = localSampleGraffitis25.xyz;
@@ -483,7 +489,6 @@ Shader  "SHR_DecalMaster2"
 
 			#include "../HLSL/HLSL_GraffitiDecal.hlsl"
 			#define ASE_NEEDS_FRAG_TEXTURE_COORDINATES0
-			#define ASE_NEEDS_FRAG_WORLD_POSITION
 
 
 			struct SurfaceDescription
@@ -532,6 +537,7 @@ Shader  "SHR_DecalMaster2"
 			float _MaxRotation;
 			float _MinOffset;
 			float _MaxOffset;
+			float _SeedScale;
 			float _SeedMultiplier;
 			float _DrawOrder;
 			float _DecalMeshBiasType;
@@ -816,7 +822,11 @@ Shader  "SHR_DecalMaster2"
 
 				float2 texCoord11 = texCoord0 * float2( 1,1 ) + float2( 0,0 );
 				float2 uv25 = texCoord11;
-				float2 seed2D25 = (positionWS).xz;
+				float4 matrixToPos29 = float4( GetObjectToWorldMatrix()[0][3],GetObjectToWorldMatrix()[1][3],GetObjectToWorldMatrix()[2][3],GetObjectToWorldMatrix()[3][3]);
+				float4 transform31 = mul(GetObjectToWorldMatrix(),matrixToPos29);
+				float4 break27 = transform31;
+				float2 appendResult28 = (float2(break27.x , break27.z));
+				float2 seed2D25 = appendResult28;
 				sampler2D tex25 = _tex;
 				float NumGraffiti25 = (float)_NumGraffiti;
 				float AtlasCols25 = (float)_AtlasCols;
@@ -827,8 +837,9 @@ Shader  "SHR_DecalMaster2"
 				float MaxRota25 = _MaxRotation;
 				float MinOffset25 = _MinOffset;
 				float MaxOffset25 = _MaxOffset;
-				float SeedMult25 = _SeedMultiplier;
-				float4 localSampleGraffitis25 = SampleGraffitis( uv25 , seed2D25 , tex25 , NumGraffiti25 , AtlasCols25 , AtlasRows25 , MinScale25 , MaxScale25 , MinRota25 , MaxRota25 , MinOffset25 , MaxOffset25 , SeedMult25 );
+				float SeedScale25 = _SeedScale;
+				float SeedMultiplier25 = _SeedMultiplier;
+				float4 localSampleGraffitis25 = SampleGraffitis( uv25 , seed2D25 , tex25 , NumGraffiti25 , AtlasCols25 , AtlasRows25 , MinScale25 , MaxScale25 , MinRota25 , MaxRota25 , MinOffset25 , MaxOffset25 , SeedScale25 , SeedMultiplier25 );
 				
 
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
@@ -954,7 +965,6 @@ Shader  "SHR_DecalMaster2"
 
 			#include "../HLSL/HLSL_GraffitiDecal.hlsl"
 			#define ASE_NEEDS_FRAG_TEXTURE_COORDINATES0
-			#define ASE_NEEDS_FRAG_WORLD_POSITION
 
 
 			struct SurfaceDescription
@@ -1002,6 +1012,7 @@ Shader  "SHR_DecalMaster2"
 			float _MaxRotation;
 			float _MinOffset;
 			float _MaxOffset;
+			float _SeedScale;
 			float _SeedMultiplier;
 			float _DrawOrder;
 			float _DecalMeshBiasType;
@@ -1280,7 +1291,11 @@ Shader  "SHR_DecalMaster2"
 
 				float2 texCoord11 = texCoord0 * float2( 1,1 ) + float2( 0,0 );
 				float2 uv25 = texCoord11;
-				float2 seed2D25 = (positionWS).xz;
+				float4 matrixToPos29 = float4( GetObjectToWorldMatrix()[0][3],GetObjectToWorldMatrix()[1][3],GetObjectToWorldMatrix()[2][3],GetObjectToWorldMatrix()[3][3]);
+				float4 transform31 = mul(GetObjectToWorldMatrix(),matrixToPos29);
+				float4 break27 = transform31;
+				float2 appendResult28 = (float2(break27.x , break27.z));
+				float2 seed2D25 = appendResult28;
 				sampler2D tex25 = _tex;
 				float NumGraffiti25 = (float)_NumGraffiti;
 				float AtlasCols25 = (float)_AtlasCols;
@@ -1291,8 +1306,9 @@ Shader  "SHR_DecalMaster2"
 				float MaxRota25 = _MaxRotation;
 				float MinOffset25 = _MinOffset;
 				float MaxOffset25 = _MaxOffset;
-				float SeedMult25 = _SeedMultiplier;
-				float4 localSampleGraffitis25 = SampleGraffitis( uv25 , seed2D25 , tex25 , NumGraffiti25 , AtlasCols25 , AtlasRows25 , MinScale25 , MaxScale25 , MinRota25 , MaxRota25 , MinOffset25 , MaxOffset25 , SeedMult25 );
+				float SeedScale25 = _SeedScale;
+				float SeedMultiplier25 = _SeedMultiplier;
+				float4 localSampleGraffitis25 = SampleGraffitis( uv25 , seed2D25 , tex25 , NumGraffiti25 , AtlasCols25 , AtlasRows25 , MinScale25 , MaxScale25 , MinRota25 , MaxRota25 , MinOffset25 , MaxOffset25 , SeedScale25 , SeedMultiplier25 );
 				
 
 				surfaceDescription.BaseColor = localSampleGraffitis25.xyz;
@@ -1475,6 +1491,7 @@ Shader  "SHR_DecalMaster2"
 			float _MaxRotation;
 			float _MinOffset;
 			float _MaxOffset;
+			float _SeedScale;
 			float _SeedMultiplier;
 			float _DrawOrder;
 			float _DecalMeshBiasType;
@@ -1672,7 +1689,11 @@ Shader  "SHR_DecalMaster2"
 
 				float2 texCoord11 = packedInput.texCoord0.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 uv25 = texCoord11;
-				float2 seed2D25 = (packedInput.positionWS).xz;
+				float4 matrixToPos29 = float4( GetObjectToWorldMatrix()[0][3],GetObjectToWorldMatrix()[1][3],GetObjectToWorldMatrix()[2][3],GetObjectToWorldMatrix()[3][3]);
+				float4 transform31 = mul(GetObjectToWorldMatrix(),matrixToPos29);
+				float4 break27 = transform31;
+				float2 appendResult28 = (float2(break27.x , break27.z));
+				float2 seed2D25 = appendResult28;
 				sampler2D tex25 = _tex;
 				float NumGraffiti25 = (float)_NumGraffiti;
 				float AtlasCols25 = (float)_AtlasCols;
@@ -1683,8 +1704,9 @@ Shader  "SHR_DecalMaster2"
 				float MaxRota25 = _MaxRotation;
 				float MinOffset25 = _MinOffset;
 				float MaxOffset25 = _MaxOffset;
-				float SeedMult25 = _SeedMultiplier;
-				float4 localSampleGraffitis25 = SampleGraffitis( uv25 , seed2D25 , tex25 , NumGraffiti25 , AtlasCols25 , AtlasRows25 , MinScale25 , MaxScale25 , MinRota25 , MaxRota25 , MinOffset25 , MaxOffset25 , SeedMult25 );
+				float SeedScale25 = _SeedScale;
+				float SeedMultiplier25 = _SeedMultiplier;
+				float4 localSampleGraffitis25 = SampleGraffitis( uv25 , seed2D25 , tex25 , NumGraffiti25 , AtlasCols25 , AtlasRows25 , MinScale25 , MaxScale25 , MinRota25 , MaxRota25 , MinOffset25 , MaxOffset25 , SeedScale25 , SeedMultiplier25 );
 				
 
 				surfaceDescription.BaseColor = localSampleGraffitis25.xyz;
@@ -1847,6 +1869,7 @@ Shader  "SHR_DecalMaster2"
 			float _MaxRotation;
 			float _MinOffset;
 			float _MaxOffset;
+			float _SeedScale;
 			float _SeedMultiplier;
 			float _DrawOrder;
 			float _DecalMeshBiasType;
@@ -2121,7 +2144,11 @@ Shader  "SHR_DecalMaster2"
 
 				float2 texCoord11 = packedInput.texCoord0.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 uv25 = texCoord11;
-				float2 seed2D25 = (packedInput.positionWS).xz;
+				float4 matrixToPos29 = float4( GetObjectToWorldMatrix()[0][3],GetObjectToWorldMatrix()[1][3],GetObjectToWorldMatrix()[2][3],GetObjectToWorldMatrix()[3][3]);
+				float4 transform31 = mul(GetObjectToWorldMatrix(),matrixToPos29);
+				float4 break27 = transform31;
+				float2 appendResult28 = (float2(break27.x , break27.z));
+				float2 seed2D25 = appendResult28;
 				sampler2D tex25 = _tex;
 				float NumGraffiti25 = (float)_NumGraffiti;
 				float AtlasCols25 = (float)_AtlasCols;
@@ -2132,8 +2159,9 @@ Shader  "SHR_DecalMaster2"
 				float MaxRota25 = _MaxRotation;
 				float MinOffset25 = _MinOffset;
 				float MaxOffset25 = _MaxOffset;
-				float SeedMult25 = _SeedMultiplier;
-				float4 localSampleGraffitis25 = SampleGraffitis( uv25 , seed2D25 , tex25 , NumGraffiti25 , AtlasCols25 , AtlasRows25 , MinScale25 , MaxScale25 , MinRota25 , MaxRota25 , MinOffset25 , MaxOffset25 , SeedMult25 );
+				float SeedScale25 = _SeedScale;
+				float SeedMultiplier25 = _SeedMultiplier;
+				float4 localSampleGraffitis25 = SampleGraffitis( uv25 , seed2D25 , tex25 , NumGraffiti25 , AtlasCols25 , AtlasRows25 , MinScale25 , MaxScale25 , MinRota25 , MaxRota25 , MinOffset25 , MaxOffset25 , SeedScale25 , SeedMultiplier25 );
 				
 
 				surfaceDescription.BaseColor = localSampleGraffitis25.xyz;
@@ -2319,6 +2347,7 @@ Shader  "SHR_DecalMaster2"
 			float _MaxRotation;
 			float _MinOffset;
 			float _MaxOffset;
+			float _SeedScale;
 			float _SeedMultiplier;
 			float _DrawOrder;
 			float _DecalMeshBiasType;
@@ -2591,7 +2620,11 @@ Shader  "SHR_DecalMaster2"
 
 				float2 texCoord11 = packedInput.texCoord0.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 uv25 = texCoord11;
-				float2 seed2D25 = (packedInput.positionWS).xz;
+				float4 matrixToPos29 = float4( GetObjectToWorldMatrix()[0][3],GetObjectToWorldMatrix()[1][3],GetObjectToWorldMatrix()[2][3],GetObjectToWorldMatrix()[3][3]);
+				float4 transform31 = mul(GetObjectToWorldMatrix(),matrixToPos29);
+				float4 break27 = transform31;
+				float2 appendResult28 = (float2(break27.x , break27.z));
+				float2 seed2D25 = appendResult28;
 				sampler2D tex25 = _tex;
 				float NumGraffiti25 = (float)_NumGraffiti;
 				float AtlasCols25 = (float)_AtlasCols;
@@ -2602,8 +2635,9 @@ Shader  "SHR_DecalMaster2"
 				float MaxRota25 = _MaxRotation;
 				float MinOffset25 = _MinOffset;
 				float MaxOffset25 = _MaxOffset;
-				float SeedMult25 = _SeedMultiplier;
-				float4 localSampleGraffitis25 = SampleGraffitis( uv25 , seed2D25 , tex25 , NumGraffiti25 , AtlasCols25 , AtlasRows25 , MinScale25 , MaxScale25 , MinRota25 , MaxRota25 , MinOffset25 , MaxOffset25 , SeedMult25 );
+				float SeedScale25 = _SeedScale;
+				float SeedMultiplier25 = _SeedMultiplier;
+				float4 localSampleGraffitis25 = SampleGraffitis( uv25 , seed2D25 , tex25 , NumGraffiti25 , AtlasCols25 , AtlasRows25 , MinScale25 , MaxScale25 , MinRota25 , MaxRota25 , MinOffset25 , MaxOffset25 , SeedScale25 , SeedMultiplier25 );
 				
 
 				surfaceDescription.BaseColor = localSampleGraffitis25.xyz;
@@ -2734,7 +2768,6 @@ Shader  "SHR_DecalMaster2"
 			{
 				float4 positionCS : SV_POSITION;
 				float4 ase_texcoord : TEXCOORD0;
-				float4 ase_texcoord1 : TEXCOORD1;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
@@ -2749,6 +2782,7 @@ Shader  "SHR_DecalMaster2"
 			float _MaxRotation;
 			float _MinOffset;
 			float _MaxOffset;
+			float _SeedScale;
 			float _SeedMultiplier;
 			float _DrawOrder;
 			float _DecalMeshBiasType;
@@ -2826,14 +2860,10 @@ Shader  "SHR_DecalMaster2"
 				inputMesh.tangentOS = float4( 1, 0, 0, -1 );
 				inputMesh.normalOS = float3( 0, 1, 0 );
 
-				float3 ase_worldPos = TransformObjectToWorld( (inputMesh.positionOS).xyz );
-				packedOutput.ase_texcoord1.xyz = ase_worldPos;
-				
 				packedOutput.ase_texcoord.xy = inputMesh.ase_texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
 				packedOutput.ase_texcoord.zw = 0;
-				packedOutput.ase_texcoord1.w = 0;
 
 				float3 positionWS = TransformObjectToWorld(inputMesh.positionOS);
 				packedOutput.positionCS = TransformWorldToHClip(positionWS);
@@ -2848,8 +2878,11 @@ Shader  "SHR_DecalMaster2"
 			{
 				float2 texCoord11 = packedInput.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 uv25 = texCoord11;
-				float3 ase_worldPos = packedInput.ase_texcoord1.xyz;
-				float2 seed2D25 = (ase_worldPos).xz;
+				float4 matrixToPos29 = float4( GetObjectToWorldMatrix()[0][3],GetObjectToWorldMatrix()[1][3],GetObjectToWorldMatrix()[2][3],GetObjectToWorldMatrix()[3][3]);
+				float4 transform31 = mul(GetObjectToWorldMatrix(),matrixToPos29);
+				float4 break27 = transform31;
+				float2 appendResult28 = (float2(break27.x , break27.z));
+				float2 seed2D25 = appendResult28;
 				sampler2D tex25 = _tex;
 				float NumGraffiti25 = (float)_NumGraffiti;
 				float AtlasCols25 = (float)_AtlasCols;
@@ -2860,8 +2893,9 @@ Shader  "SHR_DecalMaster2"
 				float MaxRota25 = _MaxRotation;
 				float MinOffset25 = _MinOffset;
 				float MaxOffset25 = _MaxOffset;
-				float SeedMult25 = _SeedMultiplier;
-				float4 localSampleGraffitis25 = SampleGraffitis( uv25 , seed2D25 , tex25 , NumGraffiti25 , AtlasCols25 , AtlasRows25 , MinScale25 , MaxScale25 , MinRota25 , MaxRota25 , MinOffset25 , MaxOffset25 , SeedMult25 );
+				float SeedScale25 = _SeedScale;
+				float SeedMultiplier25 = _SeedMultiplier;
+				float4 localSampleGraffitis25 = SampleGraffitis( uv25 , seed2D25 , tex25 , NumGraffiti25 , AtlasCols25 , AtlasRows25 , MinScale25 , MaxScale25 , MinRota25 , MaxRota25 , MinOffset25 , MaxOffset25 , SeedScale25 , SeedMultiplier25 );
 				
 
 				float3 BaseColor = localSampleGraffitis25.xyz;
@@ -2896,18 +2930,26 @@ Node;AmplifyShaderEditor.RangedFloatNode;17;-1260.405,280.6836;Inherit;False;Pro
 Node;AmplifyShaderEditor.RangedFloatNode;18;-1260.66,347.2477;Inherit;False;Property;_MaxRotation;MaxRotation;6;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;19;-1235.452,410.6727;Inherit;False;Property;_MinOffset;MinOffset;7;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;20;-1237.031,460.6716;Inherit;False;Property;_MaxOffset;MaxOffset;8;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;21;-1261.102,527.6448;Inherit;False;Property;_SeedMultiplier;SeedMultiplier;10;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SwizzleNode;23;-1298.017,-283.8058;Inherit;True;FLOAT2;0;2;2;3;1;0;FLOAT3;0,0,0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.IntNode;24;-1253.905,-39.18608;Inherit;False;Property;_NumGraffiti;NumGraffiti;9;0;Create;True;0;0;0;False;0;False;0;0;False;0;1;INT;0
-Node;AmplifyShaderEditor.CustomExpressionNode;25;-935.6624,-128.3714;Inherit;False;return tex2D(tex, uv)@;4;File;13;True;uv;FLOAT2;0,0;In;;Inherit;False;True;seed2D;FLOAT2;0,0;In;;Inherit;False;True;tex;SAMPLER2D;_Sampler210;In;;Inherit;False;True;NumGraffiti;FLOAT;0;In;;Inherit;False;True;AtlasCols;FLOAT;0;In;;Inherit;False;True;AtlasRows;FLOAT;0;In;;Inherit;False;True;MinScale;FLOAT;0;In;;Inherit;False;True;MaxScale;FLOAT;0;In;;Inherit;False;True;MinRota;FLOAT;0;In;;Inherit;False;True;MaxRota;FLOAT;0;In;;Inherit;False;True;MinOffset;FLOAT;0;In;;Inherit;False;True;MaxOffset;FLOAT;0;In;;Inherit;False;True;SeedMult;FLOAT;0;In;;Inherit;False;SampleGraffitis;False;False;0;6471f0035b765b445a9787e379b162a0;False;13;0;FLOAT2;0,0;False;1;FLOAT2;0,0;False;2;SAMPLER2D;_Sampler210;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT;0;False;7;FLOAT;0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;11;FLOAT;0;False;12;FLOAT;0;False;1;FLOAT4;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;2;-39.82841,-124.3427;Float;False;True;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;14;SHR_DecalMaster2;c2a467ab6d5391a4ea692226d82ffefd;True;DecalScreenSpaceProjector;0;2;DecalScreenSpaceProjector;9;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;True;2;False;;False;True;1;LightMode=DecalScreenSpaceProjector;False;True;4;d3d11;glcore;gles;gles3;0;;0;0;Standard;7;Affect BaseColor;1;0;Affect Normal;1;0;Blend;1;0;Affect MAOS;0;0;Affect Emission;0;0;Support LOD CrossFade;0;0;Angle Fade;1;0;0;9;True;False;True;True;True;False;True;True;True;False;;False;0
-Node;AmplifyShaderEditor.WorldPosInputsNode;12;-1542.774,-283.341;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.WireNode;10;-1295.34,-69.38943;Inherit;False;1;0;SAMPLER2D;;False;1;SAMPLER2D;0
 Node;AmplifyShaderEditor.TexturePropertyNode;22;-1590.933,-0.6620483;Inherit;True;Property;_tex;tex;0;0;Create;True;0;0;0;False;0;False;e0f0197ff3bc4454ca6cdb2f9fd73d47;e0f0197ff3bc4454ca6cdb2f9fd73d47;False;white;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
+Node;AmplifyShaderEditor.CustomExpressionNode;25;-935.6624,-128.3714;Inherit;False;return tex2D(tex, uv)@;4;File;14;True;uv;FLOAT2;0,0;In;;Inherit;False;True;seed2D;FLOAT2;0,0;In;;Inherit;False;True;tex;SAMPLER2D;_Sampler210;In;;Inherit;False;True;NumGraffiti;FLOAT;0;In;;Inherit;False;True;AtlasCols;FLOAT;0;In;;Inherit;False;True;AtlasRows;FLOAT;0;In;;Inherit;False;True;MinScale;FLOAT;0;In;;Inherit;False;True;MaxScale;FLOAT;0;In;;Inherit;False;True;MinRota;FLOAT;0;In;;Inherit;False;True;MaxRota;FLOAT;0;In;;Inherit;False;True;MinOffset;FLOAT;0;In;;Inherit;False;True;MaxOffset;FLOAT;0;In;;Inherit;False;True;SeedScale;FLOAT;0;In;;Inherit;False;True;SeedMultiplier;FLOAT;0;In;;Inherit;False;SampleGraffitis;False;False;0;6471f0035b765b445a9787e379b162a0;False;14;0;FLOAT2;0,0;False;1;FLOAT2;0,0;False;2;SAMPLER2D;_Sampler210;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT;0;False;7;FLOAT;0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;11;FLOAT;0;False;12;FLOAT;0;False;13;FLOAT;0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.RangedFloatNode;21;-1254.169,632.5114;Inherit;False;Property;_SeedMultiplier;SeedMultiplier;10;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;26;-1255.936,555.1644;Inherit;False;Property;_SeedScale;SeedScale;11;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SwizzleNode;23;-1356.95,-499.6058;Inherit;True;FLOAT2;0;2;2;3;1;0;FLOAT3;0,0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.BreakToComponentsNode;27;-1449.202,-230.0352;Inherit;False;FLOAT4;1;0;FLOAT4;0,0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
+Node;AmplifyShaderEditor.DynamicAppendNode;28;-1280.202,-244.7686;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.WorldPosInputsNode;12;-1949.241,-317.141;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.ObjectToWorldTransfNode;31;-1730.871,-254.3018;Inherit;False;1;0;FLOAT4;0,0,0,1;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.PosFromTransformMatrix;29;-1936.271,-41.10181;Inherit;False;1;0;FLOAT4x4;1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ObjectToWorldMatrixNode;33;-2175.46,-59.3021;Inherit;False;0;1;FLOAT4x4;0
 WireConnection;9;0;25;0
-WireConnection;23;0;12;0
+WireConnection;2;0;25;0
+WireConnection;2;1;9;3
+WireConnection;10;0;22;0
 WireConnection;25;0;11;0
-WireConnection;25;1;23;0
+WireConnection;25;1;28;0
 WireConnection;25;2;10;0
 WireConnection;25;3;24;0
 WireConnection;25;4;13;0
@@ -2918,9 +2960,13 @@ WireConnection;25;8;17;0
 WireConnection;25;9;18;0
 WireConnection;25;10;19;0
 WireConnection;25;11;20;0
-WireConnection;25;12;21;0
-WireConnection;2;0;25;0
-WireConnection;2;1;9;3
-WireConnection;10;0;22;0
+WireConnection;25;12;26;0
+WireConnection;25;13;21;0
+WireConnection;23;0;12;0
+WireConnection;27;0;31;0
+WireConnection;28;0;27;0
+WireConnection;28;1;27;2
+WireConnection;31;0;29;0
+WireConnection;29;0;33;0
 ASEEND*/
-//CHKSM=C93ACE45428B66E11064EC35A79043D07EE79AE1
+//CHKSM=199928270FAB5AF9CFE3C0943EF403B761A0BA7E
