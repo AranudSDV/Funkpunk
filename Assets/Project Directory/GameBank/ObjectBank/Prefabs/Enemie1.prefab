@@ -193,7 +193,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4079834716028363439}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -206,7 +206,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 11c3ce214a1959a4fa60f486c006fb81, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -241,10 +241,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iBossTagsPhase2: 0
-  mVisionCone: {fileID: 0}
+  mVisionCone: {fileID: 2100000, guid: 11c3ce214a1959a4fa60f486c006fb81, type: 2}
   scFieldView: {fileID: 192196032585685232}
-  mDetectedCone: {fileID: 0}
-  mHeardCone: {fileID: 0}
+  mDetectedCone: {fileID: 2100000, guid: 7c24ffbd22a17bb40a52b8c2e43e5f08, type: 2}
+  mHeardCone: {fileID: 2100000, guid: 814e8480a611cef4b86a6b5b030f26e9, type: 2}
   coneResolution: 30
   groundMask:
     serializedVersion: 2
@@ -257,7 +257,7 @@ MonoBehaviour:
   offsetAmount: 2.5
   heightSegments: 3
   smoothThreshold: 3
-  ConeRenderer: {fileID: 0}
+  ConeRenderer: {fileID: 5877689220337500475}
 --- !u!1 &4499629275524614069
 GameObject:
   m_ObjectHideFlags: 0
@@ -357,11 +357,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b167c7cff07f964ca63297b7eef1ac9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  originalScale: {x: 0, y: 0, z: 0}
+  originalScale: {x: 2, y: 2, z: 2}
   bounceHeight: 0.1
   scaleMultiplier: 1.05
   bpmManager: {fileID: 0}
-  scFoe: {fileID: 0}
+  scFoe: {fileID: 192196032585685232}
 --- !u!1 &5313263214736159296
 GameObject:
   m_ObjectHideFlags: 0

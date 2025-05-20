@@ -473,6 +473,9 @@ MonoBehaviour:
   scBoss: {fileID: 0}
   bBossTag: 0
   iCompletition: 0
+  vfx_completition: {fileID: 3725342047821740325}
+  bBossDoorTag: 0
+  textOnWallBossDoor: {fileID: 0}
 --- !u!65 &5445313061218059324
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -924,6 +927,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d82bff5d3d2e15549a4ad3d270707b58, type: 3}
+--- !u!198 &3725342047821740325 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 5436244673363383813, guid: d82bff5d3d2e15549a4ad3d270707b58,
+    type: 3}
+  m_PrefabInstance: {fileID: 8701650885552549664}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4276040310468168675 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4870068370347025603, guid: d82bff5d3d2e15549a4ad3d270707b58,

@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -15,5 +16,8 @@ public class ing_Tag : MonoBehaviour
     public int iCompletition = 0;
     public ParticleSystem vfx_completition;
     public bool bBossDoorTag = false;
+    public BoxCollider boxColliderBoss = null;
+    public GameObject goBossDoor = null;
     public TextMeshPro textOnWallBossDoor = null;
+    public CinemachineVirtualCamera camBossDoor = null;
 }

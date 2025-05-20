@@ -424,9 +424,10 @@ public class SC_Player : MonoBehaviour
                                 if(ingTag.bBossDoorTag)
                                 {
                                     iBossDoorTag += 1;
-                                    ingTag.textOnWallBossDoor.text = (iBossDoorTag).ToString() + "/3";
-                                    if (iBossDoorTag == 3)
+                                    ingTag.textOnWallBossDoor.text = (iBossDoorTag).ToString() + "/2";
+                                    if (iBossDoorTag == 2)
                                     {
+                                        BossDoor(ingTag.boxColliderBoss, ingTag.goBossDoor, ingTag.camBossDoor);
                                         //Porte ouverte
                                     }
                                 }
@@ -570,9 +571,10 @@ public class SC_Player : MonoBehaviour
                             if (ingTag.bBossDoorTag)
                             {
                                 iBossDoorTag += 1;
-                                ingTag.textOnWallBossDoor.text = (iBossDoorTag).ToString() + "/3";
-                                if(iBossDoorTag == 3)
+                                ingTag.textOnWallBossDoor.text = (iBossDoorTag).ToString() + "/2";
+                                if(iBossDoorTag == 2)
                                 {
+                                    BossDoor(ingTag.boxColliderBoss, ingTag.goBossDoor, ingTag.camBossDoor);
                                     //Porte ouverte
                                 }
                             }
@@ -867,6 +869,22 @@ public class SC_Player : MonoBehaviour
             }
             bEnsureRotation = true;
         }
+    }
+    private void BossDoor(BoxCollider collider, GameObject goDoor, CinemachineVirtualCamera cam)
+    {
+        menuManager.bGameIsPaused = true;
+        bIsImune = true;
+        collider.isTrigger = true;
+        cam.Priority = 20;
+        DG.Tweening.Sequence sequenceDoor = DOTween.Sequence();
+        sequenceDoor.Append(goDoor.transform.DORotate(new Vector3(0, 180, 0), 3f));
+        sequenceDoor.OnComplete(() =>
+        {
+            cam.Priority = 2;
+            menuManager.bGameIsPaused = false;
+            bIsImune = true;
+            menuManager.ImuneToPause(bpmManager);
+        });
     }
 
     //CONCERNANT L'UI ET LES FEEDBACKS IMPORTANTS
