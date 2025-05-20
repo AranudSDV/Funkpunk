@@ -6,7 +6,6 @@ Shader "SHR_BeatBulgeTest"
 	{
 		[HideInInspector] _AlphaCutoff("Alpha Cutoff ", Range(0, 1)) = 0.5
 		[HideInInspector] _EmissionColor("Emission Color", Color) = (1,1,1,1)
-		_BPM("BPM", Float) = 60
 		_BaseVertexOffsetValue("BaseVertexOffsetValue", Vector) = (0,0,0,0)
 		_BaseVertexOffsetDelay("BaseVertexOffsetDelay", Vector) = (0,0,0,0)
 		_TopMask("TopMask", Float) = 0
@@ -185,6 +184,7 @@ Shader "SHR_BeatBulgeTest"
 			HLSLPROGRAM
 
 			#define _NORMAL_DROPOFF_TS 1
+			#pragma multi_compile_instancing
 			#pragma instancing_options renderinglayer
 			#pragma multi_compile_fragment _ LOD_FADE_CROSSFADE
 			#pragma multi_compile_fog
@@ -241,7 +241,6 @@ Shader "SHR_BeatBulgeTest"
 			#endif
 
 			#define ASE_NEEDS_VERT_POSITION
-			#pragma multi_compile_instancing
 
 
 			#if defined(ASE_EARLY_Z_DEPTH_OPTIMIZE) && (SHADER_TARGET >= 45)
@@ -322,9 +321,7 @@ Shader "SHR_BeatBulgeTest"
 				int _PassValue;
 			#endif
 
-			UNITY_INSTANCING_BUFFER_START(SHR_BeatBulgeTest)
-				UNITY_DEFINE_INSTANCED_PROP(float, _BPM)
-			UNITY_INSTANCING_BUFFER_END(SHR_BeatBulgeTest)
+			float BPM;
 
 
 			//#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/Varyings.hlsl"
@@ -346,28 +343,27 @@ Shader "SHR_BeatBulgeTest"
 				float temp_output_74_0 = ( temp_output_73_0 - _TopMask );
 				float clampResult84 = clamp( temp_output_74_0 , 0.0 , 1.0 );
 				float4 transform99 = mul(GetWorldToObjectMatrix(),float4( 0,0,0,1 ));
-				float _BPM_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_BeatBulgeTest,_BPM);
-				float mulTime5_g10 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g10 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g10 = ( mulTime5_g10 - _TopVertexDelay.x );
 				float temp_output_16_0_g10 = ( PI / 1.0 );
 				float temp_output_19_0_g10 = cos( ( temp_output_52_0_g10 * temp_output_16_0_g10 ) );
 				float saferPower20_g10 = abs( abs( temp_output_19_0_g10 ) );
-				float mulTime5_g7 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g7 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g7 = ( mulTime5_g7 - _BaseVertexOffsetDelay.x );
 				float temp_output_16_0_g7 = ( PI / 1.0 );
 				float temp_output_19_0_g7 = cos( ( temp_output_52_0_g7 * temp_output_16_0_g7 ) );
 				float saferPower20_g7 = abs( abs( temp_output_19_0_g7 ) );
-				float mulTime5_g9 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g9 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g9 = ( mulTime5_g9 - _TopVertexDelay.y );
 				float temp_output_16_0_g9 = ( PI / 1.0 );
 				float temp_output_19_0_g9 = cos( ( temp_output_52_0_g9 * temp_output_16_0_g9 ) );
 				float saferPower20_g9 = abs( abs( temp_output_19_0_g9 ) );
-				float mulTime5_g8 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g8 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g8 = ( mulTime5_g8 - _BaseVertexOffsetDelay.y );
 				float temp_output_16_0_g8 = ( PI / 1.0 );
 				float temp_output_19_0_g8 = cos( ( temp_output_52_0_g8 * temp_output_16_0_g8 ) );
 				float saferPower20_g8 = abs( abs( temp_output_19_0_g8 ) );
-				float mulTime5_g5 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g5 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g5 = ( mulTime5_g5 - _BaseVertexOffsetDelay.z );
 				float temp_output_16_0_g5 = ( PI / 1.0 );
 				float temp_output_19_0_g5 = cos( ( temp_output_52_0_g5 * temp_output_16_0_g5 ) );
@@ -834,6 +830,7 @@ Shader "SHR_BeatBulgeTest"
 			HLSLPROGRAM
 
 			#define _NORMAL_DROPOFF_TS 1
+			#pragma multi_compile_instancing
 			#pragma multi_compile_fragment _ LOD_FADE_CROSSFADE
 			#define ASE_FOG 1
 			#define ASE_SRP_VERSION 140010
@@ -860,7 +857,6 @@ Shader "SHR_BeatBulgeTest"
             #endif
 
 			#define ASE_NEEDS_VERT_POSITION
-			#pragma multi_compile_instancing
 
 
 			#if defined(ASE_EARLY_Z_DEPTH_OPTIMIZE) && (SHADER_TARGET >= 45)
@@ -932,9 +928,7 @@ Shader "SHR_BeatBulgeTest"
 				int _PassValue;
 			#endif
 
-			UNITY_INSTANCING_BUFFER_START(SHR_BeatBulgeTest)
-				UNITY_DEFINE_INSTANCED_PROP(float, _BPM)
-			UNITY_INSTANCING_BUFFER_END(SHR_BeatBulgeTest)
+			float BPM;
 
 
 			//#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/Varyings.hlsl"
@@ -959,28 +953,27 @@ Shader "SHR_BeatBulgeTest"
 				float temp_output_74_0 = ( temp_output_73_0 - _TopMask );
 				float clampResult84 = clamp( temp_output_74_0 , 0.0 , 1.0 );
 				float4 transform99 = mul(GetWorldToObjectMatrix(),float4( 0,0,0,1 ));
-				float _BPM_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_BeatBulgeTest,_BPM);
-				float mulTime5_g10 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g10 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g10 = ( mulTime5_g10 - _TopVertexDelay.x );
 				float temp_output_16_0_g10 = ( PI / 1.0 );
 				float temp_output_19_0_g10 = cos( ( temp_output_52_0_g10 * temp_output_16_0_g10 ) );
 				float saferPower20_g10 = abs( abs( temp_output_19_0_g10 ) );
-				float mulTime5_g7 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g7 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g7 = ( mulTime5_g7 - _BaseVertexOffsetDelay.x );
 				float temp_output_16_0_g7 = ( PI / 1.0 );
 				float temp_output_19_0_g7 = cos( ( temp_output_52_0_g7 * temp_output_16_0_g7 ) );
 				float saferPower20_g7 = abs( abs( temp_output_19_0_g7 ) );
-				float mulTime5_g9 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g9 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g9 = ( mulTime5_g9 - _TopVertexDelay.y );
 				float temp_output_16_0_g9 = ( PI / 1.0 );
 				float temp_output_19_0_g9 = cos( ( temp_output_52_0_g9 * temp_output_16_0_g9 ) );
 				float saferPower20_g9 = abs( abs( temp_output_19_0_g9 ) );
-				float mulTime5_g8 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g8 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g8 = ( mulTime5_g8 - _BaseVertexOffsetDelay.y );
 				float temp_output_16_0_g8 = ( PI / 1.0 );
 				float temp_output_19_0_g8 = cos( ( temp_output_52_0_g8 * temp_output_16_0_g8 ) );
 				float saferPower20_g8 = abs( abs( temp_output_19_0_g8 ) );
-				float mulTime5_g5 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g5 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g5 = ( mulTime5_g5 - _BaseVertexOffsetDelay.z );
 				float temp_output_16_0_g5 = ( PI / 1.0 );
 				float temp_output_19_0_g5 = cos( ( temp_output_52_0_g5 * temp_output_16_0_g5 ) );
@@ -1186,6 +1179,7 @@ Shader "SHR_BeatBulgeTest"
 			HLSLPROGRAM
 
 			#define _NORMAL_DROPOFF_TS 1
+			#pragma multi_compile_instancing
 			#pragma multi_compile_fragment _ LOD_FADE_CROSSFADE
 			#define ASE_FOG 1
 			#define ASE_SRP_VERSION 140010
@@ -1210,7 +1204,6 @@ Shader "SHR_BeatBulgeTest"
             #endif
 
 			#define ASE_NEEDS_VERT_POSITION
-			#pragma multi_compile_instancing
 
 
 			#if defined(ASE_EARLY_Z_DEPTH_OPTIMIZE) && (SHADER_TARGET >= 45)
@@ -1282,9 +1275,7 @@ Shader "SHR_BeatBulgeTest"
 				int _PassValue;
 			#endif
 
-			UNITY_INSTANCING_BUFFER_START(SHR_BeatBulgeTest)
-				UNITY_DEFINE_INSTANCED_PROP(float, _BPM)
-			UNITY_INSTANCING_BUFFER_END(SHR_BeatBulgeTest)
+			float BPM;
 
 
 			//#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/Varyings.hlsl"
@@ -1306,28 +1297,27 @@ Shader "SHR_BeatBulgeTest"
 				float temp_output_74_0 = ( temp_output_73_0 - _TopMask );
 				float clampResult84 = clamp( temp_output_74_0 , 0.0 , 1.0 );
 				float4 transform99 = mul(GetWorldToObjectMatrix(),float4( 0,0,0,1 ));
-				float _BPM_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_BeatBulgeTest,_BPM);
-				float mulTime5_g10 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g10 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g10 = ( mulTime5_g10 - _TopVertexDelay.x );
 				float temp_output_16_0_g10 = ( PI / 1.0 );
 				float temp_output_19_0_g10 = cos( ( temp_output_52_0_g10 * temp_output_16_0_g10 ) );
 				float saferPower20_g10 = abs( abs( temp_output_19_0_g10 ) );
-				float mulTime5_g7 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g7 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g7 = ( mulTime5_g7 - _BaseVertexOffsetDelay.x );
 				float temp_output_16_0_g7 = ( PI / 1.0 );
 				float temp_output_19_0_g7 = cos( ( temp_output_52_0_g7 * temp_output_16_0_g7 ) );
 				float saferPower20_g7 = abs( abs( temp_output_19_0_g7 ) );
-				float mulTime5_g9 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g9 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g9 = ( mulTime5_g9 - _TopVertexDelay.y );
 				float temp_output_16_0_g9 = ( PI / 1.0 );
 				float temp_output_19_0_g9 = cos( ( temp_output_52_0_g9 * temp_output_16_0_g9 ) );
 				float saferPower20_g9 = abs( abs( temp_output_19_0_g9 ) );
-				float mulTime5_g8 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g8 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g8 = ( mulTime5_g8 - _BaseVertexOffsetDelay.y );
 				float temp_output_16_0_g8 = ( PI / 1.0 );
 				float temp_output_19_0_g8 = cos( ( temp_output_52_0_g8 * temp_output_16_0_g8 ) );
 				float saferPower20_g8 = abs( abs( temp_output_19_0_g8 ) );
-				float mulTime5_g5 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g5 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g5 = ( mulTime5_g5 - _BaseVertexOffsetDelay.z );
 				float temp_output_16_0_g5 = ( PI / 1.0 );
 				float temp_output_19_0_g5 = cos( ( temp_output_52_0_g5 * temp_output_16_0_g5 ) );
@@ -1532,7 +1522,6 @@ Shader "SHR_BeatBulgeTest"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 
 			#define ASE_NEEDS_VERT_POSITION
-			#pragma multi_compile_instancing
 
 
 			struct VertexInput
@@ -1602,9 +1591,7 @@ Shader "SHR_BeatBulgeTest"
 				int _PassValue;
 			#endif
 
-			UNITY_INSTANCING_BUFFER_START(SHR_BeatBulgeTest)
-				UNITY_DEFINE_INSTANCED_PROP(float, _BPM)
-			UNITY_INSTANCING_BUFFER_END(SHR_BeatBulgeTest)
+			float BPM;
 
 
 			//#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/Varyings.hlsl"
@@ -1626,28 +1613,27 @@ Shader "SHR_BeatBulgeTest"
 				float temp_output_74_0 = ( temp_output_73_0 - _TopMask );
 				float clampResult84 = clamp( temp_output_74_0 , 0.0 , 1.0 );
 				float4 transform99 = mul(GetWorldToObjectMatrix(),float4( 0,0,0,1 ));
-				float _BPM_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_BeatBulgeTest,_BPM);
-				float mulTime5_g10 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g10 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g10 = ( mulTime5_g10 - _TopVertexDelay.x );
 				float temp_output_16_0_g10 = ( PI / 1.0 );
 				float temp_output_19_0_g10 = cos( ( temp_output_52_0_g10 * temp_output_16_0_g10 ) );
 				float saferPower20_g10 = abs( abs( temp_output_19_0_g10 ) );
-				float mulTime5_g7 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g7 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g7 = ( mulTime5_g7 - _BaseVertexOffsetDelay.x );
 				float temp_output_16_0_g7 = ( PI / 1.0 );
 				float temp_output_19_0_g7 = cos( ( temp_output_52_0_g7 * temp_output_16_0_g7 ) );
 				float saferPower20_g7 = abs( abs( temp_output_19_0_g7 ) );
-				float mulTime5_g9 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g9 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g9 = ( mulTime5_g9 - _TopVertexDelay.y );
 				float temp_output_16_0_g9 = ( PI / 1.0 );
 				float temp_output_19_0_g9 = cos( ( temp_output_52_0_g9 * temp_output_16_0_g9 ) );
 				float saferPower20_g9 = abs( abs( temp_output_19_0_g9 ) );
-				float mulTime5_g8 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g8 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g8 = ( mulTime5_g8 - _BaseVertexOffsetDelay.y );
 				float temp_output_16_0_g8 = ( PI / 1.0 );
 				float temp_output_19_0_g8 = cos( ( temp_output_52_0_g8 * temp_output_16_0_g8 ) );
 				float saferPower20_g8 = abs( abs( temp_output_19_0_g8 ) );
-				float mulTime5_g5 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g5 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g5 = ( mulTime5_g5 - _BaseVertexOffsetDelay.z );
 				float temp_output_16_0_g5 = ( PI / 1.0 );
 				float temp_output_19_0_g5 = cos( ( temp_output_52_0_g5 * temp_output_16_0_g5 ) );
@@ -1867,7 +1853,6 @@ Shader "SHR_BeatBulgeTest"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 
 			#define ASE_NEEDS_VERT_POSITION
-			#pragma multi_compile_instancing
 
 
 			struct VertexInput
@@ -1930,9 +1915,7 @@ Shader "SHR_BeatBulgeTest"
 				int _PassValue;
 			#endif
 
-			UNITY_INSTANCING_BUFFER_START(SHR_BeatBulgeTest)
-				UNITY_DEFINE_INSTANCED_PROP(float, _BPM)
-			UNITY_INSTANCING_BUFFER_END(SHR_BeatBulgeTest)
+			float BPM;
 
 
 			//#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/Varyings.hlsl"
@@ -1954,28 +1937,27 @@ Shader "SHR_BeatBulgeTest"
 				float temp_output_74_0 = ( temp_output_73_0 - _TopMask );
 				float clampResult84 = clamp( temp_output_74_0 , 0.0 , 1.0 );
 				float4 transform99 = mul(GetWorldToObjectMatrix(),float4( 0,0,0,1 ));
-				float _BPM_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_BeatBulgeTest,_BPM);
-				float mulTime5_g10 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g10 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g10 = ( mulTime5_g10 - _TopVertexDelay.x );
 				float temp_output_16_0_g10 = ( PI / 1.0 );
 				float temp_output_19_0_g10 = cos( ( temp_output_52_0_g10 * temp_output_16_0_g10 ) );
 				float saferPower20_g10 = abs( abs( temp_output_19_0_g10 ) );
-				float mulTime5_g7 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g7 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g7 = ( mulTime5_g7 - _BaseVertexOffsetDelay.x );
 				float temp_output_16_0_g7 = ( PI / 1.0 );
 				float temp_output_19_0_g7 = cos( ( temp_output_52_0_g7 * temp_output_16_0_g7 ) );
 				float saferPower20_g7 = abs( abs( temp_output_19_0_g7 ) );
-				float mulTime5_g9 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g9 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g9 = ( mulTime5_g9 - _TopVertexDelay.y );
 				float temp_output_16_0_g9 = ( PI / 1.0 );
 				float temp_output_19_0_g9 = cos( ( temp_output_52_0_g9 * temp_output_16_0_g9 ) );
 				float saferPower20_g9 = abs( abs( temp_output_19_0_g9 ) );
-				float mulTime5_g8 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g8 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g8 = ( mulTime5_g8 - _BaseVertexOffsetDelay.y );
 				float temp_output_16_0_g8 = ( PI / 1.0 );
 				float temp_output_19_0_g8 = cos( ( temp_output_52_0_g8 * temp_output_16_0_g8 ) );
 				float saferPower20_g8 = abs( abs( temp_output_19_0_g8 ) );
-				float mulTime5_g5 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g5 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g5 = ( mulTime5_g5 - _BaseVertexOffsetDelay.z );
 				float temp_output_16_0_g5 = ( PI / 1.0 );
 				float temp_output_19_0_g5 = cos( ( temp_output_52_0_g5 * temp_output_16_0_g5 ) );
@@ -2152,6 +2134,7 @@ Shader "SHR_BeatBulgeTest"
 			HLSLPROGRAM
 
 			#define _NORMAL_DROPOFF_TS 1
+			#pragma multi_compile_instancing
 			#pragma multi_compile_fragment _ LOD_FADE_CROSSFADE
 			#define ASE_FOG 1
 			#define ASE_SRP_VERSION 140010
@@ -2178,7 +2161,6 @@ Shader "SHR_BeatBulgeTest"
             #endif
 
 			#define ASE_NEEDS_VERT_POSITION
-			#pragma multi_compile_instancing
 
 
 			#if defined(ASE_EARLY_Z_DEPTH_OPTIMIZE) && (SHADER_TARGET >= 45)
@@ -2253,9 +2235,7 @@ Shader "SHR_BeatBulgeTest"
 				int _PassValue;
 			#endif
 
-			UNITY_INSTANCING_BUFFER_START(SHR_BeatBulgeTest)
-				UNITY_DEFINE_INSTANCED_PROP(float, _BPM)
-			UNITY_INSTANCING_BUFFER_END(SHR_BeatBulgeTest)
+			float BPM;
 
 
 			//#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/Varyings.hlsl"
@@ -2277,28 +2257,27 @@ Shader "SHR_BeatBulgeTest"
 				float temp_output_74_0 = ( temp_output_73_0 - _TopMask );
 				float clampResult84 = clamp( temp_output_74_0 , 0.0 , 1.0 );
 				float4 transform99 = mul(GetWorldToObjectMatrix(),float4( 0,0,0,1 ));
-				float _BPM_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_BeatBulgeTest,_BPM);
-				float mulTime5_g10 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g10 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g10 = ( mulTime5_g10 - _TopVertexDelay.x );
 				float temp_output_16_0_g10 = ( PI / 1.0 );
 				float temp_output_19_0_g10 = cos( ( temp_output_52_0_g10 * temp_output_16_0_g10 ) );
 				float saferPower20_g10 = abs( abs( temp_output_19_0_g10 ) );
-				float mulTime5_g7 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g7 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g7 = ( mulTime5_g7 - _BaseVertexOffsetDelay.x );
 				float temp_output_16_0_g7 = ( PI / 1.0 );
 				float temp_output_19_0_g7 = cos( ( temp_output_52_0_g7 * temp_output_16_0_g7 ) );
 				float saferPower20_g7 = abs( abs( temp_output_19_0_g7 ) );
-				float mulTime5_g9 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g9 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g9 = ( mulTime5_g9 - _TopVertexDelay.y );
 				float temp_output_16_0_g9 = ( PI / 1.0 );
 				float temp_output_19_0_g9 = cos( ( temp_output_52_0_g9 * temp_output_16_0_g9 ) );
 				float saferPower20_g9 = abs( abs( temp_output_19_0_g9 ) );
-				float mulTime5_g8 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g8 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g8 = ( mulTime5_g8 - _BaseVertexOffsetDelay.y );
 				float temp_output_16_0_g8 = ( PI / 1.0 );
 				float temp_output_19_0_g8 = cos( ( temp_output_52_0_g8 * temp_output_16_0_g8 ) );
 				float saferPower20_g8 = abs( abs( temp_output_19_0_g8 ) );
-				float mulTime5_g5 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g5 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g5 = ( mulTime5_g5 - _BaseVertexOffsetDelay.z );
 				float temp_output_16_0_g5 = ( PI / 1.0 );
 				float temp_output_19_0_g5 = cos( ( temp_output_52_0_g5 * temp_output_16_0_g5 ) );
@@ -2526,6 +2505,7 @@ Shader "SHR_BeatBulgeTest"
 			HLSLPROGRAM
 
 			#define _NORMAL_DROPOFF_TS 1
+			#pragma multi_compile_instancing
 			#pragma instancing_options renderinglayer
 			#pragma multi_compile_fragment _ LOD_FADE_CROSSFADE
 			#pragma multi_compile_fog
@@ -2577,7 +2557,6 @@ Shader "SHR_BeatBulgeTest"
 			#endif
 
 			#define ASE_NEEDS_VERT_POSITION
-			#pragma multi_compile_instancing
 
 
 			#if defined(ASE_EARLY_Z_DEPTH_OPTIMIZE) && (SHADER_TARGET >= 45)
@@ -2658,9 +2637,7 @@ Shader "SHR_BeatBulgeTest"
 				int _PassValue;
 			#endif
 
-			UNITY_INSTANCING_BUFFER_START(SHR_BeatBulgeTest)
-				UNITY_DEFINE_INSTANCED_PROP(float, _BPM)
-			UNITY_INSTANCING_BUFFER_END(SHR_BeatBulgeTest)
+			float BPM;
 
 
 			//#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/Varyings.hlsl"
@@ -2679,28 +2656,27 @@ Shader "SHR_BeatBulgeTest"
 				float temp_output_74_0 = ( temp_output_73_0 - _TopMask );
 				float clampResult84 = clamp( temp_output_74_0 , 0.0 , 1.0 );
 				float4 transform99 = mul(GetWorldToObjectMatrix(),float4( 0,0,0,1 ));
-				float _BPM_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_BeatBulgeTest,_BPM);
-				float mulTime5_g10 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g10 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g10 = ( mulTime5_g10 - _TopVertexDelay.x );
 				float temp_output_16_0_g10 = ( PI / 1.0 );
 				float temp_output_19_0_g10 = cos( ( temp_output_52_0_g10 * temp_output_16_0_g10 ) );
 				float saferPower20_g10 = abs( abs( temp_output_19_0_g10 ) );
-				float mulTime5_g7 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g7 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g7 = ( mulTime5_g7 - _BaseVertexOffsetDelay.x );
 				float temp_output_16_0_g7 = ( PI / 1.0 );
 				float temp_output_19_0_g7 = cos( ( temp_output_52_0_g7 * temp_output_16_0_g7 ) );
 				float saferPower20_g7 = abs( abs( temp_output_19_0_g7 ) );
-				float mulTime5_g9 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g9 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g9 = ( mulTime5_g9 - _TopVertexDelay.y );
 				float temp_output_16_0_g9 = ( PI / 1.0 );
 				float temp_output_19_0_g9 = cos( ( temp_output_52_0_g9 * temp_output_16_0_g9 ) );
 				float saferPower20_g9 = abs( abs( temp_output_19_0_g9 ) );
-				float mulTime5_g8 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g8 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g8 = ( mulTime5_g8 - _BaseVertexOffsetDelay.y );
 				float temp_output_16_0_g8 = ( PI / 1.0 );
 				float temp_output_19_0_g8 = cos( ( temp_output_52_0_g8 * temp_output_16_0_g8 ) );
 				float saferPower20_g8 = abs( abs( temp_output_19_0_g8 ) );
-				float mulTime5_g5 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g5 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g5 = ( mulTime5_g5 - _BaseVertexOffsetDelay.z );
 				float temp_output_16_0_g5 = ( PI / 1.0 );
 				float temp_output_19_0_g5 = cos( ( temp_output_52_0_g5 * temp_output_16_0_g5 ) );
@@ -3051,7 +3027,6 @@ Shader "SHR_BeatBulgeTest"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 
 			#define ASE_NEEDS_VERT_POSITION
-			#pragma multi_compile_instancing
 
 
 			struct VertexInput
@@ -3108,9 +3083,7 @@ Shader "SHR_BeatBulgeTest"
 				int _PassValue;
 			#endif
 
-			UNITY_INSTANCING_BUFFER_START(SHR_BeatBulgeTest)
-				UNITY_DEFINE_INSTANCED_PROP(float, _BPM)
-			UNITY_INSTANCING_BUFFER_END(SHR_BeatBulgeTest)
+			float BPM;
 
 
 			//#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/Varyings.hlsl"
@@ -3140,28 +3113,27 @@ Shader "SHR_BeatBulgeTest"
 				float temp_output_74_0 = ( temp_output_73_0 - _TopMask );
 				float clampResult84 = clamp( temp_output_74_0 , 0.0 , 1.0 );
 				float4 transform99 = mul(GetWorldToObjectMatrix(),float4( 0,0,0,1 ));
-				float _BPM_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_BeatBulgeTest,_BPM);
-				float mulTime5_g10 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g10 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g10 = ( mulTime5_g10 - _TopVertexDelay.x );
 				float temp_output_16_0_g10 = ( PI / 1.0 );
 				float temp_output_19_0_g10 = cos( ( temp_output_52_0_g10 * temp_output_16_0_g10 ) );
 				float saferPower20_g10 = abs( abs( temp_output_19_0_g10 ) );
-				float mulTime5_g7 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g7 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g7 = ( mulTime5_g7 - _BaseVertexOffsetDelay.x );
 				float temp_output_16_0_g7 = ( PI / 1.0 );
 				float temp_output_19_0_g7 = cos( ( temp_output_52_0_g7 * temp_output_16_0_g7 ) );
 				float saferPower20_g7 = abs( abs( temp_output_19_0_g7 ) );
-				float mulTime5_g9 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g9 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g9 = ( mulTime5_g9 - _TopVertexDelay.y );
 				float temp_output_16_0_g9 = ( PI / 1.0 );
 				float temp_output_19_0_g9 = cos( ( temp_output_52_0_g9 * temp_output_16_0_g9 ) );
 				float saferPower20_g9 = abs( abs( temp_output_19_0_g9 ) );
-				float mulTime5_g8 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g8 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g8 = ( mulTime5_g8 - _BaseVertexOffsetDelay.y );
 				float temp_output_16_0_g8 = ( PI / 1.0 );
 				float temp_output_19_0_g8 = cos( ( temp_output_52_0_g8 * temp_output_16_0_g8 ) );
 				float saferPower20_g8 = abs( abs( temp_output_19_0_g8 ) );
-				float mulTime5_g5 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g5 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g5 = ( mulTime5_g5 - _BaseVertexOffsetDelay.z );
 				float temp_output_16_0_g5 = ( PI / 1.0 );
 				float temp_output_19_0_g5 = cos( ( temp_output_52_0_g5 * temp_output_16_0_g5 ) );
@@ -3335,7 +3307,6 @@ Shader "SHR_BeatBulgeTest"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
 
 			#define ASE_NEEDS_VERT_POSITION
-			#pragma multi_compile_instancing
 
 
 			struct VertexInput
@@ -3392,9 +3363,7 @@ Shader "SHR_BeatBulgeTest"
 				int _PassValue;
 			#endif
 
-			UNITY_INSTANCING_BUFFER_START(SHR_BeatBulgeTest)
-				UNITY_DEFINE_INSTANCED_PROP(float, _BPM)
-			UNITY_INSTANCING_BUFFER_END(SHR_BeatBulgeTest)
+			float BPM;
 
 
 			//#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/Varyings.hlsl"
@@ -3424,28 +3393,27 @@ Shader "SHR_BeatBulgeTest"
 				float temp_output_74_0 = ( temp_output_73_0 - _TopMask );
 				float clampResult84 = clamp( temp_output_74_0 , 0.0 , 1.0 );
 				float4 transform99 = mul(GetWorldToObjectMatrix(),float4( 0,0,0,1 ));
-				float _BPM_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_BeatBulgeTest,_BPM);
-				float mulTime5_g10 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g10 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g10 = ( mulTime5_g10 - _TopVertexDelay.x );
 				float temp_output_16_0_g10 = ( PI / 1.0 );
 				float temp_output_19_0_g10 = cos( ( temp_output_52_0_g10 * temp_output_16_0_g10 ) );
 				float saferPower20_g10 = abs( abs( temp_output_19_0_g10 ) );
-				float mulTime5_g7 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g7 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g7 = ( mulTime5_g7 - _BaseVertexOffsetDelay.x );
 				float temp_output_16_0_g7 = ( PI / 1.0 );
 				float temp_output_19_0_g7 = cos( ( temp_output_52_0_g7 * temp_output_16_0_g7 ) );
 				float saferPower20_g7 = abs( abs( temp_output_19_0_g7 ) );
-				float mulTime5_g9 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g9 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g9 = ( mulTime5_g9 - _TopVertexDelay.y );
 				float temp_output_16_0_g9 = ( PI / 1.0 );
 				float temp_output_19_0_g9 = cos( ( temp_output_52_0_g9 * temp_output_16_0_g9 ) );
 				float saferPower20_g9 = abs( abs( temp_output_19_0_g9 ) );
-				float mulTime5_g8 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g8 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g8 = ( mulTime5_g8 - _BaseVertexOffsetDelay.y );
 				float temp_output_16_0_g8 = ( PI / 1.0 );
 				float temp_output_19_0_g8 = cos( ( temp_output_52_0_g8 * temp_output_16_0_g8 ) );
 				float saferPower20_g8 = abs( abs( temp_output_19_0_g8 ) );
-				float mulTime5_g5 = _TimeParameters.x * ( _BPM_Instance / 60.0 );
+				float mulTime5_g5 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g5 = ( mulTime5_g5 - _BaseVertexOffsetDelay.z );
 				float temp_output_16_0_g5 = ( PI / 1.0 );
 				float temp_output_19_0_g5 = cos( ( temp_output_52_0_g5 * temp_output_16_0_g5 ) );
@@ -3622,13 +3590,13 @@ Node;AmplifyShaderEditor.WireNode;105;-1418.926,-37.6238;Inherit;False;1;0;FLOAT
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;49;-1309.764,335.9299;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.WireNode;53;-2347.754,154.061;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.WireNode;56;-1275.267,494.6187;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.Vector3Node;31;-2745.215,292.2705;Inherit;False;Property;_BaseVertexOffsetValue;BaseVertexOffsetValue;3;0;Create;True;0;0;0;False;0;False;0,0,0;0.2,0.2,0.1;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.Vector3Node;31;-2745.215,292.2705;Inherit;False;Property;_BaseVertexOffsetValue;BaseVertexOffsetValue;2;0;Create;True;0;0;0;False;0;False;0,0,0;0.2,0.2,0.1;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;40;-1270.746,58.49626;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.WireNode;81;-1777.875,132.1848;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;48;-1543.09,342.1845;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.FunctionNode;46;-2011.766,247.0138;Inherit;False;SHF_Beat;0;;8;98b937ed0bb6230429680ab88ee4981b;0;1;54;FLOAT;0;False;3;FLOAT;33;FLOAT;34;FLOAT;0
 Node;AmplifyShaderEditor.WireNode;107;-2957.31,377.072;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.Vector3Node;97;-2744.921,485.564;Inherit;False;Property;_BaseVertexOffsetDelay;BaseVertexOffsetDelay;4;0;Create;True;0;0;0;False;0;False;0,0,0;0,0,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.Vector3Node;97;-2744.921,485.564;Inherit;False;Property;_BaseVertexOffsetDelay;BaseVertexOffsetDelay;3;0;Create;True;0;0;0;False;0;False;0,0,0;0,0,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.ClampOpNode;84;-1458.003,-890.7761;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;79;-1213.208,-798.5179;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;67;-1582.438,-475.6729;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
@@ -3640,10 +3608,10 @@ Node;AmplifyShaderEditor.WireNode;102;-1709.163,-665.8419;Inherit;False;1;0;FLOA
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;80;-1297.162,-494.8031;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleAddOpNode;77;-942.6199,-662.2245;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleAddOpNode;78;-940.2445,-494.1039;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;92;-2003.206,-1000.522;Inherit;False;Property;_TopMask;TopMask;5;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;92;-2003.206,-1000.522;Inherit;False;Property;_TopMask;TopMask;4;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.ClampOpNode;111;-1772.219,-1257.098;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleSubtractOpNode;74;-1610.598,-1099.312;Inherit;True;2;0;FLOAT;0;False;1;FLOAT;0.2;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;110;-2157.475,-1114.642;Inherit;False;Property;_Float2;Float 2;6;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;110;-2157.475,-1114.642;Inherit;False;Property;_Float2;Float 2;5;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.PowerNode;109;-2021.351,-1330.562;Inherit;False;False;2;0;FLOAT;0;False;1;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.FunctionNode;115;-2708.256,-471.1768;Inherit;False;SHF_Beat;0;;9;98b937ed0bb6230429680ab88ee4981b;0;1;54;FLOAT;0;False;3;FLOAT;33;FLOAT;34;FLOAT;0
 Node;AmplifyShaderEditor.WorldToObjectTransfNode;99;-2712.04,-817.3395;Inherit;False;1;0;FLOAT4;0,0,0,1;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
@@ -3654,8 +3622,8 @@ Node;AmplifyShaderEditor.WireNode;85;-327.5849,485.1995;Inherit;False;1;0;FLOAT;
 Node;AmplifyShaderEditor.FunctionNode;65;-2703.156,-626.9379;Inherit;False;SHF_Beat;0;;10;98b937ed0bb6230429680ab88ee4981b;0;1;54;FLOAT;0;False;3;FLOAT;33;FLOAT;34;FLOAT;0
 Node;AmplifyShaderEditor.PosVertexDataNode;11;-3452.478,-271.599;Inherit;False;0;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.WireNode;106;-1383.109,-146.3581;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.Vector2Node;114;-2957.979,-562.1346;Inherit;False;Property;_TopVertexDelay;TopVertexDelay;8;1;[Header];Create;True;0;0;0;False;0;False;0,0;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
-Node;AmplifyShaderEditor.Vector2Node;113;-2340.544,-580.5311;Inherit;False;Property;_TopVertexOffsetValue;TopVertexOffset Value;7;0;Create;True;0;0;0;False;0;False;0,0;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
+Node;AmplifyShaderEditor.Vector2Node;114;-2957.979,-562.1346;Inherit;False;Property;_TopVertexDelay;TopVertexDelay;7;1;[Header];Create;True;0;0;0;False;0;False;0,0;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
+Node;AmplifyShaderEditor.Vector2Node;113;-2340.544,-580.5311;Inherit;False;Property;_TopVertexOffsetValue;TopVertexOffset Value;6;0;Create;True;0;0;0;False;0;False;0,0;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
 Node;AmplifyShaderEditor.ClampOpNode;126;-2350.269,-433.013;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;-1;False;2;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.ComponentMaskNode;73;-2515.027,-1070.726;Inherit;True;False;False;True;True;1;0;FLOAT;0;False;1;FLOAT;0
 WireConnection;1;0;118;0
@@ -3722,4 +3690,4 @@ WireConnection;106;0;11;1
 WireConnection;126;0;115;33
 WireConnection;73;0;11;3
 ASEEND*/
-//CHKSM=D75E655A60C1A936558F40E350F58B5559DC1120
+//CHKSM=AFE4C4ADB82CBC9F34FBE6D5F432451250010E10
