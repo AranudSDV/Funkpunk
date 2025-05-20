@@ -3,6 +3,7 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Unity.Splines.Examples;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.ProBuilder.Shapes;
@@ -12,6 +13,7 @@ public class SC_FieldOfView : MonoBehaviour
     public int i_typeFoe = 1;
     [SerializeField] private SC_Player scPlayer = null;
     [SerializeField] private SC_VisionConeCasting sc_Cone;
+    [SerializeField] private SC_VisionConeCasting[] sc_BossCone = new SC_VisionConeCasting[2];
 
     //LE DEPLACEMENT
     [Header("Deplacement")]
@@ -54,6 +56,9 @@ public class SC_FieldOfView : MonoBehaviour
     [SerializeField] private GameObject Go_vfx_Suspicious;
     [SerializeField] private Vector3 pos_vfx_supicious;
     [SerializeField] private ParticleSystem PS_Suspicious;
+    [SerializeField] private GameObject Go_vfx_stunOnce;
+    [SerializeField] private Vector3 pos_vfx_stunOnce;
+    [SerializeField] private ParticleSystem PS_StunOnce;
     [SerializeField] private GameObject Go_vfx_Backward;
     [SerializeField] private Vector3 pos_vfx_backward;
     [SerializeField] private VisioneConeFeedbackBack backfeedback;
@@ -94,7 +99,7 @@ public class SC_FieldOfView : MonoBehaviour
     public int iNbTaggsDonePhase2 = 0;
     public bool bIsPhase1Animated = false;
     private bool bIsNearerRight = false;
-    [SerializeField] CinemachineVirtualCamera cineVirtualCam;
+    public CinemachineVirtualCamera camBoss;
     [SerializeField] private float fFinalPhaseAngle = 90f;
 
     private int Hasard(int a, int b) //Choisi un random.
@@ -144,6 +149,7 @@ public class SC_FieldOfView : MonoBehaviour
             GoCone.transform.localPosition = new Vector3(GoCone.transform.localPosition.x, InitialYCone, GoCone.transform.localPosition.z);
         }
     }
+    //ROUTINE
     private IEnumerator FOVRoutine()
     {
         WaitForSeconds wait = new WaitForSeconds(0.2f);
@@ -266,6 +272,7 @@ public class SC_FieldOfView : MonoBehaviour
         }
         DetectionChecks();
     }
+    //VFX
     private IEnumerator NumDetectedVFX(bool bNewDetected, float height)
     {
         if (bNewDetected && height>30)
@@ -300,6 +307,21 @@ public class SC_FieldOfView : MonoBehaviour
             PS_Suspicious.Stop();
         }
     }
+    public IEnumerator FoeStunOnceVFX()
+    {
+        Go_vfx_stunOnce.transform.position = pos_vfx_stunOnce;
+        PS_StunOnce.Play();
+        yield return new WaitForSeconds(1f);
+        PS_StunOnce.Stop();
+        Go_vfx_stunOnce.transform.position = new Vector3(0, -50, 0);
+    }
+    public void ResetAllVFX()
+    {
+        StartCoroutine(NumDetectedVFX(false, 0f));
+        StartCoroutine(NumSuspiciousVFX(false, 0f));
+        FoeDisabled(false);
+    }
+    //DETECTION
     public void PlayerDetected(GameObject GOPlayer, float time)
     {
         transform.LookAt(GOPlayer.transform);
@@ -584,23 +606,23 @@ public class SC_FieldOfView : MonoBehaviour
             }
         }
     }
-    public void ResetAllVFX()
-    {
-        StartCoroutine(NumDetectedVFX(false, 0f));
-        StartCoroutine(NumSuspiciousVFX(false, 0f));
-        FoeDisabled(false);
-    }
+    //BOSS
     private void BaitShuffle()
     {
-        for (int i = 0; i < 4; i++)
+        for (int i =0, y = 0; y < bossBaits.Length; i++, y++)
         {
-            if(i-1==-1)
+            bossBaits[y].bOnFoe = false;
+            if (i - 1 == -1)
             {
-                bossBaits[i].transform.position = posBait[Hasard(0, iNbPosBaitPerZoneAdditive[i]-1)];
+                bossBaits[y].transform.position = posBait[Hasard(0, iNbPosBaitPerZoneAdditive[i] - 1)];
             }
             else
             {
-                bossBaits[i].transform.position = posBait[Hasard(iNbPosBaitPerZoneAdditive[i - 1], iNbPosBaitPerZoneAdditive[i]-1)];
+                bossBaits[y].transform.position = posBait[Hasard(iNbPosBaitPerZoneAdditive[i - 1], iNbPosBaitPerZoneAdditive[i] - 1)];
+            }
+            if(i==3)
+            {
+                i = 0;
             }
         }
     }
@@ -676,6 +698,11 @@ public class SC_FieldOfView : MonoBehaviour
     }
     public void BossTagAnglePhase2()
     {
+        if(iNbTaggsDonePhase2 == 1)
+        {
+            sc_BossCone[0].transform.GetComponent<MeshRenderer>().enabled = true;
+            sc_BossCone[0].enabled = true;
+        }
         if(iNbTaggsDonePhase2 == 2)
         {
             Vector3 directionToTarget = (scPlayer.transform.position - transform.position).normalized;
@@ -695,11 +722,15 @@ public class SC_FieldOfView : MonoBehaviour
                 if(hasard == 0) //droite
                 {
                     bIsNearerRight = true;
+                    sc_BossCone[1].transform.rotation = Quaternion.Euler(0,-90,90);
                 }
                 else //gauche
                 {
                     bIsNearerRight = false;
+                    sc_BossCone[1].transform.rotation = Quaternion.Euler(0, -90, -90);
                 }
+                sc_BossCone[1].transform.GetComponent<MeshRenderer>().enabled = true;
+                sc_BossCone[1].enabled = true;
             }
         }
         else if(iNbTaggsDonePhase2 == 4)
@@ -707,7 +738,7 @@ public class SC_FieldOfView : MonoBehaviour
             scPlayer.menuManager.bGameIsPaused = true;
             scPlayer.bIsImune = true;
             bIsDisabled = true;
-            scPlayer.EndDialogue();
+            StartCoroutine(scPlayer.EndDialogue());
         }
         sc_Cone.iBossTagsPhase2 = iNbTaggsDonePhase2;
 
@@ -715,7 +746,7 @@ public class SC_FieldOfView : MonoBehaviour
     private void AnimatePhase2()
     {
         bIsPhase1Animated = true;
-        cineVirtualCam.Priority = 20;
+        camBoss.Priority = 20;
         scPlayer.menuManager.bGameIsPaused = true;
         scPlayer.bIsImune = true;
         bIsDisabled = true;
@@ -736,8 +767,8 @@ public class SC_FieldOfView : MonoBehaviour
         seq.Join(GoMesh.transform.DORotateQuaternion(floatRot, 2f).SetEase(Ease.OutSine));
 
         // Stagger (X/Z + small Y noise) while staying in air
-        seq.Append(GoMesh.transform.DOMove(floatUpPos + new Vector3(1f, 1f, -1f), 1f).SetEase(Ease.InOutSine));
-        seq.Append(GoMesh.transform.DOMove(floatUpPos + new Vector3(-1f, 1f, 1f), 1f).SetEase(Ease.InOutSine));
+        seq.Append(GoMesh.transform.DOMove(floatUpPos + new Vector3(0.1f, 0.3f, -0.2f), 1f).SetEase(Ease.InOutSine));
+        seq.Append(GoMesh.transform.DOMove(floatUpPos + new Vector3(-0.4f, 0.1f, 0.2f), 1f).SetEase(Ease.InOutSine));
 
         // Fall back to original position and rotation
         seq.Append(GoMesh.transform.DOMove(startPos, 0.8f).SetEase(Ease.InQuad));
@@ -754,7 +785,7 @@ public class SC_FieldOfView : MonoBehaviour
             bIsDisabled = false;
             scPlayer.menuManager.bGameIsPaused = false;
             scPlayer.bIsImune = false;
-            cineVirtualCam.Priority = 2;
+            camBoss.Priority = 2;
         });
     }
 }

@@ -29,7 +29,6 @@ public class bait_juicy : MonoBehaviour
         AnimateScale(f_beat);
         AnimateRotation(f_beat);
     }
-
     private void AnimateBounce(float beatDuration)
     {
         float startY = transform.position.y;
@@ -53,6 +52,10 @@ public class bait_juicy : MonoBehaviour
             .SetEase(Ease.InOutSine)
             .SetLoops(-1, LoopType.Yoyo) // Slight tilt on X and Z
             .Play();
+    }
+    public void EndNow()
+    {
+        DOTween.Kill(this);
     }
     private void OnDestroy()
     {

@@ -10,7 +10,8 @@ public class ing_Bait : MonoBehaviour
 {
     public SC_Player scPlayer;
     public BPM_Manager bpmManager;
-    [SerializeField] private bait_juicy sc_juice;
+    public bait_juicy sc_juice;
+    public bool bOnFoe = false;
 
     //THROWN 
     private float elapsedseconds = 0;
@@ -236,5 +237,10 @@ public class ing_Bait : MonoBehaviour
         yield return new WaitForSeconds(time * 2/5);
         PS_Impact.Stop();
         Go_vfx_Impact.transform.localPosition = new Vector3(fPosBase_impact.x, fPosBase_impact.y - 50f, fPosBase_impact.z);
+        if(bOnFoe)
+        {
+            sc_juice.EndNow();
+            this.transform.position = new Vector3(0, -50f, 0);
+        }
     }
 }

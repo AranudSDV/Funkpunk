@@ -4,6 +4,7 @@ using System.Collections.Generic;
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class SC_VisionConeCasting : MonoBehaviour
 {
+    public bool bOnlyMeshable = false;
     public int iBossTagsPhase2 = 0;
     [Header("Matériau & Paramètres du Field of View")]
     [SerializeField] private Material mVisionCone;
@@ -45,8 +46,11 @@ public class SC_VisionConeCasting : MonoBehaviour
 
     private void Update()
     {
-        BuildCone(); 
-        CheckStatus();
+        BuildCone();
+        if (!bOnlyMeshable)
+        {
+            CheckStatus();
+        }
     }
     private void CheckStatus()
     {

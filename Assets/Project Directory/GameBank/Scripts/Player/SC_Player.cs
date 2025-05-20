@@ -19,6 +19,8 @@ using System.Text.RegularExpressions;
 using DG.Tweening;
 using UnityEditor;
 using UnityEngine.EventSystems;
+using Unity.Splines.Examples;
+using UnityEngine.ProBuilder.Shapes;
 //using UnityEditor.PackageManager;
 
 public class SC_Player : MonoBehaviour
@@ -398,13 +400,14 @@ public class SC_Player : MonoBehaviour
                                     {
                                         foe.bIsDisabled = true;
                                         foe.FoeDisabled(foe.bIsDisabled);
+                                        StartCoroutine(foe.FoeStunOnceVFX());
                                         foe.i_EnnemyBeat = -iTimeFoeDisabled * 10;
                                     }
                                     CameraShake(fShakeFoeBasic, bpmManager.FSPB * 1 / 3);
                                 }
                                 if (ingTag.transform.gameObject.name == "EndingWall")
                                 {
-                                    EndDialogue();
+                                    StartCoroutine(EndDialogue());
                                 }
                                 if (ingTag.bBossTag)
                                 {
@@ -545,13 +548,14 @@ public class SC_Player : MonoBehaviour
                                 {
                                     foe.bIsDisabled = true;
                                     foe.FoeDisabled(foe.bIsDisabled);
+                                    StartCoroutine(foe.FoeStunOnceVFX());
                                     foe.i_EnnemyBeat = -iTimeFoeDisabled*10;
                                 }
                                 StartCoroutine(CameraShake(fShakeFoeBasic, bpmManager.FSPB * 1 / 3));
                             }
                             if (ingTag.transform.gameObject.name == "EndingWall")
                             {
-                                EndDialogue();
+                                StartCoroutine(EndDialogue());
                             }
                             if(ingTag.bBossTag)
                             {
@@ -877,13 +881,51 @@ public class SC_Player : MonoBehaviour
         collider.isTrigger = true;
         cam.Priority = 20;
         DG.Tweening.Sequence sequenceDoor = DOTween.Sequence();
-        sequenceDoor.Append(goDoor.transform.DORotate(new Vector3(0, 180, 0), 3f));
+        sequenceDoor.Append(goDoor.transform.DORotate(new Vector3(0, 180, 90), 3f));
         sequenceDoor.OnComplete(() =>
         {
             cam.Priority = 2;
-            menuManager.bGameIsPaused = false;
+            DG.Tweening.Sequence sequenceDoor1 = DOTween.Sequence();
+            sequenceDoor1.AppendInterval(2f);
+            sequenceDoor1.OnComplete(() =>
+            {
+                menuManager.bGameIsPaused = false;
+                bIsImune = true;
+                StartCoroutine(menuManager.ImuneToPause(bpmManager));
+            });
+        });
+    }
+    public void BossDoorToFoe(GameObject goDoor, CinemachineVirtualCamera BossCam, CinemachineVirtualCamera DoorCam, BoxCollider boxColliderBoss)
+    {
+        DG.Tweening.Sequence sequenceDoor = DOTween.Sequence();
+        sequenceDoor.AppendInterval(bpmManager.FSPB*3);
+        sequenceDoor.OnComplete(() =>
+        {
+            boxColliderBoss.isTrigger = false;
+            menuManager.bGameIsPaused = true;
             bIsImune = true;
-            menuManager.ImuneToPause(bpmManager);
+            DoorCam.m_LookAt = null;
+            DoorCam.transform.position = new Vector3(76.99f, 6.94f, 81.87f);
+            DoorCam.transform.rotation = Quaternion.Euler(10.03f, -74.4f, 0f);
+            DoorCam.Priority = 20;
+            DG.Tweening.Sequence sequenceDoor1 = DOTween.Sequence();
+            sequenceDoor1.Append(goDoor.transform.DORotate(new Vector3(0, 0, 90), 3f));
+            sequenceDoor1.OnComplete(() =>
+            {
+                DoorCam.Priority = 2;
+                BossCam.Priority = 20;
+                NextExplicationBoss(BossCam);
+            });
+        });
+    }
+    private void NextExplicationBoss(CinemachineVirtualCamera BossCam)
+    {
+        Debug.Log("next explication");
+        DG.Tweening.Sequence sequenceDoor2 = DOTween.Sequence();
+        sequenceDoor2.AppendInterval(2f);
+        sequenceDoor2.OnComplete(() =>
+        {
+            tutoGen.StartBossExplication(BossCam);
         });
     }
 
@@ -1178,8 +1220,8 @@ public class SC_Player : MonoBehaviour
             PlayerCapsule.transform.localPosition = localPosMesh;
             if(bOnFoe)
             {
+                GO_BaitInst.transform.GetComponent<ing_Bait>().bOnFoe = true;
                 SoundManager.Instance.PlayOneShot(sfx_baitStun);
-                GO_BaitInst.transform.position -= new Vector3(0, -50f, 0);
             }
         });
     }
@@ -1318,10 +1360,12 @@ public class SC_Player : MonoBehaviour
     }
 
     //LA FIN DU NIVEAU
-    public void EndDialogue()
+    public IEnumerator EndDialogue()
     {
-        Time.timeScale = 0f;
         menuManager.bGameIsPaused = true;
+        bIsImune = true;
+        yield return new WaitForSeconds(2f);
+        Time.timeScale = 0f;
         menuManager.PauseGame();
 
         menuManager.CgEndDialogue.alpha = 1f;

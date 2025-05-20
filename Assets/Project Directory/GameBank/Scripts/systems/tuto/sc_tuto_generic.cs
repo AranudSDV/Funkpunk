@@ -42,6 +42,7 @@ public class sc_tuto_generic : MonoBehaviour
     [Header("Camera")]
     [SerializeField] private GameObject GoFollowed;
     [SerializeField] private CinemachineBrain cam_Brain;
+    private CinemachineVirtualCamera camBoss;
     [SerializeField] private CinemachineVirtualCamera cam_Back;
     [SerializeField] private CinemachineVirtualCamera cam_Game;
     [SerializeField] private CinemachinePathBase m_Path;
@@ -59,6 +60,7 @@ public class sc_tuto_generic : MonoBehaviour
     [SerializeField][Tooltip("The parent Rectransform number where the player now begins the game and is ready.")] private int intYGameCam = 3;
     [SerializeField][Tooltip("The parent Rectransform number of the tutorial to learn the detection.")] private int intYDetectionTuto = 9;
     [SerializeField][Tooltip("The parent Rectransform number of the tutorial to learn the bait.")] private int intYBaitTuto = 9;
+    [SerializeField][Tooltip("The parent Rectransform number of the tutorial to introduce the boss.")] private int intYBoss = 9;
     [SerializeField][Tooltip("Where the backtrack's Camera will switch to be the player's one")] private float tresholdZ;
     private float fSpeed = 5f;
 
@@ -203,6 +205,10 @@ public class sc_tuto_generic : MonoBehaviour
                             scPlayer.bisTuto = false;
                             ImuneToTuto(scPlayer.bpmManager);
                         }
+                        else if(_y == intYBoss)
+                        {
+                            StartCoroutine(EndBossExplication());
+                        }
                         if (!cameraIsTracking)
                         {
                             NextWholeBubble();
@@ -216,7 +222,7 @@ public class sc_tuto_generic : MonoBehaviour
                 }
                 else if (bIsOnLoft)
                 {
-                    if(bTuto[0] && iInput==0 && (!bHasClickedSkip && !bWaitNext && scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered)) //TO SKIP
+                    if(bTuto[0] && iInput==0 && !bHasClickedSkip && !bWaitNext && scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered) //TO SKIP
                     {
                         bHasClickedSkip = true;
                     }
@@ -242,6 +248,10 @@ public class sc_tuto_generic : MonoBehaviour
                             scPlayer.menuManager.bGameIsPaused = true;
                         }
                         bWaitNext = false;
+                    }
+                    else if (bTuto[1] && !bHasClickedSkip && !bWaitNext && scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered)
+                    {
+                        bHasClickedSkip = true;
                     }
                     else if(bTuto[1] && bWaitNext && !bOnceNext && scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered)
                     {
@@ -293,7 +303,7 @@ public class sc_tuto_generic : MonoBehaviour
             }
         }
     }
-
+    //BUBBLE
     private void BubbleTimer(float time) //BUBBLES ARE SHOWING ONE AFTER ANOTHER
     {
         _ftimer += time;
@@ -350,12 +360,12 @@ public class sc_tuto_generic : MonoBehaviour
                         CgGameUI.alpha = 1f;
                         scPlayer.menuManager.bGameIsPaused = false;
                     }
-                    bWaitNext = true;
-                    ShowNextText(i);
-                    if(bIsOnLoft && bTuto[1])
+                    else if (bIsOnLoft && bTuto[1])
                     {
                         scPlayer.menuManager.bGameIsPaused = false;
                     }
+                    bWaitNext = true;
+                    ShowNextText(i);
                     return;
                 }
             }
@@ -471,6 +481,7 @@ public class sc_tuto_generic : MonoBehaviour
         RtTuto[i].offsetMin = new Vector2(0f, 0f);
         RtTuto[i+1].offsetMin = Vector2.zero;
     }
+    //BACK TO REALITY
     private void ImuneToTuto(BPM_Manager bpmmanager)
     {
         scPlayer.bIsImune = true;
@@ -499,6 +510,7 @@ public class sc_tuto_generic : MonoBehaviour
             GoFollowed.transform.rotation = m_Path.EvaluateOrientationAtUnit(m_Position, m_PositionUnits);
         }
     }
+    //TUTO FROM THE GAME
     public void StartTutoDetection()
     {
         //scPlayer.menuManager.bGameIsPaused = true;
@@ -532,6 +544,28 @@ public class sc_tuto_generic : MonoBehaviour
             bIsOnBD = true;
             bWaitNext = false;
         }
+    }
+    public void StartBossExplication(CinemachineVirtualCamera cam)
+    {
+        Debug.Log("debut boss explication");
+        bHasClickedSkip = false;
+        bOnceSkip = false;
+        camBoss = cam;
+        scPlayer.bIsImune = true;
+        scPlayer.bisTuto = true;
+        bOnceNext = false;
+        _y = intYBoss;
+        bIsOnBD = true;
+        bWaitNext = false;
+    }
+    private IEnumerator EndBossExplication()
+    {
+        camBoss.Priority = 2;
+        yield return new WaitForSeconds(2f);
+        bIsOnBD = false;
+        scPlayer.bisTuto = false;
+        scPlayer.menuManager.bGameIsPaused = false;
+        ImuneToTuto(scPlayer.bpmManager);
     }
     private void OnTriggerEnter(Collider collision)
     {

@@ -15,7 +15,6 @@ public class BPM_Manager : MonoBehaviour
     [SerializeField] private SC_Player scPlayer;
     private SoundManager soundManager;
     public int iReplaying = 3;
-    [SerializeField] private Material[] M_all_uis;
 
     //LE BEAT
     [Header("Beat")]
@@ -125,10 +124,7 @@ public class BPM_Manager : MonoBehaviour
                 basicLoopInstance.getPlaybackState(out PLAYBACK_STATE state);
                 if (state != PLAYBACK_STATE.STOPPED) return; 
             }
-            foreach(Material _M in M_all_uis)
-            {
-                _M.SetFloat("BPM", FBPM);
-            }
+            Shader.SetGlobalFloat("BPM", FBPM);
             bInitialized[1] = true;
         }
         fTimer += f_Timer;
