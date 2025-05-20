@@ -169,6 +169,7 @@ Shader  "SHR_DecalMaster2"
             #endif
 			CBUFFER_END
 
+			float4x4 unity_Projector;
 			sampler2D _tex;
 
 
@@ -369,7 +370,7 @@ Shader  "SHR_DecalMaster2"
 
 				float2 texCoord11 = texCoord0 * float2( 1,1 ) + float2( 0,0 );
 				float2 uv25 = texCoord11;
-				float4 matrixToPos29 = float4( GetObjectToWorldMatrix()[0][3],GetObjectToWorldMatrix()[1][3],GetObjectToWorldMatrix()[2][3],GetObjectToWorldMatrix()[3][3]);
+				float4 matrixToPos29 = float4( unity_Projector[0][3],unity_Projector[1][3],unity_Projector[2][3],unity_Projector[3][3]);
 				float4 break27 = matrixToPos29;
 				float2 appendResult28 = (float2(break27.x , break27.z));
 				float2 seed2D25 = appendResult28;
@@ -547,6 +548,7 @@ Shader  "SHR_DecalMaster2"
             #endif
 			CBUFFER_END
 
+			float4x4 unity_Projector;
 			sampler2D _tex;
 
 
@@ -821,7 +823,7 @@ Shader  "SHR_DecalMaster2"
 
 				float2 texCoord11 = texCoord0 * float2( 1,1 ) + float2( 0,0 );
 				float2 uv25 = texCoord11;
-				float4 matrixToPos29 = float4( GetObjectToWorldMatrix()[0][3],GetObjectToWorldMatrix()[1][3],GetObjectToWorldMatrix()[2][3],GetObjectToWorldMatrix()[3][3]);
+				float4 matrixToPos29 = float4( unity_Projector[0][3],unity_Projector[1][3],unity_Projector[2][3],unity_Projector[3][3]);
 				float4 break27 = matrixToPos29;
 				float2 appendResult28 = (float2(break27.x , break27.z));
 				float2 seed2D25 = appendResult28;
@@ -1021,6 +1023,7 @@ Shader  "SHR_DecalMaster2"
             #endif
 			CBUFFER_END
 
+			float4x4 unity_Projector;
 			sampler2D _tex;
 
 
@@ -1289,7 +1292,7 @@ Shader  "SHR_DecalMaster2"
 
 				float2 texCoord11 = texCoord0 * float2( 1,1 ) + float2( 0,0 );
 				float2 uv25 = texCoord11;
-				float4 matrixToPos29 = float4( GetObjectToWorldMatrix()[0][3],GetObjectToWorldMatrix()[1][3],GetObjectToWorldMatrix()[2][3],GetObjectToWorldMatrix()[3][3]);
+				float4 matrixToPos29 = float4( unity_Projector[0][3],unity_Projector[1][3],unity_Projector[2][3],unity_Projector[3][3]);
 				float4 break27 = matrixToPos29;
 				float2 appendResult28 = (float2(break27.x , break27.z));
 				float2 seed2D25 = appendResult28;
@@ -1496,6 +1499,7 @@ Shader  "SHR_DecalMaster2"
 			float _DecalMeshViewBias;
 			CBUFFER_END
 
+			float4x4 unity_Projector;
 			sampler2D _tex;
 
 
@@ -1686,7 +1690,7 @@ Shader  "SHR_DecalMaster2"
 
 				float2 texCoord11 = packedInput.texCoord0.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 uv25 = texCoord11;
-				float4 matrixToPos29 = float4( GetObjectToWorldMatrix()[0][3],GetObjectToWorldMatrix()[1][3],GetObjectToWorldMatrix()[2][3],GetObjectToWorldMatrix()[3][3]);
+				float4 matrixToPos29 = float4( unity_Projector[0][3],unity_Projector[1][3],unity_Projector[2][3],unity_Projector[3][3]);
 				float4 break27 = matrixToPos29;
 				float2 appendResult28 = (float2(break27.x , break27.z));
 				float2 seed2D25 = appendResult28;
@@ -1873,6 +1877,7 @@ Shader  "SHR_DecalMaster2"
 			float _DecalMeshViewBias;
 			CBUFFER_END
 
+			float4x4 unity_Projector;
 			sampler2D _tex;
 
 
@@ -2140,7 +2145,7 @@ Shader  "SHR_DecalMaster2"
 
 				float2 texCoord11 = packedInput.texCoord0.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 uv25 = texCoord11;
-				float4 matrixToPos29 = float4( GetObjectToWorldMatrix()[0][3],GetObjectToWorldMatrix()[1][3],GetObjectToWorldMatrix()[2][3],GetObjectToWorldMatrix()[3][3]);
+				float4 matrixToPos29 = float4( unity_Projector[0][3],unity_Projector[1][3],unity_Projector[2][3],unity_Projector[3][3]);
 				float4 break27 = matrixToPos29;
 				float2 appendResult28 = (float2(break27.x , break27.z));
 				float2 seed2D25 = appendResult28;
@@ -2350,6 +2355,7 @@ Shader  "SHR_DecalMaster2"
 			float _DecalMeshViewBias;
 			CBUFFER_END
 
+			float4x4 unity_Projector;
 			sampler2D _tex;
 
 
@@ -2615,7 +2621,7 @@ Shader  "SHR_DecalMaster2"
 
 				float2 texCoord11 = packedInput.texCoord0.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 uv25 = texCoord11;
-				float4 matrixToPos29 = float4( GetObjectToWorldMatrix()[0][3],GetObjectToWorldMatrix()[1][3],GetObjectToWorldMatrix()[2][3],GetObjectToWorldMatrix()[3][3]);
+				float4 matrixToPos29 = float4( unity_Projector[0][3],unity_Projector[1][3],unity_Projector[2][3],unity_Projector[3][3]);
 				float4 break27 = matrixToPos29;
 				float2 appendResult28 = (float2(break27.x , break27.z));
 				float2 seed2D25 = appendResult28;
@@ -2784,6 +2790,7 @@ Shader  "SHR_DecalMaster2"
 			float _DecalMeshViewBias;
 			CBUFFER_END
 
+			float4x4 unity_Projector;
 			sampler2D _tex;
 
 
@@ -2872,7 +2879,7 @@ Shader  "SHR_DecalMaster2"
 			{
 				float2 texCoord11 = packedInput.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 uv25 = texCoord11;
-				float4 matrixToPos29 = float4( GetObjectToWorldMatrix()[0][3],GetObjectToWorldMatrix()[1][3],GetObjectToWorldMatrix()[2][3],GetObjectToWorldMatrix()[3][3]);
+				float4 matrixToPos29 = float4( unity_Projector[0][3],unity_Projector[1][3],unity_Projector[2][3],unity_Projector[3][3]);
 				float4 break27 = matrixToPos29;
 				float2 appendResult28 = (float2(break27.x , break27.z));
 				float2 seed2D25 = appendResult28;
@@ -2928,10 +2935,7 @@ Node;AmplifyShaderEditor.RangedFloatNode;21;-1254.169,632.5114;Inherit;False;Pro
 Node;AmplifyShaderEditor.RangedFloatNode;26;-1255.936,555.1644;Inherit;False;Property;_SeedScale;SeedScale;11;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.BreakToComponentsNode;27;-1449.202,-230.0352;Inherit;False;FLOAT4;1;0;FLOAT4;0,0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
 Node;AmplifyShaderEditor.DynamicAppendNode;28;-1280.202,-244.7686;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.ObjectToWorldMatrixNode;33;-2175.46,-59.3021;Inherit;False;0;1;FLOAT4x4;0
-Node;AmplifyShaderEditor.PosFromTransformMatrix;29;-1960.271,-23.10181;Inherit;False;1;0;FLOAT4x4;1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.ObjectToWorldTransfNode;31;-1778.871,-279.6352;Inherit;False;1;0;FLOAT4;1,1,1,1;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.UnityProjectorMatrixNode;34;-2136.702,22.94973;Inherit;False;0;1;FLOAT4x4;0
 Node;AmplifyShaderEditor.BreakToComponentsNode;9;-552.6132,-52.80138;Inherit;True;FLOAT4;1;0;FLOAT4;0,0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;2;-328.5793,-127.9075;Float;False;True;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;14;SHR_DecalMaster2;c2a467ab6d5391a4ea692226d82ffefd;True;DecalScreenSpaceProjector;0;2;DecalScreenSpaceProjector;9;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;True;2;False;;False;True;1;LightMode=DecalScreenSpaceProjector;False;True;4;d3d11;glcore;gles;gles3;0;;0;0;Standard;7;Affect BaseColor;1;0;Affect Normal;1;0;Blend;1;0;Affect MAOS;0;0;Affect Emission;0;0;Support LOD CrossFade;0;0;Angle Fade;1;0;0;9;True;False;True;True;True;False;True;True;True;False;;False;0
 Node;AmplifyShaderEditor.SwizzleNode;23;-1748.555,-525.2849;Inherit;True;FLOAT2;0;2;2;3;1;0;FLOAT3;0,0,0;False;1;FLOAT2;0
@@ -2942,6 +2946,11 @@ Node;AmplifyShaderEditor.Vector2Node;37;-1423.53,173.3338;Inherit;False;Property
 Node;AmplifyShaderEditor.Vector2Node;38;-1428.469,281.1895;Inherit;False;Property;_MinScaleY;MinScaleY;12;0;Create;True;0;0;0;False;0;False;0,0;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
 Node;AmplifyShaderEditor.Vector2Node;40;-1470.031,438.6969;Inherit;False;Property;_MinOffsetX;MinOffsetX;15;0;Create;True;0;0;0;False;0;False;0,0;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
 Node;AmplifyShaderEditor.Vector2Node;39;-1474.08,566.1307;Inherit;False;Property;_MinOffsetY;MinOffsetY;14;0;Create;True;0;0;0;False;0;False;0,0;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
+Node;AmplifyShaderEditor.WorldPosInputsNode;41;-2288.325,-229.5135;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.TransformPositionNode;42;-2025.659,-290.8468;Inherit;False;World;Object;False;Fast;True;1;0;FLOAT3;0,0,0;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.PosFromTransformMatrix;29;-1942.938,-67.10181;Inherit;False;1;0;FLOAT4x4;1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.UnityProjectorMatrixNode;34;-2136.702,22.94973;Inherit;False;0;1;FLOAT4x4;0
+Node;AmplifyShaderEditor.ObjectToWorldMatrixNode;33;-2175.46,-59.3021;Inherit;False;0;1;FLOAT4x4;0
 WireConnection;10;0;22;0
 WireConnection;25;0;11;0
 WireConnection;25;1;28;0
@@ -2960,10 +2969,11 @@ WireConnection;25;13;21;0
 WireConnection;27;0;29;0
 WireConnection;28;0;27;0
 WireConnection;28;1;27;2
-WireConnection;29;0;33;0
 WireConnection;9;0;25;0
 WireConnection;2;0;25;0
 WireConnection;2;1;9;3
 WireConnection;23;0;12;0
+WireConnection;42;0;41;0
+WireConnection;29;0;34;0
 ASEEND*/
-//CHKSM=1E83DB72B810753CA1F11C580545ADF464C57259
+//CHKSM=59710741A6D1365FF819FD8CE6FFE6F0A9EA106C
