@@ -50,7 +50,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Alpha_Pow: 1
+    - _Alpha_Pow: 2.24
     - _AtlasColonnes: 2
     - _AtlasLignes: 2
     - _DecalAngleFadeSupported: 1

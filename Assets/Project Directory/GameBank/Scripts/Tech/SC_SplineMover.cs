@@ -1,87 +1,118 @@
 using UnityEngine;
 using UnityEngine.Splines;
 using System.Collections.Generic;
-using Unity.Mathematics;
 
-public class MultiObjectSplineMover : MonoBehaviour
+public class SplineTrainMover_WithSpacing : MonoBehaviour
 {
-    [Tooltip("Reference to the SplineContainer component.")]
+    [Header("Spline Settings")]
     public SplineContainer splineContainer;
 
-    [Tooltip("List of objects to move along the spline.")]
-    public List<Transform> objectsToMove;
+    [Header("Train Cars")]
+    [Tooltip("Index 0 is head; others are wagons in order.")]
+    public List<Transform> cars;
 
-    [Tooltip("Movement speed in units per second.")]
-    public float speed = 5f;
+    [Header("Movement")]
+    public float speed = 5f;                             // units per second
 
-    private float[] progress; // Normalized progress [0..1] for each object
+    [Header("Spacing")]
+    [Tooltip("Normalized spacing along the spline between consecutive cars (0-1).")]
+    [Range(0f, 1f)]
+    public float spacing = 0.1f;
+
+    [Header("Pause Settings")]
+    public bool usePause = true;
+    public float pauseMin = 1f;
+    public float pauseMax = 3f;
+
     private float totalLength;
+    private float headProgress;
+    private float[] progress;
+    private bool[] isPaused;
+    private float[] pauseTimer;
+    private float pauseDuration;
 
     void Start()
     {
-        if (splineContainer == null)
-        {
-            Debug.LogError("SplineContainer reference is missing.");
-            enabled = false;
-            return;
-        }
-
-        if (objectsToMove == null || objectsToMove.Count == 0)
-        {
-            Debug.LogError("No objects assigned to move along the spline.");
-            enabled = false;
-            return;
-        }
+        if (splineContainer == null) Debug.LogError("Assign a SplineContainer!", this);
+        if (cars == null || cars.Count == 0) Debug.LogError("Assign at least one car!", this);
 
         totalLength = splineContainer.CalculateLength();
+        int n = cars.Count;
 
-        // Initialize progress array
-        int count = objectsToMove.Count;
-        progress = new float[count];
+        progress = new float[n];
+        isPaused = new bool[n];
+        pauseTimer = new float[n];
 
-        for (int i = 0; i < count; i++)
+        // Set initial head progress to its nearest point
+        headProgress = FindNearestT(cars[0].position);
+
+        // Initialize each car's progress based on uniform spacing
+        for (int i = 0; i < n; i++)
         {
-            Transform obj = objectsToMove[i];
-            if (obj == null)
-                continue;
-
-            // Convert object's world position to spline's local space
-            Vector3 localPos = splineContainer.transform.InverseTransformPoint(obj.position);
-
-            // Find the closest point on the spline
-            float3 nearestPoint;
-            float t;
-            SplineUtility.GetNearestPoint(splineContainer.Spline, localPos, out nearestPoint, out t);
-
-            progress[i] = t;
+            progress[i] = Mathf.Repeat(headProgress - spacing * i, 1f);
+            isPaused[i] = false;
+            pauseTimer[i] = 0f;
         }
+
+        // Roll initial pause duration for this cycle
+        pauseDuration = Random.Range(pauseMin, pauseMax);
     }
 
     void Update()
     {
-        for (int i = 0; i < objectsToMove.Count; i++)
+        for (int i = 0; i < cars.Count; i++)
         {
-            Transform obj = objectsToMove[i];
-            if (obj == null)
-                continue;
-
-            // Advance progress
-            float distanceThisFrame = speed * Time.deltaTime;
-            progress[i] += distanceThisFrame / totalLength;
-
-            if (progress[i] >= 1f)
+            // Advance or pause each car independently
+            if (usePause && isPaused[i])
             {
-                // Teleport back to start
-                progress[i] = 0f;
-                obj.position = splineContainer.EvaluatePosition(0f);
-                //Obj.rotation = splineContainer.EvaluateOrientation(0f);
+                pauseTimer[i] += Time.deltaTime;
+                if (pauseTimer[i] >= pauseDuration)
+                {
+                    // End pause: teleport to A and reset
+                    isPaused[i] = false;
+                    pauseTimer[i] = 0f;
+                    progress[i] = 0f;
+                }
             }
             else
             {
-                // Move along the spline
-                obj.position = splineContainer.EvaluatePosition(progress[i]);
-                //obj.rotation = splineContainer.EvaluateOrientation(progress[i]);
+                // Move forward
+                progress[i] += speed * Time.deltaTime / totalLength;
             }
+
+            // Clamp and handle reaching B
+            if (!isPaused[i] && progress[i] >= 1f)
+            {
+                // Snap to B and start pause
+                progress[i] = 1f;
+                if (usePause)
+                {
+                    isPaused[i] = true;
+                    pauseTimer[i] = 0f;
+                }
+                else
+                {
+                    // Immediate loop
+                    progress[i] = 0f;
+                }
+
+                // If this was the last car, reroll pause for next cycle
+                if (i == cars.Count - 1)
+                {
+                    pauseDuration = Random.Range(pauseMin, pauseMax);
+                }
+            }
+
+            // Update position
+            cars[i].position = splineContainer.EvaluatePosition(progress[i]);
         }
+    }
+
+    // Helper to find normalized t along spline from world position along spline from world position
+    float FindNearestT(Vector3 worldPos)
+    {
+        Vector3 localPos = splineContainer.transform.InverseTransformPoint(worldPos);
+        SplineUtility.GetNearestPoint(splineContainer.Spline, localPos, out _, out float t);
+        return t;
     }
 }
