@@ -85,20 +85,11 @@ public class SC_FieldOfView : MonoBehaviour
     [SerializeField] private ing_Tag[] bossTagsPhase2 = new ing_Tag[4];
     [SerializeField] private int iAngleRemovePerTag = 10;
     [SerializeField] private ing_Bait[] bossBaits = new ing_Bait[4];
-    [SerializeField] private Vector3[] posBait;
-    [SerializeField][Tooltip("xz, x-z, -x-z, -xz")] private int[] iNbPosBaitPerZoneAdditive = new int[4];
-    private ing_Tag chosenTag = null;
-    public bool bIsRemovingTag = false;
-    private bool bRoutineAgain = true;
-    public int iRemovingRoutine = 9;
-    public int iRemovingRoutineSelection = 12;
-    [SerializeField] private int iRemovingThird = 3;
-    public int iTimeBeforeRemovingThird = 3;
+    public int iRest = 0;
     private List<ing_Tag> listTaggsDone = new List<ing_Tag>();
     public int iNbTaggsDonePhase1 = 0;
     public int iNbTaggsDonePhase2 = 0;
-    public bool bIsPhase1Animated = false;
-    private bool bIsNearerRight = false;
+    public bool bIsPhaseAnimated = false;
     public CinemachineVirtualCamera camBoss;
     [SerializeField] private float fFinalPhaseAngle = 90f;
 
@@ -201,7 +192,7 @@ public class SC_FieldOfView : MonoBehaviour
             }
             else if (Vector3.Angle(transform.right, directionToTarget) < FAngle / 2) //check if the angle between the target/this and the forward/this is inside the Angle
             {
-                if (isBoss && bFinalPhase && bIsNearerRight && iNbTaggsDonePhase2 >= 2)
+                if (isBoss && bFinalPhase && iNbTaggsDonePhase2 >= 2)
                 {
                     float distanceToTarget = Vector3.Distance(transform.position, target.position); //distance to the target
                     if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, LMObstructionMask)) //if a raycast can go to the target without obstruction
@@ -209,45 +200,6 @@ public class SC_FieldOfView : MonoBehaviour
                         bSeenOnce = true; //vu une fois
                     }
                     else 
-                    {
-                        BCanSee = false; //Ne voit pas
-                    }
-                }
-                else if (isBoss && bFinalPhase && !bIsNearerRight && iNbTaggsDonePhase2 >= 3)
-                {
-                    float distanceToTarget = Vector3.Distance(transform.position, target.position); //distance to the target
-                    if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, LMObstructionMask)) //if a raycast can go to the target without obstruction
-                    {
-                        bSeenOnce = true; //vu une fois
-                    }
-                    else
-                    {
-                        BCanSee = false; //Ne voit pas
-                    }
-                }
-            }
-            else if (Vector3.Angle(-transform.right, directionToTarget) < FAngle / 2) //check if the angle between the target/this and the forward/this is inside the Angle
-            {
-                if (isBoss && bFinalPhase && bIsNearerRight && iNbTaggsDonePhase2 >= 3)
-                {
-                    float distanceToTarget = Vector3.Distance(transform.position, target.position); //distance to the target
-                    if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, LMObstructionMask)) //if a raycast can go to the target without obstruction
-                    {
-                        bSeenOnce = true; //vu une fois
-                    }
-                    else
-                    {
-                        BCanSee = false; //Ne voit pas
-                    }
-                }
-                else if (isBoss && bFinalPhase && !bIsNearerRight && iNbTaggsDonePhase2 >= 2)
-                {
-                    float distanceToTarget = Vector3.Distance(transform.position, target.position); //distance to the target
-                    if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, LMObstructionMask)) //if a raycast can go to the target without obstruction
-                    {
-                        bSeenOnce = true; //vu une fois
-                    }
-                    else
                     {
                         BCanSee = false; //Ne voit pas
                     }
@@ -371,18 +323,8 @@ public class SC_FieldOfView : MonoBehaviour
             PS_Suspicious.Stop();
             Go_vfx_detected.transform.localPosition = new Vector3(pos_vfx_detected.x, -50f, pos_vfx_detected.z);
             PS_detected.Stop();
-            if(isBoss)
-            {
-                if(bIsRemovingTag)
-                {
-                    iRemovingRoutine = iRemovingRoutineSelection*2;
-                    iTimeBeforeRemovingThird = 10;
-                }
-                bIsRemovingTag = false;
-                bRoutineAgain = false;
-            }
         }
-        else if (bSeenOnce)
+        else if (bSeenOnce && !bIsPhaseAnimated)
         {
             BCanSee = true;
             bSeenOnce = false;
@@ -390,46 +332,16 @@ public class SC_FieldOfView : MonoBehaviour
             StartCoroutine(NumDetectedVFX(true, Go_vfx_detected.transform.localPosition.y));
             Go_vfx_Suspicious.transform.localPosition = new Vector3(pos_vfx_supicious.x, -50f, pos_vfx_supicious.z);
             PS_Suspicious.Stop();
-            if (isBoss)
-            {
-                if (bIsRemovingTag)
-                {
-                    iRemovingRoutine = iRemovingRoutineSelection*2;
-                    iTimeBeforeRemovingThird = 10;
-                }
-                bIsRemovingTag = false;
-                bRoutineAgain = false;
-            }
         }
         else if (BIsNear)
         {
             bHasHeard = false;
             StartCoroutine(NumSuspiciousVFX(true, Go_vfx_Suspicious.transform.localPosition.y));
             transform.LookAt(GOPlayerRef.transform);
-            if (isBoss)
-            {
-                if (bIsRemovingTag)
-                {
-                    iRemovingRoutine = iRemovingRoutineSelection * 2;
-                    iTimeBeforeRemovingThird = 10;
-                }
-                bIsRemovingTag = false;
-                bRoutineAgain = false;
-            }
         }
-        else  if (bHasHeard)
+        else  if (bHasHeard && !bIsPhaseAnimated)
         {
             StartCoroutine(NumSuspiciousVFX(true, Go_vfx_Suspicious.transform.localPosition.y));
-            if (isBoss)
-            {
-                if (bIsRemovingTag)
-                {
-                    iRemovingRoutine = iRemovingRoutineSelection * 2;
-                    iTimeBeforeRemovingThird = 10;
-                }
-                bIsRemovingTag = false;
-                bRoutineAgain = false;
-            }
         }
         else
         {
@@ -439,23 +351,20 @@ public class SC_FieldOfView : MonoBehaviour
         {
             if (i_typeFoe == 1)
             {
-                if (!isBoss)
-                {
-                    transform.eulerAngles = vectLastRot;
-                }
-                else if (isBoss && !bIsRemovingTag && !bRoutineAgain)
-                {
-                    transform.eulerAngles = vectLastRot;
-                    iRemovingRoutine = iRemovingRoutineSelection;
-                    iTimeBeforeRemovingThird = iRemovingThird;
-                    bRoutineAgain = true;
-                }
+                transform.eulerAngles = vectLastRot;
             }
             else
             {
                 transform.LookAt(new Vector3(posDirections[iCurrentDirection].x, this.transform.position.y, posDirections[iCurrentDirection].z));
             }
             StartCoroutine(NumDetectedVFX(false, Go_vfx_detected.transform.localPosition.y));
+        }
+        if(bIsPhaseAnimated)
+        {
+            BCanSee = false;
+            bSeenOnce = false;
+            BIsNear = false;
+            bHasHeard = false;
         }
     }
     private int NearestPosToPlayer(GameObject player)
@@ -484,7 +393,7 @@ public class SC_FieldOfView : MonoBehaviour
     {
         if (i_typeFoe == 1) //Si l'ennemi est statique, ne bouge que sa rotation
         {
-            if(!scPlayer.bIsImune)
+            if(!scPlayer.bIsImune && !bIsPhaseAnimated)
             {
                 if (!isReversing && currentRotation >= maxRotation)
                 {
@@ -609,86 +518,15 @@ public class SC_FieldOfView : MonoBehaviour
     //BOSS
     private void BaitShuffle()
     {
-        for (int i =0, y = 0; y < bossBaits.Length; i++, y++)
+        for (int y = 0; y < bossBaits.Length; y++)
         {
             bossBaits[y].bOnFoe = false;
-            if (i - 1 == -1)
-            {
-                bossBaits[y].transform.position = posBait[Hasard(0, iNbPosBaitPerZoneAdditive[i] - 1)];
-            }
-            else
-            {
-                bossBaits[y].transform.position = posBait[Hasard(iNbPosBaitPerZoneAdditive[i - 1], iNbPosBaitPerZoneAdditive[i] - 1)];
-            }
-            if(i==3)
-            {
-                i = 0;
-            }
-        }
-    }
-    public void TagChecking()
-    {
-        listTaggsDone.Clear();
-        foreach (ing_Tag tag in bossTagsPhase1)
-        {
-            if(tag.transform.gameObject.tag == "Wall")
-            {
-                listTaggsDone.Add(tag);
-            }
-        }
-        if (listTaggsDone.Count>1)
-        {
-            chosenTag = listTaggsDone[Hasard(0, listTaggsDone.Count-1)];
-        }
-        else if(listTaggsDone.Count == 1)
-        {
-            chosenTag = listTaggsDone[0];
-        }
-        else
-        {
-            chosenTag = null;
-        }
-        if(chosenTag!= null)
-        {
-            BaitShuffle();
-            bIsRemovingTag = true;
-            iTimeBeforeRemovingThird = iRemovingThird;
-        }
-        else
-        {
-            iRemovingRoutine = iRemovingRoutineSelection;
-            iTimeBeforeRemovingThird = iRemovingThird;
-        }
-    }
-    public void RemovingTag()
-    {
-        transform.LookAt(chosenTag.transform);
-        if (iTimeBeforeRemovingThird == 0)
-        {
-            iTimeBeforeRemovingThird = iRemovingThird;
-            if (chosenTag.iCompletition == 1)
-            {
-                chosenTag.iCompletition = 0;
-                iRemovingRoutine = iRemovingRoutineSelection;
-                bIsRemovingTag = false;
-                iNbTaggsDonePhase1 -= 1;
-                BossTagAnglePhase1();
-            }
-            else if (chosenTag.iCompletition == 2)
-            {
-                chosenTag.iCompletition = 1;
-            }
-            else
-            {
-                chosenTag.transform.gameObject.tag = "Tagging";
-                chosenTag._renderer.material = chosenTag.untaggedMaterial;
-                chosenTag.iCompletition = 2;
-            }
+            bossBaits[y].transform.position += new Vector3(0f,50f,0f);
+            bossBaits[y].sc_juice.Restart();
         }
     }
     public void BossTagAnglePhase1()
     {
-        FAngle = 60 - (iNbTaggsDonePhase1 * iAngleRemovePerTag);
         if(iNbTaggsDonePhase1 == bossTagsPhase1.Length)
         {
             bFinalPhase = true;
@@ -705,47 +543,21 @@ public class SC_FieldOfView : MonoBehaviour
         }
         if(iNbTaggsDonePhase2 == 2)
         {
-            Vector3 directionToTarget = (scPlayer.transform.position - transform.position).normalized;
-            float directionFromRight = Vector3.Angle(transform.right, directionToTarget);
-            float directionFromLeft = Vector3.Angle(-transform.right, directionToTarget);
-            if(directionFromLeft > directionFromRight) // Le joueur est plus proche de la droite
-            {
-                bIsNearerRight = true;
-            }
-            else if(directionFromLeft < directionFromRight) // Le joueur est plus proche de la gauche
-            {
-                bIsNearerRight = false;
-            }
-            else //le joueur est au milieu, aléatoire
-            {
-                int hasard = Hasard(0,1);
-                if(hasard == 0) //droite
-                {
-                    bIsNearerRight = true;
-                    sc_BossCone[1].transform.rotation = Quaternion.Euler(0,-90,90);
-                }
-                else //gauche
-                {
-                    bIsNearerRight = false;
-                    sc_BossCone[1].transform.rotation = Quaternion.Euler(0, -90, -90);
-                }
-                sc_BossCone[1].transform.GetComponent<MeshRenderer>().enabled = true;
-                sc_BossCone[1].enabled = true;
-            }
+            sc_BossCone[1].transform.GetComponent<MeshRenderer>().enabled = true;
+            sc_BossCone[1].enabled = true;
         }
         else if(iNbTaggsDonePhase2 == 4)
         {
             scPlayer.menuManager.bGameIsPaused = true;
             scPlayer.bIsImune = true;
             bIsDisabled = true;
-            StartCoroutine(scPlayer.EndDialogue());
+            AnimatePhase3();
         }
         sc_Cone.iBossTagsPhase2 = iNbTaggsDonePhase2;
-
     }
     private void AnimatePhase2()
     {
-        bIsPhase1Animated = true;
+        bIsPhaseAnimated = true;
         camBoss.Priority = 20;
         scPlayer.menuManager.bGameIsPaused = true;
         scPlayer.bIsImune = true;
@@ -758,6 +570,7 @@ public class SC_FieldOfView : MonoBehaviour
         Quaternion startRot = GoMesh.transform.rotation;
         DG.Tweening.Sequence seq = DOTween.Sequence();
 
+        sc_BossCone[2].transform.GetComponent<MeshRenderer>().enabled = false;
         // Target positions and rotations
         Vector3 floatUpPos = startPos + new Vector3(0, 3f, 0);
         Quaternion floatRot = Quaternion.Euler(startRot.eulerAngles + new Vector3(20, 40, 10));
@@ -779,13 +592,59 @@ public class SC_FieldOfView : MonoBehaviour
             {
                 bossTagsPhase2[i].transform.parent.transform.position += new Vector3(0, 50f, 0);
             }
-            bIsPhase1Animated = false;
+            bIsPhaseAnimated = false;
             GoMesh.transform.position = startPos;
             GoMesh.transform.rotation = startRot;
             bIsDisabled = false;
             scPlayer.menuManager.bGameIsPaused = false;
             scPlayer.bIsImune = false;
             camBoss.Priority = 2;
+            scPlayer.bpmManager.SetSpeed(1.05f);
+            sc_BossCone[2].transform.GetComponent<MeshRenderer>().enabled = true;
+        });
+    }
+    private void AnimatePhase3()
+    {
+        bIsPhaseAnimated = true;
+        camBoss.Priority = 20;
+        scPlayer.menuManager.bGameIsPaused = true;
+        scPlayer.bIsImune = true;
+        bIsDisabled = true;
+        for (int i = 0; i < bossTagsPhase2.Length; i++)
+        {
+            bossTagsPhase2[i].transform.parent.transform.position += new Vector3(0, -50f, 0);
+        }
+        sc_BossCone[0].transform.GetComponent<MeshRenderer>().enabled = false;
+        sc_BossCone[1].transform.GetComponent<MeshRenderer>().enabled = false;
+        sc_BossCone[2].transform.GetComponent<MeshRenderer>().enabled = false;
+        Vector3 startPos = GoMesh.transform.position;
+        Quaternion startRot = GoMesh.transform.rotation;
+        DG.Tweening.Sequence seq = DOTween.Sequence();
+
+        // Target positions and rotations
+        Vector3 floatUpPos = startPos + new Vector3(0, 3f, 0);
+        Quaternion floatRot = Quaternion.Euler(startRot.eulerAngles + new Vector3(20, 40, 10));
+
+        // Float up and rotate slightly
+        seq.Append(GoMesh.transform.DOMove(floatUpPos, 2f).SetEase(Ease.OutSine));
+        seq.Join(GoMesh.transform.DORotateQuaternion(floatRot, 2f).SetEase(Ease.OutSine));
+
+        // Stagger (X/Z + small Y noise) while staying in air
+        seq.Append(GoMesh.transform.DOMove(floatUpPos + new Vector3(0.1f, 0.3f, -0.2f), 1f).SetEase(Ease.InOutSine));
+        seq.Append(GoMesh.transform.DOMove(floatUpPos + new Vector3(-0.4f, 0.1f, 0.2f), 1f).SetEase(Ease.InOutSine));
+
+        // Fall back to original position and rotation
+        seq.Append(GoMesh.transform.DOMove(startPos, 0.8f).SetEase(Ease.InQuad));
+        seq.Join(GoMesh.transform.DORotateQuaternion(startRot, 0.8f).SetEase(Ease.InQuad));
+        seq.OnComplete(() =>
+        {
+            GoMesh.transform.position = startPos;
+            GoMesh.transform.rotation = startRot;
+            scPlayer.menuManager.bGameIsPaused = false;
+            scPlayer.bIsImune = false;
+            camBoss.Priority = 2;
+            sc_Cone.iBossTagsPhase2 = 0;
+            BaitShuffle();
         });
     }
 }

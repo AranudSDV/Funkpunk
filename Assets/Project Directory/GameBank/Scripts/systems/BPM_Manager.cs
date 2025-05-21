@@ -1,5 +1,6 @@
 using Cinemachine;
 using DG.Tweening;
+using FMOD;
 using FMOD.Studio;
 using FMODUnity;
 using System.Collections;
@@ -12,6 +13,7 @@ using UnityEngine.SceneManagement;
 
 public class BPM_Manager : MonoBehaviour
 {
+    public bool bSimulateLvl3 = false;
     [SerializeField] private SC_Player scPlayer;
     private SoundManager soundManager;
     public int iReplaying = 3;
@@ -38,6 +40,21 @@ public class BPM_Manager : MonoBehaviour
     private int i_B = 0;
     public TextMeshProUGUI textTimer;
     public int iTimer = 3;
+    // FMOD Studio system
+    private FMOD.System coreSystem;
+    // Our 3 sounds (programmer instrument style, streaming)
+    private FMOD.Sound[] musicSounds = new FMOD.Sound[3];
+    private FMOD.Channel[] musicChannels = new FMOD.Channel[3];
+    private DSP[] pitchShifters = new DSP[3];
+    private float[] baseFrequencies = new float[3];
+    // Paths to your audio files (replace with your actual files)
+    private string[] musicPaths = new string[3]
+    {
+        "Assets/StreamingAssets/FMOD/Music/music_lvl3_basic.ogg",
+        "Assets/StreamingAssets/FMOD/Music/music_lvl3_beat.ogg",
+        "Assets/StreamingAssets/FMOD/Music/music_lvl3_detected.ogg"
+    };
+    RESULT result;
 
     //FEEDBACK ON TIMING
     [Header("Timing Feedbacks")]
@@ -114,35 +131,88 @@ public class BPM_Manager : MonoBehaviour
     }
     public void Init(float f_Timer)
     {
-        if (!bInitialized[1])
+        if(SceneManager.GetActiveScene().name != "SceneLvl3" && !bSimulateLvl3)
         {
-            StartBPM();
-            StartCoroutine(wait());
-            BMiss = true;
-            if (basicLoopInstance.isValid())
+            if (!bInitialized[1])
             {
-                basicLoopInstance.getPlaybackState(out PLAYBACK_STATE state);
-                if (state != PLAYBACK_STATE.STOPPED) return; 
+                StartBPM();
+                StartCoroutine(wait());
+                BMiss = true;
+                if (basicLoopInstance.isValid())
+                {
+                    basicLoopInstance.getPlaybackState(out PLAYBACK_STATE state);
+                    if (state != PLAYBACK_STATE.STOPPED) return;
+                }
+                Shader.SetGlobalFloat("BPM", FBPM);
+                bInitialized[1] = true;
             }
-            Shader.SetGlobalFloat("BPM", FBPM);
-            bInitialized[1] = true;
+            fTimer += f_Timer;
+            if (fTimer >= fDelayMusic)
+            {
+                basicLoopInstance = RuntimeManager.CreateInstance(levelLoop);
+                basicLoopInstance.start();
+
+                detectedLoopInstance = RuntimeManager.CreateInstance(levelLoopDetected);
+                detectedLoopInstance.start();
+
+                beatLoopInstance = RuntimeManager.CreateInstance(levelLoopBeat);
+                beatLoopInstance.start();
+
+                scPlayer.menuManager.SetMusicVolume();
+
+                isPlaying = true;
+                bInitialized[0] = true;
+            }
         }
-        fTimer += f_Timer;
-        if (fTimer >= fDelayMusic)
+        else if(bSimulateLvl3 || SceneManager.GetActiveScene().name == "SceneLvl3")
         {
-            basicLoopInstance = RuntimeManager.CreateInstance(levelLoop);
-            basicLoopInstance.start();
+            UnityEngine.Debug.Log("lvl3");
+            if (!bInitialized[1])
+            {
+                StartBPM();
+                StartCoroutine(wait());
+                BMiss = true;
+                Shader.SetGlobalFloat("BPM", FBPM);
+                bInitialized[1] = true;
+                coreSystem = RuntimeManager.CoreSystem; 
+            }
+            fTimer += f_Timer;
+            if (fTimer >= fDelayMusic)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    // Create streaming sound (non-blocking recommended for music)
+                    result = coreSystem.createSound(musicPaths[i], MODE.CREATESTREAM, out musicSounds[i]);
+                    if (result != RESULT.OK)
+                    {
+                        UnityEngine.Debug.LogError($"Failed to create sound {musicPaths[i]}: {result}");
+                        continue;
+                    }
 
-            detectedLoopInstance = RuntimeManager.CreateInstance(levelLoopDetected);
-            detectedLoopInstance.start();
+                    // Play sound and get channel
+                    result  = coreSystem.playSound(musicSounds[i], default(ChannelGroup), false, out musicChannels[i]);
+                    if (result != RESULT.OK)
+                    {
+                        UnityEngine.Debug.LogError($"Failed to play sound {musicPaths[i]}: {result}");
+                        continue;
+                    }
 
-            beatLoopInstance = RuntimeManager.CreateInstance(levelLoopBeat);
-            beatLoopInstance.start();
+                    // Get and store base frequency
+                    musicChannels[i].getFrequency(out baseFrequencies[i]);
 
-            scPlayer.menuManager.SetMusicVolume();
+                    // Create and attach pitch shifter DSP
+                    coreSystem.createDSPByType(DSP_TYPE.PITCHSHIFT, out pitchShifters[i]);
+                    musicChannels[i].addDSP(0, pitchShifters[i]);
 
-            isPlaying = true;
-            bInitialized[0] = true;
+                    // Initialize pitch shifter to zero (no shift)
+                    pitchShifters[i].setParameterFloat((int)DSP_PITCHSHIFT.PITCH, 0f);
+                }
+
+                scPlayer.menuManager.SetMusicVolume();
+
+                isPlaying = true;
+                bInitialized[0] = true;
+            }
         }
     }
     private void Update()
@@ -150,6 +220,10 @@ public class BPM_Manager : MonoBehaviour
         if (!bInitialized[0])
         {
             Init(Time.unscaledDeltaTime);
+        }
+        else if(coreSystem.hasHandle())
+        {
+            coreSystem.update();
         }
         if (scPlayer != null && scPlayer.menuManager != null)
         {
@@ -542,8 +616,46 @@ public class BPM_Manager : MonoBehaviour
             FOVS.m_Width = fov;
         }
     }
+    public void SetSpeed(float speedMultiplier)
+    {
+        if (speedMultiplier <= 0f)
+        {
+            UnityEngine.Debug.LogWarning("Speed multiplier must be > 0");
+            return;
+        }
+
+        for (int i = 0; i < 3; i++)
+        {
+            // Change playback frequency for speed
+            float newFreq = baseFrequencies[i] * speedMultiplier;
+            musicChannels[i].setFrequency(newFreq);
+
+            // Calculate pitch shift in octaves to preserve pitch
+            float pitchShiftInOctaves = (float)(-Mathf.Log(speedMultiplier, 2));
+            pitchShifters[i].setParameterFloat((int)DSP_PITCHSHIFT.PITCH, pitchShiftInOctaves);
+        }
+        FBPM = FBPM * speedMultiplier;
+        FSPB = 1f / (FBPM / 60f);
+        StartBPM();
+        Shader.SetGlobalFloat("BPM", FBPM);
+
+    }
     private void OnDestroy() // Clean up to prevent memory leaks
     {
+        for (int i = 0; i < 3; i++)
+        {
+            if (musicChannels[i].hasHandle())
+                musicChannels[i].stop();
+
+            if (musicSounds[i].hasHandle())
+                musicSounds[i].release();
+
+            if (pitchShifters[i].hasHandle())
+            {
+                pitchShifters[i].release();
+                pitchShifters[i].clearHandle();
+            }
+        }
         if (basicLoopInstance.isValid())
         {
             basicLoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);

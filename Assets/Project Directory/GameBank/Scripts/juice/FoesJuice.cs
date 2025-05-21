@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class FoesJuice : MonoBehaviour
 {
-    private float startY;
+    public float startY;
     [SerializeField] private Vector3 originalScale;
     private Quaternion startRot;
     [SerializeField] private float bounceHeight = 0.1f; // How high to bounce
@@ -32,7 +32,7 @@ public class FoesJuice : MonoBehaviour
     }
     private void Update()
     {
-        if(scFoe.bIsPhase1Animated && !bOnce)
+        if(scFoe.bIsPhaseAnimated && !bOnce)
         {
             DOTween.Kill(this);
             transform.rotation = startRot;
@@ -40,7 +40,7 @@ public class FoesJuice : MonoBehaviour
             transform.position = new Vector3(transform.position.x, startY, transform.position.z);
             bOnce = true;
         }
-        else if(!scFoe.bIsPhase1Animated && bOnce)
+        else if(!scFoe.bIsPhaseAnimated && bOnce)
         {
             bOnce = false;
 

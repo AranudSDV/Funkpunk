@@ -104,6 +104,7 @@ public class SC_Player : MonoBehaviour
 
     //LE TAG
     [Header("Tag")]
+    private bool bIsTagging = false;
     [SerializeField] private CinemachineVirtualCamera VCam_Cinematic;
     [SerializeField] private float fBodyFollowOffset = 10f;
     public float taggingRange = 1f;
@@ -320,7 +321,7 @@ public class SC_Player : MonoBehaviour
                     // Loop through colliders to check tags
                     foreach (Collider collider in intersecting)
                     {
-                        if (!collider.CompareTag("Bait") && !collider.CompareTag("Tagging"))
+                        if (!collider.CompareTag("Bait") && !collider.CompareTag("Tagging") && !bIsTagging)
                         {
                             canMoveDiagonally = false; // Block movement if an unpassable object is found
                             continue;
@@ -454,12 +455,12 @@ public class SC_Player : MonoBehaviour
                         }
                     }
                 }
-                if (canMoveDiagonally)
+                if (canMoveDiagonally && !bIsTagging)
                 {
                     // Move diagonally if no blocking objects or only passable ones
                     Move(vectDir);
                 }
-                else
+                else if(!bIsTagging)
                 {
                     Vector3 newDirection = FindNewDirection(vectDir, fRange);
                     if (newDirection != Vector3.zero)
@@ -585,7 +586,7 @@ public class SC_Player : MonoBehaviour
                             return;
                         }
                     }
-                    else if (hitInfo.transform.CompareTag("Wall") || hitInfo.transform.CompareTag("Enemies 1"))
+                    else if ((hitInfo.transform.CompareTag("Wall") || hitInfo.transform.CompareTag("Enemies 1")))
                     {
                         // Wall detected, find a new direction
                         SoundManager.Instance.PlayOneShot(sfx_wall_hit);
@@ -647,7 +648,7 @@ public class SC_Player : MonoBehaviour
                             {
                                 bIsBeingAnimated = true;
                                 fThrowMultiplier = floatNumber - 1f;
-                                ThrowingFeedback(bpmManager.FSPB, false);
+                                ThrowingFeedback(bpmManager.FSPB, false, null);
                                 return;
                             }
                             else if (col.transform.CompareTag("Enemies 1")) //il y a un ennemi devant le joueur
@@ -658,7 +659,7 @@ public class SC_Player : MonoBehaviour
                                 scEnemy.bIsDisabled = true;
                                 scEnemy.FoeDisabled(scEnemy.bIsDisabled);
                                 scEnemy.i_EnnemyBeat = -iTimeFoeDisabled;
-                                ThrowingFeedback(bpmManager.FSPB, true);
+                                ThrowingFeedback(bpmManager.FSPB, true, null);
                                 //Unable l'ennemi
                                 return;
                             }
@@ -672,7 +673,7 @@ public class SC_Player : MonoBehaviour
                     {
                         bIsBeingAnimated = true;
                         fThrowMultiplier = floatNumber - 1f;
-                        ThrowingFeedback(bpmManager.FSPB, false);
+                        ThrowingFeedback(bpmManager.FSPB, false, null);
                         return;
                     }
                     else
@@ -687,7 +688,7 @@ public class SC_Player : MonoBehaviour
                     {
                         bIsBeingAnimated = true;
                         fThrowMultiplier = floatNumber - 1f;
-                        ThrowingFeedback(bpmManager.FSPB, false);
+                        ThrowingFeedback(bpmManager.FSPB, false, null);
                         return;
                     }
                     else if (hitInfo1.transform.CompareTag("Enemies 1")) //il y a un ennemi devant le joueur
@@ -698,7 +699,7 @@ public class SC_Player : MonoBehaviour
                         scEnemy.bIsDisabled = true;
                         scEnemy.FoeDisabled(scEnemy.bIsDisabled);
                         scEnemy.i_EnnemyBeat = -iTimeFoeDisabled;
-                        ThrowingFeedback(bpmManager.FSPB, true);
+                        ThrowingFeedback(bpmManager.FSPB, true, scEnemy);
                         //Unable l'ennemi
                         return;
                     }
@@ -711,7 +712,7 @@ public class SC_Player : MonoBehaviour
                 {
                     bIsBeingAnimated = true;
                     fThrowMultiplier = floatNumber - 1f;
-                    ThrowingFeedback(bpmManager.FSPB, false);
+                    ThrowingFeedback(bpmManager.FSPB, false, null);
                     return;
                 }
                 else
@@ -1102,6 +1103,7 @@ public class SC_Player : MonoBehaviour
     //Tag
     private void TaggingFeedback(float time, Vector3 dir)
     {
+        bIsTagging = true;
         if (dir.x != 0)
         {
             DG.Tweening.Sequence taggingSequence = DOTween.Sequence();
@@ -1116,6 +1118,7 @@ public class SC_Player : MonoBehaviour
             taggingSequence.OnComplete(() =>
             {
                 PlayerCapsule.transform.localPosition = localPosMesh;
+                bIsTagging = false;
             });
         }
         else if(dir.z != 0)
@@ -1132,6 +1135,7 @@ public class SC_Player : MonoBehaviour
             taggingSequence.OnComplete(() =>
             {
                 PlayerCapsule.transform.localPosition = localPosMesh;
+                bIsTagging = false;
             });
         }
     }
@@ -1205,7 +1209,7 @@ public class SC_Player : MonoBehaviour
         });
     }
     //Bait
-    private void ThrowingFeedback(float time, bool bOnFoe)
+    private void ThrowingFeedback(float time, bool bOnFoe, SC_FieldOfView scFoe)
     {
         SoundManager.Instance.PlayOneShot(sfx_baitThrown);
         DG.Tweening.Sequence throwingSequence = DOTween.Sequence();
@@ -1222,6 +1226,10 @@ public class SC_Player : MonoBehaviour
             {
                 GO_BaitInst.transform.GetComponent<ing_Bait>().bOnFoe = true;
                 SoundManager.Instance.PlayOneShot(sfx_baitStun);
+                if(scFoe.bIsPhaseAnimated)
+                {
+                    StartCoroutine(EndDialogue());
+                }
             }
         });
     }
@@ -1249,7 +1257,7 @@ public class SC_Player : MonoBehaviour
                     }
                 }
             }
-            else if (enemy.BCanSee)
+            else if (enemy.BCanSee && !enemy.bIsPhaseAnimated)
             {
                 enemy.PlayerDetected(this.gameObject, bpmManager.FSPB);
                 enemy.i_EnnemyBeat =6;
@@ -1264,11 +1272,23 @@ public class SC_Player : MonoBehaviour
             }
             else
             {
-                if (!enemy.isBoss)
+                if (!enemy.isBoss || (enemy.isBoss && enemy.bFinalPhase))
                 {
                     enemy.EnemieRotation(bpmManager.FSPB);
                 }
-                else if (enemy.isBoss && !enemy.bIsRemovingTag && enemy.iRemovingRoutine!= enemy.iRemovingRoutineSelection*2)
+                else if(enemy.isBoss && !enemy.bFinalPhase)
+                {
+                    if(enemy.iRest == 1)
+                    {
+                        enemy.iRest = 0;
+                    }
+                    else
+                    {
+                        enemy.iRest = 1;
+                        enemy.EnemieRotation(bpmManager.FSPB);
+                    }
+                }
+                /*else if (enemy.isBoss && !enemy.bIsRemovingTag && enemy.iRemovingRoutine!= enemy.iRemovingRoutineSelection*2)
                 {
                     enemy.EnemieRotation(bpmManager.FSPB);
                     if(!bIsImune && !enemy.bFinalPhase)
@@ -1287,7 +1307,7 @@ public class SC_Player : MonoBehaviour
                         enemy.iTimeBeforeRemovingThird -= 1;
                         enemy.RemovingTag();
                     }
-                }
+                }*/
             }
         }
     }
@@ -1299,7 +1319,7 @@ public class SC_Player : MonoBehaviour
         int y = 0;
         foreach (SC_FieldOfView enemie in allEnemies)
         {
-            if (enemie.BCanSee)
+            if (enemie.BCanSee && !enemie.bIsPhaseAnimated)
             {
                 BisDetectedByAnyEnemy = true;
                 bHasBeenDetectedOneTime = true;

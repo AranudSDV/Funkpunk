@@ -7,9 +7,13 @@ using UnityEngine;
 
 public class bait_juicy : MonoBehaviour
 {
+    public float startY;
+    [SerializeField] private Vector3 originalScale;
+    private Quaternion startRot;
     [SerializeField] private float bounceHeight = 0.5f; // How high to bounce
     [SerializeField] private float scaleMultiplier = 0.9f; // Maximum scale during the pulse
     private float rotationAngle = 10f; // Tilt angle
+    private BPM_Manager bpm_;
     static int Hasard(int a, int b) //Choisi un random.
     {
         System.Random rdm = new System.Random();
@@ -18,9 +22,21 @@ public class bait_juicy : MonoBehaviour
     }
     public void StartNow(BPM_Manager bpm)
     {
+        bpm_ = bpm;
         int hasard = Hasard(-90, 90);
         rotationAngle = Convert.ToSingle(hasard);
+        startRot = this.transform.rotation;
+        originalScale = transform.localScale;
+        startY = transform.localPosition.y;
         BaitRythm(bpm.FSPB);
+    }
+    public void Restart()
+    {
+        DOTween.Kill(this);
+        transform.rotation = startRot;
+        transform.localScale = originalScale;
+        transform.localPosition = Vector3.zero;
+        StartNow(bpm_);
     }
     private void BaitRythm(float f_beat)
     {
@@ -31,8 +47,8 @@ public class bait_juicy : MonoBehaviour
     }
     private void AnimateBounce(float beatDuration)
     {
-        float startY = transform.position.y;
-        transform.DOMoveY(startY + bounceHeight, beatDuration / 2) // Move up
+        startY = transform.localPosition.y;
+        transform.DOLocalMoveY(startY + bounceHeight, beatDuration / 2) // Move up
             .SetEase(Ease.InOutSine)
             .SetLoops(-1, LoopType.Yoyo) // Loop back down
             .SetAutoKill(false) // Prevent tween from being killed

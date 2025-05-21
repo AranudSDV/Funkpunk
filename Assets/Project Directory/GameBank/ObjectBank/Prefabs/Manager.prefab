@@ -238,7 +238,7 @@ MonoBehaviour:
   iWhichCharaToRightToLeft: 0100000000000000010000000000000001000000000000000100000000000000
   spritesEndDialogueBackground:
   - {fileID: 21300000, guid: d95ea3024d15c9b4ca88c23a4816c2a4, type: 3}
-  - {fileID: 21300000, guid: a63558cbfeac0964f8af4ca93b3ac581, type: 3}
+  - {fileID: 21300000, guid: 692dad68630287647987e84522c8de08, type: 3}
   - {fileID: 21300000, guid: ebe493f662bb11b46aaf265391ec4100, type: 3}
   - {fileID: 21300000, guid: 011849293e53aaf4eb58e3d8a2dac788, type: 3}
   spritesEndDialogueCharacters:
@@ -8144,8 +8144,8 @@ MonoBehaviour:
   m_Navigation:
     m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 389004346845609884}
-    m_SelectOnDown: {fileID: 389004346845609884}
+    m_SelectOnUp: {fileID: 2947834071803811348}
+    m_SelectOnDown: {fileID: 2947834071803811348}
     m_SelectOnLeft: {fileID: 4267278213561499044}
     m_SelectOnRight: {fileID: 4267278213561499044}
   m_Transition: 1
@@ -8169,7 +8169,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 7768247092771110376}
+  m_TargetGraphic: {fileID: 5740112098538977718}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
