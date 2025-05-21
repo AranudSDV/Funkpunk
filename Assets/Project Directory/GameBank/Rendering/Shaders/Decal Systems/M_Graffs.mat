@@ -50,14 +50,26 @@ Material:
     - _DecalMeshViewBias: 0
     - _DrawOrder: 0
     - _MaxOffset: 0
+    - _MaxOffset_X: 0.2
+    - _MaxOffset_Y: 0.2
     - _MaxRotation: 0.1
     - _MaxScale: 5.08
+    - _MaxScale_X: 1.2
+    - _MaxScale_Y: 3.15
     - _MinOffset: 0
+    - _MinOffset_X: -0.2
+    - _MinOffset_Y: -0.2
     - _MinRotation: -0.1
     - _MinScale: 1
+    - _MinScale_X: 0.9
+    - _MinScale_Y: 0.9
     - _NumGraffiti: 11.1
     - _SeedMultiplier: 1
     - _SeedScale: 1
     m_Colors:
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _MinOffsetX: {r: -0.4, g: 0.4, b: 0, a: 0}
+    - _MinOffsetY: {r: -0.4, g: 0.4, b: 0, a: 0}
+    - _MinScaleX: {r: 1.2, g: 1.5, b: 0, a: 0}
+    - _MinScaleY: {r: 1.2, g: 1.5, b: 0, a: 0}
   m_BuildTextureStacks: []

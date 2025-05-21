@@ -27,8 +27,16 @@ Material:
         m_Texture: {fileID: 2800000, guid: a2754b2f65443a44386b8be4cbeb4603, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _BackTex1:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MidTex:
         m_Texture: {fileID: 2800000, guid: a60165a5d9819ba4f8003f56ede1e040, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MidTex1:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
@@ -53,11 +61,12 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - _Back: {r: 0, g: 1, b: 0.7048147, a: 0}
-    - _Back02: {r: 0.55198854, g: 0, b: 1, a: 0}
+    - _Back: {r: 0, g: 1, b: 0.7058823, a: 0}
+    - _Back02: {r: 0.55686283, g: 0, b: 1, a: 0}
+    - _Color0: {r: 1.498039, g: 0.6673395, b: 0, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Front: {r: 1, g: 0.726415, b: 0.726415, a: 0}
-    - _Front02: {r: 0.6199214, g: 1, b: 0, a: 0}
-    - _Mid02: {r: 0, g: 1, b: 0.9647675, a: 0}
-    - _Mid1: {r: 1, g: 0, b: 0.8117151, a: 0}
+    - _Front: {r: 0, g: 0.13836467, b: 0.100808546, a: 0}
+    - _Front02: {r: 0, g: 4, b: 3.8588238, a: 0}
+    - _Mid02: {r: 0, g: 5.172379, b: 5.009896, a: 0}
+    - _Mid1: {r: 0.05660379, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
