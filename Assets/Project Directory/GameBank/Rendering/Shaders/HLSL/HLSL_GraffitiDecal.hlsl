@@ -1,42 +1,35 @@
 float4 SampleGraffitis(
     float2 uv,
-    float2 worldPos2D,
+    float2 seed2D, // NOW precomputed by the graph
     sampler2D tex,
     float NumGraffiti,
     float AtlasCols,
     float AtlasRows,
 
-    // separate scalar ranges for scale
     float MinScaleX,
     float MaxScaleX,
     float MinScaleY,
     float MaxScaleY,
 
-    // rotation range
     float MinRotation,
     float MaxRotation,
 
-    // separate scalar ranges for offset
     float MinOffsetX,
     float MaxOffsetX,
     float MinOffsetY,
-    float MaxOffsetY,
-
-    float2 SeedScale,
-    float SeedMultiplier
+    float MaxOffsetY
 )
 {
-    // derive a stable seed from world-pos
-    float2 seed2D = frac(worldPos2D * SeedScale) * SeedMultiplier;
     float4 accum = float4(0, 0, 0, 0);
     int total = int(AtlasCols * AtlasRows);
     float2 tileSize = float2(1.0 / AtlasCols, 1.0 / AtlasRows);
 
     for (int i = 0; i < int(NumGraffiti); i++)
     {
+        // use the graph’s seed2D directly
         float2 s0 = seed2D + float2(i, -i * 0.618);
 
-        // pick random sprite index
+        // pick a sprite index
         float rndIdx = frac(sin(dot(s0 * 1.321, float2(12.9898, 78.233))) * 43758.5453);
         int idx = int(floor(rndIdx * total));
         float2 cell = float2(fmod(idx, AtlasCols), floor(idx / AtlasCols));
@@ -64,7 +57,7 @@ float4 SampleGraffitis(
 
         float2 decalOff = float2(offX, offY);
 
-        // transform within one [0,1] tile
+        // transform UV within [0,1] tile
         float2 centered = uv - float2(0.5, 0.5);
         float2 scaled = float2(centered.x * scX, centered.y * scY);
         float angle = rotT * 6.2831853;
@@ -75,20 +68,20 @@ float4 SampleGraffitis(
 
         float2 uvInTile = rotated + float2(0.5, 0.5) + decalOff;
 
-        // map into chosen atlas cell, clamp within that cell
+        // map & clamp into atlas cell
         float2 uvT = clamp(
             uvInTile * tileSize + baseOff,
             baseOff,
             baseOff + tileSize
         );
 
-        // sample and composite
         float4 sampleC = tex2D(tex, uvT);
         accum.rgb = lerp(accum.rgb, sampleC.rgb, sampleC.a);
         accum.a = saturate(accum.a + sampleC.a);
     }
 
     return accum;
+
 
 
 //float4 SampleGraffitis(
