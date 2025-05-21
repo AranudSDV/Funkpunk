@@ -431,7 +431,7 @@ Shader  "SHR_DecalMaster2"
 				surfaceDescription.BaseColor = staticSwitch83.rgb;
 				surfaceDescription.Alpha = staticSwitch83.a;
 				surfaceDescription.NormalTS = float3(0.0f, 0.0f, 1.0f);
-				surfaceDescription.NormalAlpha = 1;
+				surfaceDescription.NormalAlpha = staticSwitch83.a;
 
 				#if defined( _MATERIAL_AFFECTS_MAOS )
 					surfaceDescription.Metallic = 0;
@@ -916,7 +916,7 @@ Shader  "SHR_DecalMaster2"
 				surfaceDescription.BaseColor = staticSwitch83.rgb;
 				surfaceDescription.Alpha = staticSwitch83.a;
 				surfaceDescription.NormalTS = float3(0.0f, 0.0f, 1.0f);
-				surfaceDescription.NormalAlpha = 1;
+				surfaceDescription.NormalAlpha = staticSwitch83.a;
 				#if defined( _MATERIAL_AFFECTS_MAOS )
 					surfaceDescription.Metallic = 0;
 					surfaceDescription.Occlusion = 1;
@@ -1413,7 +1413,7 @@ Shader  "SHR_DecalMaster2"
 				surfaceDescription.BaseColor = staticSwitch83.rgb;
 				surfaceDescription.Alpha = staticSwitch83.a;
 				surfaceDescription.NormalTS = float3(0.0f, 0.0f, 1.0f);
-				surfaceDescription.NormalAlpha = 1;
+				surfaceDescription.NormalAlpha = staticSwitch83.a;
 
 				#if defined( _MATERIAL_AFFECTS_MAOS )
 					surfaceDescription.Metallic = 0;
@@ -1841,7 +1841,7 @@ Shader  "SHR_DecalMaster2"
 				surfaceDescription.BaseColor = staticSwitch83.rgb;
 				surfaceDescription.Alpha = staticSwitch83.a;
 				surfaceDescription.NormalTS = float3(0.0f, 0.0f, 1.0f);
-				surfaceDescription.NormalAlpha = 1;
+				surfaceDescription.NormalAlpha = staticSwitch83.a;
 
 				#if defined( _MATERIAL_AFFECTS_MAOS )
 					surfaceDescription.Metallic = 0;
@@ -2326,7 +2326,7 @@ Shader  "SHR_DecalMaster2"
 				surfaceDescription.BaseColor = staticSwitch83.rgb;
 				surfaceDescription.Alpha = staticSwitch83.a;
 				surfaceDescription.NormalTS = float3(0.0f, 0.0f, 1.0f);
-				surfaceDescription.NormalAlpha = 1;
+				surfaceDescription.NormalAlpha = staticSwitch83.a;
 
 				#if defined( _MATERIAL_AFFECTS_MAOS )
 					surfaceDescription.Metallic = 0;
@@ -2832,7 +2832,7 @@ Shader  "SHR_DecalMaster2"
 				surfaceDescription.BaseColor = staticSwitch83.rgb;
 				surfaceDescription.Alpha = staticSwitch83.a;
 				surfaceDescription.NormalTS = float3(0.0f, 0.0f, 1.0f);
-				surfaceDescription.NormalAlpha = 1;
+				surfaceDescription.NormalAlpha = staticSwitch83.a;
 
 				#if defined( _MATERIAL_AFFECTS_MAOS )
 					surfaceDescription.Metallic = 0;
@@ -3186,8 +3186,8 @@ Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;6;0,0;Float;False;False;-1;
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;7;477.6711,-3.971048;Float;False;False;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;1;New Amplify Shader;c2a467ab6d5391a4ea692226d82ffefd;True;DecalGBufferMesh;0;7;DecalGBufferMesh;1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;True;False;False;False;False;0;False;;False;True;True;True;True;False;0;False;;False;True;True;True;True;False;0;False;;False;False;False;True;2;False;;False;False;True;1;LightMode=DecalGBufferMesh;False;True;4;d3d11;glcore;gles;gles3;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;8;0,0;Float;False;False;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;1;New Amplify Shader;c2a467ab6d5391a4ea692226d82ffefd;True;ScenePickingPass;0;8;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Picking;False;True;4;d3d11;glcore;gles;gles3;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.BreakToComponentsNode;9;181.1483,-12.13263;Inherit;True;COLOR;1;0;COLOR;0,0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;2;425.0376,-169.5887;Float;False;True;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;14;SHR_DecalMaster2;c2a467ab6d5391a4ea692226d82ffefd;True;DecalScreenSpaceProjector;0;2;DecalScreenSpaceProjector;9;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;True;2;False;;False;True;1;LightMode=DecalScreenSpaceProjector;False;True;4;d3d11;glcore;gles;gles3;0;;0;0;Standard;7;Affect BaseColor;1;0;Affect Normal;1;0;Blend;1;0;Affect MAOS;0;0;Affect Emission;0;0;Support LOD CrossFade;0;0;Angle Fade;1;0;0;9;True;False;True;True;True;False;True;True;True;False;;False;0
-Node;AmplifyShaderEditor.StaticSwitch;83;-158.0605,-169.0718;Inherit;False;Property;_GameplayOrEnviro;GameplayOrEnviro;18;0;Create;True;0;0;0;False;0;False;0;1;0;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;COLOR;0,0,0,0;False;0;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;5;COLOR;0,0,0,0;False;6;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.StaticSwitch;83;-158.0605,-169.0718;Inherit;False;Property;_GameplayOrEnviro;GameplayOrEnviro;18;0;Create;True;0;0;0;False;0;False;0;1;1;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;COLOR;0,0,0,0;False;0;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;5;COLOR;0,0,0,0;False;6;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;2;475.4376,-167.9221;Float;False;True;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;14;SHR_DecalMaster2;c2a467ab6d5391a4ea692226d82ffefd;True;DecalScreenSpaceProjector;0;2;DecalScreenSpaceProjector;9;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;True;2;False;;False;True;1;LightMode=DecalScreenSpaceProjector;False;True;4;d3d11;glcore;gles;gles3;0;;0;0;Standard;7;Affect BaseColor;1;0;Affect Normal;1;0;Blend;1;0;Affect MAOS;0;0;Affect Emission;0;0;Support LOD CrossFade;0;0;Angle Fade;1;0;0;9;True;False;True;True;True;False;True;True;True;False;;False;0
 WireConnection;84;0;91;0
 WireConnection;84;1;86;0
 WireConnection;84;2;90;0
@@ -3236,9 +3236,10 @@ WireConnection;87;0;11;0
 WireConnection;94;0;22;0
 WireConnection;91;0;87;0
 WireConnection;9;0;83;0
-WireConnection;2;0;83;0
-WireConnection;2;1;9;3
 WireConnection;83;1;88;0
 WireConnection;83;0;25;0
+WireConnection;2;0;83;0
+WireConnection;2;1;9;3
+WireConnection;2;3;9;3
 ASEEND*/
-//CHKSM=B2BAED3A07F63D98273681F8BFAE4890ABECF0CE
+//CHKSM=40282B058D936F28CBC23B5FC900BF21C0C9FCD3
