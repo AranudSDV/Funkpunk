@@ -575,7 +575,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Has scored up to 95%.
+  m_text: Has tagged everything.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2aefc435c742ba1458d64549d96e081c, type: 2}
   m_sharedMaterial: {fileID: 7120875131993628362, guid: 2aefc435c742ba1458d64549d96e081c,
@@ -659,8 +659,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scPlayer: {fileID: 0}
   _playerData: {fileID: 1165491372627732135}
-  sEnglish: Has scored S+.
-  sFrench: "A scor\xE9 un S+."
+  sEnglish: Has tagged everything.
+  sFrench: "A tout tagg\xE9."
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
@@ -1009,7 +1009,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Has not been seen by anyone.
+  m_text: finished the level.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2aefc435c742ba1458d64549d96e081c, type: 2}
   m_sharedMaterial: {fileID: 7120875131993628362, guid: 2aefc435c742ba1458d64549d96e081c,
@@ -1037,7 +1037,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32.75
+  m_fontSize: 34.75
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1093,8 +1093,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scPlayer: {fileID: 0}
   _playerData: {fileID: 1165491372627732135}
-  sEnglish: Has not been seen by anyone.
-  sFrench: "N'a \xE9t\xE9 vu.e par personne."
+  sEnglish: finished the level.
+  sFrench: A fini le niveau.
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
@@ -1963,7 +1963,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: secret
+  m_text: Lord of the beats
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2aefc435c742ba1458d64549d96e081c, type: 2}
   m_sharedMaterial: {fileID: 7120875131993628362, guid: 2aefc435c742ba1458d64549d96e081c,
@@ -1973,8 +1973,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4288519581
+  m_fontColor: {r: 0.6156863, g: 0.6156863, b: 0.6156863, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2047,8 +2047,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scPlayer: {fileID: 0}
   _playerData: {fileID: 1165491372627732135}
-  sEnglish: secret
-  sFrench: secret
+  sEnglish: Lord of the beats
+  sFrench: Virtuose des beats
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
@@ -3208,7 +3208,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Has tagged everything.
+  m_text: Has not missed any beat.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2aefc435c742ba1458d64549d96e081c, type: 2}
   m_sharedMaterial: {fileID: 7120875131993628362, guid: 2aefc435c742ba1458d64549d96e081c,
@@ -3292,8 +3292,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scPlayer: {fileID: 0}
   _playerData: {fileID: 1165491372627732135}
-  sEnglish: Has tagged everything.
-  sFrench: "A tout tagg\xE9."
+  sEnglish: Has not missed any beat.
+  sFrench: "N'a rat\xE9 aucun battement"
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
@@ -4194,7 +4194,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Has not missed any beat.
+  m_text: Has not been seen by anyone.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2aefc435c742ba1458d64549d96e081c, type: 2}
   m_sharedMaterial: {fileID: 7120875131993628362, guid: 2aefc435c742ba1458d64549d96e081c,
@@ -4222,7 +4222,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 34.75
+  m_fontSize: 32.75
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4278,8 +4278,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scPlayer: {fileID: 0}
   _playerData: {fileID: 1165491372627732135}
-  sEnglish: Has not missed any beat.
-  sFrench: "N'a rat\xE9 aucun battement"
+  sEnglish: Has not been seen by anyone.
+  sFrench: "N'a \xE9t\xE9 vu.e par personne."
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
@@ -5223,7 +5223,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Clean
+  m_text: Shadow
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2aefc435c742ba1458d64549d96e081c, type: 2}
   m_sharedMaterial: {fileID: 7120875131993628362, guid: 2aefc435c742ba1458d64549d96e081c,
@@ -5307,8 +5307,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scPlayer: {fileID: 0}
   _playerData: {fileID: 1165491372627732135}
-  sEnglish: Clean
-  sFrench: "Carr\xE9"
+  sEnglish: Shadow
+  sFrench: Ombre
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
@@ -6079,7 +6079,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Shadow
+  m_text: Boogie Woogie
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2aefc435c742ba1458d64549d96e081c, type: 2}
   m_sharedMaterial: {fileID: 7120875131993628362, guid: 2aefc435c742ba1458d64549d96e081c,
@@ -6163,8 +6163,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scPlayer: {fileID: 0}
   _playerData: {fileID: 1165491372627732135}
-  sEnglish: Shadow
-  sFrench: Ombre
+  sEnglish: Boogie Woogie
+  sFrench: Boogie Woogie
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
@@ -9017,7 +9017,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: True artist
+  m_text: Clean
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2aefc435c742ba1458d64549d96e081c, type: 2}
   m_sharedMaterial: {fileID: 7120875131993628362, guid: 2aefc435c742ba1458d64549d96e081c,
@@ -9101,8 +9101,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scPlayer: {fileID: 0}
   _playerData: {fileID: 1165491372627732135}
-  sEnglish: True artist
-  sFrench: Vrai.e artiste
+  sEnglish: Clean
+  sFrench: "Carr\xE9"
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
@@ -9311,7 +9311,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Boogie Woogie
+  m_text: True artist
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2aefc435c742ba1458d64549d96e081c, type: 2}
   m_sharedMaterial: {fileID: 7120875131993628362, guid: 2aefc435c742ba1458d64549d96e081c,
@@ -9395,8 +9395,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scPlayer: {fileID: 0}
   _playerData: {fileID: 1165491372627732135}
-  sEnglish: Boogie Woogie
-  sFrench: Boogie Woogie
+  sEnglish: True artist
+  sFrench: Vrai.e artiste
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
@@ -9952,7 +9952,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: secret
+  m_text: Has scored S.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2aefc435c742ba1458d64549d96e081c, type: 2}
   m_sharedMaterial: {fileID: 7120875131993628362, guid: 2aefc435c742ba1458d64549d96e081c,
@@ -9962,8 +9962,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4288519581
+  m_fontColor: {r: 0.6156863, g: 0.6156863, b: 0.6156863, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -10036,8 +10036,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scPlayer: {fileID: 0}
   _playerData: {fileID: 1165491372627732135}
-  sEnglish: secret
-  sFrench: secret
+  sEnglish: Has scored S.
+  sFrench: "A scor\xE9 un S."
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0

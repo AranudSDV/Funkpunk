@@ -1727,6 +1727,10 @@ public class SC_Player : Singleton<SC_Player>
     private List<int> iStars()
     {
         List<int> List = new List<int>();
+
+        //BOOGIE WOOGIE
+        List.Add(1);
+
         //SHADOW
         if (!bHasBeenDetectedOneTime)
         {
@@ -1755,8 +1759,8 @@ public class SC_Player : Singleton<SC_Player>
         {
             List.Add(0);
         }
-        //BOOGIE WOOGIE
-        if (fPercentScore >= 95) 
+        //LORD OF THE BEAT
+        if (fPercentScore >= 80) 
         {
             List.Add(1);
         }
@@ -1764,8 +1768,6 @@ public class SC_Player : Singleton<SC_Player>
         {
             List.Add(0);
         }
-        //LE SECRET
-        List.Add(0); 
         return List;
     }
     private List<string> sJugement(bool finished, PlayerData data)
@@ -1822,21 +1824,22 @@ public class SC_Player : Singleton<SC_Player>
         {
             data.iScorePerLvlPlayer[i] = Convert.ToInt32(fPercentScore);
         }
+        data.iStarsPlayer[0 + 5 * i] = 1;
         if (!bHasBeenDetectedOneTime)
-        {
-            data.iStarsPlayer[0 + 5 * i] = 1;
-        }
-        if(bHasNoMiss)
         {
             data.iStarsPlayer[1 + 5 * i] = 1;
         }
-        if (itagDone == menuManager.iNbTaggs[i])
+        if(bHasNoMiss)
         {
             data.iStarsPlayer[2 + 5 * i] = 1;
         }
-        if(fPercentScore >= 95)
+        if (itagDone == menuManager.iNbTaggs[i])
         {
             data.iStarsPlayer[3 + 5 * i] = 1;
+        }
+        if(fPercentScore >= 80)
+        {
+            data.iStarsPlayer[4 + 5 * i] = 1;
         }
         if ("SceneLvl" + data.iLevelPlayer.ToString() == SceneManager.GetActiveScene().name)
         {
