@@ -116,14 +116,18 @@ Material:
     - _Base_or_Tsample: 1
     - _BlendPow: 1
     - _CelCounbt: 15
-    - _Cels_FallOffThreshold: 3
-    - _Cels_LitThreshold: 0.86
+    - _Cels_FallOffThreshold: 2.85
+    - _Cels_LitThreshold: 0.2
     - _ColorOrTex: 1
     - _EnvironmentReflections: 1
     - _FallOffThreshold: 2.56
     - _FallOffThreshold1: 0.45
     - _Float0: 0
+    - _FresnelErase: 0.01
+    - _FresnelErase_Smoothness: 1.5
+    - _FresnelPower: 5
     - _FullShadingHalfShading: 0
+    - _IsEnnemies: 0
     - _LightindDone: 0
     - _LitThreshold: 0.58
     - _LitThreshold1: 0.42
@@ -134,18 +138,19 @@ Material:
     - _ReceiveShadows: 1
     - _SMH_Pow: 0
     - _ShadingMult: 0
-    - _ShadingWhiteMult: 0.1
+    - _ShadingWhiteMult: 0.59
     - _ShadowPatternDensity: 5
     - _ShadowPatternRotator: 0
     - _ShadowSoftness: 1
     - _ShadowTex_Pow: 1
-    - _Shadow_FallOffThreshold: 12.81
-    - _Shadow_LitThreshold: 1.1
+    - _Shadow_FallOffThreshold: 11.28
+    - _Shadow_LitThreshold: 1.93
     - _Shadows_ProceduralOrTexture: 0
     - _Smoothness: 0
     - _Spec: 0
     - _SpecularHighlights: 1
     - _TopMask: 0
+    - _TriplanarTiling: 10
     - _Using3DMovements: 0
     - _UsingTriplanar: 0
     - _WorldDiv: 10

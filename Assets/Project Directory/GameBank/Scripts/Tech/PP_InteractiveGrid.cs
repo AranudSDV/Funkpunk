@@ -167,8 +167,8 @@ public class PP_InteractiveGrid : MonoBehaviour
     void UpdatePlayerVisibility()
     {
         Vector3 pos = player.transform.position;
-        int cx = Mathf.FloorToInt((pos.x - gridOrigin.x) / worldSubW);
-        int cy = Mathf.FloorToInt((pos.z - gridOrigin.z) / worldSubH);
+        int cx = Mathf.FloorToInt(pos.x - gridOrigin.x);
+        int cy = Mathf.FloorToInt(pos.z - gridOrigin.z);
         int range = Mathf.CeilToInt(VisibilityRadius / Mathf.Max(worldSubW, worldSubH));
 
         for (int x = cx - range; x <= cx + range; x++)
