@@ -277,16 +277,34 @@ public class SC_VisionConeCasting : MonoBehaviour
 
     private void BuildCone()
     {
+        // 1. Position du garde (base)
         Vector3 guardPos = transform.position + Vector3.up * guardVerticalOffset;
 
-        // 1. farPoint
-        Vector3 tent = guardPos + transform.forward * scFieldView.FRadius;
-        Vector3 farPoint;
-        Ray down = new Ray(tent + Vector3.up * 10f, Vector3.down);
-        if (Physics.Raycast(down, out var gh, 20f, groundMask))
-            farPoint = gh.point;
-        else { farPoint = tent; farPoint.y = guardPos.y; }
-        farPoint += transform.forward * farPointExtraOffset;
+       //2. Calcul du farPoint : projection sur le sol via raycast vertical
+        float maxDist = scFieldView.FRadius;
+        Vector3 tentativeFarPoint = guardPos + transform.forward * maxDist;
+        Ray groundRay = new Ray(tentativeFarPoint + Vector3.up * 10f, Vector3.down);
+         Vector3 farPoint;
+        if (Physics.Raycast(groundRay, out RaycastHit groundHit, 20f, groundMask))
+        {
+            farPoint = groundHit.point;
+         }
+         else
+         {
+            farPoint = tentativeFarPoint;
+            farPoint.y = 0;
+         }
+                farPoint += transform.forward * farPointExtraOffset;
+        //Vector3 guardPos = transform.position + Vector3.up * guardVerticalOffset;
+
+        //// 1. farPoint
+        //Vector3 tent = guardPos + transform.forward * scFieldView.FRadius;
+        //Vector3 farPoint;
+        //Ray down = new Ray(tent + Vector3.up * 10f, Vector3.down);
+        //if (Physics.Raycast(down, out var gh, 20f, groundMask))
+        //    farPoint = gh.point;
+        //else { farPoint = tent; farPoint.y = guardPos.y; }
+        //farPoint += transform.forward * farPointExtraOffset;
 
         // 2. farCircle
         var farCircle = new Vector3[coneResolution];
