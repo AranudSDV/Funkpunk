@@ -23,6 +23,7 @@ public class sc_tuto_generic : MonoBehaviour
     [SerializeField] private bool isOnLvlTuto = false;
     public bool bIsOnBD = true;
     [SerializeField] private sc_tuto_generic scTuto = null;
+    [SerializeField] private CinemachineFollowZoom FOVSBoss = null;
     //BD
     [Header("BD")]
     [SerializeField] private int[] iBubbleNb;
@@ -207,7 +208,7 @@ public class sc_tuto_generic : MonoBehaviour
                         }
                         else if(_y == intYBoss)
                         {
-                            StartCoroutine(EndBossExplication());
+                            EndBossExplication();
                         }
                         if (!cameraIsTracking)
                         {
@@ -558,10 +559,12 @@ public class sc_tuto_generic : MonoBehaviour
         bIsOnBD = true;
         bWaitNext = false;
     }
-    private IEnumerator EndBossExplication()
+    private void EndBossExplication()
     {
-        camBoss.Priority = 2;
-        yield return new WaitForSeconds(2f);
+        //camBoss.Priority = 2; //14, 16,4
+        scPlayer.bpmManager.FOVS = FOVSBoss;
+        scPlayer.bpmManager.fFOVmin = 14f;
+        scPlayer.bpmManager.fFOVmax = 16.4f;
         bIsOnBD = false;
         scPlayer.bisTuto = false;
         scPlayer.menuManager.bGameIsPaused = false;

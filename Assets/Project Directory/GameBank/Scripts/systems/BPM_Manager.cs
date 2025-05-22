@@ -25,7 +25,7 @@ public class BPM_Manager : MonoBehaviour
     private float fTimer = 0f;
     //private float FBPS;
     public float FSPB;
-    [SerializeField] private CinemachineFollowZoom FOVS;
+    public CinemachineFollowZoom FOVS;
     private bool b_more = false;
     private bool b_less = false;
     [SerializeField] private EventReference levelLoop;
@@ -89,8 +89,8 @@ public class BPM_Manager : MonoBehaviour
     private DG.Tweening.Sequence[] sequences = new DG.Tweening.Sequence[3];
     private bool bInvisble = false;
 
-    [SerializeField] private float fFOVmin = 10f;
-    [SerializeField] private float fFOVmax = 10.6f;
+    public float fFOVmin = 10f;
+    public float fFOVmax = 10.6f;
     private bool[] bInitialized = new bool[2] { false, false};
 
     private void Start()
@@ -166,7 +166,6 @@ public class BPM_Manager : MonoBehaviour
         }
         else if(bSimulateLvl3 || SceneManager.GetActiveScene().name == "SceneLvl3")
         {
-            UnityEngine.Debug.Log("lvl3");
             if (!bInitialized[1])
             {
                 StartBPM();

@@ -1,8 +1,10 @@
 using Cinemachine;
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class ing_Tag : MonoBehaviour
 {
@@ -20,4 +22,14 @@ public class ing_Tag : MonoBehaviour
     public GameObject goBossDoor = null;
     public TextMeshPro textOnWallBossDoor = null;
     public CinemachineVirtualCamera camBossDoor = null;
+    public DecalProjector decalProj;
+
+    private void Start()
+    {
+        decalProj.material.SetFloat("_ErosionValue", 1f);
+    }
+    private void OnDestroy()
+    {
+        decalProj.material.SetFloat("_ErosionValue", 1f);
+    }
 }

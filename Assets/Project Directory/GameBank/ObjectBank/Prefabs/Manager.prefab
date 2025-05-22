@@ -237,7 +237,7 @@ MonoBehaviour:
   ImgEndDialogueBackground: {fileID: 3243719424844046227}
   iWhichCharaToRightToLeft: 0100000000000000010000000000000001000000000000000100000000000000
   spritesEndDialogueBackground:
-  - {fileID: 21300000, guid: d95ea3024d15c9b4ca88c23a4816c2a4, type: 3}
+  - {fileID: 21300000, guid: fde9d9a6f2d90134aaf938d62b18dcab, type: 3}
   - {fileID: 21300000, guid: 692dad68630287647987e84522c8de08, type: 3}
   - {fileID: 21300000, guid: ebe493f662bb11b46aaf265391ec4100, type: 3}
   - {fileID: 21300000, guid: 011849293e53aaf4eb58e3d8a2dac788, type: 3}
@@ -4203,8 +4203,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4288519581
+  m_fontColor: {r: 0.6156863, g: 0.6156863, b: 0.6156863, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

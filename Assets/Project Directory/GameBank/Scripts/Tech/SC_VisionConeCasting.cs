@@ -229,7 +229,7 @@ public class SC_VisionConeCasting : MonoBehaviour
         coneMesh = new Mesh();
         coneMesh.MarkDynamic();
         meshFilter.mesh = coneMesh;
-        if (mVisionCone) coneRenderer.material = mVisionCone;
+        if (mVisionCone && scFieldView.isBoss) coneRenderer.material = mVisionCone;
 
         rings = heightSegments;
         sideCount = rings * coneResolution;

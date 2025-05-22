@@ -12,7 +12,8 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _1TEX_ON
+  - _2TEX_ON
+  - _HANDLECOLORS_ON
   - _USINGXSCALE1_ON
   - _USINGXSCALE_ON
   - _USINGYSCALE1_ON
@@ -32,11 +33,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BackGroundTex:
-        m_Texture: {fileID: 2800000, guid: 6cc96f1564683074284fbd076be902e3, type: 3}
+        m_Texture: {fileID: 2800000, guid: 26d26045d8894f7439c89e76975a2396, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BackTex:
-        m_Texture: {fileID: 2800000, guid: c6c2ac961c29b294a9555e3158a9126a, type: 3}
+        m_Texture: {fileID: 2800000, guid: 16b517de8f9b1e14088600783eea3427, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DissolveTex:
@@ -52,7 +53,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MidTex:
-        m_Texture: {fileID: 2800000, guid: 1eee5df91f45c004eba763b1eaebec1a, type: 3}
+        m_Texture: {fileID: 2800000, guid: 91d25c4cfcca3a2498b57d1754927c97, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TextureSample0:
@@ -73,15 +74,15 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _1Tex: 1
+    - _1Tex: 0
     - _2Alphas: 0
-    - _2Tex: 0
+    - _2Tex: 1
     - _3Tex: 0
     - _AlphaCutoff: 0.5
     - _Alphacliptresh: 0.1
     - _BPM: 120
     - _BaseOpacity: 1
-    - _HandleColors: 0
+    - _HandleColors: 1
     - _IsVerticalOrLateral: 0
     - _MaxSizeX: 1
     - _MaxSizeY: 1.5
@@ -90,6 +91,7 @@ Material:
     - _MinSizeY: 2
     - _MinSizeY1: 1
     - _MoveX: 0
+    - _NoColorsWhiteValue: 1
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ScaleX: 1
@@ -107,19 +109,19 @@ Material:
     - _UsingYScale1: 1
     - _VFXorUI: 1
     m_Colors:
-    - _Back: {r: 0.27058825, g: 0.13333334, b: 0.13333334, a: 1}
-    - _Back02: {r: 0.7019608, g: 0.29803923, b: 0.19607843, a: 1}
+    - _Back: {r: 0, g: 0.3882353, b: 0, a: 1}
+    - _Back02: {r: 0.19215687, g: 0, b: 0.23137255, a: 1}
     - _Back03: {r: 0.15686275, g: 0.15686275, b: 0.15686275, a: 1}
     - _BackGroundColor: {r: 0.13836467, g: 0.04307578, b: 0.04307578, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Front: {r: 0.89411765, g: 0.39215687, b: 0.2627451, a: 1}
+    - _Front: {r: 0, g: 0, b: 0, a: 1}
     - _Front02: {r: 0, g: 0, b: 0, a: 1}
     - _Front03: {r: 0, g: 0, b: 0, a: 1}
     - _MainColor: {r: 1024, g: 1024, b: 1024, a: 1}
     - _MainTexTiling: {r: 0, g: 0, b: 0, a: 0}
     - _MaxSize: {r: 1, g: 1, b: 0, a: 0}
     - _MaxSizePos: {r: 0, g: 0, b: 0, a: 0}
-    - _Mid: {r: 0.1882353, g: 0.08627451, b: 0.08627451, a: 1}
-    - _Mid02: {r: 0.63529414, g: 0.023529412, b: 0.023529412, a: 1}
+    - _Mid: {r: 0, g: 0.19999996, b: 0, a: 1}
+    - _Mid02: {r: 0.57254905, g: 1, b: 0, a: 1}
     - _Mid03: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

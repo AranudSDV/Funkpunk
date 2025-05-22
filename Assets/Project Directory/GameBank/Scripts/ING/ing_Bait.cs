@@ -17,7 +17,7 @@ public class ing_Bait : MonoBehaviour
     private float elapsedseconds = 0;
     public Vector3 newPos = new Vector3(0, 0, 0);
     public Vector3 midPos = new Vector3(0, 0, 0);
-    private float beginY;
+    public float beginY;
     public bool bIsBeingThrown = false;
     private bool bGoingUp = false;
     private bool bGoingDown = false;
@@ -48,6 +48,7 @@ public class ing_Bait : MonoBehaviour
 
     //ONE TIME ONLY
     private bool b_BeenThrown = false;
+    private bool bThrownButAble = false;
     private bool bOnce = false;
     private bool bInit = false;
 
@@ -75,15 +76,14 @@ public class ing_Bait : MonoBehaviour
         }
         if(b_BeenThrown)
         {
-            Go_vfxIdle.transform.localPosition = new Vector3(fPosBase_idlel.x, fPosBase_idlel.y - 50f, fPosBase_idlel.z);
+            Go_vfxIdle.transform.localPosition = new Vector3(fPosBase_idlel.x, fPosBase_idlel.y, fPosBase_idlel.z);
             foreach (SC_FieldOfView ennemy in allEnemies)
             {
-                if (ennemy.i_EnnemyBeat > 10)
+                if (ennemy.i_EnnemyBeat > 3)
                 {
-                    ennemy.bHasHeard = false;
-                    ennemy.i_EnnemyBeat = 0;
                     b_BeenThrown = false;
                     mshRdn.material = mNotThrown;
+                    bThrownButAble = true;
                 }
                 if (ennemy.goBaitHearing != this.transform.gameObject || ennemy.i_EnnemyBeat == 0)
                 {
@@ -99,9 +99,23 @@ public class ing_Bait : MonoBehaviour
                 }
             }
         }
+        else if(bThrownButAble)
+        {
+            foreach (SC_FieldOfView ennemy in allEnemies)
+            {
+                if(ennemy.i_EnnemyBeat > ennemy.i_EnnemyHeard)
+                {
+                    ennemy.bHasHeard = false;
+                    ennemy.i_EnnemyBeat = 0;
+                    bThrownButAble = false;
+                }
+             }
+        }
         if (allEnemies.Length == 0)
         {
             b_BeenThrown = false;
+            bThrownButAble = false;
+            mshRdn.material = mNotThrown;
         }
         if (bIsBeingThrown)
         {
@@ -226,17 +240,17 @@ public class ing_Bait : MonoBehaviour
         PS_trail.Stop();
         PS_smash.Stop();
         yield return new WaitForSeconds(time * 1 / 6);
-        Go_vfx_Smash.transform.localPosition = new Vector3(fPosBase_smash.x, fPosBase_smash.y - 50f, fPosBase_smash.z);
+        Go_vfx_Smash.transform.localPosition = new Vector3(fPosBase_smash.x, fPosBase_smash.y-50f, fPosBase_smash.z);
         bOnce = false;
     }
     private IEnumerator NumImpactVFX(float time)
     {
         Go_vfx_Impact.transform.localPosition = fPosBase_impact;
-        Go_vfxTrail.transform.localPosition = new Vector3(fPosBase_trail.x, fPosBase_trail.y - 50f, fPosBase_trail.z);
+        Go_vfxTrail.transform.localPosition = new Vector3(fPosBase_trail.x, fPosBase_trail.y, fPosBase_trail.z);
         PS_Impact.Play();
         yield return new WaitForSeconds(time * 2/5);
         PS_Impact.Stop();
-        Go_vfx_Impact.transform.localPosition = new Vector3(fPosBase_impact.x, fPosBase_impact.y - 50f, fPosBase_impact.z);
+        Go_vfx_Impact.transform.localPosition = new Vector3(fPosBase_impact.x, fPosBase_impact.y-50f, fPosBase_impact.z);
         if(bOnFoe)
         {
             sc_juice.EndNow();

@@ -69,6 +69,7 @@ public class SC_FieldOfView : MonoBehaviour
     public LayerMask LMObstructionMask;
     public int i_EnnemyBeat = 0;
     public GameObject goBaitHearing;
+    public int i_EnnemyHeard = 15;
 
     //ETATS
     [Header("Etats")]
@@ -308,11 +309,15 @@ public class SC_FieldOfView : MonoBehaviour
         {
             Go_vfx_coneVision.transform.localPosition = new Vector3(pos_vfx_coneVision.x, -50f, pos_vfx_coneVision.z);
             Go_vfx_disable.transform.localPosition = pos_vfx_disable;
+            sc_BossCone[0].transform.GetComponent<MeshRenderer>().enabled = false;
+            sc_BossCone[1].transform.GetComponent<MeshRenderer>().enabled = false;
         }
         else
         {
             Go_vfx_coneVision.transform.localPosition = pos_vfx_coneVision;
             Go_vfx_disable.transform.localPosition = new Vector3(pos_vfx_disable.x, -50f, pos_vfx_disable.z);
+            sc_BossCone[0].transform.GetComponent<MeshRenderer>().enabled = true;
+            sc_BossCone[1].transform.GetComponent<MeshRenderer>().enabled = true;
         }
     }
     private void DetectionChecks ()
@@ -479,7 +484,10 @@ public class SC_FieldOfView : MonoBehaviour
                     iCurrentDirection = 1;
                     isReversing = false;
                 }
-                Go_vfx_Backward.transform.localPosition = new Vector3(pos_vfx_backward.x, -50f, pos_vfx_backward.z);
+                sc_BossCone[1].transform.GetComponent<MeshRenderer>().enabled = false;
+                sc_BossCone[1].enabled = false;
+                sc_BossCone[1].gameObject.transform.localPosition += new Vector3(0, -50f, 0);
+                //Go_vfx_Backward.transform.localPosition = new Vector3(pos_vfx_backward.x, -50f, pos_vfx_backward.z);
                 if (backfeedback.initialized)
                 {
                     backfeedback.ConeRenderer.enabled = false;
@@ -491,27 +499,34 @@ public class SC_FieldOfView : MonoBehaviour
             }
             else if (this.transform.position  == new Vector3(Mathf.Round(preLastPos.x), preLastPos.y, Mathf.Round(preLastPos.z))) //un mouvement away from the last position
             {
-                if (iCurrentDirection + 1 == posDirections.Length && !isReversing)
+                if (iCurrentDirection + 1 == posDirections.Length && !isReversing) //si la prochaine position n'existe pas
                 {
-                    Go_vfx_Backward.transform.LookAt(new Vector3(posDirections[iCurrentDirection-1].x, Go_vfx_Backward.transform.position.y, posDirections[iCurrentDirection-1].z));
+                    sc_BossCone[1].transform.LookAt(new Vector3(posDirections[iCurrentDirection - 1].x, Go_vfx_Backward.transform.position.y, posDirections[iCurrentDirection - 1].z));
+                    sc_BossCone[1].transform.localPosition = pos_vfx_backward;
+                    sc_BossCone[1].transform.GetComponent<MeshRenderer>().enabled = true;
+                    sc_BossCone[1].enabled = true;
+                    //Go_vfx_Backward.transform.LookAt(new Vector3(posDirections[iCurrentDirection-1].x, Go_vfx_Backward.transform.position.y, posDirections[iCurrentDirection-1].z));
                 }
-                else if(iCurrentDirection + 1 != posDirections.Length && !isReversing)
+                else if (iCurrentDirection - 1 == -1 && isReversing) //si la prochaine position n'existe pas
                 {
-                    Go_vfx_Backward.transform.LookAt(new Vector3(posDirections[iCurrentDirection + 1].x, Go_vfx_Backward.transform.position.y, posDirections[iCurrentDirection + 1].z));
+                    sc_BossCone[1].transform.LookAt(new Vector3(posDirections[iCurrentDirection + 1].x, Go_vfx_Backward.transform.position.y, posDirections[iCurrentDirection + 1].z));
+                    sc_BossCone[1].transform.localPosition = pos_vfx_backward;
+                    sc_BossCone[1].transform.GetComponent<MeshRenderer>().enabled = true;
+                    sc_BossCone[1].enabled = true;
                 }
-                else if(iCurrentDirection - 1 == -1 && isReversing)
+                /*else if(iCurrentDirection + 1 != posDirections.Length && !isReversing)//si la prochaine position existe
                 {
-                    Go_vfx_Backward.transform.LookAt(new Vector3(posDirections[iCurrentDirection + 1].x, Go_vfx_Backward.transform.position.y, posDirections[iCurrentDirection + 1].z));
+                    sc_BossCone[1].transform.LookAt(new Vector3(posDirections[iCurrentDirection +1].x, Go_vfx_Backward.transform.position.y, posDirections[iCurrentDirection + 1].z));
+                    //Go_vfx_Backward.transform.LookAt(new Vector3(posDirections[iCurrentDirection + 1].x, Go_vfx_Backward.transform.position.y, posDirections[iCurrentDirection + 1].z));
                 }
-                else
+                else //si la prochaine position existe
                 {
-                    Go_vfx_Backward.transform.LookAt(new Vector3(posDirections[iCurrentDirection - 1].x, Go_vfx_Backward.transform.position.y, posDirections[iCurrentDirection - 1].z));
-                }
-                Go_vfx_Backward.transform.localPosition = pos_vfx_backward;
-                if (backfeedback.initialized)
+                    sc_BossCone[1].transform.LookAt(new Vector3(posDirections[iCurrentDirection - 1].x, Go_vfx_Backward.transform.position.y, posDirections[iCurrentDirection - 1].z));
+                }*/
+                /*if (backfeedback.initialized)
                 {
                     backfeedback.ConeRenderer.enabled = true;
-                }
+                }*/
             }
         }
     }
@@ -523,6 +538,7 @@ public class SC_FieldOfView : MonoBehaviour
             bossBaits[y].bOnFoe = false;
             bossBaits[y].transform.position += new Vector3(0f,50f,0f);
             bossBaits[y].sc_juice.Restart();
+            bossBaits[y].beginY = bossBaits[y].transform.position.y;
         }
     }
     public void BossTagAnglePhase1()
@@ -558,7 +574,7 @@ public class SC_FieldOfView : MonoBehaviour
     private void AnimatePhase2()
     {
         bIsPhaseAnimated = true;
-        camBoss.Priority = 20;
+        //camBoss.Priority = 20;
         scPlayer.menuManager.bGameIsPaused = true;
         scPlayer.bIsImune = true;
         bIsDisabled = true;
@@ -591,6 +607,7 @@ public class SC_FieldOfView : MonoBehaviour
             for (int i = 0; i < bossTagsPhase2.Length; i++)
             {
                 bossTagsPhase2[i].transform.parent.transform.position += new Vector3(0, 50f, 0);
+                bossTagsPhase2[i].decalProj.material.SetFloat("_ErosionValue", 1f);
             }
             bIsPhaseAnimated = false;
             GoMesh.transform.position = startPos;
@@ -598,7 +615,7 @@ public class SC_FieldOfView : MonoBehaviour
             bIsDisabled = false;
             scPlayer.menuManager.bGameIsPaused = false;
             scPlayer.bIsImune = false;
-            camBoss.Priority = 2;
+            //camBoss.Priority = 2;
             scPlayer.bpmManager.SetSpeed(1.05f);
             sc_BossCone[2].transform.GetComponent<MeshRenderer>().enabled = true;
         });
@@ -606,7 +623,7 @@ public class SC_FieldOfView : MonoBehaviour
     private void AnimatePhase3()
     {
         bIsPhaseAnimated = true;
-        camBoss.Priority = 20;
+        //camBoss.Priority = 20;
         scPlayer.menuManager.bGameIsPaused = true;
         scPlayer.bIsImune = true;
         bIsDisabled = true;
@@ -642,7 +659,7 @@ public class SC_FieldOfView : MonoBehaviour
             GoMesh.transform.rotation = startRot;
             scPlayer.menuManager.bGameIsPaused = false;
             scPlayer.bIsImune = false;
-            camBoss.Priority = 2;
+            //camBoss.Priority = 2;
             sc_Cone.iBossTagsPhase2 = 0;
             BaitShuffle();
         });

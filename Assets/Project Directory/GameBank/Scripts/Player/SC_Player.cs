@@ -334,19 +334,40 @@ public class SC_Player : MonoBehaviour
                             {
                                 if (bpmManager.bPlayBad)
                                 {
-                                    if (ingTag.iCompletition == i)
+                                    if (ingTag.iCompletition == 0)
                                     {
-                                        ingTag.iCompletition +=1;
-                                        //PlayCinematicFocus(collider.transform.gameObject, vectDir, bpmManager.FSPB, i+1);
-                                        TaggingFeedback(bpmManager.FSPB, vectDir);
-                                        StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
-                                        break;
+                                        GraffitiRenderer(ingTag.decalProj.material, 1, 0.66f);
                                     }
+                                    else if (ingTag.iCompletition == 1)
+                                    {
+                                        GraffitiRenderer(ingTag.decalProj.material, 0.66f, 0.33f);
+                                    }
+                                    if (ingTag.iCompletition == 2)
+                                    {
+                                        GraffitiRenderer(ingTag.decalProj.material, 0.33f, 0f);
+                                    }
+                                    ingTag.iCompletition += 1;
+                                    //PlayCinematicFocus(collider.transform.gameObject, vectDir, bpmManager.FSPB, i+1);
+                                    TaggingFeedback(bpmManager.FSPB, vectDir);
+                                    StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
+                                    break;
                                 }
                                 else if (bpmManager.bPlayGood)
                                 {
                                     if (ingTag.iCompletition == i)
                                     {
+                                        if (ingTag.iCompletition == 0)
+                                        {
+                                            GraffitiRenderer(ingTag.decalProj.material, 1, 0.33f);
+                                        }
+                                        else if (ingTag.iCompletition == 1)
+                                        {
+                                            GraffitiRenderer(ingTag.decalProj.material, 0.66f, 0f);
+                                        }
+                                        if (ingTag.iCompletition == 2)
+                                        {
+                                            GraffitiRenderer(ingTag.decalProj.material, 0.33f, 0f);
+                                        }
                                         if (i < 2)
                                         {
                                             ingTag.iCompletition += 2;
@@ -366,6 +387,18 @@ public class SC_Player : MonoBehaviour
                                 }
                                 else if (bpmManager.bPlayPerfect)
                                 {
+                                    if (ingTag.iCompletition == 0)
+                                    {
+                                        GraffitiRenderer(ingTag.decalProj.material, 1, 0f);
+                                    }
+                                    else if (ingTag.iCompletition == 1)
+                                    {
+                                        GraffitiRenderer(ingTag.decalProj.material, 0.66f, 0f);
+                                    }
+                                    if (ingTag.iCompletition == 2)
+                                    {
+                                        GraffitiRenderer(ingTag.decalProj.material, 0.33f, 0f);
+                                    }
                                     ingTag.iCompletition = 3;
                                     //PlayCinematicFocus(collider.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
                                     TaggingFeedback(bpmManager.FSPB, vectDir);
@@ -391,7 +424,7 @@ public class SC_Player : MonoBehaviour
                             {
                                 SoundManager.Instance.PlayOneShot(sfx_tag[2]);
                                 ingTag.vfx_completition.Play();
-                                ingTag._renderer.material = ingTag.taggedMaterial; //le joueur tag
+                                //ingTag._renderer.material = ingTag.taggedMaterial; 
                                 ingTag.transform.gameObject.tag = "Wall";
                                 ingTag.goArrow.transform.localPosition = new Vector3(ingTag.goArrow.transform.localPosition.x, ingTag.goArrow.transform.localPosition.y - 50f, ingTag.goArrow.transform.localPosition.z);
                                 itagDone += 1;
@@ -482,18 +515,39 @@ public class SC_Player : MonoBehaviour
                         {
                             if(bpmManager.bPlayBad)
                             {
-                                if(ingTag.iCompletition == i)
+                                if (ingTag.iCompletition == 0)
                                 {
-                                    ingTag.iCompletition +=1;
-                                    //PlayCinematicFocus(hitInfo.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
-                                    TaggingFeedback(bpmManager.FSPB, vectDir);
-                                    StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
-                                    break;
+                                    GraffitiRenderer(ingTag.decalProj.material, 1, 0.66f);
                                 }
+                                else if (ingTag.iCompletition == 1)
+                                {
+                                    GraffitiRenderer(ingTag.decalProj.material, 0.66f, 0.33f);
+                                }
+                                if (ingTag.iCompletition == 2)
+                                {
+                                    GraffitiRenderer(ingTag.decalProj.material, 0.33f, 0f);
+                                }
+                                ingTag.iCompletition += 1;
+                                //PlayCinematicFocus(hitInfo.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
+                                TaggingFeedback(bpmManager.FSPB, vectDir);
+                                StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
+                                break;
                             }
                             else if (bpmManager.bPlayGood)
                             {
-                               if(ingTag.iCompletition == i)
+                                if (ingTag.iCompletition == 0)
+                                {
+                                    GraffitiRenderer(ingTag.decalProj.material, 1, 0.33f);
+                                }
+                                else if (ingTag.iCompletition == 1)
+                                {
+                                    GraffitiRenderer(ingTag.decalProj.material, 0.66f, 0f);
+                                }
+                                if (ingTag.iCompletition == 2)
+                                {
+                                    GraffitiRenderer(ingTag.decalProj.material, 0.33f, 0f);
+                                }
+                                if (ingTag.iCompletition == i)
                                 {
                                     if (i < 2)
                                     {
@@ -514,6 +568,18 @@ public class SC_Player : MonoBehaviour
                             }
                             else if(bpmManager.bPlayPerfect)
                             {
+                                if (ingTag.iCompletition == 0)
+                                {
+                                    GraffitiRenderer(ingTag.decalProj.material, 1, 0f);
+                                }
+                                else if (ingTag.iCompletition == 1)
+                                {
+                                    GraffitiRenderer(ingTag.decalProj.material, 0.66f, 0f);
+                                }
+                                if (ingTag.iCompletition == 2)
+                                {
+                                    GraffitiRenderer(ingTag.decalProj.material, 0.33f, 0f);
+                                }
                                 ingTag.iCompletition = 3;
                                 //PlayCinematicFocus(hitInfo.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
                                 TaggingFeedback(bpmManager.FSPB, vectDir);
@@ -539,7 +605,7 @@ public class SC_Player : MonoBehaviour
                         {
                             SoundManager.Instance.PlayOneShot(sfx_tag[2]);
                             ingTag.vfx_completition.Play();
-                            ingTag._renderer.material = ingTag.taggedMaterial; //le joueur tag
+                            //ingTag._renderer.material = ingTag.taggedMaterial; //le joueur tag
                             ingTag.transform.gameObject.tag = "Wall";
                             ingTag.goArrow.transform.localPosition = new Vector3(ingTag.goArrow.transform.localPosition.x, ingTag.goArrow.transform.localPosition.y - 50f, ingTag.goArrow.transform.localPosition.z);
                             itagDone += 1;
@@ -1149,6 +1215,16 @@ public class SC_Player : MonoBehaviour
         vfx_tag.Stop();
         GoVfxTag.transform.localPosition = dir + new Vector3(0f, -50f, 0f);
     }
+    private void GraffitiRenderer(Material mat, float startValue, float targetValue)
+    {
+        float duration = bpmManager.FSPB; // Duration in seconds
+
+        DOTween.To(() => startValue, x =>
+        {
+            startValue = x;
+            mat.SetFloat("_ErosionValue", x);
+        }, targetValue, duration);
+    }
     private void PlayCinematicFocus(GameObject GoTag, Vector3 dir, float time, int TagsDone)
     {
         Transform focusTarget = GoTag.transform;
@@ -1226,10 +1302,15 @@ public class SC_Player : MonoBehaviour
             {
                 GO_BaitInst.transform.GetComponent<ing_Bait>().bOnFoe = true;
                 SoundManager.Instance.PlayOneShot(sfx_baitStun);
-                if(scFoe.bIsPhaseAnimated)
+                if (scFoe.isBoss)
                 {
+                    Debug.Log("endGame");
                     StartCoroutine(EndDialogue());
                 }
+            }
+            else
+            {
+                GO_BaitInst.transform.GetComponent<ing_Bait>().bOnFoe = false;
             }
         });
     }
@@ -1585,7 +1666,8 @@ public class SC_Player : MonoBehaviour
             {
                 tag.iCompletition = 0;
                 tag.transform.gameObject.tag = "Tagging";
-                tag._renderer.material = tag.untaggedMaterial; //pas de tag
+                //tag._renderer.material = tag.untaggedMaterial; //pas de tag
+                tag.decalProj.material.SetFloat("_ErosionValue", 1f);
             }
         }
         else
@@ -1597,7 +1679,8 @@ public class SC_Player : MonoBehaviour
             {
                 tag.iCompletition = 0;
                 tag.transform.gameObject.tag = "Tagging";
-                tag._renderer.material = tag.untaggedMaterial; //pas de tag
+                //tag._renderer.material = tag.untaggedMaterial; //pas de tag
+                tag.decalProj.material.SetFloat("_ErosionValue",1f);
             }
         }
 
