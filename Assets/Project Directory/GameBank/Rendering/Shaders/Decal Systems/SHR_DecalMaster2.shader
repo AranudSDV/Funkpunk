@@ -409,7 +409,7 @@ Shader  "SHR_DecalMaster2"
 				currInstanceId = unity_InstanceID;
 				#endif
 				float2 WorldSeed2D92 = ( ( frac( ( staticSwitch73 * _SeedScale ) ) * _SeedMultiplier ) + currInstanceId );
-				float2 seed2D25 = WorldSeed2D92;
+				float2 seed2D25 = round( ( WorldSeed2D92 * 1000.0 ) );
 				sampler2D tex25 = _tex;
 				float NumGraffiti25 = (float)_NumGraffiti;
 				float AtlasCols25 = (float)_AtlasCols;
@@ -896,7 +896,7 @@ Shader  "SHR_DecalMaster2"
 				currInstanceId = unity_InstanceID;
 				#endif
 				float2 WorldSeed2D92 = ( ( frac( ( staticSwitch73 * _SeedScale ) ) * _SeedMultiplier ) + currInstanceId );
-				float2 seed2D25 = WorldSeed2D92;
+				float2 seed2D25 = round( ( WorldSeed2D92 * 1000.0 ) );
 				sampler2D tex25 = _tex;
 				float NumGraffiti25 = (float)_NumGraffiti;
 				float AtlasCols25 = (float)_AtlasCols;
@@ -1399,7 +1399,7 @@ Shader  "SHR_DecalMaster2"
 				currInstanceId = unity_InstanceID;
 				#endif
 				float2 WorldSeed2D92 = ( ( frac( ( staticSwitch73 * _SeedScale ) ) * _SeedMultiplier ) + currInstanceId );
-				float2 seed2D25 = WorldSeed2D92;
+				float2 seed2D25 = round( ( WorldSeed2D92 * 1000.0 ) );
 				sampler2D tex25 = _tex;
 				float NumGraffiti25 = (float)_NumGraffiti;
 				float AtlasCols25 = (float)_AtlasCols;
@@ -1831,7 +1831,7 @@ Shader  "SHR_DecalMaster2"
 				currInstanceId = unity_InstanceID;
 				#endif
 				float2 WorldSeed2D92 = ( ( frac( ( staticSwitch73 * _SeedScale ) ) * _SeedMultiplier ) + currInstanceId );
-				float2 seed2D25 = WorldSeed2D92;
+				float2 seed2D25 = round( ( WorldSeed2D92 * 1000.0 ) );
 				sampler2D tex25 = _tex;
 				float NumGraffiti25 = (float)_NumGraffiti;
 				float AtlasCols25 = (float)_AtlasCols;
@@ -2320,7 +2320,7 @@ Shader  "SHR_DecalMaster2"
 				currInstanceId = unity_InstanceID;
 				#endif
 				float2 WorldSeed2D92 = ( ( frac( ( staticSwitch73 * _SeedScale ) ) * _SeedMultiplier ) + currInstanceId );
-				float2 seed2D25 = WorldSeed2D92;
+				float2 seed2D25 = round( ( WorldSeed2D92 * 1000.0 ) );
 				sampler2D tex25 = _tex;
 				float NumGraffiti25 = (float)_NumGraffiti;
 				float AtlasCols25 = (float)_AtlasCols;
@@ -2830,7 +2830,7 @@ Shader  "SHR_DecalMaster2"
 				currInstanceId = unity_InstanceID;
 				#endif
 				float2 WorldSeed2D92 = ( ( frac( ( staticSwitch73 * _SeedScale ) ) * _SeedMultiplier ) + currInstanceId );
-				float2 seed2D25 = WorldSeed2D92;
+				float2 seed2D25 = round( ( WorldSeed2D92 * 1000.0 ) );
 				sampler2D tex25 = _tex;
 				float NumGraffiti25 = (float)_NumGraffiti;
 				float AtlasCols25 = (float)_AtlasCols;
@@ -3122,7 +3122,7 @@ Shader  "SHR_DecalMaster2"
 				currInstanceId = unity_InstanceID;
 				#endif
 				float2 WorldSeed2D92 = ( ( frac( ( staticSwitch73 * _SeedScale ) ) * _SeedMultiplier ) + currInstanceId );
-				float2 seed2D25 = WorldSeed2D92;
+				float2 seed2D25 = round( ( WorldSeed2D92 * 1000.0 ) );
 				sampler2D tex25 = _tex;
 				float NumGraffiti25 = (float)_NumGraffiti;
 				float AtlasCols25 = (float)_AtlasCols;
@@ -3179,8 +3179,6 @@ Node;AmplifyShaderEditor.SmoothstepOpNode;84;-633.1157,-759.8284;Inherit;True;3;
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;90;-848.3115,-593.9597;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SamplerNode;89;-1028.107,-465.7858;Inherit;True;Property;_TextureSample0;Texture Sample 0;19;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;88;-454.2599,-494.1249;Inherit;True;2;2;0;FLOAT;0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.GetLocalVarNode;93;-1254.126,-181.575;Inherit;False;92;WorldSeed2D;1;0;OBJECT;;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.GetLocalVarNode;95;-1238.748,-104.0563;Inherit;False;94;MainTex;1;0;OBJECT;;False;1;SAMPLER2D;0
 Node;AmplifyShaderEditor.GetLocalVarNode;96;-1230.449,-453.7798;Inherit;False;94;MainTex;1;0;OBJECT;;False;1;SAMPLER2D;0
 Node;AmplifyShaderEditor.FractNode;79;-2497.394,-424.4958;Inherit;False;1;0;FLOAT2;0,0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;60;-2673.199,-427.0807;Inherit;False;2;2;0;FLOAT2;0,0;False;1;FLOAT;0;False;1;FLOAT2;0
@@ -3218,6 +3216,11 @@ Node;AmplifyShaderEditor.SimpleAddOpNode;101;-2195.342,-311.5009;Inherit;False;2
 Node;AmplifyShaderEditor.CustomExpressionNode;25;-948.1661,-141.418;Float;False;return tex2D(tex, uv)@;4;File;16;True;uv;FLOAT2;0,0;In;;Inherit;False;True;seed2D;FLOAT2;0,0;In;;Inherit;False;True;tex;SAMPLER2D;_Sampler210;In;;Inherit;False;True;NumGraffiti;FLOAT;0;In;;Inherit;False;True;AtlasCols;FLOAT;0;In;;Inherit;False;True;AtlasRows;FLOAT;0;In;;Inherit;False;True;MinScaleX;FLOAT;0;In;;Inherit;False;True;MaxScaleX;FLOAT;0;In;;Inherit;False;True;MinScaleY;FLOAT;0;In;;Inherit;False;True;MaxScaleY;FLOAT;0;In;;Inherit;False;True;MinRota;FLOAT;0;In;;Inherit;False;True;MaxRota;FLOAT;0;In;;Inherit;False;True;MinOffsetX;FLOAT;0;In;;Inherit;False;True;MaxOffsetX;FLOAT;0;In;;Inherit;False;True;MinOffsetY;FLOAT;0;In;;Inherit;False;True;MaxOffsetY;FLOAT;0;In;;Inherit;False;SampleGraffitis;False;False;0;6471f0035b765b445a9787e379b162a0;False;16;0;FLOAT2;0,0;False;1;FLOAT2;0,0;False;2;SAMPLER2D;_Sampler210;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT;0;False;7;FLOAT;0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;11;FLOAT;0;False;12;FLOAT;0;False;13;FLOAT;0;False;14;FLOAT;0;False;15;FLOAT;0;False;1;FLOAT4;0
 Node;AmplifyShaderEditor.InstanceIdNode;100;-2407.919,-258.0281;Inherit;False;False;0;1;INT;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;92;-2066.93,-324.2546;Inherit;False;WorldSeed2D;-1;True;1;0;FLOAT2;0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.GetLocalVarNode;95;-1238.748,-104.0563;Inherit;False;94;MainTex;1;0;OBJECT;;False;1;SAMPLER2D;0
+Node;AmplifyShaderEditor.GetLocalVarNode;93;-2077.571,-19.36152;Inherit;False;92;WorldSeed2D;1;0;OBJECT;;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;102;-1870.198,-9.180033;Inherit;False;2;2;0;FLOAT2;0,0;False;1;FLOAT;0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.RangedFloatNode;103;-2019.985,79.42801;Inherit;False;Constant;_Float0;Float 0;20;0;Create;True;0;0;0;False;0;False;1000;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RoundOpNode;104;-1635.319,35.42801;Inherit;False;1;0;FLOAT2;0,0;False;1;FLOAT2;0
 WireConnection;84;0;91;0
 WireConnection;84;1;86;0
 WireConnection;84;2;90;0
@@ -3257,7 +3260,7 @@ WireConnection;2;3;9;3
 WireConnection;101;0;77;0
 WireConnection;101;1;100;0
 WireConnection;25;0;98;0
-WireConnection;25;1;93;0
+WireConnection;25;1;104;0
 WireConnection;25;2;95;0
 WireConnection;25;3;24;0
 WireConnection;25;4;13;0
@@ -3273,5 +3276,8 @@ WireConnection;25;13;56;0
 WireConnection;25;14;55;0
 WireConnection;25;15;57;0
 WireConnection;92;0;101;0
+WireConnection;102;0;93;0
+WireConnection;102;1;103;0
+WireConnection;104;0;102;0
 ASEEND*/
-//CHKSM=A82E95DA3B6B1A3CAE21292AAF5F2BA1BA6465EA
+//CHKSM=1A0FB1216C43F64C0998A11896B6ACDAA5B98A43
