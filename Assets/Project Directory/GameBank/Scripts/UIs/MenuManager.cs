@@ -86,6 +86,7 @@ public class MenuManager : MonoBehaviour
     private bool bActif = false;
     [SerializeField] private Sprite spriteLevel_done;
     [SerializeField] private Sprite spriteLevel_notDone;
+    [SerializeField] private Material m_buttonLevel;
     [SerializeField] private Color32 colorFoes;
     [SerializeField] private Color32 colorPlayer;
     public GameObject GoScoringFirstButtonSelected;
@@ -516,10 +517,12 @@ public class MenuManager : MonoBehaviour
                     if(_playerData.iLevelPlayer>i)
                     {
                         _levels[i].img_lvl.sprite = spriteLevel_done;
+                        _levels[i].img_lvl.material = null;
                     }
                     else
                     {
-                        _levels[i].img_lvl.sprite = spriteLevel_notDone;
+                        _levels[i].img_lvl.sprite = null; 
+                        _levels[i].img_lvl.material = m_buttonLevel;
                     }
                     TextMeshProUGUI textChild = _levels[i].Go_LevelButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
                     textChild.color = new Color32(0, 255, 255, 255);
@@ -543,6 +546,7 @@ public class MenuManager : MonoBehaviour
                else if(GoLevelsButton.Length- _playerData.iLevelPlayer > i) //Pour tous les niveaux non faits
                {
                     _levels[i].img_lvl.sprite = spriteLevel_notDone;
+                    _levels[i].img_lvl.material = null;
                     TextMeshProUGUI textChild = _levels[i].Go_LevelButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
                     textChild.color = new Color32(255, 255, 0, 255);
                     for (int y = 0; y < 5; y++)
@@ -597,7 +601,16 @@ public class MenuManager : MonoBehaviour
             if (menuLoopInstance.isValid()) return; // Prevent multiple instances
 
             menuLoopInstance = RuntimeManager.CreateInstance(menuLoop);
-
+            if(CgPauseMenu.alpha == 1f)
+            {
+                CgPauseMenu.alpha = 0f;
+                CgPauseMenu.blocksRaycasts = false;
+                CgPauseMenu.interactable = false;
+                RtPauseMenu.anchorMin = new Vector2(0, 1);
+                RtPauseMenu.anchorMax = new Vector2(1, 2);
+                RtPauseMenu.offsetMax = new Vector2(0f, 0f);
+                RtPauseMenu.offsetMin = new Vector2(0f, 0f);
+            }
             if (!isPlaying)
             {
                 menuLoopInstance.start();
@@ -774,12 +787,12 @@ public class MenuManager : MonoBehaviour
                     //ImageButtonGeneral[1].material = M_materialButtonGeneral[2];
                     ImageButtonGeneral[1].sprite = spriteButtonGeneral[2];
                 }
-                else if(iDifficulty == 0) //normal
+                else if(iDifficulty == 1) //normal
                 {
                     //ImageButtonGeneral[1].material = M_materialButtonGeneral[3];
                     ImageButtonGeneral[1].sprite = spriteButtonGeneral[3];
                 }
-                else //easy
+                else if (iDifficulty == 2)//easy
                 {
                     //ImageButtonGeneral[1].material = M_materialButtonGeneral[4];
                     ImageButtonGeneral[1].sprite = spriteButtonGeneral[4];
@@ -930,9 +943,13 @@ public class MenuManager : MonoBehaviour
     {
         bOnce[2] = false;
         ButtonSound();
-        if (iDifficulty < 2)
+        if (iDifficulty == 0)
         {
-            iDifficulty += 1; 
+            iDifficulty = 1; 
+        }
+        else if(iDifficulty == 1)
+        {
+            iDifficulty = 2;
         }
         else
         {

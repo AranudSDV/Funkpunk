@@ -33,9 +33,6 @@ public class sc_levelChoosing_ : MonoBehaviour
     private float dropDistance = 20f;      // how much it drops below original
     private float dropDuration = 0.2f;
     private Vector3[] originalPosition = new Vector3[20];
-    [SerializeField] private Vector2[] ArrowAnchoredMin;
-    [SerializeField] private Vector2[] ArrowAnchoredMax;
-    [SerializeField] private RectTransform rectArrow;
     [SerializeField] private Vector2[] CharaAnchoredMin;
     [SerializeField] private Vector2[] CharaAnchoredMax;
     [SerializeField] private RectTransform rectChara;
@@ -118,7 +115,7 @@ public class sc_levelChoosing_ : MonoBehaviour
             menuManager.EventSystem.firstSelectedGameObject = GoLevels[iPreviousLvlDone];
             bNowSelected[iPreviousLvlDone] = true;
             iSelected = iPreviousLvlDone;
-            AnimateArrow(iLastLvl, _playerData.iLevelPlayer, 1.5f);
+            AnimateCharaNext(iLastLvl, _playerData.iLevelPlayer, 1.5f);
         }
         else
         {
@@ -133,33 +130,29 @@ public class sc_levelChoosing_ : MonoBehaviour
             menuManager.EventSystem.firstSelectedGameObject = GoLevels[0];
             bNowSelected[0] = true;
             iSelected = 0;
-            AnimateArrow(iLastLvl, _playerData.iLevelPlayer, 1.5f);
+            AnimateCharaNext(iLastLvl, _playerData.iLevelPlayer, 1.5f);
         }
     }
-    private void AnimateArrow(int iPrevious, int next, float duration)
+    private void AnimateCharaNext(int iPrevious, int next, float duration)
     {
-        Sequence arrowSequence = DOTween.Sequence().SetUpdate(true); // Ensures it runs independently of timeScale
-        arrowSequence.Append(
+        Sequence charaSequence = DOTween.Sequence().SetUpdate(true); // Ensures it runs independently of timeScale
+        charaSequence.Append(
             DOTween.To(() => 0f, x => {
-            rectArrow.anchorMin = Vector2.Lerp(ArrowAnchoredMin[iPrevious], ArrowAnchoredMin[next], x);
-            rectArrow.anchorMax = Vector2.Lerp(ArrowAnchoredMax[iPrevious], ArrowAnchoredMax[next], x);
+            rectChara.anchorMin = Vector2.Lerp(CharaAnchoredMin[iPrevious], CharaAnchoredMin[next], x);
+            rectChara.anchorMax = Vector2.Lerp(CharaAnchoredMax[iPrevious], CharaAnchoredMax[next], x);
             // Reset offsets to maintain size and layout
             // Y bounce
             float bounceOffset = Mathf.Sin(x * Mathf.PI) * 50f; 
-            rectArrow.offsetMin = new Vector2(0, bounceOffset);
-            rectArrow.offsetMax = new Vector2(0, bounceOffset);
-             // stretch
-            float scaleY = 1 + Mathf.Sin(x * Mathf.PI) * 0.2f; 
-            float scaleX = 1 - Mathf.Sin(x * Mathf.PI) * 0.1f; 
-            rectArrow.localScale = new Vector3(scaleX, scaleY, 1);
+            rectChara.offsetMin = new Vector2(0, bounceOffset);
+            rectChara.offsetMax = new Vector2(0, bounceOffset);
         }, 1f, duration).SetEase(Ease.InOutBack)
-        ); 
-        arrowSequence.OnComplete(() =>
+        );
+        charaSequence.OnComplete(() =>
         {
-            rectArrow.localScale = Vector3.one;
-            rectArrow.offsetMin = Vector2.zero;
-            rectArrow.offsetMax = Vector2.zero;
+            rectChara.offsetMin = Vector2.zero;
+            rectChara.offsetMax = Vector2.zero;
         });
+        iSelected = next;
     }
     private void AnimateChara(int iPrevious, int next, float duration)
     {
@@ -181,7 +174,7 @@ public class sc_levelChoosing_ : MonoBehaviour
                 rectChara.offsetMin = Vector2.Lerp(rectChara.offsetMin, Vector2.zero, x);
                 rectChara.offsetMax = Vector2.Lerp(rectChara.offsetMax, Vector2.zero, x);
             }
-        }, 1f, duration).SetEase(Ease.OutBounce).SetUpdate(true)
+        }, 1f, duration).SetEase(Ease.InOutBack).SetUpdate(true)
         );
         charaSequence.OnComplete(() =>
         {

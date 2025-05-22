@@ -12364,10 +12364,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4700f9f03ad19f94baf0367cb7a9c988, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Width: 10.7
+  m_Width: 12
   m_Damping: 1
-  m_MinFOV: 45
-  m_MaxFOV: 47
+  m_MinFOV: 48
+  m_MaxFOV: 58
 --- !u!114 &1059278027
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12384,7 +12384,7 @@ MonoBehaviour:
   - m_Script
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
-  m_Priority: 2
+  m_Priority: 20
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 460384140}
   m_Follow: {fileID: 460384140}
@@ -12415,8 +12415,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1059278025}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.56062883, y: -0.0000002116747, z: 0.00000014331073, w: 0.82806724}
-  m_LocalPosition: {x: 22.000002, y: 11.12, z: -8}
+  m_LocalRotation: {x: 0.56062883, y: -0.00000018317859, z: 0.00000012401793, w: 0.82806724}
+  m_LocalPosition: {x: 0.0000019073484, y: 11.12, z: -8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -17732,7 +17732,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 45.000004
+  field of view: 58
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -17758,8 +17758,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1636234572}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.0000000763197, y: 0.71325046, z: -0.70090926, w: -0.0000000776635}
-  m_LocalPosition: {x: 27, y: 22, z: -11}
+  m_LocalRotation: {x: 0.56062883, y: -0.00000018317859, z: 0.00000012401793, w: 0.82806724}
+  m_LocalPosition: {x: 0.0000019073484, y: 11.12, z: -8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -23355,7 +23355,7 @@ PrefabInstance:
         type: 3}
       propertyPath: FOVS
       value: 
-      objectReference: {fileID: 687403015}
+      objectReference: {fileID: 1059278026}
     - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: FSPB
@@ -23364,12 +23364,12 @@ PrefabInstance:
     - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: fFOVmax
-      value: 10.3
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: fFOVmin
-      value: 9.7
+      value: 9.5
       objectReference: {fileID: 0}
     - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
@@ -23391,11 +23391,6 @@ PrefabInstance:
       propertyPath: goNoteRight
       value: 
       objectReference: {fileID: 1457390320}
-    - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
-        type: 3}
-      propertyPath: iDifficulty
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: txt_Feedback
@@ -23954,7 +23949,7 @@ PrefabInstance:
     - target: {fileID: 9121296702372304279, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 22
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9121296702372304279, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}

@@ -23,7 +23,7 @@ using Unity.Splines.Examples;
 using UnityEngine.ProBuilder.Shapes;
 //using UnityEditor.PackageManager;
 
-public class SC_Player : MonoBehaviour
+public class SC_Player : Singleton<SC_Player>
 {
     public bool bisTuto = false;
     public MenuManager menuManager;
@@ -61,6 +61,7 @@ public class SC_Player : MonoBehaviour
     public bool bIsImune = false;
     private bool bIsBeingAnimated = false;
     private bool bEnsureRotation = false;
+    public float fJudmgentToJump = 1f;
 
     //LE BAIT
     [Header("Bait")]
@@ -126,6 +127,15 @@ public class SC_Player : MonoBehaviour
     private float fPreviousNbBeat = 0f;
     public int iCheckPoint = 0;
     public bool bIsReplaying = false;
+
+    [SerializeField, Button(nameof(testy))] bool test;
+
+    [ContextMenu("lols")]
+    private void testy()
+    {
+        Debug.Log("lol ça marche !");
+    }
+
     static int Hasard(int a, int b) //Choisi un random.
     {
         System.Random rdm = new System.Random();
@@ -408,7 +418,7 @@ public class SC_Player : MonoBehaviour
                                 else if (!bpmManager.bPlayPerfect && !bpmManager.bPlayGood && !bpmManager.bPlayBad)
                                 {
                                     //Vector3 newDirection = FindNewDirection(vectDir, fRange);
-                                    Move(Vector3.zero);
+                                    Move(Vector3.zero, 0.3f);
                                     return;
                                 }
                             }
@@ -471,7 +481,7 @@ public class SC_Player : MonoBehaviour
                                 return;
                             }
                         }
-                        else if (collider.CompareTag("MapObject"))
+                        else if (collider.transform.CompareTag("MapObject"))
                         {
                             //TextMeshPro textOnWall = collider.transform.GetChild(0).GetComponent<TextMeshPro>();
                             StartCoroutine(EnoughPercentLoft());
@@ -491,14 +501,14 @@ public class SC_Player : MonoBehaviour
                 if (canMoveDiagonally && !bIsTagging)
                 {
                     // Move diagonally if no blocking objects or only passable ones
-                    Move(vectDir);
+                    Move(vectDir, fJudmgentToJump);
                 }
                 else if(!bIsTagging)
                 {
                     Vector3 newDirection = FindNewDirection(vectDir, fRange);
                     if (newDirection != Vector3.zero)
                     {
-                        Move(newDirection);
+                        Move(newDirection, fJudmgentToJump);
                     }
                 }
             }
@@ -589,7 +599,7 @@ public class SC_Player : MonoBehaviour
                             else if(!bpmManager.bPlayPerfect && !bpmManager.bPlayGood && !bpmManager.bPlayBad)
                             {
                                 //Vector3 newDirection = FindNewDirection(vectDir, fRange);
-                                Move(Vector3.zero);
+                                Move(Vector3.zero, 0.3f);
                                 return ;
                             }
                         }
@@ -659,13 +669,13 @@ public class SC_Player : MonoBehaviour
                         Vector3 newDirection = FindNewDirection(vectDir, fRange);
                         if (newDirection != Vector3.zero)
                         {
-                            Move(newDirection);
+                            Move(newDirection, fJudmgentToJump);
                         }
                     }
                     else if (hitInfo.transform.CompareTag("Untagged"))
                     {
                         // No wall, move forward
-                        Move(vectDir);
+                        Move(vectDir, fJudmgentToJump);
                     }
                     else if(hitInfo.transform.CompareTag("MapObject"))
                     {
@@ -685,13 +695,13 @@ public class SC_Player : MonoBehaviour
                     else
                     {
                         // No wall, move forward
-                        Move(vectDir);
+                        Move(vectDir, fJudmgentToJump);
                     }
                 }
                 else
                 {
                     // Nothing in front, move forward
-                    Move(vectDir);
+                    Move(vectDir, fJudmgentToJump);
                 }
             }
         }
@@ -848,24 +858,24 @@ public class SC_Player : MonoBehaviour
         // If all directions are blocked, return Vector3.zero
         return Vector3.zero;
     }
-    private void Move(Vector3 direction)
+    private void Move(Vector3 direction, float jumpPower)
     {
         // diagonale ?
         if (bIsReplaying)
         {
             Vector3 newPos = posLastCheckPoint + Vector3.zero;
-            this.transform.DOJump(newPos, 1f, 0, bpmManager.FSPB).SetEase(Ease.OutBack).SetAutoKill(true);
+            this.transform.DOJump(newPos, jumpPower, 0, bpmManager.FSPB).SetEase(Ease.OutBack).SetAutoKill(true);
         }
         else if(bIsImune)
         {
-            this.transform.DOJump(this.transform.position, 1f, 0, bpmManager.FSPB).SetEase(Ease.OutBack).SetAutoKill(true);
+            this.transform.DOJump(this.transform.position, jumpPower, 0, bpmManager.FSPB).SetEase(Ease.OutBack).SetAutoKill(true);
         }
         else
         {
             if (direction.x != 0 && direction.z != 0 && direction != Vector3.right)
             {
                 Vector3 newPos = this.transform.position + new Vector3(Mathf.Sign(direction.x), 0, Mathf.Sign(direction.z));
-                this.transform.DOJump(newPos, 1f, 0, bpmManager.FSPB).SetEase(Ease.OutBack).SetAutoKill(true);
+                this.transform.DOJump(newPos, jumpPower, 0, bpmManager.FSPB).SetEase(Ease.OutBack).SetAutoKill(true);
                 //DOMove(newPos, bpmManager.FSPB).SetAutoKill(true);
                 //this.transform.GetChild(0).gameObject.transform.DOJump(newPos, 1f, 0, bpmManager.FSPB).SetEase(Ease.OutBack).SetAutoKill(true);
                 //this.transform.DOJump(newPos, 1f, 0, bpmManager.FSPB, true).SetEase(Ease.OutBack).SetAutoKill(true);
@@ -873,7 +883,7 @@ public class SC_Player : MonoBehaviour
             else
             {
                 Vector3 newPos = this.transform.position + direction;
-                this.transform.DOJump(newPos, 1f, 0, bpmManager.FSPB).SetEase(Ease.OutBack).SetAutoKill(true);
+                this.transform.DOJump(newPos, jumpPower, 0, bpmManager.FSPB).SetEase(Ease.OutBack).SetAutoKill(true);
                 //DOMove(newPos, bpmManager.FSPB).SetAutoKill(true);
                 //this.transform.GetChild(0).gameObject.transform.DOJump(newPos, 1f, 0, bpmManager.FSPB).SetEase(Ease.OutBack).SetAutoKill(true);
                 //this.transform.DOJump(newPos, 1f, 0, bpmManager.FSPB, true).SetEase(Ease.OutBack).SetAutoKill(true);
@@ -1314,7 +1324,7 @@ public class SC_Player : MonoBehaviour
             }
         });
     }
-    private IEnumerator CameraShake(float intensity, float time)
+    public IEnumerator CameraShake(float intensity, float time)
     {
         cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = intensity;
         yield return new WaitForSeconds(time);

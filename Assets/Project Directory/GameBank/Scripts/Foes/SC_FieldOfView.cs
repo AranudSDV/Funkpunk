@@ -1,5 +1,6 @@
 using Cinemachine;
 using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -10,7 +11,14 @@ using UnityEngine.ProBuilder.Shapes;
 
 public class SC_FieldOfView : MonoBehaviour
 {
-    public int i_typeFoe = 1;
+    [SerializeField] private FoeType typeFoe;
+
+    public enum FoeType
+    {
+        superStatic,
+        superDynamic
+    }
+
     [SerializeField] private SC_Player scPlayer = null;
     [SerializeField] private SC_VisionConeCasting sc_Cone;
     [SerializeField] private SC_VisionConeCasting[] sc_BossCone = new SC_VisionConeCasting[2];
@@ -70,7 +78,7 @@ public class SC_FieldOfView : MonoBehaviour
     public int i_EnnemyBeat = 0;
     public GameObject goBaitHearing;
     public int i_EnnemyHeard = 15;
-
+    
     //ETATS
     [Header("Etats")]
     public bool BCanSee;
@@ -104,34 +112,41 @@ public class SC_FieldOfView : MonoBehaviour
     {
         if (GOPlayerRef == null)
         {
-            GOPlayerRef = GameObject.FindGameObjectWithTag("Player");
+            // GOPlayerRef = GameObject.FindGameObjectWithTag("Player");
+            GOPlayerRef = SC_Player.instance.gameObject;
         }
+
         StartCoroutine(FOVRoutine());
-        if (i_typeFoe == 1) //si l'ennemi est statique
+        switch (typeFoe)
         {
-            currentRotation = minRotation;
-            transform.eulerAngles = new Vector3(0, currentRotation, 0);
-        }
-        else
-        {
-            this.transform.position = posDirections[iFirstPos];
-            if (iFirstPos + 1 == posDirections.Length)
-            {
-                transform.LookAt(new Vector3(posDirections[iFirstPos-1].x, this.transform.position.y, posDirections[iFirstPos-1].z));
-                isReversing = true;
-                iCurrentDirection = iFirstPos - 1;
-            }
-            else
-            {
-                transform.LookAt(new Vector3(posDirections[iFirstPos + 1].x, this.transform.position.y, posDirections[iFirstPos + 1].z));
-                isReversing = false;
-                iCurrentDirection = iFirstPos + 1;
-            }
-            Go_vfx_Backward.transform.localPosition = new Vector3(pos_vfx_backward.x, -50f, pos_vfx_backward.z);
-            if(backfeedback.initialized)
-            {
-                backfeedback.ConeRenderer.enabled = false;
-            }
+            case FoeType.superStatic:
+                currentRotation = minRotation;
+                transform.eulerAngles = new Vector3(0, currentRotation, 0);
+                break;
+
+            case FoeType.superDynamic:
+                this.transform.position = posDirections[iFirstPos];
+                if (iFirstPos + 1 == posDirections.Length)
+                {
+                    transform.LookAt(new Vector3(posDirections[iFirstPos - 1].x, this.transform.position.y, posDirections[iFirstPos - 1].z));
+                    isReversing = true;
+                    iCurrentDirection = iFirstPos - 1;
+                }
+                else
+                {
+                    transform.LookAt(new Vector3(posDirections[iFirstPos + 1].x, this.transform.position.y, posDirections[iFirstPos + 1].z));
+                    isReversing = false;
+                    iCurrentDirection = iFirstPos + 1;
+                }
+                Go_vfx_Backward.transform.localPosition = new Vector3(pos_vfx_backward.x, -50f, pos_vfx_backward.z);
+                if (backfeedback.initialized)
+                {
+                    backfeedback.ConeRenderer.enabled = false;
+                }
+                break;
+            default:
+                Debug.LogWarning("beep boop");
+                break;
         }
     }
     private void Update()
@@ -278,7 +293,7 @@ public class SC_FieldOfView : MonoBehaviour
     public void PlayerDetected(GameObject GOPlayer, float time)
     {
         transform.LookAt(GOPlayer.transform);
-        if(i_typeFoe == 2) // Si l'ennemi est movible : bouge vers le joueur
+        if(typeFoe == FoeType.superDynamic) // Si l'ennemi est movible : bouge vers le joueur
         {
             int index = NearestPosToPlayer(GOPlayer);
             if(index>iCurrentDirection)
@@ -354,7 +369,7 @@ public class SC_FieldOfView : MonoBehaviour
         }
         if (!BCanSee && !bHasHeard && !BIsNear)
         {
-            if (i_typeFoe == 1)
+            if (typeFoe == FoeType.superStatic)
             {
                 transform.eulerAngles = vectLastRot;
             }
@@ -396,138 +411,144 @@ public class SC_FieldOfView : MonoBehaviour
     }
     public void EnemieRotation(float ftime)
     {
-        if (i_typeFoe == 1) //Si l'ennemi est statique, ne bouge que sa rotation
+        switch (typeFoe)
         {
-            if(!scPlayer.bIsImune && !bIsPhaseAnimated)
-            {
-                if (!isReversing && currentRotation >= maxRotation)
+            case FoeType.superStatic:
+                if (!scPlayer.bIsImune && !bIsPhaseAnimated)
                 {
-                    if(isBoss)
+                    if (!isReversing && currentRotation >= maxRotation)
                     {
-                        currentRotation = minRotation;
+                        if (isBoss)
+                        {
+                            currentRotation = minRotation;
+                        }
+                        else
+                        {
+                            isReversing = true;
+                        }
                     }
-                    else
+                    else if (isReversing && currentRotation <= minRotation)
                     {
-                        isReversing = true;
+                        if (isBoss)
+                        {
+                            currentRotation = maxRotation;
+                        }
+                        else
+                        {
+                            isReversing = false;
+                        }
                     }
-                }
-                else if (isReversing && currentRotation <= minRotation)
-                {
-                    if (isBoss)
-                    {
-                        currentRotation = maxRotation;
-                    }
-                    else
-                    {
-                        isReversing = false;
-                    }
-                }
 
-                if (isReversing)
+                    if (isReversing)
+                    {
+                        currentRotation -= rotationStep;
+                    }
+                    else
+                    {
+                        currentRotation += rotationStep;
+                    }
+                    currentRotation = Mathf.Clamp(currentRotation, minRotation, maxRotation);
+                    transform.eulerAngles = new Vector3(0, currentRotation, 0);
+                    vectLastRot = transform.eulerAngles;
+                }
+                break;
+
+            case FoeType.superDynamic:
+                if (!scPlayer.bIsImune)
                 {
-                    currentRotation -= rotationStep;
+                    Vector3 newPos = this.transform.position + new Vector3(posDirections[iCurrentDirection].x - this.transform.position.x, 0, posDirections[iCurrentDirection].z - this.transform.position.z).normalized;
+                    this.transform.DOJump(new Vector3(Mathf.Round(newPos.x), newPos.y, Mathf.Round(newPos.z)), 1f, 0, ftime).SetEase(Ease.OutBack).SetAutoKill(true);
                 }
                 else
                 {
-                    currentRotation += rotationStep;
+                    this.transform.DOJump(new Vector3(Mathf.Round(this.transform.position.x), this.transform.position.y, Mathf.Round(this.transform.position.z)), 1f, 0, ftime).SetEase(Ease.OutBack).SetAutoKill(true);
                 }
-                currentRotation = Mathf.Clamp(currentRotation, minRotation, maxRotation);
-                transform.eulerAngles = new Vector3(0, currentRotation, 0);
-                vectLastRot = transform.eulerAngles;
-            }
-        }
-        else if (i_typeFoe == 2)//Si l'ennemi suit un chemin, est movible
-        {
-            if(!scPlayer.bIsImune)
-            {
-                Vector3 newPos = this.transform.position + new Vector3(posDirections[iCurrentDirection].x - this.transform.position.x, 0, posDirections[iCurrentDirection].z - this.transform.position.z).normalized;
-                this.transform.DOJump(new Vector3(Mathf.Round(newPos.x), newPos.y, Mathf.Round(newPos.z)), 1f, 0, ftime).SetEase(Ease.OutBack).SetAutoKill(true);
-            }
-            else
-            {
-                this.transform.DOJump(new Vector3(Mathf.Round(this.transform.position.x), this.transform.position.y, Mathf.Round(this.transform.position.z)), 1f, 0, ftime).SetEase(Ease.OutBack).SetAutoKill(true);
-            }
-            Vector3 preLastPos = posDirections[iCurrentDirection] - new Vector3(posDirections[iCurrentDirection].x - this.transform.position.x, 0, posDirections[iCurrentDirection].z - this.transform.position.z).normalized;
-            if (this.transform.position.x == Mathf.Round(posDirections[iCurrentDirection].x) && this.transform.position.z == Mathf.Round(posDirections[iCurrentDirection].z)) //pile � la position de changement.
-            {
-                if (!isReversing && iCurrentDirection + 1 != posDirections.Length && posDirections.Length != 2) //Si �a ne reverse pas et que la prochaine direction existe
+                Vector3 preLastPos = posDirections[iCurrentDirection] - new Vector3(posDirections[iCurrentDirection].x - this.transform.position.x, 0, posDirections[iCurrentDirection].z - this.transform.position.z).normalized;
+                if (this.transform.position.x == Mathf.Round(posDirections[iCurrentDirection].x) && this.transform.position.z == Mathf.Round(posDirections[iCurrentDirection].z)) //pile � la position de changement.
                 {
-                    iCurrentDirection += 1;
-                }
-                else if (!isReversing && iCurrentDirection + 1 == posDirections.Length && posDirections.Length != 2) //Si �a ne reverse pas et que la prochaine direction n'existe pas ou aller-retour
-                {
-                    if (iCurrentDirection != 0)
+                    if (!isReversing && iCurrentDirection + 1 != posDirections.Length && posDirections.Length != 2) //Si �a ne reverse pas et que la prochaine direction existe
+                    {
+                        iCurrentDirection += 1;
+                    }
+                    else if (!isReversing && iCurrentDirection + 1 == posDirections.Length && posDirections.Length != 2) //Si �a ne reverse pas et que la prochaine direction n'existe pas ou aller-retour
+                    {
+                        if (iCurrentDirection != 0)
+                        {
+                            iCurrentDirection -= 1;
+                        }
+                        isReversing = true;
+                    }
+                    else if (!isReversing && iCurrentDirection + 1 == posDirections.Length && posDirections.Length == 2) //Si �a ne reverse pas et que la prochaine direction n'existe pas ou aller-retour
+                    {
+                        if (iCurrentDirection == 1)
+                        {
+                            iCurrentDirection = 0;
+                        }
+                        isReversing = true;
+                    }
+                    else if (isReversing && iCurrentDirection - 1 != -1 && posDirections.Length != 2)//Si �a se reverse et que la prochaine direction existe
                     {
                         iCurrentDirection -= 1;
                     }
-                    isReversing = true;
-                }
-                else if (!isReversing && iCurrentDirection + 1 == posDirections.Length && posDirections.Length == 2) //Si �a ne reverse pas et que la prochaine direction n'existe pas ou aller-retour
-                {
-                    if (iCurrentDirection == 1)
+                    else if (isReversing && (iCurrentDirection - 1 == -1 && posDirections.Length != 2))//Si �a se reverse et que la prochaine direction n'existe pas ou aller-retour
                     {
-                        iCurrentDirection = 0;
+                        iCurrentDirection += 1;
+                        isReversing = false;
                     }
-                    isReversing = true;
+                    else
+                    {
+                        iCurrentDirection = 1;
+                        isReversing = false;
+                    }
+                    sc_BossCone[1].transform.GetComponent<MeshRenderer>().enabled = false;
+                    sc_BossCone[1].enabled = false;
+                    sc_BossCone[1].gameObject.transform.localPosition += new Vector3(0, -50f, 0);
+                    //Go_vfx_Backward.transform.localPosition = new Vector3(pos_vfx_backward.x, -50f, pos_vfx_backward.z);
+                    if (backfeedback.initialized)
+                    {
+                        backfeedback.ConeRenderer.enabled = false;
+                    }
+                    if (BCanSee == false)
+                    {
+                        transform.LookAt(new Vector3(posDirections[iCurrentDirection].x, this.transform.position.y, posDirections[iCurrentDirection].z));
+                    }
                 }
-                else if (isReversing && iCurrentDirection - 1 != -1 && posDirections.Length != 2)//Si �a se reverse et que la prochaine direction existe
+                else if (this.transform.position == new Vector3(Mathf.Round(preLastPos.x), preLastPos.y, Mathf.Round(preLastPos.z))) //un mouvement away from the last position
                 {
-                   iCurrentDirection -= 1;
+                    if (iCurrentDirection + 1 == posDirections.Length && !isReversing) //si la prochaine position n'existe pas
+                    {
+                        sc_BossCone[1].transform.LookAt(new Vector3(posDirections[iCurrentDirection - 1].x, Go_vfx_Backward.transform.position.y, posDirections[iCurrentDirection - 1].z));
+                        sc_BossCone[1].transform.localPosition = pos_vfx_backward;
+                        sc_BossCone[1].transform.GetComponent<MeshRenderer>().enabled = true;
+                        sc_BossCone[1].enabled = true;
+                        //Go_vfx_Backward.transform.LookAt(new Vector3(posDirections[iCurrentDirection-1].x, Go_vfx_Backward.transform.position.y, posDirections[iCurrentDirection-1].z));
+                    }
+                    else if (iCurrentDirection - 1 == -1 && isReversing) //si la prochaine position n'existe pas
+                    {
+                        sc_BossCone[1].transform.LookAt(new Vector3(posDirections[iCurrentDirection + 1].x, Go_vfx_Backward.transform.position.y, posDirections[iCurrentDirection + 1].z));
+                        sc_BossCone[1].transform.localPosition = pos_vfx_backward;
+                        sc_BossCone[1].transform.GetComponent<MeshRenderer>().enabled = true;
+                        sc_BossCone[1].enabled = true;
+                    }
+                    /*else if(iCurrentDirection + 1 != posDirections.Length && !isReversing)//si la prochaine position existe
+                    {
+                        sc_BossCone[1].transform.LookAt(new Vector3(posDirections[iCurrentDirection +1].x, Go_vfx_Backward.transform.position.y, posDirections[iCurrentDirection + 1].z));
+                        //Go_vfx_Backward.transform.LookAt(new Vector3(posDirections[iCurrentDirection + 1].x, Go_vfx_Backward.transform.position.y, posDirections[iCurrentDirection + 1].z));
+                    }
+                    else //si la prochaine position existe
+                    {
+                        sc_BossCone[1].transform.LookAt(new Vector3(posDirections[iCurrentDirection - 1].x, Go_vfx_Backward.transform.position.y, posDirections[iCurrentDirection - 1].z));
+                    }*/
+                    /*if (backfeedback.initialized)
+                    {
+                        backfeedback.ConeRenderer.enabled = true;
+                    }*/
                 }
-                else if (isReversing && (iCurrentDirection - 1 == -1 && posDirections.Length != 2))//Si �a se reverse et que la prochaine direction n'existe pas ou aller-retour
-                {
-                    iCurrentDirection += 1;
-                    isReversing = false;
-                }
-                else
-                {
-                    iCurrentDirection = 1;
-                    isReversing = false;
-                }
-                sc_BossCone[1].transform.GetComponent<MeshRenderer>().enabled = false;
-                sc_BossCone[1].enabled = false;
-                sc_BossCone[1].gameObject.transform.localPosition += new Vector3(0, -50f, 0);
-                //Go_vfx_Backward.transform.localPosition = new Vector3(pos_vfx_backward.x, -50f, pos_vfx_backward.z);
-                if (backfeedback.initialized)
-                {
-                    backfeedback.ConeRenderer.enabled = false;
-                }
-                if (BCanSee == false)
-                {
-                    transform.LookAt(new Vector3(posDirections[iCurrentDirection].x, this.transform.position.y, posDirections[iCurrentDirection].z));
-                }
-            }
-            else if (this.transform.position  == new Vector3(Mathf.Round(preLastPos.x), preLastPos.y, Mathf.Round(preLastPos.z))) //un mouvement away from the last position
-            {
-                if (iCurrentDirection + 1 == posDirections.Length && !isReversing) //si la prochaine position n'existe pas
-                {
-                    sc_BossCone[1].transform.LookAt(new Vector3(posDirections[iCurrentDirection - 1].x, Go_vfx_Backward.transform.position.y, posDirections[iCurrentDirection - 1].z));
-                    sc_BossCone[1].transform.localPosition = pos_vfx_backward;
-                    sc_BossCone[1].transform.GetComponent<MeshRenderer>().enabled = true;
-                    sc_BossCone[1].enabled = true;
-                    //Go_vfx_Backward.transform.LookAt(new Vector3(posDirections[iCurrentDirection-1].x, Go_vfx_Backward.transform.position.y, posDirections[iCurrentDirection-1].z));
-                }
-                else if (iCurrentDirection - 1 == -1 && isReversing) //si la prochaine position n'existe pas
-                {
-                    sc_BossCone[1].transform.LookAt(new Vector3(posDirections[iCurrentDirection + 1].x, Go_vfx_Backward.transform.position.y, posDirections[iCurrentDirection + 1].z));
-                    sc_BossCone[1].transform.localPosition = pos_vfx_backward;
-                    sc_BossCone[1].transform.GetComponent<MeshRenderer>().enabled = true;
-                    sc_BossCone[1].enabled = true;
-                }
-                /*else if(iCurrentDirection + 1 != posDirections.Length && !isReversing)//si la prochaine position existe
-                {
-                    sc_BossCone[1].transform.LookAt(new Vector3(posDirections[iCurrentDirection +1].x, Go_vfx_Backward.transform.position.y, posDirections[iCurrentDirection + 1].z));
-                    //Go_vfx_Backward.transform.LookAt(new Vector3(posDirections[iCurrentDirection + 1].x, Go_vfx_Backward.transform.position.y, posDirections[iCurrentDirection + 1].z));
-                }
-                else //si la prochaine position existe
-                {
-                    sc_BossCone[1].transform.LookAt(new Vector3(posDirections[iCurrentDirection - 1].x, Go_vfx_Backward.transform.position.y, posDirections[iCurrentDirection - 1].z));
-                }*/
-                /*if (backfeedback.initialized)
-                {
-                    backfeedback.ConeRenderer.enabled = true;
-                }*/
-            }
+                break;
+
+            default:
+                break;
+
         }
     }
     //BOSS

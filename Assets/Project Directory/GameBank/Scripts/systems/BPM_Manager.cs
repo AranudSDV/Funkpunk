@@ -9,6 +9,7 @@ using System.Runtime.CompilerServices;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class BPM_Manager : MonoBehaviour
@@ -58,7 +59,6 @@ public class BPM_Manager : MonoBehaviour
 
     //FEEDBACK ON TIMING
     [Header("Timing Feedbacks")]
-    [Tooltip("0 est compliqué, 1 est normal, 2 est facile")] public int iDifficulty = 0;
     [Tooltip("Fraction de tolerence, perfect/good/bad/miss. D'abord compliqué, puis normal, puis facile")] public float[] fAllTolerence = new float[12] { 2f, 4f, 6f, 2f, 4f, 6f, 3f, 1f, 5f, 7f, 2f, 0f};
     [Tooltip("Fraction de tolerence, d'abord perfect, puis good, puis bad, puis miss")]public float[] fTolerence = new float[4] { 2f, 4f, 6f, 2f};
     [Tooltip("sur combien")][SerializeField] private float fFraction = 14f;
@@ -91,6 +91,7 @@ public class BPM_Manager : MonoBehaviour
 
     public float fFOVmin = 10f;
     public float fFOVmax = 10.6f;
+    private float fFovInstanceMax;
     private bool[] bInitialized = new bool[2] { false, false};
 
     private void Start()
@@ -101,11 +102,13 @@ public class BPM_Manager : MonoBehaviour
     {
         for (int i = 0; i<3; i++)
         {
-            if(i == Mathf.RoundToInt(iDifficulty))
+            if(i == scPlayer.menuManager.iDifficulty)
             {
                 for (int y = 0; y < 4; y++)
                 {
-                    fTolerence[y] = fAllTolerence[y+4* iDifficulty];
+                    fTolerence[y] = fAllTolerence[y+(4* scPlayer.menuManager.iDifficulty)];
+                    UnityEngine.Debug.Log(y + (4 * scPlayer.menuManager.iDifficulty));
+                    UnityEngine.Debug.Log(scPlayer.menuManager.iDifficulty);
                     FTiming[y] = fTolerence[y] / fFraction * FSPB;
                 }
             }
@@ -213,6 +216,7 @@ public class BPM_Manager : MonoBehaviour
                 bInitialized[0] = true;
             }
         }
+        fFovInstanceMax = fFOVmax;
     }
     private void Update()
     {
@@ -226,7 +230,6 @@ public class BPM_Manager : MonoBehaviour
         }
         if (scPlayer != null && scPlayer.menuManager != null)
         {
-            iDifficulty = scPlayer.menuManager.iDifficulty;
             if(scPlayer.menuManager.bGameIsPaused)
             {
                 foreach (UnityEngine.UI.Image notesRight in imNoteRight)
@@ -256,7 +259,7 @@ public class BPM_Manager : MonoBehaviour
         {
             CheckIfInputOnTempo();
         }
-        CameraRythm(Time.unscaledDeltaTime, fFOVmax, fFOVmin);
+        CameraRythm(Time.unscaledDeltaTime, fFovInstanceMax, fFOVmin);
     }
 
     //LE TEMPO
@@ -307,7 +310,9 @@ public class BPM_Manager : MonoBehaviour
             {
                 scPlayer.FDetectionLevel += 2f;
             }
+            fFovInstanceMax = fFOVmax *(80f/100f);
             NotesFade();
+            scPlayer.fJudmgentToJump = 0.3f;
         }
         /*else if(BBad == false && BGood == false && BPerfect == false && !scPlayer.bcanRotate && scPlayer.bisTuto)
         {
@@ -398,6 +403,9 @@ public class BPM_Manager : MonoBehaviour
                 {
                     scPlayer.FDetectionLevel -= 2f;
                 }
+                fFovInstanceMax = fFOVmax * (90f / 100f);
+                scPlayer.fJudmgentToJump = 0.6f;
+                StartCoroutine(VibrationVfx(0.05f, 0f,0.3f));
             }
             else if (BGood == true)
             {
@@ -414,6 +422,9 @@ public class BPM_Manager : MonoBehaviour
                 {
                     scPlayer.FDetectionLevel -= 5f;
                 }
+                fFovInstanceMax = fFOVmax * (95f / 100f);
+                scPlayer.fJudmgentToJump = 0.9f;
+                StartCoroutine(VibrationVfx(0.05f, 0.3f, 0.6f));
             }
             else if (BPerfect == true)
             {
@@ -430,6 +441,9 @@ public class BPM_Manager : MonoBehaviour
                 {
                     scPlayer.FDetectionLevel -= 10f;
                 }
+                fFovInstanceMax = fFOVmax;
+                scPlayer.fJudmgentToJump = 1.2f;
+                StartCoroutine(VibrationVfx(0.05f, 0.6f, 1f));
             }
             NotesFade();
             scPlayer.bcanRotate = false;
@@ -638,6 +652,21 @@ public class BPM_Manager : MonoBehaviour
         StartBPM();
         Shader.SetGlobalFloat("BPM", FBPM);
 
+    }
+    //FEEDBACK
+    private IEnumerator VibrationVfx(float time, float lowFreq, float highFreq)
+    {
+        Gamepad gamepad = Gamepad.current;
+        if (gamepad != null)
+        {
+            gamepad.SetMotorSpeeds(lowFreq, highFreq);
+            yield return new WaitForSeconds(time);
+            gamepad.SetMotorSpeeds(0, 0); // stop vibration
+        }
+        else
+        {
+            UnityEngine.Debug.LogWarning("No gamepad connected");
+        }
     }
     private void OnDestroy() // Clean up to prevent memory leaks
     {
