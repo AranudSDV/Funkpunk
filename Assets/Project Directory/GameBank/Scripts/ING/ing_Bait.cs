@@ -18,6 +18,7 @@ public class ing_Bait : MonoBehaviour
     public Vector3 newPos = new Vector3(0, 0, 0);
     public Vector3 midPos = new Vector3(0, 0, 0);
     public float beginY;
+    public Vector3 beginVect = new Vector3(0, 0, 0);
     public bool bIsBeingThrown = false;
     private bool bGoingUp = false;
     private bool bGoingDown = false;
@@ -58,6 +59,7 @@ public class ing_Bait : MonoBehaviour
         PS_smash = Go_vfx_Smash.transform.gameObject.GetComponent<ParticleSystem>();
         PS_Impact = Go_vfx_Impact.transform.gameObject.GetComponent<ParticleSystem>();
         bOnce = false;
+        beginVect = this.transform.position;
         beginY = this.transform.position.y;
         PS_Impact.Stop();
         PS_smash.Stop();

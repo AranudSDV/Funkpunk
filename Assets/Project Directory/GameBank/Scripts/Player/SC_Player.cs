@@ -118,6 +118,7 @@ public class SC_Player : Singleton<SC_Player>
 
     //CHECKPOINTS STATS
     [Header("Checkpoints Stats")]
+    [SerializeField] private ing_Bait[] ingBaitLvl2 = null;
     [SerializeField] private sc_CheckPoint[] checkpoints;
     [SerializeField] private ing_Tag[] allTagsUntil1stCheckPoint;
     [SerializeField] private Vector3 posLastCheckPoint;
@@ -1709,6 +1710,19 @@ public class SC_Player : Singleton<SC_Player>
 
         //RESTART FEEDBACKS ENNEMIES
 
+        //RESTART BAITS LVL2
+        if(SceneManager.GetActiveScene().name == "SceneLvl2")
+        {
+            foreach(ing_Bait bait in ingBaitLvl2)
+            {
+                if(bait.transform.position != bait.beginVect)
+                {
+                    bait.bOnFoe = false;
+                    bait.transform.position = bait.beginVect;
+                    bait.sc_juice.Restart();
+                }
+            }
+        }
     }
     private List<int> iStars()
     {
