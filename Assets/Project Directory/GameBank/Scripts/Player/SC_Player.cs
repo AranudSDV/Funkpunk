@@ -1028,10 +1028,11 @@ public class SC_Player : Singleton<SC_Player>
     }
     private IEnumerator EnoughPercentLoft()
     {
+        Debug.Log("loft");
         /*txt.text = Mathf.Round(fPercentScore).ToString() + "%";
         txt.color = bpmManager.colorPerfect;*/
-        yield return new WaitForSeconds(0.7f);
-        menuManager.LoadScene("LevelChoosing");
+        yield return new WaitForSeconds(0.2f);
+        menuManager.LoadScene("Scenes/World/LevelChoosing");
     }
     //Rotation
     private IEnumerator RotationToRight(float time)

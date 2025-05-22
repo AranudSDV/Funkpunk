@@ -26,10 +26,10 @@ public class SplineTrainMover_WithSpacing : MonoBehaviour
 
     private float totalLength;
     private float headProgress;
-    private float[] progress;
+    public float[] progress;
     private bool[] isPaused;
-    private float[] pauseTimer;
-    private float pauseDuration;
+    public float[] pauseTimer;
+    public float pauseDuration;
 
     void Start()
     {

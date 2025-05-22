@@ -58,11 +58,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
-  m_Name: Timegoing Regular SDF
+  m_Name: Timegoing Regular SDF 1_Title
   m_EditorClassIdentifier: 
-  hashCode: -1876349866
+  hashCode: 1280016664
   material: {fileID: 902448250918626654}
-  materialHashCode: -51752778
+  materialHashCode: 1512806840
   m_Version: 1.1.0
   m_SourceFontFileGUID: 4e650e522bb314a4dbee96eb73416d60
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: 4e650e522bb314a4dbee96eb73416d60,
@@ -1556,7 +1556,7 @@ Material:
     - _OutlineSoftness: 0
     - _OutlineUVSpeedX: 0
     - _OutlineUVSpeedY: 0
-    - _OutlineWidth: 0
+    - _OutlineWidth: 0.2
     - _PerspectiveFilter: 0.875
     - _Reflectivity: 10
     - _ScaleRatioA: 0.9

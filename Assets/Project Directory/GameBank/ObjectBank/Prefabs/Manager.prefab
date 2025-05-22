@@ -199,6 +199,30 @@ MonoBehaviour:
   SfxSlider: {fileID: 1751299479825783677}
   MusicSlider: {fileID: 1518392053266865558}
   AmbianceSlider: {fileID: 772669210243803284}
+  menuLoop:
+    Guid:
+      Data1: 1904928535
+      Data2: 1230092903
+      Data3: 1550325126
+      Data4: -1636053928
+    Path: event:/music_Loft_basic
+  menuLoopDetected:
+    Guid:
+      Data1: 1905251223
+      Data2: 1212071362
+      Data3: 662242964
+      Data4: 1723023356
+    Path: event:/music_Loft_detected
+  menuLoopBeat:
+    Guid:
+      Data1: 1733707329
+      Data2: 1337085090
+      Data3: 1359273910
+      Data4: -1267395333
+    Path: event:/music_Loft_beat
+  GoGameChoose: {fileID: 0}
+  GoButtonsMainMenu: {fileID: 0}
+  GoAnyButtonMainMenu: {fileID: 0}
   GoLevelsButton: []
   GoLevelStars: []
   sprite_star_completed: {fileID: 21300000, guid: 7b4ecc518bb8fee4e8b91708d76fd4e0,
@@ -219,6 +243,7 @@ MonoBehaviour:
     rgba: 4292198144
   GoScoringFirstButtonSelected: {fileID: 2042124641858762371}
   GoPausedFirstButtonSelected: {fileID: 8117903037627878143}
+  trainMenu: {fileID: 0}
   txt_Title: {fileID: 5259525979806897907}
   CgScoring: {fileID: 1877356355425069567}
   RtScoring: {fileID: 3803594740852749823}
@@ -473,13 +498,6 @@ MonoBehaviour:
   RtLoadingScreen: {fileID: 266337310515374496}
   _playerData: {fileID: 1165491372627732135}
   _levels: []
-  menuLoop:
-    Guid:
-      Data1: 1491351623
-      Data2: 1156992341
-      Data3: 1702016671
-      Data4: 1227493856
-    Path: event:/mainMenuMusic
   iNbTaggs: 01000000050000000500000005000000
 --- !u!114 &1165491372627732135
 MonoBehaviour:

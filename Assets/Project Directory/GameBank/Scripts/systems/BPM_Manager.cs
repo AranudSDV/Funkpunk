@@ -107,8 +107,6 @@ public class BPM_Manager : MonoBehaviour
                 for (int y = 0; y < 4; y++)
                 {
                     fTolerence[y] = fAllTolerence[y+(4* scPlayer.menuManager.iDifficulty)];
-                    UnityEngine.Debug.Log(y + (4 * scPlayer.menuManager.iDifficulty));
-                    UnityEngine.Debug.Log(scPlayer.menuManager.iDifficulty);
                     FTiming[y] = fTolerence[y] / fFraction * FSPB;
                 }
             }
@@ -654,7 +652,7 @@ public class BPM_Manager : MonoBehaviour
 
     }
     //FEEDBACK
-    private IEnumerator VibrationVfx(float time, float lowFreq, float highFreq)
+    public IEnumerator VibrationVfx(float time, float lowFreq, float highFreq)
     {
         Gamepad gamepad = Gamepad.current;
         if (gamepad != null)

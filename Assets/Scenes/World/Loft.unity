@@ -6824,6 +6824,11 @@ PrefabInstance:
       objectReference: {fileID: 129384981}
     - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
+      propertyPath: tutoGen
+      value: 
+      objectReference: {fileID: 1739747614}
+    - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
       propertyPath: CgInGame
       value: 
       objectReference: {fileID: 704907124}

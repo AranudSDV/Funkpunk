@@ -70,11 +70,18 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private UnityEngine.UI.Slider SfxSlider;
     [SerializeField] private UnityEngine.UI.Slider MusicSlider;
     [SerializeField] private UnityEngine.UI.Slider AmbianceSlider;
+    [SerializeField] private EventReference menuLoop;
+    [SerializeField] private EventReference menuLoopDetected;
+    [SerializeField] private EventReference menuLoopBeat;
+    public FMOD.Studio.EventInstance basicLoopInstance;
+    public FMOD.Studio.EventInstance detectedLoopInstance;
+    public FMOD.Studio.EventInstance beatLoopInstance;
 
     //NAVIGATION UX
     [Header("Navigation UX")]
-    private GameObject GoMainMenu;
-    private GameObject[] GoGameChoose; //0 is GoNewLoadButton, 1 is GoNewLoadText, 2 is GoOptionsButton, 3 is GoExitButton
+    [SerializeField] private GameObject GoGameChoose;
+    [SerializeField] private GameObject GoButtonsMainMenu;
+    [SerializeField] private GameObject GoAnyButtonMainMenu;
     public GameObject[] GoLevelsButton;
     private GameObject GoLevelBackButton;
     public GameObject[] GoLevelStars;
@@ -91,6 +98,10 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private Color32 colorPlayer;
     public GameObject GoScoringFirstButtonSelected;
     [SerializeField] private GameObject GoPausedFirstButtonSelected;
+    private bool bMenuOnTriggered = false;
+    [SerializeField] private SplineTrainMover_WithSpacing trainMenu = null;
+    private bool bWaitTrain = false;
+    private bool bTrainIsHere = false;
 
     //SCORING
     [Header("Scoring")]
@@ -148,8 +159,6 @@ public class MenuManager : MonoBehaviour
     [Header("Datas")]
     public PlayerData _playerData;
     public Level[] _levels;
-    [SerializeField] private EventReference menuLoop;
-    private FMOD.Studio.EventInstance menuLoopInstance;
     private bool isPlaying = false; // Prevent multiple starts
     //DATA LEVEL
     public int[] iNbTaggs = new int[4];
@@ -212,26 +221,26 @@ public class MenuManager : MonoBehaviour
     private void Start()
     {
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-        if (SceneManager.GetActiveScene().name == "MainMenu"|| SceneManager.GetActiveScene().name == "LevelChoosing")
-        {
-            if (menuLoopInstance.isValid())
-            {
-                menuLoopInstance.getPlaybackState(out PLAYBACK_STATE state);
-                if (state != PLAYBACK_STATE.STOPPED) return; // Only create a new instance if it's actually stopped
-            }
-
-            // Create and start the instance
-            menuLoopInstance = RuntimeManager.CreateInstance(menuLoop);
-            menuLoopInstance.start();
-            menuLoopInstance.setParameterByName("fPausedVolume", 0.8f);
-
-            isPlaying = true;
-        }
         music_basic_VCA = FMODUnity.RuntimeManager.GetVCA("vca:/Music_basic");
         music_beat_VCA = FMODUnity.RuntimeManager.GetVCA("vca:/Music_beat");
         music_detected_VCA = FMODUnity.RuntimeManager.GetVCA("vca:/Music_detected");
         sfxVCA = FMODUnity.RuntimeManager.GetVCA("vca:/SFX");
-        ambianceVCA = FMODUnity.RuntimeManager.GetVCA("vca:/Ambiance");
+        ambianceVCA = FMODUnity.RuntimeManager.GetVCA("vca:/Ambiance"); 
+        if (basicLoopInstance.isValid())
+        {
+            basicLoopInstance.getPlaybackState(out PLAYBACK_STATE state);
+            if (state != PLAYBACK_STATE.STOPPED) return;
+        }
+        basicLoopInstance = RuntimeManager.CreateInstance(menuLoop);
+        basicLoopInstance.start();
+
+        detectedLoopInstance = RuntimeManager.CreateInstance(menuLoopDetected);
+        detectedLoopInstance.start();
+
+        beatLoopInstance = RuntimeManager.CreateInstance(menuLoopBeat);
+        beatLoopInstance.start();
+        isPlaying = true;
+
         SetMusicVolume();
         SetSFXVolume();
     }
@@ -239,9 +248,16 @@ public class MenuManager : MonoBehaviour
     void Update()
     {
         CheckControllerStatus();
-        if (GoMainMenu != null && controllerConnected && control !=null && control.GamePlay.Move.triggered)
+        if (!bMenuOnTriggered && controllerConnected && control !=null && control.GamePlay.Move.triggered)
         {
-            LoadScene(sSceneToLoad);
+            bMenuOnTriggered = true;
+            GoAnyButtonMainMenu.SetActive(false);
+            TrainAndUION();
+            //LoadScene(sSceneToLoad);
+        }
+        if(bWaitTrain && bMenuOnTriggered)
+        {
+            TrainAndUION();
         }
         UXNavigation();
         if (isLoadingScene)
@@ -262,6 +278,35 @@ public class MenuManager : MonoBehaviour
         CheckDialogue();
     }
     //CHECKS AND UI CHANGES
+    private void TrainAndUION()
+    {
+        if (trainMenu.progress[0] > 0.65f) //le train est déjà passé
+        {
+            trainMenu.progress[0] = 1f;
+            trainMenu.progress[1] = 1f;
+            trainMenu.pauseTimer[0] = trainMenu.pauseDuration;
+            trainMenu.pauseTimer[1] = trainMenu.pauseDuration;
+            bWaitTrain = true;
+            bTrainIsHere = false;
+        }
+        else if(trainMenu.progress[0] < 0.5f) //le train va passer
+        {
+            bWaitTrain = true;
+            bTrainIsHere = false;
+        }
+        else if(trainMenu.progress[0] > 0.5f && trainMenu.progress[0] < 0.65f)//le train passe
+        {
+            bWaitTrain = false;
+            bTrainIsHere = true;
+        }
+        if(bTrainIsHere)
+        {
+            GoButtonsMainMenu.SetActive(true);
+            bWaitTrain = false;
+            bTrainIsHere = false;
+            SelectionEnsurance();
+        }
+    }
     private void CheckCurrentSelectable()
     {
         if(CgOptionAudio.alpha == 1f)
@@ -333,9 +378,9 @@ public class MenuManager : MonoBehaviour
                 {
                     EventSystem.SetSelectedGameObject(GoLevelsButton[0]);
                 }
-                else if (SceneManager.GetActiveScene().name == "GameChoose")
+                else if (SceneManager.GetActiveScene().name == "SceneSplash" && bMenuOnTriggered)
                 {
-                    EventSystem.SetSelectedGameObject(GoGameChoose[0]);
+                    EventSystem.SetSelectedGameObject(GoGameChoose);
                 }
             }
             else if(CgPauseMenu.alpha == 0f && CgScoring.alpha == 1f)
@@ -406,34 +451,7 @@ public class MenuManager : MonoBehaviour
         GameObject[] GoTargetUI = GameObject.FindGameObjectsWithTag("SceneUITarget");
         if (GoTargetUI != null)
         {
-            if (SceneManager.GetActiveScene().name == "MainMenu")
-            {
-                GoMainMenu = GoTargetUI[0];
-                GoGameChoose = null;
-                GoLevelsButton = null;
-                sSceneToLoad = "GameChoose";
-                _levels = null;
-            }
-            else if (SceneManager.GetActiveScene().name == "GameChoose")
-            {
-                GoGameChoose = new GameObject[GoTargetUI.Length];
-                for (int i = 0; i < GoTargetUI.Length; i++)
-                {
-
-                    for (int y = 0; y < GoTargetUI.Length; y++)
-                    {
-                        if (GoTargetUI[i].name == "GameChoose" + y)
-                        {
-                            GoGameChoose[y] = GoTargetUI[i];
-                        }
-                    }
-                }
-                GoMainMenu = null;
-                GoLevelsButton = null;
-                _levels = null;
-                sSceneToLoad = "Loft";
-            }
-            else if (SceneManager.GetActiveScene().name == "LevelChoosing")
+            if (SceneManager.GetActiveScene().name == "LevelChoosing")
             {
                 GoLevelsButton = new GameObject[GoTargetUI.Length -6];
                 GoLevelStars = new GameObject[4];
@@ -462,24 +480,23 @@ public class MenuManager : MonoBehaviour
                         }
                     }
                 }
-                GoMainMenu = null;
                 GoGameChoose = null;
                 sSceneToLoad = "SceneLvl";
             }
         }
         else
         {
-            GoMainMenu = null;
             GoGameChoose = null;
             GoLevelsButton = null;
         }
-        if(SceneManager.GetActiveScene().name == "GameChoose")
+        if(SceneManager.GetActiveScene().name == "SceneSplash")
         {
-            UnityEngine.UI.Button btnNewLoad = GoGameChoose[0].GetComponent<UnityEngine.UI.Button>();
+            sSceneToLoad = "Loft";
+            UnityEngine.UI.Button btnNewLoad = GoGameChoose.GetComponent<UnityEngine.UI.Button>();
             btnNewLoad.onClick.AddListener(delegate { LoadScene(sSceneToLoad); });
             if (_playerData.iLevelPlayer > 0)
             {
-                TextMeshProUGUI txt = GoGameChoose[0].gameObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI txt = GoGameChoose.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
                 if(_playerData.iLanguageNbPlayer==1)
                 {
                     txt.text = "Continuer";
@@ -491,7 +508,7 @@ public class MenuManager : MonoBehaviour
             }
             else
             {
-                TextMeshProUGUI txt = GoGameChoose[0].gameObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI txt = GoGameChoose.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
                 if (_playerData.iLanguageNbPlayer == 1)
                 {
                     txt.text = "Nouvelle Partie";
@@ -501,10 +518,10 @@ public class MenuManager : MonoBehaviour
                     txt.text = "New Game";
                 }
             }
-            UnityEngine.UI.Button btnExit = GoGameChoose[2].GetComponent<UnityEngine.UI.Button>();
-            btnExit.onClick.AddListener(QuitGame);
-            UnityEngine.UI.Button btnOptions = GoGameChoose[1].GetComponent<UnityEngine.UI.Button>();
-            btnOptions.onClick.AddListener(OptionsGame);
+        }
+        else if(SceneManager.GetActiveScene().name == "Loft")
+        {
+            sSceneToLoad = "LevelChoosing";
         }
         else if(SceneManager.GetActiveScene().name == "LevelChoosing")
         {
@@ -577,15 +594,27 @@ public class MenuManager : MonoBehaviour
     //SCENE LOADING
     public void LoadScene(string sceneToLoad)
     {
-        if (SceneManager.GetActiveScene().name != "Loft" && SceneManager.GetActiveScene().name != "MainMenu")
+        if (SceneManager.GetActiveScene().name != "Loft")
         {
             ButtonSound();
         }
-
-        if (sceneToLoad == "SceneLvl0" || sceneToLoad == "SceneLvl1" || sceneToLoad == "Loft" || sceneToLoad == "SceneLvl2" || sceneToLoad == "SceneLvl3")
+        if (sceneToLoad == "SceneLvl0" || sceneToLoad == "SceneLvl1" || sceneToLoad == "SceneLvl2" || sceneToLoad == "SceneLvl3")
         {
-            menuLoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-            menuLoopInstance.release();
+            if (basicLoopInstance.isValid())
+            {
+                basicLoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+                basicLoopInstance.release();
+            }
+            if (detectedLoopInstance.isValid())
+            {
+                detectedLoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+                detectedLoopInstance.release();
+            }
+            if (beatLoopInstance.isValid())
+            {
+                beatLoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+                beatLoopInstance.release();
+            }
             isPlaying = false;
             StartCoroutine(StartLoad(sceneToLoad));
             for(int i =0; i<4; i++)
@@ -596,12 +625,28 @@ public class MenuManager : MonoBehaviour
                 }
             }
         }
-        else if (sceneToLoad == "LevelChoosing")
+        else if (sceneToLoad == "LevelChoosing" || sceneToLoad == "Scenes/World/LevelChoosing")
         {
-            if (menuLoopInstance.isValid()) return; // Prevent multiple instances
+            if(!isPlaying)
+            {
+                if (basicLoopInstance.isValid())
+                {
+                    basicLoopInstance.getPlaybackState(out PLAYBACK_STATE state);
+                    if (state != PLAYBACK_STATE.STOPPED) return;
+                }
+                basicLoopInstance = RuntimeManager.CreateInstance(menuLoop);
+                basicLoopInstance.start();
 
-            menuLoopInstance = RuntimeManager.CreateInstance(menuLoop);
-            if(CgPauseMenu.alpha == 1f)
+                detectedLoopInstance = RuntimeManager.CreateInstance(menuLoopDetected);
+                detectedLoopInstance.start();
+
+                beatLoopInstance = RuntimeManager.CreateInstance(menuLoopBeat);
+                beatLoopInstance.start();
+                isPlaying = true;
+                SetMusicVolume();
+            }
+
+            if (CgPauseMenu.alpha == 1f)
             {
                 CgPauseMenu.alpha = 0f;
                 CgPauseMenu.blocksRaycasts = false;
@@ -610,11 +655,6 @@ public class MenuManager : MonoBehaviour
                 RtPauseMenu.anchorMax = new Vector2(1, 2);
                 RtPauseMenu.offsetMax = new Vector2(0f, 0f);
                 RtPauseMenu.offsetMin = new Vector2(0f, 0f);
-            }
-            if (!isPlaying)
-            {
-                menuLoopInstance.start();
-                isPlaying = true;
             }
             StartCoroutine(StartLoad(sceneToLoad));
         }
@@ -822,6 +862,10 @@ public class MenuManager : MonoBehaviour
             GoPausedFirstButtonSelected.GetComponent<UnityEngine.UI.Button>().Select();
             bGameIsPaused = true;
             PauseGame();
+            if (scPlayer != null && scPlayer.bpmManager != null)
+            {
+                StopCoroutine(scPlayer.bpmManager.VibrationVfx(0f, 0f, 0.1f));
+            }
             StartCoroutine(wait());
         }
         else if (CgPauseMenu.alpha == 1f && bActif) // On ferme la fenetre, le jeu reprend
@@ -846,9 +890,9 @@ public class MenuManager : MonoBehaviour
             {
                 EventSystem.SetSelectedGameObject(GoScoringFirstButtonSelected);
             }
-            else if(SceneManager.GetActiveScene().name == "GameChoose")
+            else if(SceneManager.GetActiveScene().name == "SplashScreen" && bMenuOnTriggered)
             {
-                EventSystem.SetSelectedGameObject(GoGameChoose[0]);
+                EventSystem.SetSelectedGameObject(GoGameChoose);
             }
             else if (SceneManager.GetActiveScene().name == "LevelChoosing")
             {
@@ -992,7 +1036,7 @@ public class MenuManager : MonoBehaviour
             Debug.LogError("VCA is not valid! Check FMOD path.");
             return;
         }
-        if (SceneManager.GetActiveScene().name == "SceneLvl0" || SceneManager.GetActiveScene().name == "SceneLvl1" || SceneManager.GetActiveScene().name == "SceneLvl2" || SceneManager.GetActiveScene().name == "SceneLvl3" || SceneManager.GetActiveScene().name == "Loft")
+        if (SceneManager.GetActiveScene().name == "SceneLvl0" || SceneManager.GetActiveScene().name == "SceneLvl1" || SceneManager.GetActiveScene().name == "SceneLvl2" || SceneManager.GetActiveScene().name == "SceneLvl3")
         {
             fDetectedVolume = (scPlayer.FDetectionLevel / 100f)*0.7f;
             music_basic_VCA.setVolume((playerMusicVolume - fDetectedVolume)*0.7f);
