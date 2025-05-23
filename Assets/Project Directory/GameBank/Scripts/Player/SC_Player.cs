@@ -21,6 +21,7 @@ using UnityEditor;
 using UnityEngine.EventSystems;
 using Unity.Splines.Examples;
 using UnityEngine.ProBuilder.Shapes;
+using UnityEngine.UIElements;
 //using UnityEditor.PackageManager;
 
 public class SC_Player : Singleton<SC_Player>
@@ -341,23 +342,17 @@ public class SC_Player : Singleton<SC_Player>
             // 1. Check for diagonal movement first
             if (vectDir.x != 0f && vectDir.z != 0f) // Diagonal movement
             {
-                Vector3 diagonalCheckPosition = transform.position + vectDir * fRange;
-
+                Vector3 diagonalCheckPosition = transform.position + (vectDir * 1.5f);
                 // Use OverlapSphere to check for colliders at the diagonal position
-                Collider[] intersecting = Physics.OverlapSphere(diagonalCheckPosition, 0.4f, LMask);
-                bool canMoveDiagonally = true;
+                Collider[] intersecting = Physics.OverlapSphere(diagonalCheckPosition, 0.4f, LMask); 
+                bool canMoveDiagonally = false;
 
                 if (intersecting.Length > 0)
                 {
                     // Loop through colliders to check tags
                     foreach (Collider collider in intersecting)
                     {
-                        if (!collider.CompareTag("Bait") && !collider.CompareTag("Tagging") && !bIsTagging)
-                        {
-                            canMoveDiagonally = false; // Block movement if an unpassable object is found
-                            continue;
-                        }
-                        else if(collider.CompareTag("Tagging"))
+                        if(collider.CompareTag("Tagging"))
                         {
                             bIsBeingAnimated = true;
                             ing_Tag ingTag = collider.transform.gameObject.GetComponent<ing_Tag>();
@@ -501,11 +496,26 @@ public class SC_Player : Singleton<SC_Player>
                                 return;
                             }
                         }
+                        else if (collider.CompareTag("Wall") || collider.CompareTag("Enemies 1"))
+                        {
+                            // Wall detected, find a new direction
+                            SoundManager.Instance.PlayOneShot(sfx_wall_hit);
+                            Move(Vector3.zero, fJudmgentToJump);
+                        }
+                        else if (collider.CompareTag("Untagged"))
+                        {
+                            // No wall, move forward
+                            canMoveDiagonally = true;
+                        }
                         else if (collider.transform.CompareTag("MapObject"))
                         {
                             menuManager.LoadScene("Scenes/World/LevelChoosing");
                         }
                     }
+                }
+                else if(intersecting.Length == 0)
+                {
+                    canMoveDiagonally = true;
                 }
                 if (canMoveDiagonally && !bIsTagging)
                 {
@@ -520,177 +530,188 @@ public class SC_Player : Singleton<SC_Player>
             // Check for walls in the current direction
             else
             {
-                if (Physics.Raycast(transform.position, vectDir, out RaycastHit hitInfo, fRange + 0.2f, LMask))
+                Vector3 CheckPosition = transform.position + vectDir;
+                // Use OverlapSphere to check for colliders at the diagonal position
+                Collider[] intersecting = Physics.OverlapSphere(CheckPosition, 0.4f, LMask);
+                bool canMove = false;
+                if (intersecting.Length > 0)
                 {
-                    if (hitInfo.transform.CompareTag("Tagging")) //c'est un mur à tagger
+                    foreach (Collider collider in intersecting)
                     {
-                        bIsBeingAnimated = true;
-                        ing_Tag ingTag = hitInfo.transform.gameObject.GetComponent< ing_Tag>();
-                        for (int i = 0;i<4; i++)
+
+                        if (collider.CompareTag("Tagging")) //c'est un mur à tagger
                         {
-                            if(bpmManager.bPlayBad)
+                            bIsBeingAnimated = true;
+                            ing_Tag ingTag = collider.gameObject.GetComponent<ing_Tag>();
+                            for (int i = 0; i < 4; i++)
                             {
-                                if (ingTag.iCompletition == 0)
+                                if (bpmManager.bPlayBad)
                                 {
-                                    GraffitiRenderer(ingTag.decalProj.material, 1, 0.66f);
-                                }
-                                else if (ingTag.iCompletition == 1)
-                                {
-                                    GraffitiRenderer(ingTag.decalProj.material, 0.66f, 0.33f);
-                                }
-                                if (ingTag.iCompletition == 2)
-                                {
-                                    GraffitiRenderer(ingTag.decalProj.material, 0.33f, 0f);
-                                }
-                                ingTag.iCompletition += 1;
-                                //PlayCinematicFocus(hitInfo.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
-                                TaggingFeedback(bpmManager.FSPB, vectDir);
-                                StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
-                                break;
-                            }
-                            else if (bpmManager.bPlayGood)
-                            {
-                                if (ingTag.iCompletition == 0)
-                                {
-                                    GraffitiRenderer(ingTag.decalProj.material, 1, 0.33f);
-                                }
-                                else if (ingTag.iCompletition == 1)
-                                {
-                                    GraffitiRenderer(ingTag.decalProj.material, 0.66f, 0f);
-                                }
-                                if (ingTag.iCompletition == 2)
-                                {
-                                    GraffitiRenderer(ingTag.decalProj.material, 0.33f, 0f);
-                                }
-                                if (ingTag.iCompletition == i)
-                                {
-                                    if (i < 2)
+                                    if (ingTag.iCompletition == 0)
                                     {
-                                        ingTag.iCompletition += 2;
-                                        //PlayCinematicFocus(hitInfo.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
-                                        TaggingFeedback(bpmManager.FSPB, vectDir);
-                                        StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
+                                        GraffitiRenderer(ingTag.decalProj.material, 1, 0.66f);
+                                    }
+                                    else if (ingTag.iCompletition == 1)
+                                    {
+                                        GraffitiRenderer(ingTag.decalProj.material, 0.66f, 0.33f);
+                                    }
+                                    if (ingTag.iCompletition == 2)
+                                    {
+                                        GraffitiRenderer(ingTag.decalProj.material, 0.33f, 0f);
+                                    }
+                                    ingTag.iCompletition += 1;
+                                    //PlayCinematicFocus(hitInfo.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
+                                    TaggingFeedback(bpmManager.FSPB, vectDir);
+                                    StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
+                                    break;
+                                }
+                                else if (bpmManager.bPlayGood)
+                                {
+                                    if (ingTag.iCompletition == 0)
+                                    {
+                                        GraffitiRenderer(ingTag.decalProj.material, 1, 0.33f);
+                                    }
+                                    else if (ingTag.iCompletition == 1)
+                                    {
+                                        GraffitiRenderer(ingTag.decalProj.material, 0.66f, 0f);
+                                    }
+                                    if (ingTag.iCompletition == 2)
+                                    {
+                                        GraffitiRenderer(ingTag.decalProj.material, 0.33f, 0f);
+                                    }
+                                    if (ingTag.iCompletition == i)
+                                    {
+                                        if (i < 2)
+                                        {
+                                            ingTag.iCompletition += 2;
+                                            //PlayCinematicFocus(hitInfo.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
+                                            TaggingFeedback(bpmManager.FSPB, vectDir);
+                                            StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
+                                        }
+                                        else
+                                        {
+                                            ingTag.iCompletition = 3;
+                                            //PlayCinematicFocus(hitInfo.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
+                                            TaggingFeedback(bpmManager.FSPB, vectDir);
+                                            StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
+                                        }
+                                        break;
+                                    }
+                                }
+                                else if (bpmManager.bPlayPerfect)
+                                {
+                                    if (ingTag.iCompletition == 0)
+                                    {
+                                        GraffitiRenderer(ingTag.decalProj.material, 1, 0f);
+                                    }
+                                    else if (ingTag.iCompletition == 1)
+                                    {
+                                        GraffitiRenderer(ingTag.decalProj.material, 0.66f, 0f);
+                                    }
+                                    if (ingTag.iCompletition == 2)
+                                    {
+                                        GraffitiRenderer(ingTag.decalProj.material, 0.33f, 0f);
+                                    }
+                                    ingTag.iCompletition = 3;
+                                    //PlayCinematicFocus(hitInfo.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
+                                    TaggingFeedback(bpmManager.FSPB, vectDir);
+                                    StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
+                                    break;
+                                }
+                                else if (!bpmManager.bPlayPerfect && !bpmManager.bPlayGood && !bpmManager.bPlayBad)
+                                {
+                                    Move(Vector3.zero, 0.3f);
+                                    return;
+                                }
+                            }
+                            if (ingTag.iCompletition == 1)
+                            {
+                                SoundManager.Instance.PlayOneShot(sfx_tag[0]);
+                            }
+                            else if (ingTag.iCompletition == 2)
+                            {
+                                SoundManager.Instance.PlayOneShot(sfx_tag[1]);
+                            }
+                            else if (ingTag.iCompletition == 3)
+                            {
+                                SoundManager.Instance.PlayOneShot(sfx_tag[2]);
+                                ingTag.vfx_completition.Play();
+                                //ingTag._renderer.material = ingTag.taggedMaterial; //le joueur tag
+                                ingTag.transform.gameObject.tag = "Wall";
+                                ingTag.goArrow.transform.localPosition = new Vector3(ingTag.goArrow.transform.localPosition.x, ingTag.goArrow.transform.localPosition.y - 50f, ingTag.goArrow.transform.localPosition.z);
+                                itagDone += 1;
+                                if (ingTag.scFoes != null)
+                                {
+                                    foreach (SC_FieldOfView foe in ingTag.scFoes)
+                                    {
+                                        foe.bIsDisabled = true;
+                                        foe.FoeDisabled(foe.bIsDisabled);
+                                        StartCoroutine(foe.FoeStunOnceVFX());
+                                        foe.i_EnnemyBeat = -iTimeFoeDisabled * 10;
+                                    }
+                                    StartCoroutine(CameraShake(fShakeFoeBasic, bpmManager.FSPB * 1 / 3));
+                                }
+                                if (ingTag.transform.gameObject.name == "EndingWall")
+                                {
+                                    StartCoroutine(EndDialogue());
+                                }
+                                if (ingTag.bBossTag)
+                                {
+                                    if (!ingTag.scBoss.bFinalPhase)
+                                    {
+                                        ingTag.scBoss.iNbTaggsDonePhase1 += 1;
+                                        ingTag.scBoss.BossTagAnglePhase1();
                                     }
                                     else
                                     {
-                                        ingTag.iCompletition =3;
-                                        //PlayCinematicFocus(hitInfo.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
-                                        TaggingFeedback(bpmManager.FSPB, vectDir);
-                                        StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
+                                        ingTag.scBoss.iNbTaggsDonePhase2 += 1;
+                                        ingTag.scBoss.BossTagAnglePhase2();
                                     }
-                                    break;
+                                    //feedback degat boss
+                                    StartCoroutine(CameraShake(fShakeFoeBasic * 2, bpmManager.FSPB * 1 / 3));
                                 }
-                            }
-                            else if(bpmManager.bPlayPerfect)
-                            {
-                                if (ingTag.iCompletition == 0)
+                                if (ingTag.bBossDoorTag)
                                 {
-                                    GraffitiRenderer(ingTag.decalProj.material, 1, 0f);
+                                    iBossDoorTag += 1;
+                                    ingTag.textOnWallBossDoor.text = (iBossDoorTag).ToString() + "/2";
+                                    if (iBossDoorTag == 2)
+                                    {
+                                        BossDoor(ingTag.boxColliderBoss, ingTag.goBossDoor, ingTag.camBossDoor);
+                                        //Porte ouverte
+                                    }
                                 }
-                                else if (ingTag.iCompletition == 1)
-                                {
-                                    GraffitiRenderer(ingTag.decalProj.material, 0.66f, 0f);
-                                }
-                                if (ingTag.iCompletition == 2)
-                                {
-                                    GraffitiRenderer(ingTag.decalProj.material, 0.33f, 0f);
-                                }
-                                ingTag.iCompletition = 3;
-                                //PlayCinematicFocus(hitInfo.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
-                                TaggingFeedback(bpmManager.FSPB, vectDir);
-                                StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
-                                break;
-                            }
-                            else if(!bpmManager.bPlayPerfect && !bpmManager.bPlayGood && !bpmManager.bPlayBad)
-                            {
-                                Move(Vector3.zero, 0.3f);
-                                return ;
+                                return;
                             }
                         }
-                        if (ingTag.iCompletition == 1)
+                        else if (collider.CompareTag("Wall") || collider.CompareTag("Enemies 1"))
                         {
-                            SoundManager.Instance.PlayOneShot(sfx_tag[0]);
+                            // Wall detected, find a new direction
+                            SoundManager.Instance.PlayOneShot(sfx_wall_hit);
+                            Move(Vector3.zero, fJudmgentToJump);
                         }
-                        else if(ingTag.iCompletition == 2)
+                        else if (collider.CompareTag("Untagged"))
                         {
-                            SoundManager.Instance.PlayOneShot(sfx_tag[1]);
+                            // No wall, move forward
+                            canMove = true;
                         }
-                        else if (ingTag.iCompletition == 3)
+                        else if (collider.CompareTag("MapObject"))
                         {
-                            SoundManager.Instance.PlayOneShot(sfx_tag[2]);
-                            ingTag.vfx_completition.Play();
-                            //ingTag._renderer.material = ingTag.taggedMaterial; //le joueur tag
-                            ingTag.transform.gameObject.tag = "Wall";
-                            ingTag.goArrow.transform.localPosition = new Vector3(ingTag.goArrow.transform.localPosition.x, ingTag.goArrow.transform.localPosition.y - 50f, ingTag.goArrow.transform.localPosition.z);
-                            itagDone += 1;
-                            if(ingTag.scFoes!= null)
-                            {
-                                foreach(SC_FieldOfView foe in ingTag.scFoes)
-                                {
-                                    foe.bIsDisabled = true;
-                                    foe.FoeDisabled(foe.bIsDisabled);
-                                    StartCoroutine(foe.FoeStunOnceVFX());
-                                    foe.i_EnnemyBeat = -iTimeFoeDisabled*10;
-                                }
-                                StartCoroutine(CameraShake(fShakeFoeBasic, bpmManager.FSPB * 1 / 3));
-                            }
-                            if (ingTag.transform.gameObject.name == "EndingWall")
-                            {
-                                StartCoroutine(EndDialogue());
-                            }
-                            if(ingTag.bBossTag)
-                            {
-                                if (!ingTag.scBoss.bFinalPhase)
-                                {
-                                    ingTag.scBoss.iNbTaggsDonePhase1 += 1;
-                                    ingTag.scBoss.BossTagAnglePhase1();
-                                }
-                                else
-                                {
-                                    ingTag.scBoss.iNbTaggsDonePhase2 += 1;
-                                    ingTag.scBoss.BossTagAnglePhase2();
-                                }
-                                //feedback degat boss
-                                StartCoroutine(CameraShake(fShakeFoeBasic * 2, bpmManager.FSPB * 1 / 3));
-                            }
-                            if (ingTag.bBossDoorTag)
-                            {
-                                iBossDoorTag += 1;
-                                ingTag.textOnWallBossDoor.text = (iBossDoorTag).ToString() + "/2";
-                                if(iBossDoorTag == 2)
-                                {
-                                    BossDoor(ingTag.boxColliderBoss, ingTag.goBossDoor, ingTag.camBossDoor);
-                                    //Porte ouverte
-                                }
-                            }
-                            return;
+                            menuManager.LoadScene("Scenes/World/LevelChoosing");
                         }
-                    }
-                    else if ((hitInfo.transform.CompareTag("Wall") || hitInfo.transform.CompareTag("Enemies 1")))
-                    {
-                        // Wall detected, find a new direction
-                        SoundManager.Instance.PlayOneShot(sfx_wall_hit);
-                        Move(Vector3.zero, fJudmgentToJump);
-                    }
-                    else if (hitInfo.transform.CompareTag("Untagged"))
-                    {
-                        // No wall, move forward
-                        Move(vectDir, fJudmgentToJump);
-                    }
-                    else if(hitInfo.transform.CompareTag("MapObject"))
-                    {
-                        menuManager.LoadScene("Scenes/World/LevelChoosing");
-                    }
-                    else
-                    {
-                        // No wall, move forward
-                        Move(vectDir, fJudmgentToJump);
                     }
                 }
-                else
+                else if (intersecting.Length == 0)
                 {
-                    // Nothing in front, move forward
+                    canMove = true;
+                }
+                if (canMove && !bIsTagging)
+                {
+                    // Move diagonally if no blocking objects or only passable ones
                     Move(vectDir, fJudmgentToJump);
+                }
+                else if (!bIsTagging)
+                {
+                    Move(Vector3.zero, fJudmgentToJump);
                 }
             }
         }

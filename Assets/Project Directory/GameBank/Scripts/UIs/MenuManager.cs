@@ -126,6 +126,7 @@ public class MenuManager : MonoBehaviour
     [Tooltip("int from the chara to be on the right, then on the left, for each levels, 0 is Jett, 1 is Scraffi, 2 is Scravinsky, 3 is Screonardo")][SerializeField] private int[] iWhichCharaToRightToLeft;
     public Sprite[] spritesEndDialogueBackground;
     [Tooltip("0 is Jett (*3, basic, thinking, suprised), 1 is Scraffi (*3, basic, explaining, surprised), 2 is Scravinsky (*2), 3 is Screonardo (*2)")] public Sprite[] spritesEndDialogueCharacters;
+    [Tooltip("0 is Jett (*3, basic, thinking, suprised), 1 is Scraffi (*3, basic, explaining, surprised), 2 is Scravinsky (*2), 3 is Screonardo (*2)")] public Sprite[] spritesEndDialogueCharactersNotSpeak;
     [Tooltip("0 is right, 1 is left.")][SerializeField] private UnityEngine.UI.Image[] imgCharactersSpace;
     public bool bIsOnEndDialogue = false;
 
@@ -136,7 +137,6 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private UnityEngine.UI.Image imgBoxText;
     [Tooltip("0 is the 1st character's boxe,  1 is the other, 2 is the last.")][SerializeField] private Sprite[] spritesCharactersBoxes;
     [SerializeField] private sc_textChange _sc_textChange;
-    [SerializeField] private TMP_Text text_NameChara;
     [SerializeField] private int[] iNbDialoguePerLevel;
     [SerializeField] private int[] iNbDialoguePerLevelAdd;
     [Tooltip("see int character and emotions, 0 to 2 for 0 | 3 to 5 for 1 | 6 to 7 for 2 | 8 to 9 for 3")] public int[] iCharaToSpeakPerTextes;
@@ -1191,9 +1191,8 @@ public class MenuManager : MonoBehaviour
         //Is right or left character speaking ? 
         if (iWhichCharaToRightToLeft[iLevel * 2] == a) //Le sprite de droite est-il celui du chara qui parle ?
         {
-            NameSpeaker(a, false);
             imgCharactersSpace[0].sprite = spritesEndDialogueCharacters[speakingCharacterIndex]; // Le sprite de droite est rempli par le sprite du chara qui est à droite en fonction du lvl
-            imgCharactersSpace[1].sprite = spritesEndDialogueCharacters[notSpeakingCharacterIndex];// Le sprite de gauche est rempli par le sprite du chara qui est à gauche en fonction du lvl
+            imgCharactersSpace[1].sprite = spritesEndDialogueCharactersNotSpeak[notSpeakingCharacterIndex];// Le sprite de gauche est rempli par le sprite du chara qui est à gauche en fonction du lvl
             // Non-speaking character goes below
             charactersImages[1].SetSiblingIndex(0);
             // Ensure the dialogue box is at index 1 (middle layer)
@@ -1201,16 +1200,15 @@ public class MenuManager : MonoBehaviour
             // Speaking character goes above
             charactersImages[0].SetSiblingIndex(2); //Alors le character de droite est devant
 
-            rectBoxTextImage.anchorMin = new Vector2(0f, 0);
-            rectBoxTextImage.anchorMax = new Vector2(0.8f, 0.4f);
+            rectBoxTextImage.anchorMin = new Vector2(0.05f, 0);
+            rectBoxTextImage.anchorMax = new Vector2(0.85f, 0.4f);
             rectBoxTextImage.offsetMax = new Vector2(0f, 0f);
             rectBoxTextImage.offsetMin = new Vector2(0f, 0f);
         }
         else
         {
-            imgCharactersSpace[0].sprite = spritesEndDialogueCharacters[notSpeakingCharacterIndex]; // Le sprite de droite est rempli par le sprite du chara qui est à droite en fonction du lvl
+            imgCharactersSpace[0].sprite = spritesEndDialogueCharactersNotSpeak[notSpeakingCharacterIndex]; // Le sprite de droite est rempli par le sprite du chara qui est à droite en fonction du lvl
             imgCharactersSpace[1].sprite = spritesEndDialogueCharacters[speakingCharacterIndex];// Le sprite de gauche est rempli par le sprite du chara qui est à gauche en fonction du lvl
-            NameSpeaker(a, true);
             // Non-speaking character goes below
             charactersImages[0].SetSiblingIndex(0);
             // Ensure the dialogue box is at index 1 (middle layer)
@@ -1218,8 +1216,8 @@ public class MenuManager : MonoBehaviour
             // Speaking character goes above
             charactersImages[1].SetSiblingIndex(2);//Sinon le character de gauche est devant
 
-            rectBoxTextImage.anchorMin = new Vector2(0.2f, 0);
-            rectBoxTextImage.anchorMax = new Vector2(1f, 0.4f);
+            rectBoxTextImage.anchorMin = new Vector2(0.15f, 0);
+            rectBoxTextImage.anchorMax = new Vector2(0.95f, 0.4f);
             rectBoxTextImage.offsetMax = new Vector2(0f, 0f);
             rectBoxTextImage.offsetMin = new Vector2(0f, 0f);
         }
@@ -1260,33 +1258,6 @@ public class MenuManager : MonoBehaviour
             a[1] = 3;
         }
         return a;
-    }
-    private void NameSpeaker(int speakingCharacterIndex, bool bIsLeft)
-    {
-        if (speakingCharacterIndex == 0) //C'est Jett
-        {
-            text_NameChara.text = "Jett Rush";
-        }
-        else if (speakingCharacterIndex == 1) //C'est Scraffi
-        {
-            text_NameChara.text = "Scraffi";
-        }
-        else if(speakingCharacterIndex == 2)//C'est Scravinsky
-        {
-            text_NameChara.text = "Scravinsky";
-        }
-        else
-        {
-            text_NameChara.text = "Screonardo";
-        }
-        if (bIsLeft)
-        {
-            text_NameChara.alignment = TextAlignmentOptions.Left;
-        }
-        else
-        {
-            text_NameChara.alignment = TextAlignmentOptions.Right;
-        }
     }
     private void EndDialogue()
     {
