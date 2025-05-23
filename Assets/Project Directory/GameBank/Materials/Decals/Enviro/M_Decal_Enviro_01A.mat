@@ -59,20 +59,20 @@ Material:
     - _ErosionValue: 0
     - _GameplayOrEnviro: 1
     - _MaxOffset: 0
-    - _MaxOffset_X: 0.8
-    - _MaxOffset_Y: 0.8
-    - _MaxRotation: 0.1
+    - _MaxOffset_X: 1.7
+    - _MaxOffset_Y: 1.45
+    - _MaxRotation: 0
     - _MaxScale: 5.08
-    - _MaxScale_X: 5
-    - _MaxScale_Y: 5
+    - _MaxScale_X: 4
+    - _MaxScale_Y: 4
     - _MinOffset: 0
-    - _MinOffset_X: -0.8
-    - _MinOffset_Y: -0.8
-    - _MinRotation: -0.1
+    - _MinOffset_X: -2.28
+    - _MinOffset_Y: 0.69
+    - _MinRotation: 0
     - _MinScale: 1
-    - _MinScale_X: 3
-    - _MinScale_Y: 3
-    - _NumGraffiti: 36
+    - _MinScale_X: 4
+    - _MinScale_Y: 4
+    - _NumGraffiti: 13
     - _PlayerTagsOrEnviro: 1
     - _SeedMultiplier: 1
     - _SeedScale: 1

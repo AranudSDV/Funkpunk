@@ -31,6 +31,7 @@ public class SC_Player : Singleton<SC_Player>
     public BPM_Manager bpmManager;
     public sc_tuto_generic tutoGen = null;
     [SerializeField] private CanvasGroup CgInGame;
+    [SerializeField] private Transform inputDirIndicator;
 
     //LES CHALLENGES
     private bool bHasBeenDetectedOneTime = false;
@@ -272,26 +273,45 @@ public class SC_Player : Singleton<SC_Player>
     }
     private Vector3 GetDirectionFromJoystick(Vector2 moveInput)
     {
-        //limite joystick
-        if (moveInput.x > 0.5f && Mathf.Abs(moveInput.y) <= 0.2f)  // Droite
-            return Vector3.right;  // (1, 0, 0)
-        if (moveInput.x < -0.5f && Mathf.Abs(moveInput.y) <= 0.2f)  // Gauche
-            return Vector3.left;  // (-1, 0, 0)
-        if (moveInput.y > 0.9f && Mathf.Abs(moveInput.x) <= 0.3f)  // Haut
-            return Vector3.forward;  // (0, 0, 1)
-        if (moveInput.y < -0.9f && Mathf.Abs(moveInput.x) <= 0.3f)  // Bas
-            return Vector3.back;  // (0, 0, -1)
+        Transform tr = Camera.main.transform;
+        Vector3 forward = tr.forward;
+        forward = Vector3.ProjectOnPlane(forward, Vector3.up);
+        forward.Normalize();
 
-        // Diagonales
-        if (moveInput.x > 0.5f && moveInput.y > 0.5f)  // Haut-Droite
-            return new Vector3(1, 0, 1);
-        if (moveInput.x < -0.5f && moveInput.y > 0.5f)  // Haut-Gauche
-            return new Vector3(-1, 0, 1);
-        if (moveInput.x > 0.5f && moveInput.y < -0.5f)  // Bas-Droite
-            return new Vector3(1, 0, -1);
-        if (moveInput.x < -0.5f && moveInput.y < -0.5f)  // Bas-Gauche
-            return new Vector3(-1, 0, -1);
-        return Vector3.zero;
+        Vector3 right = tr.right;
+        right = Vector3.ProjectOnPlane(right, Vector3.up);
+        right.Normalize();
+
+        Vector3 directionAligned = moveInput.x * right + moveInput.y * forward;
+        moveInput = new Vector2(directionAligned.x, directionAligned.z).normalized;
+        Vector3 direction = Vector3.zero;
+
+        float angle = -Vector2.SignedAngle(Vector2.up, moveInput);
+        if (angle < 0)
+            angle += 360f;
+
+        if (angle < 22.5f)
+            direction = Vector3.forward; // Up
+        else if (angle < 67.5f)
+            direction = (Vector3.forward + Vector3.right).normalized; // Up-Right
+        else if (angle < 112.5f)
+            direction = Vector3.right; // Right
+        else if (angle < 157.5f)
+            direction = (Vector3.back + Vector3.right).normalized; // Down-Right
+        else if (angle < 202.5f)
+            direction = Vector3.back; // Down
+        else if (angle < 247.5f)
+            direction = (Vector3.back + Vector3.left).normalized; // Down-Left
+        else if (angle < 292.5f)
+            direction = Vector3.left; // Left
+        else if (angle < 337.5f)
+            direction = (Vector3.forward + Vector3.left).normalized; // Up-Left
+        else
+            direction = Vector3.forward; // Up (wraparound)
+
+        inputDirIndicator.forward = directionAligned;
+
+        return direction;
     }
 
     //CONCERNANT LE BAIT
@@ -418,7 +438,6 @@ public class SC_Player : Singleton<SC_Player>
                                 }
                                 else if (!bpmManager.bPlayPerfect && !bpmManager.bPlayGood && !bpmManager.bPlayBad)
                                 {
-                                    //Vector3 newDirection = FindNewDirection(vectDir, fRange);
                                     Move(Vector3.zero, 0.3f);
                                     return;
                                 }
@@ -484,18 +503,7 @@ public class SC_Player : Singleton<SC_Player>
                         }
                         else if (collider.transform.CompareTag("MapObject"))
                         {
-                            //TextMeshPro textOnWall = collider.transform.GetChild(0).GetComponent<TextMeshPro>();
-                            StartCoroutine(EnoughPercentLoft());
-                            /*if (fPercentScore>= 50f)
-                            {
-                                TextMeshPro textOnWall = hitInfo.transform.GetChild(0).GetComponent<TextMeshPro>();
-                                StartCoroutine(EnoughPercentLoft(textOnWall));
-                            }
-                            else
-                            {
-                                TextMeshPro textOnWall = hitInfo.transform.GetChild(0).GetComponent<TextMeshPro>();
-                                StartCoroutine(NotEnoughPercentLoft(textOnWall));
-                            }*/
+                            menuManager.LoadScene("Scenes/World/LevelChoosing");
                         }
                     }
                 }
@@ -506,11 +514,7 @@ public class SC_Player : Singleton<SC_Player>
                 }
                 else if(!bIsTagging)
                 {
-                    Vector3 newDirection = FindNewDirection(vectDir, fRange);
-                    if (newDirection != Vector3.zero)
-                    {
-                        Move(newDirection, fJudmgentToJump);
-                    }
+                    Move(Vector3.zero, fJudmgentToJump);
                 }
             }
             // Check for walls in the current direction
@@ -599,7 +603,6 @@ public class SC_Player : Singleton<SC_Player>
                             }
                             else if(!bpmManager.bPlayPerfect && !bpmManager.bPlayGood && !bpmManager.bPlayBad)
                             {
-                                //Vector3 newDirection = FindNewDirection(vectDir, fRange);
                                 Move(Vector3.zero, 0.3f);
                                 return ;
                             }
@@ -667,11 +670,7 @@ public class SC_Player : Singleton<SC_Player>
                     {
                         // Wall detected, find a new direction
                         SoundManager.Instance.PlayOneShot(sfx_wall_hit);
-                        Vector3 newDirection = FindNewDirection(vectDir, fRange);
-                        if (newDirection != Vector3.zero)
-                        {
-                            Move(newDirection, fJudmgentToJump);
-                        }
+                        Move(Vector3.zero, fJudmgentToJump);
                     }
                     else if (hitInfo.transform.CompareTag("Untagged"))
                     {
@@ -680,18 +679,7 @@ public class SC_Player : Singleton<SC_Player>
                     }
                     else if(hitInfo.transform.CompareTag("MapObject"))
                     {
-                        //TextMeshPro textOnWall = hitInfo.transform.GetChild(0).GetComponent<TextMeshPro>();
-                        StartCoroutine(EnoughPercentLoft());
-                        /*if (fPercentScore>= 50f)
-                        {
-                            TextMeshPro textOnWall = hitInfo.transform.GetChild(0).GetComponent<TextMeshPro>();
-                            StartCoroutine(EnoughPercentLoft(textOnWall));
-                        }
-                        else
-                        {
-                            TextMeshPro textOnWall = hitInfo.transform.GetChild(0).GetComponent<TextMeshPro>();
-                            StartCoroutine(NotEnoughPercentLoft(textOnWall));
-                        }*/
+                        menuManager.LoadScene("Scenes/World/LevelChoosing");
                     }
                     else
                     {
@@ -799,65 +787,6 @@ public class SC_Player : Singleton<SC_Player>
             }
         }
         bIsBeingAnimated = false;
-    }
-    private Vector3 FindNewDirection(Vector3 currentDirection, float range)
-    {
-        // Define possible directions in order of preference
-        Vector3[] directions = {
-            transform.right, Vector3.left, Vector3.back, transform.forward,
-            transform.forward + transform.right,   // Diagonal Top-Right
-            transform.forward + Vector3.left,      // Diagonal Top-Left
-            Vector3.back + transform.right,        // Diagonal Bottom-Right
-            Vector3.back + Vector3.left            // Diagonal Bottom-Left
-        };
-
-        foreach (var dir in directions)
-        {
-            // Skip current direction
-            if (dir == currentDirection)
-                continue;
-
-            if (dir == transform.right || dir == Vector3.left || dir == Vector3.back || dir == transform.forward)
-            {
-                // Check for walls in the new direction
-                if (!Physics.Raycast(transform.position, dir, out RaycastHit hitInfo, range + 0.2f, LMask))
-                {
-                    return dir; // Return the first valid direction
-                }
-            }
-            else
-            {
-                Vector3 diagonalCheckPosition = transform.position + dir * range;
-
-                // Use OverlapSphere to check for colliders at the diagonal position
-                Collider[] intersecting = Physics.OverlapSphere(diagonalCheckPosition, 0.4f, LMask);
-
-                if (intersecting.Length > 0)
-                {
-                    bool bContinue = true;
-                    // Loop through colliders to check tags
-                    foreach (Collider collider in intersecting)
-                    {
-                        if (!collider.CompareTag("Bait"))// Block movement if an unpassable object is found
-                        {
-                            bContinue = false;
-                            continue;
-                        }
-                    }
-                    if(bContinue)
-                    {
-                        return dir; // Return the first valid direction
-                    }
-                }
-                else
-                {
-                    return dir;
-                }
-            }
-        }
-
-        // If all directions are blocked, return Vector3.zero
-        return Vector3.zero;
     }
     private void Move(Vector3 direction, float jumpPower)
     {
@@ -1017,22 +946,6 @@ public class SC_Player : Singleton<SC_Player>
         yield return new WaitForSeconds(time * (1 - 2 / 5f));
         vfx_steps.Stop();
         GoVfxSteps.transform.localPosition = fPosVFX_steps + new Vector3(0f,-50f,0f);
-    }
-    private IEnumerator NotEnoughPercentLoft()
-    {
-        /*txt.text = "50%";
-        txt.color = bpmManager.colorMiss;*/
-        yield return new WaitForSeconds(0.7f);
-        /*txt.color = new Color32(255, 114, 255, 255);
-        txt.text = "! ! !";*/
-    }
-    private IEnumerator EnoughPercentLoft()
-    {
-        Debug.Log("loft");
-        /*txt.text = Mathf.Round(fPercentScore).ToString() + "%";
-        txt.color = bpmManager.colorPerfect;*/
-        yield return new WaitForSeconds(0.2f);
-        menuManager.LoadScene("Scenes/World/LevelChoosing");
     }
     //Rotation
     private IEnumerator RotationToRight(float time)

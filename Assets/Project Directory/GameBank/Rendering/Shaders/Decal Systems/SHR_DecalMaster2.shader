@@ -26,6 +26,8 @@ Shader  "SHR_DecalMaster2"
         [Toggle(_WORLDZY_ON)] _WorldZY("WorldZY", Float) = 0
         [Toggle(_GAMEPLAYORENVIRO_ON)] _GameplayOrEnviro("GameplayOrEnviro", Float) = 1
         _ErosionValue("ErosionValue", Float) = 0.31
+        [Toggle(_WORLDPOSORSEED_ON)] _WorldPosOrSeed("WorldPosOrSeed", Float) = 0
+        _Seed("Seed", Int) = 0
         [HideInInspector] _texcoord( "", 2D ) = "white" {}
 
 
@@ -127,6 +129,7 @@ Shader  "SHR_DecalMaster2"
 			#include "../HLSL/HLSL_GraffitiDecal.hlsl"
 			#define ASE_NEEDS_FRAG_TEXTURE_COORDINATES0
 			#pragma shader_feature_local _GAMEPLAYORENVIRO_ON
+			#pragma shader_feature_local _WORLDPOSORSEED_ON
 			#pragma shader_feature_local _WORLDZY_ON
 			#pragma shader_feature_local _XZORXY_ON
 
@@ -174,6 +177,7 @@ Shader  "SHR_DecalMaster2"
 			int _AtlasRows;
 			int _AtlasCols;
 			int _NumGraffiti;
+			int _Seed;
 			float _SeedMultiplier;
 			float _SeedScale;
 			float _MinOffset_Y;
@@ -409,7 +413,13 @@ Shader  "SHR_DecalMaster2"
 				currInstanceId = unity_InstanceID;
 				#endif
 				float2 WorldSeed2D92 = ( ( frac( ( staticSwitch73 * _SeedScale ) ) * _SeedMultiplier ) + currInstanceId );
-				float2 seed2D25 = round( ( WorldSeed2D92 * 1000.0 ) );
+				float2 temp_cast_0 = _Seed;
+				#ifdef _WORLDPOSORSEED_ON
+				float2 staticSwitch105 = temp_cast_0;
+				#else
+				float2 staticSwitch105 = round( ( WorldSeed2D92 * 1000.0 ) );
+				#endif
+				float2 seed2D25 = staticSwitch105;
 				sampler2D tex25 = _tex;
 				float NumGraffiti25 = (float)_NumGraffiti;
 				float AtlasCols25 = (float)_AtlasCols;
@@ -533,6 +543,7 @@ Shader  "SHR_DecalMaster2"
 			#include "../HLSL/HLSL_GraffitiDecal.hlsl"
 			#define ASE_NEEDS_FRAG_TEXTURE_COORDINATES0
 			#pragma shader_feature_local _GAMEPLAYORENVIRO_ON
+			#pragma shader_feature_local _WORLDPOSORSEED_ON
 			#pragma shader_feature_local _WORLDZY_ON
 			#pragma shader_feature_local _XZORXY_ON
 
@@ -587,6 +598,7 @@ Shader  "SHR_DecalMaster2"
 			int _AtlasRows;
 			int _AtlasCols;
 			int _NumGraffiti;
+			int _Seed;
 			float _SeedMultiplier;
 			float _SeedScale;
 			float _MinOffset_Y;
@@ -896,7 +908,13 @@ Shader  "SHR_DecalMaster2"
 				currInstanceId = unity_InstanceID;
 				#endif
 				float2 WorldSeed2D92 = ( ( frac( ( staticSwitch73 * _SeedScale ) ) * _SeedMultiplier ) + currInstanceId );
-				float2 seed2D25 = round( ( WorldSeed2D92 * 1000.0 ) );
+				float2 temp_cast_0 = _Seed;
+				#ifdef _WORLDPOSORSEED_ON
+				float2 staticSwitch105 = temp_cast_0;
+				#else
+				float2 staticSwitch105 = round( ( WorldSeed2D92 * 1000.0 ) );
+				#endif
+				float2 seed2D25 = staticSwitch105;
 				sampler2D tex25 = _tex;
 				float NumGraffiti25 = (float)_NumGraffiti;
 				float AtlasCols25 = (float)_AtlasCols;
@@ -1043,6 +1061,7 @@ Shader  "SHR_DecalMaster2"
 			#include "../HLSL/HLSL_GraffitiDecal.hlsl"
 			#define ASE_NEEDS_FRAG_TEXTURE_COORDINATES0
 			#pragma shader_feature_local _GAMEPLAYORENVIRO_ON
+			#pragma shader_feature_local _WORLDPOSORSEED_ON
 			#pragma shader_feature_local _WORLDZY_ON
 			#pragma shader_feature_local _XZORXY_ON
 
@@ -1096,6 +1115,7 @@ Shader  "SHR_DecalMaster2"
 			int _AtlasRows;
 			int _AtlasCols;
 			int _NumGraffiti;
+			int _Seed;
 			float _SeedMultiplier;
 			float _SeedScale;
 			float _MinOffset_Y;
@@ -1399,7 +1419,13 @@ Shader  "SHR_DecalMaster2"
 				currInstanceId = unity_InstanceID;
 				#endif
 				float2 WorldSeed2D92 = ( ( frac( ( staticSwitch73 * _SeedScale ) ) * _SeedMultiplier ) + currInstanceId );
-				float2 seed2D25 = round( ( WorldSeed2D92 * 1000.0 ) );
+				float2 temp_cast_0 = _Seed;
+				#ifdef _WORLDPOSORSEED_ON
+				float2 staticSwitch105 = temp_cast_0;
+				#else
+				float2 staticSwitch105 = round( ( WorldSeed2D92 * 1000.0 ) );
+				#endif
+				float2 seed2D25 = staticSwitch105;
 				sampler2D tex25 = _tex;
 				float NumGraffiti25 = (float)_NumGraffiti;
 				float AtlasCols25 = (float)_AtlasCols;
@@ -1555,6 +1581,7 @@ Shader  "SHR_DecalMaster2"
 
             #include "../HLSL/HLSL_GraffitiDecal.hlsl"
             #pragma shader_feature_local _GAMEPLAYORENVIRO_ON
+            #pragma shader_feature_local _WORLDPOSORSEED_ON
             #pragma shader_feature_local _WORLDZY_ON
             #pragma shader_feature_local _XZORXY_ON
 
@@ -1609,6 +1636,7 @@ Shader  "SHR_DecalMaster2"
 			int _AtlasRows;
 			int _AtlasCols;
 			int _NumGraffiti;
+			int _Seed;
 			float _SeedMultiplier;
 			float _SeedScale;
 			float _MinOffset_Y;
@@ -1831,7 +1859,13 @@ Shader  "SHR_DecalMaster2"
 				currInstanceId = unity_InstanceID;
 				#endif
 				float2 WorldSeed2D92 = ( ( frac( ( staticSwitch73 * _SeedScale ) ) * _SeedMultiplier ) + currInstanceId );
-				float2 seed2D25 = round( ( WorldSeed2D92 * 1000.0 ) );
+				float2 temp_cast_0 = _Seed;
+				#ifdef _WORLDPOSORSEED_ON
+				float2 staticSwitch105 = temp_cast_0;
+				#else
+				float2 staticSwitch105 = round( ( WorldSeed2D92 * 1000.0 ) );
+				#endif
+				float2 seed2D25 = staticSwitch105;
 				sampler2D tex25 = _tex;
 				float NumGraffiti25 = (float)_NumGraffiti;
 				float AtlasCols25 = (float)_AtlasCols;
@@ -1961,6 +1995,7 @@ Shader  "SHR_DecalMaster2"
 
 			#include "../HLSL/HLSL_GraffitiDecal.hlsl"
 			#pragma shader_feature_local _GAMEPLAYORENVIRO_ON
+			#pragma shader_feature_local _WORLDPOSORSEED_ON
 			#pragma shader_feature_local _WORLDZY_ON
 			#pragma shader_feature_local _XZORXY_ON
 
@@ -2021,6 +2056,7 @@ Shader  "SHR_DecalMaster2"
 			int _AtlasRows;
 			int _AtlasCols;
 			int _NumGraffiti;
+			int _Seed;
 			float _SeedMultiplier;
 			float _SeedScale;
 			float _MinOffset_Y;
@@ -2320,7 +2356,13 @@ Shader  "SHR_DecalMaster2"
 				currInstanceId = unity_InstanceID;
 				#endif
 				float2 WorldSeed2D92 = ( ( frac( ( staticSwitch73 * _SeedScale ) ) * _SeedMultiplier ) + currInstanceId );
-				float2 seed2D25 = round( ( WorldSeed2D92 * 1000.0 ) );
+				float2 temp_cast_0 = _Seed;
+				#ifdef _WORLDPOSORSEED_ON
+				float2 staticSwitch105 = temp_cast_0;
+				#else
+				float2 staticSwitch105 = round( ( WorldSeed2D92 * 1000.0 ) );
+				#endif
+				float2 seed2D25 = staticSwitch105;
 				sampler2D tex25 = _tex;
 				float NumGraffiti25 = (float)_NumGraffiti;
 				float AtlasCols25 = (float)_AtlasCols;
@@ -2473,6 +2515,7 @@ Shader  "SHR_DecalMaster2"
 
 			#include "../HLSL/HLSL_GraffitiDecal.hlsl"
 			#pragma shader_feature_local _GAMEPLAYORENVIRO_ON
+			#pragma shader_feature_local _WORLDPOSORSEED_ON
 			#pragma shader_feature_local _WORLDZY_ON
 			#pragma shader_feature_local _XZORXY_ON
 
@@ -2533,6 +2576,7 @@ Shader  "SHR_DecalMaster2"
 			int _AtlasRows;
 			int _AtlasCols;
 			int _NumGraffiti;
+			int _Seed;
 			float _SeedMultiplier;
 			float _SeedScale;
 			float _MinOffset_Y;
@@ -2830,7 +2874,13 @@ Shader  "SHR_DecalMaster2"
 				currInstanceId = unity_InstanceID;
 				#endif
 				float2 WorldSeed2D92 = ( ( frac( ( staticSwitch73 * _SeedScale ) ) * _SeedMultiplier ) + currInstanceId );
-				float2 seed2D25 = round( ( WorldSeed2D92 * 1000.0 ) );
+				float2 temp_cast_0 = _Seed;
+				#ifdef _WORLDPOSORSEED_ON
+				float2 staticSwitch105 = temp_cast_0;
+				#else
+				float2 staticSwitch105 = round( ( WorldSeed2D92 * 1000.0 ) );
+				#endif
+				float2 seed2D25 = staticSwitch105;
 				sampler2D tex25 = _tex;
 				float NumGraffiti25 = (float)_NumGraffiti;
 				float AtlasCols25 = (float)_AtlasCols;
@@ -2967,6 +3017,7 @@ Shader  "SHR_DecalMaster2"
 
 			#include "../HLSL/HLSL_GraffitiDecal.hlsl"
 			#pragma shader_feature_local _GAMEPLAYORENVIRO_ON
+			#pragma shader_feature_local _WORLDPOSORSEED_ON
 			#pragma shader_feature_local _WORLDZY_ON
 			#pragma shader_feature_local _XZORXY_ON
 
@@ -3002,6 +3053,7 @@ Shader  "SHR_DecalMaster2"
 			int _AtlasRows;
 			int _AtlasCols;
 			int _NumGraffiti;
+			int _Seed;
 			float _SeedMultiplier;
 			float _SeedScale;
 			float _MinOffset_Y;
@@ -3122,7 +3174,13 @@ Shader  "SHR_DecalMaster2"
 				currInstanceId = unity_InstanceID;
 				#endif
 				float2 WorldSeed2D92 = ( ( frac( ( staticSwitch73 * _SeedScale ) ) * _SeedMultiplier ) + currInstanceId );
-				float2 seed2D25 = round( ( WorldSeed2D92 * 1000.0 ) );
+				float2 temp_cast_0 = _Seed;
+				#ifdef _WORLDPOSORSEED_ON
+				float2 staticSwitch105 = temp_cast_0;
+				#else
+				float2 staticSwitch105 = round( ( WorldSeed2D92 * 1000.0 ) );
+				#endif
+				float2 seed2D25 = staticSwitch105;
 				sampler2D tex25 = _tex;
 				float NumGraffiti25 = (float)_NumGraffiti;
 				float AtlasCols25 = (float)_AtlasCols;
@@ -3216,11 +3274,13 @@ Node;AmplifyShaderEditor.SimpleAddOpNode;101;-2195.342,-311.5009;Inherit;False;2
 Node;AmplifyShaderEditor.CustomExpressionNode;25;-948.1661,-141.418;Float;False;return tex2D(tex, uv)@;4;File;16;True;uv;FLOAT2;0,0;In;;Inherit;False;True;seed2D;FLOAT2;0,0;In;;Inherit;False;True;tex;SAMPLER2D;_Sampler210;In;;Inherit;False;True;NumGraffiti;FLOAT;0;In;;Inherit;False;True;AtlasCols;FLOAT;0;In;;Inherit;False;True;AtlasRows;FLOAT;0;In;;Inherit;False;True;MinScaleX;FLOAT;0;In;;Inherit;False;True;MaxScaleX;FLOAT;0;In;;Inherit;False;True;MinScaleY;FLOAT;0;In;;Inherit;False;True;MaxScaleY;FLOAT;0;In;;Inherit;False;True;MinRota;FLOAT;0;In;;Inherit;False;True;MaxRota;FLOAT;0;In;;Inherit;False;True;MinOffsetX;FLOAT;0;In;;Inherit;False;True;MaxOffsetX;FLOAT;0;In;;Inherit;False;True;MinOffsetY;FLOAT;0;In;;Inherit;False;True;MaxOffsetY;FLOAT;0;In;;Inherit;False;SampleGraffitis;False;False;0;6471f0035b765b445a9787e379b162a0;False;16;0;FLOAT2;0,0;False;1;FLOAT2;0,0;False;2;SAMPLER2D;_Sampler210;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT;0;False;7;FLOAT;0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;11;FLOAT;0;False;12;FLOAT;0;False;13;FLOAT;0;False;14;FLOAT;0;False;15;FLOAT;0;False;1;FLOAT4;0
 Node;AmplifyShaderEditor.InstanceIdNode;100;-2407.919,-258.0281;Inherit;False;False;0;1;INT;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;92;-2066.93,-324.2546;Inherit;False;WorldSeed2D;-1;True;1;0;FLOAT2;0,0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.GetLocalVarNode;95;-1238.748,-104.0563;Inherit;False;94;MainTex;1;0;OBJECT;;False;1;SAMPLER2D;0
 Node;AmplifyShaderEditor.GetLocalVarNode;93;-2077.571,-19.36152;Inherit;False;92;WorldSeed2D;1;0;OBJECT;;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;102;-1870.198,-9.180033;Inherit;False;2;2;0;FLOAT2;0,0;False;1;FLOAT;0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.RangedFloatNode;103;-2019.985,79.42801;Inherit;False;Constant;_Float0;Float 0;20;0;Create;True;0;0;0;False;0;False;1000;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RoundOpNode;104;-1635.319,35.42801;Inherit;False;1;0;FLOAT2;0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.GetLocalVarNode;95;-1237.999,-109.2999;Inherit;False;94;MainTex;1;0;OBJECT;;False;1;SAMPLER2D;0
+Node;AmplifyShaderEditor.RangedFloatNode;103;-2118.785,90.69466;Inherit;False;Constant;_Float0;Float 0;20;0;Create;True;0;0;0;False;0;False;1000;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RoundOpNode;104;-1706.385,-28.7053;Inherit;False;1;0;FLOAT2;0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.StaticSwitch;105;-1548.261,48.34949;Inherit;False;Property;_WorldPosOrSeed;WorldPosOrSeed;20;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;FLOAT2;0,0;False;0;FLOAT2;0,0;False;2;FLOAT2;0,0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT2;0,0;False;6;FLOAT2;0,0;False;7;FLOAT2;0,0;False;8;FLOAT2;0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.IntNode;106;-1785.995,117.6827;Inherit;False;Property;_Seed;Seed;21;0;Create;True;0;0;0;False;0;False;0;0;False;0;1;INT;0
 WireConnection;84;0;91;0
 WireConnection;84;1;86;0
 WireConnection;84;2;90;0
@@ -3260,7 +3320,7 @@ WireConnection;2;3;9;3
 WireConnection;101;0;77;0
 WireConnection;101;1;100;0
 WireConnection;25;0;98;0
-WireConnection;25;1;104;0
+WireConnection;25;1;105;0
 WireConnection;25;2;95;0
 WireConnection;25;3;24;0
 WireConnection;25;4;13;0
@@ -3279,5 +3339,7 @@ WireConnection;92;0;101;0
 WireConnection;102;0;93;0
 WireConnection;102;1;103;0
 WireConnection;104;0;102;0
+WireConnection;105;1;104;0
+WireConnection;105;0;106;0
 ASEEND*/
-//CHKSM=1A0FB1216C43F64C0998A11896B6ACDAA5B98A43
+//CHKSM=11AB87F9964EC857AFC0159E66139F7C63F78A24
