@@ -12,7 +12,6 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _HANDLECOLORS_ON
   - _USINGXMOVE_ON
   - _USINGXSCALE1_ON
   - _USINGXSCALE_ON
@@ -45,7 +44,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DissolveTex:
-        m_Texture: {fileID: 2800000, guid: 2d6feab26a948a540b313c2253379a91, type: 3}
+        m_Texture: {fileID: 2800000, guid: 28e2076c06225f24bae099e114eb9cc3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _FrontTex:
@@ -53,7 +52,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 8333fa25112773a4cbeff5797a46b082, type: 3}
+        m_Texture: {fileID: 2800000, guid: b64acacdeb0e2454fa5f915d8f4cc0d4, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex1:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MidTex:
@@ -88,10 +91,13 @@ Material:
     - _3Tex: 0
     - _Alpha: 1
     - _AlphaCutoff: 0.5
-    - _Alphacliptresh: 0.1
+    - _Alphacliptresh: 0.01
     - _BPM: 120
     - _BaseOpacity: 1
-    - _HandleColors: 1
+    - _ErosionSmoothness: 2.26
+    - _G_BaseOpacity: 1
+    - _G_FadeSmooth: 3.56
+    - _HandleColors: 0
     - _IsVerticalOrLateral: 0
     - _MaxSizeX: 1.5
     - _MaxSizeY: 1.5
@@ -103,6 +109,9 @@ Material:
     - _NoColorsWhiteValue: 1
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _R_BaseOpacity: 1
+    - _R_Fadesmooth: 1
+    - _RotaPower: 4.14
     - _ScaleX: 1
     - _ScaleY: 1
     - _TimeDelay: 0
@@ -126,12 +135,14 @@ Material:
     - _Front: {r: 1, g: 0, b: 0, a: 0}
     - _Front02: {r: 0, g: 1, b: 0.7048147, a: 0}
     - _Front03: {r: 1, g: 0, b: 0.058454476, a: 0}
-    - _MainColor: {r: 3.9999998, g: 3.9999998, b: 3.9999998, a: 0}
+    - _MainColor: {r: 0.3634346, g: 1.1220608, b: 1.1089153, a: 0}
     - _MainTexOffset: {r: 0, g: 0, b: 0, a: 0}
     - _MainTexTiling: {r: 2, g: 1, b: 0, a: 0}
+    - _MainTexTiling1: {r: 1, g: 1, b: 0, a: 0}
     - _MaxSize: {r: 1, g: 1, b: 0, a: 0}
     - _MaxSizePos: {r: 0, g: 0, b: 0, a: 0}
     - _Mid: {r: 0.6812992, g: 0, b: 1, a: 0}
     - _Mid02: {r: 0, g: 1, b: 0.9647675, a: 0}
     - _Mid03: {r: 0.6812992, g: 0, b: 1, a: 0}
+    - _SubColor: {r: 0.66054165, g: 0, b: 2.6701574, a: 0}
   m_BuildTextureStacks: []

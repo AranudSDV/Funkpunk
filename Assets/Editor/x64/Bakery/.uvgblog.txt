@@ -1373,3 +1373,56 @@ abort_threads: Failed aborting id: 000000000000D870, mono_thread_manage will ign
 
 abort_threads: Failed aborting id: 000000000000D870, mono_thread_manage will ignore it
 
+2025-5-23
+Rendering UV GBuffer for SceneLvl0_LM0 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Done
+Done
+Running ftraceRTX fixpos12 "C:\Users\DamLa\AppData\Local\Temp\frender" "uvpos_SceneLvl0_LM0.lz4" 2 0 0 0
+Running ftraceRTX ao "C:\Users\DamLa\AppData\Local\Temp\frender" "SceneLvl0_LM0_ao" 8 16 0
+Running ftraceRTX batchpointlightlegacy "C:\Users\DamLa\AppData\Local\Temp\frender" "PointBatch_0_0_48" 4 0 0 batchpointlight_0_0_48.bin
+Running ftraceRTX batchpointlightlegacy "C:\Users\DamLa\AppData\Local\Temp\frender" "PointBatch_0_49_54" 4 0 0 batchpointlight_0_49_54.bin
+Running ftraceRTX addmul "C:\Users\DamLa\AppData\Local\Temp\frender" "SceneLvl0_LM0" 4 0 0 comp_0.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "SceneLvl0_LM0_diffuse" 4 16 0 "gi_SceneLvl0_LM00.bin" "SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "SceneLvl0_LM0_diffuse" 4 16 0 "gi_SceneLvl0_LM01.bin" "SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "SceneLvl0_LM0_diffuse" 4 16 0 "gi_SceneLvl0_LM02.bin" "SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "SceneLvl0_LM0_diffuse" 4 16 0 "gi_SceneLvl0_LM03.bin" "SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "SceneLvl0_LM0_final" 20 16 0 "gi_SceneLvl0_LM04.bin" "SceneLvl0_LM0_lights_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX add "C:\Users\DamLa\AppData\Local\Temp\frender" "SceneLvl0_LM0_final_HDR.lz4" 4 0 0 comp_indirect0.bin
+Running ftraceRTX addao "C:\Users\DamLa\AppData\Local\Temp\frender" "SceneLvl0_LM0_final_HDR.lz4" 4 0 0 addao_0.bin
+Running denoiserOIDN c "C:\Users\DamLa\AppData\Local\Temp\frender/SceneLvl0_LM0_final_HDR.lz4" "C:\Users\DamLa\AppData\Local\Temp\frender/SceneLvl0_LM0_final_HDR.lz4" 2048 0
+Running denoiserOIDN c "C:\Users\DamLa\AppData\Local\Temp\frender/SceneLvl0_LM0_final_HDR.lz4" "C:\Users\DamLa\AppData\Local\Temp\frender/SceneLvl0_LM0_final_HDR.lz4" 1024 0
+Running seamfixer "C:\Users\DamLa\AppData\Local\Temp\frender" "0" "SceneLvl0_LM0_final_HDR.lz4"
+Running halffloat2hdr "C:\Users\DamLa\AppData\Local\Temp\frender/SceneLvl0_LM0_final_HDR.lz4" "C:/Project/FunkPunk/Funkpunk/Assets/Scenes/World/SceneLvl0/SceneLvl0_LM0_final.hdr" 1024
+Loaded vertex shader: quad.vso
+Loaded pixel shader: skyOutput.pso
+Loaded pixel shader: cookieOutput.pso
+initShaders done
+initScene done
+Done
+Rendering UV GBuffer for SceneLvl0_LM0 51
+RGBA32F...RGBA8...RGBA8_SRGB...RGBA16F...states...
+Rendering UV normal...
+Rendering faceted UV normal...
+Rendering UV pos...
+Rendering smooth UV pos...
+Done
+Done
+Running ftraceRTX fixpos12 "C:\Users\DamLa\AppData\Local\Temp\frender" "uvpos_SceneLvl0_LM0.lz4" 2 0 0 0
+Running ftraceRTX ao "C:\Users\DamLa\AppData\Local\Temp\frender" "SceneLvl0_LM0_ao" 8 16 0
+Running ftraceRTX batchpointlightlegacy "C:\Users\DamLa\AppData\Local\Temp\frender" "PointBatch_0_0_48" 4 0 0 batchpointlight_0_0_48.bin
+Running ftraceRTX batchpointlightlegacy "C:\Users\DamLa\AppData\Local\Temp\frender" "PointBatch_0_49_54" 4 0 0 batchpointlight_0_49_54.bin
+Running ftraceRTX addmul "C:\Users\DamLa\AppData\Local\Temp\frender" "SceneLvl0_LM0" 4 0 0 comp_0.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "SceneLvl0_LM0_diffuse" 4 16 0 "gi_SceneLvl0_LM00.bin" "SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "SceneLvl0_LM0_diffuse" 4 16 0 "gi_SceneLvl0_LM01.bin" "SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "SceneLvl0_LM0_diffuse" 4 16 0 "gi_SceneLvl0_LM02.bin" "SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "SceneLvl0_LM0_diffuse" 4 16 0 "gi_SceneLvl0_LM03.bin" "SceneLvl0_LM0_diffuse0_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX texgi "C:\Users\DamLa\AppData\Local\Temp\frender" "SceneLvl0_LM0_final" 4 16 0 "gi_SceneLvl0_LM04.bin" "SceneLvl0_LM0_lights_HDR.lz4" vbTraceTex.bin
+Running ftraceRTX addao "C:\Users\DamLa\AppData\Local\Temp\frender" "SceneLvl0_LM0_final_HDR.lz4" 4 0 0 addao_0.bin
+Running denoiserOIDN c "C:\Users\DamLa\AppData\Local\Temp\frender/SceneLvl0_LM0_final_HDR.lz4" "C:\Users\DamLa\AppData\Local\Temp\frender/SceneLvl0_LM0_final_HDR.lz4" 2048 0
+Running seamfixer "C:\Users\DamLa\AppData\Local\Temp\frender" "0" "SceneLvl0_LM0_final_HDR.lz4"
+Running halffloat2hdr "C:\Users\DamLa\AppData\Local\Temp\frender/SceneLvl0_LM0_final_HDR.lz4" "C:/Project/FunkPunk/Funkpunk/Assets/Scenes/World/SceneLvl0/SceneLvl0_LM0_final.hdr" 1024
