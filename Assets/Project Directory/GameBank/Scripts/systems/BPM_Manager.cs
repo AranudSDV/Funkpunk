@@ -363,7 +363,14 @@ public class BPM_Manager : MonoBehaviour
             }
             else
             {
-                scPlayer.CheckForward(scPlayer.lastMoveDirection, scPlayer.taggingRange);
+                if(bPlayBad || bPlayGood || bPlayPerfect)
+                {
+                    scPlayer.CheckForward(scPlayer.lastMoveDirection, scPlayer.taggingRange);
+                }
+                else
+                {
+                    scPlayer.CheckForward(Vector3.zero, scPlayer.taggingRange);
+                }
                 if (iTimer <= 0)
                 {
                     textTimer.text = iTimer.ToString();

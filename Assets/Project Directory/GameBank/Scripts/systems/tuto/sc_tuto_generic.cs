@@ -65,7 +65,7 @@ public class sc_tuto_generic : MonoBehaviour
     [SerializeField][Tooltip("Where the backtrack's Camera will switch to be the player's one")] private float tresholdZ;
     private float fSpeed = 5f;
 
-    private int iTutoInGame = 2;
+    private bool bInputMoreTuto = false;
     public bool bWaitNext = false;
     private bool bOnceSkip = false;
     private bool bOnceNext = false;
@@ -73,6 +73,7 @@ public class sc_tuto_generic : MonoBehaviour
     private bool bHasClickedSkip = false;
     private bool bInit = false;
     private float iInput = 0;
+    private bool bInputMoreTutoOk = false;
 
     private void Initialized()
     {
@@ -198,29 +199,53 @@ public class sc_tuto_generic : MonoBehaviour
                 {
                     if (bWaitNext && !bOnceNext && scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered) //INPUT TO SHOW NEXT WHOLE BUBBLES
                     {
-                        bOnceSkip = false;
-                        bOnceNext = true;
-                        bOnceBubble = false;
-                        if (_y == intYGameCam || ((_y == intYDetectionTuto || _y == intYBaitTuto) && iTutoInGame == 0))
+                        if (_y == intYGameCam)
                         {
+                            bOnceSkip = false;
+                            bOnceNext = true;
+                            bOnceBubble = false;
                             bIsOnBD = false;
                             scPlayer.bisTuto = false;
                             ImuneToTuto(scPlayer.bpmManager);
-                            iTutoInGame = 2;
                         }
-                        else if((_y == intYDetectionTuto || _y == intYBaitTuto) && iTutoInGame != 0)
+                        else if(_y == intYDetectionTuto || _y == intYBaitTuto)
                         {
-                            iTutoInGame -= 1;
+                            if(!bInputMoreTuto)
+                            {
+                                bInputMoreTuto = true;
+                            }
+                            else
+                            {
+                                bInputMoreTutoOk = true;
+                            }
+                            if(bInputMoreTutoOk)
+                            {
+                                bOnceSkip = false;
+                                bOnceNext = true;
+                                bOnceBubble = false;
+                                bIsOnBD = false;
+                                scPlayer.bisTuto = false;
+                                ImuneToTuto(scPlayer.bpmManager);
+                                scPlayer.menuManager.bGameIsPaused = false;
+                            }
                         }
                         else if(_y == intYBoss)
                         {
+                            bOnceSkip = false;
+                            bOnceNext = true;
+                            bOnceBubble = false;
                             EndBossExplication();
                         }
-                        if (!cameraIsTracking)
+
+                        if ((!cameraIsTracking && bInputMoreTutoOk) || (!cameraIsTracking && !(_y == intYDetectionTuto || _y == intYBaitTuto)))
                         {
+                            bOnceSkip = false;
+                            bOnceNext = true;
+                            bOnceBubble = false;
                             NextWholeBubble();
+                            bWaitNext = false;
+                            bInputMoreTutoOk = false;
                         }
-                        bWaitNext = false;
                     }
                     else if (!bHasClickedSkip && !bWaitNext && scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered) // INPUT TO SKIP 
                     {
