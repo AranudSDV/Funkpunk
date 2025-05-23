@@ -31,7 +31,6 @@ public class SC_Player : Singleton<SC_Player>
     public BPM_Manager bpmManager;
     public sc_tuto_generic tutoGen = null;
     [SerializeField] private CanvasGroup CgInGame;
-    [SerializeField] private Transform inputDirIndicator;
 
     //LES CHALLENGES
     private bool bHasBeenDetectedOneTime = false;
@@ -40,6 +39,7 @@ public class SC_Player : Singleton<SC_Player>
 
     //LE PLAYER ET SES MOUVEMENTS
     [Header("Player and movement")]
+    [SerializeField] private Transform inputDirIndicator;
     public Vector3 lastMoveDirection;
     private Vector3 lastLastMoveDirection;
     Vector2 move;
