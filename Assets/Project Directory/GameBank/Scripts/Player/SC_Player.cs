@@ -320,31 +320,33 @@ public class SC_Player : Singleton<SC_Player>
     {
         GO_BaitInst = bait.transform.gameObject;
         CheckForward(lastMoveDirection, 0f);
-        if (fThrowMultiplier == 0f)
-        {
-            //nothing
-        }
-        else
+        if (fThrowMultiplier != 0f)
         {
             Vector3 _spawnpos = new Vector3(this.transform.position.x, this.transform.position.y - 0.5f, this.transform.position.z) + (lastMoveDirection * fThrowMultiplier);
             bait.newPos = _spawnpos;
             bait.midPos = new Vector3(this.transform.position.x, this.transform.position.y + 2.5f, this.transform.position.z) + (lastMoveDirection * fThrowMultiplier / 2);
             bait.bIsBeingThrown = true;
-            StartCoroutine(CameraShake(fThrowMultiplier*1/3, bpmManager.FSPB*1/4));
+            StartCoroutine(CameraShake(fThrowMultiplier * 1 / 3, bpmManager.FSPB * 1 / 4));
         }
     }
 
     //VERIFIER LE MOUVEMENT
-    public void CheckForward(Vector3 vectDir, float fRange)
+    Vector3 hector;
+    private void OnDrawGizmos()
+        {
+            Gizmos.DrawWireSphere(hector, 0.35f);
+        }
+public void CheckForward(Vector3 vectDir, float fRange)
     {
         if (fRange == taggingRange)
         {
             // 1. Check for diagonal movement first
             if (vectDir.x != 0f && vectDir.z != 0f) // Diagonal movement
             {
-                Vector3 diagonalCheckPosition = transform.position + (vectDir * 1.5f);
+                Vector3 diagonalCheckPosition = new Vector3(transform.position.x, transform.position.y-0.5f, transform.position.z) + (vectDir * 1.5f);
+                hector = diagonalCheckPosition;
                 // Use OverlapSphere to check for colliders at the diagonal position
-                Collider[] intersecting = Physics.OverlapSphere(diagonalCheckPosition, 0.4f, LMask); 
+                Collider[] intersecting = Physics.OverlapSphere(diagonalCheckPosition, 0.35f, LMask); 
                 bool canMoveDiagonally = false;
 
                 if (intersecting.Length > 0)
@@ -434,7 +436,7 @@ public class SC_Player : Singleton<SC_Player>
                                 else if (!bpmManager.bPlayPerfect && !bpmManager.bPlayGood && !bpmManager.bPlayBad)
                                 {
                                     Move(Vector3.zero, 0.3f);
-                                    return;
+                                    break;
                                 }
                             }
                             if (ingTag.iCompletition == 1)
@@ -493,7 +495,7 @@ public class SC_Player : Singleton<SC_Player>
                                         //Porte ouverte
                                     }
                                 }
-                                return;
+                                break;
                             }
                         }
                         else if (collider.CompareTag("Wall") || collider.CompareTag("Enemies 1"))
@@ -502,9 +504,13 @@ public class SC_Player : Singleton<SC_Player>
                             SoundManager.Instance.PlayOneShot(sfx_wall_hit);
                             Move(Vector3.zero, fJudmgentToJump);
                         }
-                        else if (collider.CompareTag("Bait"))
+                        else if (collider.CompareTag("Bait") || (collider.CompareTag("Untagged") && collider.gameObject.name == "BossDoor"))
                         {
-                            canMove = true;
+                            canMoveDiagonally = true;
+                            if(collider.CompareTag("Bait"))
+                            {
+                                Debug.Log("bait ok");
+                            }
                         }
                         else if (collider.transform.CompareTag("MapObject"))
                         {
@@ -536,10 +542,11 @@ public class SC_Player : Singleton<SC_Player>
             // Check for walls in the current direction
             else
             {
-                Vector3 CheckPosition = transform.position + vectDir;
+                Vector3 CheckPosition = new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z) + vectDir;
+                hector = CheckPosition;
                 // Use OverlapSphere to check for colliders at the diagonal position
-                Collider[] intersecting = Physics.OverlapSphere(CheckPosition, 0.4f, LMask);
-                bool canMove = false;
+                Collider[] intersecting = Physics.OverlapSphere(CheckPosition, 0.35f, LMask);
+                bool canMoveFront = false;
                 if (intersecting.Length > 0)
                 {
                     foreach (Collider collider in intersecting)
@@ -627,7 +634,7 @@ public class SC_Player : Singleton<SC_Player>
                                 else if (!bpmManager.bPlayPerfect && !bpmManager.bPlayGood && !bpmManager.bPlayBad)
                                 {
                                     Move(Vector3.zero, 0.3f);
-                                    return;
+                                    break;
                                 }
                             }
                             if (ingTag.iCompletition == 1)
@@ -686,7 +693,7 @@ public class SC_Player : Singleton<SC_Player>
                                         //Porte ouverte
                                     }
                                 }
-                                return;
+                                break;
                             }
                         }
                         else if (collider.CompareTag("Wall") || collider.CompareTag("Enemies 1"))
@@ -708,15 +715,15 @@ public class SC_Player : Singleton<SC_Player>
                         }
                         else if(collider.CompareTag("Bait"))
                         {
-                            canMove = true;
+                            canMoveFront = true;
                         }
                     }
                 }
                 else if (intersecting.Length == 0)
                 {
-                    canMove = true;
+                    canMoveFront = true;
                 }
-                if (canMove && !bIsTagging)
+                if (canMoveFront && !bIsTagging)
                 {
                     // Move diagonally if no blocking objects or only passable ones
                     Move(vectDir, fJudmgentToJump);
@@ -740,27 +747,42 @@ public class SC_Player : Singleton<SC_Player>
                     Collider[] intersecting = Physics.OverlapSphere(diagonalCheckPosition, 0.4f, LMask);
                     if (intersecting.Length > 0 && ((!bpmManager.bPlayPerfect && !bpmManager.bPlayGood && !bpmManager.bPlayBad && i <= 5) || (bpmManager.bPlayBad && i <= 7) || (bpmManager.bPlayGood && i <= 8) || (bpmManager.bPlayPerfect && i <= 9)))
                     {
-                        foreach(Collider col in intersecting)
+                        bool bReturn = false;
+                        foreach (Collider col in intersecting)
                         {
                             if (col.transform.CompareTag("Wall") || col.transform.CompareTag("Tagging") || col.transform.CompareTag("Bait"))
                             {
                                 bIsBeingAnimated = true;
                                 fThrowMultiplier = floatNumber - 1f;
                                 ThrowingFeedback(bpmManager.FSPB, false, null);
-                                return;
+                                bReturn = true;
+                                break;
                             }
                             else if (col.transform.CompareTag("Enemies 1")) //il y a un ennemi devant le joueur
                             {
                                 bIsBeingAnimated = true;
                                 fThrowMultiplier = floatNumber - 1f;
                                 SC_FieldOfView scEnemy = col.transform.gameObject.GetComponent<SC_FieldOfView>();
-                                scEnemy.bIsDisabled = true;
-                                scEnemy.FoeDisabled(scEnemy.bIsDisabled);
-                                scEnemy.i_EnnemyBeat = -iTimeFoeDisabled;
-                                ThrowingFeedback(bpmManager.FSPB, true, scEnemy);
-                                //Unable l'ennemi
-                                return;
+                                if(!scEnemy.bIsDisabled)
+                                {
+                                    scEnemy.bIsDisabled = true;
+                                    scEnemy.FoeDisabled(scEnemy.bIsDisabled);
+                                    scEnemy.i_EnnemyBeat = -iTimeFoeDisabled;
+                                    ThrowingFeedback(bpmManager.FSPB, true, scEnemy);
+                                    //Unable l'ennemi
+                                }
+                                else
+                                {
+                                    ThrowingFeedback(bpmManager.FSPB, false, null);
+                                }
+                                bReturn = true;
+                                break;
                             }
+                        }
+                        if(bReturn)
+                        {
+                            bReturn = false;
+                            break;
                         }
                     }
                     else if (intersecting.Length == 0 && ((!bpmManager.bPlayPerfect && !bpmManager.bPlayGood && !bpmManager.bPlayBad && i == 6) || (bpmManager.bPlayBad && i == 8) || (bpmManager.bPlayGood && i == 9) || (bpmManager.bPlayPerfect && i == 10)))
@@ -768,7 +790,7 @@ public class SC_Player : Singleton<SC_Player>
                         bIsBeingAnimated = true;
                         fThrowMultiplier = floatNumber - 1f;
                         ThrowingFeedback(bpmManager.FSPB, false, null);
-                        return;
+                        break;
                     }
                 }
                 // Check for walls in the current direction
@@ -779,6 +801,7 @@ public class SC_Player : Singleton<SC_Player>
                     Collider[] intersecting = Physics.OverlapSphere(CheckPosition, 0.4f, LMask); 
                     if (intersecting.Length > 0 && ((!bpmManager.bPlayPerfect && !bpmManager.bPlayGood && !bpmManager.bPlayBad && i <= 5) || (bpmManager.bPlayBad && i <= 7) || (bpmManager.bPlayGood && i <= 8) || (bpmManager.bPlayPerfect && i <= 9)))
                     {
+                        bool bReturn = false;
                         foreach (Collider col in intersecting)
                         {
                             if (col.transform.CompareTag("Wall") || col.transform.CompareTag("Tagging") || col.transform.CompareTag("Bait"))
@@ -786,20 +809,33 @@ public class SC_Player : Singleton<SC_Player>
                                 bIsBeingAnimated = true;
                                 fThrowMultiplier = floatNumber - 1f;
                                 ThrowingFeedback(bpmManager.FSPB, false, null);
-                                return;
+                                bReturn = true;
+                                break;
                             }
                             else if (col.transform.CompareTag("Enemies 1")) //il y a un ennemi devant le joueur
                             {
                                 bIsBeingAnimated = true;
                                 fThrowMultiplier = floatNumber - 1f;
                                 SC_FieldOfView scEnemy = col.transform.gameObject.GetComponent<SC_FieldOfView>();
-                                scEnemy.bIsDisabled = true;
-                                scEnemy.FoeDisabled(scEnemy.bIsDisabled);
-                                scEnemy.i_EnnemyBeat = -iTimeFoeDisabled;
-                                ThrowingFeedback(bpmManager.FSPB, true, scEnemy);
-                                //Unable l'ennemi
-                                return;
+                                if (!scEnemy.bIsDisabled)
+                                {
+                                    scEnemy.bIsDisabled = true;
+                                    scEnemy.FoeDisabled(scEnemy.bIsDisabled);
+                                    scEnemy.i_EnnemyBeat = -iTimeFoeDisabled;
+                                    ThrowingFeedback(bpmManager.FSPB, true, scEnemy);
+                                    //Unable l'ennemi
+                                }
+                                else
+                                {
+                                    ThrowingFeedback(bpmManager.FSPB, false, null);
+                                }
+                                bReturn = true;
+                                break;
                             }
+                        }
+                        if(bReturn)
+                        {
+                            break;
                         }
                     }
                     else if (intersecting.Length == 0 && ((!bpmManager.bPlayPerfect && !bpmManager.bPlayGood && !bpmManager.bPlayBad && i == 6) || (bpmManager.bPlayBad && i == 8) || (bpmManager.bPlayGood && i == 9) || (bpmManager.bPlayPerfect && i == 10)))
@@ -807,7 +843,7 @@ public class SC_Player : Singleton<SC_Player>
                         bIsBeingAnimated = true;
                         fThrowMultiplier = floatNumber - 1f;
                         ThrowingFeedback(bpmManager.FSPB, false, null);
-                        return;
+                        break;
                     }
                 }
             }
@@ -918,6 +954,7 @@ public class SC_Player : Singleton<SC_Player>
         sequenceDoor.OnComplete(() =>
         {
             cam.Priority = 2;
+            goDoor.tag = "Untagged";
             DG.Tweening.Sequence sequenceDoor1 = DOTween.Sequence();
             sequenceDoor1.AppendInterval(2f);
             sequenceDoor1.OnComplete(() =>

@@ -48,7 +48,7 @@ public class ing_Bait : MonoBehaviour
     private ParticleSystem PS_Impact;
 
     //ONE TIME ONLY
-    private bool b_BeenThrown = false;
+    public bool b_BeenThrown = false;
     private bool bThrownButAble = false;
     private bool bOnce = false;
     private bool bInit = false;
@@ -228,6 +228,7 @@ public class ing_Bait : MonoBehaviour
                 scPlayer.tutoGen.StartTutoBait();
                 scPlayer.hasAlreadyBaited = true;
             }
+            Debug.Log("bait ON");
         }
     }
     private IEnumerator NumSmashVFX(float time)
