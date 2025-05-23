@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_Decal_Enviro_01A
+  m_Name: M_Decal_Enviro_03
   m_Shader: {fileID: 4800000, guid: c65f80e4aa271054e916f540b244c27d, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -59,23 +59,23 @@ Material:
     - _ErosionValue: 0
     - _GameplayOrEnviro: 1
     - _MaxOffset: 0
-    - _MaxOffset_X: 1.7
-    - _MaxOffset_Y: 1.45
+    - _MaxOffset_X: 1.49
+    - _MaxOffset_Y: 1
     - _MaxRotation: 0
     - _MaxScale: 5.08
     - _MaxScale_X: 4
     - _MaxScale_Y: 4
     - _MinOffset: 0
-    - _MinOffset_X: -2.28
-    - _MinOffset_Y: 0.69
+    - _MinOffset_X: -1.39
+    - _MinOffset_Y: -0
     - _MinRotation: 0
     - _MinScale: 1
     - _MinScale_X: 4
     - _MinScale_Y: 4
-    - _NumGraffiti: 13
+    - _NumGraffiti: 12
     - _PlayerTagsOrEnviro: 1
     - _SeedMultiplier: 1
-    - _SeedScale: 1
+    - _SeedScale: 1.32
     - _WorldZY: 0
     - _XZorXY: 1
     m_Colors:
