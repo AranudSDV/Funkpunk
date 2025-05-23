@@ -220,8 +220,11 @@ MonoBehaviour:
       Data3: 1359273910
       Data4: -1267395333
     Path: event:/music_Loft_beat
-  GoGameChoose: {fileID: 0}
-  GoButtonsMainMenu: {fileID: 0}
+  GoGameChoose:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   GoAnyButtonMainMenu: {fileID: 0}
   GoLevelsButton: []
   GoLevelStars: []

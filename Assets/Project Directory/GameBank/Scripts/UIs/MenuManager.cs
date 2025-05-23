@@ -79,9 +79,7 @@ public class MenuManager : MonoBehaviour
 
     //NAVIGATION UX
     [Header("Navigation UX")]
-    [SerializeField] private GameObject GoGameChoose;
-    [SerializeField] private GameObject GoButtonsMainMenu;
-    [SerializeField] private GameObject GoAnyButtonMainMenu;
+    [SerializeField] private GameObject[] GoGameChoose = new GameObject[5];
     public GameObject[] GoLevelsButton;
     private GameObject GoLevelBackButton;
     public GameObject[] GoLevelStars;
@@ -251,7 +249,11 @@ public class MenuManager : MonoBehaviour
         if (!bMenuOnTriggered && controllerConnected && control !=null && control.GamePlay.Move.triggered)
         {
             bMenuOnTriggered = true;
-            GoAnyButtonMainMenu.SetActive(false);
+            if (GoGameChoose[4] == null)
+            {
+                Debug.Log("null");
+            }
+            GoGameChoose[4].transform.GetComponent<TextMeshProUGUI>().color = new Color32(255, 255, 255, 0);
             TrainAndUION();
             //LoadScene(sSceneToLoad);
         }
@@ -301,7 +303,32 @@ public class MenuManager : MonoBehaviour
         }
         if(bTrainIsHere)
         {
-            GoButtonsMainMenu.SetActive(true);
+            UnityEngine.UI.Button btnNewLoad = GoGameChoose[0].GetComponent<UnityEngine.UI.Button>();
+            if (_playerData.iLevelPlayer > 0)
+            {
+                TextMeshProUGUI txt = GoGameChoose[0].transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
+                if (_playerData.iLanguageNbPlayer == 1)
+                {
+                    txt.text = "Continuer";
+                }
+                else
+                {
+                    txt.text = "Continue";
+                }
+            }
+            else
+            {
+                TextMeshProUGUI txt = GoGameChoose[0].transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
+                if (_playerData.iLanguageNbPlayer == 1)
+                {
+                    txt.text = "Nouvelle Partie";
+                }
+                else
+                {
+                    txt.text = "New Game";
+                }
+            }
+            GoGameChoose[3].transform.GetComponent<CanvasGroup>().alpha = 1f;
             bWaitTrain = false;
             bTrainIsHere = false;
             SelectionEnsurance();
@@ -380,7 +407,7 @@ public class MenuManager : MonoBehaviour
                 }
                 else if (SceneManager.GetActiveScene().name == "SceneSplash" && bMenuOnTriggered)
                 {
-                    EventSystem.SetSelectedGameObject(GoGameChoose);
+                    EventSystem.SetSelectedGameObject(GoGameChoose[0]);
                 }
             }
             else if(CgPauseMenu.alpha == 0f && CgScoring.alpha == 1f)
@@ -480,23 +507,61 @@ public class MenuManager : MonoBehaviour
                         }
                     }
                 }
-                GoGameChoose = null;
+                GoGameChoose[0] = null;
                 sSceneToLoad = "SceneLvl";
+            }
+            else if (SceneManager.GetActiveScene().name == "SceneSplash")
+            {
+                GoGameChoose = new GameObject[5];
+                for (int i = 0; i < GoTargetUI.Length; i++)
+                {
+                    for (int y = 0; y < 3; y++)
+                    {
+                        if (GoTargetUI[i].name == "GameChoose" + y)
+                        {
+                            GoGameChoose[y] = GoTargetUI[i];
+                        }
+                    }
+                    if (GoTargetUI[i].name == "Buttons")
+                    {
+                        GoGameChoose[3] = GoTargetUI[i];
+                    }
+                    else if (GoTargetUI[i].name == "PressAnyButtonText")
+                    {
+                        GoGameChoose[4] = GoTargetUI[i];
+                    }
+                    else if (GoTargetUI[i].name == "Spline")
+                    {
+                        trainMenu = GoTargetUI[i].transform.GetComponent< SplineTrainMover_WithSpacing>();
+                    }
+                }
+                GoGameChoose[4].transform.GetComponent<TextMeshProUGUI>().color = new Color32(255,255,255,255);
+                GoGameChoose[3].transform.GetComponent<CanvasGroup>().alpha = 0f;
+                GoLevelsButton = null;
+                _levels = null;
+                sSceneToLoad = "Loft"; 
+                UnityEngine.UI.Button btnNewLoad = GoGameChoose[0].GetComponent<UnityEngine.UI.Button>();
+                btnNewLoad.onClick.AddListener(delegate { LoadScene(sSceneToLoad); });
+                UnityEngine.UI.Button btnExit = GoGameChoose[2].GetComponent<UnityEngine.UI.Button>();
+                btnExit.onClick.AddListener(QuitGame);
+                UnityEngine.UI.Button btnOptions = GoGameChoose[1].GetComponent<UnityEngine.UI.Button>();
+                btnOptions.onClick.AddListener(OptionsGame);
             }
         }
         else
         {
-            GoGameChoose = null;
+            GoGameChoose[0] = null;
             GoLevelsButton = null;
         }
         if(SceneManager.GetActiveScene().name == "SceneSplash")
         {
+            bMenuOnTriggered = false;
             sSceneToLoad = "Loft";
-            UnityEngine.UI.Button btnNewLoad = GoGameChoose.GetComponent<UnityEngine.UI.Button>();
+            UnityEngine.UI.Button btnNewLoad = GoGameChoose[0].GetComponent<UnityEngine.UI.Button>();
             btnNewLoad.onClick.AddListener(delegate { LoadScene(sSceneToLoad); });
             if (_playerData.iLevelPlayer > 0)
             {
-                TextMeshProUGUI txt = GoGameChoose.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI txt = GoGameChoose[0].transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
                 if(_playerData.iLanguageNbPlayer==1)
                 {
                     txt.text = "Continuer";
@@ -508,7 +573,7 @@ public class MenuManager : MonoBehaviour
             }
             else
             {
-                TextMeshProUGUI txt = GoGameChoose.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI txt = GoGameChoose[0].transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
                 if (_playerData.iLanguageNbPlayer == 1)
                 {
                     txt.text = "Nouvelle Partie";
@@ -848,6 +913,7 @@ public class MenuManager : MonoBehaviour
     }
     public void PauseMenu()
     {
+        Debug.Log("paused");
         ButtonSound();
         if (CgPauseMenu.alpha == 0f && !bActif) // On ouvre la fenetre, le jeu est en pause
         {
@@ -892,7 +958,7 @@ public class MenuManager : MonoBehaviour
             }
             else if(SceneManager.GetActiveScene().name == "SplashScreen" && bMenuOnTriggered)
             {
-                EventSystem.SetSelectedGameObject(GoGameChoose);
+                EventSystem.SetSelectedGameObject(GoGameChoose[0]);
             }
             else if (SceneManager.GetActiveScene().name == "LevelChoosing")
             {
@@ -1200,7 +1266,7 @@ public class MenuManager : MonoBehaviour
             // Speaking character goes above
             charactersImages[0].SetSiblingIndex(2); //Alors le character de droite est devant
 
-            rectBoxTextImage.anchorMin = new Vector2(0.05f, 0);
+            rectBoxTextImage.anchorMin = new Vector2(0.1f, 0);
             rectBoxTextImage.anchorMax = new Vector2(0.85f, 0.4f);
             rectBoxTextImage.offsetMax = new Vector2(0f, 0f);
             rectBoxTextImage.offsetMin = new Vector2(0f, 0f);
@@ -1217,7 +1283,7 @@ public class MenuManager : MonoBehaviour
             charactersImages[1].SetSiblingIndex(2);//Sinon le character de gauche est devant
 
             rectBoxTextImage.anchorMin = new Vector2(0.15f, 0);
-            rectBoxTextImage.anchorMax = new Vector2(0.95f, 0.4f);
+            rectBoxTextImage.anchorMax = new Vector2(0.9f, 0.4f);
             rectBoxTextImage.offsetMax = new Vector2(0f, 0f);
             rectBoxTextImage.offsetMin = new Vector2(0f, 0f);
         }

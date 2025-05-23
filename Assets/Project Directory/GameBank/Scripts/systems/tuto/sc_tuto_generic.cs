@@ -566,8 +566,10 @@ public class sc_tuto_generic : MonoBehaviour
         }
         else
         {
-            scPlayer.bisTuto = true;
+            scPlayer.bisTuto = false;
             isOnLvlTuto = false;
+            bIsOnBD = false;
+            scPlayer.menuManager.bGameIsPaused = false;
             UIGameOn();
         }
     }
