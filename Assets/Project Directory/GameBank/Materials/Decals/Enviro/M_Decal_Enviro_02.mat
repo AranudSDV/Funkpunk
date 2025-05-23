@@ -13,6 +13,7 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _GAMEPLAYORENVIRO_ON
+  - _WORLDPOSORSEED_ON
   - _XZORXY_ON
   m_InvalidKeywords:
   - _PLAYERTAGSORENVIRO_ON
@@ -59,25 +60,25 @@ Material:
     - _ErosionValue: 0
     - _GameplayOrEnviro: 1
     - _MaxOffset: 0
-    - _MaxOffset_X: 0.93
-    - _MaxOffset_Y: 1.54
+    - _MaxOffset_X: 0.86
+    - _MaxOffset_Y: 0.56
     - _MaxRotation: 0
     - _MaxScale: 5.08
     - _MaxScale_X: 4
     - _MaxScale_Y: 4
     - _MinOffset: 0
     - _MinOffset_X: -0.79
-    - _MinOffset_Y: -0.32
+    - _MinOffset_Y: -1.1
     - _MinRotation: 0
     - _MinScale: 1
     - _MinScale_X: 4
     - _MinScale_Y: 4
-    - _NumGraffiti: 12
+    - _NumGraffiti: 6
     - _PlayerTagsOrEnviro: 1
-    - _Seed: 0
+    - _Seed: 8.6
     - _SeedMultiplier: 1
     - _SeedScale: 1
-    - _WorldPosOrSeed: 0
+    - _WorldPosOrSeed: 1
     - _WorldZY: 0
     - _XZorXY: 1
     m_Colors:
