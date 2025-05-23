@@ -246,7 +246,7 @@ public class MenuManager : MonoBehaviour
     void Update()
     {
         CheckControllerStatus();
-        if (!bMenuOnTriggered && controllerConnected && control !=null && control.GamePlay.Move.triggered)
+        if (!bMenuOnTriggered && controllerConnected && control !=null && control.GamePlay.Move.triggered && SceneManager.GetActiveScene().name == "SceneSplash")
         {
             bMenuOnTriggered = true;
             if (GoGameChoose[4] == null)
@@ -277,7 +277,6 @@ public class MenuManager : MonoBehaviour
             _playerData.iLevelPlayer += 1;
             _playerData.iScorePerLvlPlayer[_playerData.iLevelPlayer-1] = 70;
         }
-        CheckDialogue();
     }
     //CHECKS AND UI CHANGES
     private void TrainAndUION()
@@ -424,6 +423,11 @@ public class MenuManager : MonoBehaviour
                 {
                     EventSystem.SetSelectedGameObject(GoPausedFirstButtonSelected);
                 }
+            }
+            else if(CgEndDialogue.alpha == 1f)
+            {
+                EventSystem.SetSelectedGameObject(rectBoxTextImage.gameObject);
+                Debug.Log("ensurance for " + EventSystem.currentSelectedGameObject);
             }
         }
     }
@@ -913,7 +917,6 @@ public class MenuManager : MonoBehaviour
     }
     public void PauseMenu()
     {
-        Debug.Log("paused");
         ButtonSound();
         if (CgPauseMenu.alpha == 0f && !bActif) // On ouvre la fenetre, le jeu est en pause
         {
@@ -944,7 +947,7 @@ public class MenuManager : MonoBehaviour
             RtPauseMenu.offsetMax = new Vector2(0f, 0f);
             RtPauseMenu.offsetMin = new Vector2(0f, 0f);
             CloseOptions(false);
-            if ((scPlayer != null && scPlayer.bisTuto == true && SceneManager.GetActiveScene().name != "Loft") || (scPlayer != null && CgScoring.alpha == 1f))
+            if ((scPlayer != null && scPlayer.bisTuto == true && SceneManager.GetActiveScene().name != "Loft") || (scPlayer != null && CgScoring.alpha == 1f) || (scPlayer != null && CgEndDialogue.alpha == 1f))
             {
                 bGameIsPaused = true;
             }
@@ -967,6 +970,7 @@ public class MenuManager : MonoBehaviour
             else
             {
                 EventSystem.SetSelectedGameObject(null);
+                SelectionEnsurance();
             }
             StartCoroutine(wait());
             if(scPlayer!=null)
@@ -1155,19 +1159,18 @@ public class MenuManager : MonoBehaviour
         }
     }
     //DIALOGUE
-    private void CheckDialogue()
+    public void CheckDialogue()
     {
-        if (bIsOnEndDialogue && bWaitNextDialogue && controllerConnected && control.GamePlay.Move.triggered)
-        {
-            bWaitNextDialogue = false;
-            BeginDialogue(false, true);
-        }
+        bWaitNextDialogue = false;
+        BeginDialogue(false, true);
     }
     public void BeginDialogue(bool first, bool bHasWon)
     {
         int iLevel = iPreviousLevelPlayed;
         if (first ==true)
         {
+            CgEndDialogue.interactable = true;
+            EventSystem.SetSelectedGameObject(rectBoxTextImage.gameObject);
             ImgEndDialogueBackground.sprite = spritesEndDialogueBackground[iLevel];
             if (bHasWon)
             {
@@ -1325,9 +1328,12 @@ public class MenuManager : MonoBehaviour
         }
         return a;
     }
-    private void EndDialogue()
+    public void EndDialogue()
     {
+        iNbTextNow = iNbDialoguePerLevelAdd[iPreviousLevelPlayed] - 1;
+        bIsOnEndDialogue = false;
         CgEndDialogue.alpha = 0f;
+        CgEndDialogue.interactable = false;
         CgEndDialogue.blocksRaycasts = false;
         RtEndDialogue.anchorMin = new Vector2(0, 1);
         RtEndDialogue.anchorMax = new Vector2(1, 2);

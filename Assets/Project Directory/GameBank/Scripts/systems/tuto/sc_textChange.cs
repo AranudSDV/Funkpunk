@@ -20,19 +20,20 @@ public class sc_textChange : MonoBehaviour
     [SerializeField] float delayBeforeStart = 0f;
     [SerializeField] float timeBtwChars = 0.06f;
     private float timeBtwCharsNow = 0.06f;
-    [SerializeField] float FastTimeBtwChars = 0.02f;
+    private float FastTimeBtwChars = 0f;
     [SerializeField] bool leadingCharBeforeDelay = false;
     [SerializeField] string leadingChar = "";
     private string writer;
-    private float f_pressed = 0f;
     private bool bnotfound;
     private bool bInitialized;
     [SerializeField] private MenuManager menuManager;
     private bool bTextWritten = false;
     private bool bTextBegon = false;
-    private float bTimerWritten = 0f;
+    private float fTimerWritten = 0f;
     private float bTimerBegon = 0f;
     private bool isControllerTriggered;
+    private Coroutine coroutine_ = null;
+    private bool bOnce = false;
 
     public void Init()
     {
@@ -79,14 +80,12 @@ public class sc_textChange : MonoBehaviour
         }
         if (bIsToTip)
         {
-            CheckKeyHold();
-            LongKeyHold();
             if (bTextWritten)
             {
-                bTimerWritten += Time.unscaledDeltaTime;
-                if (bTimerWritten >= 0.5f)
+                fTimerWritten += Time.unscaledDeltaTime;
+                if (fTimerWritten >= 0.1f)
                 {
-                    bTimerWritten = 0f;
+                    fTimerWritten = 0f;
                     bTextWritten = false;
                     menuManager.bWaitNextDialogue = true;
                 }
@@ -152,37 +151,20 @@ public class sc_textChange : MonoBehaviour
             }
         }
     }
-    private void CheckKeyHold()
+    public void SkipOrNext()
     {
-        if (menuManager!=null && menuManager.control!=null)
+        if (!bTextWritten && !bOnce)
         {
-            isControllerTriggered = menuManager.controllerConnected && menuManager.control.GamePlay.Move.ReadValue<float>() > 0.1f;
+            StopCoroutine(coroutine_);
+            tmpProText.text = "";
+            tmpProText.text = writer;
+            bTextWritten = true;
+            bOnce = true;
         }
-
-        if (isControllerTriggered)
+        else if(menuManager.bWaitNextDialogue)
         {
-            // Key or controller is being held
-            f_pressed += Time.unscaledDeltaTime;
-        }
-        else
-        {
-            // Key or controller is not being held
-            if (f_pressed > 0f)
-            {
-                f_pressed -= Time.unscaledDeltaTime;
-                if (f_pressed < 0f) f_pressed = 0f;
-            }
-        }
-    }
-    private void LongKeyHold()
-    {
-        if (f_pressed > 0)
-        {
-            timeBtwCharsNow = FastTimeBtwChars;
-        }
-        else
-        {
-            timeBtwCharsNow = timeBtwChars;
+            menuManager.CheckDialogue();
+            bOnce = false;
         }
     }
 
@@ -190,7 +172,7 @@ public class sc_textChange : MonoBehaviour
     {
         writer = sDialogue;
         tmpProText.text = "";
-        StartCoroutine("TypeWriterTMP");
+        coroutine_ = StartCoroutine("TypeWriterTMP");
     }
     private IEnumerator TypeWriterTMP()
     {
