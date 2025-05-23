@@ -216,7 +216,7 @@ GameObject:
   - component: {fileID: 14613220}
   m_Layer: 5
   m_Name: MainMenu
-  m_TagString: SceneUITarget
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1517,13 +1517,14 @@ GameObject:
   - component: {fileID: 444524136}
   - component: {fileID: 444524135}
   - component: {fileID: 444524134}
+  - component: {fileID: 444524138}
   m_Layer: 5
   m_Name: Buttons
   m_TagString: SceneUITarget
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &444524134
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1609,6 +1610,18 @@ RectTransform:
   m_AnchoredPosition: {x: 3.42, y: 2.21}
   m_SizeDelta: {x: 3, y: 1.5}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &444524138
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 444524133}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &450615337
 GameObject:
   m_ObjectHideFlags: 0
@@ -2923,6 +2936,36 @@ PrefabInstance:
       objectReference: {fileID: 1589854730}
     - target: {fileID: 269850063720091022, guid: 45351d2d758839e409953a510c2e4a78,
         type: 3}
+      propertyPath: GoGameChoose.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 269850063720091022, guid: 45351d2d758839e409953a510c2e4a78,
+        type: 3}
+      propertyPath: GoGameChoose.Array.data[0]
+      value: 
+      objectReference: {fileID: 909878887}
+    - target: {fileID: 269850063720091022, guid: 45351d2d758839e409953a510c2e4a78,
+        type: 3}
+      propertyPath: GoGameChoose.Array.data[1]
+      value: 
+      objectReference: {fileID: 1164465010}
+    - target: {fileID: 269850063720091022, guid: 45351d2d758839e409953a510c2e4a78,
+        type: 3}
+      propertyPath: GoGameChoose.Array.data[2]
+      value: 
+      objectReference: {fileID: 1783973817}
+    - target: {fileID: 269850063720091022, guid: 45351d2d758839e409953a510c2e4a78,
+        type: 3}
+      propertyPath: GoGameChoose.Array.data[3]
+      value: 
+      objectReference: {fileID: 444524133}
+    - target: {fileID: 269850063720091022, guid: 45351d2d758839e409953a510c2e4a78,
+        type: 3}
+      propertyPath: GoGameChoose.Array.data[4]
+      value: 
+      objectReference: {fileID: 1589854730}
+    - target: {fileID: 269850063720091022, guid: 45351d2d758839e409953a510c2e4a78,
+        type: 3}
       propertyPath: sDialogueFrench.Array.data[66]
       value: "Et c'est ainsi que Scraffaello et Jett Rush sauv\xE8rent le monde."
       objectReference: {fileID: 0}
@@ -3363,7 +3406,7 @@ GameObject:
   - component: {fileID: 1172163630}
   m_Layer: 0
   m_Name: Spline
-  m_TagString: Untagged
+  m_TagString: SceneUITarget
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4825,7 +4868,7 @@ GameObject:
   - component: {fileID: 1589854732}
   m_Layer: 5
   m_Name: PressAnyButtonText
-  m_TagString: Untagged
+  m_TagString: SceneUITarget
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
