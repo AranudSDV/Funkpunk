@@ -65,6 +65,7 @@ public class sc_tuto_generic : MonoBehaviour
     [SerializeField][Tooltip("Where the backtrack's Camera will switch to be the player's one")] private float tresholdZ;
     private float fSpeed = 5f;
 
+    private int iTutoInGame = 2;
     public bool bWaitNext = false;
     private bool bOnceSkip = false;
     private bool bOnceNext = false;
@@ -200,11 +201,16 @@ public class sc_tuto_generic : MonoBehaviour
                         bOnceSkip = false;
                         bOnceNext = true;
                         bOnceBubble = false;
-                        if (_y == intYGameCam || _y == intYDetectionTuto || _y == intYBaitTuto)
+                        if (_y == intYGameCam || ((_y == intYDetectionTuto || _y == intYBaitTuto) && iTutoInGame == 0))
                         {
                             bIsOnBD = false;
                             scPlayer.bisTuto = false;
                             ImuneToTuto(scPlayer.bpmManager);
+                            iTutoInGame = 2;
+                        }
+                        else if((_y == intYDetectionTuto || _y == intYBaitTuto) && iTutoInGame != 0)
+                        {
+                            iTutoInGame -= 1;
                         }
                         else if(_y == intYBoss)
                         {
@@ -269,6 +275,7 @@ public class sc_tuto_generic : MonoBehaviour
                     }
                 }
 
+                //CAMERA & IN GAME
                 if(!bIsOnLoft)
                 {
                     if (GoFollowed.transform.position.z > tresholdZ && cameraIsTracking && scPlayer.menuManager.CgPauseMenu.alpha == 0f) //CAMERA IS NOT AT THE PLAYER'S POSITION
@@ -363,6 +370,7 @@ public class sc_tuto_generic : MonoBehaviour
                     }
                     else if (bIsOnLoft && bTuto[1])
                     {
+                        CgGameUI.alpha = 1f;
                         scPlayer.menuManager.bGameIsPaused = false;
                     }
                     bWaitNext = true;
@@ -413,6 +421,11 @@ public class sc_tuto_generic : MonoBehaviour
                         cameraIsTracking = true;
                         BubbleCameraOff();
                     }
+                }
+                else if (bIsOnLoft && bTuto[1])
+                {
+                    CgGameUI.alpha = 1f;
+                    scPlayer.menuManager.bGameIsPaused = false;
                 }
                 ShowNextText(i);
                 bWaitNext = true;

@@ -76,7 +76,7 @@ public class sc_levelChoosing_ : MonoBehaviour
                 if (menuManager.EventSystem.currentSelectedGameObject == GoLevels[i] && !bNowSelected[i])
                 {
                     bNowSelected[iSelected] = false;
-                    AnimateChara(iSelected, i, 1.5f);
+                    AnimateChara(iSelected, i, 0.8f);
                     bNowSelected[i] = true;
                 }
                 else if(menuManager.EventSystem.currentSelectedGameObject != GoLevels[i] && bNowSelected[i])
@@ -115,7 +115,7 @@ public class sc_levelChoosing_ : MonoBehaviour
             menuManager.EventSystem.firstSelectedGameObject = GoLevels[iPreviousLvlDone];
             bNowSelected[iPreviousLvlDone] = true;
             iSelected = iPreviousLvlDone;
-            AnimateCharaNext(iLastLvl, _playerData.iLevelPlayer, 1.5f);
+            AnimateCharaNext(iLastLvl, _playerData.iLevelPlayer, 0.8f);
         }
         else
         {
@@ -130,7 +130,7 @@ public class sc_levelChoosing_ : MonoBehaviour
             menuManager.EventSystem.firstSelectedGameObject = GoLevels[0];
             bNowSelected[0] = true;
             iSelected = 0;
-            AnimateCharaNext(iLastLvl, _playerData.iLevelPlayer, 1.5f);
+            AnimateCharaNext(iLastLvl, _playerData.iLevelPlayer, 0.8f);
         }
     }
     private void AnimateCharaNext(int iPrevious, int next, float duration)
@@ -153,6 +153,7 @@ public class sc_levelChoosing_ : MonoBehaviour
             rectChara.offsetMax = Vector2.zero;
         });
         iSelected = next;
+        menuManager.EventSystem.SetSelectedGameObject(GoLevels[iSelected]);
     }
     private void AnimateChara(int iPrevious, int next, float duration)
     {

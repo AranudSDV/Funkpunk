@@ -280,7 +280,7 @@ public class MenuManager : MonoBehaviour
     //CHECKS AND UI CHANGES
     private void TrainAndUION()
     {
-        if (trainMenu.progress[0] > 0.65f) //le train est déjà passé
+        if (trainMenu.progress[0] > 0.52f) //le train est déjà passé
         {
             trainMenu.progress[0] = 1f;
             trainMenu.progress[1] = 1f;
@@ -294,7 +294,7 @@ public class MenuManager : MonoBehaviour
             bWaitTrain = true;
             bTrainIsHere = false;
         }
-        else if(trainMenu.progress[0] > 0.5f && trainMenu.progress[0] < 0.65f)//le train passe
+        else if(trainMenu.progress[0] > 0.51f && trainMenu.progress[0] < 0.519f)//le train passe
         {
             bWaitTrain = false;
             bTrainIsHere = true;

@@ -31,6 +31,7 @@ public class SC_Player : Singleton<SC_Player>
     public BPM_Manager bpmManager;
     public sc_tuto_generic tutoGen = null;
     [SerializeField] private CanvasGroup CgInGame;
+    [SerializeField] private Transform inputDirIndicator;
 
     //LES CHALLENGES
     private bool bHasBeenDetectedOneTime = false;
@@ -308,8 +309,7 @@ public class SC_Player : Singleton<SC_Player>
         else
             direction = Vector3.forward; // Up (wraparound)
 
-
-        Debug.DrawRay(transform.position, direction * 3f);
+        inputDirIndicator.forward = directionAligned;
 
         return direction;
     }
