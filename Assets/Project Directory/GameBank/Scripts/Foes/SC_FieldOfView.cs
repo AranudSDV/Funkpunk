@@ -339,6 +339,7 @@ public class SC_FieldOfView : MonoBehaviour
     {
         if (bIsDisabled)
         {
+            BCanSee = false; //Ne voit pas
             Go_vfx_Suspicious.transform.localPosition = new Vector3(pos_vfx_supicious.x, -50f, pos_vfx_supicious.z);
             PS_Suspicious.Stop();
             Go_vfx_detected.transform.localPosition = new Vector3(pos_vfx_detected.x, -50f, pos_vfx_detected.z);

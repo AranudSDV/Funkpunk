@@ -55,8 +55,11 @@ MonoBehaviour:
   scPlayer: {fileID: 0}
   bpmManager: {fileID: 0}
   sc_juice: {fileID: 2885867899703116664}
+  bOnFoe: 0
   newPos: {x: 0, y: 0, z: 0}
   midPos: {x: 0, y: 0, z: 0}
+  beginY: 0
+  beginVect: {x: 0, y: 0, z: 0}
   bIsBeingThrown: 0
   mThrown: {fileID: 2100000, guid: 7f01bbc094cfe1045af7b469f7f69313, type: 2}
   mNotThrown: {fileID: 2100000, guid: fd38c9a3a090e6f479060e9c58bd8c7a, type: 2}
@@ -72,6 +75,7 @@ MonoBehaviour:
   fPosBase_trail: {x: 0, y: 0, z: -0.394}
   Go_vfxIdle: {fileID: 8903709527033968502}
   fPosBase_idlel: {x: 0, y: -0.5, z: 0}
+  b_BeenThrown: 0
 --- !u!65 &378598364566265932
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -141,7 +145,7 @@ PrefabInstance:
     - target: {fileID: 4266101172327941630, guid: 484c31cb460b5bc47afa8ed71e684946,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 50
+      value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 4266101172327941630, guid: 484c31cb460b5bc47afa8ed71e684946,
         type: 3}
@@ -231,7 +235,7 @@ PrefabInstance:
     - target: {fileID: 9136137897430332579, guid: 0f70a15724a91034ea796a5c05350251,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 50
+      value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 9136137897430332579, guid: 0f70a15724a91034ea796a5c05350251,
         type: 3}
@@ -300,7 +304,7 @@ PrefabInstance:
     - target: {fileID: 4163254944712931053, guid: 9c1c03b7df2edaa4087f872aeb9e5284,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 51
+      value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 4163254944712931053, guid: 9c1c03b7df2edaa4087f872aeb9e5284,
         type: 3}
@@ -420,7 +424,7 @@ PrefabInstance:
     - target: {fileID: 6311353030828682193, guid: bc38246a3ce32c447aaa99c4c8661d02,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 49.5
+      value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 6311353030828682193, guid: bc38246a3ce32c447aaa99c4c8661d02,
         type: 3}
@@ -616,6 +620,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99c69cc8212cee644bc9b58213c29947, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startY: 0
+  originalScale: {x: 0, y: 0, z: 0}
   bounceHeight: 0.2
   scaleMultiplier: 0.9
 --- !u!1001 &8183726526561499231

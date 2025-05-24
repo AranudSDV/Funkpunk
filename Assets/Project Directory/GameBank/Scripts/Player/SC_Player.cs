@@ -331,11 +331,6 @@ public class SC_Player : Singleton<SC_Player>
     }
 
     //VERIFIER LE MOUVEMENT
-    Vector3 hector;
-    private void OnDrawGizmos()
-        {
-            Gizmos.DrawWireSphere(hector, 0.35f);
-        }
 public void CheckForward(Vector3 vectDir, float fRange)
     {
         if (fRange == taggingRange)
@@ -344,7 +339,6 @@ public void CheckForward(Vector3 vectDir, float fRange)
             if (vectDir.x != 0f && vectDir.z != 0f) // Diagonal movement
             {
                 Vector3 diagonalCheckPosition = new Vector3(transform.position.x, transform.position.y-0.5f, transform.position.z) + (vectDir * 1.5f);
-                hector = diagonalCheckPosition;
                 // Use OverlapSphere to check for colliders at the diagonal position
                 Collider[] intersecting = Physics.OverlapSphere(diagonalCheckPosition, 0.35f, LMask); 
                 bool canMoveDiagonally = false;
@@ -543,7 +537,6 @@ public void CheckForward(Vector3 vectDir, float fRange)
             else
             {
                 Vector3 CheckPosition = new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z) + vectDir;
-                hector = CheckPosition;
                 // Use OverlapSphere to check for colliders at the diagonal position
                 Collider[] intersecting = Physics.OverlapSphere(CheckPosition, 0.35f, LMask);
                 bool canMoveFront = false;
@@ -551,7 +544,6 @@ public void CheckForward(Vector3 vectDir, float fRange)
                 {
                     foreach (Collider collider in intersecting)
                     {
-
                         if (collider.CompareTag("Tagging")) //c'est un mur à tagger
                         {
                             bIsBeingAnimated = true;
@@ -713,7 +705,7 @@ public void CheckForward(Vector3 vectDir, float fRange)
                                 menuManager.LoadScene("Scenes/World/LevelChoosing");
                             }
                         }
-                        else if(collider.CompareTag("Bait"))
+                        else if(collider.CompareTag("Bait") || (collider.CompareTag("Untagged") && collider.gameObject.name == "BossDoor"))
                         {
                             canMoveFront = true;
                         }
@@ -946,6 +938,7 @@ public void CheckForward(Vector3 vectDir, float fRange)
     private void BossDoor(BoxCollider collider, GameObject goDoor, CinemachineVirtualCamera cam)
     {
         menuManager.bGameIsPaused = true;
+        collider.gameObject.tag = "Untagged";
         bIsImune = true;
         collider.isTrigger = true;
         cam.Priority = 20;
@@ -954,7 +947,6 @@ public void CheckForward(Vector3 vectDir, float fRange)
         sequenceDoor.OnComplete(() =>
         {
             cam.Priority = 2;
-            goDoor.tag = "Untagged";
             DG.Tweening.Sequence sequenceDoor1 = DOTween.Sequence();
             sequenceDoor1.AppendInterval(2f);
             sequenceDoor1.OnComplete(() =>
@@ -972,11 +964,12 @@ public void CheckForward(Vector3 vectDir, float fRange)
         sequenceDoor.OnComplete(() =>
         {
             boxColliderBoss.isTrigger = false;
+            boxColliderBoss.gameObject.tag = "Wall";
             menuManager.bGameIsPaused = true;
             bIsImune = true;
             DoorCam.m_LookAt = null;
-            DoorCam.transform.position = new Vector3(76.99f, 6.94f, 81.87f);
-            DoorCam.transform.rotation = Quaternion.Euler(10.03f, -74.4f, 0f);
+            DoorCam.transform.position = new Vector3(73.61456f, 9.834801f, 83.07201f);
+            DoorCam.transform.rotation = Quaternion.Euler(40.03f, -74.4f, 0f);
             DoorCam.Priority = 20;
             DG.Tweening.Sequence sequenceDoor1 = DOTween.Sequence();
             sequenceDoor1.Append(goDoor.transform.DORotate(new Vector3(0, 0, 90), 3f));
