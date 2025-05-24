@@ -78,7 +78,7 @@ MonoBehaviour:
   Go_vfx_disable: {fileID: 6882484700896804385}
   pos_vfx_disable: {x: 0, y: 0, z: 0}
   Go_vfx_coneVision: {fileID: 4079834716028363439}
-  pos_vfx_coneVision: {x: 0, y: 0, z: 0}
+  pos_vfx_coneVision: {x: 0, y: 0, z: 0.5}
   Go_vfx_Suspicious: {fileID: 5313263214736159296}
   pos_vfx_supicious: {x: 0, y: 0, z: 0}
   PS_Suspicious: {fileID: 7803491783257224635}
