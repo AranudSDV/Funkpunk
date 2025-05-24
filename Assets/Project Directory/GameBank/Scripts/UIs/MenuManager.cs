@@ -967,6 +967,10 @@ public class MenuManager : MonoBehaviour
             {
                 EventSystem.SetSelectedGameObject(GoLevelsButton[0]);
             }
+            else if(CgEndDialogue.alpha == 1f)
+            {
+                EventSystem.SetSelectedGameObject(rectBoxTextImage.gameObject);
+            }
             else
             {
                 EventSystem.SetSelectedGameObject(null);

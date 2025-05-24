@@ -21,7 +21,7 @@ public class sc_levelChoosing_ : MonoBehaviour
     [SerializeField] private GameObject[] GoLevels;
     [SerializeField] private UnityEngine.UI.Image imBackground;
     [SerializeField] private Sprite[] sprites_Background;
-    private bool[] bNowSelected = new bool[4] { false,false,false,false};
+    private bool[] bNowSelected = new bool[5] { false,false,false,false, false};
     private int iSelected = 0;
 
     private float jumpHeight = 50f;       // how high the image jumps
@@ -71,7 +71,7 @@ public class sc_levelChoosing_ : MonoBehaviour
         }
         if (menuManager != null)
         {
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 5; i++)
             {
                 if (menuManager.EventSystem.currentSelectedGameObject == GoLevels[i] && !bNowSelected[i])
                 {

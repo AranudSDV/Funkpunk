@@ -32,6 +32,7 @@ public class SC_Player : Singleton<SC_Player>
     public BPM_Manager bpmManager;
     public sc_tuto_generic tutoGen = null;
     [SerializeField] private CanvasGroup CgInGame;
+    public GameObject GoCanvasArrow;
 
     //LES CHALLENGES
     private bool bHasBeenDetectedOneTime = false;

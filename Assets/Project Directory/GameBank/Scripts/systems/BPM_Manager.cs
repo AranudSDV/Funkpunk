@@ -11,6 +11,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 public class BPM_Manager : MonoBehaviour
 {
@@ -511,6 +512,14 @@ public class BPM_Manager : MonoBehaviour
     private void MusicNotesMovingStart()
     {
         float canvas = (FTiming[3]+ FTiming[0] )/ FSPB;
+        if(scPlayer != null)
+        {
+            DG.Tweening.Sequence sequence = DOTween.Sequence();
+            sequence.Append(scPlayer.GoCanvasArrow.transform.DOScale(1.27f, 2f*FSPB/3f)
+            .SetEase(Ease.OutCirc));
+            sequence.Append(scPlayer.GoCanvasArrow.transform.DOScale(0.79f, FSPB / 3f)
+            .SetEase(Ease.InExpo));
+        }
         if (i_B == 1)
         {
             goNoteRight[0].anchoredPosition = new Vector2(newPos.x * (1 + 3 * canvas), 0f);
