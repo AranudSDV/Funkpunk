@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_SHEET_PLEK_01A 2
+  m_Name: M_PAK_01A
   m_Shader: {fileID: 4800000, guid: 7a05bef0144df2a4bb13a8cb2470e854, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -32,7 +32,13 @@ Material:
   - _USINGYMOVE_ON
   - _USINGYSCALE1_ON
   - _USINGYSCALE_ON
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - _MOVEX_ON
+  - _SCALEX_ON
+  - _SCALEY_ON
+  - _USINGX_ON
+  - _USINGY1_ON
+  - _USINGY_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -52,7 +58,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BackTex:
-        m_Texture: {fileID: 2800000, guid: 8d87401656d0ff64cb6e5a9ed9176d2a, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -76,7 +82,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DissolveTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 2d6feab26a948a540b313c2253379a91, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
@@ -84,11 +90,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _FrontTex:
-        m_Texture: {fileID: 2800000, guid: 8d87401656d0ff64cb6e5a9ed9176d2a, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: c83ab0e2dff01e14faf157f86601ec66, type: 3}
+        m_Texture: {fileID: 2800000, guid: 3c624cdfa9d8081419d4e738d53573e2, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskTex:
@@ -100,7 +106,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MidTex:
-        m_Texture: {fileID: 2800000, guid: 8d87401656d0ff64cb6e5a9ed9176d2a, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
@@ -121,6 +127,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _Texture2D:
         m_Texture: {fileID: 2800000, guid: e3fee37b9c63d4e48a7e05122615dfdb, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample0:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -145,7 +159,9 @@ Material:
     - _AlphaClip: 0
     - _AlphaCutoff: 0.5
     - _AlphaToMask: 0
-    - _Alphacliptresh: -0.3
+    - _Alphacliptresh: 0
+    - _BPM: 120
+    - _BaseOpacity: 1
     - _Blend: 2
     - _BlendModePreserveSpecular: 0
     - _BumpScale: 1
@@ -159,18 +175,21 @@ Material:
     - _DstBlendAlpha: 1
     - _EnableExternalAlpha: 0
     - _EnvironmentReflections: 1
-    - _G_BaseOpacity: 0.5109974
-    - _G_FadeSmooth: 1
+    - _G_BaseOpacity: 1
+    - _G_FadeSmooth: 1.31
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _HandleColors: 1
     - _IsVerticalOrLateral: 0
-    - _MaxSizeX: 1
-    - _MaxSizeY: 1
+    - _MaxSizeX: 1.5
+    - _MaxSizeY: 1.5
+    - _MaxSizeY1: 1.5
     - _Metallic: 0
-    - _MinSizeX: 2
-    - _MinSizeY: 2
+    - _MinSizeX: 1.5
+    - _MinSizeY: 1.5
+    - _MinSizeY1: 1.1
+    - _MoveX: 1
     - _NoColorsWhiteValue: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.005
@@ -180,6 +199,8 @@ Material:
     - _R_Fadesmooth: 1.25
     - _ReceiveShadows: 1
     - _RotaPower: 0.05
+    - _ScaleX: 1
+    - _ScaleY: 1
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -188,9 +209,12 @@ Material:
     - _Surface: 1
     - _TimeDelay: 0
     - _UpLorDownR: 0
+    - _UsingX: 1
     - _UsingXMove: 1
     - _UsingXScale: 1
     - _UsingXScale1: 1
+    - _UsingY: 1
+    - _UsingY1: 1
     - _UsingYMove: 1
     - _UsingYScale: 1
     - _UsingYScale1: 1
@@ -198,10 +222,10 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 0
     m_Colors:
-    - _Back: {r: 0, g: 1, b: 0.7048147, a: 0}
+    - _Back: {r: 0.31760997, g: 1, b: 0.79929703, a: 0}
     - _Back02: {r: 1, g: 0, b: 0, a: 0}
     - _Back03: {r: 1, g: 0.9882626, b: 0, a: 0}
-    - _BackGroundColor: {r: 0, g: 0.064112164, b: 1, a: 0}
+    - _BackGroundColor: {r: 0.09101694, g: 0.116086684, b: 0.49056602, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
@@ -209,13 +233,14 @@ Material:
     - _Front: {r: 1, g: 0, b: 0, a: 0}
     - _Front02: {r: 0, g: 1, b: 0.7048147, a: 0}
     - _Front03: {r: 1, g: 0, b: 0.058454476, a: 0}
-    - _MainColor: {r: 0.33507842, g: 3.9999995, b: 2.1893277, a: 0}
+    - _MainColor: {r: 3.5648696, g: 1.0265331, b: 0, a: 0}
     - _MainTexTiling: {r: 0, g: 0, b: 0, a: 0}
+    - _MaxSize: {r: 1, g: 1, b: 0, a: 0}
+    - _MaxSizePos: {r: 0, g: 0, b: 0, a: 0}
     - _Mid: {r: 0.6812992, g: 0, b: 1, a: 0}
     - _Mid02: {r: 0, g: 1, b: 0.9647675, a: 0}
     - _Mid03: {r: 0.6812992, g: 0, b: 1, a: 0}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _SubColor: {r: 0.5093213, g: 0, b: 3.5648696, a: 0}
-    - _SubColor1: {r: 1.973566, g: 0, b: 4, a: 0}
+    - _SubColor: {r: 3.5648696, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

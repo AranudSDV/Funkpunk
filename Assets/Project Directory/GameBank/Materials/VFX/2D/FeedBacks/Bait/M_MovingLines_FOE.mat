@@ -92,6 +92,8 @@ Material:
     - _Alphacliptresh: 0
     - _BPM: 120
     - _BaseOpacity: 1
+    - _G_BaseOpacity: 0.5
+    - _G_FadeSmooth: 1
     - _HandleColors: 1
     - _IsVerticalOrLateral: 1
     - _IsVerticalOrLateral1: 0
@@ -105,6 +107,9 @@ Material:
     - _NoColorsWhiteValue: 1
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _R_BaseOpacity: 1
+    - _R_Fadesmooth: 1.25
+    - _RotaPower: 0.05
     - _ScaleX: 1
     - _ScaleY: 1
     - _TimeDelay: 0
@@ -128,7 +133,7 @@ Material:
     - _Front: {r: 1, g: 0, b: 0, a: 0}
     - _Front02: {r: 0, g: 1, b: 0.7048147, a: 0}
     - _Front03: {r: 1, g: 0, b: 0.058454476, a: 0}
-    - _MainColor: {r: 0.39549592, g: 2.115898, b: 0, a: 1}
+    - _MainColor: {r: 1.2100219, g: 2.9960785, b: 0, a: 1}
     - _MainTexOffset: {r: 0, g: 0, b: 0, a: 0}
     - _MainTexTiling: {r: 1, g: 1, b: 0, a: 0}
     - _MaxSize: {r: 1, g: 1, b: 0, a: 0}
@@ -136,4 +141,5 @@ Material:
     - _Mid: {r: 0.6812992, g: 0, b: 1, a: 0}
     - _Mid02: {r: 0, g: 1, b: 0.9647675, a: 0}
     - _Mid03: {r: 0.6812992, g: 0, b: 1, a: 0}
+    - _SubColor: {r: 0.45166788, g: 0, b: 1.4980392, a: 0}
   m_BuildTextureStacks: []
