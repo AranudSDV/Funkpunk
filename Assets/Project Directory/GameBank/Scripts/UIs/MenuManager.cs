@@ -1168,41 +1168,43 @@ public class MenuManager : MonoBehaviour
         bWaitNextDialogue = false;
         BeginDialogue(false, true);
     }
+    private int iLevelDialogue;
     public void BeginDialogue(bool first, bool bHasWon)
     {
-        int iLevel = iPreviousLevelPlayed;
-        if (first ==true)
+        if (first == true)
         {
+            iLevelDialogue = iPreviousLevelPlayed;
             CgEndDialogue.interactable = true;
             EventSystem.SetSelectedGameObject(rectBoxTextImage.gameObject);
-            ImgEndDialogueBackground.sprite = spritesEndDialogueBackground[iLevel];
+            ImgEndDialogueBackground.sprite = spritesEndDialogueBackground[iLevelDialogue];
             if (bHasWon)
             {
                 bIsOnEndDialogue = true;
-                if (iLevel != 0)
+                if (iLevelDialogue != 0)
                 {
-                    iNbTextNow = iNbDialoguePerLevelAdd[iLevel - 1];
+                    if (iLevelDialogue == 3)
+                    {
+                        int iAllStars = _playerData.iStarsPlayer[1] + _playerData.iStarsPlayer[6] + _playerData.iStarsPlayer[11];
+                        if (iAllStars == 3)
+                        {
+                            iLevelDialogue = 5;
+                        }
+                        else
+                        {
+                            iLevelDialogue = 4;
+                        }
+                    }
+                    iNbTextNow = iNbDialoguePerLevelAdd[iLevelDialogue - 1];
+                    Debug.Log(iNbTextNow);
                 }
                 else
                 {
-                    iNbTextNow = 0;
+                    iNbTextNow = 0; 
                 }
-                if (iLevel == 3)
-                {
-                    int iAllStars = _playerData.iStarsPlayer[1] + _playerData.iStarsPlayer[6] + _playerData.iStarsPlayer[11];
-                    if (iAllStars == 3)
-                    {
-                        iLevel = 5;
-                    }
-                    else
-                    {
-                        iLevel = 4;
-                    }
-                }
-                }
+            }
             else
             {
-                if(iLevel != 3)
+                if (iLevelDialogue != 3)
                 {
                     CgEndDialogue.alpha = 0f;
                     CgEndDialogue.blocksRaycasts = false;
@@ -1214,18 +1216,20 @@ public class MenuManager : MonoBehaviour
                 }
                 else
                 {
-                    iLevel = 3;
+                    iLevelDialogue = 3;
                 }
             }
         }
-        if (iNbTextNow == iNbDialoguePerLevelAdd[iLevel] -1)
+        if (iNbTextNow == iNbDialoguePerLevelAdd[iLevelDialogue] -1)
         {
+            Debug.Log("end dialogue");
             EndDialogue();
             bIsOnEndDialogue = false;
         }
         else
         {
-            NextBox(_playerData.iLanguageNbPlayer, first, iLevel);
+            Debug.Log("next");
+            NextBox(_playerData.iLanguageNbPlayer, first, iLevelDialogue);
         }
     }
     private void NextBox(int iLanguage, bool bIsFirst, int iLevel)
@@ -1233,6 +1237,7 @@ public class MenuManager : MonoBehaviour
         if (!bIsFirst)
         {
             iNbTextNow += 1;
+            Debug.Log(iNbTextNow);
         }
         else
         {
@@ -1242,7 +1247,7 @@ public class MenuManager : MonoBehaviour
             }
             else
             {
-                iNbTextNow = iNbDialoguePerLevel[iLevel - 1];
+                iNbTextNow = iNbDialoguePerLevelAdd[iLevel - 1];
             }
         }
         SetSpeaker(iCharaToSpeakPerTextes[iNbTextNow], iCharaToNotSpeakPerTextes[iNbTextNow], iLevel);
@@ -1298,11 +1303,11 @@ public class MenuManager : MonoBehaviour
     private int[] RightIntSpeakerAndNot(int speakingCharacterIndex, int notSpeakingCharacterIndex)
     {
         int[] a = new int[2];
-        if (speakingCharacterIndex <= 2) //Jett
+        if (speakingCharacterIndex <= 2 || (speakingCharacterIndex>=10&& speakingCharacterIndex <=12)) //Jett
         {
             a[0] = 0;
         }
-        else if (speakingCharacterIndex > 2 && speakingCharacterIndex <= 5)
+        else if ((speakingCharacterIndex > 2 && speakingCharacterIndex <= 5) || speakingCharacterIndex >= 13)
         {
             a[0] = 1;
         }
@@ -1310,11 +1315,12 @@ public class MenuManager : MonoBehaviour
         {
             a[0] = 2;
         }
-        else
+        else if (speakingCharacterIndex > 7 && speakingCharacterIndex <= 9)
         {
             a[0] = 3;
         }
-        if (notSpeakingCharacterIndex <= 2) //Jett
+
+        if (notSpeakingCharacterIndex <= 2 || notSpeakingCharacterIndex>=10) //Jett
         {
             a[1] = 0;
         }
@@ -1326,7 +1332,7 @@ public class MenuManager : MonoBehaviour
         {
             a[1] = 2;
         }
-        else
+        else if (notSpeakingCharacterIndex > 7 && notSpeakingCharacterIndex <= 9)
         {
             a[1] = 3;
         }
