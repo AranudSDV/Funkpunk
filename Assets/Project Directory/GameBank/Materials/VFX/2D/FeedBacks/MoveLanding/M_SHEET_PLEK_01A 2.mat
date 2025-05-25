@@ -25,7 +25,8 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _HANDLECOLORS_ON
+  - _2ALPHAS_ON
+  - _ISVERTICALORLATERAL_ON
   - _USINGXMOVE_ON
   - _USINGXSCALE1_ON
   - _USINGXSCALE_ON
@@ -52,7 +53,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BackTex:
-        m_Texture: {fileID: 2800000, guid: 8d87401656d0ff64cb6e5a9ed9176d2a, type: 3}
+        m_Texture: {fileID: 2800000, guid: c83ab0e2dff01e14faf157f86601ec66, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -76,7 +77,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DissolveTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 28e2076c06225f24bae099e114eb9cc3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
@@ -139,13 +140,13 @@ Material:
     m_Floats:
     - PixelSnap: 0
     - _1Tex: 0
-    - _2Alphas: 0
+    - _2Alphas: 1
     - _2Tex: 0
     - _3Tex: 0
     - _AlphaClip: 0
     - _AlphaCutoff: 0.5
     - _AlphaToMask: 0
-    - _Alphacliptresh: -0.3
+    - _Alphacliptresh: 0.001
     - _Blend: 2
     - _BlendModePreserveSpecular: 0
     - _BumpScale: 1
@@ -153,19 +154,20 @@ Material:
     - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _Cutoff: 0.5
+    - _Debug: 0
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 1
     - _DstBlendAlpha: 1
     - _EnableExternalAlpha: 0
     - _EnvironmentReflections: 1
-    - _G_BaseOpacity: 0.5109974
+    - _G_BaseOpacity: 1
     - _G_FadeSmooth: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _HandleColors: 1
-    - _IsVerticalOrLateral: 0
+    - _HandleColors: 0
+    - _IsVerticalOrLateral: 1
     - _MaxSizeX: 1
     - _MaxSizeY: 1
     - _Metallic: 0
@@ -209,13 +211,13 @@ Material:
     - _Front: {r: 1, g: 0, b: 0, a: 0}
     - _Front02: {r: 0, g: 1, b: 0.7048147, a: 0}
     - _Front03: {r: 1, g: 0, b: 0.058454476, a: 0}
-    - _MainColor: {r: 0.33507842, g: 3.9999995, b: 2.1893277, a: 0}
+    - _MainColor: {r: 0.17746988, g: 2.1185474, b: 1.1595488, a: 0}
     - _MainTexTiling: {r: 0, g: 0, b: 0, a: 0}
     - _Mid: {r: 0.6812992, g: 0, b: 1, a: 0}
     - _Mid02: {r: 0, g: 1, b: 0.9647675, a: 0}
     - _Mid03: {r: 0.6812992, g: 0, b: 1, a: 0}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _SubColor: {r: 0.5093213, g: 0, b: 3.5648696, a: 0}
-    - _SubColor1: {r: 1.973566, g: 0, b: 4, a: 0}
+    - _SubColor: {r: 0.42805675, g: 0, b: 2.9960785, a: 0}
+    - _SubColor1: {r: 1.4782398, g: 0, b: 2.9960787, a: 0}
   m_BuildTextureStacks: []
