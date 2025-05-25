@@ -87,7 +87,7 @@ Material:
     - _3Tex: 0
     - _Alpha: 1
     - _AlphaCutoff: 0.5
-    - _Alphacliptresh: 0.01
+    - _Alphacliptresh: 0.1
     - _BPM: 120
     - _BaseOpacity: 1
     - _ErosionSmoothness: 1
@@ -131,7 +131,7 @@ Material:
     - _Front: {r: 0, g: 1, b: 0.7048147, a: 0}
     - _Front02: {r: 1, g: 0, b: 0, a: 0}
     - _Front03: {r: 1, g: 0.9882626, b: 0, a: 0}
-    - _MainColor: {r: 2, g: 0, b: 0, a: 0}
+    - _MainColor: {r: 1.3671875, g: 0, b: 4, a: 0}
     - _MainTexOffset: {r: 0, g: 0, b: 0, a: 0}
     - _MainTexTiling: {r: 1, g: 1, b: 0, a: 0}
     - _MainTexTiling1: {r: 1, g: 1, b: 0, a: 0}
@@ -140,6 +140,6 @@ Material:
     - _Mid: {r: 0.6812992, g: 0, b: 1, a: 0}
     - _Mid02: {r: 0, g: 1, b: 0.9647675, a: 0}
     - _Mid03: {r: 0.6812992, g: 0, b: 1, a: 0}
-    - _SubColor: {r: 0, g: 2.670157, b: 1.1998347, a: 0}
-    - _SubColor1: {r: 1.4307376, g: 0.75392663, b: 7.999999, a: 0}
+    - _SubColor: {r: 0, g: 2.996078, b: 1.3462874, a: 0}
+    - _SubColor1: {r: 0.42409366, g: 0, b: 2.9960785, a: 0}
   m_BuildTextureStacks: []
