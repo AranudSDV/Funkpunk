@@ -16,7 +16,7 @@ public class SplineTrainMover_WithSpacing002 : MonoBehaviour
 
     [Header("Spacing")]
     [Tooltip("Normalized spacing along the spline between consecutive cars (0-1).")]
-    [Range(0f, 1f)]
+    
     public float spacing = 0.1f;
 
     [Header("Pause Settings")]
