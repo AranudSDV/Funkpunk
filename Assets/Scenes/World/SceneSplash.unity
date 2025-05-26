@@ -4547,11 +4547,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 269850063720091022, guid: 45351d2d758839e409953a510c2e4a78,
         type: 3}
-      propertyPath: GoGameChoose.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 269850063720091022, guid: 45351d2d758839e409953a510c2e4a78,
-        type: 3}
       propertyPath: GoGameChoose.Array.data[0]
       value: 
       objectReference: {fileID: 909878887}

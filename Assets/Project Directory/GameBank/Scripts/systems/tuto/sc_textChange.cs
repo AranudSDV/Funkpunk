@@ -86,7 +86,6 @@ public class sc_textChange : MonoBehaviour
                 if (fTimerWritten >= 0.1f)
                 {
                     fTimerWritten = 0f;
-                    bTextWritten = false;
                     menuManager.bWaitNextDialogue = true;
                 }
             }
@@ -164,6 +163,7 @@ public class sc_textChange : MonoBehaviour
         else if(menuManager.bWaitNextDialogue)
         {
             menuManager.CheckDialogue();
+            bTextWritten = false;
             bOnce = false;
         }
     }
@@ -195,7 +195,7 @@ public class sc_textChange : MonoBehaviour
         }
         if(tmpProText.text == writer)
         {
-            bTextWritten = true;
+            bTextWritten = true; 
         }
     }
 }

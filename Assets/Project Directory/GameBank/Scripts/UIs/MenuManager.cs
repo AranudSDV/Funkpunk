@@ -254,7 +254,7 @@ public class MenuManager : MonoBehaviour
             {
                 Debug.Log("null");
             }
-            GoGameChoose[4].transform.GetComponent<Image>().color = new Color32(255, 255, 255, 0);
+            GoGameChoose[4].transform.GetComponent<UnityEngine.UI.Image>().color = new Color32(255, 255, 255, 0);
             TrainAndUION();
             //LoadScene(sSceneToLoad);
         }
@@ -531,7 +531,7 @@ public class MenuManager : MonoBehaviour
                     {
                         GoGameChoose[3] = GoTargetUI[i];
                     }
-                    else if (GoTargetUI[i].name == "PressAnyButtonText")
+                    else if (GoTargetUI[i].name == "PressAnyButtonImage")
                     {
                         GoGameChoose[4] = GoTargetUI[i];
                     }
@@ -540,7 +540,7 @@ public class MenuManager : MonoBehaviour
                         trainMenu = GoTargetUI[i].transform.GetComponent< SplineTrainMover_WithSpacing>();
                     }
                 }
-                GoGameChoose[4].transform.GetComponent<TextMeshProUGUI>().color = new Color32(255,255,255,255);
+                GoGameChoose[4].transform.GetComponent<UnityEngine.UI.Image>().color = new Color32(255,255,255,255);
                 GoGameChoose[3].transform.GetComponent<CanvasGroup>().alpha = 0f;
                 GoLevelsButton = null;
                 _levels = null;
