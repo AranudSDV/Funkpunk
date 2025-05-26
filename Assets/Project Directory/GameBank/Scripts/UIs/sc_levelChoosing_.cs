@@ -20,7 +20,7 @@ public class sc_levelChoosing_ : MonoBehaviour
     private bool bBegin = false;
     [SerializeField] private GameObject[] GoLevels;
     [SerializeField] private UnityEngine.UI.Image imBackground;
-    [SerializeField] private Sprite[] sprites_Background;
+    [SerializeField] private Material[] sprites_Background;
     private bool[] bNowSelected = new bool[5] { false,false,false,false, false};
     private int iSelected = 0;
 
@@ -49,7 +49,7 @@ public class sc_levelChoosing_ : MonoBehaviour
         GameObject goMenu = GameObject.FindWithTag("Manager");
         menuManager = goMenu.GetComponent<MenuManager>();
         _playerData = goMenu.GetComponent<PlayerData>();
-        imBackground.sprite = sprites_Background[_playerData.iLevelPlayer];
+        imBackground.material = sprites_Background[_playerData.iLevelPlayer];
         StartCoroutine(WaitAndAnimate());
     }
     private IEnumerator WaitAndAnimate()
