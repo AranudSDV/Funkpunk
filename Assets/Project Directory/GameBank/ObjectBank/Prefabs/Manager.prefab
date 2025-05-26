@@ -248,6 +248,7 @@ MonoBehaviour:
   GoScoringFirstButtonSelected: {fileID: 2042124641858762371}
   GoPausedFirstButtonSelected: {fileID: 8117903037627878143}
   trainMenu: {fileID: 0}
+  textBravo: {fileID: 8373245632685140220}
   txt_Title: {fileID: 5259525979806897907}
   CgScoring: {fileID: 1877356355425069567}
   RtScoring: {fileID: 3803594740852749823}
@@ -269,8 +270,8 @@ MonoBehaviour:
   spritesEndDialogueBackground:
   - {fileID: 21300000, guid: fde9d9a6f2d90134aaf938d62b18dcab, type: 3}
   - {fileID: 21300000, guid: 692dad68630287647987e84522c8de08, type: 3}
-  - {fileID: 21300000, guid: ebe493f662bb11b46aaf265391ec4100, type: 3}
-  - {fileID: 21300000, guid: 011849293e53aaf4eb58e3d8a2dac788, type: 3}
+  - {fileID: 21300000, guid: 00bb49a98941c0f4c9cea4fa3686a63b, type: 3}
+  - {fileID: 21300000, guid: 6575271c50107664b8286354c6535925, type: 3}
   spritesEndDialogueCharacters:
   - {fileID: 21300000, guid: 4310878f075d5f14b925c43fb1d578d5, type: 3}
   - {fileID: 21300000, guid: dbc4be519d68def48b0590fc6898c23f, type: 3}
@@ -10130,8 +10131,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 16777215
+  m_fontColor: {r: 1, g: 1, b: 1, a: 0}
   m_enableVertexGradient: 1
   m_colorMode: 3
   m_fontColorGradient:

@@ -39,7 +39,7 @@ public class sc_textChange : MonoBehaviour
     {
         if (!bIsOnManager)
         {
-            if (SceneManager.GetActiveScene().name == "SceneLvl1" || SceneManager.GetActiveScene().name == "SceneLvl0" || SceneManager.GetActiveScene().name == "Loft")
+            if (SceneManager.GetActiveScene().name == "SceneLvl1" || SceneManager.GetActiveScene().name == "SceneLvl0" || SceneManager.GetActiveScene().name == "SceneLvl2" || SceneManager.GetActiveScene().name == "SceneLvl3" || SceneManager.GetActiveScene().name == "Loft")
             {
                 if (scPlayer != null)
                 {
@@ -52,7 +52,7 @@ public class sc_textChange : MonoBehaviour
             }
         }
 
-        if (SceneManager.GetActiveScene().name == "GameChoose" || bnotfound)
+        if (SceneManager.GetActiveScene().name == "GameChoose" || SceneManager.GetActiveScene().name == "SceneSplash" || bnotfound)
         {
             _playerData = GameObject.FindWithTag("Manager").transform.GetComponent<PlayerData>();
         }
@@ -98,7 +98,11 @@ public class sc_textChange : MonoBehaviour
             }
             if(!bIsDifficulty)
             {
-                if (_playerData == null && (SceneManager.GetActiveScene().name == "SceneLvl1" || SceneManager.GetActiveScene().name == "SceneLvl0") && !bIsOnManager)
+                if (scPlayer != null && _playerData == null && (SceneManager.GetActiveScene().name == "SceneLvl1" || SceneManager.GetActiveScene().name == "SceneLvl0" || SceneManager.GetActiveScene().name == "SceneLvl2" || SceneManager.GetActiveScene().name == "SceneLvl3") && !bIsOnManager)
+                {
+                    _playerData = scPlayer.menuManager.gameObject.transform.GetComponent<PlayerData>();
+                }
+                else if(_playerData == null && SceneManager.GetActiveScene().name == "SceneSplash"&& !bIsOnManager)
                 {
                     _playerData = scPlayer.menuManager.gameObject.transform.GetComponent<PlayerData>();
                 }
@@ -113,9 +117,13 @@ public class sc_textChange : MonoBehaviour
             }
             else
             {
-                if (_playerData == null && (SceneManager.GetActiveScene().name == "SceneLvl1" || SceneManager.GetActiveScene().name == "SceneLvl0") && !bIsOnManager)
+                if (scPlayer!=null&&_playerData == null && (SceneManager.GetActiveScene().name == "SceneLvl1" || SceneManager.GetActiveScene().name == "SceneLvl0" || SceneManager.GetActiveScene().name == "SceneLvl2" || SceneManager.GetActiveScene().name == "SceneLvl3") && !bIsOnManager)
                 {
                     _playerData = scPlayer.menuManager.gameObject.transform.GetComponent<PlayerData>();
+                }
+                else if (menuManager != null && _playerData == null && SceneManager.GetActiveScene().name == "SceneSplash" && !bIsOnManager)
+                {
+                    _playerData = menuManager.gameObject.transform.GetComponent<PlayerData>();
                 }
                 if (_playerData != null && menuManager != null && _playerData.iLanguageNbPlayer == 1)
                 {

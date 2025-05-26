@@ -4570,11 +4570,6 @@ PrefabInstance:
       propertyPath: GoGameChoose.Array.data[4]
       value: 
       objectReference: {fileID: 872506708}
-    - target: {fileID: 269850063720091022, guid: 45351d2d758839e409953a510c2e4a78,
-        type: 3}
-      propertyPath: sDialogueFrench.Array.data[66]
-      value: "Et c'est ainsi que Scraffaello et Jett Rush sauv\xE8rent le monde."
-      objectReference: {fileID: 0}
     - target: {fileID: 1174892266719903533, guid: 45351d2d758839e409953a510c2e4a78,
         type: 3}
       propertyPath: m_AnchorMax.y

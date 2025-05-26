@@ -103,7 +103,7 @@ public class MenuManager : MonoBehaviour
 
     //END DIALOGUE
     [Header("EndGame")]
-    public TMPro.TextMeshPro textBravo;
+    public TMP_Text textBravo;
 
     //SCORING
     [Header("Scoring")]
@@ -308,34 +308,38 @@ public class MenuManager : MonoBehaviour
         if(bTrainIsHere)
         {
             UnityEngine.UI.Button btnNewLoad = GoGameChoose[0].GetComponent<UnityEngine.UI.Button>();
-            if (_playerData.iLevelPlayer > 0)
-            {
-                TextMeshProUGUI txt = GoGameChoose[0].transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
-                if (_playerData.iLanguageNbPlayer == 1)
-                {
-                    txt.text = "Continuer";
-                }
-                else
-                {
-                    txt.text = "Continue";
-                }
-            }
-            else
-            {
-                TextMeshProUGUI txt = GoGameChoose[0].transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
-                if (_playerData.iLanguageNbPlayer == 1)
-                {
-                    txt.text = "Nouvelle Partie";
-                }
-                else
-                {
-                    txt.text = "New Game";
-                }
-            }
+            TrainSplashLanguage();
             GoGameChoose[3].transform.GetComponent<CanvasGroup>().alpha = 1f;
             bWaitTrain = false;
             bTrainIsHere = false;
             SelectionEnsurance();
+        }
+    }
+    private void TrainSplashLanguage()
+    {
+        if (_playerData.iLevelPlayer > 0)
+        {
+            TextMeshProUGUI txt = GoGameChoose[0].transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
+            if (_playerData.iLanguageNbPlayer == 1)
+            {
+                txt.text = "Continuer";
+            }
+            else
+            {
+                txt.text = "Continue";
+            }
+        }
+        else
+        {
+            TextMeshProUGUI txt = GoGameChoose[0].transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
+            if (_playerData.iLanguageNbPlayer == 1)
+            {
+                txt.text = "Nouvelle Partie";
+            }
+            else
+            {
+                txt.text = "New Game";
+            }
         }
     }
     private void CheckCurrentSelectable()
@@ -1095,6 +1099,10 @@ public class MenuManager : MonoBehaviour
         {
             _playerData.iLanguageNbPlayer = 1;
         }
+        if(SceneManager.GetActiveScene().name == "SceneSplash")
+        {
+            TrainSplashLanguage();
+        }
     }
     public void QuitGame()
     {
@@ -1216,7 +1224,7 @@ public class MenuManager : MonoBehaviour
                     RtEndDialogue.anchorMax = new Vector2(1, 2);
                     RtEndDialogue.offsetMax = new Vector2(0f, 0f);
                     RtEndDialogue.offsetMin = new Vector2(0f, 0f);
-                    scPlayer.EndGame(false, _playerData);
+                    StartCoroutine(scPlayer.EndGame(false, _playerData));
                 }
                 else
                 {

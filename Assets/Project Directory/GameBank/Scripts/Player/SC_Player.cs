@@ -220,7 +220,7 @@ public class SC_Player : Singleton<SC_Player>
             TMPScore.SetText(Mathf.Round(fPercentScore).ToString() + "%");
             if (FDetectionLevel >= fDetectionLevelMax && !bIsEndGame)
             {
-                EndGame(false, menuManager._playerData);
+                StartCoroutine(EndGame(false, menuManager._playerData));
             }
             if (FDetectionLevel < 0)
             {
@@ -462,7 +462,7 @@ public void CheckForward(Vector3 vectDir, float fRange)
                                 }
                                 if (ingTag.transform.gameObject.name == "EndingWall")
                                 {
-                                    EndGame(true, menuManager._playerData);
+                                    StartCoroutine(EndGame(true, menuManager._playerData));
                                 }
                                 if (ingTag.bBossTag)
                                 {
@@ -658,7 +658,7 @@ public void CheckForward(Vector3 vectDir, float fRange)
                                 }
                                 if (ingTag.transform.gameObject.name == "EndingWall")
                                 {
-                                    EndGame(true, menuManager._playerData);
+                                    StartCoroutine(EndGame(true, menuManager._playerData));
                                 }
                                 if (ingTag.bBossTag)
                                 {
@@ -1286,7 +1286,7 @@ public void CheckForward(Vector3 vectDir, float fRange)
                 if (scFoe.isBoss)
                 {
                     Debug.Log("endGame");
-                    EndGame(true, menuManager._playerData);
+                    StartCoroutine(EndGame(true, menuManager._playerData));
                 }
             }
             else
@@ -1466,10 +1466,28 @@ public void CheckForward(Vector3 vectDir, float fRange)
             menuManager.BeginDialogue(true, false);
         }
     }
-    public void EndGame(bool hasWon, PlayerData data)
+    public IEnumerator EndGame(bool hasWon, PlayerData data)
     {
-        Time.timeScale = 0f;
         menuManager.bGameIsPaused = true;
+        bIsImune = true;
+        if(hasWon)
+        {
+            menuManager.textBravo.color = new Color32(255, 255, 255, 255);
+            menuManager.textBravo.transform.localScale = new Vector3(3f, 3f, 3f);
+            menuManager.textBravo.transform.DOScale(new Vector3(1f, 1f, 1f), 1f).SetEase(Ease.InOutElastic);
+        }
+        else
+        {
+            menuManager.textBravo.color = new Color32(255, 255, 255, 0);
+            menuManager.textBravo.transform.localScale = new Vector3(3, 3, 3);
+        }
+        yield return new WaitForSeconds(3f);
+        if (hasWon)
+        {
+            menuManager.textBravo.color = new Color32(255, 255, 255, 0);
+            menuManager.textBravo.transform.localScale = new Vector3(3, 3, 3);
+        }
+        Time.timeScale = 0f;
         menuManager.PauseGame();
         //PlayerData data = menuManager.gameObject.GetComponent<PlayerData>();
 
