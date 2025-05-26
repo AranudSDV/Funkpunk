@@ -101,6 +101,10 @@ public class MenuManager : MonoBehaviour
     private bool bWaitTrain = false;
     private bool bTrainIsHere = false;
 
+    //END DIALOGUE
+    [Header("EndGame")]
+    public TMPro.TextMeshPro textBravo;
+
     //SCORING
     [Header("Scoring")]
     public TMP_Text txt_Title;
@@ -1222,13 +1226,11 @@ public class MenuManager : MonoBehaviour
         }
         if (iNbTextNow == iNbDialoguePerLevelAdd[iLevelDialogue] -1)
         {
-            Debug.Log("end dialogue");
             EndDialogue();
             bIsOnEndDialogue = false;
         }
         else
         {
-            Debug.Log("next");
             NextBox(_playerData.iLanguageNbPlayer, first, iLevelDialogue);
         }
     }
@@ -1237,7 +1239,6 @@ public class MenuManager : MonoBehaviour
         if (!bIsFirst)
         {
             iNbTextNow += 1;
-            Debug.Log(iNbTextNow);
         }
         else
         {
