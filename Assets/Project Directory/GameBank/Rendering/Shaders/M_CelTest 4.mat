@@ -13,6 +13,7 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _COLORORTEX_ON
+  - _DEBUG_ON
   - _USING3DMOVEMENTS_ON
   m_InvalidKeywords:
   - _SHADOWSFULLCELSHADED_ON
@@ -50,6 +51,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _ShadowTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _ShadowTexture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -83,13 +88,21 @@ Material:
     - _Cels_FallOffThreshold: 1
     - _Cels_LitThreshold: 0.5
     - _ColorOrTex: 1
+    - _Debug: 1
+    - _DistanceCutoff: 0
     - _EnvironmentReflections: 1
     - _FallOffThreshold: 1.9
+    - _FresnelErase: 0.01
+    - _FresnelErase_Smoothness: 1.5
+    - _FresnelPower: 5
     - _FullShadingHalfShading: 0
+    - _IsEnnemies: 0
+    - _IsOutline: 0
     - _LightBoost: 1
     - _LightindDone: 0
     - _LitThreshold: 0
     - _NormalScale: 0
+    - _OutlineWidth: 0.1
     - _PatternScale: 8.59
     - _QueueControl: 0
     - _QueueOffset: 0
@@ -110,14 +123,17 @@ Material:
     - _Spec: 0
     - _SpecularHighlights: 1
     - _TopMask: 0
+    - _TriplanarTiling: 10
     - _Using3DMovements: 1
     - _UsingTriplanar: 0
+    - _VerticesOffset: 0
     - _WorldPosDiv: 0
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseVertexOffsetDelay: {r: 0, g: 0, b: 0, a: 0}
     - _BaseVertexOffsetValue: {r: -0.1, g: 0, b: -0.1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _OutlineColor: {r: 1, g: 0.7170844, b: 0, a: 0}
     - _ShadowPatternDensity: {r: 10, g: 10, b: 0, a: 0}
     - _TopVertexDelay: {r: 0, g: 0, b: 0, a: 0}
     - _TopVertexOffsetValue: {r: 0, g: 0, b: 0, a: 0}
