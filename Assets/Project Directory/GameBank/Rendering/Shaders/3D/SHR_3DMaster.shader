@@ -10,6 +10,7 @@ Shader "SHR_3DMaster"
 		_TriplanarTiling("TriplanarTiling", Float) = 10
 		_BlendPow("BlendPow", Range( 0 , 1)) = 1
 		_OutlineWidth("Outline Width", Range( 0 , 0.1)) = 0.1
+		_TimeDelay("TimeDelay", Float) = 0
 		[Toggle(_DEBUG_ON)] _Debug("Debug", Float) = 0
 		_DistanceCutoff("Distance Cutoff", Range( 0 , 100)) = 0
 		_MainTex("Base Color", 2D) = "white" {}
@@ -340,31 +341,32 @@ Shader "SHR_3DMaster"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _OutlineColor;
-			float4 _MainTex_ST;
-			float4 _BumpNormal_ST;
 			float4 _BaseColor;
-			float3 _BaseVertexOffsetDelay;
+			float4 _BumpNormal_ST;
+			float4 _MainTex_ST;
+			float4 _OutlineColor;
 			float3 _BaseVertexOffsetValue;
-			float2 _TopVertexDelay;
+			float3 _BaseVertexOffsetDelay;
 			float2 _TopVertexOffsetValue;
+			float2 _TopVertexDelay;
 			float2 _ShadowPatternDensity;
+			float _FresnelPower;
 			float _FresnelErase_Smoothness;
 			float _FresnelErase;
 			float _WorldPosDiv;
 			float _ShadowTex_Pow;
 			float _TriplanarTiling;
 			float _BlendPow;
-			float _Shadow_LitThreshold;
-			float _NormalScale;
+			float _Shadow_FallOffThreshold;
 			float _ShadingWhiteMult;
-			float _FresnelPower;
+			float _TimeDelay;
+			float _NormalScale;
 			float _Cels_LitThreshold;
 			float _Cels_FallOffThreshold;
 			float _DistanceCutoff;
 			float _OutlineWidth;
 			float _BPM;
-			float _Shadow_FallOffThreshold;
+			float _Shadow_LitThreshold;
 			float _TopMask;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -1065,16 +1067,35 @@ Shader "SHR_3DMaster"
 				#else
 				float4 staticSwitch480 = tex2DNode207;
 				#endif
-				float fresnelNdotV707 = dot( worldNormal209, WorldViewDirection );
-				float fresnelNode707 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV707, _FresnelPower ) );
-				float2 texCoord712 = IN.ase_texcoord8.xy * float2( 1,1 ) + float2( 0,0 );
-				float simplePerlin2D728 = snoise( ( texCoord712 * float2( 0,50 ) )*5.0 );
+				float4 color783 = IsGammaSpace() ? float4(0.9937374,1.498039,0,0) : float4(0.9858125,2.433049,0,0);
+				float4 color787 = IsGammaSpace() ? float4(0.4558116,0,1.498039,0) : float4(0.1753961,0,2.433049,0);
+				float2 texCoord712 = IN.ase_texcoord8.xy * float2( 1,1 ) + ( _TimeParameters.x * float2( 0,0.001 ) );
+				float simplePerlin2D728 = snoise( ( texCoord712 * float2( 0,40 ) )*5.0 );
 				simplePerlin2D728 = simplePerlin2D728*0.5 + 0.5;
-				float smoothstepResult718 = smoothstep( _FresnelErase , ( _FresnelErase * _FresnelErase_Smoothness ) , ( fresnelNode707 * simplePerlin2D728 ));
-				float FresnelEffects726 = smoothstepResult718;
-				float4 temp_cast_15 = (FresnelEffects726).xxxx;
+				float2 _Vector5 = float2(0,0.001);
+				float2 texCoord789 = IN.ase_texcoord8.xy * float2( 1,1 ) + ( _TimeParameters.x * _Vector5 );
+				float simplePerlin2D785 = snoise( ( texCoord789 * float2( 0,40 ) )*5.0 );
+				simplePerlin2D785 = simplePerlin2D785*0.5 + 0.5;
+				float temp_output_784_0 = ( simplePerlin2D728 * simplePerlin2D785 );
+				float smoothstepResult805 = smoothstep( 0.1 , 1.0 , temp_output_784_0);
+				float4 lerpResult802 = lerp( color783 , color787 , smoothstepResult805);
+				#ifdef _DEBUG_ON
+				float staticSwitch56_g55 = BPM;
+				#else
+				float staticSwitch56_g55 = 60.0;
+				#endif
+				float mulTime5_g55 = _TimeParameters.x * ( staticSwitch56_g55 / 60.0 );
+				float temp_output_52_0_g55 = ( mulTime5_g55 - _TimeDelay );
+				float temp_output_16_0_g55 = ( PI / 1.0 );
+				float temp_output_19_0_g55 = cos( ( temp_output_52_0_g55 * temp_output_16_0_g55 ) );
+				float saferPower20_g55 = abs( abs( temp_output_19_0_g55 ) );
+				float lerpResult811 = lerp( ( _FresnelPower * 2.0 ) , _FresnelPower , pow( saferPower20_g55 , 20.0 ));
+				float fresnelNdotV707 = dot( worldNormal209, WorldViewDirection );
+				float fresnelNode707 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV707, lerpResult811 ) );
+				float smoothstepResult718 = smoothstep( _FresnelErase , ( _FresnelErase * _FresnelErase_Smoothness ) , ( fresnelNode707 * temp_output_784_0 ));
+				float4 FresnelEffects726 = ( lerpResult802 * saturate( smoothstepResult718 ) );
 				#ifdef _ISENNEMIES_ON
-				float4 staticSwitch725 = temp_cast_15;
+				float4 staticSwitch725 = FresnelEffects726;
 				#else
 				float4 staticSwitch725 = staticSwitch480;
 				#endif
@@ -1085,13 +1106,13 @@ Shader "SHR_3DMaster"
 				float4 staticSwitch753 = staticSwitch725;
 				#endif
 				
-				float3 temp_cast_17 = (0.0).xxx;
+				float3 temp_cast_16 = (0.0).xxx;
 				
 
 				float3 BaseColor = staticSwitch753.rgb;
 				float3 Normal = float3(0, 0, 1);
 				float3 Emission = 0;
-				float3 Specular = temp_cast_17;
+				float3 Specular = temp_cast_16;
 				float Metallic = 0;
 				float Smoothness = 0.0;
 				float Occlusion = 1;
@@ -1408,31 +1429,32 @@ Shader "SHR_3DMaster"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _OutlineColor;
-			float4 _MainTex_ST;
-			float4 _BumpNormal_ST;
 			float4 _BaseColor;
-			float3 _BaseVertexOffsetDelay;
+			float4 _BumpNormal_ST;
+			float4 _MainTex_ST;
+			float4 _OutlineColor;
 			float3 _BaseVertexOffsetValue;
-			float2 _TopVertexDelay;
+			float3 _BaseVertexOffsetDelay;
 			float2 _TopVertexOffsetValue;
+			float2 _TopVertexDelay;
 			float2 _ShadowPatternDensity;
+			float _FresnelPower;
 			float _FresnelErase_Smoothness;
 			float _FresnelErase;
 			float _WorldPosDiv;
 			float _ShadowTex_Pow;
 			float _TriplanarTiling;
 			float _BlendPow;
-			float _Shadow_LitThreshold;
-			float _NormalScale;
+			float _Shadow_FallOffThreshold;
 			float _ShadingWhiteMult;
-			float _FresnelPower;
+			float _TimeDelay;
+			float _NormalScale;
 			float _Cels_LitThreshold;
 			float _Cels_FallOffThreshold;
 			float _DistanceCutoff;
 			float _OutlineWidth;
 			float _BPM;
-			float _Shadow_FallOffThreshold;
+			float _Shadow_LitThreshold;
 			float _TopMask;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -1861,31 +1883,32 @@ Shader "SHR_3DMaster"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _OutlineColor;
-			float4 _MainTex_ST;
-			float4 _BumpNormal_ST;
 			float4 _BaseColor;
-			float3 _BaseVertexOffsetDelay;
+			float4 _BumpNormal_ST;
+			float4 _MainTex_ST;
+			float4 _OutlineColor;
 			float3 _BaseVertexOffsetValue;
-			float2 _TopVertexDelay;
+			float3 _BaseVertexOffsetDelay;
 			float2 _TopVertexOffsetValue;
+			float2 _TopVertexDelay;
 			float2 _ShadowPatternDensity;
+			float _FresnelPower;
 			float _FresnelErase_Smoothness;
 			float _FresnelErase;
 			float _WorldPosDiv;
 			float _ShadowTex_Pow;
 			float _TriplanarTiling;
 			float _BlendPow;
-			float _Shadow_LitThreshold;
-			float _NormalScale;
+			float _Shadow_FallOffThreshold;
 			float _ShadingWhiteMult;
-			float _FresnelPower;
+			float _TimeDelay;
+			float _NormalScale;
 			float _Cels_LitThreshold;
 			float _Cels_FallOffThreshold;
 			float _DistanceCutoff;
 			float _OutlineWidth;
 			float _BPM;
-			float _Shadow_FallOffThreshold;
+			float _Shadow_LitThreshold;
 			float _TopMask;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -2305,31 +2328,32 @@ Shader "SHR_3DMaster"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _OutlineColor;
-			float4 _MainTex_ST;
-			float4 _BumpNormal_ST;
 			float4 _BaseColor;
-			float3 _BaseVertexOffsetDelay;
+			float4 _BumpNormal_ST;
+			float4 _MainTex_ST;
+			float4 _OutlineColor;
 			float3 _BaseVertexOffsetValue;
-			float2 _TopVertexDelay;
+			float3 _BaseVertexOffsetDelay;
 			float2 _TopVertexOffsetValue;
+			float2 _TopVertexDelay;
 			float2 _ShadowPatternDensity;
+			float _FresnelPower;
 			float _FresnelErase_Smoothness;
 			float _FresnelErase;
 			float _WorldPosDiv;
 			float _ShadowTex_Pow;
 			float _TriplanarTiling;
 			float _BlendPow;
-			float _Shadow_LitThreshold;
-			float _NormalScale;
+			float _Shadow_FallOffThreshold;
 			float _ShadingWhiteMult;
-			float _FresnelPower;
+			float _TimeDelay;
+			float _NormalScale;
 			float _Cels_LitThreshold;
 			float _Cels_FallOffThreshold;
 			float _DistanceCutoff;
 			float _OutlineWidth;
 			float _BPM;
-			float _Shadow_FallOffThreshold;
+			float _Shadow_LitThreshold;
 			float _TopMask;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -2998,18 +3022,37 @@ Shader "SHR_3DMaster"
 				#else
 				float4 staticSwitch480 = tex2DNode207;
 				#endif
+				float4 color783 = IsGammaSpace() ? float4(0.9937374,1.498039,0,0) : float4(0.9858125,2.433049,0,0);
+				float4 color787 = IsGammaSpace() ? float4(0.4558116,0,1.498039,0) : float4(0.1753961,0,2.433049,0);
+				float2 texCoord712 = IN.ase_texcoord4.xy * float2( 1,1 ) + ( _TimeParameters.x * float2( 0,0.001 ) );
+				float simplePerlin2D728 = snoise( ( texCoord712 * float2( 0,40 ) )*5.0 );
+				simplePerlin2D728 = simplePerlin2D728*0.5 + 0.5;
+				float2 _Vector5 = float2(0,0.001);
+				float2 texCoord789 = IN.ase_texcoord4.xy * float2( 1,1 ) + ( _TimeParameters.x * _Vector5 );
+				float simplePerlin2D785 = snoise( ( texCoord789 * float2( 0,40 ) )*5.0 );
+				simplePerlin2D785 = simplePerlin2D785*0.5 + 0.5;
+				float temp_output_784_0 = ( simplePerlin2D728 * simplePerlin2D785 );
+				float smoothstepResult805 = smoothstep( 0.1 , 1.0 , temp_output_784_0);
+				float4 lerpResult802 = lerp( color783 , color787 , smoothstepResult805);
 				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - WorldPosition );
 				ase_worldViewDir = normalize(ase_worldViewDir);
+				#ifdef _DEBUG_ON
+				float staticSwitch56_g55 = BPM;
+				#else
+				float staticSwitch56_g55 = 60.0;
+				#endif
+				float mulTime5_g55 = _TimeParameters.x * ( staticSwitch56_g55 / 60.0 );
+				float temp_output_52_0_g55 = ( mulTime5_g55 - _TimeDelay );
+				float temp_output_16_0_g55 = ( PI / 1.0 );
+				float temp_output_19_0_g55 = cos( ( temp_output_52_0_g55 * temp_output_16_0_g55 ) );
+				float saferPower20_g55 = abs( abs( temp_output_19_0_g55 ) );
+				float lerpResult811 = lerp( ( _FresnelPower * 2.0 ) , _FresnelPower , pow( saferPower20_g55 , 20.0 ));
 				float fresnelNdotV707 = dot( worldNormal209, ase_worldViewDir );
-				float fresnelNode707 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV707, _FresnelPower ) );
-				float2 texCoord712 = IN.ase_texcoord4.xy * float2( 1,1 ) + float2( 0,0 );
-				float simplePerlin2D728 = snoise( ( texCoord712 * float2( 0,50 ) )*5.0 );
-				simplePerlin2D728 = simplePerlin2D728*0.5 + 0.5;
-				float smoothstepResult718 = smoothstep( _FresnelErase , ( _FresnelErase * _FresnelErase_Smoothness ) , ( fresnelNode707 * simplePerlin2D728 ));
-				float FresnelEffects726 = smoothstepResult718;
-				float4 temp_cast_15 = (FresnelEffects726).xxxx;
+				float fresnelNode707 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV707, lerpResult811 ) );
+				float smoothstepResult718 = smoothstep( _FresnelErase , ( _FresnelErase * _FresnelErase_Smoothness ) , ( fresnelNode707 * temp_output_784_0 ));
+				float4 FresnelEffects726 = ( lerpResult802 * saturate( smoothstepResult718 ) );
 				#ifdef _ISENNEMIES_ON
-				float4 staticSwitch725 = temp_cast_15;
+				float4 staticSwitch725 = FresnelEffects726;
 				#else
 				float4 staticSwitch725 = staticSwitch480;
 				#endif
@@ -3131,31 +3174,32 @@ Shader "SHR_3DMaster"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _OutlineColor;
-			float4 _MainTex_ST;
-			float4 _BumpNormal_ST;
 			float4 _BaseColor;
-			float3 _BaseVertexOffsetDelay;
+			float4 _BumpNormal_ST;
+			float4 _MainTex_ST;
+			float4 _OutlineColor;
 			float3 _BaseVertexOffsetValue;
-			float2 _TopVertexDelay;
+			float3 _BaseVertexOffsetDelay;
 			float2 _TopVertexOffsetValue;
+			float2 _TopVertexDelay;
 			float2 _ShadowPatternDensity;
+			float _FresnelPower;
 			float _FresnelErase_Smoothness;
 			float _FresnelErase;
 			float _WorldPosDiv;
 			float _ShadowTex_Pow;
 			float _TriplanarTiling;
 			float _BlendPow;
-			float _Shadow_LitThreshold;
-			float _NormalScale;
+			float _Shadow_FallOffThreshold;
 			float _ShadingWhiteMult;
-			float _FresnelPower;
+			float _TimeDelay;
+			float _NormalScale;
 			float _Cels_LitThreshold;
 			float _Cels_FallOffThreshold;
 			float _DistanceCutoff;
 			float _OutlineWidth;
 			float _BPM;
-			float _Shadow_FallOffThreshold;
+			float _Shadow_LitThreshold;
 			float _TopMask;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -3814,18 +3858,37 @@ Shader "SHR_3DMaster"
 				#else
 				float4 staticSwitch480 = tex2DNode207;
 				#endif
+				float4 color783 = IsGammaSpace() ? float4(0.9937374,1.498039,0,0) : float4(0.9858125,2.433049,0,0);
+				float4 color787 = IsGammaSpace() ? float4(0.4558116,0,1.498039,0) : float4(0.1753961,0,2.433049,0);
+				float2 texCoord712 = IN.ase_texcoord2.xy * float2( 1,1 ) + ( _TimeParameters.x * float2( 0,0.001 ) );
+				float simplePerlin2D728 = snoise( ( texCoord712 * float2( 0,40 ) )*5.0 );
+				simplePerlin2D728 = simplePerlin2D728*0.5 + 0.5;
+				float2 _Vector5 = float2(0,0.001);
+				float2 texCoord789 = IN.ase_texcoord2.xy * float2( 1,1 ) + ( _TimeParameters.x * _Vector5 );
+				float simplePerlin2D785 = snoise( ( texCoord789 * float2( 0,40 ) )*5.0 );
+				simplePerlin2D785 = simplePerlin2D785*0.5 + 0.5;
+				float temp_output_784_0 = ( simplePerlin2D728 * simplePerlin2D785 );
+				float smoothstepResult805 = smoothstep( 0.1 , 1.0 , temp_output_784_0);
+				float4 lerpResult802 = lerp( color783 , color787 , smoothstepResult805);
 				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - WorldPosition );
 				ase_worldViewDir = normalize(ase_worldViewDir);
+				#ifdef _DEBUG_ON
+				float staticSwitch56_g55 = BPM;
+				#else
+				float staticSwitch56_g55 = 60.0;
+				#endif
+				float mulTime5_g55 = _TimeParameters.x * ( staticSwitch56_g55 / 60.0 );
+				float temp_output_52_0_g55 = ( mulTime5_g55 - _TimeDelay );
+				float temp_output_16_0_g55 = ( PI / 1.0 );
+				float temp_output_19_0_g55 = cos( ( temp_output_52_0_g55 * temp_output_16_0_g55 ) );
+				float saferPower20_g55 = abs( abs( temp_output_19_0_g55 ) );
+				float lerpResult811 = lerp( ( _FresnelPower * 2.0 ) , _FresnelPower , pow( saferPower20_g55 , 20.0 ));
 				float fresnelNdotV707 = dot( worldNormal209, ase_worldViewDir );
-				float fresnelNode707 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV707, _FresnelPower ) );
-				float2 texCoord712 = IN.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
-				float simplePerlin2D728 = snoise( ( texCoord712 * float2( 0,50 ) )*5.0 );
-				simplePerlin2D728 = simplePerlin2D728*0.5 + 0.5;
-				float smoothstepResult718 = smoothstep( _FresnelErase , ( _FresnelErase * _FresnelErase_Smoothness ) , ( fresnelNode707 * simplePerlin2D728 ));
-				float FresnelEffects726 = smoothstepResult718;
-				float4 temp_cast_15 = (FresnelEffects726).xxxx;
+				float fresnelNode707 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV707, lerpResult811 ) );
+				float smoothstepResult718 = smoothstep( _FresnelErase , ( _FresnelErase * _FresnelErase_Smoothness ) , ( fresnelNode707 * temp_output_784_0 ));
+				float4 FresnelEffects726 = ( lerpResult802 * saturate( smoothstepResult718 ) );
 				#ifdef _ISENNEMIES_ON
-				float4 staticSwitch725 = temp_cast_15;
+				float4 staticSwitch725 = FresnelEffects726;
 				#else
 				float4 staticSwitch725 = staticSwitch480;
 				#endif
@@ -3936,31 +3999,32 @@ Shader "SHR_3DMaster"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _OutlineColor;
-			float4 _MainTex_ST;
-			float4 _BumpNormal_ST;
 			float4 _BaseColor;
-			float3 _BaseVertexOffsetDelay;
+			float4 _BumpNormal_ST;
+			float4 _MainTex_ST;
+			float4 _OutlineColor;
 			float3 _BaseVertexOffsetValue;
-			float2 _TopVertexDelay;
+			float3 _BaseVertexOffsetDelay;
 			float2 _TopVertexOffsetValue;
+			float2 _TopVertexDelay;
 			float2 _ShadowPatternDensity;
+			float _FresnelPower;
 			float _FresnelErase_Smoothness;
 			float _FresnelErase;
 			float _WorldPosDiv;
 			float _ShadowTex_Pow;
 			float _TriplanarTiling;
 			float _BlendPow;
-			float _Shadow_LitThreshold;
-			float _NormalScale;
+			float _Shadow_FallOffThreshold;
 			float _ShadingWhiteMult;
-			float _FresnelPower;
+			float _TimeDelay;
+			float _NormalScale;
 			float _Cels_LitThreshold;
 			float _Cels_FallOffThreshold;
 			float _DistanceCutoff;
 			float _OutlineWidth;
 			float _BPM;
-			float _Shadow_FallOffThreshold;
+			float _Shadow_LitThreshold;
 			float _TopMask;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -4465,31 +4529,32 @@ Shader "SHR_3DMaster"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _OutlineColor;
-			float4 _MainTex_ST;
-			float4 _BumpNormal_ST;
 			float4 _BaseColor;
-			float3 _BaseVertexOffsetDelay;
+			float4 _BumpNormal_ST;
+			float4 _MainTex_ST;
+			float4 _OutlineColor;
 			float3 _BaseVertexOffsetValue;
-			float2 _TopVertexDelay;
+			float3 _BaseVertexOffsetDelay;
 			float2 _TopVertexOffsetValue;
+			float2 _TopVertexDelay;
 			float2 _ShadowPatternDensity;
+			float _FresnelPower;
 			float _FresnelErase_Smoothness;
 			float _FresnelErase;
 			float _WorldPosDiv;
 			float _ShadowTex_Pow;
 			float _TriplanarTiling;
 			float _BlendPow;
-			float _Shadow_LitThreshold;
-			float _NormalScale;
+			float _Shadow_FallOffThreshold;
 			float _ShadingWhiteMult;
-			float _FresnelPower;
+			float _TimeDelay;
+			float _NormalScale;
 			float _Cels_LitThreshold;
 			float _Cels_FallOffThreshold;
 			float _DistanceCutoff;
 			float _OutlineWidth;
 			float _BPM;
-			float _Shadow_FallOffThreshold;
+			float _Shadow_LitThreshold;
 			float _TopMask;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -5180,16 +5245,35 @@ Shader "SHR_3DMaster"
 				#else
 				float4 staticSwitch480 = tex2DNode207;
 				#endif
-				float fresnelNdotV707 = dot( worldNormal209, WorldViewDirection );
-				float fresnelNode707 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV707, _FresnelPower ) );
-				float2 texCoord712 = IN.ase_texcoord8.xy * float2( 1,1 ) + float2( 0,0 );
-				float simplePerlin2D728 = snoise( ( texCoord712 * float2( 0,50 ) )*5.0 );
+				float4 color783 = IsGammaSpace() ? float4(0.9937374,1.498039,0,0) : float4(0.9858125,2.433049,0,0);
+				float4 color787 = IsGammaSpace() ? float4(0.4558116,0,1.498039,0) : float4(0.1753961,0,2.433049,0);
+				float2 texCoord712 = IN.ase_texcoord8.xy * float2( 1,1 ) + ( _TimeParameters.x * float2( 0,0.001 ) );
+				float simplePerlin2D728 = snoise( ( texCoord712 * float2( 0,40 ) )*5.0 );
 				simplePerlin2D728 = simplePerlin2D728*0.5 + 0.5;
-				float smoothstepResult718 = smoothstep( _FresnelErase , ( _FresnelErase * _FresnelErase_Smoothness ) , ( fresnelNode707 * simplePerlin2D728 ));
-				float FresnelEffects726 = smoothstepResult718;
-				float4 temp_cast_15 = (FresnelEffects726).xxxx;
+				float2 _Vector5 = float2(0,0.001);
+				float2 texCoord789 = IN.ase_texcoord8.xy * float2( 1,1 ) + ( _TimeParameters.x * _Vector5 );
+				float simplePerlin2D785 = snoise( ( texCoord789 * float2( 0,40 ) )*5.0 );
+				simplePerlin2D785 = simplePerlin2D785*0.5 + 0.5;
+				float temp_output_784_0 = ( simplePerlin2D728 * simplePerlin2D785 );
+				float smoothstepResult805 = smoothstep( 0.1 , 1.0 , temp_output_784_0);
+				float4 lerpResult802 = lerp( color783 , color787 , smoothstepResult805);
+				#ifdef _DEBUG_ON
+				float staticSwitch56_g55 = BPM;
+				#else
+				float staticSwitch56_g55 = 60.0;
+				#endif
+				float mulTime5_g55 = _TimeParameters.x * ( staticSwitch56_g55 / 60.0 );
+				float temp_output_52_0_g55 = ( mulTime5_g55 - _TimeDelay );
+				float temp_output_16_0_g55 = ( PI / 1.0 );
+				float temp_output_19_0_g55 = cos( ( temp_output_52_0_g55 * temp_output_16_0_g55 ) );
+				float saferPower20_g55 = abs( abs( temp_output_19_0_g55 ) );
+				float lerpResult811 = lerp( ( _FresnelPower * 2.0 ) , _FresnelPower , pow( saferPower20_g55 , 20.0 ));
+				float fresnelNdotV707 = dot( worldNormal209, WorldViewDirection );
+				float fresnelNode707 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV707, lerpResult811 ) );
+				float smoothstepResult718 = smoothstep( _FresnelErase , ( _FresnelErase * _FresnelErase_Smoothness ) , ( fresnelNode707 * temp_output_784_0 ));
+				float4 FresnelEffects726 = ( lerpResult802 * saturate( smoothstepResult718 ) );
 				#ifdef _ISENNEMIES_ON
-				float4 staticSwitch725 = temp_cast_15;
+				float4 staticSwitch725 = FresnelEffects726;
 				#else
 				float4 staticSwitch725 = staticSwitch480;
 				#endif
@@ -5200,13 +5284,13 @@ Shader "SHR_3DMaster"
 				float4 staticSwitch753 = staticSwitch725;
 				#endif
 				
-				float3 temp_cast_17 = (0.0).xxx;
+				float3 temp_cast_16 = (0.0).xxx;
 				
 
 				float3 BaseColor = staticSwitch753.rgb;
 				float3 Normal = float3(0, 0, 1);
 				float3 Emission = 0;
-				float3 Specular = temp_cast_17;
+				float3 Specular = temp_cast_16;
 				float Metallic = 0;
 				float Smoothness = 0.0;
 				float Occlusion = 1;
@@ -5372,31 +5456,32 @@ Shader "SHR_3DMaster"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _OutlineColor;
-			float4 _MainTex_ST;
-			float4 _BumpNormal_ST;
 			float4 _BaseColor;
-			float3 _BaseVertexOffsetDelay;
+			float4 _BumpNormal_ST;
+			float4 _MainTex_ST;
+			float4 _OutlineColor;
 			float3 _BaseVertexOffsetValue;
-			float2 _TopVertexDelay;
+			float3 _BaseVertexOffsetDelay;
 			float2 _TopVertexOffsetValue;
+			float2 _TopVertexDelay;
 			float2 _ShadowPatternDensity;
+			float _FresnelPower;
 			float _FresnelErase_Smoothness;
 			float _FresnelErase;
 			float _WorldPosDiv;
 			float _ShadowTex_Pow;
 			float _TriplanarTiling;
 			float _BlendPow;
-			float _Shadow_LitThreshold;
-			float _NormalScale;
+			float _Shadow_FallOffThreshold;
 			float _ShadingWhiteMult;
-			float _FresnelPower;
+			float _TimeDelay;
+			float _NormalScale;
 			float _Cels_LitThreshold;
 			float _Cels_FallOffThreshold;
 			float _DistanceCutoff;
 			float _OutlineWidth;
 			float _BPM;
-			float _Shadow_FallOffThreshold;
+			float _Shadow_LitThreshold;
 			float _TopMask;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -5758,31 +5843,32 @@ Shader "SHR_3DMaster"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _OutlineColor;
-			float4 _MainTex_ST;
-			float4 _BumpNormal_ST;
 			float4 _BaseColor;
-			float3 _BaseVertexOffsetDelay;
+			float4 _BumpNormal_ST;
+			float4 _MainTex_ST;
+			float4 _OutlineColor;
 			float3 _BaseVertexOffsetValue;
-			float2 _TopVertexDelay;
+			float3 _BaseVertexOffsetDelay;
 			float2 _TopVertexOffsetValue;
+			float2 _TopVertexDelay;
 			float2 _ShadowPatternDensity;
+			float _FresnelPower;
 			float _FresnelErase_Smoothness;
 			float _FresnelErase;
 			float _WorldPosDiv;
 			float _ShadowTex_Pow;
 			float _TriplanarTiling;
 			float _BlendPow;
-			float _Shadow_LitThreshold;
-			float _NormalScale;
+			float _Shadow_FallOffThreshold;
 			float _ShadingWhiteMult;
-			float _FresnelPower;
+			float _TimeDelay;
+			float _NormalScale;
 			float _Cels_LitThreshold;
 			float _Cels_FallOffThreshold;
 			float _DistanceCutoff;
 			float _OutlineWidth;
 			float _BPM;
-			float _Shadow_FallOffThreshold;
+			float _Shadow_LitThreshold;
 			float _TopMask;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -6096,7 +6182,7 @@ Shader "SHR_3DMaster"
 /*ASEBEGIN
 Version=19200
 Node;AmplifyShaderEditor.CommentaryNode;756;-4860.079,-2199.631;Inherit;False;2980.416;1045.208;;30;646;670;668;669;654;647;649;655;643;650;648;684;685;686;667;641;682;681;651;652;659;660;666;662;661;658;657;653;671;754;TriplnarDots;1,1,1,1;0;0
-Node;AmplifyShaderEditor.CommentaryNode;727;-342.1483,1845.477;Inherit;False;1548.022;755.4004;Fresnel;12;712;713;723;707;724;722;717;718;726;708;728;732;;1,1,1,1;0;0
+Node;AmplifyShaderEditor.CommentaryNode;727;-342.1483,1845.477;Inherit;False;1548.022;755.4004;Fresnel;18;712;713;723;707;724;718;708;728;732;784;785;788;789;802;804;805;811;812;;1,1,1,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;381;-4175.744,-5973.477;Inherit;False;1209;1283.536;;12;182;54;53;28;29;27;31;342;213;208;211;210;ShadingComponents;0.8509804,0.5254902,0.8373843,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;380;-235.5422,-2560.735;Inherit;False;2267.363;1540.534;;31;207;230;219;265;260;258;266;255;251;275;289;290;257;282;283;379;449;448;535;549;624;626;627;629;630;631;632;638;739;550;755;ShadowShading;0,0,0,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;302;-1567.303,-5023.179;Inherit;False;1827.19;1032.5;LitRT;24;193;190;188;186;191;194;189;202;201;246;185;56;184;187;203;196;248;183;192;328;423;430;445;446;CelShading;1,0.9921199,0.6635219,1;0;0
@@ -6239,15 +6325,6 @@ Node;AmplifyShaderEditor.WorldPosInputsNode;688;-2682.738,2222.838;Inherit;False
 Node;AmplifyShaderEditor.SimpleSubtractOpNode;689;-2443.059,2125.863;Inherit;True;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.FresnelNode;707;64.2356,1894.533;Inherit;True;Standard;WorldNormal;ViewDir;False;False;5;0;FLOAT3;0,0,1;False;4;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;1.5;False;1;FLOAT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;708;-148.6251,1893.506;Inherit;False;209;worldNormal;1;0;OBJECT;;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.RangedFloatNode;732;-146.8705,1991.46;Inherit;False;Property;_FresnelPower;FresnelPower;44;0;Create;True;0;0;0;False;0;False;5;5;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.NoiseGeneratorNode;728;131.9421,2106.978;Inherit;True;Simplex2D;True;False;2;0;FLOAT2;1,1;False;1;FLOAT;5;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;713;-7.628402,2105.401;Inherit;False;2;2;0;FLOAT2;0,0;False;1;FLOAT2;0,50;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.TextureCoordinatesNode;712;-253.7967,2100.435;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RangedFloatNode;724;180.11,2340.948;Inherit;False;Property;_FresnelErase;FresnelErase;41;0;Create;True;0;0;0;False;0;False;0.01;0.01;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;722;470.4648,2384.175;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;717;92.15586,2408.501;Inherit;False;Property;_FresnelErase_Smoothness;FresnelErase_Smoothness;43;0;Create;True;0;0;0;False;0;False;1.5;1.5;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SmoothstepOpNode;718;680.3602,2313.818;Inherit;True;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;726;914.4026,2313.088;Inherit;False;FresnelEffects;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.PosVertexDataNode;528;-587.4907,758.6886;Inherit;False;0;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.FunctionNode;369;-2110.823,-4731.151;Inherit;True;FetchLightmapValue;12;;51;43de3d4ae59f645418fdd020d1b8e78e;0;0;1;FLOAT3;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;738;-1826.86,-4732.679;Inherit;False;Lightmaps;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
@@ -6279,7 +6356,7 @@ Node;AmplifyShaderEditor.SimpleMultiplyOpNode;197;2097.525,-2458.259;Inherit;Tru
 Node;AmplifyShaderEditor.StaticSwitch;305;2351.047,-2376.036;Inherit;False;Property;_FullShadingHalfShading;FullShading/HalfShading;31;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;COLOR;0,0,0,0;False;0;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;5;COLOR;0,0,0,0;False;6;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.StaticSwitch;480;3211.188,-2294.058;Inherit;False;Property;_LightindDone;LightindDone?;35;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Create;False;True;All;9;1;COLOR;0,0,0,0;False;0;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;5;COLOR;0,0,0,0;False;6;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;403;3436.395,-2082.329;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ExtraPrePass;0;0;ExtraPrePass;5;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;0;False;False;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.GetLocalVarNode;730;3240.327,-2190.673;Inherit;False;726;FresnelEffects;1;0;OBJECT;;False;1;FLOAT;0
+Node;AmplifyShaderEditor.GetLocalVarNode;730;3240.327,-2190.673;Inherit;False;726;FresnelEffects;1;0;OBJECT;;False;1;COLOR;0
 Node;AmplifyShaderEditor.StaticSwitch;725;3504.915,-2295.023;Inherit;False;Property;_IsEnnemies;IsEnnemies;42;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;COLOR;0,0,0,0;False;0;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;5;COLOR;0,0,0,0;False;6;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.StaticSwitch;534;3502.191,-1861.111;Inherit;False;Property;_Using3DMovements;Using3DMovements?;36;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;FLOAT3;0,0,0;False;0;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;4;FLOAT3;0,0,0;False;5;FLOAT3;0,0,0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.StaticSwitch;750;3786.863,-1857.058;Inherit;False;Property;_IsOutline;IsOutline;45;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;FLOAT3;0,0,0;False;0;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;4;FLOAT3;0,0,0;False;5;FLOAT3;0,0,0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT3;0,0,0;False;1;FLOAT3;0
@@ -6356,6 +6433,36 @@ Node;AmplifyShaderEditor.RangedFloatNode;761;-34.1477,3639.754;Inherit;False;Pro
 Node;AmplifyShaderEditor.RegisterLocalVarNode;781;827.434,3192.785;Inherit;False;OutlineOffset;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.GetLocalVarNode;751;3542.911,-1751.298;Inherit;False;781;OutlineOffset;1;0;OBJECT;;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.RangedFloatNode;774;-1329.431,3213.843;Inherit;False;Constant;_Seconds;Seconds;46;0;Create;True;0;0;0;False;0;False;60;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SmoothstepOpNode;718;822.7828,2326.668;Inherit;True;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;722;466.1814,2629.398;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;724;175.8266,2586.171;Inherit;False;Property;_FresnelErase;FresnelErase;41;0;Create;True;0;0;0;False;0;False;0.01;0.01;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;717;87.87249,2653.724;Inherit;False;Property;_FresnelErase_Smoothness;FresnelErase_Smoothness;43;0;Create;True;0;0;0;False;0;False;1.5;1.5;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.TextureCoordinatesNode;712;-253.7967,2100.435;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.TextureCoordinatesNode;789;-218.982,2393.278;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SimpleTimeNode;791;-583.715,1898.958;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleTimeNode;796;-631.4761,2621.55;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;800;-447.5609,2765.877;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT2;0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;801;-398.8774,2124.872;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT2;0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.Vector2Node;795;-608.8223,2015.777;Inherit;False;Constant;_Vector4;Vector 4;46;0;Create;True;0;0;0;False;0;False;0,0.001;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;784;432.0438,2227.11;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.LerpOp;802;713.1287,2126.983;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.ColorNode;783;-703.7028,2194.574;Inherit;False;Constant;_Color0;Color 0;46;1;[HDR];Create;True;0;0;0;False;0;False;0.9937374,1.498039,0,0;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;787;-752.8265,2404.459;Inherit;False;Constant;_Color1;Color 0;46;1;[HDR];Create;True;0;0;0;False;0;False;0.4558116,0,1.498039,0;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SmoothstepOpNode;805;611.4877,2339.625;Inherit;True;3;0;FLOAT;0;False;1;FLOAT;0.1;False;2;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.Vector2Node;798;-654.5832,2738.37;Inherit;False;Constant;_Vector5;Vector 4;46;0;Create;True;0;0;0;False;0;False;0,0.001;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
+Node;AmplifyShaderEditor.SimpleAddOpNode;807;-409.0792,2504.047;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT2;0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;726;1294.777,2291.366;Inherit;False;FresnelEffects;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;804;1093.188,2120.495;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.ClampOpNode;808;1097.998,2400.667;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SaturateNode;809;1119.349,2371.45;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;713;-7.628402,2105.401;Inherit;False;2;2;0;FLOAT2;0,0;False;1;FLOAT2;0,40;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;788;18.98898,2380.938;Inherit;False;2;2;0;FLOAT2;0,0;False;1;FLOAT2;0,40;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.NoiseGeneratorNode;728;131.9421,2106.978;Inherit;True;Simplex2D;True;False;2;0;FLOAT2;1,1;False;1;FLOAT;5;False;1;FLOAT;0
+Node;AmplifyShaderEditor.NoiseGeneratorNode;785;165.256,2352.575;Inherit;True;Simplex2D;True;False;2;0;FLOAT2;1,1;False;1;FLOAT;5;False;1;FLOAT;0
+Node;AmplifyShaderEditor.FunctionNode;810;-495.0067,1981.294;Inherit;False;SHF_Beat;8;;55;98b937ed0bb6230429680ab88ee4981b;0;1;54;FLOAT;0;False;3;FLOAT;33;FLOAT;34;FLOAT;0
+Node;AmplifyShaderEditor.LerpOp;811;-135.0067,1959.96;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;732;-402.8705,1886.127;Inherit;False;Property;_FresnelPower;FresnelPower;44;0;Create;True;0;0;0;False;0;False;5;5;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;812;-265.6734,1907.96;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;2;False;1;FLOAT;0
 WireConnection;209;0;212;0
 WireConnection;212;0;214;0
 WireConnection;29;0;27;0
@@ -6486,7 +6593,7 @@ WireConnection;624;1;631;0
 WireConnection;448;1;624;0
 WireConnection;448;0;626;0
 WireConnection;723;0;707;0
-WireConnection;723;1;728;0
+WireConnection;723;1;784;0
 WireConnection;532;0;521;33
 WireConnection;731;0;207;0
 WireConnection;196;0;203;0
@@ -6500,15 +6607,7 @@ WireConnection;736;0;388;0
 WireConnection;689;0;687;0
 WireConnection;689;1;688;0
 WireConnection;707;0;708;0
-WireConnection;707;3;732;0
-WireConnection;728;0;713;0
-WireConnection;713;0;712;0
-WireConnection;722;0;724;0
-WireConnection;722;1;717;0
-WireConnection;718;0;723;0
-WireConnection;718;1;724;0
-WireConnection;718;2;722;0
-WireConnection;726;0;718;0
+WireConnection;707;3;811;0
 WireConnection;738;0;369;0
 WireConnection;639;17;453;0
 WireConnection;554;0;537;0
@@ -6630,5 +6729,37 @@ WireConnection;759;0;760;0
 WireConnection;762;0;759;4
 WireConnection;762;1;761;0
 WireConnection;781;0;758;0
+WireConnection;718;0;723;0
+WireConnection;718;1;724;0
+WireConnection;718;2;722;0
+WireConnection;722;0;724;0
+WireConnection;722;1;717;0
+WireConnection;712;1;801;0
+WireConnection;789;1;800;0
+WireConnection;800;0;796;0
+WireConnection;800;1;798;0
+WireConnection;801;0;791;0
+WireConnection;801;1;795;0
+WireConnection;784;0;728;0
+WireConnection;784;1;785;0
+WireConnection;802;0;783;0
+WireConnection;802;1;787;0
+WireConnection;802;2;805;0
+WireConnection;805;0;784;0
+WireConnection;807;0;796;0
+WireConnection;807;1;798;0
+WireConnection;726;0;804;0
+WireConnection;804;0;802;0
+WireConnection;804;1;809;0
+WireConnection;808;0;718;0
+WireConnection;809;0;718;0
+WireConnection;713;0;712;0
+WireConnection;788;0;789;0
+WireConnection;728;0;713;0
+WireConnection;785;0;788;0
+WireConnection;811;0;812;0
+WireConnection;811;1;732;0
+WireConnection;811;2;810;0
+WireConnection;812;0;732;0
 ASEEND*/
-//CHKSM=46BDF22501A688C26A91D585CF3CB40E9F4B3F7C
+//CHKSM=BADCB7AB46B30E2848CC823ADE28D68EB38F5210

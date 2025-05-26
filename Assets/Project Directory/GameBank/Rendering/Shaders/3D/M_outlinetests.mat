@@ -39,10 +39,12 @@ Material:
     m_Floats:
     - _AlphaCutoff: 0.5
     - _BPM: 240
-    - _DistanceCutoff: 1
-    - _OutlineWidth: 0.134
+    - _DistanceCutoff: 0.005
+    - _OutlineSpikePower: 1
+    - _OutlineWidth: 1
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _VerticesOffset: 1
     m_Colors:
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _Highlight: {r: 0.92335266, g: 1, b: 0.22327036, a: 0}
