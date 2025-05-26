@@ -142,6 +142,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private string[] sDialogueEnglish;
     [SerializeField] private string[] sDialogueFrench;
     public bool bWaitNextDialogue = false;
+    private int iLevelDialogue;
 
     //SCENE LOADING
     [Header("Loading Scene")]
@@ -253,7 +254,7 @@ public class MenuManager : MonoBehaviour
             {
                 Debug.Log("null");
             }
-            GoGameChoose[4].transform.GetComponent<TextMeshProUGUI>().color = new Color32(255, 255, 255, 0);
+            GoGameChoose[4].transform.GetComponent<Image>().color = new Color32(255, 255, 255, 0);
             TrainAndUION();
             //LoadScene(sSceneToLoad);
         }
@@ -1168,7 +1169,6 @@ public class MenuManager : MonoBehaviour
         bWaitNextDialogue = false;
         BeginDialogue(false, true);
     }
-    private int iLevelDialogue;
     public void BeginDialogue(bool first, bool bHasWon)
     {
         if (first == true)
@@ -1393,6 +1393,7 @@ public class MenuManager : MonoBehaviour
         RtEndDialogue.anchorMax = new Vector2(1, 2);
         RtEndDialogue.offsetMax = new Vector2(0f, 0f);
         RtEndDialogue.offsetMin = new Vector2(0f, 0f);
-        scPlayer.EndGame(true, _playerData);
+
+        LoadScene("Scenes/World/LevelChoosing");
     }
 }
