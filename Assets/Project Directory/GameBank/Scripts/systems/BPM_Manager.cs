@@ -11,7 +11,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
+//using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 public class BPM_Manager : MonoBehaviour
 {
@@ -311,7 +311,6 @@ public class BPM_Manager : MonoBehaviour
             }
             fFovInstanceMax = fFOVmax *(80f/100f);
             NotesFade();
-            scPlayer.fJudmgentToJump = 0.3f;
         }
         /*else if(BBad == false && BGood == false && BPerfect == false && !scPlayer.bcanRotate && scPlayer.bisTuto)
         {
@@ -410,7 +409,6 @@ public class BPM_Manager : MonoBehaviour
                     scPlayer.FDetectionLevel -= 2f;
                 }
                 fFovInstanceMax = fFOVmax * (90f / 100f);
-                scPlayer.fJudmgentToJump = 0.6f;
                 StartCoroutine(VibrationVfx(0.05f, 0f,0.3f));
             }
             else if (BGood == true)
@@ -429,7 +427,6 @@ public class BPM_Manager : MonoBehaviour
                     scPlayer.FDetectionLevel -= 5f;
                 }
                 fFovInstanceMax = fFOVmax * (95f / 100f);
-                scPlayer.fJudmgentToJump = 0.9f;
                 StartCoroutine(VibrationVfx(0.05f, 0.3f, 0.6f));
             }
             else if (BPerfect == true)
@@ -448,7 +445,6 @@ public class BPM_Manager : MonoBehaviour
                     scPlayer.FDetectionLevel -= 10f;
                 }
                 fFovInstanceMax = fFOVmax;
-                scPlayer.fJudmgentToJump = 1.2f;
                 StartCoroutine(VibrationVfx(0.05f, 0.6f, 1f));
             }
             NotesFade();

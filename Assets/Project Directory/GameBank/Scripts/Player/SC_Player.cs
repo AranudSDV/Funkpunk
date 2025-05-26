@@ -64,7 +64,6 @@ public class SC_Player : Singleton<SC_Player>
     public bool bIsImune = false;
     private bool bIsBeingAnimated = false;
     private bool bEnsureRotation = false;
-    public float fJudmgentToJump = 1f;
 
     //LE BAIT
     [Header("Bait")]
@@ -463,7 +462,7 @@ public void CheckForward(Vector3 vectDir, float fRange)
                                 }
                                 if (ingTag.transform.gameObject.name == "EndingWall")
                                 {
-                                    StartCoroutine(EndDialogue());
+                                    EndGame(true, menuManager._playerData);
                                 }
                                 if (ingTag.bBossTag)
                                 {
@@ -497,7 +496,7 @@ public void CheckForward(Vector3 vectDir, float fRange)
                         {
                             // Wall detected, find a new direction
                             SoundManager.Instance.PlayOneShot(sfx_wall_hit);
-                            Move(Vector3.zero, fJudmgentToJump);
+                            Move(Vector3.zero, 1f);
                         }
                         else if (collider.CompareTag("Bait") || (collider.CompareTag("Untagged") && collider.gameObject.name == "BossDoor"))
                         {
@@ -527,11 +526,11 @@ public void CheckForward(Vector3 vectDir, float fRange)
                 if (canMoveDiagonally && !bIsTagging)
                 {
                     // Move diagonally if no blocking objects or only passable ones
-                    Move(vectDir, fJudmgentToJump);
+                    Move(vectDir, 1f);
                 }
                 else if(!bIsTagging)
                 {
-                    Move(Vector3.zero, fJudmgentToJump);
+                    Move(Vector3.zero, 1f);
                 }
             }
             // Check for walls in the current direction
@@ -659,7 +658,7 @@ public void CheckForward(Vector3 vectDir, float fRange)
                                 }
                                 if (ingTag.transform.gameObject.name == "EndingWall")
                                 {
-                                    StartCoroutine(EndDialogue());
+                                    EndGame(true, menuManager._playerData);
                                 }
                                 if (ingTag.bBossTag)
                                 {
@@ -693,7 +692,7 @@ public void CheckForward(Vector3 vectDir, float fRange)
                         {
                             // Wall detected, find a new direction
                             SoundManager.Instance.PlayOneShot(sfx_wall_hit);
-                            Move(Vector3.zero, fJudmgentToJump);
+                            Move(Vector3.zero, 1f);
                         }
                         else if (collider.CompareTag("MapObject"))
                         {
@@ -719,11 +718,11 @@ public void CheckForward(Vector3 vectDir, float fRange)
                 if (canMoveFront && !bIsTagging)
                 {
                     // Move diagonally if no blocking objects or only passable ones
-                    Move(vectDir, fJudmgentToJump);
+                    Move(vectDir, 1f);
                 }
                 else if (!bIsTagging)
                 {
-                    Move(Vector3.zero, fJudmgentToJump);
+                    Move(Vector3.zero, 1f);
                 }
             }
         }
@@ -1287,7 +1286,7 @@ public void CheckForward(Vector3 vectDir, float fRange)
                 if (scFoe.isBoss)
                 {
                     Debug.Log("endGame");
-                    StartCoroutine(EndDialogue());
+                    EndGame(true, menuManager._playerData);
                 }
             }
             else
@@ -1443,11 +1442,11 @@ public void CheckForward(Vector3 vectDir, float fRange)
     }
 
     //LA FIN DU NIVEAU
-    public IEnumerator EndDialogue()
+    public void EndDialogue()
     {
         menuManager.bGameIsPaused = true;
         bIsImune = true;
-        yield return new WaitForSeconds(2f);
+        //yield return new WaitForSeconds(2f);
         Time.timeScale = 0f;
         menuManager.PauseGame();
 
@@ -1530,7 +1529,7 @@ public void CheckForward(Vector3 vectDir, float fRange)
                 buttonScorring[i] = menuManager.GoScoringButtons.transform.GetChild(i).GetComponent<UnityEngine.UI.Button>();
                 txt[i] = menuManager.GoScoringButtons.transform.GetChild(i).transform.GetChild(0).GetComponent<TextMeshProUGUI>();
             }
-            buttonScorring[0].onClick.AddListener(delegate { menuManager.LoadScene("Scenes/World/LevelChoosing"); });
+            buttonScorring[0].onClick.AddListener(delegate { EndDialogue(); });
             buttonScorring[1].onClick.AddListener(delegate { menuManager.LoadScene("retry"); });
             if (data.iLanguageNbPlayer == 1)
             {
