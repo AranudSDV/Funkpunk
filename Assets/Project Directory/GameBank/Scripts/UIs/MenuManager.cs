@@ -1263,14 +1263,39 @@ public class MenuManager : MonoBehaviour
     private void SetSpeaker(int speakingCharacterIndex, int notSpeakingCharacterIndex, int iLevel) //on connait le numero du character mais est-il à gauche ou à droite?
     {
         // Change the text box to the one of the character speaking
-        int a = RightIntSpeakerAndNot(speakingCharacterIndex, notSpeakingCharacterIndex)[0];
-        int b = RightIntSpeakerAndNot(speakingCharacterIndex, notSpeakingCharacterIndex)[1];
-        imgBoxText.sprite = spritesCharactersBoxes[a];
-        //Is right or left character speaking ? 
-        if (iWhichCharaToRightToLeft[iLevel * 2] == a) //Le sprite de droite est-il celui du chara qui parle ?
+        int a = RightIntSpeakerAndNot(speakingCharacterIndex);
+        //int b = RightIntSpeakerAndNot(speakingCharacterIndex, notSpeakingCharacterIndex)[1];
+        if(a!=-1)
         {
-            imgCharactersSpace[0].sprite = spritesEndDialogueCharacters[speakingCharacterIndex]; // Le sprite de droite est rempli par le sprite du chara qui est à droite en fonction du lvl
-            imgCharactersSpace[1].sprite = spritesEndDialogueCharactersNotSpeak[notSpeakingCharacterIndex];// Le sprite de gauche est rempli par le sprite du chara qui est à gauche en fonction du lvl
+            if(a==3)
+            {
+                imgBoxText.sprite = spritesCharactersBoxes[2];
+            }
+            else
+            {
+                imgBoxText.sprite = spritesCharactersBoxes[a];
+            }
+            imgBoxText.color = new Color32(255, 255, 255, 255);
+        }
+        else
+        {
+            imgBoxText.color = new Color32(0, 0, 0, 255);
+        }
+        //Is right or left character speaking ? 
+        if (iWhichCharaToRightToLeft[iNbTextNow*2]== a) //Le sprite de droite est-il celui du chara qui parle ?
+        {
+            if(speakingCharacterIndex != -1)
+            {
+                imgCharactersSpace[0].sprite = spritesEndDialogueCharacters[speakingCharacterIndex]; // Le sprite de droite est rempli par le sprite du chara qui est à droite en fonction du lvl
+                imgCharactersSpace[1].sprite = spritesEndDialogueCharactersNotSpeak[notSpeakingCharacterIndex];// Le sprite de gauche est rempli par le sprite du chara qui est à gauche en fonction du lvl
+                imgCharactersSpace[0].color = new Color32(255, 255, 255, 255);
+                imgCharactersSpace[1].color = new Color32(255, 255, 255, 255);
+            }
+            else
+            {
+                imgCharactersSpace[0].color = new Color32(255,255,255,0);
+                imgCharactersSpace[1].color = new Color32(255, 255, 255, 0);
+            }
             // Non-speaking character goes below
             charactersImages[1].SetSiblingIndex(0);
             // Ensure the dialogue box is at index 1 (middle layer)
@@ -1285,8 +1310,18 @@ public class MenuManager : MonoBehaviour
         }
         else
         {
-            imgCharactersSpace[0].sprite = spritesEndDialogueCharactersNotSpeak[notSpeakingCharacterIndex]; // Le sprite de droite est rempli par le sprite du chara qui est à droite en fonction du lvl
-            imgCharactersSpace[1].sprite = spritesEndDialogueCharacters[speakingCharacterIndex];// Le sprite de gauche est rempli par le sprite du chara qui est à gauche en fonction du lvl
+            if(notSpeakingCharacterIndex != -1)
+            {
+                imgCharactersSpace[0].sprite = spritesEndDialogueCharactersNotSpeak[notSpeakingCharacterIndex]; // Le sprite de droite est rempli par le sprite du chara qui est à droite en fonction du lvl
+                imgCharactersSpace[1].sprite = spritesEndDialogueCharacters[speakingCharacterIndex];// Le sprite de gauche est rempli par le sprite du chara qui est à gauche en fonction du lvl
+                imgCharactersSpace[0].color = new Color32(255, 255, 255, 255);
+                imgCharactersSpace[1].color = new Color32(255, 255, 255, 255);
+            }
+            else
+            {
+                imgCharactersSpace[0].color = new Color32(255, 255, 255, 0);
+                imgCharactersSpace[1].color = new Color32(255, 255, 255, 0);
+            }
             // Non-speaking character goes below
             charactersImages[0].SetSiblingIndex(0);
             // Ensure the dialogue box is at index 1 (middle layer)
@@ -1300,27 +1335,36 @@ public class MenuManager : MonoBehaviour
             rectBoxTextImage.offsetMin = new Vector2(0f, 0f);
         }
     }
-    private int[] RightIntSpeakerAndNot(int speakingCharacterIndex, int notSpeakingCharacterIndex)
+    private int RightIntSpeakerAndNot(int speakingCharacterIndex)
     {
-        int[] a = new int[2];
-        if (speakingCharacterIndex <= 2 || (speakingCharacterIndex>=10&& speakingCharacterIndex <=12)) //Jett
+        int a;
+        //int[] a = new int[2];
+        if(speakingCharacterIndex == -1)
         {
-            a[0] = 0;
+            a = -1;
+        }
+        else if (speakingCharacterIndex <= 2 || (speakingCharacterIndex>=10&& speakingCharacterIndex <=12)) //Jett
+        {
+            a = 0;
         }
         else if ((speakingCharacterIndex > 2 && speakingCharacterIndex <= 5) || speakingCharacterIndex >= 13)
         {
-            a[0] = 1;
+            a = 1;
         }
         else if (speakingCharacterIndex > 5 && speakingCharacterIndex <= 7)
         {
-            a[0] = 2;
+            a = 2;
         }
-        else if (speakingCharacterIndex > 7 && speakingCharacterIndex <= 9)
+        else
         {
-            a[0] = 3;
+            a = 3;
         }
 
-        if (notSpeakingCharacterIndex <= 2 || notSpeakingCharacterIndex>=10) //Jett
+        /*if(notSpeakingCharacterIndex == -1)
+        {
+            a[1] = -1;
+        }
+        else if (notSpeakingCharacterIndex <= 2 || notSpeakingCharacterIndex>=10) //Jett
         {
             a[1] = 0;
         }
@@ -1335,7 +1379,7 @@ public class MenuManager : MonoBehaviour
         else if (notSpeakingCharacterIndex > 7 && notSpeakingCharacterIndex <= 9)
         {
             a[1] = 3;
-        }
+        }*/
         return a;
     }
     public void EndDialogue()
