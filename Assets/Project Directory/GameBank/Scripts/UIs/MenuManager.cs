@@ -55,6 +55,7 @@ public class MenuManager : MonoBehaviour
     private bool[] bNowSelectedAudio = new bool[3] { false, false, false };
     private int iSelectedGeneral = -1;
     private int iSelectedAudio = -1;
+    public bool bOnceGrid = false;
 
     [Header("Sound")]
     public FMOD.Studio.VCA music_basic_VCA;
@@ -1103,6 +1104,18 @@ public class MenuManager : MonoBehaviour
         {
             TrainSplashLanguage();
         }
+    }
+    public void GridButton()
+    {
+        if(_playerData.iGrid == 1)
+        {
+            _playerData.iGrid = 0; //false
+        }
+        else
+        {
+            _playerData.iGrid = 1; //true
+        }
+        bOnceGrid = false;
     }
     public void QuitGame()
     {
