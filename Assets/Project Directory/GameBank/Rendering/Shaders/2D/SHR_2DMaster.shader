@@ -50,7 +50,7 @@ Shader "SHR_2DMaster"
 		_NoColorsWhiteValue("NoColorsWhiteValue", Range( 0 , 1)) = 1
 		[Toggle(_HANDLECOLORS_ON)] _HandleColors("HandleColors", Float) = 1
 		_TransformedOffsetY("TransformedOffsetY", Float) = 0.8
-		[Toggle(_UI_MANUALORPROCEDURAL_ON)] _UI_ManualOrProcedural("UI_ManualOrProcedural", Float) = 1
+		[Toggle(_UI_AUTOORMANO_ON)] _UI_AutoOrMano("UI_AutoOrMano", Float) = 0
 		_RotaPower("RotaPower", Float) = 0.05
 		[Toggle(_USINGYMOVE_ON)] _UsingYMove("UsingYMove ?", Float) = 1
 		[Toggle(_USINGXMOVE_ON)] _UsingXMove("UsingXMove ?", Float) = 1
@@ -260,7 +260,7 @@ Shader "SHR_2DMaster"
 			#pragma shader_feature_local _3TEX_ON
 			#pragma shader_feature_local _2TEX_ON
 			#pragma shader_feature_local _HANDLECOLORS_ON
-			#pragma shader_feature_local _UI_MANUALORPROCEDURAL_ON
+			#pragma shader_feature_local _UI_AUTOORMANO_ON
 			#pragma shader_feature_local _USINGXMOVE_ON
 			#pragma shader_feature_local _USINGYMOVE_ON
 			#pragma shader_feature _DEBUG_ON
@@ -322,14 +322,8 @@ Shader "SHR_2DMaster"
 			float _R_BaseOpacity;
 			float _G_FadeSmooth;
 			float _NoColorsWhiteValue;
-			float _MaxSizeX;
-			float _G_BaseOpacity;
-			float _MinSizeY;
-			float _MinSizeX;
-			float _RotaPower;
-			float _TimeDelay;
-			float _Offseter;
 			float _TransformedOffsetY;
+			float _G_BaseOpacity;
 			float _TransformedOffsetX;
 			float _Rotater;
 			float _TransformedRota;
@@ -338,6 +332,12 @@ Shader "SHR_2DMaster"
 			float _TransformedScaleX;
 			float _BaseScale;
 			float _MaxSizeY;
+			float _MaxSizeX;
+			float _MinSizeY;
+			float _MinSizeX;
+			float _RotaPower;
+			float _TimeDelay;
+			float _Offseter;
 			float _Alphacliptresh;
 			#ifdef ASE_TESSELLATION
 				float _TessPhongStrength;
@@ -529,18 +529,6 @@ Shader "SHR_2DMaster"
 				float4 lerpResult377 = lerp( lerpResult463 , _SubColor , tex2DNode12.g);
 				float4 lerpResult459 = lerp( lerpResult377 , _SubColor1 , tex2DNode12.b);
 				float4 VfxColors441 = lerpResult459;
-				float2 texCoord41_g256 = IN.ase_texcoord3.xy * float2( 1,1 ) + float2( 0,0 );
-				float2 temp_output_43_0_g256 = float2( 0.5,0.5 );
-				float2 temp_cast_0 = (_BaseScale).xx;
-				float2 appendResult628 = (float2(_TransformedScaleX , _TransformedScaleY));
-				float2 lerpResult498 = lerp( temp_cast_0 , appendResult628 , _Scaler1);
-				float lerpResult617 = lerp( 0.0 , _TransformedRota , _Rotater);
-				float cos47_g256 = cos( lerpResult617 );
-				float sin47_g256 = sin( lerpResult617 );
-				float2 rotator47_g256 = mul( ( ( texCoord41_g256 - temp_output_43_0_g256 ) * lerpResult498 ) - temp_output_43_0_g256 , float2x2( cos47_g256 , -sin47_g256 , sin47_g256 , cos47_g256 )) + temp_output_43_0_g256;
-				float2 appendResult626 = (float2(_TransformedOffsetX , _TransformedOffsetY));
-				float2 lerpResult615 = lerp( float2( 0,0 ) , appendResult626 , _Offseter);
-				float2 temp_output_53_0_g256 = ( ( rotator47_g256 + temp_output_43_0_g256 ) + lerpResult615 );
 				#ifdef _USINGXMOVE_ON
 				float staticSwitch21_g263 = 0.0;
 				#else
@@ -611,10 +599,22 @@ Shader "SHR_2DMaster"
 				float2 lerpResult56_g267 = lerp( appendResult27_g267 , appendResult49_g267 , pow( saferPower20_g268 , 20.0 ));
 				float2 temp_output_51_0_g267 = (rotator3_g269*lerpResult56_g267 + ( lerpResult56_g267 + ( ( lerpResult56_g267 * -1.0 ) + ( ( lerpResult56_g267 / -2.0 ) + 0.5 ) ) ));
 				float2 temp_output_7_0_g263 = ( lerpResult10_g263 + temp_output_51_0_g267 );
-				#ifdef _UI_MANUALORPROCEDURAL_ON
-				float2 staticSwitch494 = temp_output_7_0_g263;
-				#else
+				float2 texCoord41_g256 = IN.ase_texcoord3.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 temp_output_43_0_g256 = float2( 0.5,0.5 );
+				float2 temp_cast_0 = (_BaseScale).xx;
+				float2 appendResult628 = (float2(_TransformedScaleX , _TransformedScaleY));
+				float2 lerpResult498 = lerp( temp_cast_0 , appendResult628 , _Scaler1);
+				float lerpResult617 = lerp( 0.0 , _TransformedRota , _Rotater);
+				float cos47_g256 = cos( lerpResult617 );
+				float sin47_g256 = sin( lerpResult617 );
+				float2 rotator47_g256 = mul( ( ( texCoord41_g256 - temp_output_43_0_g256 ) * lerpResult498 ) - temp_output_43_0_g256 , float2x2( cos47_g256 , -sin47_g256 , sin47_g256 , cos47_g256 )) + temp_output_43_0_g256;
+				float2 appendResult626 = (float2(_TransformedOffsetX , _TransformedOffsetY));
+				float2 lerpResult615 = lerp( float2( 0,0 ) , appendResult626 , _Offseter);
+				float2 temp_output_53_0_g256 = ( ( rotator47_g256 + temp_output_43_0_g256 ) + lerpResult615 );
+				#ifdef _UI_AUTOORMANO_ON
 				float2 staticSwitch494 = temp_output_53_0_g256;
+				#else
+				float2 staticSwitch494 = temp_output_7_0_g263;
 				#endif
 				float4 tex2DNode97 = tex2D( _BackTex, staticSwitch494 );
 				float4 Tex_NoColors310 = tex2DNode97;
@@ -815,7 +815,7 @@ Shader "SHR_2DMaster"
 			#pragma shader_feature_local _3TEX_ON
 			#pragma shader_feature_local _2TEX_ON
 			#pragma shader_feature_local _1TEX_ON
-			#pragma shader_feature_local _UI_MANUALORPROCEDURAL_ON
+			#pragma shader_feature_local _UI_AUTOORMANO_ON
 			#pragma shader_feature_local _USINGXMOVE_ON
 			#pragma shader_feature_local _USINGYMOVE_ON
 			#pragma shader_feature _DEBUG_ON
@@ -871,14 +871,8 @@ Shader "SHR_2DMaster"
 			float _R_BaseOpacity;
 			float _G_FadeSmooth;
 			float _NoColorsWhiteValue;
-			float _MaxSizeX;
-			float _G_BaseOpacity;
-			float _MinSizeY;
-			float _MinSizeX;
-			float _RotaPower;
-			float _TimeDelay;
-			float _Offseter;
 			float _TransformedOffsetY;
+			float _G_BaseOpacity;
 			float _TransformedOffsetX;
 			float _Rotater;
 			float _TransformedRota;
@@ -887,6 +881,12 @@ Shader "SHR_2DMaster"
 			float _TransformedScaleX;
 			float _BaseScale;
 			float _MaxSizeY;
+			float _MaxSizeX;
+			float _MinSizeY;
+			float _MinSizeX;
+			float _RotaPower;
+			float _TimeDelay;
+			float _Offseter;
 			float _Alphacliptresh;
 			#ifdef ASE_TESSELLATION
 				float _TessPhongStrength;
@@ -1109,18 +1109,6 @@ Shader "SHR_2DMaster"
 				float smoothstepResult3_g246 = smoothstep( temp_output_20_0_g246 , ( temp_output_20_0_g246 * _G_FadeSmooth ) , staticSwitch5_g246);
 				float smoothstepResult31_g246 = smoothstep( smoothstepResult3_g246 , ( smoothstepResult3_g246 * 1.0 ) , tex2DNode12.g);
 				float VFX_Alpha443 = ( ( tex2DNode12.a * smoothstepResult31_g247 * _R_BaseOpacity ) + ( tex2DNode12.a * smoothstepResult31_g246 * _G_BaseOpacity ) );
-				float2 texCoord41_g256 = IN.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
-				float2 temp_output_43_0_g256 = float2( 0.5,0.5 );
-				float2 temp_cast_0 = (_BaseScale).xx;
-				float2 appendResult628 = (float2(_TransformedScaleX , _TransformedScaleY));
-				float2 lerpResult498 = lerp( temp_cast_0 , appendResult628 , _Scaler1);
-				float lerpResult617 = lerp( 0.0 , _TransformedRota , _Rotater);
-				float cos47_g256 = cos( lerpResult617 );
-				float sin47_g256 = sin( lerpResult617 );
-				float2 rotator47_g256 = mul( ( ( texCoord41_g256 - temp_output_43_0_g256 ) * lerpResult498 ) - temp_output_43_0_g256 , float2x2( cos47_g256 , -sin47_g256 , sin47_g256 , cos47_g256 )) + temp_output_43_0_g256;
-				float2 appendResult626 = (float2(_TransformedOffsetX , _TransformedOffsetY));
-				float2 lerpResult615 = lerp( float2( 0,0 ) , appendResult626 , _Offseter);
-				float2 temp_output_53_0_g256 = ( ( rotator47_g256 + temp_output_43_0_g256 ) + lerpResult615 );
 				#ifdef _USINGXMOVE_ON
 				float staticSwitch21_g263 = 0.0;
 				#else
@@ -1191,10 +1179,22 @@ Shader "SHR_2DMaster"
 				float2 lerpResult56_g267 = lerp( appendResult27_g267 , appendResult49_g267 , pow( saferPower20_g268 , 20.0 ));
 				float2 temp_output_51_0_g267 = (rotator3_g269*lerpResult56_g267 + ( lerpResult56_g267 + ( ( lerpResult56_g267 * -1.0 ) + ( ( lerpResult56_g267 / -2.0 ) + 0.5 ) ) ));
 				float2 temp_output_7_0_g263 = ( lerpResult10_g263 + temp_output_51_0_g267 );
-				#ifdef _UI_MANUALORPROCEDURAL_ON
-				float2 staticSwitch494 = temp_output_7_0_g263;
-				#else
+				float2 texCoord41_g256 = IN.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 temp_output_43_0_g256 = float2( 0.5,0.5 );
+				float2 temp_cast_0 = (_BaseScale).xx;
+				float2 appendResult628 = (float2(_TransformedScaleX , _TransformedScaleY));
+				float2 lerpResult498 = lerp( temp_cast_0 , appendResult628 , _Scaler1);
+				float lerpResult617 = lerp( 0.0 , _TransformedRota , _Rotater);
+				float cos47_g256 = cos( lerpResult617 );
+				float sin47_g256 = sin( lerpResult617 );
+				float2 rotator47_g256 = mul( ( ( texCoord41_g256 - temp_output_43_0_g256 ) * lerpResult498 ) - temp_output_43_0_g256 , float2x2( cos47_g256 , -sin47_g256 , sin47_g256 , cos47_g256 )) + temp_output_43_0_g256;
+				float2 appendResult626 = (float2(_TransformedOffsetX , _TransformedOffsetY));
+				float2 lerpResult615 = lerp( float2( 0,0 ) , appendResult626 , _Offseter);
+				float2 temp_output_53_0_g256 = ( ( rotator47_g256 + temp_output_43_0_g256 ) + lerpResult615 );
+				#ifdef _UI_AUTOORMANO_ON
 				float2 staticSwitch494 = temp_output_53_0_g256;
+				#else
+				float2 staticSwitch494 = temp_output_7_0_g263;
 				#endif
 				float4 tex2DNode97 = tex2D( _BackTex, staticSwitch494 );
 				float BackTexAlpha210 = tex2DNode97.a;
@@ -1289,7 +1289,7 @@ Shader "SHR_2DMaster"
 			#pragma shader_feature_local _3TEX_ON
 			#pragma shader_feature_local _2TEX_ON
 			#pragma shader_feature_local _1TEX_ON
-			#pragma shader_feature_local _UI_MANUALORPROCEDURAL_ON
+			#pragma shader_feature_local _UI_AUTOORMANO_ON
 			#pragma shader_feature_local _USINGXMOVE_ON
 			#pragma shader_feature_local _USINGYMOVE_ON
 			#pragma shader_feature _DEBUG_ON
@@ -1339,14 +1339,8 @@ Shader "SHR_2DMaster"
 			float _R_BaseOpacity;
 			float _G_FadeSmooth;
 			float _NoColorsWhiteValue;
-			float _MaxSizeX;
-			float _G_BaseOpacity;
-			float _MinSizeY;
-			float _MinSizeX;
-			float _RotaPower;
-			float _TimeDelay;
-			float _Offseter;
 			float _TransformedOffsetY;
+			float _G_BaseOpacity;
 			float _TransformedOffsetX;
 			float _Rotater;
 			float _TransformedRota;
@@ -1355,6 +1349,12 @@ Shader "SHR_2DMaster"
 			float _TransformedScaleX;
 			float _BaseScale;
 			float _MaxSizeY;
+			float _MaxSizeX;
+			float _MinSizeY;
+			float _MinSizeX;
+			float _RotaPower;
+			float _TimeDelay;
+			float _Offseter;
 			float _Alphacliptresh;
 			#ifdef ASE_TESSELLATION
 				float _TessPhongStrength;
@@ -1562,18 +1562,6 @@ Shader "SHR_2DMaster"
 				float smoothstepResult3_g246 = smoothstep( temp_output_20_0_g246 , ( temp_output_20_0_g246 * _G_FadeSmooth ) , staticSwitch5_g246);
 				float smoothstepResult31_g246 = smoothstep( smoothstepResult3_g246 , ( smoothstepResult3_g246 * 1.0 ) , tex2DNode12.g);
 				float VFX_Alpha443 = ( ( tex2DNode12.a * smoothstepResult31_g247 * _R_BaseOpacity ) + ( tex2DNode12.a * smoothstepResult31_g246 * _G_BaseOpacity ) );
-				float2 texCoord41_g256 = IN.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
-				float2 temp_output_43_0_g256 = float2( 0.5,0.5 );
-				float2 temp_cast_0 = (_BaseScale).xx;
-				float2 appendResult628 = (float2(_TransformedScaleX , _TransformedScaleY));
-				float2 lerpResult498 = lerp( temp_cast_0 , appendResult628 , _Scaler1);
-				float lerpResult617 = lerp( 0.0 , _TransformedRota , _Rotater);
-				float cos47_g256 = cos( lerpResult617 );
-				float sin47_g256 = sin( lerpResult617 );
-				float2 rotator47_g256 = mul( ( ( texCoord41_g256 - temp_output_43_0_g256 ) * lerpResult498 ) - temp_output_43_0_g256 , float2x2( cos47_g256 , -sin47_g256 , sin47_g256 , cos47_g256 )) + temp_output_43_0_g256;
-				float2 appendResult626 = (float2(_TransformedOffsetX , _TransformedOffsetY));
-				float2 lerpResult615 = lerp( float2( 0,0 ) , appendResult626 , _Offseter);
-				float2 temp_output_53_0_g256 = ( ( rotator47_g256 + temp_output_43_0_g256 ) + lerpResult615 );
 				#ifdef _USINGXMOVE_ON
 				float staticSwitch21_g263 = 0.0;
 				#else
@@ -1644,10 +1632,22 @@ Shader "SHR_2DMaster"
 				float2 lerpResult56_g267 = lerp( appendResult27_g267 , appendResult49_g267 , pow( saferPower20_g268 , 20.0 ));
 				float2 temp_output_51_0_g267 = (rotator3_g269*lerpResult56_g267 + ( lerpResult56_g267 + ( ( lerpResult56_g267 * -1.0 ) + ( ( lerpResult56_g267 / -2.0 ) + 0.5 ) ) ));
 				float2 temp_output_7_0_g263 = ( lerpResult10_g263 + temp_output_51_0_g267 );
-				#ifdef _UI_MANUALORPROCEDURAL_ON
-				float2 staticSwitch494 = temp_output_7_0_g263;
-				#else
+				float2 texCoord41_g256 = IN.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 temp_output_43_0_g256 = float2( 0.5,0.5 );
+				float2 temp_cast_0 = (_BaseScale).xx;
+				float2 appendResult628 = (float2(_TransformedScaleX , _TransformedScaleY));
+				float2 lerpResult498 = lerp( temp_cast_0 , appendResult628 , _Scaler1);
+				float lerpResult617 = lerp( 0.0 , _TransformedRota , _Rotater);
+				float cos47_g256 = cos( lerpResult617 );
+				float sin47_g256 = sin( lerpResult617 );
+				float2 rotator47_g256 = mul( ( ( texCoord41_g256 - temp_output_43_0_g256 ) * lerpResult498 ) - temp_output_43_0_g256 , float2x2( cos47_g256 , -sin47_g256 , sin47_g256 , cos47_g256 )) + temp_output_43_0_g256;
+				float2 appendResult626 = (float2(_TransformedOffsetX , _TransformedOffsetY));
+				float2 lerpResult615 = lerp( float2( 0,0 ) , appendResult626 , _Offseter);
+				float2 temp_output_53_0_g256 = ( ( rotator47_g256 + temp_output_43_0_g256 ) + lerpResult615 );
+				#ifdef _UI_AUTOORMANO_ON
 				float2 staticSwitch494 = temp_output_53_0_g256;
+				#else
+				float2 staticSwitch494 = temp_output_7_0_g263;
 				#endif
 				float4 tex2DNode97 = tex2D( _BackTex, staticSwitch494 );
 				float BackTexAlpha210 = tex2DNode97.a;
@@ -1742,7 +1742,7 @@ Shader "SHR_2DMaster"
 			#pragma shader_feature_local _3TEX_ON
 			#pragma shader_feature_local _2TEX_ON
 			#pragma shader_feature_local _1TEX_ON
-			#pragma shader_feature_local _UI_MANUALORPROCEDURAL_ON
+			#pragma shader_feature_local _UI_AUTOORMANO_ON
 			#pragma shader_feature_local _USINGXMOVE_ON
 			#pragma shader_feature_local _USINGYMOVE_ON
 			#pragma shader_feature _DEBUG_ON
@@ -1792,14 +1792,8 @@ Shader "SHR_2DMaster"
 			float _R_BaseOpacity;
 			float _G_FadeSmooth;
 			float _NoColorsWhiteValue;
-			float _MaxSizeX;
-			float _G_BaseOpacity;
-			float _MinSizeY;
-			float _MinSizeX;
-			float _RotaPower;
-			float _TimeDelay;
-			float _Offseter;
 			float _TransformedOffsetY;
+			float _G_BaseOpacity;
 			float _TransformedOffsetX;
 			float _Rotater;
 			float _TransformedRota;
@@ -1808,6 +1802,12 @@ Shader "SHR_2DMaster"
 			float _TransformedScaleX;
 			float _BaseScale;
 			float _MaxSizeY;
+			float _MaxSizeX;
+			float _MinSizeY;
+			float _MinSizeX;
+			float _RotaPower;
+			float _TimeDelay;
+			float _Offseter;
 			float _Alphacliptresh;
 			#ifdef ASE_TESSELLATION
 				float _TessPhongStrength;
@@ -2010,18 +2010,6 @@ Shader "SHR_2DMaster"
 				float smoothstepResult3_g246 = smoothstep( temp_output_20_0_g246 , ( temp_output_20_0_g246 * _G_FadeSmooth ) , staticSwitch5_g246);
 				float smoothstepResult31_g246 = smoothstep( smoothstepResult3_g246 , ( smoothstepResult3_g246 * 1.0 ) , tex2DNode12.g);
 				float VFX_Alpha443 = ( ( tex2DNode12.a * smoothstepResult31_g247 * _R_BaseOpacity ) + ( tex2DNode12.a * smoothstepResult31_g246 * _G_BaseOpacity ) );
-				float2 texCoord41_g256 = IN.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
-				float2 temp_output_43_0_g256 = float2( 0.5,0.5 );
-				float2 temp_cast_0 = (_BaseScale).xx;
-				float2 appendResult628 = (float2(_TransformedScaleX , _TransformedScaleY));
-				float2 lerpResult498 = lerp( temp_cast_0 , appendResult628 , _Scaler1);
-				float lerpResult617 = lerp( 0.0 , _TransformedRota , _Rotater);
-				float cos47_g256 = cos( lerpResult617 );
-				float sin47_g256 = sin( lerpResult617 );
-				float2 rotator47_g256 = mul( ( ( texCoord41_g256 - temp_output_43_0_g256 ) * lerpResult498 ) - temp_output_43_0_g256 , float2x2( cos47_g256 , -sin47_g256 , sin47_g256 , cos47_g256 )) + temp_output_43_0_g256;
-				float2 appendResult626 = (float2(_TransformedOffsetX , _TransformedOffsetY));
-				float2 lerpResult615 = lerp( float2( 0,0 ) , appendResult626 , _Offseter);
-				float2 temp_output_53_0_g256 = ( ( rotator47_g256 + temp_output_43_0_g256 ) + lerpResult615 );
 				#ifdef _USINGXMOVE_ON
 				float staticSwitch21_g263 = 0.0;
 				#else
@@ -2092,10 +2080,22 @@ Shader "SHR_2DMaster"
 				float2 lerpResult56_g267 = lerp( appendResult27_g267 , appendResult49_g267 , pow( saferPower20_g268 , 20.0 ));
 				float2 temp_output_51_0_g267 = (rotator3_g269*lerpResult56_g267 + ( lerpResult56_g267 + ( ( lerpResult56_g267 * -1.0 ) + ( ( lerpResult56_g267 / -2.0 ) + 0.5 ) ) ));
 				float2 temp_output_7_0_g263 = ( lerpResult10_g263 + temp_output_51_0_g267 );
-				#ifdef _UI_MANUALORPROCEDURAL_ON
-				float2 staticSwitch494 = temp_output_7_0_g263;
-				#else
+				float2 texCoord41_g256 = IN.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 temp_output_43_0_g256 = float2( 0.5,0.5 );
+				float2 temp_cast_0 = (_BaseScale).xx;
+				float2 appendResult628 = (float2(_TransformedScaleX , _TransformedScaleY));
+				float2 lerpResult498 = lerp( temp_cast_0 , appendResult628 , _Scaler1);
+				float lerpResult617 = lerp( 0.0 , _TransformedRota , _Rotater);
+				float cos47_g256 = cos( lerpResult617 );
+				float sin47_g256 = sin( lerpResult617 );
+				float2 rotator47_g256 = mul( ( ( texCoord41_g256 - temp_output_43_0_g256 ) * lerpResult498 ) - temp_output_43_0_g256 , float2x2( cos47_g256 , -sin47_g256 , sin47_g256 , cos47_g256 )) + temp_output_43_0_g256;
+				float2 appendResult626 = (float2(_TransformedOffsetX , _TransformedOffsetY));
+				float2 lerpResult615 = lerp( float2( 0,0 ) , appendResult626 , _Offseter);
+				float2 temp_output_53_0_g256 = ( ( rotator47_g256 + temp_output_43_0_g256 ) + lerpResult615 );
+				#ifdef _UI_AUTOORMANO_ON
 				float2 staticSwitch494 = temp_output_53_0_g256;
+				#else
+				float2 staticSwitch494 = temp_output_7_0_g263;
 				#endif
 				float4 tex2DNode97 = tex2D( _BackTex, staticSwitch494 );
 				float BackTexAlpha210 = tex2DNode97.a;
@@ -2203,7 +2203,7 @@ Shader "SHR_2DMaster"
 			#pragma shader_feature_local _3TEX_ON
 			#pragma shader_feature_local _2TEX_ON
 			#pragma shader_feature_local _1TEX_ON
-			#pragma shader_feature_local _UI_MANUALORPROCEDURAL_ON
+			#pragma shader_feature_local _UI_AUTOORMANO_ON
 			#pragma shader_feature_local _USINGXMOVE_ON
 			#pragma shader_feature_local _USINGYMOVE_ON
 			#pragma shader_feature _DEBUG_ON
@@ -2254,14 +2254,8 @@ Shader "SHR_2DMaster"
 			float _R_BaseOpacity;
 			float _G_FadeSmooth;
 			float _NoColorsWhiteValue;
-			float _MaxSizeX;
-			float _G_BaseOpacity;
-			float _MinSizeY;
-			float _MinSizeX;
-			float _RotaPower;
-			float _TimeDelay;
-			float _Offseter;
 			float _TransformedOffsetY;
+			float _G_BaseOpacity;
 			float _TransformedOffsetX;
 			float _Rotater;
 			float _TransformedRota;
@@ -2270,6 +2264,12 @@ Shader "SHR_2DMaster"
 			float _TransformedScaleX;
 			float _BaseScale;
 			float _MaxSizeY;
+			float _MaxSizeX;
+			float _MinSizeY;
+			float _MinSizeX;
+			float _RotaPower;
+			float _TimeDelay;
+			float _Offseter;
 			float _Alphacliptresh;
 			#ifdef ASE_TESSELLATION
 				float _TessPhongStrength;
@@ -2481,18 +2481,6 @@ Shader "SHR_2DMaster"
 				float smoothstepResult3_g246 = smoothstep( temp_output_20_0_g246 , ( temp_output_20_0_g246 * _G_FadeSmooth ) , staticSwitch5_g246);
 				float smoothstepResult31_g246 = smoothstep( smoothstepResult3_g246 , ( smoothstepResult3_g246 * 1.0 ) , tex2DNode12.g);
 				float VFX_Alpha443 = ( ( tex2DNode12.a * smoothstepResult31_g247 * _R_BaseOpacity ) + ( tex2DNode12.a * smoothstepResult31_g246 * _G_BaseOpacity ) );
-				float2 texCoord41_g256 = IN.ase_texcoord1.xy * float2( 1,1 ) + float2( 0,0 );
-				float2 temp_output_43_0_g256 = float2( 0.5,0.5 );
-				float2 temp_cast_0 = (_BaseScale).xx;
-				float2 appendResult628 = (float2(_TransformedScaleX , _TransformedScaleY));
-				float2 lerpResult498 = lerp( temp_cast_0 , appendResult628 , _Scaler1);
-				float lerpResult617 = lerp( 0.0 , _TransformedRota , _Rotater);
-				float cos47_g256 = cos( lerpResult617 );
-				float sin47_g256 = sin( lerpResult617 );
-				float2 rotator47_g256 = mul( ( ( texCoord41_g256 - temp_output_43_0_g256 ) * lerpResult498 ) - temp_output_43_0_g256 , float2x2( cos47_g256 , -sin47_g256 , sin47_g256 , cos47_g256 )) + temp_output_43_0_g256;
-				float2 appendResult626 = (float2(_TransformedOffsetX , _TransformedOffsetY));
-				float2 lerpResult615 = lerp( float2( 0,0 ) , appendResult626 , _Offseter);
-				float2 temp_output_53_0_g256 = ( ( rotator47_g256 + temp_output_43_0_g256 ) + lerpResult615 );
 				#ifdef _USINGXMOVE_ON
 				float staticSwitch21_g263 = 0.0;
 				#else
@@ -2563,10 +2551,22 @@ Shader "SHR_2DMaster"
 				float2 lerpResult56_g267 = lerp( appendResult27_g267 , appendResult49_g267 , pow( saferPower20_g268 , 20.0 ));
 				float2 temp_output_51_0_g267 = (rotator3_g269*lerpResult56_g267 + ( lerpResult56_g267 + ( ( lerpResult56_g267 * -1.0 ) + ( ( lerpResult56_g267 / -2.0 ) + 0.5 ) ) ));
 				float2 temp_output_7_0_g263 = ( lerpResult10_g263 + temp_output_51_0_g267 );
-				#ifdef _UI_MANUALORPROCEDURAL_ON
-				float2 staticSwitch494 = temp_output_7_0_g263;
-				#else
+				float2 texCoord41_g256 = IN.ase_texcoord1.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 temp_output_43_0_g256 = float2( 0.5,0.5 );
+				float2 temp_cast_0 = (_BaseScale).xx;
+				float2 appendResult628 = (float2(_TransformedScaleX , _TransformedScaleY));
+				float2 lerpResult498 = lerp( temp_cast_0 , appendResult628 , _Scaler1);
+				float lerpResult617 = lerp( 0.0 , _TransformedRota , _Rotater);
+				float cos47_g256 = cos( lerpResult617 );
+				float sin47_g256 = sin( lerpResult617 );
+				float2 rotator47_g256 = mul( ( ( texCoord41_g256 - temp_output_43_0_g256 ) * lerpResult498 ) - temp_output_43_0_g256 , float2x2( cos47_g256 , -sin47_g256 , sin47_g256 , cos47_g256 )) + temp_output_43_0_g256;
+				float2 appendResult626 = (float2(_TransformedOffsetX , _TransformedOffsetY));
+				float2 lerpResult615 = lerp( float2( 0,0 ) , appendResult626 , _Offseter);
+				float2 temp_output_53_0_g256 = ( ( rotator47_g256 + temp_output_43_0_g256 ) + lerpResult615 );
+				#ifdef _UI_AUTOORMANO_ON
 				float2 staticSwitch494 = temp_output_53_0_g256;
+				#else
+				float2 staticSwitch494 = temp_output_7_0_g263;
 				#endif
 				float4 tex2DNode97 = tex2D( _BackTex, staticSwitch494 );
 				float BackTexAlpha210 = tex2DNode97.a;
@@ -2767,7 +2767,6 @@ Node;AmplifyShaderEditor.LerpOp;478;-2071.656,-2626.732;Inherit;False;3;0;FLOAT;
 Node;AmplifyShaderEditor.RangedFloatNode;480;-2328.229,-2595.399;Inherit;False;Property;_TransformedScale;TransformedScale;68;0;Create;True;0;0;0;False;0;False;0.8;0.8;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;173;961.14,-840.0126;Inherit;False;172;UI_Colors;1;0;OBJECT;;False;1;COLOR;0
 Node;AmplifyShaderEditor.SamplerNode;97;-5603.524,1773.606;Inherit;True;Property;_BackTex;BackTex;39;0;Create;True;0;0;0;False;0;False;-1;8d87401656d0ff64cb6e5a9ed9176d2a;b47ae78de3d3b7749a4836d0c15c157a;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.StaticSwitch;494;-5775.067,2477.19;Inherit;False;Property;_UI_ManualOrProcedural;UI_ManualOrProcedural;82;0;Create;True;0;0;0;False;0;False;0;1;0;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;FLOAT2;0,0;False;0;FLOAT2;0,0;False;2;FLOAT2;0,0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT2;0,0;False;6;FLOAT2;0,0;False;7;FLOAT2;0,0;False;8;FLOAT2;0,0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;310;-4835.329,1759.162;Inherit;False;Tex_NoColors;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;210;-3941.371,1866.683;Inherit;False;BackTexAlpha;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.Vector2Node;14;-2028.562,-1407.01;Inherit;False;Property;_MainTexTiling;MainTexTiling;107;0;Create;True;0;0;0;False;0;False;0,0;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
@@ -2879,7 +2878,7 @@ Node;AmplifyShaderEditor.TextureCoordinatesNode;588;-10099.95,2612.431;Inherit;F
 Node;AmplifyShaderEditor.ScaleAndOffsetNode;583;-9752.563,2542.39;Inherit;True;3;0;FLOAT2;0,0;False;1;FLOAT2;1,0;False;2;FLOAT2;0,0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.WireNode;598;-10277.24,2628.152;Inherit;False;1;0;FLOAT2;0,0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;563;-8722.599,1219.586;Inherit;False;Movements;-1;True;1;0;FLOAT2;0,0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.FunctionNode;609;-6093.262,2424.166;Inherit;False;SHF_BeatMoving;85;;263;65813206edc57a749b6de4c0a25b7872;0;3;93;FLOAT;0;False;94;FLOAT;0;False;63;FLOAT2;0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.FunctionNode;609;-6093.262,2424.166;Inherit;True;SHF_BeatMoving;85;;263;65813206edc57a749b6de4c0a25b7872;0;3;93;FLOAT;0;False;94;FLOAT;0;False;63;FLOAT2;0,0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.FunctionNode;610;-6328.552,2593.156;Inherit;False;SHF_BeatScaling;55;;267;1f1f15f84ef3aaf4b94f2810f37733f5;0;2;79;FLOAT2;0,0;False;72;FLOAT;0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.FunctionNode;611;-6627.783,2595.187;Inherit;True;SHF_BeatRotza;0;;269;7604ce8e2d38f1141bf05ecac26f9e0c;0;3;13;FLOAT2;0.5,0.5;False;12;FLOAT2;0,0;False;11;FLOAT;0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.LerpOp;498;-6483.807,3060.673;Inherit;False;3;0;FLOAT2;0,0;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;1;FLOAT2;0
@@ -2893,8 +2892,8 @@ Node;AmplifyShaderEditor.RangedFloatNode;549;-10358.82,1379.657;Inherit;False;Pr
 Node;AmplifyShaderEditor.RangedFloatNode;552;-10055.98,1190.534;Inherit;False;Property;_StartPosX;StartPosX;4;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;553;-10055.26,1319.102;Inherit;False;Property;_StartPosY;StartPosY;5;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.StaticSwitch;546;-9559.325,1515.845;Inherit;False;Property;_UsingY;UsingY ?;7;0;Create;True;0;0;0;False;0;False;0;1;1;True;;Toggle;2;Key0;Key1;Reference;-1;True;True;All;9;1;FLOAT;0;False;0;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT;0;False;7;FLOAT;0;False;8;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;554;-10038.66,1453.23;Inherit;False;Property;_OffsetX_Power;OffsetX_Power;7;0;Create;True;0;0;0;False;0;False;0.05;0.05;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;550;-10041.09,1554.161;Inherit;False;Property;_OffsetY_Power;OffsetY_Power;6;0;Create;True;0;0;0;False;0;False;0.05;0.05;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;554;-10038.66,1453.23;Inherit;False;Property;_OffsetX_Power;OffsetX_Power;7;0;Create;True;0;0;0;False;0;False;0.2;0.05;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;550;-10041.09,1554.161;Inherit;False;Property;_OffsetY_Power;OffsetY_Power;6;0;Create;True;0;0;0;False;0;False;0.2;0.05;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;618;-6799.654,2962.521;Inherit;False;Property;_Rotater;Rotater;76;0;Create;True;0;0;0;False;0;False;0;0;-1;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;619;-7041.329,2888.786;Inherit;False;Property;_TransformedRota;TransformedRota;72;0;Create;True;0;0;0;False;0;False;0.8;0.8;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;499;-7049.671,3142.659;Inherit;False;Property;_TransformedScaleX;TransformedScaleX;70;0;Create;True;0;0;0;False;0;False;0.8;0.8;0;0;0;1;FLOAT;0
@@ -2911,6 +2910,7 @@ Node;AmplifyShaderEditor.RangedFloatNode;630;-8795.913,2863.095;Inherit;False;Pr
 Node;AmplifyShaderEditor.PiNode;603;-8798.415,2783.785;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;605;-8338.125,2686.591;Inherit;False;Rotation;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;620;-6543.191,1840.119;Inherit;False;605;Rotation;1;0;OBJECT;;False;1;FLOAT;0
+Node;AmplifyShaderEditor.StaticSwitch;494;-5737.067,2478.523;Inherit;False;Property;_UI_AutoOrMano;UI_AutoOrMano;82;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;FLOAT2;0,0;False;0;FLOAT2;0,0;False;2;FLOAT2;0,0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT2;0,0;False;6;FLOAT2;0,0;False;7;FLOAT2;0,0;False;8;FLOAT2;0,0;False;1;FLOAT2;0
 WireConnection;150;1;494;0
 WireConnection;179;0;211;0
 WireConnection;179;1;180;0
@@ -3034,8 +3034,6 @@ WireConnection;478;0;479;0
 WireConnection;478;1;480;0
 WireConnection;478;2;481;0
 WireConnection;97;1;494;0
-WireConnection;494;1;509;24
-WireConnection;494;0;609;0
 WireConnection;310;0;97;0
 WireConnection;210;0;251;0
 WireConnection;54;0;44;1
@@ -3186,5 +3184,7 @@ WireConnection;604;0;602;34
 WireConnection;604;1;603;0
 WireConnection;604;2;630;0
 WireConnection;605;0;604;0
+WireConnection;494;1;609;0
+WireConnection;494;0;509;24
 ASEEND*/
-//CHKSM=01CDF0A4222A5B4679D2B662955C46BBA8A10A80
+//CHKSM=4FEA6FF1E2577104C6E94D5711568055682F1AB9
