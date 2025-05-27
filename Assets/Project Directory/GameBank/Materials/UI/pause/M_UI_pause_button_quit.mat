@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_UI_pause_E
+  m_Name: M_UI_pause_button_quit
   m_Shader: {fileID: 4800000, guid: 7a05bef0144df2a4bb13a8cb2470e854, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -36,7 +36,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BackTex:
-        m_Texture: {fileID: 2800000, guid: 4289036fda5ad774a98f0c418c558215, type: 3}
+        m_Texture: {fileID: 2800000, guid: c0da74171a31a814bacd0ea99284d717, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DissolveTex:
@@ -90,8 +90,8 @@ Material:
     - _MaxSizeX: 1.1
     - _MaxSizeY: 1.1
     - _MaxSizeY1: 1.5
-    - _MinSizeX: 1.1
-    - _MinSizeY: 1.1
+    - _MinSizeX: 1
+    - _MinSizeY: 1
     - _MinSizeY1: 1
     - _MoveX: 0
     - _NoColorsWhiteValue: 1
@@ -100,7 +100,7 @@ Material:
     - _QueueOffset: 0
     - _R_BaseOpacity: 0
     - _R_Fadesmooth: 1.25
-    - _RotaPower: 0.02
+    - _RotaPower: 0.0005
     - _Rotater: 0
     - _ScaleX: 1
     - _ScaleY: 1

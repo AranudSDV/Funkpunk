@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_UI_option_aduio_ambiance
+  m_Name: M_ui_level_tel_0
   m_Shader: {fileID: 4800000, guid: 7a05bef0144df2a4bb13a8cb2470e854, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -36,7 +36,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BackTex:
-        m_Texture: {fileID: 2800000, guid: 7a78d220b5aad884894c636271a20023, type: 3}
+        m_Texture: {fileID: 2800000, guid: ca637a94a77fdae4a95ec5d9b6759ffe, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DissolveTex:
@@ -100,7 +100,7 @@ Material:
     - _QueueOffset: 0
     - _R_BaseOpacity: 0
     - _R_Fadesmooth: 1.25
-    - _RotaPower: -0.001
+    - _RotaPower: -0.005
     - _Rotater: 0
     - _ScaleX: 1
     - _ScaleY: 1

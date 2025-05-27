@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_UI_option_aduio_ambiance 3
+  m_Name: M_ui_level_bg_lvl_2
   m_Shader: {fileID: 4800000, guid: 7a05bef0144df2a4bb13a8cb2470e854, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -36,7 +36,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BackTex:
-        m_Texture: {fileID: 2800000, guid: b5cc72001f476e846b0a7ecce9c1e57f, type: 3}
+        m_Texture: {fileID: 2800000, guid: 640eed076bb2f5a4086836244a62b91a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DissolveTex:
@@ -88,7 +88,7 @@ Material:
     - _HandleColors: 0
     - _IsVerticalOrLateral: 0
     - _MaxSizeX: 1.1
-    - _MaxSizeY: 1.05
+    - _MaxSizeY: 1.1
     - _MaxSizeY1: 1.5
     - _MinSizeX: 1.1
     - _MinSizeY: 1.1
@@ -106,11 +106,11 @@ Material:
     - _ScaleY: 1
     - _Scaler1: 0
     - _TimeDelay: 0
-    - _TransformedOffset: 0.8
+    - _TransformedOffset: 0.001
     - _TransformedOffsetX: 0.8
     - _TransformedOffsetY: 0.8
-    - _TransformedRota: 0.8
-    - _TransformedScale1: 0.8
+    - _TransformedRota: 0.001
+    - _TransformedScale1: 0.001
     - _TransformedScaleX: 0.8
     - _TransformedScaleY: 0.8
     - _UI_ManualOrProcedural: 0
