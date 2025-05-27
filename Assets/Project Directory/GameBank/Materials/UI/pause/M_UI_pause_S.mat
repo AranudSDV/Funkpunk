@@ -105,12 +105,13 @@ Material:
     - _ScaleX: 1
     - _ScaleY: 1
     - _Scaler1: 0
-    - _TimeDelay: 0
+    - _TimeDelay: 0.6
     - _TransformedOffsetX: 0.8
     - _TransformedOffsetY: 0.8
     - _TransformedRota: 0.8
     - _TransformedScaleX: 0.8
     - _TransformedScaleY: 0.8
+    - _UI_AutoOrMano: 0
     - _UI_ManualOrProcedural: 0
     - _UpLorDownR: 0
     - _UsingX: 0
