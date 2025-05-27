@@ -30,8 +30,18 @@ public class MenuManager : MonoBehaviour
     public RectTransform RtControllerWarning;
 
     //NAVIGATION UX
+    [Header("PauseMenu")]
+    [SerializeField] private GameObject GoPauseMenu;
+    public CanvasGroup CgPauseMenu;
+    [SerializeField] private RectTransform RtPauseMenu;
+    private bool bActif = false;
+    [SerializeField] private GameObject GoPausedFirstButtonSelected;
+    [SerializeField] private UnityEngine.UI.Button[] buttonsPausePannel;
+    [SerializeField] private UnityEngine.UI.Image[] imagesButtonPausePannel;
+
+
+    //NAVIGATION UX
     [Header("Options General")]
-    private bool[] bOnce = new bool[3] { false, false, false };
     [SerializeField] private GameObject GoOptionGeneralFirstButtonSelected;
     [SerializeField] private UnityEngine.UI.Selectable ButtonOptionGeneral;
     [SerializeField] private UnityEngine.UI.Button[] ButtonsOptionGeneral_fromGeneral;
@@ -55,6 +65,8 @@ public class MenuManager : MonoBehaviour
     private bool[] bNowSelectedAudio = new bool[3] { false, false, false };
     private int iSelectedGeneral = -1;
     private int iSelectedAudio = -1;
+    public bool bOnceGrid = false;
+    private bool[] bOnceOptions = new bool[3] { false, false, false };
 
     [Header("Sound")]
     public FMOD.Studio.VCA music_basic_VCA;
@@ -85,17 +97,12 @@ public class MenuManager : MonoBehaviour
     public GameObject[] GoLevelStars;
     public Sprite sprite_star_completed;
     public Sprite sprite_star_empty;
-    [SerializeField] private GameObject GoPauseMenu;
-    public CanvasGroup CgPauseMenu;
-    [SerializeField] private RectTransform RtPauseMenu;
-    private bool bActif = false;
     [SerializeField] private Sprite spriteLevel_done;
     [SerializeField] private Sprite spriteLevel_notDone;
     [SerializeField] private Material m_buttonLevel;
     [SerializeField] private Color32 colorFoes;
     [SerializeField] private Color32 colorPlayer;
     public GameObject GoScoringFirstButtonSelected;
-    [SerializeField] private GameObject GoPausedFirstButtonSelected;
     private bool bMenuOnTriggered = false;
     [SerializeField] private SplineTrainMover_WithSpacing trainMenu = null;
     private bool bWaitTrain = false;
@@ -344,14 +351,28 @@ public class MenuManager : MonoBehaviour
     }
     private void CheckCurrentSelectable()
     {
-        if(CgOptionAudio.alpha == 1f)
+        if (CgPauseMenu.alpha == 1f)
         {
-            for(int i = 0; i<3; i++)
+            for (int i = 0; i < buttonsPausePannel.Length; i++)
             {
-                if(EventSystem.currentSelectedGameObject == SliderOptionAudio[i] && !bNowSelectedAudio[i])
+                if (EventSystem.currentSelectedGameObject == buttonsPausePannel[i])
+                {
+                    imagesButtonPausePannel[i].material.SetFloat("NoColorsWhiteValue", 1f);
+                }
+                if (EventSystem.currentSelectedGameObject != buttonsPausePannel[i])
+                {
+                    imagesButtonPausePannel[i].material.SetFloat("NoColorsWhiteValue", 0.5f);
+                }
+            }
+        }
+        else if (CgOptionAudio.alpha == 1f)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                if (EventSystem.currentSelectedGameObject == SliderOptionAudio[i] && !bNowSelectedAudio[i])
                 {
                     bNowSelectedAudio[i] = true;
-                    if(iSelectedAudio>-1)
+                    if (iSelectedAudio > -1)
                     {
                         bNowSelectedAudio[iSelectedAudio] = false;
                         iSelectedAudio = i;
@@ -366,14 +387,14 @@ public class MenuManager : MonoBehaviour
                 {
                     ImageSliderHandlerAudio[i].material.SetFloat("NoColorsWhiteValue", 0.5f);
                 }
-                if(i< bNowSelectedGeneral.Length)
+                if (i < bNowSelectedGeneral.Length)
                 {
                     bNowSelectedGeneral[i] = false;
                 }
                 iSelectedGeneral = -1;
             }
         }
-        else if(CgOptionGeneral.alpha == 1f)
+        else if (CgOptionGeneral.alpha == 1f)
         {
             for (int i = 0; i < 2; i++)
             {
@@ -854,7 +875,7 @@ public class MenuManager : MonoBehaviour
         if(controllerConnected && CgOptionPannel.alpha == 1f)
         {
             CheckCurrentSelectable();
-            if (CgOptionAudio.alpha ==1f && !bOnce[0])
+            if (CgOptionAudio.alpha ==1f && !bOnceOptions[0])
             {
                 var navigation = ButtonOptionAudio.navigation;
                 navigation.selectOnUp = SliderOptionAudio[0];
@@ -869,9 +890,9 @@ public class MenuManager : MonoBehaviour
                 navigation1.selectOnLeft = ButtonsOptionGeneral_fromAudio[0];
                 navigation1.selectOnRight = ButtonsOptionGeneral_fromAudio[1];
                 ButtonOptionGeneral.navigation = navigation1;
-                bOnce[0] = true;
+                bOnceOptions[0] = true;
             }
-            else if(CgOptionGeneral.alpha == 1f && !bOnce[1])
+            else if(CgOptionGeneral.alpha == 1f && !bOnceOptions[1])
             {
                 var navigation = ButtonOptionAudio.navigation;
                 navigation.selectOnUp = ButtonsOptionAudio_fromGeneral[0];
@@ -886,9 +907,9 @@ public class MenuManager : MonoBehaviour
                 navigation1.selectOnLeft = ButtonsOptionGeneral_fromGeneral[2];
                 navigation1.selectOnRight = ButtonsOptionGeneral_fromGeneral[3];
                 ButtonOptionGeneral.navigation = navigation1;
-                bOnce[1] = true;
+                bOnceOptions[1] = true;
             }
-            else if(CgOptionGeneral.alpha == 1f && !bOnce[2])
+            else if(CgOptionGeneral.alpha == 1f && !bOnceOptions[2])
             {
                 if(_playerData.iLanguageNbPlayer==0) //english
                 {
@@ -915,8 +936,12 @@ public class MenuManager : MonoBehaviour
                     //ImageButtonGeneral[1].material = M_materialButtonGeneral[4];
                     ImageButtonGeneral[1].sprite = spriteButtonGeneral[4];
                 }
-                bOnce[2] = true;
+                bOnceOptions[2] = true;
             }
+        }
+        else if(controllerConnected && CgPauseMenu.alpha == 1f)
+        {
+            CheckCurrentSelectable();
         }
 
         if (controllerConnected && EventSystem!=null)
@@ -936,7 +961,8 @@ public class MenuManager : MonoBehaviour
             RtPauseMenu.anchorMax = new Vector2(1, 1);
             RtPauseMenu.offsetMax = new Vector2(0f, 0f);
             RtPauseMenu.offsetMin = new Vector2(0f, 0f);
-            EventSystem.SetSelectedGameObject(GoPausedFirstButtonSelected);
+            EventSystem.SetSelectedGameObject(GoPausedFirstButtonSelected); 
+            CheckCurrentSelectable();
             GoPausedFirstButtonSelected.GetComponent<UnityEngine.UI.Button>().Select();
             bGameIsPaused = true;
             PauseGame();
@@ -1023,7 +1049,7 @@ public class MenuManager : MonoBehaviour
         ButtonSound();
         if (bGeneral)
         {
-            bOnce[0] = false;
+            bOnceOptions[0] = false;
             CgOptionAudio.alpha = 0f;
             CgOptionAudio.interactable = false;
             CgOptionAudio.blocksRaycasts = false;
@@ -1033,7 +1059,7 @@ public class MenuManager : MonoBehaviour
         }
         else
         {
-            bOnce[1] = false;
+            bOnceOptions[1] = false;
             CgOptionGeneral.alpha = 0f;
             CgOptionGeneral.interactable = false;
             CgOptionGeneral.blocksRaycasts = false;
@@ -1068,7 +1094,7 @@ public class MenuManager : MonoBehaviour
     }
     public void Difficulty()
     {
-        bOnce[2] = false;
+        bOnceOptions[2] = false;
         ButtonSound();
         if (iDifficulty == 0)
         {
@@ -1089,7 +1115,7 @@ public class MenuManager : MonoBehaviour
     }
     public void LanguageButton()
     {
-        bOnce[2] = false;
+        bOnceOptions[2] = false;
         ButtonSound();
         if (_playerData.iLanguageNbPlayer == 1)
         {
@@ -1103,6 +1129,18 @@ public class MenuManager : MonoBehaviour
         {
             TrainSplashLanguage();
         }
+    }
+    public void GridButton()
+    {
+        if(_playerData.iGrid == 1)
+        {
+            _playerData.iGrid = 0; //false
+        }
+        else
+        {
+            _playerData.iGrid = 1; //true
+        }
+        bOnceGrid = false;
     }
     public void QuitGame()
     {
@@ -1403,6 +1441,13 @@ public class MenuManager : MonoBehaviour
         RtEndDialogue.offsetMax = new Vector2(0f, 0f);
         RtEndDialogue.offsetMin = new Vector2(0f, 0f);
 
-        LoadScene("Scenes/World/LevelChoosing");
+        if (_playerData.iLevelPlayer >= 4)
+        {
+            //
+        }
+        else
+        {
+            LoadScene("Scenes/World/LevelChoosing");
+        }
     }
 }

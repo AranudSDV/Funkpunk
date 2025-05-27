@@ -131,6 +131,8 @@ public class SC_Player : Singleton<SC_Player>
     public int iCheckPoint = 0;
     public bool bIsReplaying = false;
 
+    [SerializeField] private GameObject go_Grid;
+
     [SerializeField, Button(nameof(testy))] bool test;
 
     [ContextMenu("lols")]
@@ -242,6 +244,21 @@ public class SC_Player : Singleton<SC_Player>
         {
             bIsImune = true;
             CgInGame.alpha = 0f;
+        }
+        if(menuManager!=null)
+        {
+            if(menuManager.bOnceGrid == false && go_Grid!=null)
+            {
+                if(menuManager._playerData.iGrid == 1)//true
+                {
+                    go_Grid.SetActive(true);
+                }
+                else
+                {
+                    go_Grid.SetActive(false);
+                }
+                menuManager.bOnceGrid = true;
+            }
         }
     }
 

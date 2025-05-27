@@ -17,6 +17,7 @@ public class GameData
     public int[] iScorePerLvl;
     public int[] iStars; //0 is true 1 is false
     public int iLanguageNb;
+    public int iGrid; // 0 is false, 1 is true
 
     public GameData(PlayerData player)
     {
@@ -24,6 +25,7 @@ public class GameData
         iLevel = player.iLevelPlayer;
         iScorePerLvl = new int[player.iScorePerLvlPlayer.Length];
         iStars = new int[player.iStarsPlayer.Length];
+        iGrid = player.iGrid;
         if (player.iScorePerLvlPlayer != null)
         {
             for (int i = 0; i < player.iScorePerLvlPlayer.Length; i++)
