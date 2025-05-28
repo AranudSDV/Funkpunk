@@ -41,12 +41,12 @@ Material:
     - _BPM: 240
     - _Debug: 0
     - _DistanceCutoff: 0.005
-    - _OutlineSpikePower: 82.65
+    - _OutlineSpikePower: 150
     - _OutlineWidth: 1
     - _QueueControl: 0
     - _QueueOffset: 0
     - _TimeDelay: 0
-    - _VerticesOffset: 1
+    - _VerticesOffset: 2
     m_Colors:
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _Highlight: {r: 0.92335266, g: 1, b: 0.22327036, a: 0}
