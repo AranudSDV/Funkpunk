@@ -308,7 +308,7 @@ Shader "SHR_OutlinesPH"
 				float saferPower20_g1 = abs( abs( temp_output_19_0_g1 ) );
 				float2 texCoord21 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 uv20 = 0;
-				float3 unityVoronoy20 = UnityVoronoi(texCoord21,10.0,40.0,uv20);
+				float3 unityVoronoy20 = UnityVoronoi(texCoord21,0.0,40.0,uv20);
 				float3 appendResult89 = (float3(( v.ase_normal.y * 0.5 ) , ( v.ase_normal.z * 0.5 ) , 1));
 				float3 Spikes76 = ( pow( saferPower20_g1 , 20.0 ) * pow( unityVoronoy20.x , 5.0 ) * ( ( _OutlineSpikePower * v.vertex.xyz ) * appendResult89 ) * v.ase_color.r );
 				float4 unityObjectToClipPos28 = TransformWorldToHClip(TransformObjectToWorld(v.vertex.xyz));
@@ -645,7 +645,7 @@ Shader "SHR_OutlinesPH"
 				float saferPower20_g1 = abs( abs( temp_output_19_0_g1 ) );
 				float2 texCoord21 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 uv20 = 0;
-				float3 unityVoronoy20 = UnityVoronoi(texCoord21,10.0,40.0,uv20);
+				float3 unityVoronoy20 = UnityVoronoi(texCoord21,0.0,40.0,uv20);
 				float3 appendResult89 = (float3(( v.ase_normal.y * 0.5 ) , ( v.ase_normal.z * 0.5 ) , 1));
 				float3 Spikes76 = ( pow( saferPower20_g1 , 20.0 ) * pow( unityVoronoy20.x , 5.0 ) * ( ( _OutlineSpikePower * v.vertex.xyz ) * appendResult89 ) * v.ase_color.r );
 				float4 unityObjectToClipPos28 = TransformWorldToHClip(TransformObjectToWorld(v.vertex.xyz));
@@ -952,7 +952,7 @@ Shader "SHR_OutlinesPH"
 				float saferPower20_g1 = abs( abs( temp_output_19_0_g1 ) );
 				float2 texCoord21 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 uv20 = 0;
-				float3 unityVoronoy20 = UnityVoronoi(texCoord21,10.0,40.0,uv20);
+				float3 unityVoronoy20 = UnityVoronoi(texCoord21,0.0,40.0,uv20);
 				float3 appendResult89 = (float3(( v.ase_normal.y * 0.5 ) , ( v.ase_normal.z * 0.5 ) , 1));
 				float3 Spikes76 = ( pow( saferPower20_g1 , 20.0 ) * pow( unityVoronoy20.x , 5.0 ) * ( ( _OutlineSpikePower * v.vertex.xyz ) * appendResult89 ) * v.ase_color.r );
 				float4 unityObjectToClipPos28 = TransformWorldToHClip(TransformObjectToWorld(v.vertex.xyz));
@@ -1246,7 +1246,7 @@ Shader "SHR_OutlinesPH"
 				float saferPower20_g1 = abs( abs( temp_output_19_0_g1 ) );
 				float2 texCoord21 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 uv20 = 0;
-				float3 unityVoronoy20 = UnityVoronoi(texCoord21,10.0,40.0,uv20);
+				float3 unityVoronoy20 = UnityVoronoi(texCoord21,0.0,40.0,uv20);
 				float3 appendResult89 = (float3(( v.ase_normal.y * 0.5 ) , ( v.ase_normal.z * 0.5 ) , 1));
 				float3 Spikes76 = ( pow( saferPower20_g1 , 20.0 ) * pow( unityVoronoy20.x , 5.0 ) * ( ( _OutlineSpikePower * v.vertex.xyz ) * appendResult89 ) * v.ase_color.r );
 				float4 unityObjectToClipPos28 = TransformWorldToHClip(TransformObjectToWorld(v.vertex.xyz));
@@ -1514,7 +1514,7 @@ Shader "SHR_OutlinesPH"
 				float saferPower20_g1 = abs( abs( temp_output_19_0_g1 ) );
 				float2 texCoord21 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 uv20 = 0;
-				float3 unityVoronoy20 = UnityVoronoi(texCoord21,10.0,40.0,uv20);
+				float3 unityVoronoy20 = UnityVoronoi(texCoord21,0.0,40.0,uv20);
 				float3 appendResult89 = (float3(( v.ase_normal.y * 0.5 ) , ( v.ase_normal.z * 0.5 ) , 1));
 				float3 Spikes76 = ( pow( saferPower20_g1 , 20.0 ) * pow( unityVoronoy20.x , 5.0 ) * ( ( _OutlineSpikePower * v.vertex.xyz ) * appendResult89 ) * v.ase_color.r );
 				float4 unityObjectToClipPos28 = TransformWorldToHClip(TransformObjectToWorld(v.vertex.xyz));
@@ -1788,7 +1788,7 @@ Shader "SHR_OutlinesPH"
 				float saferPower20_g1 = abs( abs( temp_output_19_0_g1 ) );
 				float2 texCoord21 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 uv20 = 0;
-				float3 unityVoronoy20 = UnityVoronoi(texCoord21,10.0,40.0,uv20);
+				float3 unityVoronoy20 = UnityVoronoi(texCoord21,0.0,40.0,uv20);
 				float3 appendResult89 = (float3(( v.ase_normal.y * 0.5 ) , ( v.ase_normal.z * 0.5 ) , 1));
 				float3 Spikes76 = ( pow( saferPower20_g1 , 20.0 ) * pow( unityVoronoy20.x , 5.0 ) * ( ( _OutlineSpikePower * v.vertex.xyz ) * appendResult89 ) * v.ase_color.r );
 				float4 unityObjectToClipPos28 = TransformWorldToHClip(TransformObjectToWorld(v.vertex.xyz));
@@ -2011,7 +2011,7 @@ Node;AmplifyShaderEditor.RangedFloatNode;19;-2041.654,1184.107;Inherit;False;Pro
 Node;AmplifyShaderEditor.PosVertexDataNode;93;-2026.144,1251.632;Inherit;False;0;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;94;-1807.172,1242.239;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.RangedFloatNode;92;-2367.267,1434.398;Inherit;False;Constant;_Float1;Float 1;6;0;Create;True;0;0;0;False;0;False;0.5;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.VoronoiNode;20;-1737.584,1508.913;Inherit;True;0;0;1;0;1;False;1;True;False;False;4;0;FLOAT2;0,0;False;1;FLOAT;10;False;2;FLOAT;40;False;3;FLOAT;0;False;3;FLOAT;0;FLOAT2;1;FLOAT2;2
+Node;AmplifyShaderEditor.VoronoiNode;20;-1737.584,1508.913;Inherit;True;0;0;1;0;1;False;1;True;False;False;4;0;FLOAT2;0,0;False;1;FLOAT;0;False;2;FLOAT;40;False;3;FLOAT;0;False;3;FLOAT;0;FLOAT2;1;FLOAT2;2
 WireConnection;28;0;29;0
 WireConnection;46;0;45;2
 WireConnection;46;1;47;0
@@ -2057,4 +2057,4 @@ WireConnection;94;0;19;0
 WireConnection;94;1;93;0
 WireConnection;20;0;21;0
 ASEEND*/
-//CHKSM=D0E11E3B8652556DE1D2E441B7F13031AA298AE0
+//CHKSM=A5225C57153C660FBD6EF16BA6BC15B8C7AA96BD

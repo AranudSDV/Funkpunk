@@ -52163,6 +52163,12 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8623585792747630623, guid: 68808927f9aacd1419714efe98e3e0c5,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 7496129136376522318, guid: 918b333515cb806449724ef6ef3f28cd,
+        type: 3}
     - target: {fileID: 8894213033303668329, guid: 68808927f9aacd1419714efe98e3e0c5,
         type: 3}
       propertyPath: m_Materials.Array.size

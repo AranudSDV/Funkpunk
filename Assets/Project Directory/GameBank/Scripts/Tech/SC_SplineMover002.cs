@@ -2,22 +2,17 @@ using UnityEngine;
 using UnityEngine.Splines;
 using System.Collections.Generic;
 
-public class SplineTrainMover_WithSpacing002 : MonoBehaviour
+public class SplineTrainMover : MonoBehaviour
 {
     [Header("Spline Settings")]
     public SplineContainer splineContainer;
 
-    [Header("Train Cars")]
-    [Tooltip("Index 0 is head; others are wagons in order.")]
+    [Header("Objects on the spline")]
+    [Tooltip("Index 0 is head; others follow in order")]
     public List<Transform> cars;
 
     [Header("Movement")]
-    public float speed = 5f;                             // units per second
-
-    [Header("Spacing")]
-    [Tooltip("Normalized spacing along the spline between consecutive cars (0-1).")]
-    
-    public float spacing = 0.1f;
+    public float speed = 5f;               // units per second
 
     [Header("Pause Settings")]
     public bool usePause = true;
@@ -27,106 +22,133 @@ public class SplineTrainMover_WithSpacing002 : MonoBehaviour
     [Header("Rotation")]
     public bool applyRotation = true;
 
+    // internals
     private float totalLength;
-    private float headProgress;
-    public float[] progress;
-    private bool[] isPaused;
-    public float[] pauseTimer;
-    public float pauseDuration;
+    private float headProgress;            // t de la tête
+    private float pauseTimer = 0f;
+    private float pauseDuration;
+    private bool isPaused = false;
+
+    // per-car data
+    private float[] progressOffset;        // décalage t[i] = t_i_init - t_head_init
+    private Vector3[] positionOffset;      // decalage latéral initial
+    private Quaternion[] rotationOffset;   // decalage de rotation initiale
 
     void Start()
     {
-        if (splineContainer == null) Debug.LogError("Assign a SplineContainer!", this);
-        if (cars == null || cars.Count == 0) Debug.LogError("Assign at least one car!", this);
+        if (splineContainer == null)
+        {
+            Debug.LogError("Assign a SplineContainer!", this);
+            enabled = false;
+            return;
+        }
+
+        if (cars == null || cars.Count == 0)
+        {
+            Debug.LogError("Assign at least one car!", this);
+            enabled = false;
+            return;
+        }
 
         totalLength = splineContainer.CalculateLength();
         int n = cars.Count;
 
-        progress = new float[n];
-        isPaused = new bool[n];
-        pauseTimer = new float[n];
+        progressOffset = new float[n];
+        positionOffset = new Vector3[n];
+        rotationOffset = new Quaternion[n];
 
-        // Set initial head progress to its nearest point
-        headProgress = FindNearestT(cars[0].position);
+        // 1) On stocke le t initial de chaque car
+        float headTInit = FindNearestT(cars[0].position);
+        headProgress = headTInit;
 
-        // Initialize each car's progress based on uniform spacing
         for (int i = 0; i < n; i++)
         {
-            progress[i] = Mathf.Repeat(headProgress - spacing * i, 1f);
-            isPaused[i] = false;
-            pauseTimer[i] = 0f;
+            // t initial de ce car
+            float tInit = FindNearestT(cars[i].position);
+            // décalage relatif au head
+            progressOffset[i] = Mathf.Repeat(tInit - headTInit, 1f);
+
+            // position « théorique » sur spline à tInit
+            Vector3 onSpline = splineContainer.EvaluatePosition(tInit);
+            // on garde leur offset 3D par rapport à la spline
+            positionOffset[i] = cars[i].position - onSpline;
+
+            if (applyRotation)
+            {
+                // rotation théorique sur spline
+                Quaternion splineRot = Quaternion.LookRotation(
+                    Vector3.ProjectOnPlane(splineContainer.EvaluateTangent(tInit), Vector3.up).normalized,
+                    Vector3.up
+                ) * Quaternion.Euler(0f, 90f, 0f);
+                rotationOffset[i] = cars[i].rotation * Quaternion.Inverse(splineRot);
+            }
         }
 
-        // Roll initial pause duration for this cycle
-        pauseDuration = Random.Range(pauseMin, pauseMax);
+        if (usePause)
+            pauseDuration = Random.Range(pauseMin, pauseMax);
     }
 
     void Update()
     {
-        for (int i = 0; i < cars.Count; i++)
+        // === GESTION DE LA TÊTE + PAUSE ===
+        if (usePause && isPaused)
         {
-            // Advance or pause each car independently
-            if (usePause && isPaused[i])
+            pauseTimer += Time.deltaTime;
+            if (pauseTimer >= pauseDuration)
             {
-                pauseTimer[i] += Time.deltaTime;
-                if (pauseTimer[i] >= pauseDuration)
-                {
-                    // End pause: teleport to A and reset
-                    isPaused[i] = false;
-                    pauseTimer[i] = 0f;
-                    progress[i] = 0f;
-                }
+                isPaused = false;
+                pauseTimer = 0f;
+                headProgress = 0f; // reset au début
+            }
+        }
+        else
+        {
+            headProgress += speed * Time.deltaTime / totalLength;
+        }
+
+        // lorsqu'on atteint la fin
+        if (!isPaused && headProgress >= 1f)
+        {
+            headProgress = 1f;
+            if (usePause)
+            {
+                isPaused = true;
+                pauseTimer = 0f;
+                pauseDuration = Random.Range(pauseMin, pauseMax);
             }
             else
             {
-                // Move forward
-                progress[i] += speed * Time.deltaTime / totalLength;
+                headProgress = 0f;
             }
+        }
 
-            // Clamp and handle reaching B
-            if (!isPaused[i] && progress[i] >= 1f)
+        // === MISE À JOUR DE CHAQUE CAR ===
+        for (int i = 0; i < cars.Count; i++)
+        {
+            // t actuel de ce car = tête + son décalage initial
+            float t = Mathf.Repeat(headProgress + progressOffset[i], 1f);
+
+            // position sur la spline + offset latéral
+            Vector3 basePos = splineContainer.EvaluatePosition(t);
+            cars[i].position = basePos + positionOffset[i];
+
+            if (applyRotation)
             {
-                // Snap to B and start pause
-                progress[i] = 1f;
-                if (usePause)
+                // rotation spline
+                Vector3 tan = splineContainer.EvaluateTangent(t);
+                Vector3 fwd = Vector3.ProjectOnPlane(tan, Vector3.up).normalized;
+                if (fwd.sqrMagnitude > 0.001f)
                 {
-                    isPaused[i] = true;
-                    pauseTimer[i] = 0f;
+                    Quaternion splineRot = Quaternion.LookRotation(fwd, Vector3.up)
+                                            * Quaternion.Euler(0f, 90f, 0f);
+                    // on applique le décalage enregistré
+                    cars[i].rotation = splineRot * rotationOffset[i];
                 }
-                else
-                {
-                    // Immediate loop
-                    progress[i] = 0f;
-                }
-
-                // If this was the last car, reroll pause for next cycle
-                if (i == cars.Count - 1)
-                {
-                    pauseDuration = Random.Range(pauseMin, pauseMax);
-                }
-            }
-
-            // Update position
-            // Position
-            Vector3 pos = splineContainer.EvaluatePosition(progress[i]);
-            cars[i].position = pos;
-
-            // Tangente directionnelle
-            Vector3 tangent = splineContainer.EvaluateTangent(progress[i]);
-
-            // Projeter la tangente sur le plan horizontal pour éviter la rotation en X
-            Vector3 flatForward = Vector3.ProjectOnPlane(tangent, Vector3.up).normalized;
-
-            if (applyRotation && flatForward.sqrMagnitude > 0.001f)
-            {
-                Quaternion rot = Quaternion.LookRotation(flatForward, Vector3.up);
-                rot *= Quaternion.Euler(0f, 90f, 0f); // adapte si ton modèle ne regarde pas en Z
-                cars[i].rotation = rot;
             }
         }
     }
 
-    // Helper to find normalized t along spline from world position along spline from world position
+    // renvoie t (0–1) le plus proche sur la spline depuis worldPos
     float FindNearestT(Vector3 worldPos)
     {
         Vector3 localPos = splineContainer.transform.InverseTransformPoint(worldPos);
