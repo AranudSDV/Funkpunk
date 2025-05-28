@@ -77,7 +77,10 @@ Assets/Engine/Plugins/FMOD/Cache/Editor/FMODStudioCache.asset
 fmod_editor.log
 Assets/Engine/Plugins/FMOD/Cache/Editor/FMODStudioCache.asset
 oidn2.dll
-OpenImageDeNoise.dll
-OpenImageDeNoise_core.dll
-Assets/Editor/x64/Bakery/
-Assets/Bakery
+optix_denoiser.51.dll
+optix.51.dll
+optix.1.dll
+optix_denoiser.6.0.0.dll
+cudnn64_7.dll
+OpenImageDenoise.dll
+OpenImageDenoise_core.dll
