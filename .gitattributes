@@ -4,3 +4,4 @@
 *.dll filter=lfs diff=lfs merge=lfs -text
 .tmpsave filter=lfs diff=lfs merge=lfs -text
 *.tmpsave filter=lfs diff=lfs merge=lfs -text
+C:ProjectFunkPunkFunkpunkAssetsEditorx64OpenImageDenoise.dll filter=lfs diff=lfs merge=lfs -text
