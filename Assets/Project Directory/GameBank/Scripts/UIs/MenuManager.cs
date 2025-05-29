@@ -913,27 +913,27 @@ public class MenuManager : MonoBehaviour
             {
                 if(_playerData.iLanguageNbPlayer==0) //english
                 {
-                    //ImageButtonGeneral[0].material = M_materialButtonGeneral[0];
+                    ImageButtonGeneral[0].material = M_materialButtonGeneral[0];
                     ImageButtonGeneral[0].sprite = spriteButtonGeneral[0];
                 }
                 else
                 {
-                    //ImageButtonGeneral[0].material = M_materialButtonGeneral[1];
+                    ImageButtonGeneral[0].material = M_materialButtonGeneral[1];
                     ImageButtonGeneral[0].sprite = spriteButtonGeneral[1];
                 }
                 if(iDifficulty==0) //hard
                 {
-                    //ImageButtonGeneral[1].material = M_materialButtonGeneral[2];
+                    ImageButtonGeneral[1].material = M_materialButtonGeneral[2];
                     ImageButtonGeneral[1].sprite = spriteButtonGeneral[2];
                 }
                 else if(iDifficulty == 1) //normal
                 {
-                    //ImageButtonGeneral[1].material = M_materialButtonGeneral[3];
+                    ImageButtonGeneral[1].material = M_materialButtonGeneral[3];
                     ImageButtonGeneral[1].sprite = spriteButtonGeneral[3];
                 }
                 else if (iDifficulty == 2)//easy
                 {
-                    //ImageButtonGeneral[1].material = M_materialButtonGeneral[4];
+                    ImageButtonGeneral[1].material = M_materialButtonGeneral[4];
                     ImageButtonGeneral[1].sprite = spriteButtonGeneral[4];
                 }
                 bOnceOptions[2] = true;

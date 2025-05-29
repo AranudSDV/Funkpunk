@@ -2000,12 +2000,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 2
+    m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnUp: {fileID: 8153582874688616382}
+    m_SelectOnDown: {fileID: 772669210243803284}
+    m_SelectOnLeft: {fileID: 772669210243803284}
+    m_SelectOnRight: {fileID: 1518392053266865558}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.6415094, g: 0.6415094, b: 0.6415094, a: 1}
@@ -3037,12 +3037,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 2
+    m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnUp: {fileID: 1751299479825783677}
+    m_SelectOnDown: {fileID: 1518392053266865558}
+    m_SelectOnLeft: {fileID: 1518392053266865558}
+    m_SelectOnRight: {fileID: 1751299479825783677}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.6415094, g: 0.6415094, b: 0.6415094, a: 1}
@@ -3331,7 +3331,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1771719604172920210}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -4314,12 +4314,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 2
+    m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnUp: {fileID: 772669210243803284}
+    m_SelectOnDown: {fileID: 8153582874688616382}
+    m_SelectOnLeft: {fileID: 772669210243803284}
+    m_SelectOnRight: {fileID: 1751299479825783677}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.6415094, g: 0.6415094, b: 0.6415094, a: 1}
@@ -4411,7 +4411,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2868438724474258370}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -6104,7 +6104,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4275264178835127054}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -8878,7 +8878,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6682205013074533477}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
