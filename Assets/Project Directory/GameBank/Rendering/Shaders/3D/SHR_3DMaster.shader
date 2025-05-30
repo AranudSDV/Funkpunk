@@ -722,8 +722,7 @@ Shader "SHR_3DMaster"
 				float3 staticSwitch534 = float3( 0,0,0 );
 				#endif
 				float mulTime769 = _TimeParameters.x * ( 60.0 / _BPM );
-				float temp_output_775_0 = sin( mulTime769 );
-				float time766 = ( temp_output_775_0 * 5.0 );
+				float time766 = ( mulTime769 * 5.0 );
 				float2 voronoiSmoothId766 = 0;
 				float2 texCoord767 = v.texcoord.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 coords766 = texCoord767 * 10.0;
@@ -731,7 +730,15 @@ Shader "SHR_3DMaster"
 				float2 uv766 = 0;
 				float voroi766 = voronoi766( coords766, time766, id766, uv766, 0, voronoiSmoothId766 );
 				float4 unityObjectToClipPos759 = TransformWorldToHClip(TransformObjectToWorld(v.vertex.xyz));
-				float3 OutlineOffset781 = ( v.ase_normal * ( temp_output_775_0 * _OutlineWidth * voroi766 ) * min( unityObjectToClipPos759.w , _DistanceCutoff ) );
+				float3 ase_worldPos = TransformObjectToWorld( (v.vertex).xyz );
+				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - ase_worldPos );
+				ase_worldViewDir = normalize(ase_worldViewDir);
+				float3 ase_worldNormal = TransformObjectToWorldNormal(v.ase_normal);
+				float fresnelNdotV830 = dot( ase_worldNormal, ase_worldViewDir );
+				float fresnelNode830 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV830, 5.0 ) );
+				float lerpResult832 = lerp( ( 1.0 - fresnelNode830 ) , voroi766 , 0.8);
+				float smoothstepResult834 = smoothstep( 0.19 , ( 0.19 + 0.0 ) , lerpResult832);
+				float3 OutlineOffset781 = ( v.ase_normal * ( sin( mulTime769 ) * _OutlineWidth * voroi766 ) * min( unityObjectToClipPos759.w , _DistanceCutoff ) * smoothstepResult834 );
 				#ifdef _ISOUTLINE_ON
 				float3 staticSwitch750 = OutlineOffset781;
 				#else
@@ -1605,8 +1612,7 @@ Shader "SHR_3DMaster"
 				float3 staticSwitch534 = float3( 0,0,0 );
 				#endif
 				float mulTime769 = _TimeParameters.x * ( 60.0 / _BPM );
-				float temp_output_775_0 = sin( mulTime769 );
-				float time766 = ( temp_output_775_0 * 5.0 );
+				float time766 = ( mulTime769 * 5.0 );
 				float2 voronoiSmoothId766 = 0;
 				float2 texCoord767 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 coords766 = texCoord767 * 10.0;
@@ -1614,7 +1620,15 @@ Shader "SHR_3DMaster"
 				float2 uv766 = 0;
 				float voroi766 = voronoi766( coords766, time766, id766, uv766, 0, voronoiSmoothId766 );
 				float4 unityObjectToClipPos759 = TransformWorldToHClip(TransformObjectToWorld(v.vertex.xyz));
-				float3 OutlineOffset781 = ( v.ase_normal * ( temp_output_775_0 * _OutlineWidth * voroi766 ) * min( unityObjectToClipPos759.w , _DistanceCutoff ) );
+				float3 ase_worldPos = TransformObjectToWorld( (v.vertex).xyz );
+				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - ase_worldPos );
+				ase_worldViewDir = normalize(ase_worldViewDir);
+				float3 ase_worldNormal = TransformObjectToWorldNormal(v.ase_normal);
+				float fresnelNdotV830 = dot( ase_worldNormal, ase_worldViewDir );
+				float fresnelNode830 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV830, 5.0 ) );
+				float lerpResult832 = lerp( ( 1.0 - fresnelNode830 ) , voroi766 , 0.8);
+				float smoothstepResult834 = smoothstep( 0.19 , ( 0.19 + 0.0 ) , lerpResult832);
+				float3 OutlineOffset781 = ( v.ase_normal * ( sin( mulTime769 ) * _OutlineWidth * voroi766 ) * min( unityObjectToClipPos759.w , _DistanceCutoff ) * smoothstepResult834 );
 				#ifdef _ISOUTLINE_ON
 				float3 staticSwitch750 = OutlineOffset781;
 				#else
@@ -2057,8 +2071,7 @@ Shader "SHR_3DMaster"
 				float3 staticSwitch534 = float3( 0,0,0 );
 				#endif
 				float mulTime769 = _TimeParameters.x * ( 60.0 / _BPM );
-				float temp_output_775_0 = sin( mulTime769 );
-				float time766 = ( temp_output_775_0 * 5.0 );
+				float time766 = ( mulTime769 * 5.0 );
 				float2 voronoiSmoothId766 = 0;
 				float2 texCoord767 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 coords766 = texCoord767 * 10.0;
@@ -2066,7 +2079,15 @@ Shader "SHR_3DMaster"
 				float2 uv766 = 0;
 				float voroi766 = voronoi766( coords766, time766, id766, uv766, 0, voronoiSmoothId766 );
 				float4 unityObjectToClipPos759 = TransformWorldToHClip(TransformObjectToWorld(v.vertex.xyz));
-				float3 OutlineOffset781 = ( v.ase_normal * ( temp_output_775_0 * _OutlineWidth * voroi766 ) * min( unityObjectToClipPos759.w , _DistanceCutoff ) );
+				float3 ase_worldPos = TransformObjectToWorld( (v.vertex).xyz );
+				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - ase_worldPos );
+				ase_worldViewDir = normalize(ase_worldViewDir);
+				float3 ase_worldNormal = TransformObjectToWorldNormal(v.ase_normal);
+				float fresnelNdotV830 = dot( ase_worldNormal, ase_worldViewDir );
+				float fresnelNode830 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV830, 5.0 ) );
+				float lerpResult832 = lerp( ( 1.0 - fresnelNode830 ) , voroi766 , 0.8);
+				float smoothstepResult834 = smoothstep( 0.19 , ( 0.19 + 0.0 ) , lerpResult832);
+				float3 OutlineOffset781 = ( v.ase_normal * ( sin( mulTime769 ) * _OutlineWidth * voroi766 ) * min( unityObjectToClipPos759.w , _DistanceCutoff ) * smoothstepResult834 );
 				#ifdef _ISOUTLINE_ON
 				float3 staticSwitch750 = OutlineOffset781;
 				#else
@@ -2711,8 +2732,7 @@ Shader "SHR_3DMaster"
 				float3 staticSwitch534 = float3( 0,0,0 );
 				#endif
 				float mulTime769 = _TimeParameters.x * ( 60.0 / _BPM );
-				float temp_output_775_0 = sin( mulTime769 );
-				float time766 = ( temp_output_775_0 * 5.0 );
+				float time766 = ( mulTime769 * 5.0 );
 				float2 voronoiSmoothId766 = 0;
 				float2 texCoord767 = v.texcoord0.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 coords766 = texCoord767 * 10.0;
@@ -2720,7 +2740,15 @@ Shader "SHR_3DMaster"
 				float2 uv766 = 0;
 				float voroi766 = voronoi766( coords766, time766, id766, uv766, 0, voronoiSmoothId766 );
 				float4 unityObjectToClipPos759 = TransformWorldToHClip(TransformObjectToWorld(v.vertex.xyz));
-				float3 OutlineOffset781 = ( v.ase_normal * ( temp_output_775_0 * _OutlineWidth * voroi766 ) * min( unityObjectToClipPos759.w , _DistanceCutoff ) );
+				float3 ase_worldPos = TransformObjectToWorld( (v.vertex).xyz );
+				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - ase_worldPos );
+				ase_worldViewDir = normalize(ase_worldViewDir);
+				float3 ase_worldNormal = TransformObjectToWorldNormal(v.ase_normal);
+				float fresnelNdotV830 = dot( ase_worldNormal, ase_worldViewDir );
+				float fresnelNode830 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV830, 5.0 ) );
+				float lerpResult832 = lerp( ( 1.0 - fresnelNode830 ) , voroi766 , 0.8);
+				float smoothstepResult834 = smoothstep( 0.19 , ( 0.19 + 0.0 ) , lerpResult832);
+				float3 OutlineOffset781 = ( v.ase_normal * ( sin( mulTime769 ) * _OutlineWidth * voroi766 ) * min( unityObjectToClipPos759.w , _DistanceCutoff ) * smoothstepResult834 );
 				#ifdef _ISOUTLINE_ON
 				float3 staticSwitch750 = OutlineOffset781;
 				#else
@@ -2735,7 +2763,6 @@ Shader "SHR_3DMaster"
 				o.ase_texcoord5 = screenPos;
 				float3 ase_worldTangent = TransformObjectToWorldDir(v.ase_tangent.xyz);
 				o.ase_texcoord6.xyz = ase_worldTangent;
-				float3 ase_worldNormal = TransformObjectToWorldNormal(v.ase_normal);
 				o.ase_texcoord7.xyz = ase_worldNormal;
 				float ase_vertexTangentSign = v.ase_tangent.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );
 				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
@@ -3557,8 +3584,7 @@ Shader "SHR_3DMaster"
 				float3 staticSwitch534 = float3( 0,0,0 );
 				#endif
 				float mulTime769 = _TimeParameters.x * ( 60.0 / _BPM );
-				float temp_output_775_0 = sin( mulTime769 );
-				float time766 = ( temp_output_775_0 * 5.0 );
+				float time766 = ( mulTime769 * 5.0 );
 				float2 voronoiSmoothId766 = 0;
 				float2 texCoord767 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 coords766 = texCoord767 * 10.0;
@@ -3566,7 +3592,15 @@ Shader "SHR_3DMaster"
 				float2 uv766 = 0;
 				float voroi766 = voronoi766( coords766, time766, id766, uv766, 0, voronoiSmoothId766 );
 				float4 unityObjectToClipPos759 = TransformWorldToHClip(TransformObjectToWorld(v.vertex.xyz));
-				float3 OutlineOffset781 = ( v.ase_normal * ( temp_output_775_0 * _OutlineWidth * voroi766 ) * min( unityObjectToClipPos759.w , _DistanceCutoff ) );
+				float3 ase_worldPos = TransformObjectToWorld( (v.vertex).xyz );
+				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - ase_worldPos );
+				ase_worldViewDir = normalize(ase_worldViewDir);
+				float3 ase_worldNormal = TransformObjectToWorldNormal(v.ase_normal);
+				float fresnelNdotV830 = dot( ase_worldNormal, ase_worldViewDir );
+				float fresnelNode830 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV830, 5.0 ) );
+				float lerpResult832 = lerp( ( 1.0 - fresnelNode830 ) , voroi766 , 0.8);
+				float smoothstepResult834 = smoothstep( 0.19 , ( 0.19 + 0.0 ) , lerpResult832);
+				float3 OutlineOffset781 = ( v.ase_normal * ( sin( mulTime769 ) * _OutlineWidth * voroi766 ) * min( unityObjectToClipPos759.w , _DistanceCutoff ) * smoothstepResult834 );
 				#ifdef _ISOUTLINE_ON
 				float3 staticSwitch750 = OutlineOffset781;
 				#else
@@ -3581,7 +3615,6 @@ Shader "SHR_3DMaster"
 				o.ase_texcoord3 = screenPos;
 				float3 ase_worldTangent = TransformObjectToWorldDir(v.ase_tangent.xyz);
 				o.ase_texcoord4.xyz = ase_worldTangent;
-				float3 ase_worldNormal = TransformObjectToWorldNormal(v.ase_normal);
 				o.ase_texcoord5.xyz = ase_worldNormal;
 				float ase_vertexTangentSign = v.ase_tangent.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );
 				float3 ase_worldBitangent = cross( ase_worldNormal, ase_worldTangent ) * ase_vertexTangentSign;
@@ -4174,8 +4207,7 @@ Shader "SHR_3DMaster"
 				float3 staticSwitch534 = float3( 0,0,0 );
 				#endif
 				float mulTime769 = _TimeParameters.x * ( 60.0 / _BPM );
-				float temp_output_775_0 = sin( mulTime769 );
-				float time766 = ( temp_output_775_0 * 5.0 );
+				float time766 = ( mulTime769 * 5.0 );
 				float2 voronoiSmoothId766 = 0;
 				float2 texCoord767 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 coords766 = texCoord767 * 10.0;
@@ -4183,7 +4215,15 @@ Shader "SHR_3DMaster"
 				float2 uv766 = 0;
 				float voroi766 = voronoi766( coords766, time766, id766, uv766, 0, voronoiSmoothId766 );
 				float4 unityObjectToClipPos759 = TransformWorldToHClip(TransformObjectToWorld(v.vertex.xyz));
-				float3 OutlineOffset781 = ( v.ase_normal * ( temp_output_775_0 * _OutlineWidth * voroi766 ) * min( unityObjectToClipPos759.w , _DistanceCutoff ) );
+				float3 ase_worldPos = TransformObjectToWorld( (v.vertex).xyz );
+				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - ase_worldPos );
+				ase_worldViewDir = normalize(ase_worldViewDir);
+				float3 ase_worldNormal = TransformObjectToWorldNormal(v.ase_normal);
+				float fresnelNdotV830 = dot( ase_worldNormal, ase_worldViewDir );
+				float fresnelNode830 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV830, 5.0 ) );
+				float lerpResult832 = lerp( ( 1.0 - fresnelNode830 ) , voroi766 , 0.8);
+				float smoothstepResult834 = smoothstep( 0.19 , ( 0.19 + 0.0 ) , lerpResult832);
+				float3 OutlineOffset781 = ( v.ase_normal * ( sin( mulTime769 ) * _OutlineWidth * voroi766 ) * min( unityObjectToClipPos759.w , _DistanceCutoff ) * smoothstepResult834 );
 				#ifdef _ISOUTLINE_ON
 				float3 staticSwitch750 = OutlineOffset781;
 				#else
@@ -4910,8 +4950,7 @@ Shader "SHR_3DMaster"
 				float3 staticSwitch534 = float3( 0,0,0 );
 				#endif
 				float mulTime769 = _TimeParameters.x * ( 60.0 / _BPM );
-				float temp_output_775_0 = sin( mulTime769 );
-				float time766 = ( temp_output_775_0 * 5.0 );
+				float time766 = ( mulTime769 * 5.0 );
 				float2 voronoiSmoothId766 = 0;
 				float2 texCoord767 = v.texcoord.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 coords766 = texCoord767 * 10.0;
@@ -4919,7 +4958,15 @@ Shader "SHR_3DMaster"
 				float2 uv766 = 0;
 				float voroi766 = voronoi766( coords766, time766, id766, uv766, 0, voronoiSmoothId766 );
 				float4 unityObjectToClipPos759 = TransformWorldToHClip(TransformObjectToWorld(v.vertex.xyz));
-				float3 OutlineOffset781 = ( v.ase_normal * ( temp_output_775_0 * _OutlineWidth * voroi766 ) * min( unityObjectToClipPos759.w , _DistanceCutoff ) );
+				float3 ase_worldPos = TransformObjectToWorld( (v.vertex).xyz );
+				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - ase_worldPos );
+				ase_worldViewDir = normalize(ase_worldViewDir);
+				float3 ase_worldNormal = TransformObjectToWorldNormal(v.ase_normal);
+				float fresnelNdotV830 = dot( ase_worldNormal, ase_worldViewDir );
+				float fresnelNode830 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV830, 5.0 ) );
+				float lerpResult832 = lerp( ( 1.0 - fresnelNode830 ) , voroi766 , 0.8);
+				float smoothstepResult834 = smoothstep( 0.19 , ( 0.19 + 0.0 ) , lerpResult832);
+				float3 OutlineOffset781 = ( v.ase_normal * ( sin( mulTime769 ) * _OutlineWidth * voroi766 ) * min( unityObjectToClipPos759.w , _DistanceCutoff ) * smoothstepResult834 );
 				#ifdef _ISOUTLINE_ON
 				float3 staticSwitch750 = OutlineOffset781;
 				#else
@@ -5640,8 +5687,7 @@ Shader "SHR_3DMaster"
 				float3 staticSwitch534 = float3( 0,0,0 );
 				#endif
 				float mulTime769 = _TimeParameters.x * ( 60.0 / _BPM );
-				float temp_output_775_0 = sin( mulTime769 );
-				float time766 = ( temp_output_775_0 * 5.0 );
+				float time766 = ( mulTime769 * 5.0 );
 				float2 voronoiSmoothId766 = 0;
 				float2 texCoord767 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 coords766 = texCoord767 * 10.0;
@@ -5649,7 +5695,15 @@ Shader "SHR_3DMaster"
 				float2 uv766 = 0;
 				float voroi766 = voronoi766( coords766, time766, id766, uv766, 0, voronoiSmoothId766 );
 				float4 unityObjectToClipPos759 = TransformWorldToHClip(TransformObjectToWorld(v.vertex.xyz));
-				float3 OutlineOffset781 = ( v.ase_normal * ( temp_output_775_0 * _OutlineWidth * voroi766 ) * min( unityObjectToClipPos759.w , _DistanceCutoff ) );
+				float3 ase_worldPos = TransformObjectToWorld( (v.vertex).xyz );
+				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - ase_worldPos );
+				ase_worldViewDir = normalize(ase_worldViewDir);
+				float3 ase_worldNormal = TransformObjectToWorldNormal(v.ase_normal);
+				float fresnelNdotV830 = dot( ase_worldNormal, ase_worldViewDir );
+				float fresnelNode830 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV830, 5.0 ) );
+				float lerpResult832 = lerp( ( 1.0 - fresnelNode830 ) , voroi766 , 0.8);
+				float smoothstepResult834 = smoothstep( 0.19 , ( 0.19 + 0.0 ) , lerpResult832);
+				float3 OutlineOffset781 = ( v.ase_normal * ( sin( mulTime769 ) * _OutlineWidth * voroi766 ) * min( unityObjectToClipPos759.w , _DistanceCutoff ) * smoothstepResult834 );
 				#ifdef _ISOUTLINE_ON
 				float3 staticSwitch750 = OutlineOffset781;
 				#else
@@ -6028,8 +6082,7 @@ Shader "SHR_3DMaster"
 				float3 staticSwitch534 = float3( 0,0,0 );
 				#endif
 				float mulTime769 = _TimeParameters.x * ( 60.0 / _BPM );
-				float temp_output_775_0 = sin( mulTime769 );
-				float time766 = ( temp_output_775_0 * 5.0 );
+				float time766 = ( mulTime769 * 5.0 );
 				float2 voronoiSmoothId766 = 0;
 				float2 texCoord767 = v.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 coords766 = texCoord767 * 10.0;
@@ -6037,7 +6090,15 @@ Shader "SHR_3DMaster"
 				float2 uv766 = 0;
 				float voroi766 = voronoi766( coords766, time766, id766, uv766, 0, voronoiSmoothId766 );
 				float4 unityObjectToClipPos759 = TransformWorldToHClip(TransformObjectToWorld(v.vertex.xyz));
-				float3 OutlineOffset781 = ( v.ase_normal * ( temp_output_775_0 * _OutlineWidth * voroi766 ) * min( unityObjectToClipPos759.w , _DistanceCutoff ) );
+				float3 ase_worldPos = TransformObjectToWorld( (v.vertex).xyz );
+				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - ase_worldPos );
+				ase_worldViewDir = normalize(ase_worldViewDir);
+				float3 ase_worldNormal = TransformObjectToWorldNormal(v.ase_normal);
+				float fresnelNdotV830 = dot( ase_worldNormal, ase_worldViewDir );
+				float fresnelNode830 = ( 0.0 + 1.0 * pow( 1.0 - fresnelNdotV830, 5.0 ) );
+				float lerpResult832 = lerp( ( 1.0 - fresnelNode830 ) , voroi766 , 0.8);
+				float smoothstepResult834 = smoothstep( 0.19 , ( 0.19 + 0.0 ) , lerpResult832);
+				float3 OutlineOffset781 = ( v.ase_normal * ( sin( mulTime769 ) * _OutlineWidth * voroi766 ) * min( unityObjectToClipPos759.w , _DistanceCutoff ) * smoothstepResult834 );
 				#ifdef _ISOUTLINE_ON
 				float3 staticSwitch750 = OutlineOffset781;
 				#else
@@ -6421,7 +6482,7 @@ Node;AmplifyShaderEditor.SimpleTimeNode;769;-882.118,3197.13;Inherit;True;1;0;FL
 Node;AmplifyShaderEditor.SimpleDivideOpNode;771;-1123.304,3213.056;Inherit;True;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;770;-1315.563,3335.322;Inherit;True;Property;_BPM;BPM;45;0;Create;True;0;0;0;False;0;False;60;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.NormalVertexDataNode;763;52.28562,3059.468;Inherit;False;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;758;624.6308,3189.277;Inherit;True;3;3;0;FLOAT3;0,0,0;False;1;FLOAT;1;False;2;FLOAT;0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;758;624.6308,3189.277;Inherit;True;4;4;0;FLOAT3;0,0,0;False;1;FLOAT;1;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.UnityObjToClipPosHlpNode;759;164.0772,3450.298;Inherit;False;1;0;FLOAT3;0,0,0;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.PosVertexDataNode;760;-42.84191,3461.401;Inherit;False;0;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleMinOpNode;762;476.678,3601.813;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
@@ -6433,7 +6494,6 @@ Node;AmplifyShaderEditor.SimpleTimeNode;791;-583.715,1898.958;Inherit;False;1;0;
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;801;-398.8774,2124.872;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT2;0,0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.Vector2Node;795;-608.8223,2015.777;Inherit;False;Constant;_Vector4;Vector 4;46;0;Create;True;0;0;0;False;0;False;0,0.001;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;784;434.1385,2225.015;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;804;1095.283,2118.4;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;713;-5.533697,2103.306;Inherit;False;2;2;0;FLOAT2;0,0;False;1;FLOAT2;0,40;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.NoiseGeneratorNode;728;134.0368,2104.883;Inherit;True;Simplex2D;True;False;2;0;FLOAT2;1,1;False;1;FLOAT;5;False;1;FLOAT;0
 Node;AmplifyShaderEditor.NoiseGeneratorNode;785;167.3507,2350.48;Inherit;True;Simplex2D;True;False;2;0;FLOAT2;1,1;False;1;FLOAT;5;False;1;FLOAT;0
@@ -6441,10 +6501,8 @@ Node;AmplifyShaderEditor.FunctionNode;810;-495.0067,1981.294;Inherit;False;SHF_B
 Node;AmplifyShaderEditor.LerpOp;811;-132.912,1957.865;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;732;-400.7758,1884.032;Inherit;False;Property;_FresnelPower;FresnelPower;43;0;Create;True;0;0;0;False;0;False;5;5;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;812;-263.5787,1905.865;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;2;False;1;FLOAT;0
-Node;AmplifyShaderEditor.LerpOp;802;774.5789,2124.888;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SmoothstepOpNode;805;592.1577,2361.821;Inherit;True;3;0;FLOAT;0;False;1;FLOAT;0.1;False;2;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;723;721.2307,1876.028;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SmoothstepOpNode;718;850.1623,2568.736;Inherit;True;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;722;492.7141,2626.944;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;800;-461.1347,2574.874;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT2;0,0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.SimpleTimeNode;823;-715.3161,2568.631;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
@@ -6473,6 +6531,16 @@ Node;AmplifyShaderEditor.GetLocalVarNode;618;3335.383,-1631.8;Inherit;False;617;
 Node;AmplifyShaderEditor.GetLocalVarNode;751;3574.574,-1545.488;Inherit;False;781;OutlineOffset;1;0;OBJECT;;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.RangedFloatNode;368;3752.651,-2145.322;Inherit;False;Constant;_Spec;Spec;16;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;339;3735.613,-2080.527;Inherit;False;Constant;_Smoothness;Smoothness;15;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.FresnelNode;830;111.8216,3990.928;Inherit;True;Standard;TangentNormal;ViewDir;False;False;5;0;FLOAT3;0,0,1;False;4;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;5;False;1;FLOAT;0
+Node;AmplifyShaderEditor.OneMinusNode;831;357.0141,3958.325;Inherit;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.LerpOp;832;581.5555,3973.058;Inherit;True;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0.8;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SmoothstepOpNode;718;792.6173,2554.35;Inherit;True;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.LerpOp;802;823.7466,2181.431;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;804;1164.091,2178.034;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RangedFloatNode;835;646.058,4177.71;Inherit;False;Constant;_Float4;Float 4;48;0;Create;True;0;0;0;False;0;False;0.19;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;836;635.1908,4297.8;Inherit;False;Constant;_Float5;Float 5;48;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;837;814.2963,4259.159;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SmoothstepOpNode;834;1072.49,3974.391;Inherit;True;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
 WireConnection;209;0;212;0
 WireConnection;212;0;214;0
 WireConnection;29;0;27;0
@@ -6712,7 +6780,7 @@ WireConnection;704;0;703;0
 WireConnection;704;1;693;0
 WireConnection;705;0;704;0
 WireConnection;733;0;705;0
-WireConnection;780;0;775;0
+WireConnection;780;0;769;0
 WireConnection;765;0;775;0
 WireConnection;765;1;757;0
 WireConnection;765;2;766;0
@@ -6725,6 +6793,7 @@ WireConnection;771;1;770;0
 WireConnection;758;0;763;0
 WireConnection;758;1;765;0
 WireConnection;758;2;762;0
+WireConnection;758;3;834;0
 WireConnection;759;0;760;0
 WireConnection;762;0;759;4
 WireConnection;762;1;761;0
@@ -6734,8 +6803,6 @@ WireConnection;801;0;791;0
 WireConnection;801;1;795;0
 WireConnection;784;0;728;0
 WireConnection;784;1;785;0
-WireConnection;804;0;802;0
-WireConnection;804;1;809;0
 WireConnection;713;0;712;0
 WireConnection;728;0;713;0
 WireConnection;785;0;788;0
@@ -6743,15 +6810,9 @@ WireConnection;811;0;812;0
 WireConnection;811;1;732;0
 WireConnection;811;2;810;0
 WireConnection;812;0;732;0
-WireConnection;802;0;783;0
-WireConnection;802;1;787;0
-WireConnection;802;2;805;0
 WireConnection;805;0;784;0
 WireConnection;723;0;707;0
 WireConnection;723;1;784;0
-WireConnection;718;0;723;0
-WireConnection;718;1;724;0
-WireConnection;718;2;722;0
 WireConnection;722;0;724;0
 WireConnection;722;1;717;0
 WireConnection;800;0;823;0
@@ -6778,5 +6839,21 @@ WireConnection;404;8;750;0
 WireConnection;534;0;618;0
 WireConnection;750;1;534;0
 WireConnection;750;0;751;0
+WireConnection;831;0;830;0
+WireConnection;832;0;831;0
+WireConnection;832;1;766;0
+WireConnection;718;0;723;0
+WireConnection;718;1;724;0
+WireConnection;718;2;722;0
+WireConnection;802;0;783;0
+WireConnection;802;1;787;0
+WireConnection;802;2;805;0
+WireConnection;804;0;802;0
+WireConnection;804;1;809;0
+WireConnection;837;0;835;0
+WireConnection;837;1;836;0
+WireConnection;834;0;832;0
+WireConnection;834;1;835;0
+WireConnection;834;2;837;0
 ASEEND*/
-//CHKSM=10F30CC309B9C04A40FE3CEABB7FE552A95D6F84
+//CHKSM=FABA607EA84AEDB257403792125195302D78340D
