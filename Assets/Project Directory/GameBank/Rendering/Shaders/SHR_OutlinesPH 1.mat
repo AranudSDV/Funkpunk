@@ -38,10 +38,22 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaCutoff: 0.5
+    - _CenterMaskPower: 0.05
+    - _Debug: 0
+    - _DistanceCutoff: 0
+    - _Float1: 0.1
+    - _MaskSmoothness: 7.01
+    - _NormalXY_Pow: 0.5
+    - _OutlineSpikePower: 30.3
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _TimeDelay: 0
+    - _VertexMaskingOrUvMasking: 0
+    - _VertexNormalOrCustom: 0
     - _VerticesOffset: 0.003
     m_Colors:
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Highlight: {r: 0.8470589, g: 1, b: 0.2392157, a: 0}
+    - _ManualVector: {r: 0.2, g: 0.2, b: 1, a: 0}
     - _OutlineColor: {r: 0.21069163, g: 1, b: 0.7307065, a: 0}
   m_BuildTextureStacks: []
