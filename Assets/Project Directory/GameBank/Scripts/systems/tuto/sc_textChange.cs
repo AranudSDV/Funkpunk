@@ -5,9 +5,11 @@ using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 using FMODUnity;
+using Febucci.UI;
 
 public class sc_textChange : MonoBehaviour
 {
+    public TextAnimatorPlayer typeAnimator;
     [SerializeField] private SC_Player scPlayer;
     [SerializeField] private PlayerData _playerData;
     [SerializeField] private string sEnglish;
@@ -15,25 +17,27 @@ public class sc_textChange : MonoBehaviour
     [SerializeField] private bool bIsOnManager = false;
     [SerializeField] private bool bIsDifficulty = false;
     [SerializeField] private bool bIsToTip = false;
-    private TMP_Text tmpProText;
-    private Coroutine coroutine;
+    private bool bnotfound;
+    private string writer;
+    private bool bTextWritten = false;
+    [SerializeField] private MenuManager menuManager;
+    private bool bOnce = false;
+    private bool bInitialized;
+    private float fTimerWritten = 0f;
+
+    //
+    //private TMP_Text tmpProText;
+    /*private Coroutine coroutine;
     [SerializeField] float delayBeforeStart = 0f;
     [SerializeField] float timeBtwChars = 0.06f;
     private float timeBtwCharsNow = 0.06f;
     private float FastTimeBtwChars = 0f;
     [SerializeField] bool leadingCharBeforeDelay = false;
     [SerializeField] string leadingChar = "";
-    private string writer;
-    private bool bnotfound;
-    private bool bInitialized;
-    [SerializeField] private MenuManager menuManager;
-    private bool bTextWritten = false;
     private bool bTextBegon = false;
-    private float fTimerWritten = 0f;
     private float bTimerBegon = 0f;
     private bool isControllerTriggered;
-    private Coroutine coroutine_ = null;
-    private bool bOnce = false;
+    private Coroutine coroutine_ = null;*/
 
     public void Init()
     {
@@ -52,22 +56,26 @@ public class sc_textChange : MonoBehaviour
             }
         }
 
-        if (SceneManager.GetActiveScene().name == "GameChoose" || SceneManager.GetActiveScene().name == "SceneSplash" || bnotfound)
+        if(!bIsToTip)
         {
-            _playerData = GameObject.FindWithTag("Manager").transform.GetComponent<PlayerData>();
-        }
-        if (_playerData != null && _playerData.iLanguageNbPlayer == 1)
-        {
-            this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sFrench;
+            if (SceneManager.GetActiveScene().name == "GameChoose" || SceneManager.GetActiveScene().name == "SceneSplash" || bnotfound)
+            {
+                _playerData = GameObject.FindWithTag("Manager").transform.GetComponent<PlayerData>();
+            }
+            if (_playerData != null && _playerData.iLanguageNbPlayer == 1)
+            {
+                this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sFrench;
+                //this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sFrench;
+            }
+            else
+            {
+                this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sEnglish;
+                //this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sEnglish;
+            }
         }
         else
         {
-            this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sEnglish;
-        }
-
-        if(bIsToTip)
-        {
-            tmpProText = this.GetComponent<TextMeshProUGUI>();
+            typeAnimator.onTextShowed.AddListener(OnTextFullyShown);
         }
     }
 
@@ -158,13 +166,19 @@ public class sc_textChange : MonoBehaviour
             }
         }
     }
+    private void ShowDialogue(string text)
+    {
+        typeAnimator.ShowText(text);
+    }
+    private void OnTextFullyShown()
+    {
+        bTextWritten = true;
+    }
     public void SkipOrNext()
     {
         if (!bTextWritten && !bOnce)
         {
-            StopCoroutine(coroutine_);
-            tmpProText.text = "";
-            tmpProText.text = writer;
+            typeAnimator.SkipTypewriter();
             bTextWritten = true;
             bOnce = true;
         }
@@ -179,10 +193,9 @@ public class sc_textChange : MonoBehaviour
     public void StartWriting(string sDialogue)
     {
         writer = sDialogue;
-        tmpProText.text = "";
-        coroutine_ = StartCoroutine("TypeWriterTMP");
+        ShowDialogue(writer);
     }
-    private IEnumerator TypeWriterTMP()
+    /*private IEnumerator TypeWriterTMP()
     {
         yield return new WaitForSecondsRealtime(delayBeforeStart);
 
@@ -205,5 +218,5 @@ public class sc_textChange : MonoBehaviour
         {
             bTextWritten = true; 
         }
-    }
+    }*/
 }

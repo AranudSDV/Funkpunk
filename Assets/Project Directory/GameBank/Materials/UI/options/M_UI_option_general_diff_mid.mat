@@ -13,14 +13,14 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _1TEX_ON
-  - _USINGXSCALE1_ON
   - _USINGXSCALE_ON
-  - _USINGYSCALE1_ON
   - _USINGYSCALE_ON
   - _VFXORUI_ON
   m_InvalidKeywords:
   - _SCALEX_ON
   - _SCALEY_ON
+  - _USINGXSCALE1_ON
+  - _USINGYSCALE1_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -82,10 +82,13 @@ Material:
     - _BPM: 110
     - _BaseOpacity: 1
     - _BaseScale: 1
+    - _BaseSizeX: 0.9
+    - _BaseSizeY: 0.9
     - _Debug: 0
     - _G_BaseOpacity: 0.5109974
     - _G_FadeSmooth: 1
     - _HandleColors: 0
+    - _IfNotUsed: 0
     - _IsVerticalOrLateral: 0
     - _MaxSizeX: 1.1
     - _MaxSizeY: 1.1
@@ -95,22 +98,29 @@ Material:
     - _MinSizeY1: 1
     - _MoveX: 0
     - _NoColorsWhiteValue: 1
+    - _OffsetX_Power: 0
+    - _OffsetY_Power: 0.2
     - _Offseter: 0
     - _QueueControl: 0
     - _QueueOffset: 0
     - _R_BaseOpacity: 0
     - _R_Fadesmooth: 1.25
     - _RotaPower: 0.005
+    - _RotaPower1: -0.5
     - _Rotater: 0
     - _ScaleX: 1
     - _ScaleY: 1
     - _Scaler1: 0
+    - _StartPosX: 0
+    - _StartPosY: 0
     - _TimeDelay: 0
     - _TransformedOffsetX: 0.8
     - _TransformedOffsetY: 0.8
     - _TransformedRota: 0.8
     - _TransformedScaleX: 0.8
     - _TransformedScaleY: 0.8
+    - _TransformedSizeX: 1.4
+    - _TransformedSizeY: 1.4
     - _UI_AutoOrMano: 0
     - _UpLorDownR: 0
     - _UsingX: 0

@@ -80,6 +80,8 @@ Material:
     - _BPM: 110
     - _BaseOpacity: 1
     - _BaseScale: 1
+    - _BaseSizeX: 0.8
+    - _BaseSizeY: 0.9
     - _Debug: 0
     - _G_BaseOpacity: 0.5109974
     - _G_FadeSmooth: 1
@@ -102,7 +104,7 @@ Material:
     - _R_BaseOpacity: 0
     - _R_Fadesmooth: 1.25
     - _RotaPower: 0.005
-    - _RotaPower1: 0.05
+    - _RotaPower1: 0.1
     - _Rotater: 0
     - _ScaleX: 1
     - _ScaleY: 1
@@ -115,6 +117,8 @@ Material:
     - _TransformedRota: 0.8
     - _TransformedScaleX: 0.8
     - _TransformedScaleY: 0.8
+    - _TransformedSizeX: 1.1
+    - _TransformedSizeY: 1.2
     - _UI_AutoOrMano: 0
     - _UI_ManualOrProcedural: 0
     - _UpLorDownR: 0
