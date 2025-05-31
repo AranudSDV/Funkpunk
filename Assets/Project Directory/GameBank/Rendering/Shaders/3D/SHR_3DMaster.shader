@@ -23,9 +23,9 @@ Shader "SHR_3DMaster"
 		_TopVertexOffsetValue("TopVertexOffset Value", Vector) = (0,0,0,0)
 		_TopVertexDelay("TopVertexDelay", Vector) = (0,0,0,0)
 		_ShadingWhiteMult("ShadingWhiteMult", Float) = 0.1
-		_Cels_FallOffThreshold("Cels_FallOffThreshold", Float) = 0.45
+		_Cels_LitThreshold("Cels_LitThreshold", Float) = 1
+		_Cels_FallOffThreshold("Cels_FallOffThreshold", Float) = 1
 		_Shadow_FallOffThreshold("Shadow_FallOffThreshold", Float) = 0.45
-		_Cels_LitThreshold("Cels_LitThreshold", Float) = 0.42
 		_Shadow_LitThreshold("Shadow_LitThreshold", Float) = 0.42
 		[Toggle(_FULLSHADINGHALFSHADING_ON)] _FullShadingHalfShading("FullShading/HalfShading", Float) = 0
 		[Toggle(_BAKEDORRT_ON)] _BakedOrRT("BakedOrRT", Float) = 0
@@ -958,7 +958,7 @@ Shader "SHR_3DMaster"
 
 				float2 uv_MainTex = IN.ase_texcoord8.xy * _MainTex_ST.xy + _MainTex_ST.zw;
 				float4 tex2DNode207 = tex2D( _MainTex, uv_MainTex );
-				Gradient gradient203 = NewGradient( 1, 5, 2, float4( 0.3207547, 0.3207547, 0.3207547, 0.1193713 ), float4( 0.3962264, 0.3962264, 0.3962264, 0.3913939 ), float4( 0.5031446, 0.5031446, 0.5031446, 0.616434 ), float4( 0.6100628, 0.6100628, 0.6100628, 0.8767071 ), float4( 1, 1, 1, 1 ), 0, 0, 0, float2( 1, 0 ), float2( 1, 1 ), 0, 0, 0, 0, 0, 0 );
+				Gradient gradient203 = NewGradient( 1, 4, 2, float4( 0.5911949, 0.5818993, 0.5818993, 0.1499962 ), float4( 0.6918238, 0.6918238, 0.6918238, 0.5000076 ), float4( 0.8050314, 0.8050314, 0.8050314, 0.8500038 ), float4( 1, 1, 1, 1 ), 0, 0, 0, 0, float2( 1, 0 ), float2( 1, 1 ), 0, 0, 0, 0, 0, 0 );
 				float2 vertexToFrag10_g51 = IN.ase_texcoord8.zw;
 				float2 UV11_g51 = vertexToFrag10_g51;
 				float4 localSampleLightmapHD11_g51 = SampleLightmapHD11_g51( UV11_g51 );
@@ -2931,7 +2931,7 @@ Shader "SHR_3DMaster"
 
 				float2 uv_MainTex = IN.ase_texcoord4.xy * _MainTex_ST.xy + _MainTex_ST.zw;
 				float4 tex2DNode207 = tex2D( _MainTex, uv_MainTex );
-				Gradient gradient203 = NewGradient( 1, 5, 2, float4( 0.3207547, 0.3207547, 0.3207547, 0.1193713 ), float4( 0.3962264, 0.3962264, 0.3962264, 0.3913939 ), float4( 0.5031446, 0.5031446, 0.5031446, 0.616434 ), float4( 0.6100628, 0.6100628, 0.6100628, 0.8767071 ), float4( 1, 1, 1, 1 ), 0, 0, 0, float2( 1, 0 ), float2( 1, 1 ), 0, 0, 0, 0, 0, 0 );
+				Gradient gradient203 = NewGradient( 1, 4, 2, float4( 0.5911949, 0.5818993, 0.5818993, 0.1499962 ), float4( 0.6918238, 0.6918238, 0.6918238, 0.5000076 ), float4( 0.8050314, 0.8050314, 0.8050314, 0.8500038 ), float4( 1, 1, 1, 1 ), 0, 0, 0, 0, float2( 1, 0 ), float2( 1, 1 ), 0, 0, 0, 0, 0, 0 );
 				float2 vertexToFrag10_g51 = IN.ase_texcoord4.zw;
 				float2 UV11_g51 = vertexToFrag10_g51;
 				float4 localSampleLightmapHD11_g51 = SampleLightmapHD11_g51( UV11_g51 );
@@ -3773,7 +3773,7 @@ Shader "SHR_3DMaster"
 
 				float2 uv_MainTex = IN.ase_texcoord2.xy * _MainTex_ST.xy + _MainTex_ST.zw;
 				float4 tex2DNode207 = tex2D( _MainTex, uv_MainTex );
-				Gradient gradient203 = NewGradient( 1, 5, 2, float4( 0.3207547, 0.3207547, 0.3207547, 0.1193713 ), float4( 0.3962264, 0.3962264, 0.3962264, 0.3913939 ), float4( 0.5031446, 0.5031446, 0.5031446, 0.616434 ), float4( 0.6100628, 0.6100628, 0.6100628, 0.8767071 ), float4( 1, 1, 1, 1 ), 0, 0, 0, float2( 1, 0 ), float2( 1, 1 ), 0, 0, 0, 0, 0, 0 );
+				Gradient gradient203 = NewGradient( 1, 4, 2, float4( 0.5911949, 0.5818993, 0.5818993, 0.1499962 ), float4( 0.6918238, 0.6918238, 0.6918238, 0.5000076 ), float4( 0.8050314, 0.8050314, 0.8050314, 0.8500038 ), float4( 1, 1, 1, 1 ), 0, 0, 0, 0, float2( 1, 0 ), float2( 1, 1 ), 0, 0, 0, 0, 0, 0 );
 				float2 vertexToFrag10_g51 = IN.ase_texcoord2.zw;
 				float2 UV11_g51 = vertexToFrag10_g51;
 				float4 localSampleLightmapHD11_g51 = SampleLightmapHD11_g51( UV11_g51 );
@@ -5179,7 +5179,7 @@ Shader "SHR_3DMaster"
 
 				float2 uv_MainTex = IN.ase_texcoord8.xy * _MainTex_ST.xy + _MainTex_ST.zw;
 				float4 tex2DNode207 = tex2D( _MainTex, uv_MainTex );
-				Gradient gradient203 = NewGradient( 1, 5, 2, float4( 0.3207547, 0.3207547, 0.3207547, 0.1193713 ), float4( 0.3962264, 0.3962264, 0.3962264, 0.3913939 ), float4( 0.5031446, 0.5031446, 0.5031446, 0.616434 ), float4( 0.6100628, 0.6100628, 0.6100628, 0.8767071 ), float4( 1, 1, 1, 1 ), 0, 0, 0, float2( 1, 0 ), float2( 1, 1 ), 0, 0, 0, 0, 0, 0 );
+				Gradient gradient203 = NewGradient( 1, 4, 2, float4( 0.5911949, 0.5818993, 0.5818993, 0.1499962 ), float4( 0.6918238, 0.6918238, 0.6918238, 0.5000076 ), float4( 0.8050314, 0.8050314, 0.8050314, 0.8500038 ), float4( 1, 1, 1, 1 ), 0, 0, 0, 0, float2( 1, 0 ), float2( 1, 1 ), 0, 0, 0, 0, 0, 0 );
 				float2 vertexToFrag10_g51 = IN.ase_texcoord8.zw;
 				float2 UV11_g51 = vertexToFrag10_g51;
 				float4 localSampleLightmapHD11_g51 = SampleLightmapHD11_g51( UV11_g51 );
@@ -6279,7 +6279,7 @@ Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;410;2359.065,-2196.855;Floa
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;411;2359.065,-2196.855;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;SceneSelectionPass;0;8;SceneSelectionPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=SceneSelectionPass;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;412;2359.065,-2196.855;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ScenePickingPass;0;9;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.RGBToHSVNode;258;379.5233,-2528.069;Inherit;False;1;0;FLOAT3;0,0,0;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
-Node;AmplifyShaderEditor.RangedFloatNode;283;147.253,-1927.864;Inherit;False;Property;_Shadow_FallOffThreshold;Shadow_FallOffThreshold;27;0;Create;True;0;0;0;False;0;False;0.45;0.45;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;283;147.253,-1927.864;Inherit;False;Property;_Shadow_FallOffThreshold;Shadow_FallOffThreshold;28;0;Create;True;0;0;0;False;0;False;0.45;0.45;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;251;478.8806,-2022.663;Inherit;True;3;3;0;FLOAT3;0,0,0;False;1;FLOAT3;-1,-1,-1;False;2;FLOAT;0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.ScaleAndOffsetNode;255;777.2276,-2022.238;Inherit;True;3;0;FLOAT3;0,0,0;False;1;FLOAT;1;False;2;FLOAT;0.12;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.ClampOpNode;290;1066.306,-2021.914;Inherit;True;3;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;1,1,1;False;1;FLOAT3;0
@@ -6344,12 +6344,9 @@ Node;AmplifyShaderEditor.ScaleAndOffsetNode;436;-1050.225,-5532.215;Inherit;True
 Node;AmplifyShaderEditor.ClampOpNode;437;-762.8779,-5537.092;Inherit;True;3;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;1,1,1;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.WireNode;391;-922.9512,-5173.512;Inherit;False;1;0;OBJECT;;False;1;OBJECT;0
 Node;AmplifyShaderEditor.GradientSampleNode;387;-46.55334,-5226.284;Inherit;True;2;0;OBJECT;;False;1;FLOAT;0;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RangedFloatNode;439;-1280.742,-5142.08;Inherit;False;Property;_Cels_LitThreshold;Cels_LitThreshold;28;0;Create;True;0;0;0;False;0;False;0.42;0.42;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;438;-1309.587,-5394.454;Inherit;True;2;2;0;FLOAT3;0,0,0;False;1;FLOAT;-1;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.WireNode;443;-1654.609,-5272.139;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.ScaleAndOffsetNode;187;-911.2591,-4614.499;Inherit;True;3;0;FLOAT;0;False;1;FLOAT;1;False;2;FLOAT;0.5;False;1;FLOAT;0
-Node;AmplifyShaderEditor.Vector2Node;445;-1115.424,-4506.981;Inherit;False;Constant;_RT_SO;RT_SO;17;0;Create;True;0;0;0;False;0;False;0,0;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
-Node;AmplifyShaderEditor.RangedFloatNode;440;-1579.952,-5143.151;Inherit;False;Property;_Cels_FallOffThreshold;Cels_FallOffThreshold;26;0;Create;True;0;0;0;False;0;False;0.45;0.45;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleAddOpNode;328;-543.3197,-4369.479;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.FunctionNode;201;-1324.182,-4874.571;Inherit;False;SRP Additional Light;-1;;46;6c86746ad131a0a408ca599df5f40861;7,6,1,9,1,23,0,27,1,25,1,24,1,26,1;6;2;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;15;FLOAT3;0,0,0;False;14;FLOAT3;1,1,1;False;18;FLOAT;1;False;32;FLOAT4;0,0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.BreakToComponentsNode;190;-1093.958,-4881.02;Inherit;True;FLOAT3;1;0;FLOAT3;0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
@@ -6358,7 +6355,6 @@ Node;AmplifyShaderEditor.SimpleMaxOpNode;188;-667.8192,-4862.382;Inherit;True;2;
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;186;-274.8864,-4395.413;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.WireNode;446;-380.0405,-4545.772;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.StaticSwitch;388;581.8553,-4973.622;Inherit;True;Property;_Keyword0;Keyword 0;31;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Reference;379;True;True;All;9;1;COLOR;0,0,0,0;False;0;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;5;COLOR;0,0,0,0;False;6;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.GradientNode;203;-1220.971,-4975.521;Inherit;False;1;5;2;0.3207547,0.3207547,0.3207547,0.1193713;0.3962264,0.3962264,0.3962264,0.3913939;0.5031446,0.5031446,0.5031446,0.616434;0.6100628,0.6100628,0.6100628,0.8767071;1,1,1,1;1,0;1,1;0;1;OBJECT;0
 Node;AmplifyShaderEditor.ColorNode;230;-185.4629,-2468.674;Inherit;False;Property;_BaseColor;BaseColor;21;0;Create;True;0;0;0;False;0;False;1,1,1,0;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;303;-374.4714,-1434.62;Inherit;False;2;2;0;FLOAT2;0,0;False;1;FLOAT2;0,0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.RangedFloatNode;282;150.3929,-1866.381;Inherit;False;Property;_Shadow_LitThreshold;Shadow_LitThreshold;29;0;Create;True;0;0;0;False;0;False;0.42;0.42;0;0;0;1;FLOAT;0
@@ -6541,6 +6537,10 @@ Node;AmplifyShaderEditor.RangedFloatNode;835;646.058,4177.71;Inherit;False;Const
 Node;AmplifyShaderEditor.RangedFloatNode;836;635.1908,4297.8;Inherit;False;Constant;_Float5;Float 5;48;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleAddOpNode;837;814.2963,4259.159;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SmoothstepOpNode;834;1072.49,3974.391;Inherit;True;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;440;-1581.084,-5145.415;Inherit;False;Property;_Cels_FallOffThreshold;Cels_FallOffThreshold;27;0;Create;True;0;0;0;False;0;False;1;0.45;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;838;-1297.363,-5135.801;Inherit;False;Property;_Cels_LitThreshold;Cels_LitThreshold;26;0;Create;True;0;0;0;False;0;False;1;0.45;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.Vector2Node;445;-1117.424,-4521.647;Inherit;False;Constant;_RT_SO;RT_SO;18;0;Create;True;0;0;0;False;0;False;0,0;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
+Node;AmplifyShaderEditor.GradientNode;203;-1220.971,-4975.521;Inherit;False;1;4;2;0.5911949,0.5818993,0.5818993,0.1499962;0.6918238,0.6918238,0.6918238,0.5000076;0.8050314,0.8050314,0.8050314,0.8500038;1,1,1,1;1,0;1,1;0;1;OBJECT;0
 WireConnection;209;0;212;0
 WireConnection;212;0;214;0
 WireConnection;29;0;27;0
@@ -6625,7 +6625,7 @@ WireConnection;430;0;194;2
 WireConnection;192;0;191;0
 WireConnection;192;1;430;0
 WireConnection;436;0;438;0
-WireConnection;436;2;439;0
+WireConnection;436;2;838;0
 WireConnection;437;0;436;0
 WireConnection;391;0;203;0
 WireConnection;387;0;391;0
@@ -6856,4 +6856,4 @@ WireConnection;834;0;832;0
 WireConnection;834;1;835;0
 WireConnection;834;2;837;0
 ASEEND*/
-//CHKSM=FABA607EA84AEDB257403792125195302D78340D
+//CHKSM=DDBF6DC7A6AA62D6EB25BC406876E3B2C177BBD1

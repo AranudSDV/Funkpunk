@@ -895,6 +895,8 @@ MonoBehaviour:
   bIsOnManager: 0
   bIsDifficulty: 0
   bIsToTip: 0
+  bIsBubble: 0
+  bTextWritten: 0
   menuManager: {fileID: 0}
 --- !u!114 &99327129
 MonoBehaviour:
@@ -1596,50 +1598,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 132937664}
   m_Mesh: {fileID: 6206849629555422820, guid: cb9d281cc74292e4895c7581bc82dd0a, type: 3}
---- !u!114 &134281474
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: probes
-  m_EditorClassIdentifier: 
-  resolution: 16
-  bitmask: 1
-  id: 3
-  sortingID: 0
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 48
-  vertexCounter: 0
-  sceneLodLevel: -1
-  autoResolution: 0
-  sceneName: 
-  tag: -1
-  containsTerrains: 0
-  probes: 1
-  mode: 2
-  renderMode: 1000
-  renderDirMode: 5
-  atlasPacker: 1000
-  holeFilling: 0
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
 --- !u!1 &146501333
 GameObject:
   m_ObjectHideFlags: 0
@@ -1675,7 +1633,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.44000003, y: 0.36666664}
   m_AnchorMax: {x: 0.7675001, y: 0.64222205}
-  m_AnchoredPosition: {x: 1000.00006, y: 0}
+  m_AnchoredPosition: {x: 1000.0001, y: 0}
   m_SizeDelta: {x: -2000, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &146501335
@@ -2126,6 +2084,8 @@ MonoBehaviour:
   bIsOnManager: 0
   bIsDifficulty: 0
   bIsToTip: 0
+  bIsBubble: 0
+  bTextWritten: 0
   menuManager: {fileID: 0}
 --- !u!114 &188660180
 MonoBehaviour:
@@ -2384,6 +2344,8 @@ MonoBehaviour:
   bIsOnManager: 0
   bIsDifficulty: 0
   bIsToTip: 0
+  bIsBubble: 0
+  bTextWritten: 0
   menuManager: {fileID: 0}
 --- !u!114 &211954866
 MonoBehaviour:
@@ -2540,6 +2502,8 @@ MonoBehaviour:
   bIsOnManager: 0
   bIsDifficulty: 0
   bIsToTip: 0
+  bIsBubble: 0
+  bTextWritten: 0
   menuManager: {fileID: 0}
 --- !u!114 &212658162
 MonoBehaviour:
@@ -3080,50 +3044,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 3, z: 2.5}
   m_Center: {x: 0.5, y: 1.5, z: 1.25}
---- !u!114 &275372362
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Loft_LM0
-  m_EditorClassIdentifier: 
-  resolution: 2048
-  bitmask: 1
-  id: 0
-  sortingID: 1
-  isImplicit: 1
-  area: 14008.169
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  autoResolution: 0
-  sceneName: 
-  tag: -1
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  holeFilling: 0
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
 --- !u!1001 &276232152
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3303,6 +3223,50 @@ MeshRenderer:
     type: 3}
   m_PrefabInstance: {fileID: 276363335}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &289237244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: Loft_LMA1
+  m_EditorClassIdentifier: 
+  resolution: 2048
+  bitmask: 1
+  id: 1
+  sortingID: 2
+  isImplicit: 1
+  area: 0
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  autoResolution: 0
+  sceneName: 
+  tag: -1
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  holeFilling: 0
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
 --- !u!1 &307582661
 GameObject:
   m_ObjectHideFlags: 0
@@ -3669,7 +3633,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.87375003, y: 0.040000003}
   m_AnchorMax: {x: 0.97, y: 0.1577778}
-  m_AnchoredPosition: {x: 1000.0004, y: 0}
+  m_AnchoredPosition: {x: 1000.00037, y: 0}
   m_SizeDelta: {x: -2000, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &354619206
@@ -3692,6 +3656,8 @@ MonoBehaviour:
   bIsOnManager: 0
   bIsDifficulty: 0
   bIsToTip: 0
+  bIsBubble: 0
+  bTextWritten: 0
   menuManager: {fileID: 0}
 --- !u!114 &354619207
 MonoBehaviour:
@@ -4014,6 +3980,8 @@ MonoBehaviour:
   bIsOnManager: 0
   bIsDifficulty: 0
   bIsToTip: 0
+  bIsBubble: 0
+  bTextWritten: 0
   menuManager: {fileID: 0}
 --- !u!114 &363865169
 MonoBehaviour:
@@ -4355,96 +4323,96 @@ MonoBehaviour:
     angle: 158
     UID: 4
   implicitGroups:
-  - {fileID: 134281474}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 455406129}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 275372362}
-  - {fileID: 1115382099}
+  - {fileID: 1392990284}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 289237244}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 1850555500}
+  - {fileID: 743561204}
   implicitGroupedObjects:
   - {fileID: 0}
   - {fileID: 21780604}
@@ -4961,10 +4929,7 @@ MonoBehaviour:
   compressedVolumes: 0
   sectors:
   - name: $G
-    maps:
-    - {fileID: 2800000, guid: 6b648a0cecb218a42b798b8177c78c17, type: 3}
-    - {fileID: 2800000, guid: 10a4c9097c1b6ec45997d4df831500f3, type: 3}
-    - {fileID: 2800000, guid: aa3d0c4acb7c9fa4d9ddee6416630779, type: 3}
+    maps: []
     masks: []
     dirMaps: []
     rnmMaps0: []
@@ -7308,50 +7273,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1627052040}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &455406129
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Loft_LMA1
-  m_EditorClassIdentifier: 
-  resolution: 2048
-  bitmask: 1
-  id: 1
-  sortingID: 2
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  autoResolution: 0
-  sceneName: 
-  tag: -1
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  holeFilling: 0
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
 --- !u!1 &469638281
 GameObject:
   m_ObjectHideFlags: 0
@@ -9781,6 +9702,50 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!114 &743561204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: Loft_LMA2
+  m_EditorClassIdentifier: 
+  resolution: 1024
+  bitmask: 1
+  id: 2
+  sortingID: 3
+  isImplicit: 1
+  area: 0
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  autoResolution: 0
+  sceneName: 
+  tag: -1
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  holeFilling: 0
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
 --- !u!1001 &746525953
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12559,7 +12524,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1007357399}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.6145184, y: -0.00000010650524, z: 0.00000008296262, w: 0.7889025}
+  m_LocalRotation: {x: 0.6145184, y: 0.00000010650524, z: -0.00000008296262, w: 0.7889025}
   m_LocalPosition: {x: 4, y: 14, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -13165,50 +13130,6 @@ MonoBehaviour:
   shadowmaskGroupID: 0
   directionMode: 0
   maskChannel: -1
---- !u!114 &1115382099
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
-  m_Name: Loft_LMA2
-  m_EditorClassIdentifier: 
-  resolution: 1024
-  bitmask: 1
-  id: 2
-  sortingID: 3
-  isImplicit: 1
-  area: 0
-  totalVertexCount: 0
-  vertexCounter: 0
-  sceneLodLevel: -1
-  autoResolution: 0
-  sceneName: 
-  tag: -1
-  containsTerrains: 0
-  probes: 0
-  mode: 1
-  renderMode: 1000
-  renderDirMode: 1000
-  atlasPacker: 1000
-  holeFilling: 0
-  computeSSS: 0
-  sssSamples: 16
-  sssDensity: 10
-  sssColor: {r: 1, g: 1, b: 1, a: 1}
-  sssScale: 1
-  fakeShadowBias: 0
-  transparentSelfShadow: 0
-  flipNormal: 0
-  parentName: 
-  overridePath: 
-  fixPos3D: 0
-  voxelSize: {x: 1, y: 1, z: 1}
-  passedFilter: 0
 --- !u!1 &1118463257
 GameObject:
   m_ObjectHideFlags: 0
@@ -14334,6 +14255,8 @@ MonoBehaviour:
   bIsOnManager: 0
   bIsDifficulty: 0
   bIsToTip: 0
+  bIsBubble: 0
+  bTextWritten: 0
   menuManager: {fileID: 0}
 --- !u!114 &1164939666
 MonoBehaviour:
@@ -15735,6 +15658,8 @@ MonoBehaviour:
   bIsOnManager: 0
   bIsDifficulty: 0
   bIsToTip: 0
+  bIsBubble: 0
+  bTextWritten: 0
   menuManager: {fileID: 0}
 --- !u!1 &1284763066
 GameObject:
@@ -16699,7 +16624,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.87375003, y: 0.040000003}
   m_AnchorMax: {x: 0.97, y: 0.1577778}
-  m_AnchoredPosition: {x: 1000.0004, y: 0}
+  m_AnchoredPosition: {x: 1000.00037, y: 0}
   m_SizeDelta: {x: -2000, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1341705609
@@ -16722,6 +16647,8 @@ MonoBehaviour:
   bIsOnManager: 0
   bIsDifficulty: 0
   bIsToTip: 0
+  bIsBubble: 0
+  bTextWritten: 0
   menuManager: {fileID: 0}
 --- !u!114 &1341705610
 MonoBehaviour:
@@ -16917,6 +16844,50 @@ MeshRenderer:
     type: 3}
   m_PrefabInstance: {fileID: 1392568326}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1392990284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: probes
+  m_EditorClassIdentifier: 
+  resolution: 16
+  bitmask: 1
+  id: 3
+  sortingID: 0
+  isImplicit: 1
+  area: 0
+  totalVertexCount: 48
+  vertexCounter: 0
+  sceneLodLevel: -1
+  autoResolution: 0
+  sceneName: 
+  tag: -1
+  containsTerrains: 0
+  probes: 1
+  mode: 2
+  renderMode: 1000
+  renderDirMode: 5
+  atlasPacker: 1000
+  holeFilling: 0
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
 --- !u!43 &1407792160
 Mesh:
   m_ObjectHideFlags: 0
@@ -17140,6 +17111,8 @@ MonoBehaviour:
   bIsOnManager: 0
   bIsDifficulty: 0
   bIsToTip: 0
+  bIsBubble: 0
+  bTextWritten: 0
   menuManager: {fileID: 0}
 --- !u!114 &1425855925
 MonoBehaviour:
@@ -20282,7 +20255,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.87375003, y: 0.040000003}
   m_AnchorMax: {x: 0.97, y: 0.1577778}
-  m_AnchoredPosition: {x: 999.99994, y: 0}
+  m_AnchoredPosition: {x: 999.9999, y: 0}
   m_SizeDelta: {x: -2000, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1664304488
@@ -20305,6 +20278,8 @@ MonoBehaviour:
   bIsOnManager: 0
   bIsDifficulty: 0
   bIsToTip: 0
+  bIsBubble: 0
+  bTextWritten: 0
   menuManager: {fileID: 0}
 --- !u!114 &1664304489
 MonoBehaviour:
@@ -22183,6 +22158,50 @@ MeshRenderer:
     type: 3}
   m_PrefabInstance: {fileID: 1807275469}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1850555500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0b4dd729a12d046982652f834580a2, type: 3}
+  m_Name: Loft_LM0
+  m_EditorClassIdentifier: 
+  resolution: 2048
+  bitmask: 1
+  id: 0
+  sortingID: 1
+  isImplicit: 1
+  area: 14008.169
+  totalVertexCount: 0
+  vertexCounter: 0
+  sceneLodLevel: -1
+  autoResolution: 0
+  sceneName: 
+  tag: -1
+  containsTerrains: 0
+  probes: 0
+  mode: 1
+  renderMode: 1000
+  renderDirMode: 1000
+  atlasPacker: 1000
+  holeFilling: 0
+  computeSSS: 0
+  sssSamples: 16
+  sssDensity: 10
+  sssColor: {r: 1, g: 1, b: 1, a: 1}
+  sssScale: 1
+  fakeShadowBias: 0
+  transparentSelfShadow: 0
+  flipNormal: 0
+  parentName: 
+  overridePath: 
+  fixPos3D: 0
+  voxelSize: {x: 1, y: 1, z: 1}
+  passedFilter: 0
 --- !u!1001 &1867850267
 PrefabInstance:
   m_ObjectHideFlags: 0
