@@ -470,10 +470,16 @@ MonoBehaviour:
   - {fileID: 6943120328924724134}
   rectBoxTextImage: {fileID: 1377881230481826746}
   imgBoxText: {fileID: 817166996144802350}
-  spritesCharactersBoxes:
+  spritesCharactersBoxesRight:
+  - {fileID: 21300000, guid: 6052ea03d803199448349b3dedfe2a89, type: 3}
+  - {fileID: 21300000, guid: 40b0721e9c86ea34f8b1f8a6f47175ab, type: 3}
+  - {fileID: 21300000, guid: c65ae9616be6ca34788d570bd1a389a9, type: 3}
+  - {fileID: 21300000, guid: 2c90c1e577285b249840f874b53241d2, type: 3}
+  spritesCharactersBoxesLeft:
   - {fileID: 21300000, guid: c7c97eb30a8cb634984093d736733d96, type: 3}
   - {fileID: 21300000, guid: fcca426690518c841a870cf4c19feb76, type: 3}
-  - {fileID: 21300000, guid: 1ce46af157d3d0a45a1f4f6496882fdd, type: 3}
+  - {fileID: 21300000, guid: 25d5f1fe4e652804fa7f41227d397b22, type: 3}
+  - {fileID: 21300000, guid: 6fc02cd569a07ef4c90fc90406c7f593, type: 3}
   _sc_textChange: {fileID: 9180304757930173935}
   iNbDialoguePerLevel: 0c0000000a00000007000000080000000a00000013000000
   iNbDialoguePerLevelAdd: 0c000000160000001d000000250000002f00000042000000
@@ -866,6 +872,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bTextWritten: 0
   menuManager: {fileID: 0}
 --- !u!1 &204593627366668587
 GameObject:
@@ -1137,6 +1144,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 1
+  bTextWritten: 0
   menuManager: {fileID: 269850063720091022}
 --- !u!114 &1249735288083179027
 MonoBehaviour:
@@ -1415,6 +1423,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bTextWritten: 0
   menuManager: {fileID: 269850063720091022}
 --- !u!1 &326614480576954016
 GameObject:
@@ -1572,6 +1581,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bTextWritten: 0
   menuManager: {fileID: 0}
 --- !u!1 &524634847287910946
 GameObject:
@@ -2347,6 +2357,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bTextWritten: 0
   menuManager: {fileID: 269850063720091022}
 --- !u!1 &972611787399371303
 GameObject:
@@ -2860,6 +2871,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bTextWritten: 0
   menuManager: {fileID: 0}
 --- !u!1 &1248200171897616424
 GameObject:
@@ -2928,6 +2940,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bTextWritten: 0
   menuManager: {fileID: 0}
 --- !u!114 &7716341397953669137
 MonoBehaviour:
@@ -3039,6 +3052,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bTextWritten: 0
   menuManager: {fileID: 0}
 --- !u!1 &1253308589641172270
 GameObject:
@@ -3944,6 +3958,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bTextWritten: 0
   menuManager: {fileID: 269850063720091022}
 --- !u!1 &2752410181209251922
 GameObject:
@@ -4348,6 +4363,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bTextWritten: 0
   menuManager: {fileID: 0}
 --- !u!1 &2779121210829161145
 GameObject:
@@ -4658,6 +4674,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bTextWritten: 0
   menuManager: {fileID: 269850063720091022}
 --- !u!1 &2999732874287219652
 GameObject:
@@ -5345,6 +5362,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bTextWritten: 0
   menuManager: {fileID: 0}
 --- !u!1 &3498886556833193360
 GameObject:
@@ -5925,6 +5943,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bTextWritten: 0
   menuManager: {fileID: 269850063720091022}
 --- !u!1 &3739087773515740591
 GameObject:
@@ -6342,6 +6361,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bTextWritten: 0
   menuManager: {fileID: 269850063720091022}
 --- !u!1 &4506092838792349122
 GameObject:
@@ -6499,6 +6519,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bTextWritten: 0
   menuManager: {fileID: 0}
 --- !u!1 &4527547535950903571
 GameObject:
@@ -7501,6 +7522,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bTextWritten: 0
   menuManager: {fileID: 0}
 --- !u!1 &5414176781137386473
 GameObject:
@@ -7568,6 +7590,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bTextWritten: 0
   menuManager: {fileID: 269850063720091022}
 --- !u!114 &7324977762651136156
 MonoBehaviour:
@@ -8647,6 +8670,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bTextWritten: 0
   menuManager: {fileID: 269850063720091022}
 --- !u!114 &5161499568078350233
 MonoBehaviour:
@@ -10874,6 +10898,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bTextWritten: 0
   menuManager: {fileID: 0}
 --- !u!1 &8117903037627878143
 GameObject:
@@ -11164,6 +11189,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bTextWritten: 0
   menuManager: {fileID: 0}
 --- !u!1 &8342127933019600501
 GameObject:
@@ -11471,6 +11497,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bTextWritten: 0
   menuManager: {fileID: 269850063720091022}
 --- !u!1 &8636217672371951609
 GameObject:
@@ -12082,6 +12109,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bTextWritten: 0
   menuManager: {fileID: 0}
 --- !u!1 &8911476998865171121
 GameObject:
@@ -12320,6 +12348,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bTextWritten: 0
   menuManager: {fileID: 269850063720091022}
 --- !u!114 &8030125144599779060
 MonoBehaviour:

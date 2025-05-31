@@ -355,11 +355,11 @@ public class sc_tuto_generic : MonoBehaviour
             b_[0] = true;
             bOnceBubble = true;
         }
-        for (int i = iBubbleNbAdd[_y], z = 0; i < max && z < iBubbleNb[_y] ; i++,  z++)
+        for (int i = iBubbleNbAdd[_y], z = 0; i < max && z < iBubbleNb[_y] ; i++,  z++) //bIsBubble
         {
-            if(_ftimer >= fTimer[i] && b_[z])
+            if((_ftimer >= fTimer[i] && b_[z] )|| (i-1!=-1 && RtTuto[i-1].childCount >0 && RtTuto[i-1].GetChild(0).transform.GetComponent<sc_textChange>().bIsBubble && RtTuto[i-1].GetChild(0).transform.GetComponent<sc_textChange>().bTextWritten))
             {
-                ShowBubble(i);
+                ShowBubble(i, false);
                 UnreadBubble(i, max);
                 b_[z] = false;
                 if(z!= iBubbleNb[_y] -2)
@@ -419,7 +419,7 @@ public class sc_tuto_generic : MonoBehaviour
         }
         for (int i = iBubbleNbAdd[_y], z = 0; i < max && z < iBubbleNb[_y]; i++, z++)
         {
-             ShowBubble(i);
+             ShowBubble(i, true);
             UnreadBubble(i, max);
              if (bIsOnLoft && bTuto[0])
             {
@@ -500,10 +500,18 @@ public class sc_tuto_generic : MonoBehaviour
         RtTuto[iBubbleNbAdd[_y]].offsetMax = new Vector2(0f, 0f);
         RtTuto[iBubbleNbAdd[_y]].offsetMin = new Vector2(0f, 0f);
     }
-    private void ShowBubble(int i) //SHOW ONE BUBBLE
+    private void ShowBubble(int i, bool skip) //SHOW ONE BUBBLE
     {
         RtTuto[i].offsetMin = Vector2.zero;
         RtTuto[i].offsetMax = Vector2.zero;
+        if(skip && RtTuto[i].childCount > 0 && RtTuto[i].GetChild(0).transform.GetComponent<sc_textChange>().bIsBubble)
+        {
+            RtTuto[i].GetChild(0).transform.GetComponent<sc_textChange>().BubbleSkipText();
+        }
+        else if(!skip && RtTuto[i].childCount > 0 && RtTuto[i].GetChild(0).transform.GetComponent<sc_textChange>().bIsBubble)
+        {
+            RtTuto[i].GetChild(0).transform.GetComponent<sc_textChange>().BubbleShowText();
+        }
     }
     private void UnreadBubble(int i, int max)
     {

@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using FMODUnity;
 using Febucci.UI;
+using static System.Net.Mime.MediaTypeNames;
 
 public class sc_textChange : MonoBehaviour
 {
@@ -17,9 +18,10 @@ public class sc_textChange : MonoBehaviour
     [SerializeField] private bool bIsOnManager = false;
     [SerializeField] private bool bIsDifficulty = false;
     [SerializeField] private bool bIsToTip = false;
+    public bool bIsBubble = false;
     private bool bnotfound;
     private string writer;
-    private bool bTextWritten = false;
+    public bool bTextWritten = false;
     [SerializeField] private MenuManager menuManager;
     private bool bOnce = false;
     private bool bInitialized;
@@ -71,6 +73,10 @@ public class sc_textChange : MonoBehaviour
             {
                 this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sEnglish;
                 //this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sEnglish;
+            }
+            if (bIsBubble)
+            {
+                typeAnimator.onTextShowed.AddListener(OnTextFullyShown);
             }
         }
         else
@@ -165,6 +171,24 @@ public class sc_textChange : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void BubbleShowText()
+    {
+        bTextWritten = false;
+        if (_playerData != null && _playerData.iLanguageNbPlayer == 1)
+        {
+            ShowDialogue(sFrench);
+        }
+        else
+        {
+            ShowDialogue(sEnglish);
+        }
+    }
+    public void BubbleSkipText()
+    {
+        typeAnimator.SkipTypewriter();
+        bTextWritten = true;
     }
     private void ShowDialogue(string text)
     {
