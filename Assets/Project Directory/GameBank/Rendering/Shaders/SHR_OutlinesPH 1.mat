@@ -59,10 +59,10 @@ Material:
     - _TimeDelay: 0
     - _VertexMaskingOrUvMasking: 0
     - _VertexNormalOrCustom: 0
-    - _VerticesOffset: 0.001
+    - _VerticesOffset: 0.04
     m_Colors:
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Highlight: {r: 0.8470589, g: 1, b: 0.2392157, a: 0}
+    - _Highlight: {r: 0.23921567, g: 1, b: 0.8605228, a: 0}
     - _ManualVector: {r: 0.2, g: 0.2, b: 1, a: 0}
-    - _OutlineColor: {r: 0.36141932, g: 0.2117647, b: 1, a: 0}
+    - _OutlineColor: {r: 0.31481674, g: 0.16100001, b: 1, a: 0}
   m_BuildTextureStacks: []

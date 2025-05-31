@@ -13,6 +13,7 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _COLORORTEX_ON
+  - _LIGHTINDDONE_ON
   - _RECEIVE_SHADOWS_OFF
   m_InvalidKeywords:
   - _RECEIVESHADOWS_OFF
@@ -124,7 +125,7 @@ Material:
     - _FullShadingHalfShading: 0
     - _IsEnnemies: 0
     - _IsOutline: 0
-    - _LightindDone: 0
+    - _LightindDone: 1
     - _LitThreshold: 0.5
     - _LitThreshold1: 0.42
     - _MTL_Pow: 0
@@ -162,6 +163,7 @@ Material:
     - _MTL: {r: 0, g: 0, b: 0, a: 0}
     - _NRM: {r: 0, g: 0, b: 1, a: 1}
     - _OutlineColor: {r: 1, g: 0.7170844, b: 0, a: 0}
+    - _OutlineColor2: {r: 0.4558116, g: 0, b: 1.498039, a: 0}
     - _SMH: {r: 0, g: 0, b: 0, a: 0}
     - _ShadowPatternDensity: {r: 10, g: 10, b: 0, a: 0}
     - _TopVertexDelay: {r: 0, g: 0, b: 0, a: 0}
