@@ -219,7 +219,7 @@ public class BPM_Manager : MonoBehaviour
     }
     private void Update()
     {
-        if (!bInitialized[0])
+        if (!bInitialized[0] && scPlayer.menuManager!=null)
         {
             Init(Time.unscaledDeltaTime);
         }

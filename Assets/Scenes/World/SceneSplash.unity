@@ -364,9 +364,9 @@ Canvas:
   m_GameObject: {fileID: 14613219}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
+  m_RenderMode: 1
+  m_Camera: {fileID: 676729427}
+  m_PlaneDistance: 1
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -712,6 +712,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c108fd3a76764d42b690a6365b1bae6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  typeAnimator: {fileID: 0}
   scPlayer: {fileID: 0}
   _playerData: {fileID: 0}
   sEnglish: Exit Game
@@ -719,10 +720,6 @@ MonoBehaviour:
   bIsOnManager: 0
   bIsDifficulty: 0
   bIsToTip: 0
-  delayBeforeStart: 0
-  timeBtwChars: 0.06
-  leadingCharBeforeDelay: 0
-  leadingChar: 
   menuManager: {fileID: 0}
 --- !u!222 &20369769
 CanvasRenderer:
@@ -2220,7 +2217,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 2
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 676729427}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -3347,6 +3344,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c108fd3a76764d42b690a6365b1bae6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  typeAnimator: {fileID: 0}
   scPlayer: {fileID: 0}
   _playerData: {fileID: 0}
   sEnglish: Settings
@@ -3354,10 +3352,6 @@ MonoBehaviour:
   bIsOnManager: 0
   bIsDifficulty: 0
   bIsToTip: 0
-  delayBeforeStart: 0
-  timeBtwChars: 0.06
-  leadingCharBeforeDelay: 0
-  leadingChar: 
   menuManager: {fileID: 0}
 --- !u!222 &735929232
 CanvasRenderer:
@@ -4475,6 +4469,11 @@ PrefabInstance:
       objectReference: {fileID: 1172163630}
     - target: {fileID: 269850063720091022, guid: 45351d2d758839e409953a510c2e4a78,
         type: 3}
+      propertyPath: EventSystem
+      value: 
+      objectReference: {fileID: 296628935}
+    - target: {fileID: 269850063720091022, guid: 45351d2d758839e409953a510c2e4a78,
+        type: 3}
       propertyPath: GoGameChoose
       value: 
       objectReference: {fileID: 909878887}
@@ -4583,16 +4582,6 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5012095105389482774, guid: 45351d2d758839e409953a510c2e4a78,
-        type: 3}
-      propertyPath: m_Alpha
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5012095105389482774, guid: 45351d2d758839e409953a510c2e4a78,
-        type: 3}
-      propertyPath: m_Interactable
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6214833577249461099, guid: 45351d2d758839e409953a510c2e4a78,
         type: 3}
       propertyPath: m_Camera
@@ -4603,15 +4592,10 @@ PrefabInstance:
       propertyPath: m_RenderMode
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 6414411455229331570, guid: 45351d2d758839e409953a510c2e4a78,
+    - target: {fileID: 6214833577249461099, guid: 45351d2d758839e409953a510c2e4a78,
         type: 3}
-      propertyPath: m_Interactable
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6649268092041026147, guid: 45351d2d758839e409953a510c2e4a78,
-        type: 3}
-      propertyPath: m_Alpha
-      value: 0
+      propertyPath: m_PlaneDistance
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6701976518110861898, guid: 45351d2d758839e409953a510c2e4a78,
         type: 3}

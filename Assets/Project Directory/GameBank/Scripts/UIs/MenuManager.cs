@@ -12,7 +12,7 @@ using FMODUnity;
 using UnityEngine.LowLevel;
 using FMOD.Studio;
 
-public class MenuManager : MonoBehaviour
+public class MenuManager : SingletonManager<MenuManager>
 {
     public EventSystem EventSystem;
     public SC_Player scPlayer;
@@ -143,7 +143,8 @@ public class MenuManager : MonoBehaviour
     [Tooltip("0 is right, 1 is left.")][SerializeField] private RectTransform[] charactersImages;
     [SerializeField] private RectTransform rectBoxTextImage;
     [SerializeField] private UnityEngine.UI.Image imgBoxText;
-    [Tooltip("0 is the 1st character's boxe,  1 is the other, 2 is the last.")][SerializeField] private Sprite[] spritesCharactersBoxes;
+    [Tooltip("0 is the 1st Jeff,  1 is Scraffi, 2 is Scravinsky, 3 is Screonardo.")][SerializeField] private Sprite[] spritesCharactersBoxesRight;
+    [Tooltip("0 is the 1st Jeff,  1 is Scraffi,2 is Scravinsky, 3 is Screonardo.")][SerializeField] private Sprite[] spritesCharactersBoxesLeft;
     [SerializeField] private sc_textChange _sc_textChange;
     [SerializeField] private int[] iNbDialoguePerLevel;
     [SerializeField] private int[] iNbDialoguePerLevelAdd;
@@ -217,14 +218,17 @@ public class MenuManager : MonoBehaviour
     private void Awake()
     {
         CheckControllerStatus();
-        LoadTargetUIMenus();
-        DontDestroyOnLoad(this.gameObject);
-        if (FindObjectsOfType<MenuManager>().Length > 1)
+        LoadTargetUIMenus(); 
+        if (instance != null && instance != this)
         {
-            Destroy(this);
+            Debug.LogWarning("Duplicate MenuManager found. Destroying this one.");
+            Destroy(this.gameObject);
+            return;
         }
+        instance = this;
+        DontDestroyOnLoad(gameObject);
         //control = new PlayerControl();
-        EventSystem = GameObject.FindObjectOfType<EventSystem>();
+        //EventSystem = GameObject.FindObjectOfType<EventSystem>();
         isLoadingScene = false;
     }
     private void Start()
@@ -425,38 +429,56 @@ public class MenuManager : MonoBehaviour
     }
     private void SelectionEnsurance()
     {
-        if (EventSystem.currentSelectedGameObject == null)
+        if (EventSystem!=null && EventSystem.currentSelectedGameObject == null)
         {
             if(CgPauseMenu.alpha == 0f)
             {
                 if (SceneManager.GetActiveScene().name == "LevelChoosing")
                 {
-                    EventSystem.SetSelectedGameObject(GoLevelsButton[0]);
+                    if(GoLevelsButton != null && GoLevelsButton[0]!=null)
+                    {
+                        EventSystem.SetSelectedGameObject(GoLevelsButton[0]);
+                    }
                 }
                 else if (SceneManager.GetActiveScene().name == "SceneSplash" && bMenuOnTriggered)
                 {
-                    EventSystem.SetSelectedGameObject(GoGameChoose[0]);
+                    if (GoGameChoose[0] != null)
+                    {
+                        EventSystem.SetSelectedGameObject(GoGameChoose[0]);
+                    }
                 }
             }
             else if(CgPauseMenu.alpha == 0f && CgScoring.alpha == 1f)
             {
-                EventSystem.SetSelectedGameObject(GoScoringFirstButtonSelected);
+                if (GoScoringFirstButtonSelected != null)
+                {
+                    EventSystem.SetSelectedGameObject(GoScoringFirstButtonSelected);
+                }
             }
             else if(CgPauseMenu.alpha == 1f)
             {
                 if(CgOptionPannel.alpha == 1f)
                 {
-                    EventSystem.SetSelectedGameObject(GoOptionGeneralFirstButtonSelected);
+                    if (GoOptionGeneralFirstButtonSelected != null)
+                    {
+                        EventSystem.SetSelectedGameObject(GoOptionGeneralFirstButtonSelected);
+                    }
                 }
                 else
                 {
-                    EventSystem.SetSelectedGameObject(GoPausedFirstButtonSelected);
+                    if (GoPausedFirstButtonSelected != null)
+                    {
+                        EventSystem.SetSelectedGameObject(GoPausedFirstButtonSelected);
+                    }
                 }
             }
             else if(CgEndDialogue.alpha == 1f)
             {
-                EventSystem.SetSelectedGameObject(rectBoxTextImage.gameObject);
-                Debug.Log("ensurance for " + EventSystem.currentSelectedGameObject);
+                if (rectBoxTextImage.gameObject != null)
+                {
+                    EventSystem.SetSelectedGameObject(rectBoxTextImage.gameObject);
+                    Debug.Log("ensurance for " + EventSystem.currentSelectedGameObject);
+                }
             }
         }
     }
@@ -835,7 +857,6 @@ public class MenuManager : MonoBehaviour
             yield return null;
         }
         CgLoadingScreen.alpha = targetValue;
-        EventSystem = GameObject.FindObjectOfType<EventSystem>();
     }
     //PAUSE AND SETTINGS
     private void UXNavigation()
@@ -1150,10 +1171,19 @@ public class MenuManager : MonoBehaviour
     public void SetMusicVolume()
     {
         playerMusicVolume = MusicSlider.value;
-        if (!music_basic_VCA.isValid() && !music_beat_VCA.isValid() && !music_detected_VCA.isValid())
+        if (!music_basic_VCA.isValid() || !music_beat_VCA.isValid() || !music_detected_VCA.isValid())
         {
             Debug.LogError("VCA is not valid! Check FMOD path.");
-            return;
+            music_basic_VCA = FMODUnity.RuntimeManager.GetVCA("vca:/Music_basic");
+            music_beat_VCA = FMODUnity.RuntimeManager.GetVCA("vca:/Music_beat");
+            music_detected_VCA = FMODUnity.RuntimeManager.GetVCA("vca:/Music_detected");
+            sfxVCA = FMODUnity.RuntimeManager.GetVCA("vca:/SFX");
+            ambianceVCA = FMODUnity.RuntimeManager.GetVCA("vca:/Ambiance"); 
+            if (!music_basic_VCA.isValid() || !music_beat_VCA.isValid() || !music_detected_VCA.isValid())
+            {
+                Debug.LogError("VCA is STILL!!!! not valid!");
+                return;
+            }
         }
         if (SceneManager.GetActiveScene().name == "SceneLvl0" || SceneManager.GetActiveScene().name == "SceneLvl1" || SceneManager.GetActiveScene().name == "SceneLvl2" || SceneManager.GetActiveScene().name == "SceneLvl3")
         {
@@ -1306,26 +1336,16 @@ public class MenuManager : MonoBehaviour
         // Change the text box to the one of the character speaking
         int a = RightIntSpeakerAndNot(speakingCharacterIndex);
         //int b = RightIntSpeakerAndNot(speakingCharacterIndex, notSpeakingCharacterIndex)[1];
-        if(a!=-1)
-        {
-            if(a==3)
-            {
-                imgBoxText.sprite = spritesCharactersBoxes[2];
-            }
-            else
-            {
-                imgBoxText.sprite = spritesCharactersBoxes[a];
-            }
-            imgBoxText.color = new Color32(255, 255, 255, 255);
-        }
-        else
+        if(a==-1)
         {
             imgBoxText.color = new Color32(0, 0, 0, 255);
         }
         //Is right or left character speaking ? 
         if (iWhichCharaToRightToLeft[iNbTextNow*2]== a) //Le sprite de droite est-il celui du chara qui parle ?
         {
-            if(speakingCharacterIndex != -1)
+            imgBoxText.sprite = spritesCharactersBoxesRight[a];
+            imgBoxText.color = new Color32(255, 255, 255, 255);
+            if (speakingCharacterIndex != -1)
             {
                 imgCharactersSpace[0].sprite = spritesEndDialogueCharacters[speakingCharacterIndex]; // Le sprite de droite est rempli par le sprite du chara qui est à droite en fonction du lvl
                 imgCharactersSpace[1].sprite = spritesEndDialogueCharactersNotSpeak[notSpeakingCharacterIndex];// Le sprite de gauche est rempli par le sprite du chara qui est à gauche en fonction du lvl
@@ -1351,7 +1371,9 @@ public class MenuManager : MonoBehaviour
         }
         else
         {
-            if(notSpeakingCharacterIndex != -1)
+            imgBoxText.sprite = spritesCharactersBoxesLeft[a];
+            imgBoxText.color = new Color32(255, 255, 255, 255);
+            if (notSpeakingCharacterIndex != -1)
             {
                 imgCharactersSpace[0].sprite = spritesEndDialogueCharactersNotSpeak[notSpeakingCharacterIndex]; // Le sprite de droite est rempli par le sprite du chara qui est à droite en fonction du lvl
                 imgCharactersSpace[1].sprite = spritesEndDialogueCharacters[speakingCharacterIndex];// Le sprite de gauche est rempli par le sprite du chara qui est à gauche en fonction du lvl
@@ -1380,7 +1402,7 @@ public class MenuManager : MonoBehaviour
     {
         int a;
         //int[] a = new int[2];
-        if(speakingCharacterIndex == -1)
+        if(speakingCharacterIndex == -1) //Nobody
         {
             a = -1;
         }
@@ -1388,15 +1410,15 @@ public class MenuManager : MonoBehaviour
         {
             a = 0;
         }
-        else if ((speakingCharacterIndex > 2 && speakingCharacterIndex <= 5) || speakingCharacterIndex >= 13)
+        else if ((speakingCharacterIndex > 2 && speakingCharacterIndex <= 5) || speakingCharacterIndex >= 13) //Scraffi
         {
             a = 1;
         }
-        else if (speakingCharacterIndex > 5 && speakingCharacterIndex <= 7)
+        else if (speakingCharacterIndex > 5 && speakingCharacterIndex <= 7) //Scravinsky
         {
             a = 2;
         }
-        else
+        else //Screonardo
         {
             a = 3;
         }

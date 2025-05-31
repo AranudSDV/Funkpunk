@@ -11,6 +11,8 @@ using UnityEngine.UIElements;
 
 public class sc_levelChoosing_ : MonoBehaviour
 {
+    [SerializeField] private EventSystem _eventSystem;
+    [SerializeField] private Camera camUIOverlay;
     [SerializeField][Tooltip("5 for each level since there are 5 stars")] private UnityEngine.RectTransform[] rectStarsLevels = new UnityEngine.RectTransform[20];
     private MenuManager menuManager;
     private PlayerData _playerData;
@@ -50,6 +52,8 @@ public class sc_levelChoosing_ : MonoBehaviour
         menuManager = goMenu.GetComponent<MenuManager>();
         _playerData = goMenu.GetComponent<PlayerData>();
         imBackground.material = sprites_Background[_playerData.iLevelPlayer];
+        menuManager.gameObject.GetComponent<Canvas>().worldCamera = camUIOverlay;
+        menuManager.EventSystem = _eventSystem;
         StartCoroutine(WaitAndAnimate());
     }
     private IEnumerator WaitAndAnimate()

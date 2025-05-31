@@ -26,6 +26,8 @@ using UnityEngine.UIElements;
 
 public class SC_Player : Singleton<SC_Player>
 {
+    public EventSystem _eventSystem;
+    public Camera camUIOverlay;
     public bool bisTuto = false;
     public MenuManager menuManager;
     public bool bHasController = true;
@@ -165,6 +167,23 @@ public class SC_Player : Singleton<SC_Player>
     }
     void Start()
     {
+        if (MenuManager.instance == null)
+        {
+            Debug.LogWarning("MenuManager.instance was null. Delaying initialization.");
+            StartCoroutine(WaitForMenuManager());
+            return;
+        }
+        InitWithMenuManager(MenuManager.instance);
+    }
+    private IEnumerator WaitForMenuManager()
+    {
+        yield return new WaitUntil(() => MenuManager.instance != null);
+        InitWithMenuManager(MenuManager.instance);
+    }
+
+    private void InitWithMenuManager(MenuManager menu)
+    {
+        GameObject goMenu = menu.gameObject;
         FScore = Mathf.Round(fPercentScore);
         bIsEndGame = false;
         posMesh = PlayerCapsule.transform.position;
@@ -172,7 +191,7 @@ public class SC_Player : Singleton<SC_Player>
         cinemachineBasicMultiChannelPerlin = cinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         if (menuManager == null)
         {
-            GameObject goMenu = GameObject.FindWithTag("Manager");
+            goMenu = MenuManager.instance.gameObject;
             if (goMenu == null)
             {
                 bHasController = false;
@@ -191,9 +210,13 @@ public class SC_Player : Singleton<SC_Player>
             bHasController = menuManager.controllerConnected;
             menuManager.scPlayer = this;
         }
+        menuManager.gameObject.GetComponent<Canvas>().worldCamera = camUIOverlay;
+        menuManager.EventSystem = _eventSystem;
+        Debug.Log("event system done");
         EyeDetection();
+        // Your logic here
     }
-    
+
     //L'UPDATE
     public void Update()
     {

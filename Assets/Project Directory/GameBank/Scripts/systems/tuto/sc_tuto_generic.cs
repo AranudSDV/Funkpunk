@@ -131,7 +131,7 @@ public class sc_tuto_generic : MonoBehaviour
     {
         if(!isMeshable)
         {
-            if(!bInit) //INITIALISATION
+            if(!bInit && scPlayer.menuManager!=null) //INITIALISATION
             {
                 Initialized();
                 bInit = true;
@@ -247,7 +247,7 @@ public class sc_tuto_generic : MonoBehaviour
                             bInputMoreTutoOk = false;
                         }
                     }
-                    else if (!bHasClickedSkip && !bWaitNext && scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered) // INPUT TO SKIP 
+                    else if (!bHasClickedSkip && !bWaitNext && scPlayer.bHasController && scPlayer.control!=null && scPlayer.control.GamePlay.Move.triggered) // INPUT TO SKIP 
                     {
                         bHasClickedSkip = true;
                     }

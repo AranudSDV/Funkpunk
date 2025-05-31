@@ -81,7 +81,7 @@ public class sc_textChange : MonoBehaviour
 
     private void Update()
     {
-        if (!bInitialized)
+        if (!bInitialized && ((scPlayer!=null && scPlayer.menuManager!=null) || scPlayer==null))
         {
             Init();
             bInitialized = true;
