@@ -30,7 +30,8 @@ ModelImporter:
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    extraUserProperties: []
+    extraUserProperties:
+    - '#BAKERY{"meshName":["OB_Lampadaire_mural_Head_01A"],"padding":[170],"unwrapper":[0]}'
     clipAnimations: []
     isReadable: 0
   meshes:

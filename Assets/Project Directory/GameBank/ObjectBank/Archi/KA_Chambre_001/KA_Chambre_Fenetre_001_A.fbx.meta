@@ -30,7 +30,8 @@ ModelImporter:
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    extraUserProperties: []
+    extraUserProperties:
+    - '#BAKERY{"meshName":["KA_Chambre_Fenetre_001_A"],"padding":[42],"unwrapper":[0]}'
     clipAnimations: []
     isReadable: 0
   meshes:
