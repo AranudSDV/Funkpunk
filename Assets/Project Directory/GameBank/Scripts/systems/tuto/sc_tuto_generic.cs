@@ -131,7 +131,7 @@ public class sc_tuto_generic : MonoBehaviour
     {
         if(!isMeshable)
         {
-            if(!bInit && scPlayer.menuManager!=null) //INITIALISATION
+            if(!bInit && scPlayer.menuManager != null) //INITIALISATION
             {
                 Initialized();
                 bInit = true;
@@ -355,9 +355,9 @@ public class sc_tuto_generic : MonoBehaviour
             b_[0] = true;
             bOnceBubble = true;
         }
-        for (int i = iBubbleNbAdd[_y], z = 0; i < max && z < iBubbleNb[_y] ; i++,  z++) //bIsBubble
+        for (int i = iBubbleNbAdd[_y], z = 0; i < max && z < iBubbleNb[_y] ; i++,  z++)
         {
-            if((_ftimer >= fTimer[i] && b_[z] )|| (i-1!=-1 && RtTuto[i-1].childCount >0 && RtTuto[i-1].GetChild(0).transform.GetComponent<sc_textChange>().bIsBubble && RtTuto[i-1].GetChild(0).transform.GetComponent<sc_textChange>().bTextWritten))
+            if(_ftimer >= fTimer[i] && b_[z])
             {
                 ShowBubble(i, false);
                 UnreadBubble(i, max);
@@ -504,11 +504,12 @@ public class sc_tuto_generic : MonoBehaviour
     {
         RtTuto[i].offsetMin = Vector2.zero;
         RtTuto[i].offsetMax = Vector2.zero;
-        if(skip && RtTuto[i].childCount > 0 && RtTuto[i].GetChild(0).transform.GetComponent<sc_textChange>().bIsBubble)
+        Debug.Log(i);
+        if (skip && RtTuto[i].childCount > 0 && RtTuto[i].GetChild(0).transform.GetComponent<sc_textChange>().bIsBubble)
         {
             RtTuto[i].GetChild(0).transform.GetComponent<sc_textChange>().BubbleSkipText();
         }
-        else if(!skip && RtTuto[i].childCount > 0 && RtTuto[i].GetChild(0).transform.GetComponent<sc_textChange>().bIsBubble)
+        else if (!skip && RtTuto[i].childCount > 0 && RtTuto[i].GetChild(0).transform.GetComponent<sc_textChange>().bIsBubble)
         {
             RtTuto[i].GetChild(0).transform.GetComponent<sc_textChange>().BubbleShowText();
         }

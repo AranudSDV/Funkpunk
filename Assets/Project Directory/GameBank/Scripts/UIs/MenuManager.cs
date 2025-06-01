@@ -1173,7 +1173,7 @@ public class MenuManager : SingletonManager<MenuManager>
         playerMusicVolume = MusicSlider.value;
         if (!music_basic_VCA.isValid() || !music_beat_VCA.isValid() || !music_detected_VCA.isValid())
         {
-            Debug.LogError("VCA is not valid! Check FMOD path.");
+            Debug.LogWarning("VCA is not valid! Check FMOD path.");
             music_basic_VCA = FMODUnity.RuntimeManager.GetVCA("vca:/Music_basic");
             music_beat_VCA = FMODUnity.RuntimeManager.GetVCA("vca:/Music_beat");
             music_detected_VCA = FMODUnity.RuntimeManager.GetVCA("vca:/Music_detected");
