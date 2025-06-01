@@ -12,7 +12,6 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _BAKEDORRT_ON
   - _COLORORTEX_ON
   - _LIGHTINDDONE_ON
   m_InvalidKeywords:
@@ -53,6 +52,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _Normal1:
         m_Texture: {fileID: 2800000, guid: b611962f55f1b3847bb85d0bde2ae9e2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ShadowTex:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ShadowTexture:
@@ -102,18 +105,28 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaCutoff: 0.5
-    - _BakedOrRT: 1
+    - _BPM: 60
+    - _BakedOrRT: 0
     - _Base_or_Tsample: 1
-    - _Cels_FallOffThreshold: 0.1
-    - _Cels_LitThreshold: 0.42
+    - _BlendPow: 1
+    - _Cels_FallOffThreshold: 1
+    - _Cels_LitThreshold: 0.6
     - _ColorOrTex: 1
+    - _Debug: 0
+    - _DistanceCutoff: 0
     - _EnvironmentReflections: 1
     - _FallOffThreshold: 0.88
+    - _FresnelErase: 0.01
+    - _FresnelErase_Smoothness: 1.5
+    - _FresnelPower: 5
     - _FullShadingHalfShading: 0
+    - _IsEnnemies: 0
+    - _IsOutline: 0
     - _LightindDone: 1
     - _LitThreshold: 0.5
     - _MTL_Pow: 0
     - _NormalScale: 0
+    - _OutlineWidth: 0.1
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
@@ -123,21 +136,34 @@ Material:
     - _ShadowPatternDensity: 405.2
     - _ShadowPatternRotator: 0
     - _ShadowSoftness: 1
-    - _Shadow_FallOffThreshold: 2.61
-    - _Shadow_LitThreshold: 0.8
+    - _ShadowTex_Pow: 0.27
+    - _Shadow_FallOffThreshold: 0.8
+    - _Shadow_LitThreshold: 1
     - _ShadowsFullCelShaded: 1
     - _Shadows_ProceduralOrTexture: 0
     - _SmoothNess: 0
     - _Smoothness: 0
     - _Spec: 0
     - _SpecularHighlights: 1
+    - _TimeDelay: 0
+    - _TopMask: 0
+    - _TriplanarTiling: 10
+    - _Using3DMovements: 0
+    - _UsingTriplanar: 0
+    - _WorldPosDiv: 0
     m_Colors:
     - _ALB: {r: 1, g: 0, b: 0, a: 0}
     - _AO: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseVertexOffsetDelay: {r: 0, g: 0, b: 0, a: 0}
+    - _BaseVertexOffsetValue: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _MTL: {r: 0, g: 0, b: 0, a: 0}
     - _NRM: {r: 0, g: 0, b: 1, a: 1}
+    - _OutlineColor: {r: 0.9937374, g: 1.498039, b: 0, a: 0}
+    - _OutlineColor2: {r: 0.4558116, g: 0, b: 1.498039, a: 0}
     - _SMH: {r: 0, g: 0, b: 0, a: 0}
-    - _ShadowPatternDensity: {r: 20, g: 20, b: 0, a: 0}
+    - _ShadowPatternDensity: {r: 100, g: 100, b: 0, a: 0}
+    - _TopVertexDelay: {r: 0, g: 0, b: 0, a: 0}
+    - _TopVertexOffsetValue: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
