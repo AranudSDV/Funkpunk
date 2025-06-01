@@ -486,41 +486,45 @@ MonoBehaviour:
   iCharaToSpeakPerTextes: 0000000003000000020000000300000002000000050000000300000001000000040000000100000000000000000000000300000000000000010000000200000005000000050000000500000001000000040000000300000001000000050000000400000001000000020000000500000003000000060000000c0000000500000006000000040000000600000004000000ffffffff070000000500000002000000050000000000000004000000000000000500000000000000ffffffff070000000500000002000000050000000100000005000000080000000b000000100000000800000011000000080000000c0000000e0000000c000000090000000c00000008000000ffffffff
   iCharaToNotSpeakPerTextes: 03000000000000000300000002000000030000000200000002000000030000000100000003000000030000000300000000000000030000000300000003000000000000000200000001000000030000000000000000000000030000000000000001000000030000000300000000000000000000000b000000060000000200000003000000070000000300000006000000ffffffff030000000200000003000000010000000300000000000000030000000000000003000000ffffffff0300000002000000030000000100000003000000010000000a00000009000000090000000a000000090000000b0000000800000008000000080000000a000000090000000b000000ffffffff
   sDialogueEnglish:
-  - There. Now that's a tag they won't forget. (*graff done*)
-  - Bingo! That's the spirit!
+  - <swing>There</swing>. Now that's a tag they won't forget.
+  - <wave a=0.5>Bingo! That's the spirit!</wave>
   - Yea--!! Wait, what? What?
-  - Yeah! That tag's got a real punk soul. I've been looking for someone just like
-    you!
+  - <wave a=0.5>Yeah! That tag's got a real <rainb>punk drive</rainb>. I've been
+    looking for someone just like you!</wave>
   - W-Who are you?
-  - 'I''m the amazing Scraffi, pleased to meet your funky being. '
-  - Do you accept being my pal in order to screw those music thugs together?
+  - <wave a=0.5>I'm the amazing <size=60><color=#7FEF2A><swing>Scraffi</swing></color></size>,
+    pleased to meet your funky being.</wave>
+  - <wave a=0.5>Do you accept being my pal in order to screw those music thugs together?</wave>
   - ... Did I take something? Am I seriously talking to my spray can?
-  - I'm still here you know. And yes I may look like a spray can, but I chose to
-    be in there so your graffiti would actually hit those thugs where it hurts. So,
-    you in?
+  - <wave a=0.5>Yes, I MAY look like a spray can, but I CHOSE to be in there so your
+    graffiti would actually hit those thugs where it hurts. So, you in?</wave>
   - That's strange... but I guess I HAVE to trust my spray can... I've used it so
     many times...
-  - 'Ok we''re pals now! Those gangsters are called "Marshalls" by the way. '
-  - 'And I''m Jett Rush. '
-  - 'The situation''s way worse than I thought. There were so many Marshalls there! '
+  - 'Ok we''re pals now! Those gangsters are called <color=#EAD827><incr><size=60>Marshalls</size></incr></color>
+    by the way. '
+  - 'And I''m<waitfor=.5> <size=60><bounce>Jett<waitfor=.5> Rush.</bounce></size> '
+  - <wave a=0.5>The situation's way worse than I thought. There were so many <color=#EAD827><incr><size=60>Marshalls</size></incr></color>
+    there! </wave>
   - 'They''ve always been a really big crew. But they weren''t like that before. '
   - 'Sure, they were gangsters, but not like... this!  '
   - 'Do you know what changed them? '
-  - Yes. They're not themselves anymore. They're being manipulated by the power of
-    an evil spirit.
-  - 'By the way, I''m also a spirit. But a kind one. And way much wiser. '
-  - I have the power to transform the paint in your spray can into an anti-evil-spirit
-    paint. Kind of.
+  - <wave a=0.5>Yes. They're not themselves anymore. They're being manipulated by
+    the power of an evil <size=60><color=#7FEF2A><swing>spirit</swing></color></size>.</wave>
+  - <wave a=0.5>By the way, I'm also a <size=60><color=#7FEF2A><swing>spirit</swing></color></size>.
+    But a kind one. And way much wiser. </wave>
+  - <wave a=0.5>I have the power to transform the paint in your spray can into an
+    <color=#7FEF2A><shake a=0.2>anti-evil-spirit</shake></color> paint. Kind of.</wave>
   - 'That''s why my graffiti are that powerful? '
-  - Combined to your punk drive, we're unstoppable.
-  - Anyway, we don't have much time. We have to hurry.
+  - <wave a=0.5>Combined to your <rainb>punk drive</rainb>, we're unstoppable.</wave>
+  - <wave a=0.5>Anyway, we don't have much time. We have to hurry.</wave>
   - Wow... so this was the subway that carries the infamous Marshall stash.
   - 'I don''t know how infamous they were, but now their leader is being manipulated
     by that evil spirit. Scravinsky, he''s called. '
   - He's the worst of all, remember that. His only goal is world domination.
   - 'Johnny Cash is being manipulated? He''s a real legend... I guess only a real
     evil spirit could manipulate him. '
-  - 'So we''re going to THE Marshalls headquarters now? '
+  - 'So we''re going to THE <color=#EAD827><incr><size=60>Marshalls</size></incr></color>
+    headquarters now? '
   - 'We have no other choice yeah. We have to exorcise Johnny and send Scravinsky
     out of the human world. '
   - If we fail, the music will take over all forms of art, and every human will be
@@ -577,38 +581,41 @@ MonoBehaviour:
   - 'And that''s how Scraffaello, Screonardo and the painting spirits ruled over
     the world for 666 days. '
   sDialogueFrench:
-  - "Voil\xE0. \xC7a, c'est un tag qu'ils ne vont pas oublier. (*tag fait*)"
-  - "C'est \xE7a l'esprit !"
+  - "<swing>Voil\xE0</swing>. \xC7a, c'est un tag qu'ils ne vont pas oublier."
+  - "<wave a=0.5>C'est \xE7a l'esprit !</wave>"
   - Ouai--!! Attends quoi ? Quoi ?!
-  - "Yep, ce tag a une pure \xE9nergie punk. C'est quelqu'un comme toi que je cherchais
-    !"
+  - "<wave a=0.5>Yep, ce tag a une pure <rainb>\xE9nergie punk</rainb>. C'est quelqu'un
+    comme toi que je cherchais !</wave>"
   - T-T'es qui ?
-  - "Je suis le sublime Scraffi, enchant\xE9 magnifique \xEAtre de funk."
-  - "T'accepterais de devenir mon gars s\xFBr pour nous d\xE9barasser de ces fous
-    de la musique ?"
+  - "<wave a=0.5>Je suis le sublime <size=60><color=#7FEF2A><swing>Scraffi</swing></color></size>,
+    enchant\xE9 magnifique \xEAtre de funk.</wave>"
+  - "<wave a=0.5>T'accepterais de devenir mon gars s\xFBr pour nous d\xE9barasser
+    de ces fous de la musique ?</wave>"
   - "... J'ai pris un truc ou quoi ? Je parle vraiment \xE0 ma bombe de peinture
     ?"
-  - "Je suis toujours l\xE0 tu sais. Et oui, je ressemble peut-\xEAtre \xE0 une bombe
-    de peinture, mais c'est moi qui ai choisi d'y entrer pour que tes graffs aient
-    un vrai impact contre ces gangsters. Alors, t'en es?"
+  - "<wave a=0.5>Je ressemble peut-\xEAtre \xE0 une bombe de peinture, mais c'est
+    moi qui ai choisi d'y entrer pour que tes graffs aient un vrai impact contre
+    ces gangsters. Alors, t'en es?</wave>"
   - "C'est bizarre... mais bon, j'peux pas ne PAS faire confiance \xE0 une bombe
     que j'ai tant utilis\xE9e..."
-  - "Ok, on est potes s\xFBrs maintenant ! Ces gangsters ? Ils s'appellent les Marshalls. "
-  - 'Et moi, c''est Jett Rush. '
-  - "La situation est bien pire que ce que je pensais. Il y avait tellement de Marshalls
-    l\xE0 !"
+  - "Ok, on est potes s\xFBrs maintenant ! Ces gangsters ? Ils s'appellent les <color=#EAD827><incr><size=60>Marshalls</size></incr></color>. "
+  - 'Et moi, c''est<waitfor=.5> <size=60><bounce>Jett<waitfor=.5> Rush.</bounce></size> '
+  - "<wave a=0.5>La situation est bien pire que ce que je pensais. Il y avait tellement
+    de <color=#EAD827><incr><size=60>Marshalls</size></incr></color> l\xE0 !</wave>"
   - "Ils ont toujours \xE9t\xE9 un tr\xE8s grand groupe, mais ils n'\xE9taient pas
     comme \xE7a avant. "
   - "Oui, c'\xE9taient des gangsters, mais pas comme... \xE7a !"
   - "Tu sais ce qui les a chang\xE9s ? "
-  - "Oui. Ils ne sont plus eux-m\xEAmes. Ils sont manipul\xE9s par le pouvoir d'un
-    Malin mal\xE9fique."
-  - 'Au fait, je suis aussi un Malin. Mais un gentil. Et bien plus sage. '
-  - "J'ai le pouvoir de transformer ta peinture en peinture anti-Malin-mal\xE9fique.
-    Plus ou moins."
+  - "<wave a=0.5>Oui. Ils ne sont plus eux-m\xEAmes. Ils sont manipul\xE9s par le
+    pouvoir d'un <size=60><color=#7FEF2A><swing>Malin</swing></color></size> mal\xE9fique.</wave>"
+  - <wave a=0.5>Au fait, je suis aussi un <size=60><color=#7FEF2A><swing>Malin</swing></color></size>.
+    Mais un gentil. Et bien plus sage. </wave>
+  - "<wave a=0.5>J'ai le pouvoir de transformer ta peinture en peinture <color=#7FEF2A><shake
+    a=0.2>anti-Malin-mal\xE9fique</shake></color>. Plus ou moins.</wave>"
   - "C'est pour \xE7a que mes graffitis sont si puissants ? "
-  - "Combin\xE9 \xE0 ton esprit punk, nous sommes inarr\xEAtables. "
-  - 'Bref, la situation est grave. Il faut faire vite. '
+  - "<wave a=0.5>Combin\xE9 \xE0 ton <rainb>esprit punk</rainb>, nous sommes inarr\xEAtables.
+    </wave>"
+  - 'wave a=0.5>Bref, la situation est grave. Il faut faire vite.</wave> '
   - "Wow... C'\xE9tait donc \xE7a le m\xE9tro qui transporte le fameux stock Marshall."
   - "Je ne sais pas \xE0 quel point ils \xE9taient notoires, mais maintenant leur
     chef est manipul\xE9 par un Malin mal\xE9fique. Scravinsky qu'il s'appelle. "
@@ -616,7 +623,7 @@ MonoBehaviour:
     du monde."
   - "Johnny Cash, manipul\xE9 ? C'est une vraie l\xE9gende... Seul un vrai Malin
     mal\xE9fique pourrait manipuler quelqu'un comme lui."
-  - "Donc l\xE0 tu me dis qu'on va au fameux quartier g\xE9n\xE9ral des Marshalls? "
+  - "Donc l\xE0 tu me dis qu'on va au fameux quartier g\xE9n\xE9ral des <color=#EAD827><incr><size=60>Marshalls</size></incr></color>? "
   - "On n'a pas trop le choix ouais. Il faut qu'on exorcise Johnny et qu'on renvoie
     Scravinsky d'o\xF9 il vient, c'est-\xE0-dire loin du monde des humains. "
   - "Si on se plante, la musique va dominer toutes les autres formes d'art et chaque
@@ -872,6 +879,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bIsBubble: 0
   bTextWritten: 0
   menuManager: {fileID: 0}
 --- !u!1 &204593627366668587
@@ -1085,7 +1093,7 @@ MonoBehaviour:
   m_fontSize: 50
   m_fontSizeBase: 50
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 50
   m_fontStyle: 0
@@ -1144,6 +1152,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 1
+  bIsBubble: 0
   bTextWritten: 0
   menuManager: {fileID: 269850063720091022}
 --- !u!114 &1249735288083179027
@@ -1423,6 +1432,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bIsBubble: 0
   bTextWritten: 0
   menuManager: {fileID: 269850063720091022}
 --- !u!1 &326614480576954016
@@ -1581,6 +1591,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bIsBubble: 0
   bTextWritten: 0
   menuManager: {fileID: 0}
 --- !u!1 &524634847287910946
@@ -1794,7 +1805,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 815679502645142706}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -2}
+  m_LocalPosition: {x: 0, y: 0, z: -3.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1834,7 +1845,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 822472f21d58d1a419bd069b2cce3468, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b5b57b669bb28144296d584eddc5d085, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2357,6 +2368,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bIsBubble: 0
   bTextWritten: 0
   menuManager: {fileID: 269850063720091022}
 --- !u!1 &972611787399371303
@@ -2871,6 +2883,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bIsBubble: 0
   bTextWritten: 0
   menuManager: {fileID: 0}
 --- !u!1 &1248200171897616424
@@ -2940,6 +2953,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bIsBubble: 0
   bTextWritten: 0
   menuManager: {fileID: 0}
 --- !u!114 &7716341397953669137
@@ -3052,6 +3066,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bIsBubble: 0
   bTextWritten: 0
   menuManager: {fileID: 0}
 --- !u!1 &1253308589641172270
@@ -3305,81 +3320,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!1 &1768235522826527630
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 489588977146698626}
-  - component: {fileID: 3381851922074651273}
-  - component: {fileID: 1323804090167263073}
-  m_Layer: 5
-  m_Name: Background
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &489588977146698626
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1768235522826527630}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 25332201593913124}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &3381851922074651273
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1768235522826527630}
-  m_CullTransparentMesh: 1
---- !u!114 &1323804090167263073
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1768235522826527630}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0.1546221, g: 0.4716981, b: 0.08677466, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &1771719604172920210
 GameObject:
   m_ObjectHideFlags: 0
@@ -3406,7 +3346,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1771719604172920210}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -3}
+  m_LocalPosition: {x: 0, y: 0, z: -4.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3727,6 +3667,81 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &2420012050019115100
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6809038875058480233}
+  - component: {fileID: 8959430951989398061}
+  - component: {fileID: 8693513107599126413}
+  m_Layer: 5
+  m_Name: Handle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &6809038875058480233
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2420012050019115100}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8416493496436212000}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 500, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &8959430951989398061
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2420012050019115100}
+  m_CullTransparentMesh: 1
+--- !u!114 &8693513107599126413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2420012050019115100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: c95c3b878d6bddf4582d603de70abf73, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &2510180931983358024
 GameObject:
   m_ObjectHideFlags: 0
@@ -3958,6 +3973,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bIsBubble: 0
   bTextWritten: 0
   menuManager: {fileID: 269850063720091022}
 --- !u!1 &2752410181209251922
@@ -4363,6 +4379,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bIsBubble: 0
   bTextWritten: 0
   menuManager: {fileID: 0}
 --- !u!1 &2779121210829161145
@@ -4674,6 +4691,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bIsBubble: 0
   bTextWritten: 0
   menuManager: {fileID: 269850063720091022}
 --- !u!1 &2999732874287219652
@@ -5141,7 +5159,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3414912503258611567}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1.5}
+  m_LocalPosition: {x: 0, y: 0, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5362,6 +5380,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bIsBubble: 0
   bTextWritten: 0
   menuManager: {fileID: 0}
 --- !u!1 &3498886556833193360
@@ -5390,7 +5409,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3498886556833193360}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -2.5}
+  m_LocalPosition: {x: 0, y: 0, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5943,6 +5962,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bIsBubble: 0
   bTextWritten: 0
   menuManager: {fileID: 269850063720091022}
 --- !u!1 &3739087773515740591
@@ -6361,6 +6381,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bIsBubble: 0
   bTextWritten: 0
   menuManager: {fileID: 269850063720091022}
 --- !u!1 &4506092838792349122
@@ -6519,6 +6540,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bIsBubble: 0
   bTextWritten: 0
   menuManager: {fileID: 0}
 --- !u!1 &4527547535950903571
@@ -7228,7 +7250,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5280111904838886972}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -9}
+  m_LocalPosition: {x: 0, y: 0, z: -15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7522,6 +7544,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bIsBubble: 0
   bTextWritten: 0
   menuManager: {fileID: 0}
 --- !u!1 &5414176781137386473
@@ -7590,6 +7613,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bIsBubble: 0
   bTextWritten: 0
   menuManager: {fileID: 269850063720091022}
 --- !u!114 &7324977762651136156
@@ -8670,6 +8694,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bIsBubble: 0
   bTextWritten: 0
   menuManager: {fileID: 269850063720091022}
 --- !u!114 &5161499568078350233
@@ -10358,19 +10383,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.28252152, g: 0.8113208, b: 0.25640798, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 4be9058d94d341b4a82957aa34878951, type: 3}
+  m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
+  m_FillMethod: 0
+  m_FillAmount: 0
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -10525,6 +10550,42 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &7897952158882621517
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8416493496436212000}
+  m_Layer: 5
+  m_Name: Handle Slide Area
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &8416493496436212000
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7897952158882621517}
+  m_LocalRotation: {x: 0, y: 0, z: -0.17364825, w: 0.9848078}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6809038875058480233}
+  m_Father: {fileID: 25332201593913124}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -20}
+  m_AnchorMin: {x: 0.053166665, y: 0}
+  m_AnchorMax: {x: 0.94010425, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &7938586707686497586
 GameObject:
   m_ObjectHideFlags: 0
@@ -10554,12 +10615,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 489588977146698626}
   - {fileID: 1174892266719903533}
+  - {fileID: 8416493496436212000}
   m_Father: {fileID: 266337310515374496}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.3, y: 0.85}
-  m_AnchorMax: {x: 0.7, y: 0.87}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -10605,7 +10666,7 @@ MonoBehaviour:
   m_Interactable: 1
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 1174892266719903533}
-  m_HandleRect: {fileID: 0}
+  m_HandleRect: {fileID: 6809038875058480233}
   m_Direction: 0
   m_MinValue: 0
   m_MaxValue: 1
@@ -10898,6 +10959,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bIsBubble: 0
   bTextWritten: 0
   menuManager: {fileID: 0}
 --- !u!1 &8117903037627878143
@@ -11189,6 +11251,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bIsBubble: 0
   bTextWritten: 0
   menuManager: {fileID: 0}
 --- !u!1 &8342127933019600501
@@ -11497,6 +11560,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bIsBubble: 0
   bTextWritten: 0
   menuManager: {fileID: 269850063720091022}
 --- !u!1 &8636217672371951609
@@ -12109,6 +12173,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bIsBubble: 0
   bTextWritten: 0
   menuManager: {fileID: 0}
 --- !u!1 &8911476998865171121
@@ -12348,6 +12413,7 @@ MonoBehaviour:
   bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
+  bIsBubble: 0
   bTextWritten: 0
   menuManager: {fileID: 269850063720091022}
 --- !u!114 &8030125144599779060

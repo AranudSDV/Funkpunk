@@ -30,6 +30,8 @@ public class SplineTrainMover_WithSpacing : MonoBehaviour
     private bool[] isPaused;
     public float[] pauseTimer;
     public float pauseDuration;
+    private bool bStop = false;
+    [SerializeField]private CanvasGroup CgButtons;
 
     void Start()
     {
@@ -60,51 +62,62 @@ public class SplineTrainMover_WithSpacing : MonoBehaviour
 
     void Update()
     {
-        for (int i = 0; i < cars.Count; i++)
+        if(!bStop)
         {
-            // Advance or pause each car independently
-            if (usePause && isPaused[i])
+            for (int i = 0; i < cars.Count; i++)
             {
-                pauseTimer[i] += Time.deltaTime;
-                if (pauseTimer[i] >= pauseDuration)
+                // Advance or pause each car independently
+                if (usePause && isPaused[i])
                 {
-                    // End pause: teleport to A and reset
-                    isPaused[i] = false;
-                    pauseTimer[i] = 0f;
-                    progress[i] = 0f;
-                }
-            }
-            else
-            {
-                // Move forward
-                progress[i] += speed * Time.deltaTime / totalLength;
-            }
-
-            // Clamp and handle reaching B
-            if (!isPaused[i] && progress[i] >= 1f)
-            {
-                // Snap to B and start pause
-                progress[i] = 1f;
-                if (usePause)
-                {
-                    isPaused[i] = true;
-                    pauseTimer[i] = 0f;
+                    pauseTimer[i] += Time.deltaTime;
+                    if (pauseTimer[i] >= pauseDuration)
+                    {
+                        // End pause: teleport to A and reset
+                        isPaused[i] = false;
+                        pauseTimer[i] = 0f;
+                        progress[i] = 0f;
+                    }
                 }
                 else
                 {
-                    // Immediate loop
-                    progress[i] = 0f;
+                    // Move forward
+                    progress[i] += speed * Time.deltaTime / totalLength;
                 }
 
-                // If this was the last car, reroll pause for next cycle
-                if (i == cars.Count - 1)
+                // Clamp and handle reaching B
+                if (!isPaused[i] && progress[i] >= 1f)
                 {
-                    pauseDuration = Random.Range(pauseMin, pauseMax);
-                }
-            }
+                    // Snap to B and start pause
+                    progress[i] = 1f;
+                    if (usePause)
+                    {
+                        isPaused[i] = true;
+                        pauseTimer[i] = 0f;
+                        if (CgButtons.alpha == 1f)
+                        {
+                            bStop = true;
+                        }
+                        else
+                        {
+                            bStop = false;
+                        }
+                    }
+                    else
+                    {
+                        // Immediate loop
+                        progress[i] = 0f;
+                    }
 
-            // Update position
-            cars[i].position = splineContainer.EvaluatePosition(progress[i]);
+                    // If this was the last car, reroll pause for next cycle
+                    if (i == cars.Count - 1)
+                    {
+                        pauseDuration = Random.Range(pauseMin, pauseMax);
+                    }
+                }
+
+                // Update position
+                cars[i].position = splineContainer.EvaluatePosition(progress[i]);
+            }
         }
     }
 

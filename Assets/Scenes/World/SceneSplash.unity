@@ -720,6 +720,8 @@ MonoBehaviour:
   bIsOnManager: 0
   bIsDifficulty: 0
   bIsToTip: 0
+  bIsBubble: 0
+  bTextWritten: 0
   menuManager: {fileID: 0}
 --- !u!222 &20369769
 CanvasRenderer:
@@ -3352,6 +3354,8 @@ MonoBehaviour:
   bIsOnManager: 0
   bIsDifficulty: 0
   bIsToTip: 0
+  bIsBubble: 0
+  bTextWritten: 0
   menuManager: {fileID: 0}
 --- !u!222 &735929232
 CanvasRenderer:
@@ -4514,6 +4518,11 @@ PrefabInstance:
       objectReference: {fileID: 872506708}
     - target: {fileID: 1174892266719903533, guid: 45351d2d758839e409953a510c2e4a78,
         type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1174892266719903533, guid: 45351d2d758839e409953a510c2e4a78,
+        type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
@@ -4603,6 +4612,11 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6701976518110861898, guid: 45351d2d758839e409953a510c2e4a78,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6809038875058480233, guid: 45351d2d758839e409953a510c2e4a78,
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -4978,6 +4992,7 @@ MonoBehaviour:
   progress: []
   pauseTimer: []
   pauseDuration: 0
+  CgButtons: {fileID: 444524138}
 --- !u!114 &1172163631
 MonoBehaviour:
   m_ObjectHideFlags: 0
