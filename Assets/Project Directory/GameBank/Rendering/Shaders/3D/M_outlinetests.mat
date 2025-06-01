@@ -24,6 +24,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _TextureSample0:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -42,18 +46,19 @@ Material:
     - _BPM: 240
     - _CenterMaskPower: 0.05
     - _Debug: 0
-    - _DistanceCutoff: 0.003
+    - _DistanceCutoff: 0.002
     - _Float1: 0.1
     - _MaskSmoothness: 7.01
     - _NormalXY_Pow: 1
-    - _OutlineSpikePower: 82.02
+    - _OutlineSpikePower: 100
     - _OutlineWidth: 1
+    - _PanMovementsPow: 2.69
     - _QueueControl: 0
     - _QueueOffset: 0
     - _TimeDelay: 0
     - _VertexMaskingOrUvMasking: 0
     - _VertexNormalOrCustom: 1
-    - _VerticesOffset: 2
+    - _VerticesOffset: 1
     m_Colors:
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _Highlight: {r: 0.92335266, g: 1, b: 0.22327036, a: 0}
