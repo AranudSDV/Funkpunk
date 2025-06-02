@@ -92,6 +92,7 @@ Material:
     - _Cels_LitThreshold: 0.42
     - _ColorOrTex: 0
     - _Debug: 0
+    - _DebugBPM: 60
     - _DistanceCutoff: 0
     - _EnvironmentReflections: 1
     - _FallOffThreshold: 3
@@ -138,8 +139,8 @@ Material:
     - _BaseVertexOffsetDelay: {r: 0, g: 0, b: 0, a: 0}
     - _BaseVertexOffsetValue: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _OutlineColor: {r: 0.76052475, g: 1, b: 0.052860655, a: 0}
-    - _OutlineColor2: {r: 0.4558116, g: 0, b: 1.498039, a: 0}
+    - _OutlineColor: {r: 4.5571837, g: 5.992157, b: 0.31674933, a: 0}
+    - _OutlineColor2: {r: 1.8232466, g: 0, b: 5.9921565, a: 0}
     - _ShadowPatternDensity: {r: 1, g: 1, b: 0, a: 0}
     - _TopVertexDelay: {r: 0, g: 0, b: 0, a: 0}
     - _TopVertexOffsetValue: {r: 0, g: 0, b: 0, a: 0}

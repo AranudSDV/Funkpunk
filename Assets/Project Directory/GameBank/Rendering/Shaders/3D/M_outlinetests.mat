@@ -46,7 +46,7 @@ Material:
     - _BPM: 240
     - _CenterMaskPower: 0.05
     - _Debug: 0
-    - _DistanceCutoff: 0.002
+    - _DistanceCutoff: 0.001
     - _Float1: 0.1
     - _MaskSmoothness: 7.01
     - _NormalXY_Pow: 1
