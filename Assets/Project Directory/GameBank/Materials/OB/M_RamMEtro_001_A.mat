@@ -109,7 +109,7 @@ Material:
     - _Base_or_Tsample: 1
     - _BlendPow: 1
     - _Cels_FallOffThreshold: 1
-    - _Cels_LitThreshold: 0.6
+    - _Cels_LitThreshold: 0
     - _ColorOrTex: 1
     - _Debug: 0
     - _DistanceCutoff: 0
@@ -136,8 +136,8 @@ Material:
     - _ShadowPatternRotator: 0
     - _ShadowSoftness: 1
     - _ShadowTex_Pow: 0.27
-    - _Shadow_FallOffThreshold: 0.8
-    - _Shadow_LitThreshold: 1
+    - _Shadow_FallOffThreshold: 1
+    - _Shadow_LitThreshold: 0.8
     - _ShadowsFullCelShaded: 1
     - _Shadows_ProceduralOrTexture: 0
     - _SmoothNess: 0
