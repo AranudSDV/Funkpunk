@@ -13,6 +13,7 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _COLORORTEX_ON
+  - _LIGHTINDDONE_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -96,7 +97,7 @@ Material:
     - _Base_or_Tsample: 1
     - _BlendPow: 1
     - _Cels_FallOffThreshold: 1
-    - _Cels_LitThreshold: 0.6
+    - _Cels_LitThreshold: 0
     - _ColorOrTex: 1
     - _Debug: 0
     - _DistanceCutoff: 0
@@ -107,7 +108,7 @@ Material:
     - _FullShadingHalfShading: 0
     - _IsEnnemies: 0
     - _IsOutline: 0
-    - _LightindDone: 0
+    - _LightindDone: 1
     - _MTL_Pow: 0
     - _NormalScale: 0
     - _OutlineWidth: 0.1
@@ -118,7 +119,7 @@ Material:
     - _ShadingWhiteMult: 0.1
     - _ShadowTex_Pow: 0.27
     - _Shadow_FallOffThreshold: 1
-    - _Shadow_LitThreshold: 0.42
+    - _Shadow_LitThreshold: 0.8
     - _Shadows_ProceduralOrTexture: 0
     - _SpecularHighlights: 1
     - _TimeDelay: 0
