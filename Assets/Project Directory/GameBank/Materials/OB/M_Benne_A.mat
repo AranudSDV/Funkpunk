@@ -40,7 +40,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 0a3c60b002a63be428a651757cc56275, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7a869a095fe4926419272d0411b946d1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Metallic:
@@ -111,8 +111,8 @@ Material:
     - _Base_or_Tsample: 1
     - _BlendPow: 1
     - _CelCounbt: 0
-    - _Cels_FallOffThreshold: 3
-    - _Cels_LitThreshold: 0.6
+    - _Cels_FallOffThreshold: 1
+    - _Cels_LitThreshold: 0
     - _ColorOrTex: 1
     - _Debug: 0
     - _DebugBPM: 60
@@ -142,7 +142,7 @@ Material:
     - _ShadowPatternRotator: 0
     - _ShadowSoftness: 1
     - _ShadowTex_Pow: 0.18
-    - _Shadow_FallOffThreshold: 8
+    - _Shadow_FallOffThreshold: 1
     - _Shadow_LitThreshold: 0.8
     - _Shadows_ProceduralOrTexture: 0
     - _Smoothness: 0
