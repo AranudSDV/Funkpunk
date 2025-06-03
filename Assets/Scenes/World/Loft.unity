@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.0024967694, g: 0.0028977427, b: 0.003980814, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -726,6 +726,7 @@ MonoBehaviour:
   typeAnimator: {fileID: 99327131}
   scPlayer: {fileID: 989362432}
   _playerData: {fileID: 0}
+  sTextEnglishAndFrench: []
   sEnglish: Press "A" to stay in rythm.
   sFrench: Appuie sur "A" pour rester en rythme.
   bIsOnManager: 0
@@ -1507,7 +1508,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.44000003, y: 0.5}
   m_AnchorMax: {x: 0.85625005, y: 0.842222}
-  m_AnchoredPosition: {x: 1000, y: 0}
+  m_AnchoredPosition: {x: 1000.00006, y: 0}
   m_SizeDelta: {x: -2000, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &146501335
@@ -1704,6 +1705,7 @@ MonoBehaviour:
   typeAnimator: {fileID: 188660182}
   scPlayer: {fileID: 989362432}
   _playerData: {fileID: 0}
+  sTextEnglishAndFrench: []
   sEnglish: "But, somehow, against my will, I have to dance nonstop... it\u2019s
     like I\u2019m possessed or something!"
   sFrench: "Mais, je sais pas pourquoi, je peux pas m'emp\xEAcher de danser ! C'est
@@ -2089,6 +2091,7 @@ MonoBehaviour:
   typeAnimator: {fileID: 211954868}
   scPlayer: {fileID: 989362432}
   _playerData: {fileID: 0}
+  sTextEnglishAndFrench: []
   sEnglish: Use your joystick to choose your direction and reach the map.
   sFrench: Utilise ton joystick pour choisir la direction et atteindre la carte.
   bIsOnManager: 0
@@ -2370,6 +2373,7 @@ MonoBehaviour:
   typeAnimator: {fileID: 212658164}
   scPlayer: {fileID: 989362432}
   _playerData: {fileID: 0}
+  sTextEnglishAndFrench: []
   sEnglish: I have to see what's going on.
   sFrench: Faut que j'aille voir ce qu'il se passe.
   bIsOnManager: 0
@@ -2658,6 +2662,11 @@ PrefabInstance:
         type: 3}
       propertyPath: field of view
       value: 47
+      objectReference: {fileID: 0}
+    - target: {fileID: 8078758124886431698, guid: 2d01b8763f00ec8478ce3e68a742cd71,
+        type: 3}
+      propertyPath: m_DefaultBlend.m_Time
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8115063145753617933, guid: 2d01b8763f00ec8478ce3e68a742cd71,
         type: 3}
@@ -3544,7 +3553,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.87375003, y: 0.040000003}
   m_AnchorMax: {x: 0.97, y: 0.1577778}
-  m_AnchoredPosition: {x: 1000.00037, y: 0}
+  m_AnchoredPosition: {x: 1000.0004, y: 0}
   m_SizeDelta: {x: -2000, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &354619206
@@ -3562,6 +3571,7 @@ MonoBehaviour:
   typeAnimator: {fileID: 0}
   scPlayer: {fileID: 989362432}
   _playerData: {fileID: 0}
+  sTextEnglishAndFrench: []
   sEnglish: A to continue
   sFrench: A pour continuer
   bIsOnManager: 0
@@ -3886,6 +3896,7 @@ MonoBehaviour:
   typeAnimator: {fileID: 0}
   scPlayer: {fileID: 989362432}
   _playerData: {fileID: 0}
+  sTextEnglishAndFrench: []
   sEnglish: A to skip
   sFrench: A pour passer
   bIsOnManager: 0
@@ -13234,6 +13245,9 @@ MonoBehaviour:
   typeAnimator: {fileID: 1164939668}
   scPlayer: {fileID: 989362432}
   _playerData: {fileID: 0}
+  sTextEnglishAndFrench:
+  - Press A in rythm to wake up.
+  - "Appuie sur A en rythme pour te r\xE9veiller."
   sEnglish: Press A in rythm to wake up.
   sFrench: "Appuie sur A en rythme pour te r\xE9veiller."
   bIsOnManager: 0
@@ -14668,7 +14682,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: <pend><i>Ugh</i></pend>, what's all that noise?
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
@@ -14695,7 +14709,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 10
+  m_fontSize: 24
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -14760,6 +14774,9 @@ MonoBehaviour:
   typeAnimator: {fileID: 1274319861}
   scPlayer: {fileID: 989362432}
   _playerData: {fileID: 0}
+  sTextEnglishAndFrench:
+  - <pend><i>Ugh</i></pend>, what's all that noise?
+  - <pend><i>Ugh</i></pend>, c'quoi tout ce bruit?
   sEnglish: <pend><i>Ugh</i></pend>, what's all that noise?
   sFrench: <pend><i>Ugh</i></pend>, c'quoi tout ce bruit?
   bIsOnManager: 0
@@ -15852,7 +15869,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.87375003, y: 0.040000003}
   m_AnchorMax: {x: 0.97, y: 0.1577778}
-  m_AnchoredPosition: {x: 1000.00037, y: 0}
+  m_AnchoredPosition: {x: 1000.0004, y: 0}
   m_SizeDelta: {x: -2000, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1341705609
@@ -15870,6 +15887,7 @@ MonoBehaviour:
   typeAnimator: {fileID: 0}
   scPlayer: {fileID: 989362432}
   _playerData: {fileID: 0}
+  sTextEnglishAndFrench: []
   sEnglish: A to continue
   sFrench: A pour continuer
   bIsOnManager: 0
@@ -16292,6 +16310,9 @@ MonoBehaviour:
   typeAnimator: {fileID: 1425855927}
   scPlayer: {fileID: 989362432}
   _playerData: {fileID: 0}
+  sTextEnglishAndFrench:
+  - Don't tell me it's those music freaks again...
+  - Ne me dis pas que c'est encore ces fous de la musique...
   sEnglish: Don't tell me it's those music freaks again...
   sFrench: Ne me dis pas que c'est encore ces fous de la musique...
   bIsOnManager: 0
@@ -19207,7 +19228,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.87375003, y: 0.040000003}
   m_AnchorMax: {x: 0.97, y: 0.1577778}
-  m_AnchoredPosition: {x: 999.9999, y: 0}
+  m_AnchoredPosition: {x: 999.99994, y: 0}
   m_SizeDelta: {x: -2000, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1664304488
@@ -19225,6 +19246,7 @@ MonoBehaviour:
   typeAnimator: {fileID: 0}
   scPlayer: {fileID: 989362432}
   _playerData: {fileID: 0}
+  sTextEnglishAndFrench: []
   sEnglish: A to skip
   sFrench: A pour passer
   bIsOnManager: 0
@@ -19927,15 +19949,15 @@ MonoBehaviour:
   bTuto: 0000
   fTimer:
   - 1
+  - 1.5
+  - 2
   - 1
   - 1
   - 1
-  - 1
-  - 1
-  - 1
-  - 1
-  - 1
-  - 1
+  - 2
+  - 2
+  - 6
+  - 2
   - 1
   RtBg: {fileID: 816738269}
   ImBg: {fileID: 816738270}

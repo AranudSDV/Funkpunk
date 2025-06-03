@@ -406,6 +406,7 @@ MonoBehaviour:
   GoScoringFirstButtonSelected: {fileID: 2042124641858762371}
   trainMenu: {fileID: 0}
   textBravo: {fileID: 8373245632685140220}
+  bIsOnCredits: 0
   txt_Title: {fileID: 5259525979806897907}
   CgScoring: {fileID: 1877356355425069567}
   RtScoring: {fileID: 3803594740852749823}
@@ -615,7 +616,7 @@ MonoBehaviour:
   - "C'est pour \xE7a que mes graffitis sont si puissants ? "
   - "<wave a=0.5>Combin\xE9 \xE0 ton <rainb>esprit punk</rainb>, nous sommes inarr\xEAtables.
     </wave>"
-  - 'wave a=0.5>Bref, la situation est grave. Il faut faire vite.</wave> '
+  - '<wave a=0.5>Bref, la situation est grave. Il faut faire vite.</wave> '
   - "Wow... C'\xE9tait donc \xE7a le m\xE9tro qui transporte le fameux stock Marshall."
   - "Je ne sais pas \xE0 quel point ils \xE9taient notoires, mais maintenant leur
     chef est manipul\xE9 par un Malin mal\xE9fique. Scravinsky qu'il s'appelle. "

@@ -11,6 +11,9 @@ using UnityEngine.EventSystems;
 using FMODUnity;
 using UnityEngine.LowLevel;
 using FMOD.Studio;
+using Unity.Collections.LowLevel.Unsafe;
+using UnityEditor.SearchService;
+using UnityEngine.Rendering;
 
 public class MenuManager : SingletonManager<MenuManager>
 {
@@ -110,6 +113,8 @@ public class MenuManager : SingletonManager<MenuManager>
     //END DIALOGUE
     [Header("EndGame")]
     public TMP_Text textBravo;
+    public bool bIsOnCredits = false;
+    private bool bCreditsOnTriggered = false;
 
     //SCORING
     [Header("Scoring")]
@@ -263,16 +268,27 @@ public class MenuManager : SingletonManager<MenuManager>
         CheckControllerStatus();
         if (!bMenuOnTriggered && controllerConnected && control !=null && control.GamePlay.Move.triggered && SceneManager.GetActiveScene().name == "SceneSplash")
         {
-            bMenuOnTriggered = true;
-            if (GoGameChoose[5] == null)
+            if(!bIsOnCredits)
             {
-                Debug.Log("null");
+                bMenuOnTriggered = true;
+                if (GoGameChoose[5] == null)
+                {
+                    Debug.Log("null");
+                }
+                GoGameChoose[5].transform.GetComponent<UnityEngine.UI.Image>().color = new Color32(255, 255, 255, 0);
+                TrainAndUION();
             }
-            GoGameChoose[5].transform.GetComponent<UnityEngine.UI.Image>().color = new Color32(255, 255, 255, 0);
-            TrainAndUION();
-            //LoadScene(sSceneToLoad);
+            else
+            {
+                bCreditsOnTriggered = true;
+                TrainAndUION();
+            }
         }
         if(bWaitTrain && bMenuOnTriggered)
+        {
+            TrainAndUION();
+        }
+        else if(bWaitTrain && bCreditsOnTriggered)
         {
             TrainAndUION();
         }
@@ -317,12 +333,37 @@ public class MenuManager : SingletonManager<MenuManager>
         }
         if(bTrainIsHere)
         {
-            UnityEngine.UI.Button btnNewLoad = GoGameChoose[0].GetComponent<UnityEngine.UI.Button>();
-            TrainSplashLanguage();
-            GoGameChoose[4].transform.GetComponent<CanvasGroup>().alpha = 1f;
-            bWaitTrain = false;
-            bTrainIsHere = false;
-            SelectionEnsurance();
+            if(bIsOnCredits)
+            {
+                if (trainMenu.bOnceCredits[trainMenu.bOnceCredits.Length-1])
+                {
+                    bIsOnCredits = false;
+                    bMenuOnTriggered = true;
+                    UnityEngine.UI.Button btnNewLoad = GoGameChoose[0].GetComponent<UnityEngine.UI.Button>();
+                    TrainSplashLanguage();
+                    GoGameChoose[4].transform.GetComponent<CanvasGroup>().alpha = 1f;
+                    bWaitTrain = false;
+                    bTrainIsHere = false;
+                    SelectionEnsurance();
+                    trainMenu.EndCredit();
+                }
+                else
+                {
+                    trainMenu.NextCredit();
+                    bCreditsOnTriggered = false;
+                    bWaitTrain = false;
+                    bTrainIsHere = false;
+                }
+            }
+            else
+            {
+                UnityEngine.UI.Button btnNewLoad = GoGameChoose[0].GetComponent<UnityEngine.UI.Button>();
+                TrainSplashLanguage();
+                GoGameChoose[4].transform.GetComponent<CanvasGroup>().alpha = 1f;
+                bWaitTrain = false;
+                bTrainIsHere = false;
+                SelectionEnsurance();
+            }
         }
     }
     private void TrainSplashLanguage()
@@ -440,7 +481,7 @@ public class MenuManager : SingletonManager<MenuManager>
                         EventSystem.SetSelectedGameObject(GoLevelsButton[0]);
                     }
                 }
-                else if (SceneManager.GetActiveScene().name == "SceneSplash" && bMenuOnTriggered)
+                else if (SceneManager.GetActiveScene().name == "SceneSplash" && bMenuOnTriggered && !bIsOnCredits)
                 {
                     if (GoGameChoose[0] != null)
                     {
@@ -567,7 +608,7 @@ public class MenuManager : SingletonManager<MenuManager>
             }
             else if (SceneManager.GetActiveScene().name == "SceneSplash")
             {
-                GoGameChoose = new GameObject[5];
+                GoGameChoose = new GameObject[6];
                 for (int i = 0; i < GoTargetUI.Length; i++)
                 {
                     for (int y = 0; y < 4; y++)
@@ -592,6 +633,12 @@ public class MenuManager : SingletonManager<MenuManager>
                 }
                 GoGameChoose[5].transform.GetComponent<UnityEngine.UI.Image>().color = new Color32(255,255,255,255);
                 GoGameChoose[4].transform.GetComponent<CanvasGroup>().alpha = 0f;
+                trainMenu.InitTrainCredits(bIsOnCredits);
+                foreach(sc_textChange text in trainMenu.textRoles)
+                {
+                    text.menuManager = this;
+                    text._playerData = _playerData;
+                }
                 GoLevelsButton = null;
                 _levels = null;
                 sSceneToLoad = "Loft"; 
@@ -795,6 +842,11 @@ public class MenuManager : SingletonManager<MenuManager>
                 }
             }
             StartCoroutine(StartLoad(sceneToLoad));
+        }
+        else if(sceneToLoad == "CreditsScene" || sceneToLoad == "Scenes/World/CreditsScene")
+        {
+            bIsOnCredits = true;
+            LoadScene("Scenes/World/SceneSplash");
         }
         else
         {
@@ -1461,6 +1513,7 @@ public class MenuManager : SingletonManager<MenuManager>
 
         if (_playerData.iLevelPlayer >= 4)
         {
+            bIsOnCredits = true;
             LoadScene("Scenes/World/CreditsScene");
         }
         else

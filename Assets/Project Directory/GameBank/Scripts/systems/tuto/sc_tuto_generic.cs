@@ -504,7 +504,6 @@ public class sc_tuto_generic : MonoBehaviour
     {
         RtTuto[i].offsetMin = Vector2.zero;
         RtTuto[i].offsetMax = Vector2.zero;
-        Debug.Log(i);
         if (skip && RtTuto[i].childCount > 0 && RtTuto[i].GetChild(0).transform.GetComponent<sc_textChange>().bIsBubble)
         {
             RtTuto[i].GetChild(0).transform.GetComponent<sc_textChange>().BubbleSkipText();

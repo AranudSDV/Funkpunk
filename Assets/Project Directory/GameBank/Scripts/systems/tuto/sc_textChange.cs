@@ -12,7 +12,8 @@ public class sc_textChange : MonoBehaviour
 {
     public TextAnimatorPlayer typeAnimator;
     [SerializeField] private SC_Player scPlayer;
-    [SerializeField] private PlayerData _playerData;
+    public PlayerData _playerData;
+    [SerializeField] private string[] sTextEnglishAndFrench;
     [SerializeField] private string sEnglish;
     [SerializeField] private string sFrench;
     [SerializeField] private bool bIsOnManager = false;
@@ -22,7 +23,7 @@ public class sc_textChange : MonoBehaviour
     private bool bnotfound;
     private string writer;
     public bool bTextWritten = false;
-    [SerializeField] private MenuManager menuManager;
+    public MenuManager menuManager;
     private bool bOnce = false;
     private bool bInitialized;
     private float fTimerWritten = 0f;
@@ -43,6 +44,10 @@ public class sc_textChange : MonoBehaviour
 
     public void Init()
     {
+        if (sTextEnglishAndFrench.Length != 2)
+        {
+            sTextEnglishAndFrench = new string[2] { sEnglish, sFrench };
+        }
         if (!bIsOnManager)
         {
             if (SceneManager.GetActiveScene().name == "SceneLvl1" || SceneManager.GetActiveScene().name == "SceneLvl0" || SceneManager.GetActiveScene().name == "SceneLvl2" || SceneManager.GetActiveScene().name == "SceneLvl3" || SceneManager.GetActiveScene().name == "Loft")
@@ -64,15 +69,18 @@ public class sc_textChange : MonoBehaviour
             {
                 _playerData = GameObject.FindWithTag("Manager").transform.GetComponent<PlayerData>();
             }
-            if (_playerData != null && _playerData.iLanguageNbPlayer == 1)
+            if (!bIsBubble || (bIsBubble && bTextWritten))
             {
-                this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sFrench;
-                //this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sFrench;
-            }
-            else
-            {
-                this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sEnglish;
-                //this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sEnglish;
+                if (_playerData != null && _playerData.iLanguageNbPlayer == 1)
+                {
+                    this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sFrench;
+                    //this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sFrench;
+                }
+                else
+                {
+                    this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sEnglish;
+                    //this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sEnglish;
+                }
             }
             if (bIsBubble)
             {
@@ -120,13 +128,16 @@ public class sc_textChange : MonoBehaviour
                 {
                     _playerData = scPlayer.menuManager.gameObject.transform.GetComponent<PlayerData>();
                 }
-                if (_playerData != null && _playerData.iLanguageNbPlayer == 1)
+                if(!bIsBubble || (bIsBubble && bTextWritten))
                 {
-                    this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sFrench;
-                }
-                else
-                {
-                    this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sEnglish;
+                    if (_playerData != null && _playerData.iLanguageNbPlayer == 1)
+                    {
+                        this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sFrench;
+                    }
+                    else
+                    {
+                        this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sEnglish;
+                    }
                 }
             }
             else
@@ -178,11 +189,11 @@ public class sc_textChange : MonoBehaviour
         bTextWritten = false;
         if (_playerData != null && _playerData.iLanguageNbPlayer == 1)
         {
-            ShowDialogue(sFrench);
+            ShowDialogue(sTextEnglishAndFrench[1]);
         }
         else
         {
-            ShowDialogue(sEnglish);
+            ShowDialogue(sTextEnglishAndFrench[0]);
         }
     }
     public void BubbleSkipText()
@@ -192,6 +203,7 @@ public class sc_textChange : MonoBehaviour
     }
     private void ShowDialogue(string text)
     {
+        Debug.Log("show " + text);
         typeAnimator.ShowText(text);
     }
     private void OnTextFullyShown()

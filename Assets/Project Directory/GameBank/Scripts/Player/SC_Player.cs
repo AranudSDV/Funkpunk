@@ -22,6 +22,7 @@ using UnityEngine.EventSystems;
 using Unity.Splines.Examples;
 using UnityEngine.ProBuilder.Shapes;
 using UnityEngine.UIElements;
+using UnityEngine.VFX;
 //using UnityEditor.PackageManager;
 
 public class SC_Player : Singleton<SC_Player>
@@ -491,6 +492,11 @@ public void CheckForward(Vector3 vectDir, float fRange)
                             }
                             else if (ingTag.iCompletition == 3)
                             {
+                                foreach(VisualEffect vfx in ingTag.PS_Sound)
+                                {
+                                    vfx.Stop();
+                                }
+                                ingTag.PlayVFXSoundWave();
                                 SoundManager.Instance.PlayOneShot(sfx_tag[2]);
                                 ingTag.vfx_completition.Play();
                                 //ingTag._renderer.material = ingTag.taggedMaterial; 
@@ -687,6 +693,11 @@ public void CheckForward(Vector3 vectDir, float fRange)
                             }
                             else if (ingTag.iCompletition == 3)
                             {
+                                foreach (VisualEffect vfx in ingTag.PS_Sound)
+                                {
+                                    vfx.Stop();
+                                }
+                                ingTag.PlayVFXSoundWave();
                                 SoundManager.Instance.PlayOneShot(sfx_tag[2]);
                                 ingTag.vfx_completition.Play();
                                 //ingTag._renderer.material = ingTag.taggedMaterial; //le joueur tag
@@ -1719,6 +1730,10 @@ public void CheckForward(Vector3 vectDir, float fRange)
             fBeatPerfect = 0f;
             foreach (ing_Tag tag in allTagsUntil1stCheckPoint)
             {
+                foreach (VisualEffect vfx in tag.PS_Sound)
+                {
+                    vfx.Play();
+                }
                 tag.iCompletition = 0;
                 tag.transform.gameObject.tag = "Tagging";
                 //tag._renderer.material = tag.untaggedMaterial; //pas de tag
@@ -1736,6 +1751,10 @@ public void CheckForward(Vector3 vectDir, float fRange)
             fBeatPerfect = fPreviousNbBeatPerfect;
             foreach (ing_Tag tag in checkpoints[iCheckPoint-1].tags)
             {
+                foreach (VisualEffect vfx in tag.PS_Sound)
+                {
+                    vfx.Play();
+                }
                 tag.iCompletition = 0;
                 tag.transform.gameObject.tag = "Tagging";
                 //tag._renderer.material = tag.untaggedMaterial; //pas de tag

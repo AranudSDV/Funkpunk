@@ -5,6 +5,7 @@ using Unity.Properties;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.VFX;
 
 public class ing_Bait : MonoBehaviour
 {
@@ -37,15 +38,18 @@ public class ing_Bait : MonoBehaviour
     //FEEDBACK
     [SerializeField] private GameObject Go_vfx_Smash;
     [SerializeField] private Vector3 fPosBase_smash;
+    private ParticleSystem PS_smash;
     [SerializeField] private GameObject Go_vfx_Impact;
     [SerializeField] private Vector3 fPosBase_impact;
+    private ParticleSystem PS_Impact;
+    [SerializeField] private GameObject Go_vfx_ImpactSound;
+    [SerializeField] private Vector3 fPosBase_impactSound;
+    private VisualEffect PS_impactSound;
     [SerializeField] private GameObject Go_vfxTrail;
     [SerializeField] private Vector3 fPosBase_trail;
+    private ParticleSystem PS_trail;
     [SerializeField] private GameObject Go_vfxIdle;
     [SerializeField] private Vector3 fPosBase_idlel;
-    private ParticleSystem PS_trail;
-    private ParticleSystem PS_smash;
-    private ParticleSystem PS_Impact;
 
     //ONE TIME ONLY
     public bool b_BeenThrown = false;
@@ -58,10 +62,12 @@ public class ing_Bait : MonoBehaviour
         PS_trail = Go_vfxTrail.transform.gameObject.GetComponent<ParticleSystem>();
         PS_smash = Go_vfx_Smash.transform.gameObject.GetComponent<ParticleSystem>();
         PS_Impact = Go_vfx_Impact.transform.gameObject.GetComponent<ParticleSystem>();
+        PS_impactSound = Go_vfx_ImpactSound.transform.gameObject.GetComponent<VisualEffect>();
         bOnce = false;
         beginVect = this.transform.position;
         beginY = this.transform.position.y;
         PS_Impact.Stop();
+        PS_impactSound.Stop();
         PS_smash.Stop();
         PS_trail.Stop();
     }
@@ -249,11 +255,15 @@ public class ing_Bait : MonoBehaviour
     private IEnumerator NumImpactVFX(float time)
     {
         Go_vfx_Impact.transform.localPosition = fPosBase_impact;
+        Go_vfx_ImpactSound.transform.localPosition = fPosBase_impactSound;
         Go_vfxTrail.transform.localPosition = new Vector3(fPosBase_trail.x, fPosBase_trail.y, fPosBase_trail.z);
         PS_Impact.Play();
+        PS_impactSound.Play();
         yield return new WaitForSeconds(time * 2/5);
         PS_Impact.Stop();
-        Go_vfx_Impact.transform.localPosition = new Vector3(fPosBase_impact.x, fPosBase_impact.y-50f, fPosBase_impact.z);
+        PS_impactSound.Stop();
+        Go_vfx_ImpactSound.transform.localPosition = new Vector3(fPosBase_impact.x, fPosBase_impact.y - 50f, fPosBase_impact.z);
+        Go_vfx_Impact.transform.localPosition = new Vector3(fPosBase_impactSound.x, fPosBase_impactSound.y-50f, fPosBase_impactSound.z);
         if(bOnFoe)
         {
             sc_juice.EndNow();
