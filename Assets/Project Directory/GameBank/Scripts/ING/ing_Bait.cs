@@ -220,7 +220,7 @@ public class ing_Bait : MonoBehaviour
     }
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject.CompareTag("Player") && b_BeenThrown == false)
+        if (collision.gameObject.CompareTag("Player"))
         {
             scPlayer.ShootBait(this.GetComponent<ing_Bait>());
             if(scPlayer.hasAlreadyBaited == false && SceneManager.GetActiveScene().name == "SceneLvl2")

@@ -300,6 +300,7 @@ public class BPM_Manager : MonoBehaviour
             if (!scPlayer.bIsImune)
             {
                 scPlayer.fNbBeat += 1f;
+                scPlayer.fBeatMissed += 1f;
             }
             bPlayBad = false;
             bPlayGood = false;
@@ -399,6 +400,7 @@ public class BPM_Manager : MonoBehaviour
                 {
                     scPlayer.FScore = scPlayer.FScore + 35f;
                     scPlayer.fNbBeat += 1f;
+                    scPlayer.fBeatBad += 1f;
                 }
                 scPlayer.menuManager.fBeatMusicVolume = scPlayer.menuManager.fBeatVolume[1];
                 bPlayBad = true;
@@ -417,6 +419,7 @@ public class BPM_Manager : MonoBehaviour
                 {
                     scPlayer.FScore = scPlayer.FScore + 75f;
                     scPlayer.fNbBeat += 1f;
+                    scPlayer.fBeatGood += 1f;
                 }
                 scPlayer.menuManager.fBeatMusicVolume = scPlayer.menuManager.fBeatVolume[2];
                 bPlayBad = false;
@@ -435,6 +438,7 @@ public class BPM_Manager : MonoBehaviour
                 {
                     scPlayer.FScore = scPlayer.FScore + 100f;
                     scPlayer.fNbBeat += 1f;
+                    scPlayer.fBeatPerfect += 1f;
                 }
                 scPlayer.menuManager.fBeatMusicVolume = scPlayer.menuManager.fBeatVolume[3];
                 bPlayBad = false;
@@ -524,14 +528,17 @@ public class BPM_Manager : MonoBehaviour
             imNoteLeft[0].color = new Color32(0, 197, 255, 255);
             sequences[0].Kill();
             sequences[0] = DOTween.Sequence();
-            sequences[0].Append(goNoteRight[0].DOAnchorPos(new Vector2(goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
-            sequences[0].Join(goNoteLeft[0].DOAnchorPos(new Vector2(-goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
-            /*sequences[0].OnComplete(() =>
+            sequences[0].Append(goNoteRight[0].DOAnchorPos(Vector2.zero, FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            sequences[0].Join(goNoteLeft[0].DOAnchorPos(Vector2.zero, FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            if (scPlayer != null && scPlayer.tutoGen.bIsOnLoft && scPlayer.tutoGen.bIsOnBD)
             {
-                imNoteRight[0].color = new Color32(255, 255, 255, 0);
-                imNoteLeft[0].color = new Color32(255, 255, 255, 0);
-                iNowNote = 1;
-            });*/
+                sequences[0].OnComplete(() =>
+                {
+                    imNoteRight[0].color = new Color32(255, 255, 255, 0);
+                    imNoteLeft[0].color = new Color32(255, 255, 255, 0);
+                    iNowNote = 1;
+                });
+            }
             i_B = 2;
         }
         else if (i_B == 2)
@@ -542,14 +549,17 @@ public class BPM_Manager : MonoBehaviour
             imNoteLeft[1].color = new Color32(0, 197, 255, 255);
             sequences[1].Kill();
             sequences[1] = DOTween.Sequence();
-            sequences[1].Append(goNoteRight[1].DOAnchorPos(new Vector2(goNoteLeft[0].rect.width / 4f, 0f), FSPB *3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
-            sequences[1].Join(goNoteLeft[1].DOAnchorPos(new Vector2(-goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
-            /*sequences[1].OnComplete(() =>
+            sequences[1].Append(goNoteRight[1].DOAnchorPos(Vector2.zero, FSPB *3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            sequences[1].Join(goNoteLeft[1].DOAnchorPos(Vector2.zero, FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            if (scPlayer != null && scPlayer.tutoGen.bIsOnLoft && scPlayer.tutoGen.bIsOnBD)
             {
-                imNoteRight[1].color = new Color32(255, 255, 255, 0);
-                imNoteLeft[1].color = new Color32(255, 255, 255, 0);
-                iNowNote = 2;
-            });*/
+                sequences[1].OnComplete(() =>
+                {
+                    imNoteRight[1].color = new Color32(255, 255, 255, 0);
+                    imNoteLeft[1].color = new Color32(255, 255, 255, 0);
+                    iNowNote = 2;
+                });
+            }
             i_B = 3;
         }
         else if (i_B == 3)
@@ -560,14 +570,17 @@ public class BPM_Manager : MonoBehaviour
             imNoteLeft[2].color = new Color32(0, 197, 255, 255);
             sequences[2].Kill();
             sequences[2] = DOTween.Sequence();
-            sequences[2].Append(goNoteRight[2].DOAnchorPos(new Vector2(goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
-            sequences[2].Join(goNoteLeft[2].DOAnchorPos(new Vector2(-goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
-            /*sequences[2].OnComplete(() =>
+            sequences[2].Append(goNoteRight[2].DOAnchorPos(Vector2.zero, FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            sequences[2].Join(goNoteLeft[2].DOAnchorPos(Vector2.zero, FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            if (scPlayer != null && scPlayer.tutoGen.bIsOnLoft && scPlayer.tutoGen.bIsOnBD)
             {
-                imNoteRight[2].color = new Color32(255, 255, 255, 0);
-                imNoteLeft[2].color = new Color32(255, 255, 255, 0);
-                iNowNote = 0;
-            });*/
+                sequences[2].OnComplete(() =>
+                {
+                    imNoteRight[2].color = new Color32(255, 255, 255, 0);
+                    imNoteLeft[2].color = new Color32(255, 255, 255, 0);
+                    iNowNote = 0;
+                });
+            }
             i_B = 1;
         }
         else
@@ -577,40 +590,49 @@ public class BPM_Manager : MonoBehaviour
             goNoteLeft[0].anchoredPosition = new Vector2(-newPos.x * (1 + canvas), 0f);
             sequences[0].Kill();
             sequences[0] = DOTween.Sequence();
-            sequences[0].Append(goNoteRight[0].DOAnchorPos(new Vector2(goNoteLeft[0].rect.width / 4f, 0f), FSPB, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
-            sequences[0].Join(goNoteLeft[0].DOAnchorPos(new Vector2(-goNoteLeft[0].rect.width / 4f, 0f), FSPB, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
-            /*sequences[0].OnComplete(() =>
+            sequences[0].Append(goNoteRight[0].DOAnchorPos(Vector2.zero, FSPB, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            sequences[0].Join(goNoteLeft[0].DOAnchorPos(Vector2.zero, FSPB, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            if (scPlayer != null && scPlayer.tutoGen.bIsOnLoft && scPlayer.tutoGen.bIsOnBD)
             {
-                imNoteRight[0].color = new Color32(255, 255, 255, 0);
-                imNoteLeft[0].color = new Color32(255, 255, 255, 0);
-                iNowNote = 1;
-            });*/
+                sequences[0].OnComplete(() =>
+                {
+                    imNoteRight[0].color = new Color32(255, 255, 255, 0);
+                    imNoteLeft[0].color = new Color32(255, 255, 255, 0);
+                    iNowNote = 1;
+                });
+            }
 
             goNoteRight[1].anchoredPosition = new Vector2(newPos.x * (1+2* canvas), 0f);
             goNoteLeft[1].anchoredPosition = new Vector2(-newPos.x * (1+2* canvas), 0f);
             sequences[1].Kill();
             sequences[1] = DOTween.Sequence();
-            sequences[1].Append(goNoteRight[1].DOAnchorPos(new Vector2(goNoteLeft[0].rect.width / 4f, 0f), FSPB * 2, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
-            sequences[1].Join(goNoteLeft[1].DOAnchorPos(new Vector2(-goNoteLeft[0].rect.width / 4f, 0f), FSPB * 2, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
-            /*sequences[1].OnComplete(() =>
+            sequences[1].Append(goNoteRight[1].DOAnchorPos(Vector2.zero, FSPB * 2, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            sequences[1].Join(goNoteLeft[1].DOAnchorPos(Vector2.zero, FSPB * 2, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            if (scPlayer != null && scPlayer.tutoGen.bIsOnLoft && scPlayer.tutoGen.bIsOnBD)
             {
-                imNoteRight[1].color = new Color32(255, 255, 255, 0);
-                imNoteLeft[1].color = new Color32(255, 255, 255, 0);
-                iNowNote = 2;
-            });*/
+                sequences[1].OnComplete(() =>
+                {
+                    imNoteRight[1].color = new Color32(255, 255, 255, 0);
+                    imNoteLeft[1].color = new Color32(255, 255, 255, 0);
+                    iNowNote = 2;
+                });
+            }
 
             goNoteRight[2].anchoredPosition = new Vector2(newPos.x * (1+canvas), 0f);
             goNoteLeft[2].anchoredPosition = new Vector2(-newPos.x * (1+canvas), 0f);
             sequences[2].Kill();
             sequences[2] = DOTween.Sequence();
-            sequences[2].Append(goNoteRight[2].DOAnchorPos(new Vector2(goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
-            sequences[2].Join(goNoteLeft[2].DOAnchorPos(new Vector2(-goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
-            /*sequences[2].OnComplete(() =>
+            sequences[2].Append(goNoteRight[2].DOAnchorPos(Vector2.zero, FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            sequences[2].Join(goNoteLeft[2].DOAnchorPos(Vector2.zero, FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            if (scPlayer != null && scPlayer.tutoGen.bIsOnLoft && scPlayer.tutoGen.bIsOnBD)
             {
-                imNoteRight[2].color = new Color32(255, 255, 255, 0);
-                imNoteLeft[2].color = new Color32(255, 255, 255, 0);
-                iNowNote = 0;
-            });*/
+                sequences[2].OnComplete(() =>
+                {
+                    imNoteRight[2].color = new Color32(255, 255, 255, 0);
+                    imNoteLeft[2].color = new Color32(255, 255, 255, 0);
+                    iNowNote = 0;
+                });
+            }
             b_hasStarted = true;
             i_B = 1;
         }

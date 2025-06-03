@@ -90,7 +90,7 @@ public class MenuManager : SingletonManager<MenuManager>
 
     //NAVIGATION UX
     [Header("Navigation UX")]
-    [SerializeField] private GameObject[] GoGameChoose = new GameObject[5];
+    [SerializeField] private GameObject[] GoGameChoose = new GameObject[6];
     public GameObject[] GoLevelsButton;
     private GameObject GoLevelBackButton;
     public GameObject[] GoLevelStars;
@@ -264,11 +264,11 @@ public class MenuManager : SingletonManager<MenuManager>
         if (!bMenuOnTriggered && controllerConnected && control !=null && control.GamePlay.Move.triggered && SceneManager.GetActiveScene().name == "SceneSplash")
         {
             bMenuOnTriggered = true;
-            if (GoGameChoose[4] == null)
+            if (GoGameChoose[5] == null)
             {
                 Debug.Log("null");
             }
-            GoGameChoose[4].transform.GetComponent<UnityEngine.UI.Image>().color = new Color32(255, 255, 255, 0);
+            GoGameChoose[5].transform.GetComponent<UnityEngine.UI.Image>().color = new Color32(255, 255, 255, 0);
             TrainAndUION();
             //LoadScene(sSceneToLoad);
         }
@@ -319,7 +319,7 @@ public class MenuManager : SingletonManager<MenuManager>
         {
             UnityEngine.UI.Button btnNewLoad = GoGameChoose[0].GetComponent<UnityEngine.UI.Button>();
             TrainSplashLanguage();
-            GoGameChoose[3].transform.GetComponent<CanvasGroup>().alpha = 1f;
+            GoGameChoose[4].transform.GetComponent<CanvasGroup>().alpha = 1f;
             bWaitTrain = false;
             bTrainIsHere = false;
             SelectionEnsurance();
@@ -570,7 +570,7 @@ public class MenuManager : SingletonManager<MenuManager>
                 GoGameChoose = new GameObject[5];
                 for (int i = 0; i < GoTargetUI.Length; i++)
                 {
-                    for (int y = 0; y < 3; y++)
+                    for (int y = 0; y < 4; y++)
                     {
                         if (GoTargetUI[i].name == "GameChoose" + y)
                         {
@@ -579,25 +579,27 @@ public class MenuManager : SingletonManager<MenuManager>
                     }
                     if (GoTargetUI[i].name == "Buttons")
                     {
-                        GoGameChoose[3] = GoTargetUI[i];
+                        GoGameChoose[4] = GoTargetUI[i];
                     }
                     else if (GoTargetUI[i].name == "PressAnyButtonImage")
                     {
-                        GoGameChoose[4] = GoTargetUI[i];
+                        GoGameChoose[5] = GoTargetUI[i];
                     }
                     else if (GoTargetUI[i].name == "Spline")
                     {
                         trainMenu = GoTargetUI[i].transform.GetComponent< SplineTrainMover_WithSpacing>();
                     }
                 }
-                GoGameChoose[4].transform.GetComponent<UnityEngine.UI.Image>().color = new Color32(255,255,255,255);
-                GoGameChoose[3].transform.GetComponent<CanvasGroup>().alpha = 0f;
+                GoGameChoose[5].transform.GetComponent<UnityEngine.UI.Image>().color = new Color32(255,255,255,255);
+                GoGameChoose[4].transform.GetComponent<CanvasGroup>().alpha = 0f;
                 GoLevelsButton = null;
                 _levels = null;
                 sSceneToLoad = "Loft"; 
                 UnityEngine.UI.Button btnNewLoad = GoGameChoose[0].GetComponent<UnityEngine.UI.Button>();
                 btnNewLoad.onClick.AddListener(delegate { LoadScene(sSceneToLoad); });
-                UnityEngine.UI.Button btnExit = GoGameChoose[2].GetComponent<UnityEngine.UI.Button>();
+                UnityEngine.UI.Button btnCredits = GoGameChoose[2].GetComponent<UnityEngine.UI.Button>();
+                btnCredits.onClick.AddListener(delegate { LoadScene("World/Scenes/CreditsScene"); });
+                UnityEngine.UI.Button btnExit = GoGameChoose[3].GetComponent<UnityEngine.UI.Button>();
                 btnExit.onClick.AddListener(QuitGame);
                 UnityEngine.UI.Button btnOptions = GoGameChoose[1].GetComponent<UnityEngine.UI.Button>();
                 btnOptions.onClick.AddListener(OptionsGame);
@@ -1459,7 +1461,7 @@ public class MenuManager : SingletonManager<MenuManager>
 
         if (_playerData.iLevelPlayer >= 4)
         {
-            //
+            LoadScene("Scenes/World/CreditsScene");
         }
         else
         {

@@ -86,6 +86,7 @@ public class SC_FieldOfView : MonoBehaviour
     public bool bHasHeard = false;
     public bool bIsDisabled = false;
     public bool BIsNear = false;
+    private bool bOnceDisabled = false;
 
     [Header("Boss")]
     public bool isBoss = false;
@@ -154,6 +155,19 @@ public class SC_FieldOfView : MonoBehaviour
         if (GoCone.transform.localPosition.y != InitialYCone)
         {
             GoCone.transform.localPosition = new Vector3(GoCone.transform.localPosition.x, InitialYCone, GoCone.transform.localPosition.z);
+        }
+        if(bIsDisabled && !bOnceDisabled)
+        {
+            bOnceDisabled = true;
+            BCanSee = false;
+            bHasHeard = false;
+            BIsNear = false;
+            i_EnnemyBeat = 0;
+            foreach(SC_VisionConeCasting cone in sc_BossCone)
+            {
+                cone.enabled = false;
+            }
+            sc_Cone.enabled = false;
         }
     }
     //ROUTINE

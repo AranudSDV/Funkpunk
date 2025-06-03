@@ -84,6 +84,10 @@ public class SC_Player : Singleton<SC_Player>
     //LE SCORE
     [Header("Score")]
     public float FScore;
+    public float fBeatMissed = 0f;
+    public float fBeatBad = 0f;
+    public float fBeatGood = 0f;
+    public float fBeatPerfect = 0f;
     public float fNbBeat;
     private float fPercentScore;
     public TMP_Text TMPScore;
@@ -130,6 +134,10 @@ public class SC_Player : Singleton<SC_Player>
     private int iTagPreviouslyDone = 0;
     private float FPreviousScore = 0f;
     private float fPreviousNbBeat = 0f;
+    private float fPreviousNbBeatMissed = 0f;
+    private float fPreviousNbBeatBad = 0f;
+    private float fPreviousNbBeatGood = 0f;
+    private float fPreviousNbBeatPerfect = 0f;
     public int iCheckPoint = 0;
     public bool bIsReplaying = false;
 
@@ -1690,6 +1698,10 @@ public void CheckForward(Vector3 vectDir, float fRange)
             iTagPreviouslyDone = itagDone;
             FPreviousScore = FScore;
             fPreviousNbBeat = fNbBeat;
+            fPreviousNbBeatMissed = fBeatMissed;
+            fPreviousNbBeatBad = fBeatBad;
+            fPreviousNbBeatGood = fBeatGood;
+            fPreviousNbBeatPerfect = fBeatPerfect;
             iCheckPoint = iPreviousCheckPoint;
         }
     }
@@ -1701,6 +1713,10 @@ public void CheckForward(Vector3 vectDir, float fRange)
             itagDone = 0;
             FScore = 0;
             fNbBeat = 0;
+            fBeatMissed = 0f;
+            fBeatBad = 0f;
+            fBeatGood = 0f;
+            fBeatPerfect = 0f;
             foreach (ing_Tag tag in allTagsUntil1stCheckPoint)
             {
                 tag.iCompletition = 0;
@@ -1714,6 +1730,10 @@ public void CheckForward(Vector3 vectDir, float fRange)
             itagDone = iTagPreviouslyDone;
             FScore = FPreviousScore;
             fNbBeat = fPreviousNbBeat;
+            fBeatMissed = fPreviousNbBeatMissed;
+            fBeatBad = fPreviousNbBeatBad;
+            fBeatGood = fPreviousNbBeatGood;
+            fBeatPerfect = fPreviousNbBeatPerfect;
             foreach (ing_Tag tag in checkpoints[iCheckPoint-1].tags)
             {
                 tag.iCompletition = 0;

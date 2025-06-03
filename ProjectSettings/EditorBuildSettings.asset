@@ -29,6 +29,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/World/SceneLvl3.unity
     guid: 73e0034787d914a46b7f2bbdc264a490
+  - enabled: 1
+    path: Assets/Scenes/World/CreditsScene.unity
+    guid: ee26be5f488aaf74f92e0d619b7a3132
   m_configObjects:
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 0f5f261da6b5c8d4885fb21058116b47,
       type: 2}

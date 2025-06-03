@@ -16,7 +16,7 @@ using UnityEngine.SceneManagement;
 public class sc_tuto_generic : MonoBehaviour
 {
     [Header("General")]
-    [SerializeField] private bool bIsOnLoft = false;
+    public bool bIsOnLoft = false;
     [SerializeField] private SC_Player scPlayer;
     [SerializeField] private bool isMeshable;
     private bool bTutoMeshableDone = false;
