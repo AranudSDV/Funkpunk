@@ -349,7 +349,7 @@ public class BPM_Manager : MonoBehaviour
         {
             if (scPlayer.bIsImune)
             {
-                scPlayer.CheckForward(Vector3.zero, scPlayer.taggingRange);
+                scPlayer.CheckForward(Vector3.zero);
                 iTimer -= 1;
                 if (iTimer >= 0)
                 {
@@ -366,11 +366,11 @@ public class BPM_Manager : MonoBehaviour
             {
                 if(bPlayBad || bPlayGood || bPlayPerfect)
                 {
-                    scPlayer.CheckForward(scPlayer.lastMoveDirection, scPlayer.taggingRange);
+                    scPlayer.CheckForward(scPlayer.lastMoveDirection);
                 }
                 else
                 {
-                    scPlayer.CheckForward(Vector3.zero, scPlayer.taggingRange);
+                    scPlayer.CheckForward(Vector3.zero);
                 }
                 if (iTimer <= 0)
                 {

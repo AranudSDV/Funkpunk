@@ -74,12 +74,12 @@ public class sc_textChange : MonoBehaviour
                 Debug.Log("written");
                 if (_playerData != null && _playerData.iLanguageNbPlayer == 1)
                 {
-                    this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sTextEnglishAndFrench[1];
+                    this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sTextEnglishAndFrench[0];
                     //this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sFrench;
                 }
                 else
                 {
-                    this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sTextEnglishAndFrench[2];
+                    this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sTextEnglishAndFrench[1];
                     //this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sEnglish;
                 }
             }
