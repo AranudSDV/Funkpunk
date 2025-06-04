@@ -95,8 +95,8 @@ Material:
     - _BakedOrRT: 0
     - _Base_or_Tsample: 1
     - _BlendPow: 1
-    - _Cels_FallOffThreshold: 0.45
-    - _Cels_LitThreshold: 0.42
+    - _Cels_FallOffThreshold: 1
+    - _Cels_LitThreshold: 0
     - _ColorOrTex: 1
     - _Debug: 0
     - _DistanceCutoff: 0
@@ -117,8 +117,8 @@ Material:
     - _SMH_Pow: 0
     - _ShadingWhiteMult: 0.1
     - _ShadowTex_Pow: 0.27
-    - _Shadow_FallOffThreshold: 0.45
-    - _Shadow_LitThreshold: 0.42
+    - _Shadow_FallOffThreshold: 1
+    - _Shadow_LitThreshold: 0.8
     - _Shadows_ProceduralOrTexture: 0
     - _SpecularHighlights: 1
     - _TimeDelay: 0

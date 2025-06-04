@@ -96,7 +96,7 @@ Material:
     - _Base_or_Tsample: 1
     - _BlendPow: 1
     - _Cels_FallOffThreshold: 1
-    - _Cels_LitThreshold: 0.6
+    - _Cels_LitThreshold: 0
     - _ColorOrTex: 1
     - _Debug: 0
     - _DistanceCutoff: 0

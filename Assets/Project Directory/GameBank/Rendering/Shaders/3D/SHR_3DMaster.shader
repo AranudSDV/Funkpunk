@@ -28,8 +28,7 @@ Shader "SHR_3DMaster"
 		_Shadow_LitThreshold("Shadow_LitThreshold", Float) = 0.8
 		[Toggle(_FULLSHADINGHALFSHADING_ON)] _FullShadingHalfShading("FullShading/HalfShading", Float) = 0
 		[Toggle(_SHADOWS_PROCEDURALORTEXTURE_ON)] _Shadows_ProceduralOrTexture("Shadows_ProceduralOrTexture?", Float) = 0
-		_ShadowPatternDensity("ShadowPatternDensity", Vector) = (10,10,0,0)
-		[Toggle(_LIGHTINDDONE_ON)] _LightindDone("LightindDone?", Float) = 0
+		_ShadowPatternDensity("ShadowPatternDensity", Vector) = (100,100,0,0)
 		[Toggle(_USING3DMOVEMENTS_ON)] _Using3DMovements("Using3DMovements?", Float) = 0
 		_ShadowTex("ShadowTex", 2D) = "white" {}
 		_WorldPosDiv("WorldPosDiv", Float) = 0
@@ -288,7 +287,6 @@ Shader "SHR_3DMaster"
 			#pragma shader_feature_local _ISOUTLINE_ON
 			#pragma shader_feature_local _USING3DMOVEMENTS_ON
 			#pragma shader_feature_local _ISENNEMIES_ON
-			#pragma shader_feature _LIGHTINDDONE_ON
 			#pragma shader_feature_local _FULLSHADINGHALFSHADING_ON
 			#pragma shader_feature_local _COLORORTEX_ON
 			#pragma shader_feature_local _SHADOWS_PROCEDURALORTEXTURE_ON
@@ -338,11 +336,11 @@ Shader "SHR_3DMaster"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _BaseColor;
-			float4 _OutlineColor2;
 			float4 _MainTex_ST;
+			float4 _OutlineColor2;
 			float4 _OutlineColor;
 			float4 _BumpNormal_ST;
+			float4 _BaseColor;
 			float3 _BaseVertexOffsetDelay;
 			float3 _BaseVertexOffsetValue;
 			float2 _TopVertexDelay;
@@ -399,8 +397,8 @@ Shader "SHR_3DMaster"
 			#endif
 
 			float BPM;
-			sampler2D _MainTex;
 			sampler2D _BumpNormal;
+			sampler2D _MainTex;
 			sampler2D _ShadowTex;
 
 
@@ -718,11 +716,11 @@ Shader "SHR_3DMaster"
 				
 				float2 texCoord2_g51 = v.texcoord1.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 vertexToFrag10_g51 = ( ( texCoord2_g51 * (unity_LightmapST).xy ) + (unity_LightmapST).zw );
-				o.ase_texcoord8.zw = vertexToFrag10_g51;
+				o.ase_texcoord8.xy = vertexToFrag10_g51;
 				float3 objectSpaceLightDir = mul( GetWorldToObjectMatrix(), _MainLightPosition ).xyz;
 				o.ase_texcoord9.xyz = objectSpaceLightDir;
 				
-				o.ase_texcoord8.xy = v.texcoord.xy;
+				o.ase_texcoord8.zw = v.texcoord.xy;
 				o.ase_normal = v.ase_normal;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -927,10 +925,8 @@ Shader "SHR_3DMaster"
 
 				WorldViewDirection = SafeNormalize( WorldViewDirection );
 
-				float2 uv_MainTex = IN.ase_texcoord8.xy * _MainTex_ST.xy + _MainTex_ST.zw;
-				float4 tex2DNode207 = tex2D( _MainTex, uv_MainTex );
 				Gradient gradient203 = NewGradient( 1, 4, 2, float4( 0.5911949, 0.5818993, 0.5818993, 0.2 ), float4( 0.6918238, 0.6918238, 0.6918238, 0.4422675 ), float4( 0.8805031, 0.8805031, 0.8805031, 0.7632105 ), float4( 1, 1, 1, 1 ), 0, 0, 0, 0, float2( 1, 0 ), float2( 1, 1 ), 0, 0, 0, 0, 0, 0 );
-				float2 vertexToFrag10_g51 = IN.ase_texcoord8.zw;
+				float2 vertexToFrag10_g51 = IN.ase_texcoord8.xy;
 				float2 UV11_g51 = vertexToFrag10_g51;
 				float4 localSampleLightmapHD11_g51 = SampleLightmapHD11_g51( UV11_g51 );
 				float4 localURPDecodeInstruction19_g51 = URPDecodeInstruction19_g51();
@@ -943,7 +939,7 @@ Shader "SHR_3DMaster"
 				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
 				float2 ScreenUV75_g56 = (ase_screenPosNorm).xy;
 				float2 ScreenUV86_g56 = ScreenUV75_g56;
-				float2 uv_BumpNormal = IN.ase_texcoord8.xy * _BumpNormal_ST.xy + _BumpNormal_ST.zw;
+				float2 uv_BumpNormal = IN.ase_texcoord8.zw * _BumpNormal_ST.xy + _BumpNormal_ST.zw;
 				float3 unpack214 = UnpackNormalScale( tex2D( _BumpNormal, uv_BumpNormal ), _NormalScale );
 				unpack214.z = lerp( 1, unpack214.z, saturate(_NormalScale) );
 				float3 tanToWorld0 = float3( WorldTangent.x, WorldBiTangent.x, WorldNormal.x );
@@ -973,6 +969,8 @@ Shader "SHR_3DMaster"
 				float2 _RT_SO = float2(0,0);
 				float temp_output_423_0 = ( temp_output_328_0 + ( (dotResult189*_RT_SO.x + _RT_SO.y) * temp_output_328_0 ) );
 				float4 CelShadingCalc736 = ( SampleGradient( gradient203, clampResult437.x ) + SampleGradient( gradient203, temp_output_423_0 ) );
+				float2 uv_MainTex = IN.ase_texcoord8.zw * _MainTex_ST.xy + _MainTex_ST.zw;
+				float4 tex2DNode207 = tex2D( _MainTex, uv_MainTex );
 				#ifdef _COLORORTEX_ON
 				float4 staticSwitch219 = tex2DNode207;
 				#else
@@ -985,7 +983,7 @@ Shader "SHR_3DMaster"
 				float time275 = 0.0;
 				float2 voronoiSmoothId275 = 0;
 				float voronoiSmooth275 = 0.0;
-				float2 texCoord270 = IN.ase_texcoord8.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 texCoord270 = IN.ase_texcoord8.zw * float2( 1,1 ) + float2( 0,0 );
 				float2 temp_output_616_0 = ( texCoord270 * _ShadowPatternDensity );
 				float2 coords275 = temp_output_616_0 * 1.0;
 				float2 id275 = 0;
@@ -1003,7 +1001,7 @@ Shader "SHR_3DMaster"
 				float2 temp_output_654_0 = ( temp_output_648_0 + temp_output_643_0 + temp_output_647_0 );
 				float3 temp_output_658_0 = ( WorldPosition * _TriplanarTiling );
 				float2 uv653 = 0;
-				float3 unityVoronoy653 = UnityVoronoi(IN.ase_texcoord8.xy,0.0,10.0,uv653);
+				float3 unityVoronoy653 = UnityVoronoi(IN.ase_texcoord8.zw,0.0,10.0,uv653);
 				float2 ShadowDot_Triplanar754 = ( ( ( temp_output_648_0 / temp_output_654_0 ) * ( (temp_output_658_0).yz * unityVoronoy653.x ) ) + ( ( temp_output_643_0 / temp_output_654_0 ) * ( (temp_output_658_0).xz * unityVoronoy653.x ) ) + ( ( temp_output_647_0 / temp_output_654_0 ) * ( (temp_output_658_0).xy * unityVoronoy653.x ) ) );
 				#ifdef _USINGTRIPLANAR_ON
 				float2 staticSwitch629 = ShadowDot_Triplanar754;
@@ -1033,15 +1031,10 @@ Shader "SHR_3DMaster"
 				#else
 				float4 staticSwitch305 = ( CelShadingCalc736 * lerpResult266 );
 				#endif
-				#ifdef _LIGHTINDDONE_ON
-				float4 staticSwitch480 = staticSwitch305;
-				#else
-				float4 staticSwitch480 = tex2DNode207;
-				#endif
-				float2 texCoord712 = IN.ase_texcoord8.xy * float2( 1,1 ) + ( _TimeParameters.x * float2( 0,0.001 ) );
+				float2 texCoord712 = IN.ase_texcoord8.zw * float2( 1,1 ) + ( _TimeParameters.x * float2( 0,0.001 ) );
 				float simplePerlin2D728 = snoise( ( texCoord712 * float2( 0,40 ) )*5.0 );
 				simplePerlin2D728 = simplePerlin2D728*0.5 + 0.5;
-				float2 texCoord789 = IN.ase_texcoord8.xy * float2( 1,1 ) + ( _TimeParameters.x * float2( 0,0.001 ) );
+				float2 texCoord789 = IN.ase_texcoord8.zw * float2( 1,1 ) + ( _TimeParameters.x * float2( 0,0.001 ) );
 				float simplePerlin2D785 = snoise( ( texCoord789 * float2( 0,40 ) )*5.0 );
 				simplePerlin2D785 = simplePerlin2D785*0.5 + 0.5;
 				float temp_output_784_0 = ( simplePerlin2D728 * simplePerlin2D785 );
@@ -1063,7 +1056,7 @@ Shader "SHR_3DMaster"
 				#ifdef _ISENNEMIES_ON
 				float4 staticSwitch725 = FresnelEffects726;
 				#else
-				float4 staticSwitch725 = staticSwitch480;
+				float4 staticSwitch725 = staticSwitch305;
 				#endif
 				#ifdef _ISOUTLINE_ON
 				float4 staticSwitch753 = OutlineColors747;
@@ -1393,11 +1386,11 @@ Shader "SHR_3DMaster"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _BaseColor;
-			float4 _OutlineColor2;
 			float4 _MainTex_ST;
+			float4 _OutlineColor2;
 			float4 _OutlineColor;
 			float4 _BumpNormal_ST;
+			float4 _BaseColor;
 			float3 _BaseVertexOffsetDelay;
 			float3 _BaseVertexOffsetValue;
 			float2 _TopVertexDelay;
@@ -1829,11 +1822,11 @@ Shader "SHR_3DMaster"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _BaseColor;
-			float4 _OutlineColor2;
 			float4 _MainTex_ST;
+			float4 _OutlineColor2;
 			float4 _OutlineColor;
 			float4 _BumpNormal_ST;
+			float4 _BaseColor;
 			float3 _BaseVertexOffsetDelay;
 			float3 _BaseVertexOffsetValue;
 			float2 _TopVertexDelay;
@@ -2207,7 +2200,6 @@ Shader "SHR_3DMaster"
 			#pragma shader_feature_local _ISOUTLINE_ON
 			#pragma shader_feature_local _USING3DMOVEMENTS_ON
 			#pragma shader_feature_local _ISENNEMIES_ON
-			#pragma shader_feature _LIGHTINDDONE_ON
 			#pragma shader_feature_local _FULLSHADINGHALFSHADING_ON
 			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
 			#pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
@@ -2255,11 +2247,11 @@ Shader "SHR_3DMaster"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _BaseColor;
-			float4 _OutlineColor2;
 			float4 _MainTex_ST;
+			float4 _OutlineColor2;
 			float4 _OutlineColor;
 			float4 _BumpNormal_ST;
+			float4 _BaseColor;
 			float3 _BaseVertexOffsetDelay;
 			float3 _BaseVertexOffsetValue;
 			float2 _TopVertexDelay;
@@ -2316,8 +2308,8 @@ Shader "SHR_3DMaster"
 			#endif
 
 			float BPM;
-			sampler2D _MainTex;
 			sampler2D _BumpNormal;
+			sampler2D _MainTex;
 			sampler2D _ShadowTex;
 
 
@@ -2635,7 +2627,7 @@ Shader "SHR_3DMaster"
 				
 				float2 texCoord2_g51 = v.texcoord1.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 vertexToFrag10_g51 = ( ( texCoord2_g51 * (unity_LightmapST).xy ) + (unity_LightmapST).zw );
-				o.ase_texcoord4.zw = vertexToFrag10_g51;
+				o.ase_texcoord4.xy = vertexToFrag10_g51;
 				float4 ase_clipPos = TransformObjectToHClip((v.vertex).xyz);
 				float4 screenPos = ComputeScreenPos(ase_clipPos);
 				o.ase_texcoord5 = screenPos;
@@ -2648,7 +2640,7 @@ Shader "SHR_3DMaster"
 				float3 objectSpaceLightDir = mul( GetWorldToObjectMatrix(), _MainLightPosition ).xyz;
 				o.ase_texcoord9.xyz = objectSpaceLightDir;
 				
-				o.ase_texcoord4.xy = v.texcoord0.xy;
+				o.ase_texcoord4.zw = v.texcoord0.xy;
 				o.ase_normal = v.ase_normal;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -2807,10 +2799,8 @@ Shader "SHR_3DMaster"
 					#endif
 				#endif
 
-				float2 uv_MainTex = IN.ase_texcoord4.xy * _MainTex_ST.xy + _MainTex_ST.zw;
-				float4 tex2DNode207 = tex2D( _MainTex, uv_MainTex );
 				Gradient gradient203 = NewGradient( 1, 4, 2, float4( 0.5911949, 0.5818993, 0.5818993, 0.2 ), float4( 0.6918238, 0.6918238, 0.6918238, 0.4422675 ), float4( 0.8805031, 0.8805031, 0.8805031, 0.7632105 ), float4( 1, 1, 1, 1 ), 0, 0, 0, 0, float2( 1, 0 ), float2( 1, 1 ), 0, 0, 0, 0, 0, 0 );
-				float2 vertexToFrag10_g51 = IN.ase_texcoord4.zw;
+				float2 vertexToFrag10_g51 = IN.ase_texcoord4.xy;
 				float2 UV11_g51 = vertexToFrag10_g51;
 				float4 localSampleLightmapHD11_g51 = SampleLightmapHD11_g51( UV11_g51 );
 				float4 localURPDecodeInstruction19_g51 = URPDecodeInstruction19_g51();
@@ -2824,7 +2814,7 @@ Shader "SHR_3DMaster"
 				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
 				float2 ScreenUV75_g56 = (ase_screenPosNorm).xy;
 				float2 ScreenUV86_g56 = ScreenUV75_g56;
-				float2 uv_BumpNormal = IN.ase_texcoord4.xy * _BumpNormal_ST.xy + _BumpNormal_ST.zw;
+				float2 uv_BumpNormal = IN.ase_texcoord4.zw * _BumpNormal_ST.xy + _BumpNormal_ST.zw;
 				float3 unpack214 = UnpackNormalScale( tex2D( _BumpNormal, uv_BumpNormal ), _NormalScale );
 				unpack214.z = lerp( 1, unpack214.z, saturate(_NormalScale) );
 				float3 ase_worldTangent = IN.ase_texcoord6.xyz;
@@ -2857,6 +2847,8 @@ Shader "SHR_3DMaster"
 				float2 _RT_SO = float2(0,0);
 				float temp_output_423_0 = ( temp_output_328_0 + ( (dotResult189*_RT_SO.x + _RT_SO.y) * temp_output_328_0 ) );
 				float4 CelShadingCalc736 = ( SampleGradient( gradient203, clampResult437.x ) + SampleGradient( gradient203, temp_output_423_0 ) );
+				float2 uv_MainTex = IN.ase_texcoord4.zw * _MainTex_ST.xy + _MainTex_ST.zw;
+				float4 tex2DNode207 = tex2D( _MainTex, uv_MainTex );
 				#ifdef _COLORORTEX_ON
 				float4 staticSwitch219 = tex2DNode207;
 				#else
@@ -2869,7 +2861,7 @@ Shader "SHR_3DMaster"
 				float time275 = 0.0;
 				float2 voronoiSmoothId275 = 0;
 				float voronoiSmooth275 = 0.0;
-				float2 texCoord270 = IN.ase_texcoord4.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 texCoord270 = IN.ase_texcoord4.zw * float2( 1,1 ) + float2( 0,0 );
 				float2 temp_output_616_0 = ( texCoord270 * _ShadowPatternDensity );
 				float2 coords275 = temp_output_616_0 * 1.0;
 				float2 id275 = 0;
@@ -2887,7 +2879,7 @@ Shader "SHR_3DMaster"
 				float2 temp_output_654_0 = ( temp_output_648_0 + temp_output_643_0 + temp_output_647_0 );
 				float3 temp_output_658_0 = ( WorldPosition * _TriplanarTiling );
 				float2 uv653 = 0;
-				float3 unityVoronoy653 = UnityVoronoi(IN.ase_texcoord4.xy,0.0,10.0,uv653);
+				float3 unityVoronoy653 = UnityVoronoi(IN.ase_texcoord4.zw,0.0,10.0,uv653);
 				float2 ShadowDot_Triplanar754 = ( ( ( temp_output_648_0 / temp_output_654_0 ) * ( (temp_output_658_0).yz * unityVoronoy653.x ) ) + ( ( temp_output_643_0 / temp_output_654_0 ) * ( (temp_output_658_0).xz * unityVoronoy653.x ) ) + ( ( temp_output_647_0 / temp_output_654_0 ) * ( (temp_output_658_0).xy * unityVoronoy653.x ) ) );
 				#ifdef _USINGTRIPLANAR_ON
 				float2 staticSwitch629 = ShadowDot_Triplanar754;
@@ -2917,15 +2909,10 @@ Shader "SHR_3DMaster"
 				#else
 				float4 staticSwitch305 = ( CelShadingCalc736 * lerpResult266 );
 				#endif
-				#ifdef _LIGHTINDDONE_ON
-				float4 staticSwitch480 = staticSwitch305;
-				#else
-				float4 staticSwitch480 = tex2DNode207;
-				#endif
-				float2 texCoord712 = IN.ase_texcoord4.xy * float2( 1,1 ) + ( _TimeParameters.x * float2( 0,0.001 ) );
+				float2 texCoord712 = IN.ase_texcoord4.zw * float2( 1,1 ) + ( _TimeParameters.x * float2( 0,0.001 ) );
 				float simplePerlin2D728 = snoise( ( texCoord712 * float2( 0,40 ) )*5.0 );
 				simplePerlin2D728 = simplePerlin2D728*0.5 + 0.5;
-				float2 texCoord789 = IN.ase_texcoord4.xy * float2( 1,1 ) + ( _TimeParameters.x * float2( 0,0.001 ) );
+				float2 texCoord789 = IN.ase_texcoord4.zw * float2( 1,1 ) + ( _TimeParameters.x * float2( 0,0.001 ) );
 				float simplePerlin2D785 = snoise( ( texCoord789 * float2( 0,40 ) )*5.0 );
 				simplePerlin2D785 = simplePerlin2D785*0.5 + 0.5;
 				float temp_output_784_0 = ( simplePerlin2D728 * simplePerlin2D785 );
@@ -2949,7 +2936,7 @@ Shader "SHR_3DMaster"
 				#ifdef _ISENNEMIES_ON
 				float4 staticSwitch725 = FresnelEffects726;
 				#else
-				float4 staticSwitch725 = staticSwitch480;
+				float4 staticSwitch725 = staticSwitch305;
 				#endif
 				#ifdef _ISOUTLINE_ON
 				float4 staticSwitch753 = OutlineColors747;
@@ -3023,7 +3010,6 @@ Shader "SHR_3DMaster"
 			#pragma shader_feature_local _ISOUTLINE_ON
 			#pragma shader_feature_local _USING3DMOVEMENTS_ON
 			#pragma shader_feature_local _ISENNEMIES_ON
-			#pragma shader_feature _LIGHTINDDONE_ON
 			#pragma shader_feature_local _FULLSHADINGHALFSHADING_ON
 			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
 			#pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
@@ -3066,11 +3052,11 @@ Shader "SHR_3DMaster"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _BaseColor;
-			float4 _OutlineColor2;
 			float4 _MainTex_ST;
+			float4 _OutlineColor2;
 			float4 _OutlineColor;
 			float4 _BumpNormal_ST;
+			float4 _BaseColor;
 			float3 _BaseVertexOffsetDelay;
 			float3 _BaseVertexOffsetValue;
 			float2 _TopVertexDelay;
@@ -3127,8 +3113,8 @@ Shader "SHR_3DMaster"
 			#endif
 
 			float BPM;
-			sampler2D _MainTex;
 			sampler2D _BumpNormal;
+			sampler2D _MainTex;
 			sampler2D _ShadowTex;
 
 
@@ -3446,7 +3432,7 @@ Shader "SHR_3DMaster"
 				
 				float2 texCoord2_g51 = v.ase_texcoord1.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 vertexToFrag10_g51 = ( ( texCoord2_g51 * (unity_LightmapST).xy ) + (unity_LightmapST).zw );
-				o.ase_texcoord2.zw = vertexToFrag10_g51;
+				o.ase_texcoord2.xy = vertexToFrag10_g51;
 				float4 ase_clipPos = TransformObjectToHClip((v.vertex).xyz);
 				float4 screenPos = ComputeScreenPos(ase_clipPos);
 				o.ase_texcoord3 = screenPos;
@@ -3459,7 +3445,7 @@ Shader "SHR_3DMaster"
 				float3 objectSpaceLightDir = mul( GetWorldToObjectMatrix(), _MainLightPosition ).xyz;
 				o.ase_texcoord7.xyz = objectSpaceLightDir;
 				
-				o.ase_texcoord2.xy = v.ase_texcoord.xy;
+				o.ase_texcoord2.zw = v.ase_texcoord.xy;
 				o.ase_normal = v.ase_normal;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -3608,10 +3594,8 @@ Shader "SHR_3DMaster"
 					#endif
 				#endif
 
-				float2 uv_MainTex = IN.ase_texcoord2.xy * _MainTex_ST.xy + _MainTex_ST.zw;
-				float4 tex2DNode207 = tex2D( _MainTex, uv_MainTex );
 				Gradient gradient203 = NewGradient( 1, 4, 2, float4( 0.5911949, 0.5818993, 0.5818993, 0.2 ), float4( 0.6918238, 0.6918238, 0.6918238, 0.4422675 ), float4( 0.8805031, 0.8805031, 0.8805031, 0.7632105 ), float4( 1, 1, 1, 1 ), 0, 0, 0, 0, float2( 1, 0 ), float2( 1, 1 ), 0, 0, 0, 0, 0, 0 );
-				float2 vertexToFrag10_g51 = IN.ase_texcoord2.zw;
+				float2 vertexToFrag10_g51 = IN.ase_texcoord2.xy;
 				float2 UV11_g51 = vertexToFrag10_g51;
 				float4 localSampleLightmapHD11_g51 = SampleLightmapHD11_g51( UV11_g51 );
 				float4 localURPDecodeInstruction19_g51 = URPDecodeInstruction19_g51();
@@ -3625,7 +3609,7 @@ Shader "SHR_3DMaster"
 				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
 				float2 ScreenUV75_g56 = (ase_screenPosNorm).xy;
 				float2 ScreenUV86_g56 = ScreenUV75_g56;
-				float2 uv_BumpNormal = IN.ase_texcoord2.xy * _BumpNormal_ST.xy + _BumpNormal_ST.zw;
+				float2 uv_BumpNormal = IN.ase_texcoord2.zw * _BumpNormal_ST.xy + _BumpNormal_ST.zw;
 				float3 unpack214 = UnpackNormalScale( tex2D( _BumpNormal, uv_BumpNormal ), _NormalScale );
 				unpack214.z = lerp( 1, unpack214.z, saturate(_NormalScale) );
 				float3 ase_worldTangent = IN.ase_texcoord4.xyz;
@@ -3658,6 +3642,8 @@ Shader "SHR_3DMaster"
 				float2 _RT_SO = float2(0,0);
 				float temp_output_423_0 = ( temp_output_328_0 + ( (dotResult189*_RT_SO.x + _RT_SO.y) * temp_output_328_0 ) );
 				float4 CelShadingCalc736 = ( SampleGradient( gradient203, clampResult437.x ) + SampleGradient( gradient203, temp_output_423_0 ) );
+				float2 uv_MainTex = IN.ase_texcoord2.zw * _MainTex_ST.xy + _MainTex_ST.zw;
+				float4 tex2DNode207 = tex2D( _MainTex, uv_MainTex );
 				#ifdef _COLORORTEX_ON
 				float4 staticSwitch219 = tex2DNode207;
 				#else
@@ -3670,7 +3656,7 @@ Shader "SHR_3DMaster"
 				float time275 = 0.0;
 				float2 voronoiSmoothId275 = 0;
 				float voronoiSmooth275 = 0.0;
-				float2 texCoord270 = IN.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 texCoord270 = IN.ase_texcoord2.zw * float2( 1,1 ) + float2( 0,0 );
 				float2 temp_output_616_0 = ( texCoord270 * _ShadowPatternDensity );
 				float2 coords275 = temp_output_616_0 * 1.0;
 				float2 id275 = 0;
@@ -3688,7 +3674,7 @@ Shader "SHR_3DMaster"
 				float2 temp_output_654_0 = ( temp_output_648_0 + temp_output_643_0 + temp_output_647_0 );
 				float3 temp_output_658_0 = ( WorldPosition * _TriplanarTiling );
 				float2 uv653 = 0;
-				float3 unityVoronoy653 = UnityVoronoi(IN.ase_texcoord2.xy,0.0,10.0,uv653);
+				float3 unityVoronoy653 = UnityVoronoi(IN.ase_texcoord2.zw,0.0,10.0,uv653);
 				float2 ShadowDot_Triplanar754 = ( ( ( temp_output_648_0 / temp_output_654_0 ) * ( (temp_output_658_0).yz * unityVoronoy653.x ) ) + ( ( temp_output_643_0 / temp_output_654_0 ) * ( (temp_output_658_0).xz * unityVoronoy653.x ) ) + ( ( temp_output_647_0 / temp_output_654_0 ) * ( (temp_output_658_0).xy * unityVoronoy653.x ) ) );
 				#ifdef _USINGTRIPLANAR_ON
 				float2 staticSwitch629 = ShadowDot_Triplanar754;
@@ -3718,15 +3704,10 @@ Shader "SHR_3DMaster"
 				#else
 				float4 staticSwitch305 = ( CelShadingCalc736 * lerpResult266 );
 				#endif
-				#ifdef _LIGHTINDDONE_ON
-				float4 staticSwitch480 = staticSwitch305;
-				#else
-				float4 staticSwitch480 = tex2DNode207;
-				#endif
-				float2 texCoord712 = IN.ase_texcoord2.xy * float2( 1,1 ) + ( _TimeParameters.x * float2( 0,0.001 ) );
+				float2 texCoord712 = IN.ase_texcoord2.zw * float2( 1,1 ) + ( _TimeParameters.x * float2( 0,0.001 ) );
 				float simplePerlin2D728 = snoise( ( texCoord712 * float2( 0,40 ) )*5.0 );
 				simplePerlin2D728 = simplePerlin2D728*0.5 + 0.5;
-				float2 texCoord789 = IN.ase_texcoord2.xy * float2( 1,1 ) + ( _TimeParameters.x * float2( 0,0.001 ) );
+				float2 texCoord789 = IN.ase_texcoord2.zw * float2( 1,1 ) + ( _TimeParameters.x * float2( 0,0.001 ) );
 				float simplePerlin2D785 = snoise( ( texCoord789 * float2( 0,40 ) )*5.0 );
 				simplePerlin2D785 = simplePerlin2D785*0.5 + 0.5;
 				float temp_output_784_0 = ( simplePerlin2D728 * simplePerlin2D785 );
@@ -3750,7 +3731,7 @@ Shader "SHR_3DMaster"
 				#ifdef _ISENNEMIES_ON
 				float4 staticSwitch725 = FresnelEffects726;
 				#else
-				float4 staticSwitch725 = staticSwitch480;
+				float4 staticSwitch725 = staticSwitch305;
 				#endif
 				#ifdef _ISOUTLINE_ON
 				float4 staticSwitch753 = OutlineColors747;
@@ -3857,11 +3838,11 @@ Shader "SHR_3DMaster"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _BaseColor;
-			float4 _OutlineColor2;
 			float4 _MainTex_ST;
+			float4 _OutlineColor2;
 			float4 _OutlineColor;
 			float4 _BumpNormal_ST;
+			float4 _BaseColor;
 			float3 _BaseVertexOffsetDelay;
 			float3 _BaseVertexOffsetValue;
 			float2 _TopVertexDelay;
@@ -4315,7 +4296,6 @@ Shader "SHR_3DMaster"
 			#pragma shader_feature_local _ISOUTLINE_ON
 			#pragma shader_feature_local _USING3DMOVEMENTS_ON
 			#pragma shader_feature_local _ISENNEMIES_ON
-			#pragma shader_feature _LIGHTINDDONE_ON
 			#pragma shader_feature_local _FULLSHADINGHALFSHADING_ON
 			#pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
 			#pragma multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS
@@ -4368,11 +4348,11 @@ Shader "SHR_3DMaster"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _BaseColor;
-			float4 _OutlineColor2;
 			float4 _MainTex_ST;
+			float4 _OutlineColor2;
 			float4 _OutlineColor;
 			float4 _BumpNormal_ST;
+			float4 _BaseColor;
 			float3 _BaseVertexOffsetDelay;
 			float3 _BaseVertexOffsetValue;
 			float2 _TopVertexDelay;
@@ -4429,8 +4409,8 @@ Shader "SHR_3DMaster"
 			#endif
 
 			float BPM;
-			sampler2D _MainTex;
 			sampler2D _BumpNormal;
+			sampler2D _MainTex;
 			sampler2D _ShadowTex;
 
 
@@ -4745,11 +4725,11 @@ Shader "SHR_3DMaster"
 				
 				float2 texCoord2_g51 = v.texcoord1.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 vertexToFrag10_g51 = ( ( texCoord2_g51 * (unity_LightmapST).xy ) + (unity_LightmapST).zw );
-				o.ase_texcoord8.zw = vertexToFrag10_g51;
+				o.ase_texcoord8.xy = vertexToFrag10_g51;
 				float3 objectSpaceLightDir = mul( GetWorldToObjectMatrix(), _MainLightPosition ).xyz;
 				o.ase_texcoord9.xyz = objectSpaceLightDir;
 				
-				o.ase_texcoord8.xy = v.texcoord.xy;
+				o.ase_texcoord8.zw = v.texcoord.xy;
 				o.ase_normal = v.ase_normal;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -4947,10 +4927,8 @@ Shader "SHR_3DMaster"
 
 				WorldViewDirection = SafeNormalize( WorldViewDirection );
 
-				float2 uv_MainTex = IN.ase_texcoord8.xy * _MainTex_ST.xy + _MainTex_ST.zw;
-				float4 tex2DNode207 = tex2D( _MainTex, uv_MainTex );
 				Gradient gradient203 = NewGradient( 1, 4, 2, float4( 0.5911949, 0.5818993, 0.5818993, 0.2 ), float4( 0.6918238, 0.6918238, 0.6918238, 0.4422675 ), float4( 0.8805031, 0.8805031, 0.8805031, 0.7632105 ), float4( 1, 1, 1, 1 ), 0, 0, 0, 0, float2( 1, 0 ), float2( 1, 1 ), 0, 0, 0, 0, 0, 0 );
-				float2 vertexToFrag10_g51 = IN.ase_texcoord8.zw;
+				float2 vertexToFrag10_g51 = IN.ase_texcoord8.xy;
 				float2 UV11_g51 = vertexToFrag10_g51;
 				float4 localSampleLightmapHD11_g51 = SampleLightmapHD11_g51( UV11_g51 );
 				float4 localURPDecodeInstruction19_g51 = URPDecodeInstruction19_g51();
@@ -4963,7 +4941,7 @@ Shader "SHR_3DMaster"
 				ase_screenPosNorm.z = ( UNITY_NEAR_CLIP_VALUE >= 0 ) ? ase_screenPosNorm.z : ase_screenPosNorm.z * 0.5 + 0.5;
 				float2 ScreenUV75_g56 = (ase_screenPosNorm).xy;
 				float2 ScreenUV86_g56 = ScreenUV75_g56;
-				float2 uv_BumpNormal = IN.ase_texcoord8.xy * _BumpNormal_ST.xy + _BumpNormal_ST.zw;
+				float2 uv_BumpNormal = IN.ase_texcoord8.zw * _BumpNormal_ST.xy + _BumpNormal_ST.zw;
 				float3 unpack214 = UnpackNormalScale( tex2D( _BumpNormal, uv_BumpNormal ), _NormalScale );
 				unpack214.z = lerp( 1, unpack214.z, saturate(_NormalScale) );
 				float3 tanToWorld0 = float3( WorldTangent.x, WorldBiTangent.x, WorldNormal.x );
@@ -4993,6 +4971,8 @@ Shader "SHR_3DMaster"
 				float2 _RT_SO = float2(0,0);
 				float temp_output_423_0 = ( temp_output_328_0 + ( (dotResult189*_RT_SO.x + _RT_SO.y) * temp_output_328_0 ) );
 				float4 CelShadingCalc736 = ( SampleGradient( gradient203, clampResult437.x ) + SampleGradient( gradient203, temp_output_423_0 ) );
+				float2 uv_MainTex = IN.ase_texcoord8.zw * _MainTex_ST.xy + _MainTex_ST.zw;
+				float4 tex2DNode207 = tex2D( _MainTex, uv_MainTex );
 				#ifdef _COLORORTEX_ON
 				float4 staticSwitch219 = tex2DNode207;
 				#else
@@ -5005,7 +4985,7 @@ Shader "SHR_3DMaster"
 				float time275 = 0.0;
 				float2 voronoiSmoothId275 = 0;
 				float voronoiSmooth275 = 0.0;
-				float2 texCoord270 = IN.ase_texcoord8.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 texCoord270 = IN.ase_texcoord8.zw * float2( 1,1 ) + float2( 0,0 );
 				float2 temp_output_616_0 = ( texCoord270 * _ShadowPatternDensity );
 				float2 coords275 = temp_output_616_0 * 1.0;
 				float2 id275 = 0;
@@ -5023,7 +5003,7 @@ Shader "SHR_3DMaster"
 				float2 temp_output_654_0 = ( temp_output_648_0 + temp_output_643_0 + temp_output_647_0 );
 				float3 temp_output_658_0 = ( WorldPosition * _TriplanarTiling );
 				float2 uv653 = 0;
-				float3 unityVoronoy653 = UnityVoronoi(IN.ase_texcoord8.xy,0.0,10.0,uv653);
+				float3 unityVoronoy653 = UnityVoronoi(IN.ase_texcoord8.zw,0.0,10.0,uv653);
 				float2 ShadowDot_Triplanar754 = ( ( ( temp_output_648_0 / temp_output_654_0 ) * ( (temp_output_658_0).yz * unityVoronoy653.x ) ) + ( ( temp_output_643_0 / temp_output_654_0 ) * ( (temp_output_658_0).xz * unityVoronoy653.x ) ) + ( ( temp_output_647_0 / temp_output_654_0 ) * ( (temp_output_658_0).xy * unityVoronoy653.x ) ) );
 				#ifdef _USINGTRIPLANAR_ON
 				float2 staticSwitch629 = ShadowDot_Triplanar754;
@@ -5053,15 +5033,10 @@ Shader "SHR_3DMaster"
 				#else
 				float4 staticSwitch305 = ( CelShadingCalc736 * lerpResult266 );
 				#endif
-				#ifdef _LIGHTINDDONE_ON
-				float4 staticSwitch480 = staticSwitch305;
-				#else
-				float4 staticSwitch480 = tex2DNode207;
-				#endif
-				float2 texCoord712 = IN.ase_texcoord8.xy * float2( 1,1 ) + ( _TimeParameters.x * float2( 0,0.001 ) );
+				float2 texCoord712 = IN.ase_texcoord8.zw * float2( 1,1 ) + ( _TimeParameters.x * float2( 0,0.001 ) );
 				float simplePerlin2D728 = snoise( ( texCoord712 * float2( 0,40 ) )*5.0 );
 				simplePerlin2D728 = simplePerlin2D728*0.5 + 0.5;
-				float2 texCoord789 = IN.ase_texcoord8.xy * float2( 1,1 ) + ( _TimeParameters.x * float2( 0,0.001 ) );
+				float2 texCoord789 = IN.ase_texcoord8.zw * float2( 1,1 ) + ( _TimeParameters.x * float2( 0,0.001 ) );
 				float simplePerlin2D785 = snoise( ( texCoord789 * float2( 0,40 ) )*5.0 );
 				simplePerlin2D785 = simplePerlin2D785*0.5 + 0.5;
 				float temp_output_784_0 = ( simplePerlin2D728 * simplePerlin2D785 );
@@ -5083,7 +5058,7 @@ Shader "SHR_3DMaster"
 				#ifdef _ISENNEMIES_ON
 				float4 staticSwitch725 = FresnelEffects726;
 				#else
-				float4 staticSwitch725 = staticSwitch480;
+				float4 staticSwitch725 = staticSwitch305;
 				#endif
 				#ifdef _ISOUTLINE_ON
 				float4 staticSwitch753 = OutlineColors747;
@@ -5262,11 +5237,11 @@ Shader "SHR_3DMaster"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _BaseColor;
-			float4 _OutlineColor2;
 			float4 _MainTex_ST;
+			float4 _OutlineColor2;
 			float4 _OutlineColor;
 			float4 _BumpNormal_ST;
+			float4 _BaseColor;
 			float3 _BaseVertexOffsetDelay;
 			float3 _BaseVertexOffsetValue;
 			float2 _TopVertexDelay;
@@ -5631,11 +5606,11 @@ Shader "SHR_3DMaster"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _BaseColor;
-			float4 _OutlineColor2;
 			float4 _MainTex_ST;
+			float4 _OutlineColor2;
 			float4 _OutlineColor;
 			float4 _BumpNormal_ST;
+			float4 _BaseColor;
 			float3 _BaseVertexOffsetDelay;
 			float3 _BaseVertexOffsetValue;
 			float2 _TopVertexDelay;
@@ -5983,7 +5958,6 @@ Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;410;2359.065,-2196.855;Floa
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;411;2359.065,-2196.855;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;SceneSelectionPass;0;8;SceneSelectionPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=SceneSelectionPass;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;412;2359.065,-2196.855;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ScenePickingPass;0;9;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.RGBToHSVNode;258;379.5233,-2528.069;Inherit;False;1;0;FLOAT3;0,0,0;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
-Node;AmplifyShaderEditor.RangedFloatNode;283;147.253,-1927.864;Inherit;False;Property;_Shadow_FallOffThreshold;Shadow_FallOffThreshold;29;0;Create;True;0;0;0;False;0;False;1;0.45;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;251;478.8806,-2022.663;Inherit;True;3;3;0;FLOAT3;0,0,0;False;1;FLOAT3;-1,-1,-1;False;2;FLOAT;0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.ScaleAndOffsetNode;255;777.2276,-2022.238;Inherit;True;3;0;FLOAT3;0,0,0;False;1;FLOAT;1;False;2;FLOAT;0.12;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.ClampOpNode;290;1066.306,-2021.914;Inherit;True;3;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;1,1,1;False;1;FLOAT3;0
@@ -6061,7 +6035,6 @@ Node;AmplifyShaderEditor.LerpOp;266;1727.36,-2340.35;Inherit;True;3;0;COLOR;0,0,
 Node;AmplifyShaderEditor.RotatorNode;273;-1197.615,-390.1845;Inherit;True;3;0;FLOAT2;0,0;False;1;FLOAT2;0.5,0.5;False;2;FLOAT;1;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.RangedFloatNode;274;-1443.25,-292.1817;Inherit;False;Property;_ShadowPatternRotator;ShadowPatternRotator;26;0;Create;True;0;0;0;False;0;False;12.48;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.ComponentMaskNode;533;-99.06578,-97.18044;Inherit;True;False;False;True;True;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;638;1168.761,-2192.733;Inherit;False;Constant;_Float0;Float 0;37;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.Vector3Node;674;-5299.583,-459.8854;Inherit;False;Constant;_GuardOffset;GuardOffset;36;0;Create;True;0;0;0;False;0;False;0.001,0.001,1;0,0,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.TransformPositionNode;675;-5088.969,-462.7442;Inherit;False;Tangent;World;False;Fast;True;1;0;FLOAT3;0,0,0;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.AbsOpNode;676;-4875.636,-462.7442;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
@@ -6070,7 +6043,6 @@ Node;AmplifyShaderEditor.SmoothstepOpNode;289;1532.023,-2068.908;Inherit;True;3;
 Node;AmplifyShaderEditor.PowerNode;624;1019.294,-1670.5;Inherit;True;False;2;0;FLOAT2;0,0;False;1;FLOAT;2;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.StaticSwitch;448;1286.504,-1663.733;Inherit;False;Property;_Shadows_ProceduralOrTexture;Shadows_ProceduralOrTexture?;33;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;COLOR;0,0,0,0;False;0;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;5;COLOR;0,0,0,0;False;6;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.ClampOpNode;532;492.3669,616.6875;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;-1;False;2;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.WireNode;731;2563.484,-2250.713;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.GradientSampleNode;196;-30.71794,-4960.337;Inherit;True;2;0;OBJECT;;False;1;FLOAT;0;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleAddOpNode;423;-146.7746,-4607.104;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.FunctionNode;246;-1550.031,-4737.472;Inherit;False;Shadow Mask;-1;;49;b50f5becdd6b8504a861ba5b9b861159;0;1;3;FLOAT2;0,0;False;1;FLOAT4;0
@@ -6084,7 +6056,6 @@ Node;AmplifyShaderEditor.GetLocalVarNode;708;-146.5304,1891.411;Inherit;False;20
 Node;AmplifyShaderEditor.PosVertexDataNode;528;-587.4907,758.6886;Inherit;False;0;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.FunctionNode;369;-2110.823,-4731.151;Inherit;True;FetchLightmapValue;12;;51;43de3d4ae59f645418fdd020d1b8e78e;0;0;1;FLOAT3;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;738;-1826.86,-4732.679;Inherit;False;Lightmaps;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.Vector2Node;453;-1391.699,-1727.793;Inherit;False;Property;_ShadowPatternDensity;ShadowPatternDensity;34;0;Create;True;0;0;0;False;0;False;10,10;10,10;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
 Node;AmplifyShaderEditor.TextureCoordinatesNode;270;-913.8222,-1956.751;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.FunctionNode;639;-624.657,-1576.62;Inherit;False;SHF_Triplanar;0;;54;a98a4a005477b1a47a700ab3414ae047;0;2;17;FLOAT2;0,0;False;47;FLOAT2;0,0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.WireNode;554;-183.6708,-1039.217;Inherit;False;1;0;SAMPLER2D;;False;1;SAMPLER2D;0
@@ -6101,15 +6072,9 @@ Node;AmplifyShaderEditor.TriplanarNode;535;225.9414,-1327.611;Inherit;True;Spher
 Node;AmplifyShaderEditor.StaticSwitch;549;692.8077,-1356.65;Inherit;False;Property;_UsingTriplanar;UsingTriplanar?;39;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;COLOR;0,0,0,0;False;0;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;5;COLOR;0,0,0,0;False;6;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.PowerNode;626;1011.144,-1374.832;Inherit;True;False;2;0;COLOR;0,0,0,0;False;1;FLOAT;1;False;1;COLOR;0
 Node;AmplifyShaderEditor.TexturePropertyNode;537;-578.0997,-977.3243;Inherit;True;Property;_ShadowTex;ShadowTex;37;0;Create;True;0;0;0;False;0;False;550b1e21474ccb4428e53adc76cabbab;2d6feab26a948a540b313c2253379a91;False;white;Auto;Texture2D;-1;0;2;SAMPLER2D;0;SAMPLERSTATE;1
-Node;AmplifyShaderEditor.BreakToComponentsNode;556;-739.862,-1347.11;Inherit;False;FLOAT3;1;0;FLOAT3;0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
-Node;AmplifyShaderEditor.DynamicAppendNode;557;-618.3826,-1341.869;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.SimpleDivideOpNode;547;-842.1275,-1223.39;Inherit;False;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.WorldPosInputsNode;546;-1031.193,-1313.027;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
-Node;AmplifyShaderEditor.RangedFloatNode;548;-1023.31,-1157.016;Inherit;False;Property;_WorldPosDiv;WorldPosDiv;38;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;737;1823.626,-2643.512;Inherit;False;736;CelShadingCalc;1;0;OBJECT;;False;1;COLOR;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;197;2097.525,-2458.259;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.StaticSwitch;305;2351.047,-2376.036;Inherit;False;Property;_FullShadingHalfShading;FullShading/HalfShading;31;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;COLOR;0,0,0,0;False;0;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;5;COLOR;0,0,0,0;False;6;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.StaticSwitch;480;3211.188,-2294.058;Inherit;False;Property;_LightindDone;LightindDone?;35;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Create;False;True;All;9;1;COLOR;0,0,0,0;False;0;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;5;COLOR;0,0,0,0;False;6;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;403;3436.395,-2082.329;Float;False;False;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;New Amplify Shader;94348b07e5e8bab40bd6c8a1e3df54cd;True;ExtraPrePass;0;0;ExtraPrePass;5;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;0;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.GetLocalVarNode;730;3240.327,-2190.673;Inherit;False;726;FresnelEffects;1;0;OBJECT;;False;1;COLOR;0
 Node;AmplifyShaderEditor.StaticSwitch;725;3504.915,-2295.023;Inherit;False;Property;_IsEnnemies;IsEnnemies;42;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;COLOR;0,0,0,0;False;0;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;5;COLOR;0,0,0,0;False;6;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;1;COLOR;0
@@ -6211,7 +6176,7 @@ Node;AmplifyShaderEditor.SaturateNode;809;1030.869,2487.051;Inherit;False;1;0;FL
 Node;AmplifyShaderEditor.RegisterLocalVarNode;726;1736.656,2402.053;Inherit;False;FresnelEffects;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.GetLocalVarNode;825;883.5541,2976.904;Inherit;False;747;OutlineColors;1;0;OBJECT;;False;1;COLOR;0
 Node;AmplifyShaderEditor.GetLocalVarNode;384;3747.825,-2198.049;Inherit;False;54;_Normalmap;1;0;OBJECT;;False;1;COLOR;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;404;4072.93,-2291.077;Float;False;True;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;SHR_3DMaster;94348b07e5e8bab40bd6c8a1e3df54cd;True;Forward;0;1;Forward;20;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;1;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForward;False;False;0;;0;0;Standard;41;Workflow;0;638793705028820884;Surface;0;0;  Refraction Model;0;0;  Blend;0;0;Two Sided;1;638833736281707076;Fragment Normal Space,InvertActionOnDeselection;0;0;Forward Only;0;0;Transmission;0;0;  Transmission Shadow;0.5,False,;0;Translucency;0;0;  Translucency Strength;1,False,;0;  Normal Distortion;0.5,False,;0;  Scattering;2,False,;0;  Direct;0.9,False,;0;  Ambient;0.1,False,;0;  Shadow;0.5,False,;0;Cast Shadows;1;0;  Use Shadow Threshold;0;0;Receive Shadows;1;0;GPU Instancing;1;0;LOD CrossFade;1;0;Built-in Fog;1;0;_FinalColorxAlpha;0;0;Meta Pass;1;0;Override Baked GI;0;0;Extra Pre Pass;0;0;DOTS Instancing;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Write Depth;0;0;  Early Z;0;0;Vertex Position,InvertActionOnDeselection;1;0;Debug Display;0;0;Clear Coat;0;0;0;10;False;True;True;True;True;True;True;True;True;True;False;;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;404;4072.93,-2291.077;Float;False;True;-1;2;UnityEditor.ShaderGraphLitGUI;0;12;SHR_3DMaster;94348b07e5e8bab40bd6c8a1e3df54cd;True;Forward;0;1;Forward;20;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Lit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;1;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForward;False;False;0;;0;0;Standard;41;Workflow;0;638793705028820884;Surface;0;0;  Refraction Model;0;0;  Blend;0;0;Two Sided;1;638833736281707076;Fragment Normal Space,InvertActionOnDeselection;0;0;Forward Only;0;0;Transmission;0;0;  Transmission Shadow;0.5,False,;0;Translucency;0;0;  Translucency Strength;1,False,;0;  Normal Distortion;0.5,False,;0;  Scattering;2,False,;0;  Direct;0.9,False,;0;  Ambient;0.1,False,;0;  Shadow;0.5,False,;0;Cast Shadows;1;0;  Use Shadow Threshold;0;638846249472107598;Receive Shadows;1;0;GPU Instancing;1;0;LOD CrossFade;1;0;Built-in Fog;1;0;_FinalColorxAlpha;0;0;Meta Pass;1;0;Override Baked GI;0;0;Extra Pre Pass;0;0;DOTS Instancing;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Write Depth;0;0;  Early Z;0;0;Vertex Position,InvertActionOnDeselection;1;0;Debug Display;0;0;Clear Coat;0;0;0;10;False;True;True;True;True;True;True;True;True;True;False;;False;0
 Node;AmplifyShaderEditor.StaticSwitch;750;3818.526,-1651.248;Inherit;False;Property;_IsOutline;IsOutline;45;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;FLOAT3;0,0,0;False;0;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;4;FLOAT3;0,0,0;False;5;FLOAT3;0,0,0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.GetLocalVarNode;618;3335.383,-1631.8;Inherit;False;617;VertexOffset;1;0;OBJECT;;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.RangedFloatNode;368;3752.651,-2145.322;Inherit;False;Constant;_Spec;Spec;16;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
@@ -6249,7 +6214,17 @@ Node;AmplifyShaderEditor.SimpleAddOpNode;851;494.7594,-5158.958;Inherit;False;2;
 Node;AmplifyShaderEditor.StaticSwitch;388;515.7438,-4869.733;Inherit;True;Property;_Keyword0;Keyword 0;32;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Reference;379;True;True;All;9;1;COLOR;0,0,0,0;False;0;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;5;COLOR;0,0,0,0;False;6;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;736;648.5357,-5161.914;Inherit;False;CelShadingCalc;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SimpleAddOpNode;852;168.2339,-2121.125;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.RangedFloatNode;283;147.253,-1927.864;Inherit;False;Property;_Shadow_FallOffThreshold;Shadow_FallOffThreshold;29;0;Create;True;0;0;0;False;0;False;1;0.45;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.StaticSwitch;480;2526.952,-2146.936;Inherit;False;Property;_LightindDone;LightindDone?;35;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Create;False;True;All;9;1;COLOR;0,0,0,0;False;0;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;5;COLOR;0,0,0,0;False;6;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.WorldPosInputsNode;546;-1085.721,-1353.923;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.DynamicAppendNode;557;-522.9591,-1341.869;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.BreakToComponentsNode;556;-669.2238,-1349.589;Inherit;False;FLOAT3;1;0;FLOAT3;0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
+Node;AmplifyShaderEditor.SimpleDivideOpNode;547;-864.4343,-1311.378;Inherit;False;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.RangedFloatNode;548;-1084.034,-1175.605;Inherit;False;Property;_WorldPosDiv;WorldPosDiv;38;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.StaticSwitch;379;177.8387,-2020.079;Inherit;False;Property;_BakedOrRT;BakedOrRT;32;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;FLOAT3;0,0,0;False;0;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;4;FLOAT3;0,0,0;False;5;FLOAT3;0,0,0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.RangedFloatNode;638;1352.541,-2075.956;Inherit;False;Constant;_Float0;Float 0;37;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.WireNode;731;2178.34,-2112.389;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.Vector2Node;453;-1391.699,-1727.793;Inherit;False;Property;_ShadowPatternDensity;ShadowPatternDensity;34;0;Create;True;0;0;0;False;0;False;100,100;10,10;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
 WireConnection;209;0;212;0
 WireConnection;212;0;214;0
 WireConnection;29;0;27;0
@@ -6370,7 +6345,6 @@ WireConnection;624;1;631;0
 WireConnection;448;1;624;0
 WireConnection;448;0;626;0
 WireConnection;532;0;846;33
-WireConnection;731;0;207;0
 WireConnection;196;0;203;0
 WireConnection;196;1;423;0
 WireConnection;423;0;328;0
@@ -6401,18 +6375,11 @@ WireConnection;549;1;449;0
 WireConnection;549;0;535;0
 WireConnection;626;0;549;0
 WireConnection;626;1;630;0
-WireConnection;556;0;547;0
-WireConnection;557;0;556;0
-WireConnection;557;1;556;2
-WireConnection;547;0;546;0
-WireConnection;547;1;548;0
 WireConnection;197;0;737;0
 WireConnection;197;1;266;0
 WireConnection;305;1;197;0
 WireConnection;305;0;266;0
-WireConnection;480;1;731;0
-WireConnection;480;0;305;0
-WireConnection;725;1;480;0
+WireConnection;725;1;305;0
 WireConnection;725;0;730;0
 WireConnection;753;1;725;0
 WireConnection;753;0;752;0
@@ -6567,7 +6534,14 @@ WireConnection;388;0;196;0
 WireConnection;736;0;851;0
 WireConnection;852;0;739;0
 WireConnection;852;1;843;0
+WireConnection;480;1;731;0
+WireConnection;557;0;556;0
+WireConnection;557;1;556;2
+WireConnection;556;0;547;0
+WireConnection;547;0;546;0
+WireConnection;547;1;548;0
 WireConnection;379;1;739;0
 WireConnection;379;0;843;0
+WireConnection;731;0;207;0
 ASEEND*/
-//CHKSM=9703AD1BD9868BF4372B9A7403CD2745B9ABF36D
+//CHKSM=D69212B9D699E2C909BA5D4DF762FA6CD009652A

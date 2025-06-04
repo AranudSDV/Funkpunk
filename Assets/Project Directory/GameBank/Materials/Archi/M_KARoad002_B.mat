@@ -13,8 +13,8 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _COLORORTEX_ON
+  m_InvalidKeywords:
   - _LIGHTINDDONE_ON
-  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -134,13 +134,13 @@ Material:
     - _ReceiveShadows: 1
     - _SMH_Pow: 0
     - _ShadingMult: 2
-    - _ShadingWhiteMult: 0.1
+    - _ShadingWhiteMult: 0.4
     - _ShadowPatternDensity: 10
     - _ShadowPatternRotator: 0
     - _ShadowSoftness: 1
     - _ShadowTex_Pow: 1
     - _Shadow_FallOffThreshold: 1
-    - _Shadow_LitThreshold: 0.5
+    - _Shadow_LitThreshold: 0.8
     - _Shadows_ProceduralOrTexture: 0
     - _Smoothness: 0
     - _Spec: 0

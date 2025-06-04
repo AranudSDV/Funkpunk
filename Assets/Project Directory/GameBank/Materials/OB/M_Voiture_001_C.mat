@@ -13,8 +13,8 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _COLORORTEX_ON
+  m_InvalidKeywords:
   - _LIGHTINDDONE_ON
-  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -97,7 +97,7 @@ Material:
     - _Base_or_Tsample: 1
     - _BlendPow: 1
     - _Cels_FallOffThreshold: 1
-    - _Cels_LitThreshold: 1
+    - _Cels_LitThreshold: 0
     - _ColorOrTex: 1
     - _Debug: 0
     - _DebugBPM: 60

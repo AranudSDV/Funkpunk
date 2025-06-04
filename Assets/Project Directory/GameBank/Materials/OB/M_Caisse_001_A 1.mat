@@ -13,8 +13,8 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _COLORORTEX_ON
+  m_InvalidKeywords:
   - _LIGHTINDDONE_ON
-  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -130,7 +130,7 @@ Material:
     - _ShadowPatternDensity: 10
     - _ShadowPatternRotator: 0
     - _ShadowSoftness: 1
-    - _ShadowTex_Pow: 0.27
+    - _ShadowTex_Pow: 0.41
     - _Shadow_FallOffThreshold: 1
     - _Shadow_LitThreshold: 0.8
     - _Shadows_ProceduralOrTexture: 0
