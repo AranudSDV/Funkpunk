@@ -10,7 +10,6 @@ Shader "SHR_3DMaster"
 		_BlendPow("BlendPow", Range( 0 , 1)) = 1
 		_OutlineWidth("Outline Width", Range( 0 , 0.1)) = 0.1
 		_TimeDelay("TimeDelay", Float) = 0
-		_DebugBPM("DebugBPM", Float) = 60
 		_DistanceCutoff("Distance Cutoff", Range( 0 , 100)) = 0
 		_MainTex("Base Color", 2D) = "white" {}
 		_BaseVertexOffsetValue("BaseVertexOffsetValue", Vector) = (0,0,0,0)
@@ -28,7 +27,6 @@ Shader "SHR_3DMaster"
 		_Shadow_FallOffThreshold("Shadow_FallOffThreshold", Float) = 1
 		_Shadow_LitThreshold("Shadow_LitThreshold", Float) = 0.8
 		[Toggle(_FULLSHADINGHALFSHADING_ON)] _FullShadingHalfShading("FullShading/HalfShading", Float) = 0
-		[Toggle(_BAKEDORRT_ON)] _BakedOrRT("BakedOrRT", Float) = 0
 		[Toggle(_SHADOWS_PROCEDURALORTEXTURE_ON)] _Shadows_ProceduralOrTexture("Shadows_ProceduralOrTexture?", Float) = 0
 		_ShadowPatternDensity("ShadowPatternDensity", Vector) = (10,10,0,0)
 		[Toggle(_LIGHTINDDONE_ON)] _LightindDone("LightindDone?", Float) = 0
@@ -292,7 +290,6 @@ Shader "SHR_3DMaster"
 			#pragma shader_feature_local _ISENNEMIES_ON
 			#pragma shader_feature _LIGHTINDDONE_ON
 			#pragma shader_feature_local _FULLSHADINGHALFSHADING_ON
-			#pragma shader_feature_local _BAKEDORRT_ON
 			#pragma shader_feature_local _COLORORTEX_ON
 			#pragma shader_feature_local _SHADOWS_PROCEDURALORTEXTURE_ON
 			#pragma shader_feature_local _USINGTRIPLANAR_ON
@@ -342,23 +339,23 @@ Shader "SHR_3DMaster"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _BaseColor;
-			float4 _BumpNormal_ST;
-			float4 _MainTex_ST;
 			float4 _OutlineColor2;
+			float4 _MainTex_ST;
 			float4 _OutlineColor;
-			float3 _BaseVertexOffsetValue;
+			float4 _BumpNormal_ST;
 			float3 _BaseVertexOffsetDelay;
+			float3 _BaseVertexOffsetValue;
+			float2 _TopVertexDelay;
 			float2 _TopVertexOffsetValue;
 			float2 _ShadowPatternDensity;
-			float2 _TopVertexDelay;
+			float _FresnelErase_Smoothness;
 			float _FresnelErase;
 			float _WorldPosDiv;
 			float _ShadowTex_Pow;
-			float _FresnelErase_Smoothness;
 			float _TriplanarTiling;
 			float _BlendPow;
-			float _Shadow_LitThreshold;
 			float _TopMask;
+			float _Shadow_FallOffThreshold;
 			float _ShadingWhiteMult;
 			float _FresnelPower;
 			float _NormalScale;
@@ -367,8 +364,7 @@ Shader "SHR_3DMaster"
 			float _DistanceCutoff;
 			float _OutlineWidth;
 			float _BPM;
-			float _DebugBPM;
-			float _Shadow_FallOffThreshold;
+			float _Shadow_LitThreshold;
 			float _TimeDelay;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -664,27 +660,27 @@ Shader "SHR_3DMaster"
 				float temp_output_533_0 = v.vertex.xyz.z;
 				float clampResult505 = clamp( ( temp_output_533_0 - _TopMask ) , 0.0 , 1.0 );
 				float4 transform522 = mul(GetWorldToObjectMatrix(),float4( 0,0,0,1 ));
-				float mulTime5_g62 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g62 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g62 = ( mulTime5_g62 - _TopVertexDelay.x );
 				float temp_output_16_0_g62 = ( PI / 1.0 );
 				float temp_output_19_0_g62 = cos( ( temp_output_52_0_g62 * temp_output_16_0_g62 ) );
 				float saferPower20_g62 = abs( abs( temp_output_19_0_g62 ) );
-				float mulTime5_g60 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g60 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g60 = ( mulTime5_g60 - _BaseVertexOffsetDelay.x );
 				float temp_output_16_0_g60 = ( PI / 1.0 );
 				float temp_output_19_0_g60 = cos( ( temp_output_52_0_g60 * temp_output_16_0_g60 ) );
 				float saferPower20_g60 = abs( abs( temp_output_19_0_g60 ) );
-				float mulTime5_g61 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g61 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g61 = ( mulTime5_g61 - _TopVertexDelay.y );
 				float temp_output_16_0_g61 = ( PI / 1.0 );
 				float temp_output_19_0_g61 = cos( ( temp_output_52_0_g61 * temp_output_16_0_g61 ) );
 				float saferPower20_g61 = abs( abs( temp_output_19_0_g61 ) );
-				float mulTime5_g64 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g64 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g64 = ( mulTime5_g64 - _BaseVertexOffsetDelay.y );
 				float temp_output_16_0_g64 = ( PI / 1.0 );
 				float temp_output_19_0_g64 = cos( ( temp_output_52_0_g64 * temp_output_16_0_g64 ) );
 				float saferPower20_g64 = abs( abs( temp_output_19_0_g64 ) );
-				float mulTime5_g59 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g59 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g59 = ( mulTime5_g59 - _BaseVertexOffsetDelay.z );
 				float temp_output_16_0_g59 = ( PI / 1.0 );
 				float temp_output_19_0_g59 = cos( ( temp_output_52_0_g59 * temp_output_16_0_g59 ) );
@@ -976,12 +972,7 @@ Shader "SHR_3DMaster"
 				float dotResult189 = dot( worldNormal209 , ( SafeNormalize(_MainLightPosition.xyz) + objectSpaceLightDir ) );
 				float2 _RT_SO = float2(0,0);
 				float temp_output_423_0 = ( temp_output_328_0 + ( (dotResult189*_RT_SO.x + _RT_SO.y) * temp_output_328_0 ) );
-				#ifdef _BAKEDORRT_ON
-				float4 staticSwitch388 = SampleGradient( gradient203, temp_output_423_0 );
-				#else
-				float4 staticSwitch388 = SampleGradient( gradient203, clampResult437.x );
-				#endif
-				float4 CelShadingCalc736 = staticSwitch388;
+				float4 CelShadingCalc736 = ( SampleGradient( gradient203, clampResult437.x ) + SampleGradient( gradient203, temp_output_423_0 ) );
 				#ifdef _COLORORTEX_ON
 				float4 staticSwitch219 = tex2DNode207;
 				#else
@@ -990,13 +981,7 @@ Shader "SHR_3DMaster"
 				float3 hsvTorgb258 = RGBToHSV( staticSwitch219.rgb );
 				float3 hsvTorgb257 = HSVToRGB( float3(hsvTorgb258.x,hsvTorgb258.y,( hsvTorgb258.z * _ShadingWhiteMult )) );
 				float RealtimeLights842 = temp_output_423_0;
-				float3 temp_cast_4 = (RealtimeLights842).xxx;
-				#ifdef _BAKEDORRT_ON
-				float3 staticSwitch379 = temp_cast_4;
-				#else
-				float3 staticSwitch379 = Lightmaps738;
-				#endif
-				float3 clampResult290 = clamp( (( staticSwitch379 * float3( -1,-1,-1 ) * _Shadow_FallOffThreshold )*1.0 + _Shadow_LitThreshold) , float3( 0,0,0 ) , float3( 1,1,1 ) );
+				float3 clampResult290 = clamp( (( ( Lightmaps738 + RealtimeLights842 ) * float3( -1,-1,-1 ) * _Shadow_FallOffThreshold )*1.0 + _Shadow_LitThreshold) , float3( 0,0,0 ) , float3( 1,1,1 ) );
 				float time275 = 0.0;
 				float2 voronoiSmoothId275 = 0;
 				float voronoiSmooth275 = 0.0;
@@ -1006,15 +991,15 @@ Shader "SHR_3DMaster"
 				float2 id275 = 0;
 				float2 uv275 = 0;
 				float voroi275 = voronoi275( coords275, time275, id275, uv275, voronoiSmooth275, voronoiSmoothId275 );
-				float2 temp_cast_6 = (voroi275).xx;
+				float2 temp_cast_5 = (voroi275).xx;
 				float3 objToWorld682 = mul( GetObjectToWorldMatrix(), float4( IN.ase_normal, 1 ) ).xyz;
 				float3 temp_output_641_0 = abs( objToWorld682 );
+				float2 temp_cast_6 = (_BlendPow).xx;
+				float2 temp_output_648_0 = pow( (temp_output_641_0).yz , temp_cast_6 );
 				float2 temp_cast_7 = (_BlendPow).xx;
-				float2 temp_output_648_0 = pow( (temp_output_641_0).yz , temp_cast_7 );
+				float2 temp_output_643_0 = pow( (temp_output_641_0).xz , temp_cast_7 );
 				float2 temp_cast_8 = (_BlendPow).xx;
-				float2 temp_output_643_0 = pow( (temp_output_641_0).xz , temp_cast_8 );
-				float2 temp_cast_9 = (_BlendPow).xx;
-				float2 temp_output_647_0 = pow( (temp_output_641_0).xy , temp_cast_9 );
+				float2 temp_output_647_0 = pow( (temp_output_641_0).xy , temp_cast_8 );
 				float2 temp_output_654_0 = ( temp_output_648_0 + temp_output_643_0 + temp_output_647_0 );
 				float3 temp_output_658_0 = ( WorldPosition * _TriplanarTiling );
 				float2 uv653 = 0;
@@ -1023,9 +1008,9 @@ Shader "SHR_3DMaster"
 				#ifdef _USINGTRIPLANAR_ON
 				float2 staticSwitch629 = ShadowDot_Triplanar754;
 				#else
-				float2 staticSwitch629 = temp_cast_6;
+				float2 staticSwitch629 = temp_cast_5;
 				#endif
-				float2 temp_cast_10 = (_ShadowTex_Pow).xx;
+				float2 temp_cast_9 = (_ShadowTex_Pow).xx;
 				float3 temp_output_547_0 = ( WorldPosition / _WorldPosDiv );
 				float3 break556 = temp_output_547_0;
 				float2 appendResult557 = (float2(break556.x , break556.z));
@@ -1035,11 +1020,11 @@ Shader "SHR_3DMaster"
 				#else
 				float4 staticSwitch549 = tex2D( _ShadowTex, temp_output_616_0 );
 				#endif
-				float4 temp_cast_13 = (_ShadowTex_Pow).xxxx;
+				float4 temp_cast_12 = (_ShadowTex_Pow).xxxx;
 				#ifdef _SHADOWS_PROCEDURALORTEXTURE_ON
-				float4 staticSwitch448 = pow( staticSwitch549 , temp_cast_13 );
+				float4 staticSwitch448 = pow( staticSwitch549 , temp_cast_12 );
 				#else
-				float4 staticSwitch448 = float4( pow( staticSwitch629 , temp_cast_10 ), 0.0 , 0.0 );
+				float4 staticSwitch448 = float4( pow( staticSwitch629 , temp_cast_9 ), 0.0 , 0.0 );
 				#endif
 				float smoothstepResult289 = smoothstep( clampResult290.x , staticSwitch448.r , 1.0);
 				float4 lerpResult266 = lerp( float4( hsvTorgb257 , 0.0 ) , staticSwitch219 , smoothstepResult289);
@@ -1062,7 +1047,7 @@ Shader "SHR_3DMaster"
 				float temp_output_784_0 = ( simplePerlin2D728 * simplePerlin2D785 );
 				float smoothstepResult805 = smoothstep( 0.1 , 1.0 , temp_output_784_0);
 				float4 lerpResult802 = lerp( _OutlineColor , _OutlineColor2 , smoothstepResult805);
-				float mulTime5_g63 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g63 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g63 = ( mulTime5_g63 - _TimeDelay );
 				float temp_output_16_0_g63 = ( PI / 1.0 );
 				float temp_output_19_0_g63 = cos( ( temp_output_52_0_g63 * temp_output_16_0_g63 ) );
@@ -1086,13 +1071,13 @@ Shader "SHR_3DMaster"
 				float4 staticSwitch753 = staticSwitch725;
 				#endif
 				
-				float3 temp_cast_16 = (0.0).xxx;
+				float3 temp_cast_15 = (0.0).xxx;
 				
 
 				float3 BaseColor = staticSwitch753.rgb;
 				float3 Normal = float3(0, 0, 1);
 				float3 Emission = 0;
-				float3 Specular = temp_cast_16;
+				float3 Specular = temp_cast_15;
 				float Metallic = 0;
 				float Smoothness = 0.0;
 				float Occlusion = 1;
@@ -1409,23 +1394,23 @@ Shader "SHR_3DMaster"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _BaseColor;
-			float4 _BumpNormal_ST;
-			float4 _MainTex_ST;
 			float4 _OutlineColor2;
+			float4 _MainTex_ST;
 			float4 _OutlineColor;
-			float3 _BaseVertexOffsetValue;
+			float4 _BumpNormal_ST;
 			float3 _BaseVertexOffsetDelay;
+			float3 _BaseVertexOffsetValue;
+			float2 _TopVertexDelay;
 			float2 _TopVertexOffsetValue;
 			float2 _ShadowPatternDensity;
-			float2 _TopVertexDelay;
+			float _FresnelErase_Smoothness;
 			float _FresnelErase;
 			float _WorldPosDiv;
 			float _ShadowTex_Pow;
-			float _FresnelErase_Smoothness;
 			float _TriplanarTiling;
 			float _BlendPow;
-			float _Shadow_LitThreshold;
 			float _TopMask;
+			float _Shadow_FallOffThreshold;
 			float _ShadingWhiteMult;
 			float _FresnelPower;
 			float _NormalScale;
@@ -1434,8 +1419,7 @@ Shader "SHR_3DMaster"
 			float _DistanceCutoff;
 			float _OutlineWidth;
 			float _BPM;
-			float _DebugBPM;
-			float _Shadow_FallOffThreshold;
+			float _Shadow_LitThreshold;
 			float _TimeDelay;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -1526,27 +1510,27 @@ Shader "SHR_3DMaster"
 				float temp_output_533_0 = v.vertex.xyz.z;
 				float clampResult505 = clamp( ( temp_output_533_0 - _TopMask ) , 0.0 , 1.0 );
 				float4 transform522 = mul(GetWorldToObjectMatrix(),float4( 0,0,0,1 ));
-				float mulTime5_g62 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g62 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g62 = ( mulTime5_g62 - _TopVertexDelay.x );
 				float temp_output_16_0_g62 = ( PI / 1.0 );
 				float temp_output_19_0_g62 = cos( ( temp_output_52_0_g62 * temp_output_16_0_g62 ) );
 				float saferPower20_g62 = abs( abs( temp_output_19_0_g62 ) );
-				float mulTime5_g60 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g60 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g60 = ( mulTime5_g60 - _BaseVertexOffsetDelay.x );
 				float temp_output_16_0_g60 = ( PI / 1.0 );
 				float temp_output_19_0_g60 = cos( ( temp_output_52_0_g60 * temp_output_16_0_g60 ) );
 				float saferPower20_g60 = abs( abs( temp_output_19_0_g60 ) );
-				float mulTime5_g61 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g61 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g61 = ( mulTime5_g61 - _TopVertexDelay.y );
 				float temp_output_16_0_g61 = ( PI / 1.0 );
 				float temp_output_19_0_g61 = cos( ( temp_output_52_0_g61 * temp_output_16_0_g61 ) );
 				float saferPower20_g61 = abs( abs( temp_output_19_0_g61 ) );
-				float mulTime5_g64 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g64 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g64 = ( mulTime5_g64 - _BaseVertexOffsetDelay.y );
 				float temp_output_16_0_g64 = ( PI / 1.0 );
 				float temp_output_19_0_g64 = cos( ( temp_output_52_0_g64 * temp_output_16_0_g64 ) );
 				float saferPower20_g64 = abs( abs( temp_output_19_0_g64 ) );
-				float mulTime5_g59 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g59 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g59 = ( mulTime5_g59 - _BaseVertexOffsetDelay.z );
 				float temp_output_16_0_g59 = ( PI / 1.0 );
 				float temp_output_19_0_g59 = cos( ( temp_output_52_0_g59 * temp_output_16_0_g59 ) );
@@ -1846,23 +1830,23 @@ Shader "SHR_3DMaster"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _BaseColor;
-			float4 _BumpNormal_ST;
-			float4 _MainTex_ST;
 			float4 _OutlineColor2;
+			float4 _MainTex_ST;
 			float4 _OutlineColor;
-			float3 _BaseVertexOffsetValue;
+			float4 _BumpNormal_ST;
 			float3 _BaseVertexOffsetDelay;
+			float3 _BaseVertexOffsetValue;
+			float2 _TopVertexDelay;
 			float2 _TopVertexOffsetValue;
 			float2 _ShadowPatternDensity;
-			float2 _TopVertexDelay;
+			float _FresnelErase_Smoothness;
 			float _FresnelErase;
 			float _WorldPosDiv;
 			float _ShadowTex_Pow;
-			float _FresnelErase_Smoothness;
 			float _TriplanarTiling;
 			float _BlendPow;
-			float _Shadow_LitThreshold;
 			float _TopMask;
+			float _Shadow_FallOffThreshold;
 			float _ShadingWhiteMult;
 			float _FresnelPower;
 			float _NormalScale;
@@ -1871,8 +1855,7 @@ Shader "SHR_3DMaster"
 			float _DistanceCutoff;
 			float _OutlineWidth;
 			float _BPM;
-			float _DebugBPM;
-			float _Shadow_FallOffThreshold;
+			float _Shadow_LitThreshold;
 			float _TimeDelay;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -1960,27 +1943,27 @@ Shader "SHR_3DMaster"
 				float temp_output_533_0 = v.vertex.xyz.z;
 				float clampResult505 = clamp( ( temp_output_533_0 - _TopMask ) , 0.0 , 1.0 );
 				float4 transform522 = mul(GetWorldToObjectMatrix(),float4( 0,0,0,1 ));
-				float mulTime5_g62 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g62 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g62 = ( mulTime5_g62 - _TopVertexDelay.x );
 				float temp_output_16_0_g62 = ( PI / 1.0 );
 				float temp_output_19_0_g62 = cos( ( temp_output_52_0_g62 * temp_output_16_0_g62 ) );
 				float saferPower20_g62 = abs( abs( temp_output_19_0_g62 ) );
-				float mulTime5_g60 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g60 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g60 = ( mulTime5_g60 - _BaseVertexOffsetDelay.x );
 				float temp_output_16_0_g60 = ( PI / 1.0 );
 				float temp_output_19_0_g60 = cos( ( temp_output_52_0_g60 * temp_output_16_0_g60 ) );
 				float saferPower20_g60 = abs( abs( temp_output_19_0_g60 ) );
-				float mulTime5_g61 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g61 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g61 = ( mulTime5_g61 - _TopVertexDelay.y );
 				float temp_output_16_0_g61 = ( PI / 1.0 );
 				float temp_output_19_0_g61 = cos( ( temp_output_52_0_g61 * temp_output_16_0_g61 ) );
 				float saferPower20_g61 = abs( abs( temp_output_19_0_g61 ) );
-				float mulTime5_g64 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g64 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g64 = ( mulTime5_g64 - _BaseVertexOffsetDelay.y );
 				float temp_output_16_0_g64 = ( PI / 1.0 );
 				float temp_output_19_0_g64 = cos( ( temp_output_52_0_g64 * temp_output_16_0_g64 ) );
 				float saferPower20_g64 = abs( abs( temp_output_19_0_g64 ) );
-				float mulTime5_g59 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g59 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g59 = ( mulTime5_g59 - _BaseVertexOffsetDelay.z );
 				float temp_output_16_0_g59 = ( PI / 1.0 );
 				float temp_output_19_0_g59 = cos( ( temp_output_52_0_g59 * temp_output_16_0_g59 ) );
@@ -2226,7 +2209,6 @@ Shader "SHR_3DMaster"
 			#pragma shader_feature_local _ISENNEMIES_ON
 			#pragma shader_feature _LIGHTINDDONE_ON
 			#pragma shader_feature_local _FULLSHADINGHALFSHADING_ON
-			#pragma shader_feature_local _BAKEDORRT_ON
 			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
 			#pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
 			#pragma multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS
@@ -2274,23 +2256,23 @@ Shader "SHR_3DMaster"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _BaseColor;
-			float4 _BumpNormal_ST;
-			float4 _MainTex_ST;
 			float4 _OutlineColor2;
+			float4 _MainTex_ST;
 			float4 _OutlineColor;
-			float3 _BaseVertexOffsetValue;
+			float4 _BumpNormal_ST;
 			float3 _BaseVertexOffsetDelay;
+			float3 _BaseVertexOffsetValue;
+			float2 _TopVertexDelay;
 			float2 _TopVertexOffsetValue;
 			float2 _ShadowPatternDensity;
-			float2 _TopVertexDelay;
+			float _FresnelErase_Smoothness;
 			float _FresnelErase;
 			float _WorldPosDiv;
 			float _ShadowTex_Pow;
-			float _FresnelErase_Smoothness;
 			float _TriplanarTiling;
 			float _BlendPow;
-			float _Shadow_LitThreshold;
 			float _TopMask;
+			float _Shadow_FallOffThreshold;
 			float _ShadingWhiteMult;
 			float _FresnelPower;
 			float _NormalScale;
@@ -2299,8 +2281,7 @@ Shader "SHR_3DMaster"
 			float _DistanceCutoff;
 			float _OutlineWidth;
 			float _BPM;
-			float _DebugBPM;
-			float _Shadow_FallOffThreshold;
+			float _Shadow_LitThreshold;
 			float _TimeDelay;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -2596,27 +2577,27 @@ Shader "SHR_3DMaster"
 				float temp_output_533_0 = v.vertex.xyz.z;
 				float clampResult505 = clamp( ( temp_output_533_0 - _TopMask ) , 0.0 , 1.0 );
 				float4 transform522 = mul(GetWorldToObjectMatrix(),float4( 0,0,0,1 ));
-				float mulTime5_g62 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g62 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g62 = ( mulTime5_g62 - _TopVertexDelay.x );
 				float temp_output_16_0_g62 = ( PI / 1.0 );
 				float temp_output_19_0_g62 = cos( ( temp_output_52_0_g62 * temp_output_16_0_g62 ) );
 				float saferPower20_g62 = abs( abs( temp_output_19_0_g62 ) );
-				float mulTime5_g60 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g60 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g60 = ( mulTime5_g60 - _BaseVertexOffsetDelay.x );
 				float temp_output_16_0_g60 = ( PI / 1.0 );
 				float temp_output_19_0_g60 = cos( ( temp_output_52_0_g60 * temp_output_16_0_g60 ) );
 				float saferPower20_g60 = abs( abs( temp_output_19_0_g60 ) );
-				float mulTime5_g61 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g61 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g61 = ( mulTime5_g61 - _TopVertexDelay.y );
 				float temp_output_16_0_g61 = ( PI / 1.0 );
 				float temp_output_19_0_g61 = cos( ( temp_output_52_0_g61 * temp_output_16_0_g61 ) );
 				float saferPower20_g61 = abs( abs( temp_output_19_0_g61 ) );
-				float mulTime5_g64 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g64 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g64 = ( mulTime5_g64 - _BaseVertexOffsetDelay.y );
 				float temp_output_16_0_g64 = ( PI / 1.0 );
 				float temp_output_19_0_g64 = cos( ( temp_output_52_0_g64 * temp_output_16_0_g64 ) );
 				float saferPower20_g64 = abs( abs( temp_output_19_0_g64 ) );
-				float mulTime5_g59 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g59 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g59 = ( mulTime5_g59 - _BaseVertexOffsetDelay.z );
 				float temp_output_16_0_g59 = ( PI / 1.0 );
 				float temp_output_19_0_g59 = cos( ( temp_output_52_0_g59 * temp_output_16_0_g59 ) );
@@ -2875,12 +2856,7 @@ Shader "SHR_3DMaster"
 				float dotResult189 = dot( worldNormal209 , ( SafeNormalize(_MainLightPosition.xyz) + objectSpaceLightDir ) );
 				float2 _RT_SO = float2(0,0);
 				float temp_output_423_0 = ( temp_output_328_0 + ( (dotResult189*_RT_SO.x + _RT_SO.y) * temp_output_328_0 ) );
-				#ifdef _BAKEDORRT_ON
-				float4 staticSwitch388 = SampleGradient( gradient203, temp_output_423_0 );
-				#else
-				float4 staticSwitch388 = SampleGradient( gradient203, clampResult437.x );
-				#endif
-				float4 CelShadingCalc736 = staticSwitch388;
+				float4 CelShadingCalc736 = ( SampleGradient( gradient203, clampResult437.x ) + SampleGradient( gradient203, temp_output_423_0 ) );
 				#ifdef _COLORORTEX_ON
 				float4 staticSwitch219 = tex2DNode207;
 				#else
@@ -2889,13 +2865,7 @@ Shader "SHR_3DMaster"
 				float3 hsvTorgb258 = RGBToHSV( staticSwitch219.rgb );
 				float3 hsvTorgb257 = HSVToRGB( float3(hsvTorgb258.x,hsvTorgb258.y,( hsvTorgb258.z * _ShadingWhiteMult )) );
 				float RealtimeLights842 = temp_output_423_0;
-				float3 temp_cast_4 = (RealtimeLights842).xxx;
-				#ifdef _BAKEDORRT_ON
-				float3 staticSwitch379 = temp_cast_4;
-				#else
-				float3 staticSwitch379 = Lightmaps738;
-				#endif
-				float3 clampResult290 = clamp( (( staticSwitch379 * float3( -1,-1,-1 ) * _Shadow_FallOffThreshold )*1.0 + _Shadow_LitThreshold) , float3( 0,0,0 ) , float3( 1,1,1 ) );
+				float3 clampResult290 = clamp( (( ( Lightmaps738 + RealtimeLights842 ) * float3( -1,-1,-1 ) * _Shadow_FallOffThreshold )*1.0 + _Shadow_LitThreshold) , float3( 0,0,0 ) , float3( 1,1,1 ) );
 				float time275 = 0.0;
 				float2 voronoiSmoothId275 = 0;
 				float voronoiSmooth275 = 0.0;
@@ -2905,15 +2875,15 @@ Shader "SHR_3DMaster"
 				float2 id275 = 0;
 				float2 uv275 = 0;
 				float voroi275 = voronoi275( coords275, time275, id275, uv275, voronoiSmooth275, voronoiSmoothId275 );
-				float2 temp_cast_6 = (voroi275).xx;
+				float2 temp_cast_5 = (voroi275).xx;
 				float3 objToWorld682 = mul( GetObjectToWorldMatrix(), float4( IN.ase_normal, 1 ) ).xyz;
 				float3 temp_output_641_0 = abs( objToWorld682 );
+				float2 temp_cast_6 = (_BlendPow).xx;
+				float2 temp_output_648_0 = pow( (temp_output_641_0).yz , temp_cast_6 );
 				float2 temp_cast_7 = (_BlendPow).xx;
-				float2 temp_output_648_0 = pow( (temp_output_641_0).yz , temp_cast_7 );
+				float2 temp_output_643_0 = pow( (temp_output_641_0).xz , temp_cast_7 );
 				float2 temp_cast_8 = (_BlendPow).xx;
-				float2 temp_output_643_0 = pow( (temp_output_641_0).xz , temp_cast_8 );
-				float2 temp_cast_9 = (_BlendPow).xx;
-				float2 temp_output_647_0 = pow( (temp_output_641_0).xy , temp_cast_9 );
+				float2 temp_output_647_0 = pow( (temp_output_641_0).xy , temp_cast_8 );
 				float2 temp_output_654_0 = ( temp_output_648_0 + temp_output_643_0 + temp_output_647_0 );
 				float3 temp_output_658_0 = ( WorldPosition * _TriplanarTiling );
 				float2 uv653 = 0;
@@ -2922,9 +2892,9 @@ Shader "SHR_3DMaster"
 				#ifdef _USINGTRIPLANAR_ON
 				float2 staticSwitch629 = ShadowDot_Triplanar754;
 				#else
-				float2 staticSwitch629 = temp_cast_6;
+				float2 staticSwitch629 = temp_cast_5;
 				#endif
-				float2 temp_cast_10 = (_ShadowTex_Pow).xx;
+				float2 temp_cast_9 = (_ShadowTex_Pow).xx;
 				float3 temp_output_547_0 = ( WorldPosition / _WorldPosDiv );
 				float3 break556 = temp_output_547_0;
 				float2 appendResult557 = (float2(break556.x , break556.z));
@@ -2934,11 +2904,11 @@ Shader "SHR_3DMaster"
 				#else
 				float4 staticSwitch549 = tex2D( _ShadowTex, temp_output_616_0 );
 				#endif
-				float4 temp_cast_13 = (_ShadowTex_Pow).xxxx;
+				float4 temp_cast_12 = (_ShadowTex_Pow).xxxx;
 				#ifdef _SHADOWS_PROCEDURALORTEXTURE_ON
-				float4 staticSwitch448 = pow( staticSwitch549 , temp_cast_13 );
+				float4 staticSwitch448 = pow( staticSwitch549 , temp_cast_12 );
 				#else
-				float4 staticSwitch448 = float4( pow( staticSwitch629 , temp_cast_10 ), 0.0 , 0.0 );
+				float4 staticSwitch448 = float4( pow( staticSwitch629 , temp_cast_9 ), 0.0 , 0.0 );
 				#endif
 				float smoothstepResult289 = smoothstep( clampResult290.x , staticSwitch448.r , 1.0);
 				float4 lerpResult266 = lerp( float4( hsvTorgb257 , 0.0 ) , staticSwitch219 , smoothstepResult289);
@@ -2963,7 +2933,7 @@ Shader "SHR_3DMaster"
 				float4 lerpResult802 = lerp( _OutlineColor , _OutlineColor2 , smoothstepResult805);
 				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - WorldPosition );
 				ase_worldViewDir = normalize(ase_worldViewDir);
-				float mulTime5_g63 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g63 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g63 = ( mulTime5_g63 - _TimeDelay );
 				float temp_output_16_0_g63 = ( PI / 1.0 );
 				float temp_output_19_0_g63 = cos( ( temp_output_52_0_g63 * temp_output_16_0_g63 ) );
@@ -3055,7 +3025,6 @@ Shader "SHR_3DMaster"
 			#pragma shader_feature_local _ISENNEMIES_ON
 			#pragma shader_feature _LIGHTINDDONE_ON
 			#pragma shader_feature_local _FULLSHADINGHALFSHADING_ON
-			#pragma shader_feature_local _BAKEDORRT_ON
 			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
 			#pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
 			#pragma multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS
@@ -3098,23 +3067,23 @@ Shader "SHR_3DMaster"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _BaseColor;
-			float4 _BumpNormal_ST;
-			float4 _MainTex_ST;
 			float4 _OutlineColor2;
+			float4 _MainTex_ST;
 			float4 _OutlineColor;
-			float3 _BaseVertexOffsetValue;
+			float4 _BumpNormal_ST;
 			float3 _BaseVertexOffsetDelay;
+			float3 _BaseVertexOffsetValue;
+			float2 _TopVertexDelay;
 			float2 _TopVertexOffsetValue;
 			float2 _ShadowPatternDensity;
-			float2 _TopVertexDelay;
+			float _FresnelErase_Smoothness;
 			float _FresnelErase;
 			float _WorldPosDiv;
 			float _ShadowTex_Pow;
-			float _FresnelErase_Smoothness;
 			float _TriplanarTiling;
 			float _BlendPow;
-			float _Shadow_LitThreshold;
 			float _TopMask;
+			float _Shadow_FallOffThreshold;
 			float _ShadingWhiteMult;
 			float _FresnelPower;
 			float _NormalScale;
@@ -3123,8 +3092,7 @@ Shader "SHR_3DMaster"
 			float _DistanceCutoff;
 			float _OutlineWidth;
 			float _BPM;
-			float _DebugBPM;
-			float _Shadow_FallOffThreshold;
+			float _Shadow_LitThreshold;
 			float _TimeDelay;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -3420,27 +3388,27 @@ Shader "SHR_3DMaster"
 				float temp_output_533_0 = v.vertex.xyz.z;
 				float clampResult505 = clamp( ( temp_output_533_0 - _TopMask ) , 0.0 , 1.0 );
 				float4 transform522 = mul(GetWorldToObjectMatrix(),float4( 0,0,0,1 ));
-				float mulTime5_g62 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g62 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g62 = ( mulTime5_g62 - _TopVertexDelay.x );
 				float temp_output_16_0_g62 = ( PI / 1.0 );
 				float temp_output_19_0_g62 = cos( ( temp_output_52_0_g62 * temp_output_16_0_g62 ) );
 				float saferPower20_g62 = abs( abs( temp_output_19_0_g62 ) );
-				float mulTime5_g60 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g60 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g60 = ( mulTime5_g60 - _BaseVertexOffsetDelay.x );
 				float temp_output_16_0_g60 = ( PI / 1.0 );
 				float temp_output_19_0_g60 = cos( ( temp_output_52_0_g60 * temp_output_16_0_g60 ) );
 				float saferPower20_g60 = abs( abs( temp_output_19_0_g60 ) );
-				float mulTime5_g61 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g61 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g61 = ( mulTime5_g61 - _TopVertexDelay.y );
 				float temp_output_16_0_g61 = ( PI / 1.0 );
 				float temp_output_19_0_g61 = cos( ( temp_output_52_0_g61 * temp_output_16_0_g61 ) );
 				float saferPower20_g61 = abs( abs( temp_output_19_0_g61 ) );
-				float mulTime5_g64 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g64 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g64 = ( mulTime5_g64 - _BaseVertexOffsetDelay.y );
 				float temp_output_16_0_g64 = ( PI / 1.0 );
 				float temp_output_19_0_g64 = cos( ( temp_output_52_0_g64 * temp_output_16_0_g64 ) );
 				float saferPower20_g64 = abs( abs( temp_output_19_0_g64 ) );
-				float mulTime5_g59 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g59 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g59 = ( mulTime5_g59 - _BaseVertexOffsetDelay.z );
 				float temp_output_16_0_g59 = ( PI / 1.0 );
 				float temp_output_19_0_g59 = cos( ( temp_output_52_0_g59 * temp_output_16_0_g59 ) );
@@ -3689,12 +3657,7 @@ Shader "SHR_3DMaster"
 				float dotResult189 = dot( worldNormal209 , ( SafeNormalize(_MainLightPosition.xyz) + objectSpaceLightDir ) );
 				float2 _RT_SO = float2(0,0);
 				float temp_output_423_0 = ( temp_output_328_0 + ( (dotResult189*_RT_SO.x + _RT_SO.y) * temp_output_328_0 ) );
-				#ifdef _BAKEDORRT_ON
-				float4 staticSwitch388 = SampleGradient( gradient203, temp_output_423_0 );
-				#else
-				float4 staticSwitch388 = SampleGradient( gradient203, clampResult437.x );
-				#endif
-				float4 CelShadingCalc736 = staticSwitch388;
+				float4 CelShadingCalc736 = ( SampleGradient( gradient203, clampResult437.x ) + SampleGradient( gradient203, temp_output_423_0 ) );
 				#ifdef _COLORORTEX_ON
 				float4 staticSwitch219 = tex2DNode207;
 				#else
@@ -3703,13 +3666,7 @@ Shader "SHR_3DMaster"
 				float3 hsvTorgb258 = RGBToHSV( staticSwitch219.rgb );
 				float3 hsvTorgb257 = HSVToRGB( float3(hsvTorgb258.x,hsvTorgb258.y,( hsvTorgb258.z * _ShadingWhiteMult )) );
 				float RealtimeLights842 = temp_output_423_0;
-				float3 temp_cast_4 = (RealtimeLights842).xxx;
-				#ifdef _BAKEDORRT_ON
-				float3 staticSwitch379 = temp_cast_4;
-				#else
-				float3 staticSwitch379 = Lightmaps738;
-				#endif
-				float3 clampResult290 = clamp( (( staticSwitch379 * float3( -1,-1,-1 ) * _Shadow_FallOffThreshold )*1.0 + _Shadow_LitThreshold) , float3( 0,0,0 ) , float3( 1,1,1 ) );
+				float3 clampResult290 = clamp( (( ( Lightmaps738 + RealtimeLights842 ) * float3( -1,-1,-1 ) * _Shadow_FallOffThreshold )*1.0 + _Shadow_LitThreshold) , float3( 0,0,0 ) , float3( 1,1,1 ) );
 				float time275 = 0.0;
 				float2 voronoiSmoothId275 = 0;
 				float voronoiSmooth275 = 0.0;
@@ -3719,15 +3676,15 @@ Shader "SHR_3DMaster"
 				float2 id275 = 0;
 				float2 uv275 = 0;
 				float voroi275 = voronoi275( coords275, time275, id275, uv275, voronoiSmooth275, voronoiSmoothId275 );
-				float2 temp_cast_6 = (voroi275).xx;
+				float2 temp_cast_5 = (voroi275).xx;
 				float3 objToWorld682 = mul( GetObjectToWorldMatrix(), float4( IN.ase_normal, 1 ) ).xyz;
 				float3 temp_output_641_0 = abs( objToWorld682 );
+				float2 temp_cast_6 = (_BlendPow).xx;
+				float2 temp_output_648_0 = pow( (temp_output_641_0).yz , temp_cast_6 );
 				float2 temp_cast_7 = (_BlendPow).xx;
-				float2 temp_output_648_0 = pow( (temp_output_641_0).yz , temp_cast_7 );
+				float2 temp_output_643_0 = pow( (temp_output_641_0).xz , temp_cast_7 );
 				float2 temp_cast_8 = (_BlendPow).xx;
-				float2 temp_output_643_0 = pow( (temp_output_641_0).xz , temp_cast_8 );
-				float2 temp_cast_9 = (_BlendPow).xx;
-				float2 temp_output_647_0 = pow( (temp_output_641_0).xy , temp_cast_9 );
+				float2 temp_output_647_0 = pow( (temp_output_641_0).xy , temp_cast_8 );
 				float2 temp_output_654_0 = ( temp_output_648_0 + temp_output_643_0 + temp_output_647_0 );
 				float3 temp_output_658_0 = ( WorldPosition * _TriplanarTiling );
 				float2 uv653 = 0;
@@ -3736,9 +3693,9 @@ Shader "SHR_3DMaster"
 				#ifdef _USINGTRIPLANAR_ON
 				float2 staticSwitch629 = ShadowDot_Triplanar754;
 				#else
-				float2 staticSwitch629 = temp_cast_6;
+				float2 staticSwitch629 = temp_cast_5;
 				#endif
-				float2 temp_cast_10 = (_ShadowTex_Pow).xx;
+				float2 temp_cast_9 = (_ShadowTex_Pow).xx;
 				float3 temp_output_547_0 = ( WorldPosition / _WorldPosDiv );
 				float3 break556 = temp_output_547_0;
 				float2 appendResult557 = (float2(break556.x , break556.z));
@@ -3748,11 +3705,11 @@ Shader "SHR_3DMaster"
 				#else
 				float4 staticSwitch549 = tex2D( _ShadowTex, temp_output_616_0 );
 				#endif
-				float4 temp_cast_13 = (_ShadowTex_Pow).xxxx;
+				float4 temp_cast_12 = (_ShadowTex_Pow).xxxx;
 				#ifdef _SHADOWS_PROCEDURALORTEXTURE_ON
-				float4 staticSwitch448 = pow( staticSwitch549 , temp_cast_13 );
+				float4 staticSwitch448 = pow( staticSwitch549 , temp_cast_12 );
 				#else
-				float4 staticSwitch448 = float4( pow( staticSwitch629 , temp_cast_10 ), 0.0 , 0.0 );
+				float4 staticSwitch448 = float4( pow( staticSwitch629 , temp_cast_9 ), 0.0 , 0.0 );
 				#endif
 				float smoothstepResult289 = smoothstep( clampResult290.x , staticSwitch448.r , 1.0);
 				float4 lerpResult266 = lerp( float4( hsvTorgb257 , 0.0 ) , staticSwitch219 , smoothstepResult289);
@@ -3777,7 +3734,7 @@ Shader "SHR_3DMaster"
 				float4 lerpResult802 = lerp( _OutlineColor , _OutlineColor2 , smoothstepResult805);
 				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - WorldPosition );
 				ase_worldViewDir = normalize(ase_worldViewDir);
-				float mulTime5_g63 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g63 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g63 = ( mulTime5_g63 - _TimeDelay );
 				float temp_output_16_0_g63 = ( PI / 1.0 );
 				float temp_output_19_0_g63 = cos( ( temp_output_52_0_g63 * temp_output_16_0_g63 ) );
@@ -3901,23 +3858,23 @@ Shader "SHR_3DMaster"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _BaseColor;
-			float4 _BumpNormal_ST;
-			float4 _MainTex_ST;
 			float4 _OutlineColor2;
+			float4 _MainTex_ST;
 			float4 _OutlineColor;
-			float3 _BaseVertexOffsetValue;
+			float4 _BumpNormal_ST;
 			float3 _BaseVertexOffsetDelay;
+			float3 _BaseVertexOffsetValue;
+			float2 _TopVertexDelay;
 			float2 _TopVertexOffsetValue;
 			float2 _ShadowPatternDensity;
-			float2 _TopVertexDelay;
+			float _FresnelErase_Smoothness;
 			float _FresnelErase;
 			float _WorldPosDiv;
 			float _ShadowTex_Pow;
-			float _FresnelErase_Smoothness;
 			float _TriplanarTiling;
 			float _BlendPow;
-			float _Shadow_LitThreshold;
 			float _TopMask;
+			float _Shadow_FallOffThreshold;
 			float _ShadingWhiteMult;
 			float _FresnelPower;
 			float _NormalScale;
@@ -3926,8 +3883,7 @@ Shader "SHR_3DMaster"
 			float _DistanceCutoff;
 			float _OutlineWidth;
 			float _BPM;
-			float _DebugBPM;
-			float _Shadow_FallOffThreshold;
+			float _Shadow_LitThreshold;
 			float _TimeDelay;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -4015,27 +3971,27 @@ Shader "SHR_3DMaster"
 				float temp_output_533_0 = v.vertex.xyz.z;
 				float clampResult505 = clamp( ( temp_output_533_0 - _TopMask ) , 0.0 , 1.0 );
 				float4 transform522 = mul(GetWorldToObjectMatrix(),float4( 0,0,0,1 ));
-				float mulTime5_g62 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g62 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g62 = ( mulTime5_g62 - _TopVertexDelay.x );
 				float temp_output_16_0_g62 = ( PI / 1.0 );
 				float temp_output_19_0_g62 = cos( ( temp_output_52_0_g62 * temp_output_16_0_g62 ) );
 				float saferPower20_g62 = abs( abs( temp_output_19_0_g62 ) );
-				float mulTime5_g60 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g60 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g60 = ( mulTime5_g60 - _BaseVertexOffsetDelay.x );
 				float temp_output_16_0_g60 = ( PI / 1.0 );
 				float temp_output_19_0_g60 = cos( ( temp_output_52_0_g60 * temp_output_16_0_g60 ) );
 				float saferPower20_g60 = abs( abs( temp_output_19_0_g60 ) );
-				float mulTime5_g61 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g61 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g61 = ( mulTime5_g61 - _TopVertexDelay.y );
 				float temp_output_16_0_g61 = ( PI / 1.0 );
 				float temp_output_19_0_g61 = cos( ( temp_output_52_0_g61 * temp_output_16_0_g61 ) );
 				float saferPower20_g61 = abs( abs( temp_output_19_0_g61 ) );
-				float mulTime5_g64 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g64 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g64 = ( mulTime5_g64 - _BaseVertexOffsetDelay.y );
 				float temp_output_16_0_g64 = ( PI / 1.0 );
 				float temp_output_19_0_g64 = cos( ( temp_output_52_0_g64 * temp_output_16_0_g64 ) );
 				float saferPower20_g64 = abs( abs( temp_output_19_0_g64 ) );
-				float mulTime5_g59 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g59 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g59 = ( mulTime5_g59 - _BaseVertexOffsetDelay.z );
 				float temp_output_16_0_g59 = ( PI / 1.0 );
 				float temp_output_19_0_g59 = cos( ( temp_output_52_0_g59 * temp_output_16_0_g59 ) );
@@ -4361,7 +4317,6 @@ Shader "SHR_3DMaster"
 			#pragma shader_feature_local _ISENNEMIES_ON
 			#pragma shader_feature _LIGHTINDDONE_ON
 			#pragma shader_feature_local _FULLSHADINGHALFSHADING_ON
-			#pragma shader_feature_local _BAKEDORRT_ON
 			#pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
 			#pragma multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS
 			#pragma multi_compile _ _FORWARD_PLUS
@@ -4414,23 +4369,23 @@ Shader "SHR_3DMaster"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _BaseColor;
-			float4 _BumpNormal_ST;
-			float4 _MainTex_ST;
 			float4 _OutlineColor2;
+			float4 _MainTex_ST;
 			float4 _OutlineColor;
-			float3 _BaseVertexOffsetValue;
+			float4 _BumpNormal_ST;
 			float3 _BaseVertexOffsetDelay;
+			float3 _BaseVertexOffsetValue;
+			float2 _TopVertexDelay;
 			float2 _TopVertexOffsetValue;
 			float2 _ShadowPatternDensity;
-			float2 _TopVertexDelay;
+			float _FresnelErase_Smoothness;
 			float _FresnelErase;
 			float _WorldPosDiv;
 			float _ShadowTex_Pow;
-			float _FresnelErase_Smoothness;
 			float _TriplanarTiling;
 			float _BlendPow;
-			float _Shadow_LitThreshold;
 			float _TopMask;
+			float _Shadow_FallOffThreshold;
 			float _ShadingWhiteMult;
 			float _FresnelPower;
 			float _NormalScale;
@@ -4439,8 +4394,7 @@ Shader "SHR_3DMaster"
 			float _DistanceCutoff;
 			float _OutlineWidth;
 			float _BPM;
-			float _DebugBPM;
-			float _Shadow_FallOffThreshold;
+			float _Shadow_LitThreshold;
 			float _TimeDelay;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -4733,27 +4687,27 @@ Shader "SHR_3DMaster"
 				float temp_output_533_0 = v.vertex.xyz.z;
 				float clampResult505 = clamp( ( temp_output_533_0 - _TopMask ) , 0.0 , 1.0 );
 				float4 transform522 = mul(GetWorldToObjectMatrix(),float4( 0,0,0,1 ));
-				float mulTime5_g62 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g62 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g62 = ( mulTime5_g62 - _TopVertexDelay.x );
 				float temp_output_16_0_g62 = ( PI / 1.0 );
 				float temp_output_19_0_g62 = cos( ( temp_output_52_0_g62 * temp_output_16_0_g62 ) );
 				float saferPower20_g62 = abs( abs( temp_output_19_0_g62 ) );
-				float mulTime5_g60 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g60 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g60 = ( mulTime5_g60 - _BaseVertexOffsetDelay.x );
 				float temp_output_16_0_g60 = ( PI / 1.0 );
 				float temp_output_19_0_g60 = cos( ( temp_output_52_0_g60 * temp_output_16_0_g60 ) );
 				float saferPower20_g60 = abs( abs( temp_output_19_0_g60 ) );
-				float mulTime5_g61 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g61 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g61 = ( mulTime5_g61 - _TopVertexDelay.y );
 				float temp_output_16_0_g61 = ( PI / 1.0 );
 				float temp_output_19_0_g61 = cos( ( temp_output_52_0_g61 * temp_output_16_0_g61 ) );
 				float saferPower20_g61 = abs( abs( temp_output_19_0_g61 ) );
-				float mulTime5_g64 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g64 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g64 = ( mulTime5_g64 - _BaseVertexOffsetDelay.y );
 				float temp_output_16_0_g64 = ( PI / 1.0 );
 				float temp_output_19_0_g64 = cos( ( temp_output_52_0_g64 * temp_output_16_0_g64 ) );
 				float saferPower20_g64 = abs( abs( temp_output_19_0_g64 ) );
-				float mulTime5_g59 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g59 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g59 = ( mulTime5_g59 - _BaseVertexOffsetDelay.z );
 				float temp_output_16_0_g59 = ( PI / 1.0 );
 				float temp_output_19_0_g59 = cos( ( temp_output_52_0_g59 * temp_output_16_0_g59 ) );
@@ -5038,12 +4992,7 @@ Shader "SHR_3DMaster"
 				float dotResult189 = dot( worldNormal209 , ( SafeNormalize(_MainLightPosition.xyz) + objectSpaceLightDir ) );
 				float2 _RT_SO = float2(0,0);
 				float temp_output_423_0 = ( temp_output_328_0 + ( (dotResult189*_RT_SO.x + _RT_SO.y) * temp_output_328_0 ) );
-				#ifdef _BAKEDORRT_ON
-				float4 staticSwitch388 = SampleGradient( gradient203, temp_output_423_0 );
-				#else
-				float4 staticSwitch388 = SampleGradient( gradient203, clampResult437.x );
-				#endif
-				float4 CelShadingCalc736 = staticSwitch388;
+				float4 CelShadingCalc736 = ( SampleGradient( gradient203, clampResult437.x ) + SampleGradient( gradient203, temp_output_423_0 ) );
 				#ifdef _COLORORTEX_ON
 				float4 staticSwitch219 = tex2DNode207;
 				#else
@@ -5052,13 +5001,7 @@ Shader "SHR_3DMaster"
 				float3 hsvTorgb258 = RGBToHSV( staticSwitch219.rgb );
 				float3 hsvTorgb257 = HSVToRGB( float3(hsvTorgb258.x,hsvTorgb258.y,( hsvTorgb258.z * _ShadingWhiteMult )) );
 				float RealtimeLights842 = temp_output_423_0;
-				float3 temp_cast_4 = (RealtimeLights842).xxx;
-				#ifdef _BAKEDORRT_ON
-				float3 staticSwitch379 = temp_cast_4;
-				#else
-				float3 staticSwitch379 = Lightmaps738;
-				#endif
-				float3 clampResult290 = clamp( (( staticSwitch379 * float3( -1,-1,-1 ) * _Shadow_FallOffThreshold )*1.0 + _Shadow_LitThreshold) , float3( 0,0,0 ) , float3( 1,1,1 ) );
+				float3 clampResult290 = clamp( (( ( Lightmaps738 + RealtimeLights842 ) * float3( -1,-1,-1 ) * _Shadow_FallOffThreshold )*1.0 + _Shadow_LitThreshold) , float3( 0,0,0 ) , float3( 1,1,1 ) );
 				float time275 = 0.0;
 				float2 voronoiSmoothId275 = 0;
 				float voronoiSmooth275 = 0.0;
@@ -5068,15 +5011,15 @@ Shader "SHR_3DMaster"
 				float2 id275 = 0;
 				float2 uv275 = 0;
 				float voroi275 = voronoi275( coords275, time275, id275, uv275, voronoiSmooth275, voronoiSmoothId275 );
-				float2 temp_cast_6 = (voroi275).xx;
+				float2 temp_cast_5 = (voroi275).xx;
 				float3 objToWorld682 = mul( GetObjectToWorldMatrix(), float4( IN.ase_normal, 1 ) ).xyz;
 				float3 temp_output_641_0 = abs( objToWorld682 );
+				float2 temp_cast_6 = (_BlendPow).xx;
+				float2 temp_output_648_0 = pow( (temp_output_641_0).yz , temp_cast_6 );
 				float2 temp_cast_7 = (_BlendPow).xx;
-				float2 temp_output_648_0 = pow( (temp_output_641_0).yz , temp_cast_7 );
+				float2 temp_output_643_0 = pow( (temp_output_641_0).xz , temp_cast_7 );
 				float2 temp_cast_8 = (_BlendPow).xx;
-				float2 temp_output_643_0 = pow( (temp_output_641_0).xz , temp_cast_8 );
-				float2 temp_cast_9 = (_BlendPow).xx;
-				float2 temp_output_647_0 = pow( (temp_output_641_0).xy , temp_cast_9 );
+				float2 temp_output_647_0 = pow( (temp_output_641_0).xy , temp_cast_8 );
 				float2 temp_output_654_0 = ( temp_output_648_0 + temp_output_643_0 + temp_output_647_0 );
 				float3 temp_output_658_0 = ( WorldPosition * _TriplanarTiling );
 				float2 uv653 = 0;
@@ -5085,9 +5028,9 @@ Shader "SHR_3DMaster"
 				#ifdef _USINGTRIPLANAR_ON
 				float2 staticSwitch629 = ShadowDot_Triplanar754;
 				#else
-				float2 staticSwitch629 = temp_cast_6;
+				float2 staticSwitch629 = temp_cast_5;
 				#endif
-				float2 temp_cast_10 = (_ShadowTex_Pow).xx;
+				float2 temp_cast_9 = (_ShadowTex_Pow).xx;
 				float3 temp_output_547_0 = ( WorldPosition / _WorldPosDiv );
 				float3 break556 = temp_output_547_0;
 				float2 appendResult557 = (float2(break556.x , break556.z));
@@ -5097,11 +5040,11 @@ Shader "SHR_3DMaster"
 				#else
 				float4 staticSwitch549 = tex2D( _ShadowTex, temp_output_616_0 );
 				#endif
-				float4 temp_cast_13 = (_ShadowTex_Pow).xxxx;
+				float4 temp_cast_12 = (_ShadowTex_Pow).xxxx;
 				#ifdef _SHADOWS_PROCEDURALORTEXTURE_ON
-				float4 staticSwitch448 = pow( staticSwitch549 , temp_cast_13 );
+				float4 staticSwitch448 = pow( staticSwitch549 , temp_cast_12 );
 				#else
-				float4 staticSwitch448 = float4( pow( staticSwitch629 , temp_cast_10 ), 0.0 , 0.0 );
+				float4 staticSwitch448 = float4( pow( staticSwitch629 , temp_cast_9 ), 0.0 , 0.0 );
 				#endif
 				float smoothstepResult289 = smoothstep( clampResult290.x , staticSwitch448.r , 1.0);
 				float4 lerpResult266 = lerp( float4( hsvTorgb257 , 0.0 ) , staticSwitch219 , smoothstepResult289);
@@ -5124,7 +5067,7 @@ Shader "SHR_3DMaster"
 				float temp_output_784_0 = ( simplePerlin2D728 * simplePerlin2D785 );
 				float smoothstepResult805 = smoothstep( 0.1 , 1.0 , temp_output_784_0);
 				float4 lerpResult802 = lerp( _OutlineColor , _OutlineColor2 , smoothstepResult805);
-				float mulTime5_g63 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g63 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g63 = ( mulTime5_g63 - _TimeDelay );
 				float temp_output_16_0_g63 = ( PI / 1.0 );
 				float temp_output_19_0_g63 = cos( ( temp_output_52_0_g63 * temp_output_16_0_g63 ) );
@@ -5148,13 +5091,13 @@ Shader "SHR_3DMaster"
 				float4 staticSwitch753 = staticSwitch725;
 				#endif
 				
-				float3 temp_cast_16 = (0.0).xxx;
+				float3 temp_cast_15 = (0.0).xxx;
 				
 
 				float3 BaseColor = staticSwitch753.rgb;
 				float3 Normal = float3(0, 0, 1);
 				float3 Emission = 0;
-				float3 Specular = temp_cast_16;
+				float3 Specular = temp_cast_15;
 				float Metallic = 0;
 				float Smoothness = 0.0;
 				float Occlusion = 1;
@@ -5320,23 +5263,23 @@ Shader "SHR_3DMaster"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _BaseColor;
-			float4 _BumpNormal_ST;
-			float4 _MainTex_ST;
 			float4 _OutlineColor2;
+			float4 _MainTex_ST;
 			float4 _OutlineColor;
-			float3 _BaseVertexOffsetValue;
+			float4 _BumpNormal_ST;
 			float3 _BaseVertexOffsetDelay;
+			float3 _BaseVertexOffsetValue;
+			float2 _TopVertexDelay;
 			float2 _TopVertexOffsetValue;
 			float2 _ShadowPatternDensity;
-			float2 _TopVertexDelay;
+			float _FresnelErase_Smoothness;
 			float _FresnelErase;
 			float _WorldPosDiv;
 			float _ShadowTex_Pow;
-			float _FresnelErase_Smoothness;
 			float _TriplanarTiling;
 			float _BlendPow;
-			float _Shadow_LitThreshold;
 			float _TopMask;
+			float _Shadow_FallOffThreshold;
 			float _ShadingWhiteMult;
 			float _FresnelPower;
 			float _NormalScale;
@@ -5345,8 +5288,7 @@ Shader "SHR_3DMaster"
 			float _DistanceCutoff;
 			float _OutlineWidth;
 			float _BPM;
-			float _DebugBPM;
-			float _Shadow_FallOffThreshold;
+			float _Shadow_LitThreshold;
 			float _TimeDelay;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -5442,27 +5384,27 @@ Shader "SHR_3DMaster"
 				float temp_output_533_0 = v.vertex.xyz.z;
 				float clampResult505 = clamp( ( temp_output_533_0 - _TopMask ) , 0.0 , 1.0 );
 				float4 transform522 = mul(GetWorldToObjectMatrix(),float4( 0,0,0,1 ));
-				float mulTime5_g62 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g62 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g62 = ( mulTime5_g62 - _TopVertexDelay.x );
 				float temp_output_16_0_g62 = ( PI / 1.0 );
 				float temp_output_19_0_g62 = cos( ( temp_output_52_0_g62 * temp_output_16_0_g62 ) );
 				float saferPower20_g62 = abs( abs( temp_output_19_0_g62 ) );
-				float mulTime5_g60 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g60 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g60 = ( mulTime5_g60 - _BaseVertexOffsetDelay.x );
 				float temp_output_16_0_g60 = ( PI / 1.0 );
 				float temp_output_19_0_g60 = cos( ( temp_output_52_0_g60 * temp_output_16_0_g60 ) );
 				float saferPower20_g60 = abs( abs( temp_output_19_0_g60 ) );
-				float mulTime5_g61 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g61 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g61 = ( mulTime5_g61 - _TopVertexDelay.y );
 				float temp_output_16_0_g61 = ( PI / 1.0 );
 				float temp_output_19_0_g61 = cos( ( temp_output_52_0_g61 * temp_output_16_0_g61 ) );
 				float saferPower20_g61 = abs( abs( temp_output_19_0_g61 ) );
-				float mulTime5_g64 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g64 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g64 = ( mulTime5_g64 - _BaseVertexOffsetDelay.y );
 				float temp_output_16_0_g64 = ( PI / 1.0 );
 				float temp_output_19_0_g64 = cos( ( temp_output_52_0_g64 * temp_output_16_0_g64 ) );
 				float saferPower20_g64 = abs( abs( temp_output_19_0_g64 ) );
-				float mulTime5_g59 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g59 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g59 = ( mulTime5_g59 - _BaseVertexOffsetDelay.z );
 				float temp_output_16_0_g59 = ( PI / 1.0 );
 				float temp_output_19_0_g59 = cos( ( temp_output_52_0_g59 * temp_output_16_0_g59 ) );
@@ -5690,23 +5632,23 @@ Shader "SHR_3DMaster"
 
 			CBUFFER_START(UnityPerMaterial)
 			float4 _BaseColor;
-			float4 _BumpNormal_ST;
-			float4 _MainTex_ST;
 			float4 _OutlineColor2;
+			float4 _MainTex_ST;
 			float4 _OutlineColor;
-			float3 _BaseVertexOffsetValue;
+			float4 _BumpNormal_ST;
 			float3 _BaseVertexOffsetDelay;
+			float3 _BaseVertexOffsetValue;
+			float2 _TopVertexDelay;
 			float2 _TopVertexOffsetValue;
 			float2 _ShadowPatternDensity;
-			float2 _TopVertexDelay;
+			float _FresnelErase_Smoothness;
 			float _FresnelErase;
 			float _WorldPosDiv;
 			float _ShadowTex_Pow;
-			float _FresnelErase_Smoothness;
 			float _TriplanarTiling;
 			float _BlendPow;
-			float _Shadow_LitThreshold;
 			float _TopMask;
+			float _Shadow_FallOffThreshold;
 			float _ShadingWhiteMult;
 			float _FresnelPower;
 			float _NormalScale;
@@ -5715,8 +5657,7 @@ Shader "SHR_3DMaster"
 			float _DistanceCutoff;
 			float _OutlineWidth;
 			float _BPM;
-			float _DebugBPM;
-			float _Shadow_FallOffThreshold;
+			float _Shadow_LitThreshold;
 			float _TimeDelay;
 			#ifdef ASE_TRANSMISSION
 				float _TransmissionShadow;
@@ -5812,27 +5753,27 @@ Shader "SHR_3DMaster"
 				float temp_output_533_0 = v.vertex.xyz.z;
 				float clampResult505 = clamp( ( temp_output_533_0 - _TopMask ) , 0.0 , 1.0 );
 				float4 transform522 = mul(GetWorldToObjectMatrix(),float4( 0,0,0,1 ));
-				float mulTime5_g62 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g62 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g62 = ( mulTime5_g62 - _TopVertexDelay.x );
 				float temp_output_16_0_g62 = ( PI / 1.0 );
 				float temp_output_19_0_g62 = cos( ( temp_output_52_0_g62 * temp_output_16_0_g62 ) );
 				float saferPower20_g62 = abs( abs( temp_output_19_0_g62 ) );
-				float mulTime5_g60 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g60 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g60 = ( mulTime5_g60 - _BaseVertexOffsetDelay.x );
 				float temp_output_16_0_g60 = ( PI / 1.0 );
 				float temp_output_19_0_g60 = cos( ( temp_output_52_0_g60 * temp_output_16_0_g60 ) );
 				float saferPower20_g60 = abs( abs( temp_output_19_0_g60 ) );
-				float mulTime5_g61 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g61 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g61 = ( mulTime5_g61 - _TopVertexDelay.y );
 				float temp_output_16_0_g61 = ( PI / 1.0 );
 				float temp_output_19_0_g61 = cos( ( temp_output_52_0_g61 * temp_output_16_0_g61 ) );
 				float saferPower20_g61 = abs( abs( temp_output_19_0_g61 ) );
-				float mulTime5_g64 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g64 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g64 = ( mulTime5_g64 - _BaseVertexOffsetDelay.y );
 				float temp_output_16_0_g64 = ( PI / 1.0 );
 				float temp_output_19_0_g64 = cos( ( temp_output_52_0_g64 * temp_output_16_0_g64 ) );
 				float saferPower20_g64 = abs( abs( temp_output_19_0_g64 ) );
-				float mulTime5_g59 = _TimeParameters.x * ( _DebugBPM / 60.0 );
+				float mulTime5_g59 = _TimeParameters.x * ( BPM / 60.0 );
 				float temp_output_52_0_g59 = ( mulTime5_g59 - _BaseVertexOffsetDelay.z );
 				float temp_output_16_0_g59 = ( PI / 1.0 );
 				float temp_output_19_0_g59 = cos( ( temp_output_52_0_g59 * temp_output_16_0_g59 ) );
@@ -6014,7 +5955,7 @@ Version=19200
 Node;AmplifyShaderEditor.CommentaryNode;756;-4860.079,-2199.631;Inherit;False;2980.416;1045.208;;30;646;670;668;669;654;647;649;655;643;650;648;684;685;686;667;641;682;681;651;652;659;660;666;662;661;658;657;653;671;754;TriplnarDots;1,1,1,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;727;-340.0536,1843.382;Inherit;False;1548.022;755.4004;Fresnel;19;712;713;723;707;718;708;728;732;784;785;788;789;802;804;805;811;812;809;747;;1,1,1,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;381;-4175.744,-5973.477;Inherit;False;1209;1283.536;;12;182;54;53;28;29;27;31;342;213;208;211;210;ShadingComponents;0.8509804,0.5254902,0.8373843,1;0;0
-Node;AmplifyShaderEditor.CommentaryNode;380;-235.5422,-2560.735;Inherit;False;2267.363;1540.534;;32;207;230;219;265;260;258;266;255;251;275;289;290;257;282;283;379;449;448;535;549;624;626;627;629;630;631;632;638;739;550;755;843;ShadowShading;0,0,0,1;0;0
+Node;AmplifyShaderEditor.CommentaryNode;380;-235.5422,-2560.735;Inherit;False;2267.363;1540.534;;33;207;230;219;265;260;258;266;255;251;275;289;290;257;282;283;379;449;448;535;549;624;626;627;629;630;631;632;638;739;550;755;843;852;ShadowShading;0,0,0,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;302;-1567.303,-5023.179;Inherit;False;1827.19;1032.5;LitRT;26;193;190;188;186;191;194;189;202;201;246;185;56;184;187;203;196;248;183;192;328;423;430;445;446;839;842;CelShading;1,0.9921199,0.6635219,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;182;-4125.743,-5569.686;Inherit;False;1109;303;;4;215;214;212;209;Normals;0.6117647,0.6408768,1,1;0;0
 Node;AmplifyShaderEditor.RangedFloatNode;215;-4075.743,-5471.686;Inherit;False;Property;_NormalScale;Normal Scale;18;0;Create;True;0;0;0;False;0;False;0;1;0;1;0;1;FLOAT;0
@@ -6110,7 +6051,6 @@ Node;AmplifyShaderEditor.SimpleMaxOpNode;193;-882.1261,-4880.597;Inherit;True;2;
 Node;AmplifyShaderEditor.SimpleMaxOpNode;188;-667.8192,-4862.382;Inherit;True;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;186;-274.8864,-4395.413;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.WireNode;446;-380.0405,-4545.772;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.StaticSwitch;388;581.8553,-4973.622;Inherit;True;Property;_Keyword0;Keyword 0;32;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Reference;379;True;True;All;9;1;COLOR;0,0,0,0;False;0;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;5;COLOR;0,0,0,0;False;6;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.ColorNode;230;-185.4629,-2468.674;Inherit;False;Property;_BaseColor;BaseColor;22;0;Create;True;0;0;0;False;0;False;1,1,1,0;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;303;-374.4714,-1434.62;Inherit;False;2;2;0;FLOAT2;0,0;False;1;FLOAT2;0,0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.RangedFloatNode;282;150.3929,-1866.381;Inherit;False;Property;_Shadow_LitThreshold;Shadow_LitThreshold;30;0;Create;True;0;0;0;False;0;False;0.8;0.42;0;0;0;1;FLOAT;0
@@ -6135,8 +6075,6 @@ Node;AmplifyShaderEditor.GradientSampleNode;196;-30.71794,-4960.337;Inherit;True
 Node;AmplifyShaderEditor.SimpleAddOpNode;423;-146.7746,-4607.104;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.FunctionNode;246;-1550.031,-4737.472;Inherit;False;Shadow Mask;-1;;49;b50f5becdd6b8504a861ba5b9b861159;0;1;3;FLOAT2;0,0;False;1;FLOAT4;0
 Node;AmplifyShaderEditor.ParallaxOcclusionMappingNode;735;-1997.969,-4479.366;Inherit;False;0;8;False;;16;False;;2;0.02;0;False;1,1;False;0,0;8;0;FLOAT2;0,0;False;1;SAMPLER2D;;False;7;SAMPLERSTATE;;False;2;FLOAT;0.02;False;3;FLOAT3;0,0,0;False;4;FLOAT;0;False;5;FLOAT2;0,0;False;6;FLOAT;0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.StaticSwitch;379;179.8387,-2022.746;Inherit;False;Property;_BakedOrRT;BakedOrRT;32;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;FLOAT3;0,0,0;False;0;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;4;FLOAT3;0,0,0;False;5;FLOAT3;0,0,0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;736;861.9258,-4968.686;Inherit;False;CelShadingCalc;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SamplerNode;207;-210.1147,-2229.401;Inherit;True;Property;_MainTex;Base Color;14;0;Create;False;0;0;0;False;0;False;-1;5814ca8d54113234e9a6debac2240083;5814ca8d54113234e9a6debac2240083;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.WorldSpaceCameraPos;687;-2731.905,2066.082;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.WorldPosInputsNode;688;-2682.738,2222.838;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
@@ -6307,6 +6245,11 @@ Node;AmplifyShaderEditor.FunctionNode;846;-24.16517,582.0414;Inherit;False;SHF_B
 Node;AmplifyShaderEditor.FunctionNode;847;-19.06507,426.2802;Inherit;False;SHF_Beat;7;;62;98b937ed0bb6230429680ab88ee4981b;0;1;54;FLOAT;0;False;3;FLOAT;33;FLOAT;34;FLOAT;0
 Node;AmplifyShaderEditor.FunctionNode;848;-495.0067,1981.294;Inherit;False;SHF_Beat;7;;63;98b937ed0bb6230429680ab88ee4981b;0;1;54;FLOAT;0;False;3;FLOAT;33;FLOAT;34;FLOAT;0
 Node;AmplifyShaderEditor.FunctionNode;849;672.3246,1262.38;Inherit;False;SHF_Beat;7;;64;98b937ed0bb6230429680ab88ee4981b;0;1;54;FLOAT;0;False;3;FLOAT;33;FLOAT;34;FLOAT;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;851;494.7594,-5158.958;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.StaticSwitch;388;515.7438,-4869.733;Inherit;True;Property;_Keyword0;Keyword 0;32;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Reference;379;True;True;All;9;1;COLOR;0,0,0,0;False;0;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;5;COLOR;0,0,0,0;False;6;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RegisterLocalVarNode;736;648.5357,-5161.914;Inherit;False;CelShadingCalc;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;852;168.2339,-2121.125;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.StaticSwitch;379;177.8387,-2020.079;Inherit;False;Property;_BakedOrRT;BakedOrRT;32;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;FLOAT3;0,0,0;False;0;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;4;FLOAT3;0,0,0;False;5;FLOAT3;0,0,0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT3;0,0,0;False;1;FLOAT3;0
 WireConnection;209;0;212;0
 WireConnection;212;0;214;0
 WireConnection;29;0;27;0
@@ -6321,7 +6264,7 @@ WireConnection;257;0;258;1
 WireConnection;257;1;258;2
 WireConnection;257;2;265;0
 WireConnection;258;0;219;0
-WireConnection;251;0;379;0
+WireConnection;251;0;852;0
 WireConnection;251;2;283;0
 WireConnection;255;0;251;0
 WireConnection;255;2;282;0
@@ -6406,8 +6349,6 @@ WireConnection;188;1;190;2
 WireConnection;186;0;446;0
 WireConnection;186;1;328;0
 WireConnection;446;0;187;0
-WireConnection;388;1;387;0
-WireConnection;388;0;196;0
 WireConnection;303;0;557;0
 WireConnection;303;1;453;0
 WireConnection;265;0;258;3
@@ -6435,9 +6376,6 @@ WireConnection;196;1;423;0
 WireConnection;423;0;328;0
 WireConnection;423;1;186;0
 WireConnection;246;3;738;0
-WireConnection;379;1;739;0
-WireConnection;379;0;843;0
-WireConnection;736;0;388;0
 WireConnection;689;0;687;0
 WireConnection;689;1;688;0
 WireConnection;707;0;708;0
@@ -6622,5 +6560,14 @@ WireConnection;845;54;491;0
 WireConnection;846;54;530;2
 WireConnection;847;54;530;1
 WireConnection;849;54;492;0
+WireConnection;851;0;387;0
+WireConnection;851;1;196;0
+WireConnection;388;1;387;0
+WireConnection;388;0;196;0
+WireConnection;736;0;851;0
+WireConnection;852;0;739;0
+WireConnection;852;1;843;0
+WireConnection;379;1;739;0
+WireConnection;379;0;843;0
 ASEEND*/
-//CHKSM=3EE6BE5E38E3EBE6379E96F9FA66A2D598A804A7
+//CHKSM=9703AD1BD9868BF4372B9A7403CD2745B9ABF36D
