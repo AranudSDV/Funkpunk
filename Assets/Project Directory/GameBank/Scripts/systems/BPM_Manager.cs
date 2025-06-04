@@ -300,7 +300,7 @@ public class BPM_Manager : MonoBehaviour
             if (!scPlayer.bIsImune)
             {
                 scPlayer.fNbBeat += 1f;
-                scPlayer.fBeatMissed += 1f;
+                scPlayer.fScoreDetails[0] += 1f;
             }
             bPlayBad = false;
             bPlayGood = false;
@@ -400,7 +400,7 @@ public class BPM_Manager : MonoBehaviour
                 {
                     scPlayer.FScore = scPlayer.FScore + 35f;
                     scPlayer.fNbBeat += 1f;
-                    scPlayer.fBeatBad += 1f;
+                    scPlayer.fScoreDetails[1] += 1f;
                 }
                 scPlayer.menuManager.fBeatMusicVolume = scPlayer.menuManager.fBeatVolume[1];
                 bPlayBad = true;
@@ -419,7 +419,7 @@ public class BPM_Manager : MonoBehaviour
                 {
                     scPlayer.FScore = scPlayer.FScore + 75f;
                     scPlayer.fNbBeat += 1f;
-                    scPlayer.fBeatGood += 1f;
+                    scPlayer.fScoreDetails[2] += 1f;
                 }
                 scPlayer.menuManager.fBeatMusicVolume = scPlayer.menuManager.fBeatVolume[2];
                 bPlayBad = false;
@@ -438,7 +438,7 @@ public class BPM_Manager : MonoBehaviour
                 {
                     scPlayer.FScore = scPlayer.FScore + 100f;
                     scPlayer.fNbBeat += 1f;
-                    scPlayer.fBeatPerfect += 1f;
+                    scPlayer.fScoreDetails[3] += 1f;
                 }
                 scPlayer.menuManager.fBeatMusicVolume = scPlayer.menuManager.fBeatVolume[3];
                 bPlayBad = false;

@@ -85,10 +85,7 @@ public class SC_Player : Singleton<SC_Player>
     //LE SCORE
     [Header("Score")]
     public float FScore;
-    public float fBeatMissed = 0f;
-    public float fBeatBad = 0f;
-    public float fBeatGood = 0f;
-    public float fBeatPerfect = 0f;
+    [Tooltip("Missed, Bad, Good, Perfect")] public float[] fScoreDetails = new float[4] { 0f,0f,0f,0f};
     public float fNbBeat;
     private float fPercentScore;
     public TMP_Text TMPScore;
@@ -135,10 +132,7 @@ public class SC_Player : Singleton<SC_Player>
     private int iTagPreviouslyDone = 0;
     private float FPreviousScore = 0f;
     private float fPreviousNbBeat = 0f;
-    private float fPreviousNbBeatMissed = 0f;
-    private float fPreviousNbBeatBad = 0f;
-    private float fPreviousNbBeatGood = 0f;
-    private float fPreviousNbBeatPerfect = 0f;
+    private float[] fPreviousNbBeatScoring = new float[4] { 0f, 0f, 0f, 0f};
     public int iCheckPoint = 0;
     public bool bIsReplaying = false;
 
@@ -1558,12 +1552,13 @@ public void CheckForward(Vector3 vectDir, float fRange)
         menuManager.RtScoring.offsetMax = new Vector2(0f, 0f);
         menuManager.RtScoring.offsetMin = new Vector2(0f, 0f);
 
+        ScoringDetails(hasWon);
         if (hasWon && fPercentScore >= 35)
         {
             //LE SCORING
             menuManager.txtScoringJudgment.text = sJugement(hasWon, data)[0];
             menuManager.txtScoringScore.text = sJugement(hasWon, data)[1];
-            if(data.iLanguageNbPlayer == 1)
+            if (data.iLanguageNbPlayer == 1)
             {
                 menuManager.txt_Title.text = "Félicitation!";
             }
@@ -1709,10 +1704,10 @@ public void CheckForward(Vector3 vectDir, float fRange)
             iTagPreviouslyDone = itagDone;
             FPreviousScore = FScore;
             fPreviousNbBeat = fNbBeat;
-            fPreviousNbBeatMissed = fBeatMissed;
-            fPreviousNbBeatBad = fBeatBad;
-            fPreviousNbBeatGood = fBeatGood;
-            fPreviousNbBeatPerfect = fBeatPerfect;
+            fPreviousNbBeatScoring[0] = fScoreDetails[0];
+            fPreviousNbBeatScoring[1] = fScoreDetails[1];
+            fPreviousNbBeatScoring[2] = fScoreDetails[2];
+            fPreviousNbBeatScoring[3] = fScoreDetails[3];
             iCheckPoint = iPreviousCheckPoint;
         }
     }
@@ -1724,10 +1719,10 @@ public void CheckForward(Vector3 vectDir, float fRange)
             itagDone = 0;
             FScore = 0;
             fNbBeat = 0;
-            fBeatMissed = 0f;
-            fBeatBad = 0f;
-            fBeatGood = 0f;
-            fBeatPerfect = 0f;
+            fScoreDetails[0] = 0f;
+            fScoreDetails[1] = 0f;
+            fScoreDetails[2] = 0f;
+            fScoreDetails[3] = 0f;
             foreach (ing_Tag tag in allTagsUntil1stCheckPoint)
             {
                 foreach (VisualEffect vfx in tag.PS_Sound)
@@ -1745,10 +1740,10 @@ public void CheckForward(Vector3 vectDir, float fRange)
             itagDone = iTagPreviouslyDone;
             FScore = FPreviousScore;
             fNbBeat = fPreviousNbBeat;
-            fBeatMissed = fPreviousNbBeatMissed;
-            fBeatBad = fPreviousNbBeatBad;
-            fBeatGood = fPreviousNbBeatGood;
-            fBeatPerfect = fPreviousNbBeatPerfect;
+            fScoreDetails[0] = fPreviousNbBeatScoring[0];
+            fScoreDetails[1] = fPreviousNbBeatScoring[1];
+            fScoreDetails[2] = fPreviousNbBeatScoring[2];
+            fScoreDetails[3] = fPreviousNbBeatScoring[3];
             foreach (ing_Tag tag in checkpoints[iCheckPoint-1].tags)
             {
                 foreach (VisualEffect vfx in tag.PS_Sound)
@@ -1881,6 +1876,21 @@ public void CheckForward(Vector3 vectDir, float fRange)
         {
             List<string> List = new List<string> { "F", Mathf.Round(fPercentScore).ToString() + "%" };
             return List;
+        }
+    }
+    private void ScoringDetails(bool bhasWon)
+    {
+        if(bhasWon)
+        {
+            menuManager.cgScoreDetails.alpha = 1f;
+            for (int i = 0; i < 4; i++)
+            {
+                menuManager.txtScoringScoreDetails[i].text = Mathf.Round(fScoreDetails[i]).ToString() + "%";
+            }
+        }
+        else
+        {
+            menuManager.cgScoreDetails.alpha = 0f;
         }
     }
     private void PlayerDataUpdate(PlayerData data)

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.0024967694, g: 0.0028977427, b: 0.003980814, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -726,7 +726,9 @@ MonoBehaviour:
   typeAnimator: {fileID: 99327131}
   scPlayer: {fileID: 989362432}
   _playerData: {fileID: 0}
-  sTextEnglishAndFrench: []
+  sTextEnglishAndFrench:
+  - Press "A" to stay in rythm.
+  - Appuie sur "A" pour rester en rythme.
   sEnglish: Press "A" to stay in rythm.
   sFrench: Appuie sur "A" pour rester en rythme.
   bIsOnManager: 0
@@ -1705,11 +1707,15 @@ MonoBehaviour:
   typeAnimator: {fileID: 188660182}
   scPlayer: {fileID: 989362432}
   _playerData: {fileID: 0}
-  sTextEnglishAndFrench: []
-  sEnglish: "But, somehow, against my will, I have to dance nonstop... it\u2019s
-    like I\u2019m possessed or something!"
-  sFrench: "Mais, je sais pas pourquoi, je peux pas m'emp\xEAcher de danser ! C'est
-    comme si j'\xE9tais poss\xE9d\xE9 ou un truc du genre !"
+  sTextEnglishAndFrench:
+  - "But, I don't know why, I have to <swing><rainb>dance</rainb></swing> nonstop...
+    it\u2019s like... I\u2019m possessed !"
+  - "Mais, j'sais pas pourquoi, j'peux pas m'emp\xEAcher de <swing><rainb>danser</rainb></swing>
+    ! Comme si j'\xE9tais genre... poss\xE9d\xE9 !"
+  sEnglish: "But, I don't know why, I have to <swing><rainb>dance</rainb></swing>
+    nonstop... it\u2019s like... I\u2019m possessed !"
+  sFrench: "Mais, j'sais pas pourquoi, j'peux pas m'emp\xEAcher de <swing><rainb>danser</rainb></swing>
+    ! Comme si j'\xE9tais genre... poss\xE9d\xE9 !"
   bIsOnManager: 0
   bIsDifficulty: 0
   bIsToTip: 0
@@ -2091,7 +2097,9 @@ MonoBehaviour:
   typeAnimator: {fileID: 211954868}
   scPlayer: {fileID: 989362432}
   _playerData: {fileID: 0}
-  sTextEnglishAndFrench: []
+  sTextEnglishAndFrench:
+  - Use your joystick to choose your direction and reach the map.
+  - Utilise ton joystick pour choisir la direction et atteindre la carte.
   sEnglish: Use your joystick to choose your direction and reach the map.
   sFrench: Utilise ton joystick pour choisir la direction et atteindre la carte.
   bIsOnManager: 0
@@ -2373,7 +2381,9 @@ MonoBehaviour:
   typeAnimator: {fileID: 212658164}
   scPlayer: {fileID: 989362432}
   _playerData: {fileID: 0}
-  sTextEnglishAndFrench: []
+  sTextEnglishAndFrench:
+  - I have to see what's going on.
+  - Faut que j'aille voir ce qu'il se passe.
   sEnglish: I have to see what's going on.
   sFrench: Faut que j'aille voir ce qu'il se passe.
   bIsOnManager: 0
@@ -11683,7 +11693,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1007357399}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.6145184, y: -0.00000010650524, z: 0.00000008296262, w: 0.7889025}
+  m_LocalRotation: {x: 0.6145184, y: 0.00000010650524, z: -0.00000008296262, w: 0.7889025}
   m_LocalPosition: {x: 4, y: 14, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -19942,7 +19952,6 @@ MonoBehaviour:
   - {fileID: 1996710840}
   - {fileID: 1664304487}
   - {fileID: 354619205}
-  spriteBdTuto: []
   RtParentTuto:
   - {fileID: 383235641}
   - {fileID: 1886482082}

@@ -412,6 +412,12 @@ MonoBehaviour:
   RtScoring: {fileID: 3803594740852749823}
   txtScoringJudgment: {fileID: 3903931835335953578}
   txtScoringScore: {fileID: 2915392101853873581}
+  txtScoringScoreDetails:
+  - {fileID: 622537630934982511}
+  - {fileID: 4874013602709699638}
+  - {fileID: 3397906689220409804}
+  - {fileID: 7619279331599965672}
+  cgScoreDetails: {fileID: 453684677011454217}
   ImgScoringBackground: {fileID: 520458964757189902}
   spritesScoringBackground:
   - {fileID: 21300000, guid: 1b5131d1289f1e24da91a2c0009c3fb6, type: 3}
@@ -488,48 +494,52 @@ MonoBehaviour:
   iCharaToNotSpeakPerTextes: 03000000000000000300000002000000030000000200000002000000030000000100000003000000030000000300000000000000030000000300000003000000000000000200000001000000030000000000000000000000030000000000000001000000030000000300000000000000000000000b000000060000000200000003000000070000000300000006000000ffffffff030000000200000003000000010000000300000000000000030000000000000003000000ffffffff0300000002000000030000000100000003000000010000000a00000009000000090000000a000000090000000b0000000800000008000000080000000a000000090000000b000000ffffffff
   sDialogueEnglish:
   - <swing>There</swing>. Now that's a tag they won't forget.
-  - <wave a=0.5>Bingo! That's the spirit!</wave>
+  - <wave a=0.5>Bingo! Awesome!</wave>
   - Yea--!! Wait, what? What?
-  - <wave a=0.5>Yeah! That tag's got a real <rainb>punk drive</rainb>. I've been
-    looking for someone just like you!</wave>
+  - <wave a=0.5>Yeah! That tag's got a real smooth <rainb>punk drive</rainb>. I've
+    been looking for someone just like you!</wave>
   - W-Who are you?
-  - <wave a=0.5>I'm the amazing <size=60><color=#7FEF2A><swing>Scraffi</swing></color></size>,
-    pleased to meet your funky being.</wave>
-  - <wave a=0.5>Do you accept being my pal in order to screw those music thugs together?</wave>
-  - ... Did I take something? Am I seriously talking to my spray can?
-  - <wave a=0.5>Yes, I MAY look like a spray can, but I CHOSE to be in there so your
-    graffiti would actually hit those thugs where it hurts. So, you in?</wave>
-  - That's strange... but I guess I HAVE to trust my spray can... I've used it so
-    many times...
-  - 'Ok we''re pals now! Those gangsters are called <color=#EAD827><incr><size=60>Marshalls</size></incr></color>
+  - <wave a=0.5>I'm the very very cool <size=60><color=#7FEF2A><swing>Scraffi</swing></color></size>,
+    pleased to meet you, funky being.</wave>
+  - <wave a=0.5>Do you wish to screw those music thugs, together?</wave>
+  - '... Are you a talking spray can ? '
+  - <wave a=0.5>Okay, I MAY look like a spray can. But I am not. I kinda ... possessed
+    your can. Improved, if you will. So, you in or not?</wave>
+  - Strange... but I guess I HAVE to trust my spray can... I've used it so many times...
+  - 'Ok we''re pals now! Let''s go kick their butts. Those gangsters are called <color=#EAD827><incr><size=60>Marshalls</size></incr></color>
     by the way. '
-  - 'And I''m<waitfor=.5> <size=60><bounce>Jett<waitfor=.5> Rush.</bounce></size> '
-  - <wave a=0.5>The situation's way worse than I thought. There were so many <color=#EAD827><incr><size=60>Marshalls</size></incr></color>
+  - 'And I''m<waitfor=.5> <size=60><rainb><bounce>Jett<waitfor=.5> Rush</bounce></rainb></size>. '
+  - '<wave a=0.5>OMG it''s worse than I thought. '
+  - There were so many <color=#EAD827><incr><size=60>Marshalls</size></incr></color>
     there! </wave>
-  - 'They''ve always been a really big crew. But they weren''t like that before. '
-  - 'Sure, they were gangsters, but not like... this!  '
+  - 'Yeah, they were gangsters, but not like... this!  '
   - 'Do you know what changed them? '
-  - <wave a=0.5>Yes. They're not themselves anymore. They're being manipulated by
-    the power of an evil <size=60><color=#7FEF2A><swing>spirit</swing></color></size>.</wave>
-  - <wave a=0.5>By the way, I'm also a <size=60><color=#7FEF2A><swing>spirit</swing></color></size>.
-    But a kind one. And way much wiser. </wave>
+  - <wave a=0.5>I do. They're not themselves anymore. They're being manipulated by
+    the power of a bad <size=60><color=#7FEF2A><swing>spirit</swing></color></size>.</wave>
+  - <wave a=0.5>And, yeees, I'm also a <size=60><color=#7FEF2A><swing>spirit</swing></color></size>.
+    But a kind one. And way much <rainb>cooler</rain>. </wave>
   - <wave a=0.5>I have the power to transform the paint in your spray can into an
     <color=#7FEF2A><shake a=0.2>anti-evil-spirit</shake></color> paint. Kind of.</wave>
-  - 'That''s why my graffiti are that powerful? '
-  - <wave a=0.5>Combined to your <rainb>punk drive</rainb>, we're unstoppable.</wave>
-  - <wave a=0.5>Anyway, we don't have much time. We have to hurry.</wave>
-  - Wow... so this was the subway that carries the infamous Marshall stash.
-  - 'I don''t know how infamous they were, but now their leader is being manipulated
-    by that evil spirit. Scravinsky, he''s called. '
-  - He's the worst of all, remember that. His only goal is world domination.
-  - 'Johnny Cash is being manipulated? He''s a real legend... I guess only a real
-    evil spirit could manipulate him. '
-  - 'So we''re going to THE <color=#EAD827><incr><size=60>Marshalls</size></incr></color>
-    headquarters now? '
-  - 'We have no other choice yeah. We have to exorcise Johnny and send Scravinsky
-    out of the human world. '
-  - If we fail, the music will take over all forms of art, and every human will be
-    forced to dance until... DEATH.
+  - 'That''s why my graffiti are very very strong? '
+  - <wave a=0.5>Combined to your <rainb>punk drive</rainb>, we're (almost) unstoppable.</wave>
+  - <wave a=0.5>Anyway, we don't have much time. Hurry pal!</wave>
+  - Wow... so this was the subway that carries the legendary <color=#EAD827><incr><size=60>Marshall</size></incr></color>
+    stash.
+  - <wave a=0.5>I don't know how infamous they were, but now their leader is being
+    manipulated by that evil spirit. A dude named <size=60><color=#7FEF2A><swing>Scravinsky</swing></color></size>.
+    </wave>
+  - <wave a=0.5>He's the worst of all, remember that. His only goal is <shake a=0.2>world
+    domination</shake>.</wave>
+  - '<color=#EAD827><incr><size=60>Johnny Cash</size></incr></color> is being manipulated?
+    That real legend... I guess only a real <size=60><color=#7FEF2A><swing>evil spirit</swing></color></size>
+    could do that to him. '
+  - So we're going to THE <color=#EAD827><incr><size=60>Marshalls</size></incr></color>
+    headquarters now?
+  - '<wave a=0.5>We have no other choice yeah. We have to exorcise <color=#EAD827><incr><size=60>Johnny</size></incr></color>
+    and send <size=60><color=#7FEF2A><swing>Scravinsky</swing></color></size> out
+    of the human world. '
+  - <wave a=0.5>If we fail, the music will take over all forms of art, and every
+    human will be forced to dance until... <shake a=0.2>DEATH</shake>.</wave>
   - Ha, so you were here too, Scraffaello. Too bad you chose such a weak partner.
   - Scraffaello ? How--
   - No, Jett!
@@ -583,52 +593,54 @@ MonoBehaviour:
     the world for 666 days. '
   sDialogueFrench:
   - "<swing>Voil\xE0</swing>. \xC7a, c'est un tag qu'ils ne vont pas oublier."
-  - "<wave a=0.5>C'est \xE7a l'esprit !</wave>"
+  - <wave a=0.5>Trop trop classe !</wave>
   - Ouai--!! Attends quoi ? Quoi ?!
-  - "<wave a=0.5>Yep, ce tag a une pure <rainb>\xE9nergie punk</rainb>. C'est quelqu'un
-    comme toi que je cherchais !</wave>"
+  - "<wave a=0.5>Yeaaah, ce tag a une pure <rainb>\xE9nergie punk</rainb>. C'est
+    quelqu'un comme toi que je cherchais !</wave>"
   - T-T'es qui ?
-  - "<wave a=0.5>Je suis le sublime <size=60><color=#7FEF2A><swing>Scraffi</swing></color></size>,
-    enchant\xE9 magnifique \xEAtre de funk.</wave>"
-  - "<wave a=0.5>T'accepterais de devenir mon gars s\xFBr pour nous d\xE9barasser
-    de ces fous de la musique ?</wave>"
-  - "... J'ai pris un truc ou quoi ? Je parle vraiment \xE0 ma bombe de peinture
-    ?"
-  - "<wave a=0.5>Je ressemble peut-\xEAtre \xE0 une bombe de peinture, mais c'est
-    moi qui ai choisi d'y entrer pour que tes graffs aient un vrai impact contre
-    ces gangsters. Alors, t'en es?</wave>"
+  - "<wave a=0.5>Je suis le tr\xE8s tr\xE8s cool <size=60><color=#7FEF2A><swing>Scraffi</swing></color></size>.
+    Enchant\xE9, magnifique \xEAtre de funk.</wave>"
+  - "<wave a=0.5>Tu veux qu'on se d\xE9barasse de ces fous de la musique, ensemble
+    ?</wave>"
+  - ... T'es une bombe de peinture ... Qui parle ?
+  - "<wave a=0.5>Je ressemble PEUT-\xCATRE \xE0 une bombe de peinture. Mais j'en
+    suis pas une. Je l'ai ... Poss\xE9d\xE9e. Am\xE9lior\xE9e, si tu pr\xE9f\xE8res.
+    Alors, t'en es?</wave>"
   - "C'est bizarre... mais bon, j'peux pas ne PAS faire confiance \xE0 une bombe
     que j'ai tant utilis\xE9e..."
-  - "Ok, on est potes s\xFBrs maintenant ! Ces gangsters ? Ils s'appellent les <color=#EAD827><incr><size=60>Marshalls</size></incr></color>. "
-  - 'Et moi, c''est<waitfor=.5> <size=60><bounce>Jett<waitfor=.5> Rush.</bounce></size> '
-  - "<wave a=0.5>La situation est bien pire que ce que je pensais. Il y avait tellement
-    de <color=#EAD827><incr><size=60>Marshalls</size></incr></color> l\xE0 !</wave>"
-  - "Ils ont toujours \xE9t\xE9 un tr\xE8s grand groupe, mais ils n'\xE9taient pas
-    comme \xE7a avant. "
-  - "Oui, c'\xE9taient des gangsters, mais pas comme... \xE7a !"
+  - "Ok, on est potes s\xFBrs maintenant ! Tu vois, ces gangsters ? Ils s'appellent
+    les <color=#EAD827><incr><size=60>Marshalls</size></incr></color>. "
+  - Et moi, c'est<waitfor=.5> <size=60><rainb><bounce>Jett<waitfor=.5> Rush</bounce></rainb></size>.
+  - <wave a=0.5><i>OMG</i> c'est bien pire que ce que je pensais.
+  - "Il y avait tellement de <color=#EAD827><incr><size=60>Marshalls</size></incr></color>
+    l\xE0 !</wave>"
+  - "Ouais, c'\xE9taient des gangsters, mais pas comme... \xE7a !"
   - "Tu sais ce qui les a chang\xE9s ? "
-  - "<wave a=0.5>Oui. Ils ne sont plus eux-m\xEAmes. Ils sont manipul\xE9s par le
-    pouvoir d'un <size=60><color=#7FEF2A><swing>Malin</swing></color></size> mal\xE9fique.</wave>"
-  - <wave a=0.5>Au fait, je suis aussi un <size=60><color=#7FEF2A><swing>Malin</swing></color></size>.
-    Mais un gentil. Et bien plus sage. </wave>
+  - "<wave a=0.5>Je sais. Ils ne sont plus eux-m\xEAmes. Ils sont manipul\xE9s par
+    le pouvoir d'un m\xE9chant <size=60><color=#7FEF2A><swing>Malin</swing></color></size>.</wave>"
+  - <wave a=0.5>Et, ouiiiii, certes, je suis aussi un <size=60><color=#7FEF2A><swing>Malin</swing></color></size>.
+    Mais un gentil. Bien plus <rainb>cool</rain>. </wave>
   - "<wave a=0.5>J'ai le pouvoir de transformer ta peinture en peinture <color=#7FEF2A><shake
     a=0.2>anti-Malin-mal\xE9fique</shake></color>. Plus ou moins.</wave>"
-  - "C'est pour \xE7a que mes graffitis sont si puissants ? "
-  - "<wave a=0.5>Combin\xE9 \xE0 ton <rainb>esprit punk</rainb>, nous sommes inarr\xEAtables.
+  - "C'est pour \xE7a que mes graffitis sont super forts ? "
+  - "<wave a=0.5>Combin\xE9 \xE0 ton <rainb>esprit punk</rainb>, nous sommes (quasiment)
+    inarr\xEAtables. </wave>"
+  - "<wave a=0.5>Bref, la situation est grave. D\xE9p\xEAche-toi !</wave> "
+  - "Wow... C'\xE9tait donc \xE7a le m\xE9tro qui transporte le fameux stock <color=#EAD827><incr><size=60>Marshall</size></incr></color>."
+  - "<wave a=0.5>Je ne sais pas \xE0 quel point ils \xE9taient notoires, mais maintenant
+    leur chef est manipul\xE9 par un Malin mal\xE9fique. Un gars appel\xE9 <size=60><color=#7FEF2A><swing>Scravinsky</swing></color></size>.
     </wave>"
-  - '<wave a=0.5>Bref, la situation est grave. Il faut faire vite.</wave> '
-  - "Wow... C'\xE9tait donc \xE7a le m\xE9tro qui transporte le fameux stock Marshall."
-  - "Je ne sais pas \xE0 quel point ils \xE9taient notoires, mais maintenant leur
-    chef est manipul\xE9 par un Malin mal\xE9fique. Scravinsky qu'il s'appelle. "
-  - "C'est le pire des pires, souviens-toi de \xE7a. Son seul objectif est la domination
-    du monde."
-  - "Johnny Cash, manipul\xE9 ? C'est une vraie l\xE9gende... Seul un vrai Malin
-    mal\xE9fique pourrait manipuler quelqu'un comme lui."
+  - "<wave a=0.5>C'est le pire des pires, souviens-toi de \xE7a. Son seul objectif
+    est <shake a=0.2>la domination du monde</shake>.</wave>"
+  - "<color=#EAD827><incr><size=60>Johnny Cash</size></incr></color>, manipul\xE9
+    ? Une vraie l\xE9gende... Seul un vrai <size=60><color=#7FEF2A><swing>Malin mal\xE9fique</swing></color></size>
+    pourrait lui faire \xE7a."
   - "Donc l\xE0 tu me dis qu'on va au fameux quartier g\xE9n\xE9ral des <color=#EAD827><incr><size=60>Marshalls</size></incr></color>? "
-  - "On n'a pas trop le choix ouais. Il faut qu'on exorcise Johnny et qu'on renvoie
-    Scravinsky d'o\xF9 il vient, c'est-\xE0-dire loin du monde des humains. "
-  - "Si on se plante, la musique va dominer toutes les autres formes d'art et chaque
-    humain devra danser... jusqu'\xE0 la MORT."
+  - "<wave a=0.5>On n'a pas trop le choix ouais. Il faut qu'on exorcise <color=#EAD827><incr><size=60>Johnny</size></incr></color>
+    et qu'on renvoie <size=60><color=#7FEF2A><swing>Scravinsky</swing></color></size>
+    d'o\xF9 il vient, c'est-\xE0-dire loin du monde des humains. </wave>"
+  - "<wave a=0.5>Si on se plante, la musique va dominer toutes les autres formes
+    d'art et chaque humain devra danser... jusqu'\xE0 la <shake a=0.2>MORT</shake>.</wave>"
   - "Ha, donc tu \xE9tais l\xE0 aussi, Scraffaello. Dommage que tu aies choisi un
     acolyte si faible."
   - Scraffaello ? Comment--
@@ -875,6 +887,7 @@ MonoBehaviour:
   typeAnimator: {fileID: 0}
   scPlayer: {fileID: 0}
   _playerData: {fileID: 1165491372627732135}
+  sTextEnglishAndFrench: []
   sEnglish: Has tagged everything.
   sFrench: "A tout tagg\xE9."
   bIsOnManager: 1
@@ -1148,6 +1161,7 @@ MonoBehaviour:
   typeAnimator: {fileID: 6468951622119630613}
   scPlayer: {fileID: 0}
   _playerData: {fileID: 1165491372627732135}
+  sTextEnglishAndFrench: []
   sEnglish: 
   sFrench: 
   bIsOnManager: 1
@@ -1428,6 +1442,7 @@ MonoBehaviour:
   typeAnimator: {fileID: 0}
   scPlayer: {fileID: 0}
   _playerData: {fileID: 1165491372627732135}
+  sTextEnglishAndFrench: []
   sEnglish: MUSIC
   sFrench: MUSIQUE
   bIsOnManager: 1
@@ -1587,6 +1602,7 @@ MonoBehaviour:
   typeAnimator: {fileID: 0}
   scPlayer: {fileID: 0}
   _playerData: {fileID: 1165491372627732135}
+  sTextEnglishAndFrench: []
   sEnglish: finished the level.
   sFrench: A fini le niveau.
   bIsOnManager: 1
@@ -1676,8 +1692,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 3913073544357672330}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: -0.05, y: -0.1}
-  m_AnchorMax: {x: 0.25, y: 0.2}
+  m_AnchorMin: {x: -0.05, y: 0.8}
+  m_AnchorMax: {x: 0.25, y: 1.1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1737,7 +1753,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72.9
+  m_fontSize: 57.25
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1868,6 +1884,166 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!1 &840746026122363967
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2377968481420098900}
+  - component: {fileID: 4762831515690870727}
+  - component: {fileID: 5298232757407247078}
+  - component: {fileID: 941568734190081341}
+  m_Layer: 5
+  m_Name: Text (TMP)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2377968481420098900
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 840746026122363967}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7789220785975016686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &4762831515690870727
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 840746026122363967}
+  m_CullTransparentMesh: 1
+--- !u!114 &5298232757407247078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 840746026122363967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: Missed Beats
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 2aefc435c742ba1458d64549d96e081c, type: 2}
+  m_sharedMaterial: {fileID: 7120875131993628362, guid: 2aefc435c742ba1458d64549d96e081c,
+    type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 36
+  m_fontSizeBase: 36
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &941568734190081341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 840746026122363967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c108fd3a76764d42b690a6365b1bae6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  typeAnimator: {fileID: 0}
+  scPlayer: {fileID: 0}
+  _playerData: {fileID: 0}
+  sTextEnglishAndFrench: []
+  sEnglish: Missed Beats
+  sFrench: "Battements manqu\xE9s"
+  bIsOnManager: 0
+  bIsDifficulty: 0
+  bIsToTip: 0
+  bIsBubble: 0
+  bTextWritten: 0
+  menuManager: {fileID: 0}
 --- !u!1 &842903095581079534
 GameObject:
   m_ObjectHideFlags: 0
@@ -2364,6 +2540,7 @@ MonoBehaviour:
   typeAnimator: {fileID: 0}
   scPlayer: {fileID: 0}
   _playerData: {fileID: 1165491372627732135}
+  sTextEnglishAndFrench: []
   sEnglish: Ground grid
   sFrench: Grille de sol
   bIsOnManager: 1
@@ -2879,6 +3056,7 @@ MonoBehaviour:
   typeAnimator: {fileID: 0}
   scPlayer: {fileID: 0}
   _playerData: {fileID: 1165491372627732135}
+  sTextEnglishAndFrench: []
   sEnglish: Lord of the beats
   sFrench: Virtuose des beats
   bIsOnManager: 1
@@ -2949,6 +3127,7 @@ MonoBehaviour:
   typeAnimator: {fileID: 0}
   scPlayer: {fileID: 0}
   _playerData: {fileID: 1165491372627732135}
+  sTextEnglishAndFrench: []
   sEnglish: Quit
   sFrench: Quitter
   bIsOnManager: 1
@@ -3062,6 +3241,7 @@ MonoBehaviour:
   typeAnimator: {fileID: 0}
   scPlayer: {fileID: 0}
   _playerData: {fileID: 1165491372627732135}
+  sTextEnglishAndFrench: []
   sEnglish: Quit
   sFrench: Quitter
   bIsOnManager: 1
@@ -3383,6 +3563,141 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!1 &1786704062288659517
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1160476042998223858}
+  - component: {fileID: 5504475852371915074}
+  - component: {fileID: 7619279331599965672}
+  m_Layer: 5
+  m_Name: PercentPerfect
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1160476042998223858
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1786704062288659517}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1530635514749866742}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.4, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &5504475852371915074
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1786704062288659517}
+  m_CullTransparentMesh: 1
+--- !u!114 &7619279331599965672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1786704062288659517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: '%'
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 62671a397e457384b8366aca52da878f, type: 2}
+  m_sharedMaterial: {fileID: 228280422795380690, guid: 62671a397e457384b8366aca52da878f,
+    type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 36
+  m_fontSizeBase: 36
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 4
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1795293972699806020
 GameObject:
   m_ObjectHideFlags: 0
@@ -3625,8 +3940,8 @@ RectTransform:
   - {fileID: 1697975477215424881}
   m_Father: {fileID: 3803594740852749823}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.040000003, y: 0.07}
-  m_AnchorMax: {x: 0.32000002, y: 0.55}
+  m_AnchorMin: {x: 0.13, y: 0.16}
+  m_AnchorMax: {x: 0.35, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3818,6 +4133,43 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &2589716035397740525
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1530635514749866742}
+  m_Layer: 5
+  m_Name: Perfect
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1530635514749866742
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2589716035397740525}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4393290050632100749}
+  - {fileID: 1160476042998223858}
+  m_Father: {fileID: 5613175853767579443}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0.25}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2686574144401022597
 GameObject:
   m_ObjectHideFlags: 0
@@ -3969,6 +4321,7 @@ MonoBehaviour:
   typeAnimator: {fileID: 0}
   scPlayer: {fileID: 0}
   _playerData: {fileID: 1165491372627732135}
+  sTextEnglishAndFrench: []
   sEnglish: AMBIANCE
   sFrench: AMBIANCE
   bIsOnManager: 1
@@ -4375,6 +4728,7 @@ MonoBehaviour:
   typeAnimator: {fileID: 0}
   scPlayer: {fileID: 0}
   _playerData: {fileID: 1165491372627732135}
+  sTextEnglishAndFrench: []
   sEnglish: Has not missed any beat.
   sFrench: "N'a rat\xE9 aucun battement"
   bIsOnManager: 1
@@ -4687,6 +5041,7 @@ MonoBehaviour:
   typeAnimator: {fileID: 0}
   scPlayer: {fileID: 0}
   _playerData: {fileID: 1165491372627732135}
+  sTextEnglishAndFrench: []
   sEnglish: General
   sFrench: "G\xE9n\xE9ral"
   bIsOnManager: 1
@@ -4899,7 +5254,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 518.4
+  m_fontSize: 367.2
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5016,6 +5371,141 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &3255783004004231327
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7367878162824394886}
+  - component: {fileID: 6349864846614639139}
+  - component: {fileID: 4874013602709699638}
+  m_Layer: 5
+  m_Name: PercentBad
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &7367878162824394886
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3255783004004231327}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2231486996373022462}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.4, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &6349864846614639139
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3255783004004231327}
+  m_CullTransparentMesh: 1
+--- !u!114 &4874013602709699638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3255783004004231327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: '%'
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 62671a397e457384b8366aca52da878f, type: 2}
+  m_sharedMaterial: {fileID: 228280422795380690, guid: 62671a397e457384b8366aca52da878f,
+    type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 36
+  m_fontSizeBase: 36
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 4
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &3344317278054861831
 GameObject:
   m_ObjectHideFlags: 0
@@ -5376,6 +5866,7 @@ MonoBehaviour:
   typeAnimator: {fileID: 0}
   scPlayer: {fileID: 0}
   _playerData: {fileID: 1165491372627732135}
+  sTextEnglishAndFrench: []
   sEnglish: Has not been seen by anyone.
   sFrench: "N'a \xE9t\xE9 vu.e par personne."
   bIsOnManager: 1
@@ -5956,6 +6447,7 @@ MonoBehaviour:
   typeAnimator: {fileID: 0}
   scPlayer: {fileID: 0}
   _playerData: {fileID: 1165491372627732135}
+  sTextEnglishAndFrench: []
   sEnglish: This game needs a controller for best experience. Grab a controller and
     kick back !
   sFrench: "Pour une exp\xE9rience optimale, ce jeu a besoin d'une manette. Attrapes-en
@@ -5966,6 +6458,166 @@ MonoBehaviour:
   bIsBubble: 0
   bTextWritten: 0
   menuManager: {fileID: 269850063720091022}
+--- !u!1 &3698471571332485197
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6763308699756450942}
+  - component: {fileID: 7265573556341571912}
+  - component: {fileID: 2169735779128487339}
+  - component: {fileID: 4898162507385319855}
+  m_Layer: 5
+  m_Name: Text (TMP)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &6763308699756450942
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3698471571332485197}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2231486996373022462}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &7265573556341571912
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3698471571332485197}
+  m_CullTransparentMesh: 1
+--- !u!114 &2169735779128487339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3698471571332485197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: Bad Beats
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 2aefc435c742ba1458d64549d96e081c, type: 2}
+  m_sharedMaterial: {fileID: 7120875131993628362, guid: 2aefc435c742ba1458d64549d96e081c,
+    type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 36
+  m_fontSizeBase: 36
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &4898162507385319855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3698471571332485197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c108fd3a76764d42b690a6365b1bae6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  typeAnimator: {fileID: 0}
+  scPlayer: {fileID: 0}
+  _playerData: {fileID: 0}
+  sTextEnglishAndFrench: []
+  sEnglish: Bad Beats
+  sFrench: Battements mauvais
+  bIsOnManager: 0
+  bIsDifficulty: 0
+  bIsToTip: 0
+  bIsBubble: 0
+  bTextWritten: 0
+  menuManager: {fileID: 0}
 --- !u!1 &3739087773515740591
 GameObject:
   m_ObjectHideFlags: 0
@@ -6173,6 +6825,58 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &4241790630434133655
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5613175853767579443}
+  - component: {fileID: 453684677011454217}
+  m_Layer: 5
+  m_Name: Details
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &5613175853767579443
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4241790630434133655}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 7789220785975016686}
+  - {fileID: 2231486996373022462}
+  - {fileID: 920174051425172042}
+  - {fileID: 1530635514749866742}
+  m_Father: {fileID: 3803594740852749823}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.01, y: 0.05}
+  m_AnchorMax: {x: 0.18, y: 0.3}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &453684677011454217
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4241790630434133655}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &4275264178835127054
 GameObject:
   m_ObjectHideFlags: 0
@@ -6204,6 +6908,7 @@ RectTransform:
   m_Children:
   - {fileID: 1994482048693982900}
   - {fileID: 3913073544357672330}
+  - {fileID: 5613175853767579443}
   - {fileID: 471612764286218279}
   - {fileID: 8015505184261164506}
   - {fileID: 4188449928365972951}
@@ -6226,6 +6931,43 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!1 &4297677691474819083
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2231486996373022462}
+  m_Layer: 5
+  m_Name: Bad
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2231486996373022462
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4297677691474819083}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6763308699756450942}
+  - {fileID: 7367878162824394886}
+  m_Father: {fileID: 5613175853767579443}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.75}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4458418047578122068
 GameObject:
   m_ObjectHideFlags: 0
@@ -6377,6 +7119,7 @@ MonoBehaviour:
   typeAnimator: {fileID: 0}
   scPlayer: {fileID: 0}
   _playerData: {fileID: 1165491372627732135}
+  sTextEnglishAndFrench: []
   sEnglish: Difficulty
   sFrench: "Difficult\xE9"
   bIsOnManager: 1
@@ -6385,6 +7128,166 @@ MonoBehaviour:
   bIsBubble: 0
   bTextWritten: 0
   menuManager: {fileID: 269850063720091022}
+--- !u!1 &4484481597394432229
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4393290050632100749}
+  - component: {fileID: 7057041919386570108}
+  - component: {fileID: 2217955827219881988}
+  - component: {fileID: 4913536458380553911}
+  m_Layer: 5
+  m_Name: Text (TMP)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &4393290050632100749
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4484481597394432229}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1530635514749866742}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &7057041919386570108
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4484481597394432229}
+  m_CullTransparentMesh: 1
+--- !u!114 &2217955827219881988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4484481597394432229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: Perfect Beats
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 2aefc435c742ba1458d64549d96e081c, type: 2}
+  m_sharedMaterial: {fileID: 7120875131993628362, guid: 2aefc435c742ba1458d64549d96e081c,
+    type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 36
+  m_fontSizeBase: 36
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &4913536458380553911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4484481597394432229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c108fd3a76764d42b690a6365b1bae6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  typeAnimator: {fileID: 0}
+  scPlayer: {fileID: 0}
+  _playerData: {fileID: 0}
+  sTextEnglishAndFrench: []
+  sEnglish: Perfect Beats
+  sFrench: Battements parfaits
+  bIsOnManager: 0
+  bIsDifficulty: 0
+  bIsToTip: 0
+  bIsBubble: 0
+  bTextWritten: 0
+  menuManager: {fileID: 0}
 --- !u!1 &4506092838792349122
 GameObject:
   m_ObjectHideFlags: 0
@@ -6536,6 +7439,7 @@ MonoBehaviour:
   typeAnimator: {fileID: 0}
   scPlayer: {fileID: 0}
   _playerData: {fileID: 1165491372627732135}
+  sTextEnglishAndFrench: []
   sEnglish: Shadow
   sFrench: Ombre
   bIsOnManager: 1
@@ -7540,6 +8444,7 @@ MonoBehaviour:
   typeAnimator: {fileID: 0}
   scPlayer: {fileID: 0}
   _playerData: {fileID: 1165491372627732135}
+  sTextEnglishAndFrench: []
   sEnglish: Boogie Woogie
   sFrench: Boogie Woogie
   bIsOnManager: 1
@@ -7609,6 +8514,7 @@ MonoBehaviour:
   typeAnimator: {fileID: 0}
   scPlayer: {fileID: 0}
   _playerData: {fileID: 1165491372627732135}
+  sTextEnglishAndFrench: []
   sEnglish: Level Map
   sFrench: Carte des niveaux
   bIsOnManager: 1
@@ -8194,6 +9100,43 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &5802010349109766250
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 920174051425172042}
+  m_Layer: 5
+  m_Name: Good
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &920174051425172042
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5802010349109766250}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8633626094006129002}
+  - {fileID: 3118418070714449862}
+  m_Father: {fileID: 5613175853767579443}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0.25}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &5858307904816852131
 GameObject:
   m_ObjectHideFlags: 0
@@ -8690,6 +9633,7 @@ MonoBehaviour:
   typeAnimator: {fileID: 0}
   scPlayer: {fileID: 0}
   _playerData: {fileID: 1165491372627732135}
+  sTextEnglishAndFrench: []
   sEnglish: Resume
   sFrench: Reprendre
   bIsOnManager: 1
@@ -8995,6 +9939,203 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!1 &6756709169117168730
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8633626094006129002}
+  - component: {fileID: 8089197643449575523}
+  - component: {fileID: 465492443367448396}
+  - component: {fileID: 5836306722689281606}
+  m_Layer: 5
+  m_Name: Text (TMP)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &8633626094006129002
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6756709169117168730}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 920174051425172042}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &8089197643449575523
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6756709169117168730}
+  m_CullTransparentMesh: 1
+--- !u!114 &465492443367448396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6756709169117168730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: Good Beats
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 2aefc435c742ba1458d64549d96e081c, type: 2}
+  m_sharedMaterial: {fileID: 7120875131993628362, guid: 2aefc435c742ba1458d64549d96e081c,
+    type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 36
+  m_fontSizeBase: 36
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &5836306722689281606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6756709169117168730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c108fd3a76764d42b690a6365b1bae6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  typeAnimator: {fileID: 0}
+  scPlayer: {fileID: 0}
+  _playerData: {fileID: 0}
+  sTextEnglishAndFrench: []
+  sEnglish: Good Beats
+  sFrench: Battements bons
+  bIsOnManager: 0
+  bIsDifficulty: 0
+  bIsToTip: 0
+  bIsBubble: 0
+  bTextWritten: 0
+  menuManager: {fileID: 0}
+--- !u!1 &6830278506267358868
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7789220785975016686}
+  m_Layer: 5
+  m_Name: Missed
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &7789220785975016686
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6830278506267358868}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2377968481420098900}
+  - {fileID: 3142751730301555071}
+  m_Father: {fileID: 5613175853767579443}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0.75}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &6891692081136292909
 GameObject:
   m_ObjectHideFlags: 0
@@ -10005,6 +11146,276 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &7373694302491053471
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3118418070714449862}
+  - component: {fileID: 6124589061034813368}
+  - component: {fileID: 3397906689220409804}
+  m_Layer: 5
+  m_Name: PercentGood
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &3118418070714449862
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7373694302491053471}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 920174051425172042}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.4, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &6124589061034813368
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7373694302491053471}
+  m_CullTransparentMesh: 1
+--- !u!114 &3397906689220409804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7373694302491053471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: '%'
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 62671a397e457384b8366aca52da878f, type: 2}
+  m_sharedMaterial: {fileID: 228280422795380690, guid: 62671a397e457384b8366aca52da878f,
+    type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 36
+  m_fontSizeBase: 36
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 4
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &7451007661378717341
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3142751730301555071}
+  - component: {fileID: 7510821768741747374}
+  - component: {fileID: 622537630934982511}
+  m_Layer: 5
+  m_Name: PercentMissed
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &3142751730301555071
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7451007661378717341}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7789220785975016686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.4, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &7510821768741747374
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7451007661378717341}
+  m_CullTransparentMesh: 1
+--- !u!114 &622537630934982511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7451007661378717341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: '%'
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 62671a397e457384b8366aca52da878f, type: 2}
+  m_sharedMaterial: {fileID: 228280422795380690, guid: 62671a397e457384b8366aca52da878f,
+    type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 36
+  m_fontSizeBase: 36
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 4
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &7475581123719001342
 GameObject:
   m_ObjectHideFlags: 0
@@ -10955,6 +12366,7 @@ MonoBehaviour:
   typeAnimator: {fileID: 0}
   scPlayer: {fileID: 0}
   _playerData: {fileID: 1165491372627732135}
+  sTextEnglishAndFrench: []
   sEnglish: Clean
   sFrench: "Carr\xE9"
   bIsOnManager: 1
@@ -11247,6 +12659,7 @@ MonoBehaviour:
   typeAnimator: {fileID: 0}
   scPlayer: {fileID: 0}
   _playerData: {fileID: 1165491372627732135}
+  sTextEnglishAndFrench: []
   sEnglish: True artist
   sFrench: Vrai.e artiste
   bIsOnManager: 1
@@ -11556,6 +12969,7 @@ MonoBehaviour:
   typeAnimator: {fileID: 0}
   scPlayer: {fileID: 0}
   _playerData: {fileID: 1165491372627732135}
+  sTextEnglishAndFrench: []
   sEnglish: Language
   sFrench: Langage
   bIsOnManager: 1
@@ -12169,6 +13583,7 @@ MonoBehaviour:
   typeAnimator: {fileID: 0}
   scPlayer: {fileID: 0}
   _playerData: {fileID: 1165491372627732135}
+  sTextEnglishAndFrench: []
   sEnglish: Has scored S.
   sFrench: "A scor\xE9 un S."
   bIsOnManager: 1
@@ -12409,6 +13824,7 @@ MonoBehaviour:
   typeAnimator: {fileID: 0}
   scPlayer: {fileID: 0}
   _playerData: {fileID: 1165491372627732135}
+  sTextEnglishAndFrench: []
   sEnglish: Options
   sFrench: "Param\xE8tres"
   bIsOnManager: 1

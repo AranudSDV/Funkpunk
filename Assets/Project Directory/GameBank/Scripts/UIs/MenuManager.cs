@@ -123,6 +123,8 @@ public class MenuManager : SingletonManager<MenuManager>
     public RectTransform RtScoring;
     public TMP_Text txtScoringJudgment;
     public TMP_Text txtScoringScore;
+    [Tooltip("Missed, Bad, Good, Perfect")]public TMP_Text[] txtScoringScoreDetails = new TMP_Text[4];
+    public CanvasGroup cgScoreDetails;
     public UnityEngine.UI.Image ImgScoringBackground;
     public Sprite[] spritesScoringBackground;
     public GameObject GoScoringSuccess;
@@ -284,13 +286,16 @@ public class MenuManager : SingletonManager<MenuManager>
                 TrainAndUION();
             }
         }
-        if(bWaitTrain && bMenuOnTriggered)
+        if(SceneManager.GetActiveScene().name == "SceneSplash")
         {
-            TrainAndUION();
-        }
-        else if(bWaitTrain && bCreditsOnTriggered)
-        {
-            TrainAndUION();
+            if (bWaitTrain && bMenuOnTriggered)
+            {
+                TrainAndUION();
+            }
+            else if (bWaitTrain && bCreditsOnTriggered)
+            {
+                TrainAndUION();
+            }
         }
         UXNavigation();
         if (isLoadingScene)

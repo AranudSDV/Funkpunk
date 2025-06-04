@@ -30,7 +30,6 @@ public class sc_tuto_generic : MonoBehaviour
     private int[] iBubbleNbAdd;
     [SerializeField] private RectTransform RtTutoAll;
     [SerializeField] private RectTransform[] RtTuto;
-    [SerializeField] private Sprite[]spriteBdTuto;
     [SerializeField] private RectTransform[] RtParentTuto;
     private int _y = 0;
     [SerializeField] private bool[] bTuto;
@@ -158,6 +157,7 @@ public class sc_tuto_generic : MonoBehaviour
                         }
                         else if (!bWaitNext && bHasClickedSkip && !bOnceSkip) //SKIP THE BUBBLES SHOWING
                         {
+                            Debug.Log("skip");
                             BubbleSkip();
                             bHasClickedSkip = false;
                             bOnceSkip = true;
@@ -169,6 +169,7 @@ public class sc_tuto_generic : MonoBehaviour
                     }
                     else
                     {
+                        Debug.Log("next?ici");
                         if(!bWaitNext && !bHasClickedSkip && !bOnceSkip)
                         {
                             bOnceNext = false;
@@ -360,12 +361,13 @@ public class sc_tuto_generic : MonoBehaviour
             if(_ftimer >= fTimer[i] && b_[z])
             {
                 ShowBubble(i, false);
-                UnreadBubble(i, max);
                 b_[z] = false;
-                if(z!= iBubbleNb[_y] -2)
+                Debug.Log(i);
+                if (z!= iBubbleNb[_y] -2)
                 {
                     b_[z + 1] = true;
                     _ftimer = 0f;
+                    Debug.Log("continue");
                 }
                 else
                 {
@@ -420,8 +422,7 @@ public class sc_tuto_generic : MonoBehaviour
         for (int i = iBubbleNbAdd[_y], z = 0; i < max && z < iBubbleNb[_y]; i++, z++)
         {
              ShowBubble(i, true);
-            UnreadBubble(i, max);
-             if (bIsOnLoft && bTuto[0])
+            if (bIsOnLoft && bTuto[0])
             {
                 CgGameUI.alpha = 1f;
                 scPlayer.menuManager.bGameIsPaused = false;
@@ -511,13 +512,6 @@ public class sc_tuto_generic : MonoBehaviour
         else if (!skip && RtTuto[i].childCount > 0 && RtTuto[i].GetChild(0).transform.GetComponent<sc_textChange>().bIsBubble)
         {
             RtTuto[i].GetChild(0).transform.GetComponent<sc_textChange>().BubbleShowText();
-        }
-    }
-    private void UnreadBubble(int i, int max)
-    {
-        if(spriteBdTuto !=null && spriteBdTuto.Length >0&& i != 0 && _y ==0 && i< max-1)
-        {
-            RtTuto[i-1].GetComponent<UnityEngine.UI.Image>().sprite = spriteBdTuto[i-1];
         }
     }
     private void ShowNextText(int i) //SHOW NEXT TEXT AND HIDE CONTINUE TEXT
