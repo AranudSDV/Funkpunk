@@ -30,7 +30,8 @@ ModelImporter:
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    extraUserProperties: []
+    extraUserProperties:
+    - '#BAKERY{"meshName":["Object008","Object007","Object012","Object014","Object009","Object011","Object013","Plane001","Object005","Object006","Object004","Object003","Object010"],"padding":[37,118,125,126,90,134,125,126,128,120,114,61,92],"unwrapper":[0,0,0,0,0,0,0,0,0,0,0,0,0]}'
     clipAnimations: []
     isReadable: 0
   meshes:
