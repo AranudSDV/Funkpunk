@@ -2100,7 +2100,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.AnimationCurve, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"frames":[{"time":0.001132965087890625,"value":0.0,"inTangent":2.3490889072418215,"outTangent":2.3490889072418215,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":0.8006172180175781,"value":1.0089284181594849,"inTangent":0.0,"outTangent":0.0,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false}],"preWrapMode":8,"postWrapMode":8,"version":1}'
+      m_SerializableObject: '{"frames":[{"time":0.001132965087890625,"value":0.0,"inTangent":20.550493240356447,"outTangent":20.550493240356447,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":0.1418467015028,"value":2.0032713413238527,"inTangent":-0.018892597407102586,"outTangent":-0.018892597407102586,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":0.36805596947669985,"value":0.6947973966598511,"inTangent":0.3792583644390106,"outTangent":0.3792583644390106,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":0.8006172180175781,"value":1.0089284181594849,"inTangent":0.0,"outTangent":0.0,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false}],"preWrapMode":8,"postWrapMode":8,"version":1}'
     m_Space: 2147483647
   m_Property:
     name: curve
