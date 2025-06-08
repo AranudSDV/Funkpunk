@@ -891,9 +891,14 @@ public class MenuManager : SingletonManager<MenuManager>
         RtLoadingScreen.anchorMax = new Vector2(1, 2);
         RtScoring.anchorMin = new Vector2(0, 1);
         RtScoring.anchorMax = new Vector2(1, 2);
-        if(sceneToLoad == "LevelChoosing")
+        if(sceneToLoad == "LevelChoosing" || sceneToLoad == "next")
         {
             EventSystem.SetSelectedGameObject(GoLevelsButton[0]);
+            Shader.SetGlobalFloat("BPM", 60f);
+        }
+        else if(sceneToLoad == "SceneSplash" || sceneToLoad == "CreditsScene")
+        {
+            Shader.SetGlobalFloat("BPM", 60f);
         }
     }
     private void LoaderScene(string sceneToLoad)

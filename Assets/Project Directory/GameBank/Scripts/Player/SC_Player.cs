@@ -90,6 +90,7 @@ public class SC_Player : Singleton<SC_Player>
     private float fPercentScore;
     public TMP_Text TMPScore;
     private bool bIsEndGame = false;
+    private DG.Tweening.Sequence[] starSequence = new DG.Tweening.Sequence[5];
 
     //LE JOYSTICK
     [Header("Joystick")]
@@ -135,24 +136,19 @@ public class SC_Player : Singleton<SC_Player>
     private float[] fPreviousNbBeatScoring = new float[4] { 0f, 0f, 0f, 0f};
     public int iCheckPoint = 0;
     public bool bIsReplaying = false;
-
     [SerializeField] private GameObject go_Grid;
-
     [SerializeField, Button(nameof(testy))] bool test;
-
     [ContextMenu("lols")]
     private void testy()
     {
         Debug.Log("lol ça marche !");
     }
-
     static int Hasard(int a, int b) //Choisi un random.
     {
         System.Random rdm = new System.Random();
         int hasard = rdm.Next(a, b + 1); //Aller jusqu'a le b inclu.
         return hasard;
     }
-
     public void InitializeGamepad()
     {
         if (bHasController)
@@ -1765,7 +1761,11 @@ public class SC_Player : Singleton<SC_Player>
             List.Add(0);
         }
         //TRUE ARTISTE
-        int i = Int32.Parse(Regex.Match(SceneManager.GetActiveScene().name, @"\d+").Value);
+        int i = 0;
+        if(SceneManager.GetActiveScene().name != "Gym_GPP")
+        {
+            i = Int32.Parse(Regex.Match(SceneManager.GetActiveScene().name, @"\d+").Value);
+        }
         if (itagDone == menuManager.iNbTaggs[i]) 
         {
             List.Add(1);
@@ -1839,19 +1839,22 @@ public class SC_Player : Singleton<SC_Player>
             menuManager.txtScoringJudgment.color = new Color32(255, 255, 255, 0);
             menuManager.txtScoringScore.color = new Color32(255, 255, 255, 0);
             bool[] bDispayedDetails = new bool[4] { true, false, false, false};
-            bool bOnce = false;
             int[] displayedScoreDetails = new int[4] { 0, 0, 0, 0 };
+            UnityEngine.UI.Image[] imgStarsAll = new UnityEngine.UI.Image[5];
             int[] actualScoreDetails = new int[4] { (int)Math.Round((fScoreDetails[0]/fNbBeat)*100), (int)Math.Round((fScoreDetails[1] / fNbBeat)*100), (int)Math.Round((fScoreDetails[2] / fNbBeat)*100), (int)Math.Round((fScoreDetails[3] / fNbBeat) * 100) };
-            for (int i = 0; i < 4; i++)
+            for(int i = 0; i<5;i++)
             {
-                if (!bOnce)
+                imgStarsAll[i] = menuManager.GoScoringSuccess.transform.GetChild(i).gameObject.transform.GetChild(0).gameObject.GetComponent<UnityEngine.UI.Image>();
+                imgStarsAll[i].sprite = menuManager.sprite_star_empty;
+                if(i<4)
                 {
                     menuManager.txtScoringScoreDetails[i].color = new Color32(255, 255, 255, 0);
-                    if(i==3)
-                    {
-                        bOnce = true;
-                    }
+                    starSequence[i].Kill();
+                    starSequence[i] = DOTween.Sequence().SetAutoKill(true);
                 }
+            }
+            for (int i = 0; i < 4; i++)
+            {
                 while (bDispayedDetails[i])
                 {
                     menuManager.txtScoringScoreDetails[i].color = new Color32(255, 255, 255, 255);
@@ -1934,6 +1937,12 @@ public class SC_Player : Singleton<SC_Player>
                     {
                         imgStars[i].sprite = menuManager.sprite_star_completed;
                         texts[i].color = new Color32(255, 255, 255, 255);
+                        starSequence[i].Append(
+                            imgStars[i].GetComponent<RectTransform>().DORotate(new Vector3(0, 0, 20f), 0.15f)
+                                .SetEase(Ease.InOutSine)
+                                .SetLoops(4, LoopType.Yoyo)
+                                .SetUpdate(true)
+                        );
                     }
                     else //Faux
                     {
