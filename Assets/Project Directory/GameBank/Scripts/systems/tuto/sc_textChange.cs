@@ -71,7 +71,6 @@ public class sc_textChange : MonoBehaviour
             }
             if (!bIsBubble)
             {
-                Debug.Log("written");
                 if (_playerData != null && _playerData.iLanguageNbPlayer == 1)
                 {
                     this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sTextEnglishAndFrench[0];

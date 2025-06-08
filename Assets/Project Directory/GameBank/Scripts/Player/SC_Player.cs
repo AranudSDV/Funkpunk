@@ -887,18 +887,18 @@ public class SC_Player : Singleton<SC_Player>
         if (bIsReplaying)
         {
             Vector3 newPos = posLastCheckPoint + Vector3.zero;
-            this.transform.DOJump(newPos, jumpPower, 0, bpmManager.FSPB).SetEase(Ease.OutBack).SetAutoKill(true);
+            this.transform.DOJump(newPos, jumpPower, 0, bpmManager.FSPB).SetEase(Ease.OutBack);
         }
         else if(bIsImune)
         {
-            this.transform.DOJump(this.transform.position, jumpPower, 0, bpmManager.FSPB).SetEase(Ease.OutBack).SetAutoKill(true);
+            this.transform.DOJump(this.transform.position, jumpPower, 0, bpmManager.FSPB).SetEase(Ease.OutBack);
         }
         else
         {
             if (direction.x != 0 && direction.z != 0 && direction != Vector3.right)
             {
                 Vector3 newPos = this.transform.position + new Vector3(Mathf.Sign(direction.x), 0, Mathf.Sign(direction.z));
-                this.transform.DOJump(newPos, jumpPower, 0, bpmManager.FSPB).SetEase(Ease.OutBack).SetAutoKill(true);
+                this.transform.DOJump(newPos, jumpPower, 0, bpmManager.FSPB).SetEase(Ease.OutBack);
                 //DOMove(newPos, bpmManager.FSPB).SetAutoKill(true);
                 //this.transform.GetChild(0).gameObject.transform.DOJump(newPos, 1f, 0, bpmManager.FSPB).SetEase(Ease.OutBack).SetAutoKill(true);
                 //this.transform.DOJump(newPos, 1f, 0, bpmManager.FSPB, true).SetEase(Ease.OutBack).SetAutoKill(true);
@@ -906,7 +906,7 @@ public class SC_Player : Singleton<SC_Player>
             else
             {
                 Vector3 newPos = this.transform.position + direction;
-                this.transform.DOJump(newPos, jumpPower, 0, bpmManager.FSPB).SetEase(Ease.OutBack).SetAutoKill(true);
+                this.transform.DOJump(newPos, jumpPower, 0, bpmManager.FSPB).SetEase(Ease.OutBack);
                 //DOMove(newPos, bpmManager.FSPB).SetAutoKill(true);
                 //this.transform.GetChild(0).gameObject.transform.DOJump(newPos, 1f, 0, bpmManager.FSPB).SetEase(Ease.OutBack).SetAutoKill(true);
                 //this.transform.DOJump(newPos, 1f, 0, bpmManager.FSPB, true).SetEase(Ease.OutBack).SetAutoKill(true);
@@ -1068,13 +1068,13 @@ public class SC_Player : Singleton<SC_Player>
             {
                 currentAngleIndex = 1;
                 Quaternion quater = Quaternion.Euler(0, angles[currentAngleIndex], 0);
-                PlayerCapsule.transform.DORotateQuaternion(quater, time * 1 / 3).SetAutoKill(true);
+                PlayerCapsule.transform.DORotateQuaternion(quater, time * 1 / 3);
             }
             else if (Mathf.Sign(dir.x) == 1)
             {
                 currentAngleIndex = 5;
                 Quaternion quater = Quaternion.Euler(0, angles[currentAngleIndex], 0);
-                PlayerCapsule.transform.DORotateQuaternion(quater, time * 1 / 3).SetAutoKill(true);
+                PlayerCapsule.transform.DORotateQuaternion(quater, time * 1 / 3);
             }
         }
         else if (Mathf.Abs(dir.z) > tolerance && Mathf.Abs(dir.x) <= tolerance)
@@ -1084,13 +1084,13 @@ public class SC_Player : Singleton<SC_Player>
             {
                 currentAngleIndex = 3;
                 Quaternion quater = Quaternion.Euler(0, angles[currentAngleIndex], 0);
-                PlayerCapsule.transform.DORotateQuaternion(quater, time * 1 / 3).SetAutoKill(true);
+                PlayerCapsule.transform.DORotateQuaternion(quater, time * 1 / 3);
             }
             else if (Mathf.Sign(dir.z) == -1)
             {
                 currentAngleIndex = 7;
                 Quaternion quater = Quaternion.Euler(0, angles[currentAngleIndex], 0);
-                PlayerCapsule.transform.DORotateQuaternion(quater, time * 1 / 3).SetAutoKill(true);
+                PlayerCapsule.transform.DORotateQuaternion(quater, time * 1 / 3);
             }
         }
         else if (Mathf.Abs(dir.x) > tolerance && Mathf.Abs(dir.z) > tolerance)
@@ -1100,25 +1100,25 @@ public class SC_Player : Singleton<SC_Player>
             {
                 currentAngleIndex = 2;
                 Quaternion quater = Quaternion.Euler(0, angles[currentAngleIndex], 0);
-                PlayerCapsule.transform.DORotateQuaternion(quater, time * 1 / 3).SetAutoKill(true);
+                PlayerCapsule.transform.DORotateQuaternion(quater, time * 1 / 3);
             }
             else if (Mathf.Sign(dir.x) == 1 && Mathf.Sign(dir.z) == 1)
             {
                 currentAngleIndex = 4;
                 Quaternion quater = Quaternion.Euler(0, angles[currentAngleIndex], 0);
-                PlayerCapsule.transform.DORotateQuaternion(quater, time * 1 / 3).SetAutoKill(true);
+                PlayerCapsule.transform.DORotateQuaternion(quater, time * 1 / 3);
             }
             else if (Mathf.Sign(dir.x) == -1 && Mathf.Sign(dir.z) == -1)
             {
                 currentAngleIndex = 0;
                 Quaternion quater = Quaternion.Euler(0, angles[currentAngleIndex], 0);
-                PlayerCapsule.transform.DORotateQuaternion(quater, time * 1 / 3).SetAutoKill(true);
+                PlayerCapsule.transform.DORotateQuaternion(quater, time * 1 / 3);
             }
             else if (Mathf.Sign(dir.x) == 1 && Mathf.Sign(dir.z) == -1)
             {
                 currentAngleIndex = 6;
                 Quaternion quater = Quaternion.Euler(0, angles[currentAngleIndex], 0);
-                PlayerCapsule.transform.DORotateQuaternion(quater, time * 1 / 3).SetAutoKill(true);
+                PlayerCapsule.transform.DORotateQuaternion(quater, time * 1 / 3);
             }
         }
 
@@ -1538,12 +1538,9 @@ public class SC_Player : Singleton<SC_Player>
         menuManager.RtScoring.offsetMax = new Vector2(0f, 0f);
         menuManager.RtScoring.offsetMin = new Vector2(0f, 0f);
 
-        ScoringDetails(hasWon);
+        StartCoroutine(ScoringDetails(hasWon, data));
         if (hasWon && fPercentScore >= 35)
         {
-            //LE SCORING
-            menuManager.txtScoringJudgment.text = sJugement(hasWon, data)[0];
-            menuManager.txtScoringScore.text = sJugement(hasWon, data)[1];
             if (data.iLanguageNbPlayer == 1)
             {
                 menuManager.txt_Title.text = "Félicitation!";
@@ -1552,33 +1549,6 @@ public class SC_Player : Singleton<SC_Player>
             {
                 menuManager.txt_Title.text = "Congratulation!";
             }
-            //LES EXPLOITS
-            List<int> ints = iStars();
-            UnityEngine.UI.Image[] imgStars = new UnityEngine.UI.Image[ints.Count];
-            TMP_Text[] texts = new TMP_Text[ints.Count];
-            for (int i =0; i<ints.Count; i++)
-            {
-                imgStars[i] = menuManager.GoScoringSuccess.transform.GetChild(i).gameObject.transform.GetChild(0).gameObject.GetComponent<UnityEngine.UI.Image>();
-                texts[i] = menuManager.GoScoringSuccess.transform.GetChild(i).gameObject.transform.GetChild(1).gameObject.GetComponent<TMP_Text>();
-                if (ints[i] == 1) //vrai
-                {
-                    imgStars[i].sprite = menuManager.sprite_star_completed;
-                    texts[i].color = new Color32(255, 255, 255, 255);
-                }
-                else //Faux
-                {
-                    imgStars[i].sprite = menuManager.sprite_star_empty;
-                    if(i != ints.Count-1)
-                    {
-                        texts[i].color = new Color32(157, 157, 157, 255);
-                    }
-                    else
-                    {
-                        texts[i].color = new Color32(0, 0, 0, 255);
-                    }
-                }
-            }
-            PlayerDataUpdate(data);
             //BUTTONS
             UnityEngine.UI.Button[] buttonScorring = new UnityEngine.UI.Button[2];
             TextMeshProUGUI[] txt = new TextMeshProUGUI[2];
@@ -1613,9 +1583,6 @@ public class SC_Player : Singleton<SC_Player>
         }
         else
         {
-            //LE SCORING
-            menuManager.txtScoringJudgment.text = sJugement(hasWon, data)[0];
-            menuManager.txtScoringScore.text = sJugement(hasWon, data)[1];
             menuManager.txt_Title.text = "Game Over!";
             //BUTTONS
             UnityEngine.UI.Button[] buttonScorring = new UnityEngine.UI.Button[2];
@@ -1818,66 +1785,180 @@ public class SC_Player : Singleton<SC_Player>
         }
         return List;
     }
-    private List<string> sJugement(bool finished, PlayerData data)
+    private List<string> sJugement(bool finished, PlayerData data, float fScore)
     {
-        if (fPercentScore >= 95 && finished)
+        if (fScore >= 95 && finished)
         {
-            List<string> List = new List<string> { "S+", Mathf.Round(fPercentScore).ToString() + "%" };
+            List<string> List = new List<string> { "S+", Mathf.Round(fScore).ToString() + "%" };
             return List;
         }
-        else if (fPercentScore >= 80 && finished)
+        else if (fScore >= 80 && finished)
         {
-            List<string> List = new List<string> { "S", Mathf.Round(fPercentScore).ToString() + "%" };
+            List<string> List = new List<string> { "S", Mathf.Round(fScore).ToString() + "%" };
             return List;
         }
-        else if (fPercentScore >= 65 && finished)
+        else if (fScore >= 65 && finished)
         {
-            List<string> List = new List<string> { "A", Mathf.Round(fPercentScore).ToString() + "%" };
+            List<string> List = new List<string> { "A", Mathf.Round(fScore).ToString() + "%" };
             return List;
         }
-        else if (fPercentScore >= 50 && finished)
+        else if (fScore >= 50 && finished)
         {
-            List<string> List = new List<string>{"B", Mathf.Round(fPercentScore).ToString() + "%" };
+            List<string> List = new List<string>{"B", Mathf.Round(fScore).ToString() + "%" };
             return List;
         }
-        else if (fPercentScore >= 35 && finished)
+        else if (fScore >= 35 && finished)
         {
-            List<string> List = new List<string> { "C", Mathf.Round(fPercentScore).ToString() + "%" };
+            List<string> List = new List<string> { "C", Mathf.Round(fScore).ToString() + "%" };
             return List;
         }
         else if (!finished)
         {
             if(data.iLanguageNbPlayer == 1)
             {
-                List<string> List = new List<string> { "Grillé", Mathf.Round(fPercentScore).ToString() + "%" };
+                List<string> List = new List<string> { "Grillé", Mathf.Round(fScore).ToString() + "%" };
                 return List;
             }
             else
             {
-                List<string> List = new List<string> { "Busted", Mathf.Round(fPercentScore).ToString() + "%" };
+                List<string> List = new List<string> { "Busted", Mathf.Round(fScore).ToString() + "%" };
                 return List;
             }
         }
         else
         {
-            List<string> List = new List<string> { "F", Mathf.Round(fPercentScore).ToString() + "%" };
+            List<string> List = new List<string> { "F", Mathf.Round(fScore).ToString() + "%" };
             return List;
         }
     }
-    private void ScoringDetails(bool bhasWon)
+    private IEnumerator ScoringDetails(bool bhasWon, PlayerData data)
     {
-        if(bhasWon)
+        if (bhasWon)
         {
             menuManager.cgScoreDetails.alpha = 1f;
+            menuManager.txtScoringJudgment.color = new Color32(255, 255, 255, 0);
+            menuManager.txtScoringScore.color = new Color32(255, 255, 255, 0);
+            bool[] bDispayedDetails = new bool[4] { true, false, false, false};
+            bool bOnce = false;
+            int[] displayedScoreDetails = new int[4] { 0, 0, 0, 0 };
+            int[] actualScoreDetails = new int[4] { (int)Math.Round((fScoreDetails[0]/fNbBeat)*100), (int)Math.Round((fScoreDetails[1] / fNbBeat)*100), (int)Math.Round((fScoreDetails[2] / fNbBeat)*100), (int)Math.Round((fScoreDetails[3] / fNbBeat) * 100) };
             for (int i = 0; i < 4; i++)
             {
-                menuManager.txtScoringScoreDetails[i].text = Mathf.Round(fScoreDetails[i]).ToString() + "%";
+                if (!bOnce)
+                {
+                    menuManager.txtScoringScoreDetails[i].color = new Color32(255, 255, 255, 0);
+                    if(i==3)
+                    {
+                        bOnce = true;
+                    }
+                }
+                while (bDispayedDetails[i])
+                {
+                    menuManager.txtScoringScoreDetails[i].color = new Color32(255, 255, 255, 255);
+                    yield return new WaitForSecondsRealtime(0.05f);
+                    int difference = actualScoreDetails[i] - displayedScoreDetails[i];
+
+                    if (difference != 0)
+                    {
+                        int constantTerm = 1;
+
+                        int proportionalTerm = difference / 5;
+
+                        int moveStep = Mathf.Abs(proportionalTerm) + constantTerm;
+
+                        displayedScoreDetails[i] = (int)Mathf.MoveTowards(displayedScoreDetails[i], actualScoreDetails[i], moveStep);
+
+                        menuManager.txtScoringScoreDetails[i].text = displayedScoreDetails[i].ToString() + "%";
+                        /// now use displayedScore to update your text output
+                    }
+                    else
+                    {
+                        menuManager.txtScoringScoreDetails[i].text = Mathf.Round((fScoreDetails[i] / fNbBeat) * 100).ToString() + "%";
+                        bDispayedDetails[i] = false;
+                        if(i != 3)
+                        {
+                            bDispayedDetails[i + 1] = true;
+                        }
+                    }
+                }
+            }
+            yield return new WaitForSecondsRealtime(0.2f);
+            bool bDisplayed = false;
+            int displayedScore = 0;
+            int actualScore = (int)fPercentScore;
+            while (!bDisplayed)
+            {
+                yield return new WaitForSecondsRealtime(0.05f);
+
+                int difference = actualScore - displayedScore;
+
+                if (difference != 0)
+                {
+                    int constantTerm = 1;
+
+                    int proportionalTerm = difference / 5;
+
+                    int moveStep = Mathf.Abs(proportionalTerm) + constantTerm;
+
+                    displayedScore = (int)Mathf.MoveTowards(displayedScore, actualScore, moveStep);
+
+                    menuManager.txtScoringJudgment.text = sJugement(bhasWon, data, displayedScore)[0];
+                    menuManager.txtScoringScore.text = sJugement(bhasWon, data, displayedScore)[1];
+                    menuManager.txtScoringJudgment.color = new Color32(255, 255, 255, 255);
+                    menuManager.txtScoringScore.color = new Color32(255, 255, 255, 255);
+                    float fDifferenceScale = (100-difference) / 100F;
+                    menuManager.txtScoringJudgment.transform.localScale = new Vector3(fDifferenceScale, fDifferenceScale, fDifferenceScale);
+                    menuManager.txtScoringScore.transform.localScale = new Vector3(fDifferenceScale, fDifferenceScale, fDifferenceScale);
+                    /// now use displayedScore to update your text output
+                }
+                else
+                {
+                    bDisplayed = true;
+                    menuManager.txtScoringScore.transform.localScale = new Vector3(1f, 1f, 1f);
+                    menuManager.txtScoringJudgment.transform.localScale = new Vector3(1.1f, 1.1f, 1.1f);
+                    menuManager.txtScoringJudgment.text = sJugement(bhasWon, data, fPercentScore)[0];
+                    menuManager.txtScoringScore.text = sJugement(bhasWon, data, fPercentScore)[1];
+                }
+            }
+            if (fPercentScore >= 35)
+            {
+                //LES EXPLOITS
+                List<int> ints = iStars();
+                UnityEngine.UI.Image[] imgStars = new UnityEngine.UI.Image[ints.Count];
+                TMP_Text[] texts = new TMP_Text[ints.Count];
+                for (int i = 0; i < ints.Count; i++)
+                {
+                    imgStars[i] = menuManager.GoScoringSuccess.transform.GetChild(i).gameObject.transform.GetChild(0).gameObject.GetComponent<UnityEngine.UI.Image>();
+                    texts[i] = menuManager.GoScoringSuccess.transform.GetChild(i).gameObject.transform.GetChild(1).gameObject.GetComponent<TMP_Text>();
+                    if (ints[i] == 1) //vrai
+                    {
+                        imgStars[i].sprite = menuManager.sprite_star_completed;
+                        texts[i].color = new Color32(255, 255, 255, 255);
+                    }
+                    else //Faux
+                    {
+                        imgStars[i].sprite = menuManager.sprite_star_empty;
+                        if (i != ints.Count - 1)
+                        {
+                            texts[i].color = new Color32(157, 157, 157, 255);
+                        }
+                        else
+                        {
+                            texts[i].color = new Color32(0, 0, 0, 255);
+                        }
+                    }
+                }
+                PlayerDataUpdate(data);
             }
         }
         else
         {
+            //LE SCORING
+            menuManager.txtScoringJudgment.text = sJugement(bhasWon, data, fPercentScore)[0];
+            menuManager.txtScoringScore.text = sJugement(bhasWon, data, fPercentScore)[1];
             menuManager.cgScoreDetails.alpha = 0f;
         }
+        yield return new WaitForSecondsRealtime(0.1f);
     }
     private void PlayerDataUpdate(PlayerData data)
     {

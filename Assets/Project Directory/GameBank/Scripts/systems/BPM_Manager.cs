@@ -88,7 +88,8 @@ public class BPM_Manager : MonoBehaviour
     private Vector2 newPos;
     private Vector2[] posSeparator = new Vector2[3];
     private DG.Tweening.Sequence[] sequences = new DG.Tweening.Sequence[3];
-    private bool bInvisble = false;
+    private bool bInvisble = false; 
+    private DG.Tweening.Sequence arrowSequence;
 
     public float fFOVmin = 10f;
     public float fFOVmax = 10.6f;
@@ -514,10 +515,11 @@ public class BPM_Manager : MonoBehaviour
         float canvas = (FTiming[3]+ FTiming[0] )/ FSPB;
         if(scPlayer != null)
         {
-            DG.Tweening.Sequence sequence = DOTween.Sequence();
-            sequence.Append(scPlayer.GoCanvasArrow.transform.DOScale(1.27f, 2f*FSPB/3f)
+            arrowSequence.Kill();
+            arrowSequence = DOTween.Sequence().SetAutoKill(true);
+            arrowSequence.Append(scPlayer.GoCanvasArrow.transform.DOScale(1.27f, 2f*FSPB/3f)
             .SetEase(Ease.OutCirc));
-            sequence.Append(scPlayer.GoCanvasArrow.transform.DOScale(0.79f, FSPB / 3f)
+            arrowSequence.Append(scPlayer.GoCanvasArrow.transform.DOScale(0.79f, FSPB / 3f)
             .SetEase(Ease.InExpo));
         }
         if (i_B == 1)
@@ -546,9 +548,9 @@ public class BPM_Manager : MonoBehaviour
             imNoteLeft[1].color = new Color32(0, 197, 255, 255);
             sequences[1].Kill();
             sequences[1] = DOTween.Sequence();
-            sequences[1].Append(goNoteRight[1].DOAnchorPos(new Vector2(goNoteLeft[0].rect.width / 4f, 0f), FSPB *3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
-            sequences[0].Join(goNoteLeft[1].DOScale(1.5f, FSPB * 3).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
-            sequences[0].Join(goNoteRight[1].DOScale(1.5f, FSPB * 3).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            sequences[1].Append(goNoteRight[1].DOAnchorPos(new Vector2(goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            sequences[1].Join(goNoteLeft[1].DOScale(1.5f, FSPB * 3).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            sequences[1].Join(goNoteRight[1].DOScale(1.5f, FSPB * 3).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
             sequences[1].Join(goNoteLeft[1].DOAnchorPos(new Vector2(-goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
             i_B = 3;
         }
@@ -563,8 +565,8 @@ public class BPM_Manager : MonoBehaviour
             sequences[2].Kill();
             sequences[2] = DOTween.Sequence();
             sequences[2].Append(goNoteRight[2].DOAnchorPos(new Vector2(goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
-            sequences[0].Join(goNoteLeft[2].DOScale(1.5f, FSPB * 3).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
-            sequences[0].Join(goNoteRight[2].DOScale(1.5f, FSPB * 3).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            sequences[2].Join(goNoteLeft[2].DOScale(1.5f, FSPB * 3).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            sequences[2].Join(goNoteRight[2].DOScale(1.5f, FSPB * 3).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
             sequences[2].Join(goNoteLeft[2].DOAnchorPos(new Vector2(-goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
             i_B = 1;
         }
@@ -574,13 +576,13 @@ public class BPM_Manager : MonoBehaviour
             goNoteRight[0].anchoredPosition = new Vector2(newPos.x * (1+ canvas)+ goNoteLeft[0].rect.width / 4f, 0f);
             goNoteLeft[0].anchoredPosition = new Vector2(-newPos.x * (1 + canvas)- goNoteLeft[0].rect.width / 4f, 0f);
             goNoteRight[0].localScale = new Vector3(1f, 1f, 1f);
-            goNoteLeft[0].localScale = new Vector3(1f, 1f, 1f);
+            goNoteLeft[0].localScale = new Vector3(1f, 1f, 1f); 
             sequences[0].Kill();
             sequences[0] = DOTween.Sequence();
-            sequences[0].Append(goNoteRight[0].DOAnchorPos(new Vector2(goNoteLeft[0].rect.width / 4f, 0f), FSPB, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            sequences[0].Append(goNoteRight[0].DOAnchorPos(new Vector2(goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
             sequences[0].Join(goNoteLeft[0].DOScale(1.5f, FSPB * 3).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
             sequences[0].Join(goNoteRight[0].DOScale(1.5f, FSPB * 3).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
-            sequences[0].Join(goNoteLeft[0].DOAnchorPos(new Vector2(-goNoteLeft[0].rect.width / 4f, 0f), FSPB, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            sequences[0].Join(goNoteLeft[0].DOAnchorPos(new Vector2(-goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
 
             goNoteRight[1].anchoredPosition = new Vector2(newPos.x * (1+2* canvas), 0f);
             goNoteLeft[1].anchoredPosition = new Vector2(-newPos.x * (1+2* canvas), 0f);
@@ -588,10 +590,10 @@ public class BPM_Manager : MonoBehaviour
             goNoteLeft[1].localScale = new Vector3(1f, 1f, 1f);
             sequences[1].Kill();
             sequences[1] = DOTween.Sequence();
-            sequences[1].Append(goNoteRight[1].DOAnchorPos(new Vector2(goNoteLeft[0].rect.width / 4f, 0f), FSPB * 2, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
-            sequences[0].Join(goNoteLeft[1].DOScale(1.5f, FSPB * 3).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
-            sequences[0].Join(goNoteRight[1].DOScale(1.5f, FSPB * 3).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
-            sequences[1].Join(goNoteLeft[1].DOAnchorPos(new Vector2(-goNoteLeft[0].rect.width / 4f, 0f), FSPB * 2, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            sequences[1].Append(goNoteRight[1].DOAnchorPos(new Vector2(goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            sequences[1].Join(goNoteLeft[1].DOScale(1.5f, FSPB * 3).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            sequences[1].Join(goNoteRight[1].DOScale(1.5f, FSPB * 3).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            sequences[1].Join(goNoteLeft[1].DOAnchorPos(new Vector2(-goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
 
             goNoteRight[2].anchoredPosition = new Vector2(newPos.x * (1+canvas)+ goNoteLeft[0].rect.width / 4f, 0f);
             goNoteLeft[2].anchoredPosition = new Vector2(-newPos.x * (1+canvas)- goNoteLeft[0].rect.width / 4f, 0f);
@@ -600,8 +602,8 @@ public class BPM_Manager : MonoBehaviour
             sequences[2].Kill();
             sequences[2] = DOTween.Sequence();
             sequences[2].Append(goNoteRight[2].DOAnchorPos(new Vector2(goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
-            sequences[0].Join(goNoteLeft[2].DOScale(1.5f, FSPB * 3).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
-            sequences[0].Join(goNoteRight[2].DOScale(1.5f, FSPB * 3).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            sequences[2].Join(goNoteLeft[2].DOScale(1.5f, FSPB * 3).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            sequences[2].Join(goNoteRight[2].DOScale(1.5f, FSPB * 3).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
             sequences[2].Join(goNoteLeft[2].DOAnchorPos(new Vector2(-goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
             b_hasStarted = true;
             i_B = 1;
