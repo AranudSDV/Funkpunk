@@ -211,7 +211,6 @@ public class SC_Player : Singleton<SC_Player>
         }
         menuManager.gameObject.GetComponent<Canvas>().worldCamera = camUIOverlay;
         menuManager.EventSystem = _eventSystem;
-        Debug.Log("event system done");
         EyeDetection();
         // Your logic here
     }
@@ -359,7 +358,6 @@ public class SC_Player : Singleton<SC_Player>
     {
         fThrowMultiplier = CheckForwardBait(lastMoveDirection);
         GO_BaitInst = bait.transform.gameObject;
-        Debug.Log(fThrowMultiplier);
         Vector3 _spawnpos = new Vector3(this.transform.position.x, this.transform.position.y - 0.5f, this.transform.position.z) + (lastMoveDirection * fThrowMultiplier);
         bait.newPos = _spawnpos;
         bait.midPos = new Vector3(this.transform.position.x, this.transform.position.y + 2.5f, this.transform.position.z) + (lastMoveDirection * fThrowMultiplier / 2);
@@ -541,10 +539,6 @@ public class SC_Player : Singleton<SC_Player>
                     else if (collider.CompareTag("Bait") || (collider.CompareTag("Untagged") && collider.gameObject.name == "BossDoor"))
                     {
                         canMoveDiagonally = true;
-                        if(collider.CompareTag("Bait"))
-                        {
-                            Debug.Log("bait ok");
-                        }
                     }
                     else if (collider.transform.CompareTag("MapObject"))
                     {
@@ -780,7 +774,6 @@ public class SC_Player : Singleton<SC_Player>
             // 1. Check for diagonal movement first
             if (vectDir.x != 0f && vectDir.z != 0f) // Diagonal movement
             {
-                Debug.Log("diagonal");
                 Vector3 diagonalCheckPosition = transform.position + (vectDir * 1.5f) * floatNumber;
                 // Use OverlapSphere to check for colliders at the diagonal position
                 Collider[] intersecting = Physics.OverlapSphere(diagonalCheckPosition, 0.4f, LMask);
@@ -828,7 +821,6 @@ public class SC_Player : Singleton<SC_Player>
             // Check for walls in the current direction
             else //qqc est devant le joueur au plus près
             {
-                Debug.Log("devant");
                 Vector3 CheckPosition = transform.position + vectDir * floatNumber;
                 // Use OverlapSphere to check for colliders at the diagonal position
                 Collider[] intersecting = Physics.OverlapSphere(CheckPosition, 0.4f, LMask);
@@ -1722,7 +1714,7 @@ public class SC_Player : Singleton<SC_Player>
         //RESTART FEEDBACKS ENNEMIES
 
         //RESTART BAITS LVL2
-        if(SceneManager.GetActiveScene().name == "SceneLvl2")
+        /*if(SceneManager.GetActiveScene().name == "SceneLvl2")
         {
             foreach(ing_Bait bait in ingBaitLvl2)
             {
@@ -1733,7 +1725,7 @@ public class SC_Player : Singleton<SC_Player>
                     bait.sc_juice.Restart();
                 }
             }
-        }
+        }*/
     }
     private List<int> iStars()
     {

@@ -157,7 +157,6 @@ public class sc_tuto_generic : MonoBehaviour
                         }
                         else if (!bWaitNext && bHasClickedSkip && !bOnceSkip) //SKIP THE BUBBLES SHOWING
                         {
-                            Debug.Log("skip");
                             BubbleSkip();
                             bHasClickedSkip = false;
                             bOnceSkip = true;
@@ -362,12 +361,10 @@ public class sc_tuto_generic : MonoBehaviour
             {
                 ShowBubble(i, false);
                 b_[z] = false;
-                Debug.Log(i);
                 if (z!= iBubbleNb[_y] -2)
                 {
                     b_[z + 1] = true;
                     _ftimer = 0f;
-                    Debug.Log("continue");
                 }
                 else
                 {
@@ -579,14 +576,11 @@ public class sc_tuto_generic : MonoBehaviour
     {
         //scPlayer.menuManager.bGameIsPaused = true;
         //scPlayer.menuManager.PauseGame();
-        if (scPlayer.menuManager._playerData.iLevelPlayer == 2)
-        {
-            scPlayer.bIsImune = true;
-            scPlayer.bisTuto = true;
-            _y = intYBaitTuto;
-            bIsOnBD = true;
-            bWaitNext = false;
-        }
+        scPlayer.bIsImune = true;
+        scPlayer.bisTuto = true;
+        _y = intYBaitTuto;
+        bIsOnBD = true;
+        bWaitNext = false;
     }
     public void StartBossExplication(CinemachineVirtualCamera cam)
     {

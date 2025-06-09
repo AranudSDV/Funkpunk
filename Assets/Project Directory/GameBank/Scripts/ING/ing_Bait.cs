@@ -229,12 +229,11 @@ public class ing_Bait : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             scPlayer.ShootBait(this.GetComponent<ing_Bait>());
-            if(scPlayer.hasAlreadyBaited == false && SceneManager.GetActiveScene().name == "SceneLvl2")
+            if(!scPlayer.hasAlreadyBaited && SceneManager.GetActiveScene().name == "SceneLvl2")
             {
                 scPlayer.tutoGen.StartTutoBait();
                 scPlayer.hasAlreadyBaited = true;
             }
-            Debug.Log("bait ON");
         }
     }
     private IEnumerator NumSmashVFX(float time)
