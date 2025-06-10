@@ -163,6 +163,7 @@ GameObject:
   - component: {fileID: 1174302309829860496}
   - component: {fileID: 2014184485350387374}
   - component: {fileID: 269850063720091022}
+  - component: {fileID: 2306677319934782389}
   - component: {fileID: 1165491372627732135}
   - component: {fileID: 8025381729888204121}
   m_Layer: 5
@@ -273,6 +274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7740000a65e35c348bf7957b79ddd07f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bpmManager: {fileID: 2306677319934782389}
   EventSystem: {fileID: 0}
   scPlayer: {fileID: 0}
   bGameIsPaused: 0
@@ -361,27 +363,6 @@ MonoBehaviour:
   SfxSlider: {fileID: 1751299479825783677}
   MusicSlider: {fileID: 1518392053266865558}
   AmbianceSlider: {fileID: 772669210243803284}
-  menuLoop:
-    Guid:
-      Data1: 1904928535
-      Data2: 1230092903
-      Data3: 1550325126
-      Data4: -1636053928
-    Path: event:/music_Loft_basic
-  menuLoopDetected:
-    Guid:
-      Data1: 1905251223
-      Data2: 1212071362
-      Data3: 662242964
-      Data4: 1723023356
-    Path: event:/music_Loft_detected
-  menuLoopBeat:
-    Guid:
-      Data1: 1733707329
-      Data2: 1337085090
-      Data3: 1359273910
-      Data4: -1267395333
-    Path: event:/music_Loft_beat
   GoGameChoose:
   - {fileID: 0}
   - {fileID: 0}
@@ -707,6 +688,169 @@ MonoBehaviour:
   _playerData: {fileID: 1165491372627732135}
   _levels: []
   iNbTaggs: 01000000050000000500000005000000
+--- !u!114 &2306677319934782389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 179568958092481075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49b90ef080260384a8e791b3c17f7fa3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bIsOnLvl: 0
+  scPlayer: {fileID: 0}
+  menuManager: {fileID: 269850063720091022}
+  iReplaying: 3
+  FBPM:
+  - 90
+  - 110
+  - 130
+  - 110
+  - 60
+  fDelayMusic: 0.1
+  FSPB: 0
+  Loop:
+  - Guid:
+      Data1: -1638046111
+      Data2: 1126304665
+      Data3: 42771614
+      Data4: 461345490
+    Path: event:/music_Lvl0_basic
+  - Guid:
+      Data1: -855172880
+      Data2: 1292310818
+      Data3: 1372099762
+      Data4: -238279835
+    Path: event:/music_Lvl1_basic
+  - Guid:
+      Data1: -1106908618
+      Data2: 1085781373
+      Data3: 2123370645
+      Data4: 1970198419
+    Path: event:/music_Lvl2_basic
+  - Guid:
+      Data1: 1022555316
+      Data2: 1247501642
+      Data3: -956117874
+      Data4: 464035259
+    Path: event:/music_Lvl3_basic
+  - Guid:
+      Data1: 1904928535
+      Data2: 1230092903
+      Data3: 1550325126
+      Data4: -1636053928
+    Path: event:/music_Loft_basic
+  LoopDetected:
+  - Guid:
+      Data1: -634759269
+      Data2: 1288459858
+      Data3: 769920140
+      Data4: 593955816
+    Path: event:/music_Lvl0_detected
+  - Guid:
+      Data1: -1585719210
+      Data2: 1132696305
+      Data3: -173372259
+      Data4: -458317178
+    Path: event:/music_Lvl1_detected
+  - Guid:
+      Data1: -244467763
+      Data2: 1137594167
+      Data3: 1109074088
+      Data4: -1164362124
+    Path: event:/music_Lvl2_detected
+  - Guid:
+      Data1: -1188899381
+      Data2: 1118512987
+      Data3: -212002926
+      Data4: 2137842970
+    Path: event:/music_Lvl3_Detected
+  - Guid:
+      Data1: 1905251223
+      Data2: 1212071362
+      Data3: 662242964
+      Data4: 1723023356
+    Path: event:/music_Loft_detected
+  LoopBeat:
+  - Guid:
+      Data1: 1077132588
+      Data2: 1081917375
+      Data3: -516681812
+      Data4: -1257341137
+    Path: event:/music_Lvl_0_beat
+  - Guid:
+      Data1: 1072216500
+      Data2: 1258215268
+      Data3: 170872729
+      Data4: -214363761
+    Path: event:/music_Lvl_1_beat
+  - Guid:
+      Data1: -1873236312
+      Data2: 1322861136
+      Data3: 141627065
+      Data4: 150264019
+    Path: event:/music_Lvl_2_beat
+  - Guid:
+      Data1: -1633657236
+      Data2: 1292528207
+      Data3: 203730595
+      Data4: 197608975
+    Path: event:/music_Lvl_3_beat
+  - Guid:
+      Data1: 1733707329
+      Data2: 1337085090
+      Data3: 1359273910
+      Data4: -1267395333
+    Path: event:/music_Loft_beat
+  isPlaying: 0
+  iTimer: 3
+  fAllTolerence:
+  - 2
+  - 4
+  - 6
+  - 2
+  - 4
+  - 6
+  - 3
+  - 1
+  - 5
+  - 7
+  - 2
+  - 0
+  fTolerence:
+  - 2
+  - 4
+  - 6
+  - 2
+  fFraction: 14
+  colorMiss:
+    serializedVersion: 2
+    rgba: 4289789696
+  colorBad:
+    serializedVersion: 2
+    rgba: 4294967040
+  colorGood:
+    serializedVersion: 2
+    rgba: 4294921216
+  colorPerfect:
+    serializedVersion: 2
+    rgba: 4294901898
+  colorBase:
+    serializedVersion: 2
+    rgba: 4294967295
+  BMiss: 0
+  BBad: 0
+  BGood: 0
+  BPerfect: 0
+  bPlayBad: 0
+  bPlayGood: 0
+  bPlayPerfect: 0
+  fFOVmin: 10
+  fFOVmax: 10.6
+  bInitialized: 0000
 --- !u!114 &1165491372627732135
 MonoBehaviour:
   m_ObjectHideFlags: 0

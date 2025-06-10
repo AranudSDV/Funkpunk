@@ -435,7 +435,6 @@ GameObject:
   - component: {fileID: 9121296702372304279}
   - component: {fileID: 2979385002189901494}
   - component: {fileID: 6830452445873526929}
-  - component: {fileID: 82293833679279999}
   - component: {fileID: 1633790102752681175}
   m_Layer: 6
   m_Name: Player
@@ -499,10 +498,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5358b3d66a5a28a41ad14a253394ddcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _eventSystem: {fileID: 0}
+  camUIOverlay: {fileID: 0}
   bisTuto: 1
   menuManager: {fileID: 0}
   bHasController: 1
-  bpmManager: {fileID: 82293833679279999}
+  bpmManager: {fileID: 0}
   tutoGen: {fileID: 0}
   CgInGame: {fileID: 0}
   GoCanvasArrow: {fileID: 7324678298293727580}
@@ -523,7 +524,6 @@ MonoBehaviour:
   vfx_RotToLeft: {fileID: 4017384250939752972}
   bcanRotate: 0
   bIsImune: 0
-  fJudmgentToJump: 1
   GOBait: {fileID: 6885181872792694492, guid: 481679da37c5830468e32f02138b149a, type: 3}
   cinemachineVirtualCamera: {fileID: 0}
   hasAlreadyBaited: 0
@@ -568,6 +568,11 @@ MonoBehaviour:
       Data4: 137525606
     Path: event:/sfx_gameplay_wall_hit
   FScore: 0
+  fScoreDetails:
+  - 0
+  - 0
+  - 0
+  - 0
   fNbBeat: 0
   TMPScore: {fileID: 0}
   FDetectionLevel: 0
@@ -606,100 +611,8 @@ MonoBehaviour:
   posYInit: 0
   iCheckPoint: 0
   bIsReplaying: 0
+  go_Grid: {fileID: 0}
   test: 0
---- !u!114 &82293833679279999
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7352753680462184229}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49b90ef080260384a8e791b3c17f7fa3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bSimulateLvl3: 0
-  scPlayer: {fileID: 6830452445873526929}
-  iReplaying: 3
-  FBPM: 90
-  fDelayMusic: 0.1
-  FSPB: 0.67
-  FOVS: {fileID: 0}
-  levelLoop:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  levelLoopDetected:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  levelLoopBeat:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  textTimer: {fileID: 0}
-  iTimer: 3
-  fAllTolerence:
-  - 2
-  - 3
-  - 6
-  - 3
-  - 3
-  - 4
-  - 5
-  - 2
-  - 4
-  - 6
-  - 3
-  - 1
-  fTolerence:
-  - 2
-  - 4
-  - 6
-  - 2
-  fFraction: 14
-  colorMiss:
-    serializedVersion: 2
-    rgba: 4294770917
-  colorBad:
-    serializedVersion: 2
-    rgba: 4294901870
-  colorGood:
-    serializedVersion: 2
-    rgba: 4294917376
-  colorPerfect:
-    serializedVersion: 2
-    rgba: 4294960384
-  colorBase:
-    serializedVersion: 2
-    rgba: 4293394687
-  BMiss: 0
-  BBad: 0
-  BGood: 0
-  BPerfect: 0
-  bPlayBad: 0
-  bPlayGood: 0
-  bPlayPerfect: 0
-  goSeparator: []
-  goNoteRight:
-  - {fileID: 0}
-  imNoteRight: []
-  goNoteLeft:
-  - {fileID: 0}
-  imNoteLeft: []
-  canvasRect: {fileID: 0}
-  fFOVmin: 10
-  fFOVmax: 10.6
 --- !u!114 &1633790102752681175
 MonoBehaviour:
   m_ObjectHideFlags: 0

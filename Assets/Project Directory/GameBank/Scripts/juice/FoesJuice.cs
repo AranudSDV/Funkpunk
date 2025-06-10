@@ -15,38 +15,49 @@ public class FoesJuice : MonoBehaviour
     private float rotationAngle = 10f; // Tilt angle
     [SerializeField] private SC_FieldOfView scFoe;
     private bool bOnce = false;
+    private bool bInit = false;
     static int Hasard(int a, int b) //Choisi un random.
     {
         System.Random rdm = new System.Random();
         int hasard = rdm.Next(a, b + 1); //Aller jusqu'a le b inclu.
         return hasard;
     }
-    private void Awake()
+    private IEnumerator StartNow()
     {
+        yield return new WaitUntil(() => BPM_Manager.instance != null);
+        bpmManager = BPM_Manager.instance;
         int hasard = Hasard(-20, 20);
         rotationAngle = Convert.ToSingle(hasard);
         BaitRythm(bpmManager.FSPB);
         startRot = this.transform.rotation;
         originalScale = transform.localScale;
         startY = transform.position.y;
+        bInit = true;
     }
     private void Update()
     {
-        if(scFoe.bIsPhaseAnimated && !bOnce)
+        if(!bInit)
         {
-            DOTween.Kill(this);
-            transform.rotation = startRot;
-            transform.localScale = originalScale;
-            transform.position = new Vector3(transform.position.x, startY, transform.position.z);
-            bOnce = true;
+            StartCoroutine(StartNow());
         }
-        else if(!scFoe.bIsPhaseAnimated && bOnce)
+        else
         {
-            bOnce = false;
+            if (scFoe.bIsPhaseAnimated && !bOnce)
+            {
+                DOTween.Kill(this);
+                transform.rotation = startRot;
+                transform.localScale = originalScale;
+                transform.position = new Vector3(transform.position.x, startY, transform.position.z);
+                bOnce = true;
+            }
+            else if (!scFoe.bIsPhaseAnimated && bOnce)
+            {
+                bOnce = false;
 
-            int hasard = Hasard(-20, 20);
-            rotationAngle = Convert.ToSingle(hasard);
-            BaitRythm(bpmManager.FSPB);
+                int hasard = Hasard(-20, 20);
+                rotationAngle = Convert.ToSingle(hasard);
+                BaitRythm(bpmManager.FSPB);
+            }
         }
     }
     private void BaitRythm(float f_beat)

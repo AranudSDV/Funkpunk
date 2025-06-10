@@ -56,9 +56,10 @@ public class ing_Bait : MonoBehaviour
     private bool bThrownButAble = false;
     private bool bOnce = false;
     private bool bInit = false;
-
-    private void Start()
+    private IEnumerator StartNow()
     {
+        yield return new WaitUntil(() => BPM_Manager.instance != null);
+        bpmManager = BPM_Manager.instance;
         PS_trail = Go_vfxTrail.transform.gameObject.GetComponent<ParticleSystem>();
         PS_smash = Go_vfx_Smash.transform.gameObject.GetComponent<ParticleSystem>();
         PS_Impact = Go_vfx_Impact.transform.gameObject.GetComponent<ParticleSystem>();
@@ -75,7 +76,8 @@ public class ing_Bait : MonoBehaviour
     {
         if (!bInit)
         {
-            sc_juice.StartNow(bpmManager);
+            StartCoroutine(sc_juice.StartNow());
+            StartCoroutine(StartNow());
             bInit = true;
         }
         if(!b_BeenThrown && !bIsBeingThrown)

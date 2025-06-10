@@ -168,7 +168,6 @@ public class sc_tuto_generic : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log("next?ici");
                         if(!bWaitNext && !bHasClickedSkip && !bOnceSkip)
                         {
                             bOnceNext = false;
@@ -195,30 +194,13 @@ public class sc_tuto_generic : MonoBehaviour
                 }
 
                 //INPUT
-                if (!bIsOnLoft)
+                if(scPlayer.bpmManager !=null)
                 {
-                    if (bWaitNext && !bOnceNext && scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered) //INPUT TO SHOW NEXT WHOLE BUBBLES
+                    if (!bIsOnLoft)
                     {
-                        if (_y == intYGameCam)
+                        if (bWaitNext && !bOnceNext && scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered) //INPUT TO SHOW NEXT WHOLE BUBBLES
                         {
-                            bOnceSkip = false;
-                            bOnceNext = true;
-                            bOnceBubble = false;
-                            bIsOnBD = false;
-                            scPlayer.bisTuto = false;
-                            ImuneToTuto(scPlayer.bpmManager);
-                        }
-                        else if(_y == intYDetectionTuto || _y == intYBaitTuto)
-                        {
-                            if(!bInputMoreTuto)
-                            {
-                                bInputMoreTuto = true;
-                            }
-                            else
-                            {
-                                bInputMoreTutoOk = true;
-                            }
-                            if(bInputMoreTutoOk)
+                            if (_y == intYGameCam)
                             {
                                 bOnceSkip = false;
                                 bOnceNext = true;
@@ -226,101 +208,121 @@ public class sc_tuto_generic : MonoBehaviour
                                 bIsOnBD = false;
                                 scPlayer.bisTuto = false;
                                 ImuneToTuto(scPlayer.bpmManager);
-                                scPlayer.menuManager.bGameIsPaused = false;
+                            }
+                            else if (_y == intYDetectionTuto || _y == intYBaitTuto)
+                            {
+                                if (!bInputMoreTuto)
+                                {
+                                    bInputMoreTuto = true;
+                                }
+                                else
+                                {
+                                    bInputMoreTutoOk = true;
+                                }
+                                if (bInputMoreTutoOk)
+                                {
+                                    bOnceSkip = false;
+                                    bOnceNext = true;
+                                    bOnceBubble = false;
+                                    bIsOnBD = false;
+                                    scPlayer.bisTuto = false;
+                                    ImuneToTuto(scPlayer.bpmManager);
+                                    scPlayer.menuManager.bGameIsPaused = false;
+                                }
+                            }
+                            else if (_y == intYBoss)
+                            {
+                                bOnceSkip = false;
+                                bOnceNext = true;
+                                bOnceBubble = false;
+                                EndBossExplication();
+                            }
+
+                            if ((!cameraIsTracking && bInputMoreTutoOk) || (!cameraIsTracking && !(_y == intYDetectionTuto || _y == intYBaitTuto)))
+                            {
+                                bOnceSkip = false;
+                                bOnceNext = true;
+                                bOnceBubble = false;
+                                NextWholeBubble();
+                                bWaitNext = false;
+                                bInputMoreTutoOk = false;
                             }
                         }
-                        else if(_y == intYBoss)
+                        else if (!bHasClickedSkip && !bWaitNext && scPlayer.bHasController && scPlayer.control != null && scPlayer.control.GamePlay.Move.triggered) // INPUT TO SKIP 
                         {
-                            bOnceSkip = false;
-                            bOnceNext = true;
-                            bOnceBubble = false;
-                            EndBossExplication();
+                            bHasClickedSkip = true;
                         }
-
-                        if ((!cameraIsTracking && bInputMoreTutoOk) || (!cameraIsTracking && !(_y == intYDetectionTuto || _y == intYBaitTuto)))
+                    }
+                    else if (bIsOnLoft)
+                    {
+                        if (bTuto[0] && iInput == 0 && !bHasClickedSkip && !bWaitNext && scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered) //TO SKIP
                         {
+                            bHasClickedSkip = true;
+                        }
+                        else if (bTuto[0] && bWaitNext && !bOnceNext && scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered && (scPlayer.bpmManager.BGood || scPlayer.bpmManager.BPerfect) && (scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered))
+                        {
+                            iInput += 1;
+                            float opacity = 1 - iInput / 5;
+                            var tempColor = ImBg.color;
+                            tempColor.a = opacity;
+                            ImBg.color = tempColor;
                             bOnceSkip = false;
                             bOnceNext = true;
                             bOnceBubble = false;
-                            NextWholeBubble();
+                            if (iInput == 5)
+                            {
+                                Time.timeScale = 1f;
+                                RtBg.anchorMin = new Vector2(0f, 1f);
+                                RtBg.anchorMax = new Vector2(1f, 2f);
+                                RtBg.offsetMax = new Vector2(0f, 0f);
+                                RtBg.offsetMin = new Vector2(0f, 0f);
+                                NextWholeBubble();
+                                cam_Back.Priority = 0;
+                                scPlayer.menuManager.bGameIsPaused = true;
+                            }
                             bWaitNext = false;
-                            bInputMoreTutoOk = false;
                         }
-                    }
-                    else if (!bHasClickedSkip && !bWaitNext && scPlayer.bHasController && scPlayer.control!=null && scPlayer.control.GamePlay.Move.triggered) // INPUT TO SKIP 
-                    {
-                        bHasClickedSkip = true;
-                    }
-                }
-                else if (bIsOnLoft)
-                {
-                    if(bTuto[0] && iInput==0 && !bHasClickedSkip && !bWaitNext && scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered) //TO SKIP
-                    {
-                        bHasClickedSkip = true;
-                    }
-                    else if(bTuto[0] && bWaitNext && !bOnceNext && scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered && (scPlayer.bpmManager.BGood || scPlayer.bpmManager.BPerfect) && (scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered))
-                    {
-                        iInput += 1;
-                        float opacity = 1 - iInput / 5;
-                        var tempColor = ImBg.color;
-                        tempColor.a = opacity;
-                        ImBg.color = tempColor;
-                        bOnceSkip = false;
-                        bOnceNext = true;
-                        bOnceBubble = false;
-                        if(iInput==5)
+                        else if (bTuto[1] && !bHasClickedSkip && !bWaitNext && scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered)
                         {
-                            Time.timeScale = 1f;
-                            RtBg.anchorMin = new Vector2(0f, 1f);
-                            RtBg.anchorMax = new Vector2(1f, 2f);
-                            RtBg.offsetMax = new Vector2(0f, 0f);
-                            RtBg.offsetMin = new Vector2(0f, 0f);
-                            NextWholeBubble();
-                            cam_Back.Priority = 0;
-                            scPlayer.menuManager.bGameIsPaused = true;
+                            bHasClickedSkip = true;
                         }
-                        bWaitNext = false;
+                        else if (bTuto[1] && bWaitNext && !bOnceNext && scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered)
+                        {
+                            bOnceSkip = false;
+                            bOnceNext = true;
+                            bOnceBubble = false;
+                            RtTutoAll.anchorMin = new Vector2(0, 1);
+                            RtTutoAll.anchorMax = new Vector2(1, 2);
+                            RtTutoAll.offsetMax = new Vector2(0f, 0f);
+                            RtTutoAll.offsetMin = new Vector2(0f, 0f);
+                            bIsOnBD = false;
+                            scPlayer.bisTuto = false;
+                            bWaitNext = false;
+                        }
                     }
-                    else if (bTuto[1] && !bHasClickedSkip && !bWaitNext && scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered)
-                    {
-                        bHasClickedSkip = true;
-                    }
-                    else if(bTuto[1] && bWaitNext && !bOnceNext && scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered)
-                    {
-                        bOnceSkip = false;
-                        bOnceNext = true;
-                        bOnceBubble = false;
-                        RtTutoAll.anchorMin = new Vector2(0, 1);
-                        RtTutoAll.anchorMax = new Vector2(1, 2);
-                        RtTutoAll.offsetMax = new Vector2(0f, 0f);
-                        RtTutoAll.offsetMin = new Vector2(0f, 0f);
-                        bIsOnBD = false;
-                        scPlayer.bisTuto = false;
-                        bWaitNext = false;
-                    }
-                }
 
-                //CAMERA & IN GAME
-                if(!bIsOnLoft)
-                {
-                    if (GoFollowed.transform.position.z > tresholdZ && cameraIsTracking && scPlayer.menuManager.CgPauseMenu.alpha == 0f) //CAMERA IS NOT AT THE PLAYER'S POSITION
+                    //CAMERA & IN GAME
+                    if (!bIsOnLoft)
                     {
-                        SetCartPosition(m_Position + fSpeed * Time.unscaledDeltaTime);
-                        scPlayer.menuManager.bGameIsPaused = false;
-                        scPlayer.menuManager.PauseGame();
-                    }
-                    else if (GoFollowed.transform.position.z <= tresholdZ && cameraIsTracking && scPlayer.menuManager.CgPauseMenu.alpha == 0f) //THE CAMERA IS AT THE PLAYER'S POSITION
-                    {
-                        cameraIsTracking = false;
-                        cameraDone = true;
-                        IntoTheGameCam();
-                        NextWholeBubble();
-                        bOnceSkip = false;
-                        bOnceNext = true;
-                        bOnceBubble = false;
-                        bHasClickedSkip = false;
-                        bWaitNext = false;
-                        scPlayer.bIsImune = true;
+                        if (GoFollowed.transform.position.z > tresholdZ && cameraIsTracking && scPlayer.menuManager.CgPauseMenu.alpha == 0f) //CAMERA IS NOT AT THE PLAYER'S POSITION
+                        {
+                            SetCartPosition(m_Position + fSpeed * Time.unscaledDeltaTime);
+                            scPlayer.menuManager.bGameIsPaused = false;
+                            scPlayer.menuManager.PauseGame();
+                        }
+                        else if (GoFollowed.transform.position.z <= tresholdZ && cameraIsTracking && scPlayer.menuManager.CgPauseMenu.alpha == 0f) //THE CAMERA IS AT THE PLAYER'S POSITION
+                        {
+                            cameraIsTracking = false;
+                            cameraDone = true;
+                            IntoTheGameCam();
+                            NextWholeBubble();
+                            bOnceSkip = false;
+                            bOnceNext = true;
+                            bOnceBubble = false;
+                            bHasClickedSkip = false;
+                            bWaitNext = false;
+                            scPlayer.bIsImune = true;
+                        }
                     }
                 }
             }
@@ -598,7 +600,7 @@ public class sc_tuto_generic : MonoBehaviour
     private void EndBossExplication()
     {
         //camBoss.Priority = 2; //14, 16,4
-        scPlayer.bpmManager.FOVS = FOVSBoss;
+        scPlayer.FOVS = FOVSBoss;
         scPlayer.bpmManager.fFOVmin = 14f;
         scPlayer.bpmManager.fFOVmax = 16.4f;
         bIsOnBD = false;

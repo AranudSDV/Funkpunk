@@ -81,6 +81,18 @@ public class SC_Player : Singleton<SC_Player>
     [SerializeField] private EventReference sfx_baitThrown;
     [SerializeField] private EventReference[] sfx_tag = new EventReference[3];
     [SerializeField] private EventReference sfx_wall_hit;
+    public CinemachineFollowZoom FOVS;
+
+    //LE SCORE
+    [Header("Bpm")]
+    public RectTransform[] goSeparator;
+    public RectTransform[] goNoteRight;
+    public UnityEngine.UI.Image[] imNoteRight;
+    public RectTransform[] goNoteLeft;
+    public UnityEngine.UI.Image[] imNoteLeft;
+    public RectTransform canvasRect;
+    public Vector2[] posSeparator = new Vector2[3];
+    public TextMeshProUGUI textTimer;
 
     //LE SCORE
     [Header("Score")]
@@ -191,6 +203,19 @@ public class SC_Player : Singleton<SC_Player>
         if (menuManager == null)
         {
             goMenu = MenuManager.instance.gameObject;
+            if (menuManager == null)
+            {
+                menuManager = MenuManager.instance;
+                bpmManager = menuManager.bpmManager;
+                bpmManager.bInitialized[0] = false;
+                bpmManager.bInitialized[1] = false;
+            }
+            else
+            {
+                bpmManager = menuManager.bpmManager;
+                bpmManager.bInitialized[0] = false;
+                bpmManager.bInitialized[1] = false;
+            }
             if (goMenu == null)
             {
                 bHasController = false;
@@ -201,10 +226,24 @@ public class SC_Player : Singleton<SC_Player>
                 control = menuManager.control;
                 bHasController = menuManager.controllerConnected;
                 menuManager.scPlayer = this;
+                menuManager.bpmManager.scPlayer = this;
             }
         }
         else
         {
+            if (menuManager == null)
+            {
+                menuManager = MenuManager.instance;
+                bpmManager = menuManager.bpmManager;
+                bpmManager.bInitialized[0] = false;
+                bpmManager.bInitialized[1] = false;
+            }
+            else
+            {
+                bpmManager = menuManager.bpmManager;
+                bpmManager.bInitialized[0] = false;
+                bpmManager.bInitialized[1] = false;
+            }
             control = menuManager.control;
             bHasController = menuManager.controllerConnected;
             menuManager.scPlayer = this;
