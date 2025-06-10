@@ -12,9 +12,9 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _BAKEDORRT_ON
   - _ISENNEMIES_ON
   m_InvalidKeywords:
+  - _BAKEDORRT_ON
   - _SHADOWSFULLCELSHADED_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -139,7 +139,7 @@ Material:
     - _BaseVertexOffsetDelay: {r: 0, g: 0, b: 0, a: 0}
     - _BaseVertexOffsetValue: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _OutlineColor: {r: 4.5571837, g: 5.992157, b: 0.31674933, a: 0}
+    - _OutlineColor: {r: 24.052961, g: 31.626795, b: 1.671813, a: 0}
     - _OutlineColor2: {r: 1.8232466, g: 0, b: 5.9921565, a: 0}
     - _ShadowPatternDensity: {r: 1, g: 1, b: 0, a: 0}
     - _TopVertexDelay: {r: 0, g: 0, b: 0, a: 0}
