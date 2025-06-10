@@ -1252,8 +1252,10 @@ public class MenuManager : SingletonManager<MenuManager>
         if (SceneManager.GetActiveScene().name == "SceneLvl0" || SceneManager.GetActiveScene().name == "SceneLvl1" || SceneManager.GetActiveScene().name == "SceneLvl2" || SceneManager.GetActiveScene().name == "SceneLvl3")
         {
             fDetectedVolume = (scPlayer.FDetectionLevel / 100f)*0.7f;
-            music_basic_VCA.setVolume((playerMusicVolume - fDetectedVolume)*0.7f);
-            music_detected_VCA.setVolume(fDetectedVolume*0.7f);
+            music_basic_VCA.setVolume(0f);
+            //music_basic_VCA.setVolume((playerMusicVolume - fDetectedVolume)*0.7f);
+            music_detected_VCA.setVolume(0f);
+            //music_detected_VCA.setVolume(fDetectedVolume*0.7f);
             music_beat_VCA.setVolume(fBeatMusicVolume * playerMusicVolume);
             music_beat_VCA.getVolume(out float checkVolume);
             //Debug.Log("beat volume is " + checkVolume + " and we set it at " + fBeatMusicVolume);

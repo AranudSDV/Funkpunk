@@ -134,40 +134,37 @@ public class BPM_Manager : MonoBehaviour
     }
     public void Init(float f_Timer)
     {
-        if(SceneManager.GetActiveScene().name != "SceneLvl3" && !bSimulateLvl3)
+        if (!bInitialized[1])
         {
-            if (!bInitialized[1])
+            StartBPM();
+            StartCoroutine(wait());
+            BMiss = true;
+            if (basicLoopInstance.isValid())
             {
-                StartBPM();
-                StartCoroutine(wait());
-                BMiss = true;
-                if (basicLoopInstance.isValid())
-                {
-                    basicLoopInstance.getPlaybackState(out PLAYBACK_STATE state);
-                    if (state != PLAYBACK_STATE.STOPPED) return;
-                }
-                Shader.SetGlobalFloat("BPM", FBPM);
-                bInitialized[1] = true;
+                basicLoopInstance.getPlaybackState(out PLAYBACK_STATE state);
+                if (state != PLAYBACK_STATE.STOPPED) return;
             }
-            fTimer += f_Timer;
-            if (fTimer >= fDelayMusic)
-            {
-                basicLoopInstance = RuntimeManager.CreateInstance(levelLoop);
-                basicLoopInstance.start();
-
-                detectedLoopInstance = RuntimeManager.CreateInstance(levelLoopDetected);
-                detectedLoopInstance.start();
-
-                beatLoopInstance = RuntimeManager.CreateInstance(levelLoopBeat);
-                beatLoopInstance.start();
-
-                scPlayer.menuManager.SetMusicVolume();
-
-                isPlaying = true;
-                bInitialized[0] = true;
-            }
+            Shader.SetGlobalFloat("BPM", FBPM);
+            bInitialized[1] = true;
         }
-        else if(bSimulateLvl3 || SceneManager.GetActiveScene().name == "SceneLvl3")
+        fTimer += f_Timer;
+        if (fTimer >= fDelayMusic)
+        {
+            basicLoopInstance = RuntimeManager.CreateInstance(levelLoop);
+            basicLoopInstance.start();
+
+            detectedLoopInstance = RuntimeManager.CreateInstance(levelLoopDetected);
+            detectedLoopInstance.start();
+
+            beatLoopInstance = RuntimeManager.CreateInstance(levelLoopBeat);
+            beatLoopInstance.start();
+
+            scPlayer.menuManager.SetMusicVolume();
+
+            isPlaying = true;
+            bInitialized[0] = true;
+        }
+        /*else if(bSimulateLvl3 || SceneManager.GetActiveScene().name == "SceneLvl3")
         {
             if (!bInitialized[1])
             {
@@ -215,7 +212,7 @@ public class BPM_Manager : MonoBehaviour
                 isPlaying = true;
                 bInitialized[0] = true;
             }
-        }
+        }*/
         fFovInstanceMax = fFOVmax;
     }
     private void Update()
@@ -655,7 +652,6 @@ public class BPM_Manager : MonoBehaviour
         FSPB = 1f / (FBPM / 60f);
         StartBPM();
         Shader.SetGlobalFloat("BPM", FBPM);
-
     }
     //FEEDBACK
     public IEnumerator VibrationVfx(float time, float lowFreq, float highFreq)

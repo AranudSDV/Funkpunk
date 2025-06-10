@@ -652,7 +652,7 @@ public class SC_FieldOfView : MonoBehaviour
             scPlayer.menuManager.bGameIsPaused = false;
             scPlayer.bIsImune = false;
             //camBoss.Priority = 2;
-            scPlayer.bpmManager.SetSpeed(1.05f);
+            //scPlayer.bpmManager.SetSpeed(1.05f);
             sc_BossCone[2].transform.GetComponent<MeshRenderer>().enabled = true;
         });
     }

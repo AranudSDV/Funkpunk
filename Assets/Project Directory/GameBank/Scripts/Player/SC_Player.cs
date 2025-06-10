@@ -1714,7 +1714,7 @@ public class SC_Player : Singleton<SC_Player>
         //RESTART FEEDBACKS ENNEMIES
 
         //RESTART BAITS LVL2
-        /*if(SceneManager.GetActiveScene().name == "SceneLvl2")
+        if(SceneManager.GetActiveScene().name == "SceneLvl2")
         {
             foreach(ing_Bait bait in ingBaitLvl2)
             {
@@ -1725,7 +1725,7 @@ public class SC_Player : Singleton<SC_Player>
                     bait.sc_juice.Restart();
                 }
             }
-        }*/
+        }
     }
     private List<int> iStars()
     {
