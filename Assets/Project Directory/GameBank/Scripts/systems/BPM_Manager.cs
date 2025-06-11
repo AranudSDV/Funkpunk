@@ -268,7 +268,10 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
             {
                 CheckIfInputOnTempo();
             }
-            CameraRythm(Time.unscaledDeltaTime, fFovInstanceMax, fFOVmin);
+            if(scPlayer != null)
+            {
+                CameraRythm(Time.unscaledDeltaTime, fFovInstanceMax, fFOVmin);
+            }
         }
     }
 

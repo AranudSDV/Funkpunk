@@ -200,6 +200,7 @@ public class sc_tuto_generic : MonoBehaviour
                     {
                         if (bWaitNext && !bOnceNext && scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered) //INPUT TO SHOW NEXT WHOLE BUBBLES
                         {
+                            StartCoroutine(scPlayer.bpmManager.VibrationVfx(0.05f, 0.6f, 1f));
                             if (_y == intYGameCam)
                             {
                                 bOnceSkip = false;
@@ -250,6 +251,7 @@ public class sc_tuto_generic : MonoBehaviour
                         }
                         else if (!bHasClickedSkip && !bWaitNext && scPlayer.bHasController && scPlayer.control != null && scPlayer.control.GamePlay.Move.triggered) // INPUT TO SKIP 
                         {
+                            StartCoroutine(scPlayer.bpmManager.VibrationVfx(0.05f, 0.6f, 1f));
                             bHasClickedSkip = true;
                         }
                     }
@@ -257,10 +259,12 @@ public class sc_tuto_generic : MonoBehaviour
                     {
                         if (bTuto[0] && iInput == 0 && !bHasClickedSkip && !bWaitNext && scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered) //TO SKIP
                         {
+                            StartCoroutine(scPlayer.bpmManager.VibrationVfx(0.05f, 0.6f, 1f));
                             bHasClickedSkip = true;
                         }
                         else if (bTuto[0] && bWaitNext && !bOnceNext && scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered && (scPlayer.bpmManager.BGood || scPlayer.bpmManager.BPerfect) && (scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered))
                         {
+                            StartCoroutine(scPlayer.bpmManager.VibrationVfx(0.05f, 0.6f, 1f));
                             iInput += 1;
                             float opacity = 1 - iInput / 5;
                             var tempColor = ImBg.color;
@@ -284,10 +288,12 @@ public class sc_tuto_generic : MonoBehaviour
                         }
                         else if (bTuto[1] && !bHasClickedSkip && !bWaitNext && scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered)
                         {
+                            StartCoroutine(scPlayer.bpmManager.VibrationVfx(0.05f, 0.6f, 1f));
                             bHasClickedSkip = true;
                         }
                         else if (bTuto[1] && bWaitNext && !bOnceNext && scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered)
                         {
+                            StartCoroutine(scPlayer.bpmManager.VibrationVfx(0.05f, 0.6f, 1f));
                             bOnceSkip = false;
                             bOnceNext = true;
                             bOnceBubble = false;
