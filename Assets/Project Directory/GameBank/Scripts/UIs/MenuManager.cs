@@ -240,7 +240,14 @@ public class MenuManager : SingletonManager<MenuManager>
         music_detected_VCA = FMODUnity.RuntimeManager.GetVCA("vca:/Music_detected");
         sfxVCA = FMODUnity.RuntimeManager.GetVCA("vca:/SFX");
         ambianceVCA = FMODUnity.RuntimeManager.GetVCA("vca:/Ambiance"); 
-        bpmManager.bIsOnLvl = false;
+        if(SceneManager.GetActiveScene().name == "Gym_GPP")
+        {
+            bpmManager.bIsOnLvl = true;
+        }
+        else
+        {
+            bpmManager.bIsOnLvl = false;
+        }
         bpmManager.bInitialized[0] = false;
         bpmManager.bInitialized[1] = false;
 

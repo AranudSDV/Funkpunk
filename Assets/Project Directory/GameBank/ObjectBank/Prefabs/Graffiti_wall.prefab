@@ -1031,9 +1031,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64006f89b4b4c5f4c80b16f666f34832, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  taggedMaterial: {fileID: 2100000, guid: fbfba70bf385e1b4d81b027d5bd8e040, type: 2}
-  untaggedMaterial: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
-  _renderer: {fileID: 0}
   goArrow: {fileID: 2158653115270914953}
   scFoes: []
   scBoss: {fileID: 0}
@@ -1053,8 +1050,8 @@ MonoBehaviour:
   - {fileID: 1541158625356374356}
   - {fileID: 2885344317256220280}
   go_SoundWave: {fileID: 4057723593918467544}
-  PS_SoundWave: {fileID: 8554216447954221066}
-  vectBase_SoundWave: {x: 1.25, y: 0, z: 0.5}
+  PS_SoundWaveStun: {fileID: 8554216447954221066}
+  vectBase_SoundWaveStun: {x: 1.25, y: 0.1, z: 0.5}
 --- !u!65 &5445313061218059324
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -39,7 +39,6 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
     public FMOD.Studio.EventInstance detectedLoopInstance;
     public FMOD.Studio.EventInstance beatLoopInstance;
     public bool isPlaying = false; // Prevent multiple starts
-    private bool b_hasStarted = false;
     private int iNowNote = 0;
     private int i_B = 0;
     public int iTimer = 3;
@@ -77,9 +76,6 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
     public bool bPlayBad = false;
     public bool bPlayGood = false;
     public bool bPlayPerfect = false;
-    private bool bMusicOnce = false;
-    private double fMusicTimer = 0f;
-    private double[] fNextReach = new double[4];
     private Vector2 newPos;
     private DG.Tweening.Sequence[] sequences = new DG.Tweening.Sequence[3];
     private bool bInvisble = false; 
@@ -631,7 +627,6 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
             sequences[2].Join(scPlayer.goNoteLeft[2].DOScale(1.5f, FSPB * 3).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
             sequences[2].Join(scPlayer.goNoteRight[2].DOScale(1.5f, FSPB * 3).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
             sequences[2].Join(scPlayer.goNoteLeft[2].DOAnchorPos(new Vector2(-scPlayer.goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
-            b_hasStarted = true;
             i_B = 1;
         }
     }

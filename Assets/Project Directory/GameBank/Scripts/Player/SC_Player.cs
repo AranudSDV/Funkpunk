@@ -126,7 +126,6 @@ public class SC_Player : Singleton<SC_Player>
     [Header("Tag")]
     private bool bIsTagging = false;
     [SerializeField] private CinemachineVirtualCamera VCam_Cinematic;
-    [SerializeField] private float fBodyFollowOffset = 10f;
     public float taggingRange = 1f;
     private RaycastHit[] hitInfo = new RaycastHit[4];
     [SerializeField] private GameObject GoVfxTag;
@@ -522,7 +521,7 @@ public class SC_Player : Singleton<SC_Player>
                             {
                                 vfx.Stop();
                             }
-                            ingTag.PlayVFXSoundWave();
+                            StartCoroutine(ingTag.PlayVFXSoundWave());
                             SoundManager.Instance.PlayOneShot(sfx_tag[2]);
                             ingTag.vfx_completition.Play();
                             //ingTag._renderer.material = ingTag.taggedMaterial; 
@@ -719,7 +718,7 @@ public class SC_Player : Singleton<SC_Player>
                             {
                                 vfx.Stop();
                             }
-                            ingTag.PlayVFXSoundWave();
+                            StartCoroutine(ingTag.PlayVFXSoundWave());
                             SoundManager.Instance.PlayOneShot(sfx_tag[2]);
                             ingTag.vfx_completition.Play();
                             //ingTag._renderer.material = ingTag.taggedMaterial; //le joueur tag
@@ -1352,6 +1351,7 @@ public class SC_Player : Singleton<SC_Player>
             {
                 GO_BaitInst.transform.GetComponent<ing_Bait>().bOnFoe = true;
                 SoundManager.Instance.PlayOneShot(sfx_baitStun);
+                StartCoroutine(scFoe.FoeStunOnceVFX());
                 if (scFoe.isBoss)
                 {
                     Debug.Log("endGame");

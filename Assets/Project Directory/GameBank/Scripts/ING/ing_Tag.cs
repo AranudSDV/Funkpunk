@@ -9,9 +9,6 @@ using UnityEngine.VFX;
 
 public class ing_Tag : MonoBehaviour
 {
-    public Material taggedMaterial;
-    public Material untaggedMaterial;
-    public Renderer _renderer;
     public GameObject goArrow;
     public SC_FieldOfView[] scFoes;
     public SC_FieldOfView scBoss = null;
@@ -26,8 +23,8 @@ public class ing_Tag : MonoBehaviour
     public DecalProjector decalProj;
     public VisualEffect[] PS_Sound;
     [SerializeField] private GameObject go_SoundWave;
-    [SerializeField]private VisualEffect PS_SoundWave;
-    [SerializeField] private Vector3 vectBase_SoundWave;
+    [SerializeField]private VisualEffect PS_SoundWaveStun;
+    [SerializeField] private Vector3 vectBase_SoundWaveStun;
 
     private void Start()
     {
@@ -40,10 +37,10 @@ public class ing_Tag : MonoBehaviour
 
     public IEnumerator PlayVFXSoundWave()
     {
-        go_SoundWave.transform.localPosition = vectBase_SoundWave;
-        PS_SoundWave.Play();
-        yield return new WaitForSeconds(0.5f);
-        PS_SoundWave.Stop();
-        go_SoundWave.transform.localPosition = new Vector3(vectBase_SoundWave.x, vectBase_SoundWave.y-50f, vectBase_SoundWave.z);
+        go_SoundWave.transform.localPosition = vectBase_SoundWaveStun;
+        PS_SoundWaveStun.Play();
+        yield return new WaitForSeconds(1.5f);
+        PS_SoundWaveStun.Stop();
+        go_SoundWave.transform.localPosition = new Vector3(vectBase_SoundWaveStun.x, vectBase_SoundWaveStun.y-50f, vectBase_SoundWaveStun.z);
     }
 }

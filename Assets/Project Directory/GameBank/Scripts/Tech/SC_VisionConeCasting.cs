@@ -11,8 +11,6 @@ public class SC_VisionConeCasting : MonoBehaviour
     [SerializeField] private SC_FieldOfView scFieldView; // Contient FAngle (en degrés) et FRadius (distance max)
     [SerializeField] private Material mDetectedCone;
     [SerializeField] private Material mHeardCone;
-    private float fTimerBlinck = 0f;
-    private bool bBlincking = false;
 
     [Header("Parameters")]
     [SerializeField] private int coneResolution = 30;       // Nombre de segments pour le cercle

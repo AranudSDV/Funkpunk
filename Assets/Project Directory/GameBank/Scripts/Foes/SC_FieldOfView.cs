@@ -8,6 +8,7 @@ using Unity.Splines.Examples;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.ProBuilder.Shapes;
+using UnityEngine.VFX;
 
 public class SC_FieldOfView : MonoBehaviour
 {
@@ -66,7 +67,7 @@ public class SC_FieldOfView : MonoBehaviour
     [SerializeField] private ParticleSystem PS_Suspicious;
     [SerializeField] private GameObject Go_vfx_stunOnce;
     [SerializeField] private Vector3 pos_vfx_stunOnce;
-    [SerializeField] private ParticleSystem PS_StunOnce;
+    [SerializeField] private VisualEffect PS_StunOnce;
     [SerializeField] private GameObject Go_vfx_Backward;
     [SerializeField] private Vector3 pos_vfx_backward;
     [SerializeField] private VisioneConeFeedbackBack backfeedback;
@@ -93,7 +94,6 @@ public class SC_FieldOfView : MonoBehaviour
     public bool bFinalPhase = false;
     [SerializeField] private ing_Tag[] bossTagsPhase1;
     [SerializeField] private ing_Tag[] bossTagsPhase2 = new ing_Tag[4];
-    [SerializeField] private int iAngleRemovePerTag = 10;
     [SerializeField] private ing_Bait[] bossBaits = new ing_Bait[4];
     public int iRest = 0;
     private List<ing_Tag> listTaggsDone = new List<ing_Tag>();
@@ -291,11 +291,12 @@ public class SC_FieldOfView : MonoBehaviour
     }
     public IEnumerator FoeStunOnceVFX()
     {
-        Go_vfx_stunOnce.transform.position = pos_vfx_stunOnce;
-        PS_StunOnce.Play();
-        yield return new WaitForSeconds(1f);
+        Go_vfx_stunOnce.transform.localPosition = pos_vfx_stunOnce;
         PS_StunOnce.Stop();
-        Go_vfx_stunOnce.transform.position = new Vector3(0, -50, 0);
+        PS_StunOnce.Play();
+        yield return new WaitForSeconds(2f);
+        PS_StunOnce.Stop();
+        Go_vfx_stunOnce.transform.localPosition = new Vector3(0, -50, 0);
     }
     public void ResetAllVFX()
     {

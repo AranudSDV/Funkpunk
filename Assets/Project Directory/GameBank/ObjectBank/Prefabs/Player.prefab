@@ -567,6 +567,18 @@ MonoBehaviour:
       Data3: 2061895813
       Data4: 137525606
     Path: event:/sfx_gameplay_wall_hit
+  FOVS: {fileID: 0}
+  goSeparator: []
+  goNoteRight: []
+  imNoteRight: []
+  goNoteLeft: []
+  imNoteLeft: []
+  canvasRect: {fileID: 0}
+  posSeparator:
+  - {x: 0, y: 0}
+  - {x: 0, y: 0}
+  - {x: 0, y: 0}
+  textTimer: {fileID: 0}
   FScore: 0
   fScoreDetails:
   - 0
