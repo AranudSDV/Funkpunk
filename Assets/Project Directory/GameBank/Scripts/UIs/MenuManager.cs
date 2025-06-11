@@ -17,6 +17,7 @@ using UnityEngine.Rendering;
 
 public class MenuManager : SingletonManager<MenuManager>
 {
+    public BPM_Manager bpmManager;
     public EventSystem EventSystem;
     public SC_Player scPlayer;
     public bool bGameIsPaused = false;
@@ -84,12 +85,6 @@ public class MenuManager : SingletonManager<MenuManager>
     [SerializeField] private UnityEngine.UI.Slider SfxSlider;
     [SerializeField] private UnityEngine.UI.Slider MusicSlider;
     [SerializeField] private UnityEngine.UI.Slider AmbianceSlider;
-    [SerializeField] private EventReference menuLoop;
-    [SerializeField] private EventReference menuLoopDetected;
-    [SerializeField] private EventReference menuLoopBeat;
-    public FMOD.Studio.EventInstance basicLoopInstance;
-    public FMOD.Studio.EventInstance detectedLoopInstance;
-    public FMOD.Studio.EventInstance beatLoopInstance;
 
     //NAVIGATION UX
     [Header("Navigation UX")]
@@ -176,7 +171,6 @@ public class MenuManager : SingletonManager<MenuManager>
     [Header("Datas")]
     public PlayerData _playerData;
     public Level[] _levels;
-    private bool isPlaying = false; // Prevent multiple starts
     //DATA LEVEL
     public int[] iNbTaggs = new int[4];
     static int Hasard(int a, int b) //Choisi un random.
@@ -246,20 +240,9 @@ public class MenuManager : SingletonManager<MenuManager>
         music_detected_VCA = FMODUnity.RuntimeManager.GetVCA("vca:/Music_detected");
         sfxVCA = FMODUnity.RuntimeManager.GetVCA("vca:/SFX");
         ambianceVCA = FMODUnity.RuntimeManager.GetVCA("vca:/Ambiance"); 
-        if (basicLoopInstance.isValid())
-        {
-            basicLoopInstance.getPlaybackState(out PLAYBACK_STATE state);
-            if (state != PLAYBACK_STATE.STOPPED) return;
-        }
-        basicLoopInstance = RuntimeManager.CreateInstance(menuLoop);
-        basicLoopInstance.start();
-
-        detectedLoopInstance = RuntimeManager.CreateInstance(menuLoopDetected);
-        detectedLoopInstance.start();
-
-        beatLoopInstance = RuntimeManager.CreateInstance(menuLoopBeat);
-        beatLoopInstance.start();
-        isPlaying = true;
+        bpmManager.bIsOnLvl = false;
+        bpmManager.bInitialized[0] = false;
+        bpmManager.bInitialized[1] = false;
 
         SetMusicVolume();
         SetSFXVolume();
@@ -768,28 +751,28 @@ public class MenuManager : SingletonManager<MenuManager>
     //SCENE LOADING
     public void LoadScene(string sceneToLoad)
     {
+        if (bpmManager.basicLoopInstance.isValid())
+        {
+            bpmManager.basicLoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            bpmManager.basicLoopInstance.release();
+        }
+        if (bpmManager.detectedLoopInstance.isValid())
+        {
+            bpmManager.detectedLoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            bpmManager.detectedLoopInstance.release();
+        }
+        if (bpmManager.beatLoopInstance.isValid())
+        {
+            bpmManager.beatLoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            bpmManager.beatLoopInstance.release();
+        }
+        bpmManager.isPlaying = false;
         if (SceneManager.GetActiveScene().name != "Loft")
         {
             ButtonSound();
         }
         if (sceneToLoad == "SceneLvl0" || sceneToLoad == "SceneLvl1" || sceneToLoad == "SceneLvl2" || sceneToLoad == "SceneLvl3")
         {
-            if (basicLoopInstance.isValid())
-            {
-                basicLoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-                basicLoopInstance.release();
-            }
-            if (detectedLoopInstance.isValid())
-            {
-                detectedLoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-                detectedLoopInstance.release();
-            }
-            if (beatLoopInstance.isValid())
-            {
-                beatLoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-                beatLoopInstance.release();
-            }
-            isPlaying = false;
             StartCoroutine(StartLoad(sceneToLoad));
             for(int i =0; i<4; i++)
             {
@@ -798,28 +781,16 @@ public class MenuManager : SingletonManager<MenuManager>
                     iPreviousLevelPlayed = i;
                 }
             }
+            bpmManager.bIsOnLvl = true;
+            bpmManager.bIsOnLoft = false;
+        }
+        else if(sceneToLoad == "Loft")
+        {
+            bpmManager.bIsOnLoft = true;
+            bpmManager.bIsOnLvl = false;
         }
         else if (sceneToLoad == "LevelChoosing" || sceneToLoad == "Scenes/World/LevelChoosing")
         {
-            if(!isPlaying)
-            {
-                if (basicLoopInstance.isValid())
-                {
-                    basicLoopInstance.getPlaybackState(out PLAYBACK_STATE state);
-                    if (state != PLAYBACK_STATE.STOPPED) return;
-                }
-                basicLoopInstance = RuntimeManager.CreateInstance(menuLoop);
-                basicLoopInstance.start();
-
-                detectedLoopInstance = RuntimeManager.CreateInstance(menuLoopDetected);
-                detectedLoopInstance.start();
-
-                beatLoopInstance = RuntimeManager.CreateInstance(menuLoopBeat);
-                beatLoopInstance.start();
-                isPlaying = true;
-                SetMusicVolume();
-            }
-
             if (CgPauseMenu.alpha == 1f)
             {
                 CgPauseMenu.alpha = 0f;
@@ -830,6 +801,8 @@ public class MenuManager : SingletonManager<MenuManager>
                 RtPauseMenu.offsetMax = new Vector2(0f, 0f);
                 RtPauseMenu.offsetMin = new Vector2(0f, 0f);
             }
+            bpmManager.bIsOnLvl = false;
+            Shader.SetGlobalFloat("BPM", 60f);
             StartCoroutine(StartLoad(sceneToLoad));
         }
         else if (sceneToLoad == "retry")
@@ -846,16 +819,29 @@ public class MenuManager : SingletonManager<MenuManager>
                     sceneToLoad = "SceneLvl" + (i + 1).ToString();
                 }
             }
+            EventSystem.SetSelectedGameObject(GoLevelsButton[0]);
+            Shader.SetGlobalFloat("BPM", 60f);
+            bpmManager.bIsOnLoft = false;
+            bpmManager.bIsOnLvl = false;
+            bpmManager.bInitialized[0] = false;
+            bpmManager.bInitialized[1] = false;
             StartCoroutine(StartLoad(sceneToLoad));
         }
         else if(sceneToLoad == "CreditsScene" || sceneToLoad == "Scenes/World/CreditsScene")
         {
+            bpmManager.bIsOnLvl = false;
             bIsOnCredits = true;
+            Shader.SetGlobalFloat("BPM", 60f);
             LoadScene("Scenes/World/SceneSplash");
         }
         else
         {
+            Shader.SetGlobalFloat("BPM", 60f);
             StartCoroutine(StartLoad(sceneToLoad));
+            bpmManager.bIsOnLoft = false;
+            bpmManager.bIsOnLvl = false;
+            bpmManager.bInitialized[0] = false;
+            bpmManager.bInitialized[1] = false;
         }
         if (CgScoring.alpha == 1f)
         {
@@ -890,13 +876,13 @@ public class MenuManager : SingletonManager<MenuManager>
         RtLoadingScreen.anchorMin = new Vector2(0, 1);
         RtLoadingScreen.anchorMax = new Vector2(1, 2);
         RtScoring.anchorMin = new Vector2(0, 1);
-        RtScoring.anchorMax = new Vector2(1, 2);
-        if(sceneToLoad == "LevelChoosing" || sceneToLoad == "next")
+        RtScoring.anchorMax = new Vector2(1, 2); 
+        if (sceneToLoad == "LevelChoosing" || sceneToLoad == "next")
         {
             EventSystem.SetSelectedGameObject(GoLevelsButton[0]);
             Shader.SetGlobalFloat("BPM", 60f);
         }
-        else if(sceneToLoad == "SceneSplash" || sceneToLoad == "CreditsScene")
+        else if (sceneToLoad == "SceneSplash" || sceneToLoad == "CreditsScene")
         {
             Shader.SetGlobalFloat("BPM", 60f);
         }
@@ -1189,7 +1175,7 @@ public class MenuManager : SingletonManager<MenuManager>
         }
         if (scPlayer!=null && scPlayer.bpmManager!=null)
         {
-            scPlayer.bpmManager.StartBPM();
+            scPlayer.bpmManager.StartBPMPlayer();
         }
     }
     public void LanguageButton()

@@ -20,15 +20,16 @@ public class bait_juicy : MonoBehaviour
         int hasard = rdm.Next(a, b + 1); //Aller jusqu'a le b inclu.
         return hasard;
     }
-    public void StartNow(BPM_Manager bpm)
+    public IEnumerator StartNow()
     {
-        bpm_ = bpm;
+        yield return new WaitUntil(() => BPM_Manager.instance != null);
+        bpm_ = BPM_Manager.instance;
         int hasard = Hasard(-90, 90);
         rotationAngle = Convert.ToSingle(hasard);
         startRot = this.transform.rotation;
         originalScale = transform.localScale;
         startY = transform.localPosition.y;
-        BaitRythm(bpm.FSPB);
+        BaitRythm(bpm_.FSPB);
     }
     public void Restart()
     {
@@ -36,7 +37,7 @@ public class bait_juicy : MonoBehaviour
         transform.rotation = startRot;
         transform.localScale = originalScale;
         transform.localPosition = Vector3.zero;
-        StartNow(bpm_);
+        StartCoroutine(StartNow());
     }
     private void BaitRythm(float f_beat)
     {
