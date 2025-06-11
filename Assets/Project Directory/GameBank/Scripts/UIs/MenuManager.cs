@@ -251,6 +251,7 @@ public class MenuManager : SingletonManager<MenuManager>
     void Update()
     {
         CheckControllerStatus();
+        Shader.SetGlobalFloat("_UnscaledDT", Time.unscaledDeltaTime);
         if (!bMenuOnTriggered && controllerConnected && control !=null && control.GamePlay.Move.triggered && SceneManager.GetActiveScene().name == "SceneSplash")
         {
             if(!bIsOnCredits)

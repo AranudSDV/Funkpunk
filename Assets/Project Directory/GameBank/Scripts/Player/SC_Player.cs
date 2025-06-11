@@ -191,7 +191,6 @@ public class SC_Player : Singleton<SC_Player>
         yield return new WaitUntil(() => MenuManager.instance != null);
         InitWithMenuManager(MenuManager.instance);
     }
-
     private void InitWithMenuManager(MenuManager menu)
     {
         GameObject goMenu = menu.gameObject;
@@ -250,6 +249,10 @@ public class SC_Player : Singleton<SC_Player>
         }
         menuManager.gameObject.GetComponent<Canvas>().worldCamera = camUIOverlay;
         menuManager.EventSystem = _eventSystem;
+        foreach(sc_CheckPoint checkPoint in checkpoints)
+        {
+            checkPoint.vfx_sewerSmoke.SetFloat("BPM", bpmManager.FBPM[menuManager.iPreviousLevelPlayed]);
+        }
         EyeDetection();
         // Your logic here
     }

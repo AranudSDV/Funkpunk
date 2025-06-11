@@ -169,7 +169,14 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
             isPlaying = true; 
             if (bIsOnLvl || bIsOnLoft)
             {
-                FSPB = 1f / (FBPM[menuManager.iPreviousLevelPlayed] / 60f);
+                if(bIsOnLoft)
+                {
+                    FSPB = 1f / (FBPM[4] / 60f);
+                }
+                else
+                {
+                    FSPB = 1f / (FBPM[menuManager.iPreviousLevelPlayed] / 60f);
+                }
                 StartCoroutine(WaitForPlayer());
             }
             bInitialized[0] = true;

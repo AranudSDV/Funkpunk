@@ -687,7 +687,7 @@ MonoBehaviour:
   RtLoadingScreen: {fileID: 266337310515374496}
   _playerData: {fileID: 1165491372627732135}
   _levels: []
-  iNbTaggs: 01000000050000000500000005000000
+  iNbTaggs: 0100000006000000010000000d000000
 --- !u!114 &2306677319934782389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -701,6 +701,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bIsOnLvl: 0
+  bIsOnLoft: 0
   scPlayer: {fileID: 0}
   menuManager: {fileID: 269850063720091022}
   iReplaying: 3
