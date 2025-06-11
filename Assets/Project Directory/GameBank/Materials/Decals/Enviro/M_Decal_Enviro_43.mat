@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_Decal_Enviro_41B
+  m_Name: M_Decal_Enviro_43
   m_Shader: {fileID: 4800000, guid: c65f80e4aa271054e916f540b244c27d, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -20,7 +20,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2050
+  m_CustomRenderQueue: 1950
   stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
@@ -56,26 +56,26 @@ Material:
     - _DecalMeshBiasType: 0
     - _DecalMeshDepthBias: 0
     - _DecalMeshViewBias: 0
-    - _DrawOrder: 50
+    - _DrawOrder: -50
     - _ErosionValue: 0
     - _GameplayOrEnviro: 1
     - _MaxOffset: 0
-    - _MaxOffset_X: 2.1
-    - _MaxOffset_Y: 1.44
+    - _MaxOffset_X: 0
+    - _MaxOffset_Y: 0
     - _MaxRotation: 0.03
     - _MaxScale: 5.08
-    - _MaxScale_X: 3
-    - _MaxScale_Y: 3
+    - _MaxScale_X: 1
+    - _MaxScale_Y: 1
     - _MinOffset: 0
-    - _MinOffset_X: -1.35
-    - _MinOffset_Y: 0.33
+    - _MinOffset_X: 0
+    - _MinOffset_Y: 0
     - _MinRotation: 0
     - _MinScale: 1
-    - _MinScale_X: 3
-    - _MinScale_Y: 3
-    - _NumGraffiti: 3
+    - _MinScale_X: 1
+    - _MinScale_Y: 1
+    - _NumGraffiti: 1
     - _PlayerTagsOrEnviro: 1
-    - _Seed: 38.37
+    - _Seed: 40.58
     - _SeedMultiplier: 1
     - _SeedScale: 1
     - _WorldPosOrSeed: 1
