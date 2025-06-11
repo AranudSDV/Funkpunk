@@ -54,6 +54,8 @@ public class MenuManager : SingletonManager<MenuManager>
     [SerializeField] private UnityEngine.UI.Selectable ButtonOptionAudio;
     [SerializeField] private UnityEngine.UI.Button[] ButtonsOptionGeneral_fromAudio;
     [SerializeField] private UnityEngine.UI.Button[] ButtonsOptionAudio_fromAudio;
+    [SerializeField] private UnityEngine.UI.Button[] ButtonsOption;
+    [SerializeField] private UnityEngine.UI.Image[] ImageOption;
     [SerializeField] private UnityEngine.UI.Slider[] SliderOptionAudio = new UnityEngine.UI.Slider[3];
     [SerializeField] private UnityEngine.UI.Button[] ButtonOptionGeneral_ = new UnityEngine.UI.Button[2];
     [SerializeField] private UnityEngine.UI.Image[] ImageSliderHandlerAudio = new UnityEngine.UI.Image[3];
@@ -64,10 +66,10 @@ public class MenuManager : SingletonManager<MenuManager>
     public CanvasGroup CgOptionGeneral;
     public int iDifficulty = 0;
     [SerializeField] private EventReference[] sfx_ui_button;
-    private bool[] bNowSelectedGeneral = new bool[2] { false, false };
+    private bool[] bNowSelectedGeneral = new bool[3] { false, false, false };
     private bool[] bNowSelectedAudio = new bool[3] { false, false, false };
-    private int iSelectedGeneral = -1;
-    private int iSelectedAudio = -1;
+    //private int iSelectedGeneral = -1;
+    //private int iSelectedAudio = -1;
     public bool bOnceGrid = false;
     private bool[] bOnceOptions = new bool[3] { false, false, false };
 
@@ -258,7 +260,7 @@ public class MenuManager : SingletonManager<MenuManager>
     void Update()
     {
         CheckControllerStatus();
-        Shader.SetGlobalFloat("_UnscaledDT", Time.unscaledDeltaTime);
+        Shader.SetGlobalFloat("UnscaledDT", Time.unscaledDeltaTime);
         if (!bMenuOnTriggered && controllerConnected && control !=null && control.GamePlay.Move.triggered && SceneManager.GetActiveScene().name == "SceneSplash")
         {
             if(!bIsOnCredits)
@@ -395,13 +397,15 @@ public class MenuManager : SingletonManager<MenuManager>
         {
             for (int i = 0; i < buttonsPausePannel.Length; i++)
             {
-                if (EventSystem.currentSelectedGameObject == buttonsPausePannel[i])
+                //Debug.Log(EventSystem.currentSelectedGameObject);
+                //Debug.Log(buttonsPausePannel[i]);
+                if (EventSystem.currentSelectedGameObject == buttonsPausePannel[i].gameObject)
                 {
-                    imagesButtonPausePannel[i].material.SetFloat("NoColorsWhiteValue", 1f);
+                    imagesButtonPausePannel[i].material.SetFloat("_NoColorsWhiteValue", 1f);
                 }
-                if (EventSystem.currentSelectedGameObject != buttonsPausePannel[i])
+                if (EventSystem.currentSelectedGameObject != buttonsPausePannel[i].gameObject)
                 {
-                    imagesButtonPausePannel[i].material.SetFloat("NoColorsWhiteValue", 0.5f);
+                    imagesButtonPausePannel[i].material.SetFloat("_NoColorsWhiteValue", 0.1f);
                 }
             }
         }
@@ -409,9 +413,9 @@ public class MenuManager : SingletonManager<MenuManager>
         {
             for (int i = 0; i < 3; i++)
             {
-                if (EventSystem.currentSelectedGameObject == SliderOptionAudio[i] && !bNowSelectedAudio[i])
+                if (EventSystem.currentSelectedGameObject == SliderOptionAudio[i].gameObject)//&& !bNowSelectedAudio[i]
                 {
-                    bNowSelectedAudio[i] = true;
+                    /*bNowSelectedGeneral[i] = true;
                     if (iSelectedAudio > -1)
                     {
                         bNowSelectedAudio[iSelectedAudio] = false;
@@ -420,27 +424,32 @@ public class MenuManager : SingletonManager<MenuManager>
                     else
                     {
                         iSelectedAudio = i;
-                    }
-                    ImageSliderHandlerAudio[iSelectedAudio].material.SetFloat("NoColorsWhiteValue", 1f);
+                    }*/
+                    ImageSliderHandlerAudio[i].material.SetFloat("_NoColorsWhiteValue", 1f);
+                }
+                else if(EventSystem.currentSelectedGameObject == ButtonsOption[i].gameObject)
+                {
+                    ImageOption[i].material.SetFloat("_NoColorsWhiteValue", 1f);
                 }
                 else
                 {
-                    ImageSliderHandlerAudio[i].material.SetFloat("NoColorsWhiteValue", 0.5f);
+                    ImageOption[i].material.SetFloat("_NoColorsWhiteValue", 0.1f);
+                    ImageSliderHandlerAudio[i].material.SetFloat("_NoColorsWhiteValue", 0.1f);
                 }
-                if (i < bNowSelectedGeneral.Length)
+                /*if (i < bNowSelectedGeneral.Length)
                 {
                     bNowSelectedGeneral[i] = false;
                 }
-                iSelectedGeneral = -1;
+                iSelectedGeneral = -1;*/
             }
         }
         else if (CgOptionGeneral.alpha == 1f)
         {
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < 3; i++)
             {
-                if (EventSystem.currentSelectedGameObject == ButtonOptionGeneral_[i] && !bNowSelectedGeneral[i])
+                if (EventSystem.currentSelectedGameObject == ButtonOptionGeneral_[i].gameObject)//&& !bNowSelectedGeneral[i]
                 {
-                    bNowSelectedAudio[i] = true;
+                    /*bNowSelectedAudio[i] = true;
                     if (iSelectedGeneral > -1)
                     {
                         bNowSelectedAudio[iSelectedGeneral] = false;
@@ -449,18 +458,23 @@ public class MenuManager : SingletonManager<MenuManager>
                     else
                     {
                         iSelectedGeneral = i;
-                    }
-                    ImageButtonGeneral[iSelectedGeneral].material.SetFloat("NoColorsWhiteValue", 1f);
+                    }*/
+                    ImageButtonGeneral[i].material.SetFloat("_NoColorsWhiteValue", 1f);
+                }
+                else if (EventSystem.currentSelectedGameObject == ButtonsOption[i].gameObject)
+                {
+                    ImageOption[i].material.SetFloat("_NoColorsWhiteValue", 1f);
                 }
                 else
                 {
-                    ImageButtonGeneral[i].material.SetFloat("NoColorsWhiteValue", 0.5f);
+                    ImageOption[i].material.SetFloat("_NoColorsWhiteValue", 0.1f);
+                    ImageButtonGeneral[i].material.SetFloat("_NoColorsWhiteValue", 0.1f);
                 }
-                if (i < bNowSelectedAudio.Length)
+                /*if (i < bNowSelectedAudio.Length)
                 {
                     bNowSelectedAudio[i] = false;
                 }
-                iSelectedAudio = -1;
+                iSelectedAudio = -1;*/
             }
         }
     }
@@ -1275,7 +1289,7 @@ public class MenuManager : SingletonManager<MenuManager>
     {
         if (bGameIsPaused)
         {
-            Time.timeScale = 0f;
+            //Time.timeScale = 0f;
             if (scPlayer != null && scPlayer.bisTuto == false)
             {
                 music_basic_VCA.getVolume(out float currentVolume); // Get current volume
@@ -1287,7 +1301,7 @@ public class MenuManager : SingletonManager<MenuManager>
         }
         else
         {
-            Time.timeScale = 1f;
+            //Time.timeScale = 1f;
             music_basic_VCA.setVolume(playerMusicVolume - fDetectedVolume);
             music_detected_VCA.setVolume(fDetectedVolume);
             music_beat_VCA.setVolume(0f);

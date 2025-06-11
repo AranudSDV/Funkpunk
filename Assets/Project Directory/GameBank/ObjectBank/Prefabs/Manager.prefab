@@ -317,6 +317,14 @@ MonoBehaviour:
   ButtonsOptionAudio_fromAudio:
   - {fileID: 4029280696761519072}
   - {fileID: 6953012520679639207}
+  ButtonsOption:
+  - {fileID: 6953012520679639207}
+  - {fileID: 4029280696761519072}
+  - {fileID: 8153582874688616382}
+  ImageOption:
+  - {fileID: 8152703177093812269}
+  - {fileID: 857569876296958133}
+  - {fileID: 369400259305086467}
   SliderOptionAudio:
   - {fileID: 1751299479825783677}
   - {fileID: 772669210243803284}
