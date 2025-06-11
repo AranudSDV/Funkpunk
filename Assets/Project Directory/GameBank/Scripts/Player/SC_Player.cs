@@ -323,7 +323,6 @@ public class SC_Player : Singleton<SC_Player>
             }
         }
     }
-
     //CONCERNANT LES CONTROLS
     private void UpdateDirAndMovOnJoystickOrPC()
     {

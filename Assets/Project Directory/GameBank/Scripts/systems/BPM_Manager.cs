@@ -563,10 +563,14 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
             scPlayer.imNoteLeft[0].color = new Color32(0, 197, 255, 255);
             sequences[0].Kill();
             sequences[0] = DOTween.Sequence();
-            sequences[0].Append(scPlayer.goNoteRight[0].DOAnchorPos(new Vector2(scPlayer.goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
-            sequences[0].Join(scPlayer.goNoteLeft[0].DOScale(1.5f, FSPB * 3).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
-            sequences[0].Join(scPlayer.goNoteRight[0].DOScale(1.5f, FSPB * 3).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
-            sequences[0].Join(scPlayer.goNoteLeft[0].DOAnchorPos(new Vector2(-scPlayer.goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            sequences[0].Append(scPlayer.goNoteRight[0].DOAnchorPos(new Vector2(scPlayer.goNoteLeft[0].rect.width / 2f, 0f), FSPB * 3-FSPB/7, false).SetEase(Ease.Linear)).SetUpdate(true);
+            sequences[0].Join(scPlayer.goNoteLeft[0].DOScale(1.5f, FSPB * 3 - FSPB / 7).SetEase(Ease.InBack)).SetUpdate(true);
+            sequences[0].Join(scPlayer.goNoteRight[0].DOScale(1.5f, FSPB * 3-FSPB/7).SetEase(Ease.InBack)).SetUpdate(true);
+            sequences[0].Join(scPlayer.goNoteLeft[0].DOAnchorPos(new Vector2(-scPlayer.goNoteLeft[0].rect.width / 2f, 0f), FSPB * 3 - FSPB / 7, false).SetEase(Ease.Linear)).SetUpdate(true);
+            sequences[0].Append(scPlayer.goNoteRight[0].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            sequences[0].Join(scPlayer.goNoteLeft[0].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
+            sequences[0].Join(scPlayer.goNoteRight[0].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
+            sequences[0].Join(scPlayer.goNoteLeft[0].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
             i_B = 2;
         }
         else if (i_B == 2)
@@ -579,10 +583,14 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
             scPlayer.imNoteLeft[1].color = new Color32(0, 197, 255, 255);
             sequences[1].Kill();
             sequences[1] = DOTween.Sequence();
-            sequences[1].Append(scPlayer.goNoteRight[1].DOAnchorPos(new Vector2(scPlayer.goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
-            sequences[1].Join(scPlayer.goNoteLeft[1].DOScale(1.5f, FSPB * 3).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
-            sequences[1].Join(scPlayer.goNoteRight[1].DOScale(1.5f, FSPB * 3).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
-            sequences[1].Join(scPlayer.goNoteLeft[1].DOAnchorPos(new Vector2(-scPlayer.goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            sequences[1].Append(scPlayer.goNoteRight[1].DOAnchorPos(new Vector2(scPlayer.goNoteLeft[0].rect.width / 2f, 0f), FSPB * 3-FSPB/7, false).SetEase(Ease.Linear)).SetUpdate(true);
+            sequences[1].Join(scPlayer.goNoteLeft[1].DOScale(1.5f, FSPB * 3-FSPB/7).SetEase(Ease.InBack)).SetUpdate(true);
+            sequences[1].Join(scPlayer.goNoteRight[1].DOScale(1.5f, FSPB * 3-FSPB/7).SetEase(Ease.InBack)).SetUpdate(true);
+            sequences[1].Join(scPlayer.goNoteLeft[1].DOAnchorPos(new Vector2(-scPlayer.goNoteLeft[0].rect.width / 2f, 0f), FSPB * 3-FSPB/7, false).SetEase(Ease.Linear)).SetUpdate(true);
+            sequences[1].Append(scPlayer.goNoteRight[1].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            sequences[1].Join(scPlayer.goNoteLeft[1].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
+            sequences[1].Join(scPlayer.goNoteRight[1].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
+            sequences[1].Join(scPlayer.goNoteLeft[1].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
             i_B = 3;
         }
         else if (i_B == 3)
@@ -595,10 +603,14 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
             scPlayer.imNoteLeft[2].color = new Color32(0, 197, 255, 255);
             sequences[2].Kill();
             sequences[2] = DOTween.Sequence();
-            sequences[2].Append(scPlayer.goNoteRight[2].DOAnchorPos(new Vector2(scPlayer.goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
-            sequences[2].Join(scPlayer.goNoteLeft[2].DOScale(1.5f, FSPB * 3).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
-            sequences[2].Join(scPlayer.goNoteRight[2].DOScale(1.5f, FSPB * 3).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
-            sequences[2].Join(scPlayer.goNoteLeft[2].DOAnchorPos(new Vector2(-scPlayer.goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            sequences[2].Append(scPlayer.goNoteRight[2].DOAnchorPos(new Vector2(scPlayer.goNoteLeft[0].rect.width / 2f, 0f), FSPB * 3 - FSPB / 7, false).SetEase(Ease.Linear)).SetUpdate(true);
+            sequences[2].Join(scPlayer.goNoteLeft[2].DOScale(1.5f, FSPB * 3 - FSPB / 7).SetEase(Ease.InBack)).SetUpdate(true);
+            sequences[2].Join(scPlayer.goNoteRight[2].DOScale(1.5f, FSPB * 3-FSPB/7).SetEase(Ease.InBack)).SetUpdate(true);
+            sequences[2].Join(scPlayer.goNoteLeft[2].DOAnchorPos(new Vector2(-scPlayer.goNoteLeft[0].rect.width / 2f, 0f), FSPB * 3-FSPB/7, false).SetEase(Ease.Linear)).SetUpdate(true);
+            sequences[2].Append(scPlayer.goNoteRight[2].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            sequences[2].Join(scPlayer.goNoteLeft[2].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
+            sequences[2].Join(scPlayer.goNoteRight[2].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
+            sequences[2].Join(scPlayer.goNoteLeft[2].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
             i_B = 1;
         }
         else
@@ -610,10 +622,14 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
             scPlayer.goNoteLeft[0].localScale = new Vector3(1f, 1f, 1f); 
             sequences[0].Kill();
             sequences[0] = DOTween.Sequence();
-            sequences[0].Append(scPlayer.goNoteRight[0].DOAnchorPos(new Vector2(scPlayer.goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
-            sequences[0].Join(scPlayer.goNoteLeft[0].DOScale(1.5f, FSPB * 3).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
-            sequences[0].Join(scPlayer.goNoteRight[0].DOScale(1.5f, FSPB * 3).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
-            sequences[0].Join(scPlayer.goNoteLeft[0].DOAnchorPos(new Vector2(-scPlayer.goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            sequences[0].Append(scPlayer.goNoteRight[0].DOAnchorPos(new Vector2(scPlayer.goNoteLeft[0].rect.width / 2f, 0f), FSPB * 3-FSPB/7, false).SetEase(Ease.Linear)).SetUpdate(true);
+            sequences[0].Join(scPlayer.goNoteLeft[0].DOScale(1.5f, FSPB * 3-FSPB/7).SetEase(Ease.InBack)).SetUpdate(true);
+            sequences[0].Join(scPlayer.goNoteRight[0].DOScale(1.5f, FSPB * 3-FSPB/7).SetEase(Ease.InBack)).SetUpdate(true);
+            sequences[0].Join(scPlayer.goNoteLeft[0].DOAnchorPos(new Vector2(-scPlayer.goNoteLeft[0].rect.width / 2f, 0f), FSPB * 3-FSPB/7, false).SetEase(Ease.Linear)).SetUpdate(true);
+            sequences[0].Append(scPlayer.goNoteRight[0].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            sequences[0].Join(scPlayer.goNoteLeft[0].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
+            sequences[0].Join(scPlayer.goNoteRight[0].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
+            sequences[0].Join(scPlayer.goNoteLeft[0].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
 
             scPlayer.goNoteRight[1].anchoredPosition = new Vector2(newPos.x * (1+2* canvas), 0f);
             scPlayer.goNoteLeft[1].anchoredPosition = new Vector2(-newPos.x * (1+2* canvas), 0f);
@@ -621,10 +637,14 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
             scPlayer.goNoteLeft[1].localScale = new Vector3(1f, 1f, 1f);
             sequences[1].Kill();
             sequences[1] = DOTween.Sequence();
-            sequences[1].Append(scPlayer.goNoteRight[1].DOAnchorPos(new Vector2(scPlayer.goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
-            sequences[1].Join(scPlayer.goNoteLeft[1].DOScale(1.5f, FSPB * 3).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
-            sequences[1].Join(scPlayer.goNoteRight[1].DOScale(1.5f, FSPB * 3).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
-            sequences[1].Join(scPlayer.goNoteLeft[1].DOAnchorPos(new Vector2(-scPlayer.goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            sequences[1].Append(scPlayer.goNoteRight[1].DOAnchorPos(new Vector2(scPlayer.goNoteLeft[0].rect.width / 2f, 0f), FSPB * 3 - FSPB / 7, false).SetEase(Ease.Linear)).SetUpdate(true);
+            sequences[1].Join(scPlayer.goNoteLeft[1].DOScale(1.5f, FSPB * 3 - FSPB / 7).SetEase(Ease.InBack)).SetUpdate(true);
+            sequences[1].Join(scPlayer.goNoteRight[1].DOScale(1.5f, FSPB * 3-FSPB/7).SetEase(Ease.InBack)).SetUpdate(true);
+            sequences[1].Join(scPlayer.goNoteLeft[1].DOAnchorPos(new Vector2(-scPlayer.goNoteLeft[0].rect.width / 2f, 0f), FSPB * 3-FSPB/7, false).SetEase(Ease.Linear)).SetUpdate(true);
+            sequences[1].Append(scPlayer.goNoteRight[1].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            sequences[1].Join(scPlayer.goNoteLeft[1].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
+            sequences[1].Join(scPlayer.goNoteRight[1].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
+            sequences[1].Join(scPlayer.goNoteLeft[1].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
 
             scPlayer.goNoteRight[2].anchoredPosition = new Vector2(newPos.x * (1+canvas)+ scPlayer.goNoteLeft[0].rect.width / 4f, 0f);
             scPlayer.goNoteLeft[2].anchoredPosition = new Vector2(-newPos.x * (1+canvas)- scPlayer.goNoteLeft[0].rect.width / 4f, 0f);
@@ -632,10 +652,14 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
             scPlayer.goNoteLeft[2].localScale = new Vector3(1f, 1f, 1f);
             sequences[2].Kill();
             sequences[2] = DOTween.Sequence();
-            sequences[2].Append(scPlayer.goNoteRight[2].DOAnchorPos(new Vector2(scPlayer.goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
-            sequences[2].Join(scPlayer.goNoteLeft[2].DOScale(1.5f, FSPB * 3).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
-            sequences[2].Join(scPlayer.goNoteRight[2].DOScale(1.5f, FSPB * 3).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
-            sequences[2].Join(scPlayer.goNoteLeft[2].DOAnchorPos(new Vector2(-scPlayer.goNoteLeft[0].rect.width / 4f, 0f), FSPB * 3, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            sequences[2].Append(scPlayer.goNoteRight[2].DOAnchorPos(new Vector2(scPlayer.goNoteLeft[0].rect.width / 2f, 0f), FSPB * 3-FSPB/7, false).SetEase(Ease.Linear)).SetUpdate(true);
+            sequences[2].Join(scPlayer.goNoteLeft[2].DOScale(1.5f, FSPB * 3-FSPB/7).SetEase(Ease.InBack)).SetUpdate(true);
+            sequences[2].Join(scPlayer.goNoteRight[2].DOScale(1.5f, FSPB * 3-FSPB/7).SetEase(Ease.InBack)).SetUpdate(true);
+            sequences[2].Join(scPlayer.goNoteLeft[2].DOAnchorPos(new Vector2(-scPlayer.goNoteLeft[0].rect.width / 2f, 0f), FSPB * 3-FSPB/7, false).SetEase(Ease.Linear)).SetUpdate(true);
+            sequences[2].Append(scPlayer.goNoteRight[2].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
+            sequences[2].Join(scPlayer.goNoteLeft[2].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
+            sequences[2].Join(scPlayer.goNoteRight[2].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
+            sequences[2].Join(scPlayer.goNoteLeft[2].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear).SetAutoKill(true)).SetUpdate(true);
             i_B = 1;
         }
     }
