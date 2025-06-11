@@ -11453,7 +11453,7 @@ PrefabInstance:
         type: 3}
       propertyPath: bpmManager
       value: 
-      objectReference: {fileID: 460384139}
+      objectReference: {fileID: 0}
     - target: {fileID: 4689554887212002435, guid: 481679da37c5830468e32f02138b149a,
         type: 3}
       propertyPath: mNotThrown
@@ -21940,7 +21940,7 @@ MonoBehaviour:
   strength: 5
   nbShakesPerCycle: 10
   randomness: 50
-  bpmManager: {fileID: 460384139}
+  bpmManager: {fileID: 0}
   endValueBounce: {x: 0, y: 0}
   f_bounce: 0
 --- !u!43 &309034220
@@ -22327,7 +22327,7 @@ MonoBehaviour:
   strength: 10
   nbShakesPerCycle: 1
   randomness: 50
-  bpmManager: {fileID: 460384139}
+  bpmManager: {fileID: 0}
   endValueBounce: {x: 0, y: 0}
   f_bounce: 1
 --- !u!114 &337649603
@@ -22795,7 +22795,7 @@ MonoBehaviour:
   strength: 10
   nbShakesPerCycle: 1
   randomness: 50
-  bpmManager: {fileID: 460384139}
+  bpmManager: {fileID: 0}
   endValueBounce: {x: 0, y: 0}
   f_bounce: 1
 --- !u!114 &382644248
@@ -27933,18 +27933,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5358b3d66a5a28a41ad14a253394ddcf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &460384139 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 82293833679279999, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
-    type: 3}
-  m_PrefabInstance: {fileID: 8093666005099264633}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 460384133}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49b90ef080260384a8e791b3c17f7fa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &463093898
@@ -52051,7 +52039,7 @@ PrefabInstance:
         type: 3}
       propertyPath: bpmManager
       value: 
-      objectReference: {fileID: 460384139}
+      objectReference: {fileID: 0}
     - target: {fileID: 4689554887212002435, guid: 481679da37c5830468e32f02138b149a,
         type: 3}
       propertyPath: mNotThrown
@@ -62770,7 +62758,7 @@ MonoBehaviour:
   strength: 5
   nbShakesPerCycle: 10
   randomness: 50
-  bpmManager: {fileID: 460384139}
+  bpmManager: {fileID: 0}
   endValueBounce: {x: 0, y: 0}
   f_bounce: 0
 --- !u!114 &1366452574
@@ -64148,7 +64136,7 @@ MonoBehaviour:
   strength: 4
   nbShakesPerCycle: 1
   randomness: 50
-  bpmManager: {fileID: 460384139}
+  bpmManager: {fileID: 0}
   endValueBounce: {x: 0, y: 0}
   f_bounce: 2
 --- !u!114 &1396113091
@@ -69575,7 +69563,7 @@ PrefabInstance:
         type: 3}
       propertyPath: bpmManager
       value: 
-      objectReference: {fileID: 460384139}
+      objectReference: {fileID: 0}
     - target: {fileID: 4689554887212002435, guid: 481679da37c5830468e32f02138b149a,
         type: 3}
       propertyPath: mNotThrown
@@ -69904,7 +69892,7 @@ PrefabInstance:
         type: 3}
       propertyPath: bpmManager
       value: 
-      objectReference: {fileID: 460384139}
+      objectReference: {fileID: 0}
     - target: {fileID: 4689554887212002435, guid: 481679da37c5830468e32f02138b149a,
         type: 3}
       propertyPath: mNotThrown
@@ -71435,7 +71423,7 @@ PrefabInstance:
         type: 3}
       propertyPath: bpmManager
       value: 
-      objectReference: {fileID: 460384139}
+      objectReference: {fileID: 0}
     - target: {fileID: 4689554887212002435, guid: 481679da37c5830468e32f02138b149a,
         type: 3}
       propertyPath: mNotThrown
@@ -72024,7 +72012,7 @@ MonoBehaviour:
   strength: 4
   nbShakesPerCycle: 1
   randomness: 50
-  bpmManager: {fileID: 460384139}
+  bpmManager: {fileID: 0}
   endValueBounce: {x: 0, y: 0}
   f_bounce: 2
 --- !u!114 &1962867932
@@ -92837,7 +92825,7 @@ PrefabInstance:
         type: 3}
       propertyPath: bpmManager
       value: 
-      objectReference: {fileID: 460384139}
+      objectReference: {fileID: 0}
     - target: {fileID: 2559347695758500737, guid: 68808927f9aacd1419714efe98e3e0c5,
         type: 3}
       propertyPath: originalScale.x
@@ -98643,7 +98631,7 @@ PrefabInstance:
         type: 3}
       propertyPath: bpmManager
       value: 
-      objectReference: {fileID: 460384139}
+      objectReference: {fileID: 0}
     - target: {fileID: 4689554887212002435, guid: 481679da37c5830468e32f02138b149a,
         type: 3}
       propertyPath: mNotThrown
@@ -114448,7 +114436,7 @@ PrefabInstance:
         type: 3}
       propertyPath: bpmManager
       value: 
-      objectReference: {fileID: 460384139}
+      objectReference: {fileID: 0}
     - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: GOUiPerfect
