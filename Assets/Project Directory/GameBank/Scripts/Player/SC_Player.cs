@@ -1516,7 +1516,7 @@ public class SC_Player : Singleton<SC_Player>
         menuManager.bGameIsPaused = true;
         bIsImune = true;
         //yield return new WaitForSeconds(2f);
-        Time.timeScale = 0f;
+        //Time.timeScale = 0f;
         menuManager.PauseGame();
 
         menuManager.CgEndDialogue.alpha = 1f;

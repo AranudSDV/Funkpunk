@@ -281,18 +281,24 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
     //LE TEMPO
     IEnumerator wait()
     {
-        if (!scPlayer.bisTuto)
+        if(!menuManager.bGameIsPaused)
         {
-            scPlayer.bcanRotate = true;
+            if (!scPlayer.bisTuto)
+            {
+                scPlayer.bcanRotate = true;
+            }
+            scPlayer.RotationEnemies();
         }
-        scPlayer.RotationEnemies();
         MusicNotesMovingStart();
         yield return new WaitForSecondsRealtime(FTiming[3]);
         StartCoroutine(bad());
     }
     IEnumerator bad()
     {
-        scPlayer.canMove = true;
+        if (!menuManager.bGameIsPaused)
+        {
+            scPlayer.canMove = true;
+        }
         BBad = true;
         yield return new WaitForSecondsRealtime(FTiming[2]);
         BBad = false;
@@ -310,54 +316,57 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
         BPerfect = true;
         yield return new WaitForSecondsRealtime(FTiming[0]);
         BPerfect = false;
-        scPlayer.canMove = false;
-        if (BBad == false && BGood == false && BPerfect == false && scPlayer.bcanRotate == true) // LE JOUEUR MISS
+        if (!menuManager.bGameIsPaused)
         {
-            menuManager.fBeatMusicVolume = menuManager.fBeatVolume[0];
-            if (!scPlayer.bIsImune)
+            scPlayer.canMove = false;
+            if (BBad == false && BGood == false && BPerfect == false && scPlayer.bcanRotate == true) // LE JOUEUR MISS
             {
-                scPlayer.fNbBeat += 1f;
-                scPlayer.fScoreDetails[0] += 1f;
+                menuManager.fBeatMusicVolume = menuManager.fBeatVolume[0];
+                if (!scPlayer.bIsImune)
+                {
+                    scPlayer.fNbBeat += 1f;
+                    scPlayer.fScoreDetails[0] += 1f;
+                }
+                bPlayBad = false;
+                bPlayGood = false;
+                bPlayPerfect = false;
+                scPlayer.bHasNoMiss = false;
+                if (!scPlayer.BisDetectedByAnyEnemy && SceneManager.GetActiveScene().name != "Loft" && !scPlayer.bIsImune)
+                {
+                    scPlayer.FDetectionLevel += 2f;
+                }
+                fFovInstanceMax = fFOVmax * (80f / 100f);
+                NotesFade();
             }
-            bPlayBad = false;
-            bPlayGood = false;
-            bPlayPerfect = false;
-            scPlayer.bHasNoMiss = false;
-            if (!scPlayer.BisDetectedByAnyEnemy && SceneManager.GetActiveScene().name != "Loft" && !scPlayer.bIsImune)
+            if (scPlayer.BisDetectedByAnyEnemy && !scPlayer.bIsImune)
             {
-                scPlayer.FDetectionLevel += 2f;
+                scPlayer.FDetectionLevel += 20f;
             }
-            fFovInstanceMax = fFOVmax *(80f/100f);
-            NotesFade();
-        }
-        /*else if(BBad == false && BGood == false && BPerfect == false && !scPlayer.bcanRotate && scPlayer.bisTuto)
-        {
-            NotesFade();
-        }*/
-        if (scPlayer.BisDetectedByAnyEnemy &&!scPlayer.bIsImune)
-        {
-            scPlayer.FDetectionLevel += 20f;
-        }
-        if(scPlayer.bIsReplaying)
-        {
-            iReplaying -= 1;
-            menuManager.progressBar.value = (iReplaying-3) / 3;
-            if (iReplaying<=0)
+            if (scPlayer.bIsReplaying)
             {
-                menuManager.CgLoadingScreen.alpha = 0f;
-                menuManager.RtLoadingScreen.anchorMin = new Vector2(0, 1);
-                menuManager.RtLoadingScreen.anchorMax = new Vector2(1, 2);
-                menuManager.RtLoadingScreen.offsetMax = new Vector2(0f, 0f);
-                menuManager.RtLoadingScreen.offsetMin = new Vector2(0f, 0f);
-                StartCoroutine(menuManager.ImuneToPause(this));
-                scPlayer.bIsReplaying = false;
-                iReplaying = 3;
+                iReplaying -= 1;
                 menuManager.progressBar.value = (iReplaying - 3) / 3;
+                if (iReplaying <= 0)
+                {
+                    menuManager.CgLoadingScreen.alpha = 0f;
+                    menuManager.RtLoadingScreen.anchorMin = new Vector2(0, 1);
+                    menuManager.RtLoadingScreen.anchorMax = new Vector2(1, 2);
+                    menuManager.RtLoadingScreen.offsetMax = new Vector2(0f, 0f);
+                    menuManager.RtLoadingScreen.offsetMin = new Vector2(0f, 0f);
+                    StartCoroutine(menuManager.ImuneToPause(this));
+                    scPlayer.bIsReplaying = false;
+                    iReplaying = 3;
+                    menuManager.progressBar.value = (iReplaying - 3) / 3;
+                }
             }
+            IsImuneCheck();
+            scPlayer.EyeDetection();
+            menuManager.SetMusicVolume();
         }
-        IsImuneCheck();
-        scPlayer.EyeDetection();
-        menuManager.SetMusicVolume();
+        else if(menuManager.bGameIsPaused && BBad == false && BGood == false && BPerfect == false)
+        {
+            NotesFade();
+        }
         StartCoroutine(wait());
     }
     private void IsImuneCheck()
