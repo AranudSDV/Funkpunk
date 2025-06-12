@@ -1490,22 +1490,27 @@ public class SC_Player : Singleton<SC_Player>
         if(FDetectionLevel <= fDetectionLevelMax *1/5)
         {
             imgEye.material = mEye[0];
+            imgEye.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
         }
         else if(FDetectionLevel <= fDetectionLevelMax * 2/ 5)
         {
             imgEye.material = mEye[1];
+            imgEye.transform.localScale = new Vector3(0.65f, 0.65f, 0.65f);
         }
         else if (FDetectionLevel <= fDetectionLevelMax * 3/ 5)
         {
             imgEye.material = mEye[2];
+            imgEye.transform.localScale = new Vector3(0.65f, 0.8f, 0.8f);
         }
         else if (FDetectionLevel <= fDetectionLevelMax * 4 / 5)
         {
             imgEye.material = mEye[3];
+            imgEye.transform.localScale = new Vector3(0.95f, 0.95f, 0.95f);
         }
         else if (FDetectionLevel <= fDetectionLevelMax)
         {
             imgEye.material = mEye[4];
+            imgEye.transform.localScale = new Vector3(1f, 1f, 1f);
         }
     }
 
