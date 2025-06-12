@@ -28,7 +28,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _tex:
-        m_Texture: {fileID: 2800000, guid: bd37c0310106beb4e9709423c100ac3a, type: 3}
+        m_Texture: {fileID: 2800000, guid: 30a163a4163be2246bab99378fa7c3e6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
@@ -60,22 +60,22 @@ Material:
     - _ErosionValue: 0
     - _GameplayOrEnviro: 1
     - _MaxOffset: 0
-    - _MaxOffset_X: 2.1
-    - _MaxOffset_Y: 1.44
+    - _MaxOffset_X: 1.8
+    - _MaxOffset_Y: 2.55
     - _MaxRotation: 0.03
     - _MaxScale: 5.08
-    - _MaxScale_X: 3
-    - _MaxScale_Y: 3
+    - _MaxScale_X: 6
+    - _MaxScale_Y: 6
     - _MinOffset: 0
-    - _MinOffset_X: -1.35
-    - _MinOffset_Y: 0.33
+    - _MinOffset_X: -0.72
+    - _MinOffset_Y: 2.89
     - _MinRotation: 0
     - _MinScale: 1
-    - _MinScale_X: 3
-    - _MinScale_Y: 3
-    - _NumGraffiti: 3
+    - _MinScale_X: 6
+    - _MinScale_Y: 6
+    - _NumGraffiti: 10
     - _PlayerTagsOrEnviro: 1
-    - _Seed: 38.37
+    - _Seed: 27.71
     - _SeedMultiplier: 1
     - _SeedScale: 1
     - _WorldPosOrSeed: 1
