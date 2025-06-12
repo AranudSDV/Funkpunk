@@ -106,7 +106,7 @@ Material:
     - _R_BaseOpacity: 0
     - _R_Fadesmooth: 1.25
     - _RotaPower: -0.001
-    - _RotaPower1: 0.2
+    - _RotaPower1: 0.05
     - _Rotater: 0
     - _ScaleX: 1
     - _ScaleY: 1
@@ -121,8 +121,8 @@ Material:
     - _TransformedScale1: 0.8
     - _TransformedScaleX: 0.8
     - _TransformedScaleY: 0.8
-    - _TransformedSizeX: 1.2
-    - _TransformedSizeY: 1.2
+    - _TransformedSizeX: 1.1
+    - _TransformedSizeY: 1.1
     - _UI_AutoOrMano: 0
     - _UI_ManualOrProcedural: 0
     - _UpLorDownR: 0

@@ -94,11 +94,10 @@ public class MenuManager : SingletonManager<MenuManager>
     public GameObject[] GoLevelsButton;
     private GameObject GoLevelBackButton;
     public GameObject[] GoLevelStars;
-    public Sprite sprite_star_completed;
-    public Sprite sprite_star_empty;
-    [SerializeField] private Sprite spriteLevel_done;
-    [SerializeField] private Sprite spriteLevel_notDone;
-    [SerializeField] private Material m_buttonLevel;
+    public Material material_star_completed;
+    public Material material_star_empty;
+    [SerializeField] private Material materialLevel_done;
+    [SerializeField] private Material materialLevel_notDone;
     [SerializeField] private Color32 colorFoes;
     [SerializeField] private Color32 colorPlayer;
     public GameObject GoScoringFirstButtonSelected;
@@ -477,6 +476,28 @@ public class MenuManager : SingletonManager<MenuManager>
                 iSelectedAudio = -1;*/
             }
         }
+        else if(SceneManager.GetActiveScene().name == "LevelChoosing")
+        {
+            if(GoLevelsButton!=null && _levels!=null)
+            {
+                for (int i = 0; i < GoLevelsButton.Length+1; i++)
+                {
+                    if (EventSystem.currentSelectedGameObject == GoLevelsButton[i])//&& !bNowSelectedGeneral[i]
+                    {
+                        _levels[i].img_lvl.material.SetFloat("_NoColorsWhiteValue", 1f);
+                    }
+                    else if (EventSystem.currentSelectedGameObject == GoLevelBackButton)
+                    {
+                        GoLevelBackButton.GetComponent<UnityEngine.UI.Image>().material.SetFloat("_NoColorsWhiteValue", 1f);
+                    }
+                    else
+                    {
+                        _levels[i].img_lvl.material.SetFloat("_NoColorsWhiteValue", 0.1f);
+                        GoLevelBackButton.GetComponent<UnityEngine.UI.Image>().material.SetFloat("_NoColorsWhiteValue", 0.1f);
+                    }
+                }
+            }
+        }
     }
     private void SelectionEnsurance()
     {
@@ -710,16 +731,7 @@ public class MenuManager : SingletonManager<MenuManager>
                 {
                     int captured = i;
                     _levels[i].button_level.onClick.AddListener(() => LoadScene(_levels[captured].sScene_Level));
-                    if(_playerData.iLevelPlayer>i)
-                    {
-                        _levels[i].img_lvl.sprite = spriteLevel_done;
-                        _levels[i].img_lvl.material = null;
-                    }
-                    else
-                    {
-                        _levels[i].img_lvl.sprite = null; 
-                        _levels[i].img_lvl.material = m_buttonLevel;
-                    }
+                    _levels[i].img_lvl.material = materialLevel_done;
                     TextMeshProUGUI textChild = _levels[i].Go_LevelButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
                     textChild.color = new Color32(0, 255, 255, 255);
                     for(int y = 0; y< 5; y++)
@@ -727,11 +739,11 @@ public class MenuManager : SingletonManager<MenuManager>
                         GoLevelStars[i].transform.GetChild(y).GetComponent<UnityEngine.UI.Image>().color = new Color32(255, 255, 255, 255);
                         if (_playerData.iStarsPlayer[5*i+y] ==1) //Si une étoile est faite ou non
                         {
-                            GoLevelStars[i].transform.GetChild(y).GetComponent<UnityEngine.UI.Image>().sprite = sprite_star_completed; ;
+                            GoLevelStars[i].transform.GetChild(y).GetComponent<UnityEngine.UI.Image>().material = material_star_completed; ;
                         }
                         else
                         {
-                            GoLevelStars[i].transform.GetChild(y).GetComponent<UnityEngine.UI.Image>().sprite = sprite_star_empty;
+                            GoLevelStars[i].transform.GetChild(y).GetComponent<UnityEngine.UI.Image>().material = material_star_empty;
                         }
                     }
                     if (i>0)
@@ -741,10 +753,9 @@ public class MenuManager : SingletonManager<MenuManager>
                 }
                else if(GoLevelsButton.Length- _playerData.iLevelPlayer > i) //Pour tous les niveaux non faits
                {
-                    _levels[i].img_lvl.sprite = spriteLevel_notDone;
-                    _levels[i].img_lvl.material = null;
+                    _levels[i].img_lvl.material = materialLevel_notDone;
                     TextMeshProUGUI textChild = _levels[i].Go_LevelButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-                    textChild.color = new Color32(255, 255, 0, 255);
+                    textChild.color = new Color32(29, 217, 0, 255);
                     for (int y = 0; y < 5; y++)
                     {
                          GoLevelStars[i].transform.GetChild(y).GetComponent<UnityEngine.UI.Image>().color = new Color32(0, 0, 0, 0);

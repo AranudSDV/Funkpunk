@@ -1878,7 +1878,7 @@ public class SC_Player : Singleton<SC_Player>
             for(int i = 0; i<5;i++)
             {
                 imgStarsAll[i] = menuManager.GoScoringSuccess.transform.GetChild(i).gameObject.transform.GetChild(0).gameObject.GetComponent<UnityEngine.UI.Image>();
-                imgStarsAll[i].sprite = menuManager.sprite_star_empty;
+                imgStarsAll[i].material = menuManager.material_star_empty;
                 if(i<4)
                 {
                     menuManager.txtScoringScoreDetails[i].color = new Color32(255, 255, 255, 0);
@@ -1968,7 +1968,7 @@ public class SC_Player : Singleton<SC_Player>
                     texts[i] = menuManager.GoScoringSuccess.transform.GetChild(i).gameObject.transform.GetChild(1).gameObject.GetComponent<TMP_Text>();
                     if (ints[i] == 1) //vrai
                     {
-                        imgStars[i].sprite = menuManager.sprite_star_completed;
+                        imgStars[i].material = menuManager.material_star_completed;
                         texts[i].color = new Color32(255, 255, 255, 255);
                         starSequence[i].Append(
                             imgStars[i].GetComponent<RectTransform>().DORotate(new Vector3(0, 0, 20f), 0.15f)
@@ -1979,7 +1979,7 @@ public class SC_Player : Singleton<SC_Player>
                     }
                     else //Faux
                     {
-                        imgStars[i].sprite = menuManager.sprite_star_empty;
+                        imgStars[i].material = menuManager.material_star_empty;
                         if (i != ints.Count - 1)
                         {
                             texts[i].color = new Color32(157, 157, 157, 255);
