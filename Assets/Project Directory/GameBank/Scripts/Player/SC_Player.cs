@@ -100,7 +100,7 @@ public class SC_Player : Singleton<SC_Player>
     [Tooltip("Missed, Bad, Good, Perfect")] public float[] fScoreDetails = new float[4] { 0f,0f,0f,0f};
     public float fNbBeat;
     private float fPercentScore;
-    public TMP_Text TMPScore;
+    [SerializeField]private TMP_Text TMPScore;
     private bool bIsEndGame = false;
     private DG.Tweening.Sequence[] starSequence = new DG.Tweening.Sequence[5];
 
@@ -2069,6 +2069,13 @@ public class SC_Player : Singleton<SC_Player>
     }
     private void OnDestroy() // Clean up to prevent memory leaks
     {
+        StopAllCoroutines();
         DOTween.KillAll();
+        if(bpmManager!=null)
+        {
+            DOTween.KillAll(bpmManager.gameObject);
+            bpmManager.StopAllCoroutines();
+        }
+        CancelInvoke();
     }
 }
