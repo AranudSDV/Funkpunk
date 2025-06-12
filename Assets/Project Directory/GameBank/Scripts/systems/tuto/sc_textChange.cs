@@ -28,9 +28,8 @@ public class sc_textChange : MonoBehaviour
     private bool bInitialized;
     private float fTimerWritten = 0f;
 
-    //
-    //private TMP_Text tmpProText;
-    /*private Coroutine coroutine;
+    /*private TMP_Text tmpProText;
+     private Coroutine coroutine;
     [SerializeField] float delayBeforeStart = 0f;
     [SerializeField] float timeBtwChars = 0.06f;
     private float timeBtwCharsNow = 0.06f;
@@ -187,17 +186,33 @@ public class sc_textChange : MonoBehaviour
     public void BubbleShowText()
     {
         bTextWritten = false;
+        if(_playerData==null&&menuManager!=null)
+        {
+            _playerData = scPlayer.menuManager.gameObject.transform.GetComponent<PlayerData>();
+        }
         if (_playerData != null && _playerData.iLanguageNbPlayer == 1)
         {
             ShowDialogue(sTextEnglishAndFrench[1]);
         }
-        else
+        else if(_playerData != null && _playerData.iLanguageNbPlayer == 0)
         {
             ShowDialogue(sTextEnglishAndFrench[0]);
         }
     }
     public void BubbleSkipText()
     {
+        if (_playerData == null && menuManager != null)
+        {
+            _playerData = scPlayer.menuManager.gameObject.transform.GetComponent<PlayerData>();
+        }
+        if (_playerData != null && _playerData.iLanguageNbPlayer == 1)
+        {
+            typeAnimator.ShowText(sTextEnglishAndFrench[1]);
+        }
+        else if (_playerData != null && _playerData.iLanguageNbPlayer == 0)
+        {
+            typeAnimator.ShowText(sTextEnglishAndFrench[0]);
+        }
         typeAnimator.SkipTypewriter();
         bTextWritten = true;
     }
