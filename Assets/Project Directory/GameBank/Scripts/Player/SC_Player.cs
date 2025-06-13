@@ -529,6 +529,7 @@ public class SC_Player : Singleton<SC_Player>
                             itagDone += 1;
                             if (ingTag.scFoes != null)
                             {
+                                ingTag.PlaySoundShot();
                                 foreach (SC_FieldOfView foe in ingTag.scFoes)
                                 {
                                     foe.bIsDisabled = true;
@@ -726,6 +727,7 @@ public class SC_Player : Singleton<SC_Player>
                             itagDone += 1;
                             if (ingTag.scFoes != null)
                             {
+                                ingTag.PlaySoundShot();
                                 foreach (SC_FieldOfView foe in ingTag.scFoes)
                                 {
                                     foe.bIsDisabled = true;

@@ -22,6 +22,7 @@ public class ing_Tag : MonoBehaviour
     public CinemachineVirtualCamera camBossDoor = null;
     public DecalProjector decalProj;
     public VisualEffect[] PS_Sound;
+    [SerializeField] private VisualEffect[] PS_SoundShot;
     [SerializeField] private GameObject go_SoundWave;
     [SerializeField]private VisualEffect PS_SoundWaveStun;
     [SerializeField] private Vector3 vectBase_SoundWaveStun;
@@ -34,7 +35,6 @@ public class ing_Tag : MonoBehaviour
     {
         decalProj.material.SetFloat("_ErosionValue", 1f);
     }
-
     public IEnumerator PlayVFXSoundWave()
     {
         go_SoundWave.transform.localPosition = vectBase_SoundWaveStun;
@@ -42,5 +42,13 @@ public class ing_Tag : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         PS_SoundWaveStun.Stop();
         go_SoundWave.transform.localPosition = new Vector3(vectBase_SoundWaveStun.x, vectBase_SoundWaveStun.y-50f, vectBase_SoundWaveStun.z);
+    }
+    public IEnumerator PlaySoundShot()
+    {
+        foreach(VisualEffect veSound in PS_SoundShot)
+        {
+            veSound.Play();
+            yield return new WaitForSeconds(0.2f);
+        }
     }
 }

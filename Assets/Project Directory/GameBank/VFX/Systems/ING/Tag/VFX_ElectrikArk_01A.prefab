@@ -1,36 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2793245899757249177
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7569998184985712965}
-  m_Layer: 0
-  m_Name: Pos4
-  m_TagString: Untagged
-  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7569998184985712965
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2793245899757249177}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.8780003, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 70949513520542920}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2897803938367431889
 GameObject:
   m_ObjectHideFlags: 0
@@ -91,7 +60,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7569998184985712965}
+  - {fileID: 9198811378579998554}
   - {fileID: 6778430864076800081}
   - {fileID: 3114849226874858156}
   - {fileID: 7835157854891149863}
@@ -201,16 +170,16 @@ VisualEffect:
       - m_Value: {x: 0, y: 0, z: 0}
         m_Name: Pos4_position
         m_Overridden: 1
-      - m_Value: {x: 11.370716, y: -0.00000047683716, z: -2.800781}
+      - m_Value: {x: 8.5, y: 2.4299998, z: 11.5}
         m_Name: Pos1
         m_Overridden: 1
-      - m_Value: {x: 12.315716, y: 1.3409995, z: -2.800781}
+      - m_Value: {x: 9.445, y: 3.771, z: 11.5}
         m_Name: Pos2
         m_Overridden: 1
-      - m_Value: {x: 13.449717, y: 0.83199954, z: -2.800781}
+      - m_Value: {x: 10.579, y: 3.262, z: 11.5}
         m_Name: Pos3
         m_Overridden: 1
-      - m_Value: {x: 15.248716, y: -0.00000047683716, z: -2.800781}
+      - m_Value: {x: 13, y: 2.4299998, z: 6}
         m_Name: Pos4
         m_Overridden: 1
     m_Vector4f:
@@ -347,7 +316,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Property:
     m_Name: Pos4
-  Target: {fileID: 7569998184985712965}
+  Target: {fileID: 0}
+--- !u!1 &7475383284775410820
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9198811378579998554}
+  m_Layer: 0
+  m_Name: Pos4
+  m_TagString: Untagged
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9198811378579998554
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7475383284775410820}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 4.5, y: 0, z: -5.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 70949513520542920}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8100755622385381473
 GameObject:
   m_ObjectHideFlags: 0
