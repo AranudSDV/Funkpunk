@@ -223,6 +223,17 @@ public class sc_textChange : MonoBehaviour
     private void OnTextFullyShown()
     {
         bTextWritten = true;
+        if(_playerData!=null)
+        {
+            menuManager = _playerData.gameObject.GetComponent<MenuManager>();
+        }
+        if(menuManager.bisOnCredits)
+        {
+            if(menuManager.trainMenu!=null)
+            {
+                menuManager.trainMenu.bOnce = false;
+            }
+        }
     }
     public void SkipOrNext()
     {
@@ -245,28 +256,4 @@ public class sc_textChange : MonoBehaviour
         writer = sDialogue;
         ShowDialogue(writer);
     }
-    /*private IEnumerator TypeWriterTMP()
-    {
-        yield return new WaitForSecondsRealtime(delayBeforeStart);
-
-        foreach (char c in writer)
-        {
-            if (tmpProText.text.Length > 0)
-            {
-                tmpProText.text = tmpProText.text.Substring(0, tmpProText.text.Length - leadingChar.Length);
-            }
-            tmpProText.text += c;
-            tmpProText.text += leadingChar;
-            yield return new WaitForSecondsRealtime(timeBtwCharsNow);
-        }
-
-        if (leadingChar != "")
-        {
-            tmpProText.text = tmpProText.text.Substring(0, tmpProText.text.Length - leadingChar.Length);
-        }
-        if(tmpProText.text == writer)
-        {
-            bTextWritten = true; 
-        }
-    }*/
 }

@@ -4,15 +4,18 @@ using System.Collections.Generic;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.VisualScripting;
 using TMPro;
+using UnityEngine.EventSystems;
 
 public class SplineTrainMover_WithSpacing : MonoBehaviour
 {
+    public EventSystem _eventSystem;
     [Header("Spline Settings")]
     public SplineContainer splineContainer;
 
     [Header("Train Cars")]
     [Tooltip("Index 0 is head; others are wagons in order.")]
     public List<Transform> cars;
+    public Renderer[] renderCars;
 
     [Header("Movement")]
     public float speed = 5f;                             // units per second
@@ -33,17 +36,16 @@ public class SplineTrainMover_WithSpacing : MonoBehaviour
     private bool[] isPaused;
     public float[] pauseTimer;
     public float pauseDuration;
-    private bool bStop = false;
+    public bool bStop = false;
     [SerializeField]private CanvasGroup CgButtons;
-    [SerializeField] private CanvasGroup CgCredits;
-    [SerializeField] private TextMeshProUGUI textThanks;
-    [SerializeField] private CanvasGroup[] CgCreditsChildren;
-    public sc_textChange[] textRoles;
-    public bool[] bOnceCredits;
+    public CanvasGroup cgCredits;
+    public CanvasGroup[] cgChildrenCredits;
+    public sc_textChange[] txtChildrenCredits;
+    public int iCredits = 0;
+    public bool bOnce = false;
 
     void Start()
     {
-        InitTrainCredits(false);
         if (splineContainer == null) Debug.LogError("Assign a SplineContainer!", this);
         if (cars == null || cars.Count == 0) Debug.LogError("Assign at least one car!", this);
 
@@ -136,60 +138,5 @@ public class SplineTrainMover_WithSpacing : MonoBehaviour
         Vector3 localPos = splineContainer.transform.InverseTransformPoint(worldPos);
         SplineUtility.GetNearestPoint(splineContainer.Spline, localPos, out _, out float t);
         return t;
-    }
-
-    public void NextCredit()
-    {
-        if (CgCredits.alpha == 1f)
-        {
-            if (textThanks.color == new Color32(255, 255, 255, 255))
-            {
-                textThanks.color = new Color32(255, 255, 255, 0);
-                CgCreditsChildren[0].alpha = 1f;
-                bOnceCredits[0] = true;
-            }
-            else
-            {
-                for (int i = 1; i < CgCreditsChildren.Length; i++)
-                {
-                    if (CgCreditsChildren[i].alpha == 0f && bOnceCredits[i] == false)
-                    {
-                        CgCreditsChildren[i - 1].alpha = 0f;
-                        bOnceCredits[i] = true;
-                        CgCreditsChildren[i].alpha = 1f;
-                        textRoles[i].BubbleShowText();
-                    }
-                }
-            }
-        }
-    }
-    public void EndCredit()
-    {
-        for (int i = 0; i < CgCreditsChildren.Length; i++)
-        {
-            bOnceCredits[i] = false;
-            CgCreditsChildren[i].alpha = 0f;
-        }
-        CgCredits.alpha = 0f;
-        textThanks.color = new Color32(255, 255, 255, 0);
-    }
-
-    public void InitTrainCredits(bool bisOnCredit)
-    {
-        if(bisOnCredit)
-        {
-            for (int i = 0; i < CgCreditsChildren.Length; i++)
-            {
-                bOnceCredits[i] = false;
-                CgCreditsChildren[i].alpha = 0f;
-            }
-            CgCredits.alpha = 1f;
-            bStop = true;
-            textThanks.color = new Color32(255, 255, 255, 255);
-        }
-        else
-        {
-            textThanks.color = new Color32(255, 255, 255, 0);
-        }
     }
 }

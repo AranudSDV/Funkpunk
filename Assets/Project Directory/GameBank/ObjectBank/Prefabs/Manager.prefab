@@ -394,7 +394,7 @@ MonoBehaviour:
   GoScoringFirstButtonSelected: {fileID: 2042124641858762371}
   trainMenu: {fileID: 0}
   textBravo: {fileID: 8373245632685140220}
-  bIsOnCredits: 0
+  bisOnCredits: 0
   txt_Title: {fileID: 5259525979806897907}
   CgScoring: {fileID: 1877356355425069567}
   RtScoring: {fileID: 3803594740852749823}
@@ -1762,7 +1762,7 @@ MonoBehaviour:
   bIsToTip: 0
   bIsBubble: 0
   bTextWritten: 0
-  menuManager: {fileID: 0}
+  menuManager: {fileID: 269850063720091022}
 --- !u!1 &524634847287910946
 GameObject:
   m_ObjectHideFlags: 0
@@ -2186,16 +2186,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   typeAnimator: {fileID: 0}
   scPlayer: {fileID: 0}
-  _playerData: {fileID: 0}
+  _playerData: {fileID: 1165491372627732135}
   sTextEnglishAndFrench: []
   sEnglish: Missed Beats
   sFrench: "Battements manqu\xE9s"
-  bIsOnManager: 0
+  bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
   bIsBubble: 0
   bTextWritten: 0
-  menuManager: {fileID: 0}
+  menuManager: {fileID: 269850063720091022}
 --- !u!1 &842903095581079534
 GameObject:
   m_ObjectHideFlags: 0
@@ -2459,8 +2459,8 @@ MonoBehaviour:
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 8153582874688616382}
     m_SelectOnDown: {fileID: 772669210243803284}
-    m_SelectOnLeft: {fileID: 772669210243803284}
-    m_SelectOnRight: {fileID: 1518392053266865558}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.6415094, g: 0.6415094, b: 0.6415094, a: 1}
@@ -3216,7 +3216,7 @@ MonoBehaviour:
   bIsToTip: 0
   bIsBubble: 0
   bTextWritten: 0
-  menuManager: {fileID: 0}
+  menuManager: {fileID: 269850063720091022}
 --- !u!1 &1248200171897616424
 GameObject:
   m_ObjectHideFlags: 0
@@ -3496,8 +3496,8 @@ MonoBehaviour:
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 1751299479825783677}
     m_SelectOnDown: {fileID: 1518392053266865558}
-    m_SelectOnLeft: {fileID: 1518392053266865558}
-    m_SelectOnRight: {fileID: 1751299479825783677}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.6415094, g: 0.6415094, b: 0.6415094, a: 1}
@@ -4888,7 +4888,7 @@ MonoBehaviour:
   bIsToTip: 0
   bIsBubble: 0
   bTextWritten: 0
-  menuManager: {fileID: 0}
+  menuManager: {fileID: 269850063720091022}
 --- !u!1 &2779121210829161145
 GameObject:
   m_ObjectHideFlags: 0
@@ -4945,8 +4945,8 @@ MonoBehaviour:
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 772669210243803284}
     m_SelectOnDown: {fileID: 8153582874688616382}
-    m_SelectOnLeft: {fileID: 772669210243803284}
-    m_SelectOnRight: {fileID: 1751299479825783677}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.6415094, g: 0.6415094, b: 0.6415094, a: 1}
@@ -6026,7 +6026,7 @@ MonoBehaviour:
   bIsToTip: 0
   bIsBubble: 0
   bTextWritten: 0
-  menuManager: {fileID: 0}
+  menuManager: {fileID: 269850063720091022}
 --- !u!1 &3498886556833193360
 GameObject:
   m_ObjectHideFlags: 0
@@ -6760,16 +6760,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   typeAnimator: {fileID: 0}
   scPlayer: {fileID: 0}
-  _playerData: {fileID: 0}
+  _playerData: {fileID: 1165491372627732135}
   sTextEnglishAndFrench: []
   sEnglish: Bad Beats
   sFrench: Battements mauvais
-  bIsOnManager: 0
+  bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
   bIsBubble: 0
   bTextWritten: 0
-  menuManager: {fileID: 0}
+  menuManager: {fileID: 269850063720091022}
 --- !u!1 &3739087773515740591
 GameObject:
   m_ObjectHideFlags: 0
@@ -7430,16 +7430,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   typeAnimator: {fileID: 0}
   scPlayer: {fileID: 0}
-  _playerData: {fileID: 0}
+  _playerData: {fileID: 1165491372627732135}
   sTextEnglishAndFrench: []
   sEnglish: Perfect Beats
   sFrench: Battements parfaits
-  bIsOnManager: 0
+  bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
   bIsBubble: 0
   bTextWritten: 0
-  menuManager: {fileID: 0}
+  menuManager: {fileID: 269850063720091022}
 --- !u!1 &4506092838792349122
 GameObject:
   m_ObjectHideFlags: 0
@@ -7599,7 +7599,7 @@ MonoBehaviour:
   bIsToTip: 0
   bIsBubble: 0
   bTextWritten: 0
-  menuManager: {fileID: 0}
+  menuManager: {fileID: 269850063720091022}
 --- !u!1 &4527547535950903571
 GameObject:
   m_ObjectHideFlags: 0
@@ -8604,7 +8604,7 @@ MonoBehaviour:
   bIsToTip: 0
   bIsBubble: 0
   bTextWritten: 0
-  menuManager: {fileID: 0}
+  menuManager: {fileID: 269850063720091022}
 --- !u!1 &5414176781137386473
 GameObject:
   m_ObjectHideFlags: 0
@@ -10241,16 +10241,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   typeAnimator: {fileID: 0}
   scPlayer: {fileID: 0}
-  _playerData: {fileID: 0}
+  _playerData: {fileID: 1165491372627732135}
   sTextEnglishAndFrench: []
   sEnglish: Good Beats
   sFrench: Battements bons
-  bIsOnManager: 0
+  bIsOnManager: 1
   bIsDifficulty: 0
   bIsToTip: 0
   bIsBubble: 0
   bTextWritten: 0
-  menuManager: {fileID: 0}
+  menuManager: {fileID: 269850063720091022}
 --- !u!1 &6830278506267358868
 GameObject:
   m_ObjectHideFlags: 0
@@ -12526,7 +12526,7 @@ MonoBehaviour:
   bIsToTip: 0
   bIsBubble: 0
   bTextWritten: 0
-  menuManager: {fileID: 0}
+  menuManager: {fileID: 269850063720091022}
 --- !u!1 &8117903037627878143
 GameObject:
   m_ObjectHideFlags: 0
@@ -13743,7 +13743,7 @@ MonoBehaviour:
   bIsToTip: 0
   bIsBubble: 0
   bTextWritten: 0
-  menuManager: {fileID: 0}
+  menuManager: {fileID: 269850063720091022}
 --- !u!1 &8911476998865171121
 GameObject:
   m_ObjectHideFlags: 0

@@ -102,15 +102,14 @@ public class MenuManager : SingletonManager<MenuManager>
     [SerializeField] private Color32 colorPlayer;
     public GameObject GoScoringFirstButtonSelected;
     private bool bMenuOnTriggered = false;
-    [SerializeField] private SplineTrainMover_WithSpacing trainMenu = null;
+    public SplineTrainMover_WithSpacing trainMenu = null;
     private bool bWaitTrain = false;
     private bool bTrainIsHere = false;
 
     //END DIALOGUE
     [Header("EndGame")]
     public TMP_Text textBravo;
-    public bool bIsOnCredits = false;
-    private bool bCreditsOnTriggered = false;
+    public bool bisOnCredits = false;
 
     //SCORING
     [Header("Scoring")]
@@ -260,23 +259,15 @@ public class MenuManager : SingletonManager<MenuManager>
     {
         CheckControllerStatus();
         Shader.SetGlobalFloat("UnscaledDT", Time.unscaledDeltaTime);
-        if (!bMenuOnTriggered && controllerConnected && control !=null && control.GamePlay.Move.triggered && SceneManager.GetActiveScene().name == "SceneSplash")
+        if (!bMenuOnTriggered && controllerConnected && control !=null && control.GamePlay.Move.triggered && SceneManager.GetActiveScene().name == "SceneSplash" && !bisOnCredits)
         {
-            if(!bIsOnCredits)
+            bMenuOnTriggered = true;
+            if (GoGameChoose[5] == null)
             {
-                bMenuOnTriggered = true;
-                if (GoGameChoose[5] == null)
-                {
-                    Debug.Log("null");
-                }
-                GoGameChoose[5].transform.GetComponent<UnityEngine.UI.Image>().color = new Color32(255, 255, 255, 0);
-                TrainAndUION();
+                Debug.Log("null");
             }
-            else
-            {
-                bCreditsOnTriggered = true;
-                TrainAndUION();
-            }
+            GoGameChoose[5].transform.GetComponent<UnityEngine.UI.Image>().color = new Color32(255, 255, 255, 0);
+            TrainAndUION();
         }
         if(SceneManager.GetActiveScene().name == "SceneSplash")
         {
@@ -284,7 +275,7 @@ public class MenuManager : SingletonManager<MenuManager>
             {
                 TrainAndUION();
             }
-            else if (bWaitTrain && bCreditsOnTriggered)
+            if(bisOnCredits)
             {
                 TrainAndUION();
             }
@@ -309,58 +300,56 @@ public class MenuManager : SingletonManager<MenuManager>
     //CHECKS AND UI CHANGES
     private void TrainAndUION()
     {
-        if (trainMenu.progress[0] > 0.52f) //le train est déjà passé
+        if(trainMenu !=null)
         {
-            trainMenu.progress[0] = 1f;
-            trainMenu.progress[1] = 1f;
-            trainMenu.pauseTimer[0] = trainMenu.pauseDuration;
-            trainMenu.pauseTimer[1] = trainMenu.pauseDuration;
-            bWaitTrain = true;
-            bTrainIsHere = false;
-        }
-        else if(trainMenu.progress[0] < 0.5f) //le train va passer
-        {
-            bWaitTrain = true;
-            bTrainIsHere = false;
-        }
-        else if(trainMenu.progress[0] > 0.51f && trainMenu.progress[0] < 0.519f)//le train passe
-        {
-            bWaitTrain = false;
-            bTrainIsHere = true;
-        }
-        if(bTrainIsHere)
-        {
-            if(bIsOnCredits)
+            if (!trainMenu.renderCars[0].isVisible && !trainMenu.renderCars[1].isVisible) //le train n'est pas visible
             {
-                if (trainMenu.bOnceCredits[trainMenu.bOnceCredits.Length-1])
+                bWaitTrain = true;
+                bTrainIsHere = false;
+            }
+            else if (trainMenu.renderCars[0].isVisible || trainMenu.renderCars[1].isVisible)//le train passe
+            {
+                bWaitTrain = false;
+                bTrainIsHere = true;
+            }
+            if (bTrainIsHere)
+            {
+                if (bisOnCredits && !trainMenu.bOnce)
                 {
-                    bIsOnCredits = false;
-                    bMenuOnTriggered = true;
+                    trainMenu.bOnce = true;
+                    bTrainIsHere = false;
+                    StartCoroutine(CreditsNext());
+                }
+                else if(!bisOnCredits)
+                {
                     UnityEngine.UI.Button btnNewLoad = GoGameChoose[0].GetComponent<UnityEngine.UI.Button>();
                     TrainSplashLanguage();
                     GoGameChoose[4].transform.GetComponent<CanvasGroup>().alpha = 1f;
                     bWaitTrain = false;
                     bTrainIsHere = false;
                     SelectionEnsurance();
-                    trainMenu.EndCredit();
-                }
-                else
-                {
-                    trainMenu.NextCredit();
-                    bCreditsOnTriggered = false;
-                    bWaitTrain = false;
-                    bTrainIsHere = false;
                 }
             }
-            else
-            {
-                UnityEngine.UI.Button btnNewLoad = GoGameChoose[0].GetComponent<UnityEngine.UI.Button>();
-                TrainSplashLanguage();
-                GoGameChoose[4].transform.GetComponent<CanvasGroup>().alpha = 1f;
-                bWaitTrain = false;
-                bTrainIsHere = false;
-                SelectionEnsurance();
-            }
+        }
+    }
+    private IEnumerator CreditsNext()
+    {
+        yield return new WaitForSecondsRealtime(0.3f);
+        if (trainMenu.iCredits!=0)
+        {
+            trainMenu.cgChildrenCredits[trainMenu.iCredits-1].alpha = 0f;
+        }
+        if(trainMenu.iCredits == trainMenu.cgChildrenCredits.Length)
+        {
+            bisOnCredits = false;
+            trainMenu.cgCredits.alpha = 0f;
+            GoGameChoose[5].GetComponent<CanvasGroup>().alpha = 1f;
+        }
+        else
+        {
+            trainMenu.cgChildrenCredits[trainMenu.iCredits].alpha = 1f;
+            trainMenu.txtChildrenCredits[trainMenu.iCredits].BubbleShowText();
+            trainMenu.iCredits += 1;
         }
     }
     private void TrainSplashLanguage()
@@ -512,7 +501,7 @@ public class MenuManager : SingletonManager<MenuManager>
                         EventSystem.SetSelectedGameObject(GoLevelsButton[0]);
                     }
                 }
-                else if (SceneManager.GetActiveScene().name == "SceneSplash" && bMenuOnTriggered && !bIsOnCredits)
+                else if (SceneManager.GetActiveScene().name == "SceneSplash" && bMenuOnTriggered)
                 {
                     if (GoGameChoose[0] != null)
                     {
@@ -656,27 +645,36 @@ public class MenuManager : SingletonManager<MenuManager>
                     else if (GoTargetUI[i].name == "PressAnyButtonImage")
                     {
                         GoGameChoose[5] = GoTargetUI[i];
+                        if(bisOnCredits)
+                        {
+                            GoGameChoose[5].GetComponent<CanvasGroup>().alpha = 0f;
+                        }
+                        else
+                        {
+                            GoGameChoose[5].GetComponent<CanvasGroup>().alpha = 1f;
+                        }
                     }
                     else if (GoTargetUI[i].name == "Spline")
                     {
                         trainMenu = GoTargetUI[i].transform.GetComponent< SplineTrainMover_WithSpacing>();
+                        EventSystem = trainMenu._eventSystem;
+                        if (bisOnCredits)
+                        {
+                            trainMenu.cgCredits.alpha = 1f;
+                            trainMenu.bStop = false;
+                        }
                     }
                 }
                 GoGameChoose[5].transform.GetComponent<UnityEngine.UI.Image>().color = new Color32(255,255,255,255);
                 GoGameChoose[4].transform.GetComponent<CanvasGroup>().alpha = 0f;
-                trainMenu.InitTrainCredits(bIsOnCredits);
-                foreach(sc_textChange text in trainMenu.textRoles)
-                {
-                    text.menuManager = this;
-                    text._playerData = _playerData;
-                }
+                //Init Train
                 GoLevelsButton = null;
                 _levels = null;
                 sSceneToLoad = "Loft"; 
                 UnityEngine.UI.Button btnNewLoad = GoGameChoose[0].GetComponent<UnityEngine.UI.Button>();
                 btnNewLoad.onClick.AddListener(delegate { LoadScene(sSceneToLoad); });
                 UnityEngine.UI.Button btnCredits = GoGameChoose[2].GetComponent<UnityEngine.UI.Button>();
-                btnCredits.onClick.AddListener(delegate { LoadScene("World/Scenes/CreditsScene"); });
+                btnCredits.onClick.AddListener(delegate { LoadScene("CreditsScene"); });
                 UnityEngine.UI.Button btnExit = GoGameChoose[3].GetComponent<UnityEngine.UI.Button>();
                 btnExit.onClick.AddListener(QuitGame);
                 UnityEngine.UI.Button btnOptions = GoGameChoose[1].GetComponent<UnityEngine.UI.Button>();
@@ -716,6 +714,18 @@ public class MenuManager : SingletonManager<MenuManager>
                 else
                 {
                     txt.text = "New Game";
+                }
+            }
+            if(bisOnCredits)
+            {
+                TextMeshProUGUI txt = trainMenu.txtChildrenCredits[0].gameObject.GetComponent<TextMeshProUGUI>();
+                if (_playerData.iLanguageNbPlayer == 1)
+                {
+                    txt.text = "Merci d'avoir joué !";
+                }
+                else
+                {
+                    txt.text = "Thanks for playing !";
                 }
             }
         }
@@ -862,8 +872,8 @@ public class MenuManager : SingletonManager<MenuManager>
         }
         else if(sceneToLoad == "CreditsScene" || sceneToLoad == "Scenes/World/CreditsScene")
         {
+            bisOnCredits = true;
             bpmManager.bIsOnLvl = false;
-            bIsOnCredits = true;
             Shader.SetGlobalFloat("BPM", 60f);
             LoadScene("Scenes/World/SceneSplash");
         }
@@ -1354,7 +1364,6 @@ public class MenuManager : SingletonManager<MenuManager>
                         }
                     }
                     iNbTextNow = iNbDialoguePerLevelAdd[iLevelDialogue - 1];
-                    Debug.Log(iNbTextNow);
                 }
                 else
                 {
@@ -1542,10 +1551,11 @@ public class MenuManager : SingletonManager<MenuManager>
         RtEndDialogue.offsetMax = new Vector2(0f, 0f);
         RtEndDialogue.offsetMin = new Vector2(0f, 0f);
 
+        Time.timeScale = 1f;
         if (_playerData.iLevelPlayer >= 4)
         {
-            bIsOnCredits = true;
             LoadScene("Scenes/World/CreditsScene");
+            bisOnCredits = true;
         }
         else
         {
