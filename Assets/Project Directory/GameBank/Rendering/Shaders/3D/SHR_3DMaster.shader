@@ -10,7 +10,7 @@ Shader "SHR_3DMaster"
 		_NormalScale("Normal Scale", Range( 0 , 1)) = 0
 		[Toggle(_COLORORTEX_ON)] _ColorOrTex("ColorOrTex?", Float) = 1
 		_BaseColor("BaseColor", Color) = (1,1,1,0)
-		_ShadingWhiteMult("ShadingWhiteMult", Float) = 0.1
+		_ShadingWhiteMult("ShadingWhiteMult", Float) = 0.4
 		_Cels_LitThreshold("Cels_LitThreshold", Float) = 1
 		_Cels_FallOffThreshold("Cels_FallOffThreshold", Float) = 1
 		_Shadow_FallOffThreshold("Shadow_FallOffThreshold", Float) = 1
@@ -6015,4 +6015,4 @@ WireConnection;849;54;492;0
 WireConnection;853;1;207;0
 WireConnection;854;0;853;108
 ASEEND*/
-//CHKSM=C9E373D45A09AAF18142BA35A9A62C5AA4853A0C
+//CHKSM=A235F827EC0416F44EAA2CD550871146FDEBA739
