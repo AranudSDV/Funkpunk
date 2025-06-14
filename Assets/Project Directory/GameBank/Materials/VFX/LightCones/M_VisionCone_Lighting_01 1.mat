@@ -51,8 +51,10 @@ Material:
     - _Opacity: 1.5
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _Z_Opacity: 0
+    - _Z_Smoothnes: 0
     m_Colors:
-    - _Color: {r: 1.8031434, g: 1.758629, b: 3.9644089, a: 1}
+    - _Color: {r: 0.12960656, g: 0.9128221, b: 1.9822044, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &1863592366323824527
 MonoBehaviour:
