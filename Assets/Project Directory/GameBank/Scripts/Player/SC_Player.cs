@@ -1958,7 +1958,7 @@ public class SC_Player : Singleton<SC_Player>
                 {
                     bDisplayed = true;
                     menuManager.txtScoringScore.transform.localScale = new Vector3(1f, 1f, 1f);
-                    menuManager.txtScoringJudgment.transform.localScale = new Vector3(1.1f, 1.1f, 1.1f);
+                    menuManager.txtScoringJudgment.transform.localScale = new Vector3(1f, 1f, 1f);
                     menuManager.txtScoringJudgment.text = sJugement(bhasWon, data, fPercentScore)[0];
                     menuManager.txtScoringScore.text = sJugement(bhasWon, data, fPercentScore)[1];
                 }
