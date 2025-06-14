@@ -954,7 +954,7 @@ public class MenuManager : SingletonManager<MenuManager>
     //PAUSE AND SETTINGS
     private void UXNavigation()
     {
-        if (controllerConnected && control !=null && control.GamePlay.Pausing.triggered)
+        if (controllerConnected && control !=null && control.GamePlay.Pausing.triggered && SceneManager.GetActiveScene().name != "SceneSplash")
         {
             PauseMenu();
         }
@@ -1176,9 +1176,9 @@ public class MenuManager : SingletonManager<MenuManager>
             CgOptionAudio.blocksRaycasts = true;
         }
     }
-    public void CloseOptions(bool bFromPause)
+    public void CloseOptions(bool bonManager)
     {
-        if (bFromPause)
+        if (SceneManager.GetActiveScene().name != "SceneSplash" && bonManager)
         {
             CgPauseMenu.alpha = 1f;
             bActif = true;
@@ -1188,13 +1188,16 @@ public class MenuManager : SingletonManager<MenuManager>
             RtPauseMenu.anchorMax = new Vector2(1, 1);
             RtPauseMenu.offsetMax = new Vector2(0f, 0f);
             RtPauseMenu.offsetMin = new Vector2(0f, 0f);
+            EventSystem.SetSelectedGameObject(GoPausedFirstButtonSelected);
+        }
+        else if(SceneManager.GetActiveScene().name == "SceneSplash")
+        {
+            EventSystem.SetSelectedGameObject(GoGameChoose[0]);
         }
         ButtonSound();
-        CgPauseMenu.interactable = true;
         CgOptionPannel.alpha = 0f;
         CgOptionPannel.interactable = false;
         CgOptionPannel.blocksRaycasts = false;
-        EventSystem.SetSelectedGameObject(GoPausedFirstButtonSelected);
         RtOptionPannel.anchorMin = new Vector2(0, 1);
         RtOptionPannel.anchorMax = new Vector2(1, 2);
         RtOptionPannel.offsetMax = new Vector2(0f, 0f);
