@@ -737,6 +737,7 @@ public class MenuManager : SingletonManager<MenuManager>
         {
             for (int i = 0; i < GoLevelsButton.Length; i++)
             {
+                GoLevelBackButton.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => LoadScene("Loft"));
                 if ( _playerData.iLevelPlayer >= i) //Pour tous les niveaux faits
                 {
                     int captured = i;
@@ -772,14 +773,13 @@ public class MenuManager : SingletonManager<MenuManager>
                     }
                     GoLevelStars[i].transform.GetChild(5).GetComponent<UnityEngine.UI.Image>().color = new Color32(255, 255, 255, 255);
                 }
-                GoLevelBackButton.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => LoadScene("Loft"));
             }
             EventSystem.SetSelectedGameObject(GoLevelsButton[0]);
         }
     }
     public IEnumerator ImuneToPause(BPM_Manager bpmmanager)
     {
-        if(scPlayer.tutoGen ==null || (scPlayer.tutoGen != null && !scPlayer.tutoGen.bIsOnBD))
+        if(scPlayer.tutoGen ==null || (scPlayer.tutoGen != null && !scPlayer.tutoGen.bIsOnBD && !scPlayer.bisOnScoring))
         {
             scPlayer.bIsImune = true;
             bpmmanager.iTimer = 3;

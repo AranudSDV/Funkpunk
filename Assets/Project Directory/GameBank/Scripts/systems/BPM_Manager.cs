@@ -388,7 +388,7 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
                     scPlayer.textTimer.color = new Color32(255, 255, 255, 255);
                     scPlayer.textTimer.text = iTimer.ToString();
                 }
-                else
+                else if(iTimer < 0 && !scPlayer.bisOnScoring)
                 {
                     scPlayer.textTimer.color = new Color32(255, 255, 255, 0);
                     scPlayer.bIsImune = false;
@@ -408,7 +408,7 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
                 {
                     scPlayer.textTimer.text = iTimer.ToString();
                     scPlayer.textTimer.color = new Color32(255, 255, 255, 0);
-                    if (scPlayer.bIsImune == true)
+                    if (scPlayer.bIsImune == true && !scPlayer.bisOnScoring)
                     {
                         scPlayer.bIsImune = false;
                     }

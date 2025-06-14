@@ -103,6 +103,8 @@ public class SC_Player : Singleton<SC_Player>
     [SerializeField]private TMP_Text TMPScore;
     private bool bIsEndGame = false;
     private DG.Tweening.Sequence[] starSequence = new DG.Tweening.Sequence[5];
+    [SerializeField] private CinemachineVirtualCamera VCam_EndingTag;
+    public bool bisOnScoring = false;
 
     //LE JOYSTICK
     [Header("Joystick")]
@@ -125,7 +127,6 @@ public class SC_Player : Singleton<SC_Player>
     //LE TAG
     [Header("Tag")]
     private bool bIsTagging = false;
-    [SerializeField] private CinemachineVirtualCamera VCam_Cinematic;
     public float taggingRange = 1f;
     private RaycastHit[] hitInfo = new RaycastHit[4];
     [SerializeField] private GameObject GoVfxTag;
@@ -265,7 +266,7 @@ public class SC_Player : Singleton<SC_Player>
             InitializeGamepad();
         }
         CheckControllerStatus();
-        if(menuManager!=null && !menuManager.bGameIsPaused)
+        if(menuManager!=null && !menuManager.bGameIsPaused && !bisOnScoring)
         {
             CgInGame.alpha = 1f;
             if (fNbBeat > 0 && FScore > 0)
@@ -1275,7 +1276,7 @@ public class SC_Player : Singleton<SC_Player>
             mat.SetFloat("_ErosionValue", x);
         }, targetValue, duration);
     }
-    private void PlayCinematicFocus(GameObject GoTag, Vector3 dir, float time, int TagsDone)
+    /*private void PlayCinematicFocus(GameObject GoTag, Vector3 dir, float time, int TagsDone)
     {
         Transform focusTarget = GoTag.transform;
         Vector3 position = cinemachineVirtualCamera.transform.position + (GoTag.transform.position- cinemachineVirtualCamera.transform.position)*50/100f;
@@ -1333,7 +1334,7 @@ public class SC_Player : Singleton<SC_Player>
             cinemachineVirtualCamera.Priority = 10;
             VCam_Cinematic.LookAt = null;
         });
-    }
+    }*/
     //Bait
     private void ThrowingFeedback(float time, bool bOnFoe, SC_FieldOfView scFoe)
     {
@@ -1543,10 +1544,13 @@ public class SC_Player : Singleton<SC_Player>
     }
     public IEnumerator EndGame(bool hasWon, PlayerData data)
     {
-        menuManager.bGameIsPaused = true;
+        CgInGame.alpha = 0f;
+        bisOnScoring = true;
+        //menuManager.bGameIsPaused = true;
         bIsImune = true;
         if(hasWon)
         {
+            VCam_EndingTag.Priority = 20;
             menuManager.textBravo.color = new Color32(255, 255, 255, 255);
             menuManager.textBravo.transform.localScale = new Vector3(3f, 3f, 3f);
             menuManager.textBravo.transform.DOScale(new Vector3(1f, 1f, 1f), 1f).SetEase(Ease.InOutElastic);
@@ -1562,7 +1566,8 @@ public class SC_Player : Singleton<SC_Player>
             menuManager.textBravo.color = new Color32(255, 255, 255, 0);
             menuManager.textBravo.transform.localScale = new Vector3(3, 3, 3);
         }
-        Time.timeScale = 0f;
+        bIsImune = true;
+        //Time.timeScale = 0f;
         menuManager.PauseGame();
         //PlayerData data = menuManager.gameObject.GetComponent<PlayerData>();
 
@@ -1613,8 +1618,8 @@ public class SC_Player : Singleton<SC_Player>
             menuManager.RtScoringSuccess.offsetMax = new Vector2(0f, 0f);
             menuManager.RtScoringSuccess.offsetMin = new Vector2(0f, 0f);
 
-            menuManager.RtScoringButtons.anchorMin = new Vector2(0.75f, 0.05f);
-            menuManager.RtScoringButtons.anchorMax = new Vector2(0.9f, 0.3f);
+            menuManager.RtScoringButtons.anchorMin = new Vector2(0.05f, 0.05f);
+            menuManager.RtScoringButtons.anchorMax = new Vector2(0.95f, 0.3f);
             menuManager.ImgScoringBackground.sprite = menuManager.spritesScoringBackground[0];
         }
         else
@@ -1648,8 +1653,8 @@ public class SC_Player : Singleton<SC_Player>
             menuManager.RtScoringSuccess.offsetMax = new Vector2(0f, 0f);
             menuManager.RtScoringSuccess.offsetMin = new Vector2(0f, 0f);
 
-            menuManager.RtScoringButtons.anchorMin = new Vector2(0.75f, 0.35f);
-            menuManager.RtScoringButtons.anchorMax = new Vector2(0.9f, 0.6f);
+            menuManager.RtScoringButtons.anchorMin = new Vector2(0.055f, 0.05f);
+            menuManager.RtScoringButtons.anchorMax = new Vector2(0.95f, 0.3f);
             menuManager.ImgScoringBackground.sprite = menuManager.spritesScoringBackground[1];
         }
         menuManager.EventSystem.SetSelectedGameObject(menuManager.GoScoringFirstButtonSelected);
@@ -1660,6 +1665,8 @@ public class SC_Player : Singleton<SC_Player>
     {
         if(isRetrying) //has to regain all stats from the previous checkpoint
         {
+            CgInGame.alpha = 1f;
+            bisOnScoring = false;
             bIsReplaying = true;
             bIsEndGame = false;
 
