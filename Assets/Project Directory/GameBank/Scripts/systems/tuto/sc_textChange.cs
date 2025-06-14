@@ -10,6 +10,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 public class sc_textChange : MonoBehaviour
 {
+    private TextMeshProUGUI textmesh;
     public TextAnimatorPlayer typeAnimator;
     [SerializeField] private SC_Player scPlayer;
     public PlayerData _playerData;
@@ -27,6 +28,7 @@ public class sc_textChange : MonoBehaviour
     private bool bOnce = false;
     private bool bInitialized;
     private float fTimerWritten = 0f;
+    private bool bEnsurance = false;
 
     /*private TMP_Text tmpProText;
      private Coroutine coroutine;
@@ -43,6 +45,7 @@ public class sc_textChange : MonoBehaviour
 
     public void Init()
     {
+        textmesh = this.GetComponent<TextMeshProUGUI>();
         if (sTextEnglishAndFrench.Length != 2)
         {
             sTextEnglishAndFrench = new string[2] { sEnglish, sFrench };
@@ -138,6 +141,29 @@ public class sc_textChange : MonoBehaviour
                         this.gameObject.transform.GetComponent<TextMeshProUGUI>().text = sTextEnglishAndFrench[0];
                     }
                 }
+                else
+                {
+                    if(textmesh.text == "" && bTextWritten && !bEnsurance)
+                    {
+                        if (_playerData == null && menuManager != null)
+                        {
+                            _playerData = scPlayer.menuManager.gameObject.transform.GetComponent<PlayerData>();
+                        }
+                        if (_playerData != null && _playerData.iLanguageNbPlayer == 1)
+                        {
+                            textmesh.text = sTextEnglishAndFrench[1];
+                        }
+                        else if (_playerData != null && _playerData.iLanguageNbPlayer == 0)
+                        {
+                            textmesh.text = sTextEnglishAndFrench[0];
+                        }
+                        bEnsurance = true;
+                    }
+                    else if(textmesh.text == "" && bTextWritten && bEnsurance)
+                    {
+                        bEnsurance = false;
+                    }
+                }
             }
             else
             {
@@ -192,10 +218,12 @@ public class sc_textChange : MonoBehaviour
         }
         if (_playerData != null && _playerData.iLanguageNbPlayer == 1)
         {
+            textmesh.text = sTextEnglishAndFrench[1];
             ShowDialogue(sTextEnglishAndFrench[1]);
         }
         else if(_playerData != null && _playerData.iLanguageNbPlayer == 0)
         {
+            textmesh.text = sTextEnglishAndFrench[0];
             ShowDialogue(sTextEnglishAndFrench[0]);
         }
     }
@@ -207,10 +235,12 @@ public class sc_textChange : MonoBehaviour
         }
         if (_playerData != null && _playerData.iLanguageNbPlayer == 1)
         {
+            textmesh.text = sTextEnglishAndFrench[1];
             typeAnimator.ShowText(sTextEnglishAndFrench[1]);
         }
         else if (_playerData != null && _playerData.iLanguageNbPlayer == 0)
         {
+            textmesh.text = sTextEnglishAndFrench[0];
             typeAnimator.ShowText(sTextEnglishAndFrench[0]);
         }
         typeAnimator.SkipTypewriter();
