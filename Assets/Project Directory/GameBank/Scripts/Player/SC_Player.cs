@@ -1550,7 +1550,10 @@ public class SC_Player : Singleton<SC_Player>
         bIsImune = true;
         if(hasWon)
         {
-            VCam_EndingTag.Priority = 20;
+            if(VCam_EndingTag!=null)
+            {
+                VCam_EndingTag.Priority = 20;
+            }
             menuManager.textBravo.color = new Color32(255, 255, 255, 255);
             menuManager.textBravo.transform.localScale = new Vector3(3f, 3f, 3f);
             menuManager.textBravo.transform.DOScale(new Vector3(1f, 1f, 1f), 1f).SetEase(Ease.InOutElastic);
