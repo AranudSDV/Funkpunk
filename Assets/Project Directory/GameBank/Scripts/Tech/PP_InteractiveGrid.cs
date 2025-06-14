@@ -235,6 +235,8 @@ public class PP_InteractiveGrid : MonoBehaviour
         gridOrigin = transform.position;
         planeWidth = Mathf.RoundToInt(transform.localScale.x);
         planeHeight = Mathf.RoundToInt(transform.localScale.y);
+        gridSizeX = planeWidth;
+        gridSizeY = planeHeight;
         resX = gridSizeX * Subdiv;
         resY = gridSizeY * Subdiv;
 
@@ -338,25 +340,43 @@ public class PP_InteractiveGrid : MonoBehaviour
     void UpdatePlayerIllumination()
     {
         Vector3 pos = player.transform.position;
-        int cx = Mathf.FloorToInt((pos.x - gridOrigin.x) / worldSubW);
-        int cy = Mathf.FloorToInt((pos.z - gridOrigin.z) / worldSubH);
-        int rangeX = Mathf.CeilToInt(illuminationRadius / worldSubW);
-        int rangeY = Mathf.CeilToInt(illuminationRadius / worldSubH);
+        Vector3 forward = player.transform.forward;
 
-        for (int x = cx - rangeX; x <= cx + rangeX; x++)
-            for (int y = cy - rangeY; y <= cy + rangeY; y++)
+        // Flatten forward vector
+        Vector3 flatForward = new Vector3(forward.x, 0f, forward.z).normalized;
+
+        // Compute grid cell size in world units
+        float cellW = worldSubW * Subdiv;
+        float cellH = worldSubH * Subdiv;
+
+        // Get current grid cell coordinates (not subcell!)
+        int cellX = Mathf.FloorToInt((pos.x - gridOrigin.x) / cellW);
+        int cellY = Mathf.FloorToInt((pos.z - gridOrigin.z) / cellH);
+
+        // Move one full grid cell forward in world space
+        Vector3 frontCenter = new Vector3(
+            gridOrigin.x + (cellX + 0.5f) * cellW + flatForward.x * cellW,
+            pos.y,
+            gridOrigin.z + (cellY + 0.5f) * cellH + flatForward.z * cellH
+        );
+
+        // Get the grid cell coordinates of the forward cell
+        int frontCellX = Mathf.FloorToInt((frontCenter.x - gridOrigin.x) / cellW);
+        int frontCellY = Mathf.FloorToInt((frontCenter.z - gridOrigin.z) / cellH);
+
+        // Bounds of subcells to fill within the forward grid cell
+        int subStartX = frontCellX * Subdiv;
+        int subStartY = frontCellY * Subdiv;
+        int subEndX = subStartX + Subdiv;
+        int subEndY = subStartY + Subdiv;
+
+        for (int x = subStartX; x < subEndX; x++)
+            for (int y = subStartY; y < subEndY; y++)
                 if (x >= 0 && x < resX && y >= 0 && y < resY)
                 {
-                    float worldX = gridOrigin.x + (x + 0.5f) * worldSubW;
-                    float worldZ = gridOrigin.z + (y + 0.5f) * worldSubH;
-                    Vector3 wc = new Vector3(worldX, pos.y, worldZ);
-
-                    if (Vector3.Distance(new Vector3(pos.x, 0, pos.z), new Vector3(wc.x, 0, wc.z)) <= illuminationRadius)
-                    {
-                        Color c = maskTexture.GetPixel(x, y);
-                        c.r = 1f;
-                        maskTexture.SetPixel(x, y, c);
-                    }
+                    Color c = maskTexture.GetPixel(x, y);
+                    c.r = 1f;
+                    maskTexture.SetPixel(x, y, c);
                 }
     }
 
