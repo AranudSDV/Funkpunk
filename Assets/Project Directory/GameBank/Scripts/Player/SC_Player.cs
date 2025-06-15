@@ -929,7 +929,7 @@ public class SC_Player : Singleton<SC_Player>
             Vector3 newPos = posLastCheckPoint + Vector3.zero;
             this.transform.DOJump(newPos, jumpPower, 0, bpmManager.FSPB).SetEase(Ease.OutBack);
         }
-        else if(bIsImune)
+        else if(bIsImune && !bNoRythm)
         {
             this.transform.DOJump(this.transform.position, jumpPower, 0, bpmManager.FSPB).SetEase(Ease.OutBack);
         }

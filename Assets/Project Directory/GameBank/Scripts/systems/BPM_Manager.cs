@@ -270,7 +270,7 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
                 if(scPlayer.bNoRythm && !scPlayer.canMove&&!scPlayer.bcanRotate)
                 {
                     fTimingMoveNoRythm += Time.unscaledDeltaTime;
-                    if(fTimingMoveNoRythm>=1f)
+                    if(fTimingMoveNoRythm>=0.3f)
                     {
                         fTimingMoveNoRythm = 0f;
                         scPlayer.canMove = true;
