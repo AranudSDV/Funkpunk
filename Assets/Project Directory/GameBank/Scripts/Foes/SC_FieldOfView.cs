@@ -698,6 +698,7 @@ public class SC_FieldOfView : MonoBehaviour
             scPlayer.bIsImune = false;
             //camBoss.Priority = 2;
             sc_Cone.iBossTagsPhase2 = 0;
+            RythmDesactivated();
             BaitShuffle();
         });
     }

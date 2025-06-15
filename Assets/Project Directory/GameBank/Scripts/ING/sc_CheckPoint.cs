@@ -18,6 +18,7 @@ public class sc_CheckPoint : MonoBehaviour
         {
             scPlayer.CheckPoint(false, iCheckPoint);
             vfx_sewerSmoke.SetBool("isChecked", true);
+            Debug.Log("enter");
         }
     }
 }
