@@ -23,12 +23,15 @@ public class ing_Tag : MonoBehaviour
     public DecalProjector decalProj;
     public VisualEffect[] PS_Sound;
     [SerializeField] private VisualEffect[] PS_SoundShot;
-    [SerializeField] private GameObject go_SoundWave;
     [SerializeField]private VisualEffect PS_SoundWaveStun;
-    [SerializeField] private Vector3 vectBase_SoundWaveStun;
 
     private void Start()
     {
+        foreach (VisualEffect veSound in PS_SoundShot)
+        {
+            veSound.Stop();
+        }
+        PS_SoundWaveStun.Stop();
         decalProj.material.SetFloat("_ErosionValue", 1f);
     }
     private void OnDestroy()
@@ -37,11 +40,9 @@ public class ing_Tag : MonoBehaviour
     }
     public IEnumerator PlayVFXSoundWave()
     {
-        go_SoundWave.transform.localPosition = vectBase_SoundWaveStun;
         PS_SoundWaveStun.Play();
         yield return new WaitForSeconds(1.5f);
         PS_SoundWaveStun.Stop();
-        go_SoundWave.transform.localPosition = new Vector3(vectBase_SoundWaveStun.x, vectBase_SoundWaveStun.y-50f, vectBase_SoundWaveStun.z);
     }
     public IEnumerator PlaySoundShot()
     {

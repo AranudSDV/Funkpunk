@@ -85,6 +85,7 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
     public float fFOVmax = 10.6f;
     private float fFovInstanceMax;
     public bool[] bInitialized = new bool[2] { false, false};
+    private float fTimingMoveNoRythm = 0f;
 
     private void Start()
     {
@@ -266,12 +267,22 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
                     }
                     bInvisble = false;
                 }
+                if(scPlayer.bNoRythm && !scPlayer.canMove&&!scPlayer.bcanRotate)
+                {
+                    fTimingMoveNoRythm += Time.unscaledDeltaTime;
+                    if(fTimingMoveNoRythm>=1f)
+                    {
+                        fTimingMoveNoRythm = 0f;
+                        scPlayer.canMove = true;
+                        scPlayer.bcanRotate = true;
+                    }
+                }
             }
             if (scPlayer != null && menuManager != null && !menuManager.bGameIsPaused)
             {
                 CheckIfInputOnTempo();
             }
-            if(scPlayer != null)
+            if(scPlayer != null && !scPlayer.bNoRythm)
             {
                 CameraRythm(Time.unscaledDeltaTime, fFovInstanceMax, fFOVmin);
             }
@@ -281,7 +292,7 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
     //LE TEMPO
     IEnumerator wait()
     {
-        if(scPlayer!=null)
+        if(scPlayer!=null && !scPlayer.bNoRythm)
         {
             if (!menuManager.bGameIsPaused)
             {
@@ -298,7 +309,7 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
     }
     IEnumerator bad()
     {
-        if (!menuManager.bGameIsPaused)
+        if (!menuManager.bGameIsPaused && scPlayer!=null && !scPlayer.bNoRythm)
         {
             scPlayer.canMove = true;
         }
@@ -319,7 +330,7 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
         BPerfect = true;
         yield return new WaitForSecondsRealtime(FTiming[0]);
         BPerfect = false;
-        if(scPlayer!=null)
+        if(scPlayer!=null && !scPlayer.bNoRythm)
         {
             if (!menuManager.bGameIsPaused)
             {
@@ -426,64 +437,72 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
     {
         if (scPlayer.bcanRotate && scPlayer.canMove && scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered)
         {
-            if (BBad == true)
+            if(!scPlayer.bNoRythm)
             {
-                if (!scPlayer.bIsImune)
+                if (BBad == true)
                 {
-                    scPlayer.FScore = scPlayer.FScore + 35f;
-                    scPlayer.fNbBeat += 1f;
-                    scPlayer.fScoreDetails[1] += 1f;
+                    if (!scPlayer.bIsImune)
+                    {
+                        scPlayer.FScore = scPlayer.FScore + 35f;
+                        scPlayer.fNbBeat += 1f;
+                        scPlayer.fScoreDetails[1] += 1f;
+                    }
+                    menuManager.fBeatMusicVolume = menuManager.fBeatVolume[1];
+                    bPlayBad = true;
+                    bPlayGood = false;
+                    bPlayPerfect = false;
+                    if (!scPlayer.BisDetectedByAnyEnemy)
+                    {
+                        scPlayer.FDetectionLevel -= 2f;
+                    }
+                    fFovInstanceMax = fFOVmax * (90f / 100f);
+                    StartCoroutine(VibrationVfx(0.05f, 0f, 0.3f));
                 }
-                menuManager.fBeatMusicVolume = menuManager.fBeatVolume[1];
-                bPlayBad = true;
-                bPlayGood = false;
-                bPlayPerfect = false;
-                if (!scPlayer.BisDetectedByAnyEnemy)
+                else if (BGood == true)
                 {
-                    scPlayer.FDetectionLevel -= 2f;
+                    if (!scPlayer.bIsImune)
+                    {
+                        scPlayer.FScore = scPlayer.FScore + 75f;
+                        scPlayer.fNbBeat += 1f;
+                        scPlayer.fScoreDetails[2] += 1f;
+                    }
+                    menuManager.fBeatMusicVolume = menuManager.fBeatVolume[2];
+                    bPlayBad = false;
+                    bPlayGood = true;
+                    bPlayPerfect = false;
+                    if (!scPlayer.BisDetectedByAnyEnemy)
+                    {
+                        scPlayer.FDetectionLevel -= 5f;
+                    }
+                    fFovInstanceMax = fFOVmax * (95f / 100f);
+                    StartCoroutine(VibrationVfx(0.05f, 0.3f, 0.6f));
                 }
-                fFovInstanceMax = fFOVmax * (90f / 100f);
-                StartCoroutine(VibrationVfx(0.05f, 0f,0.3f));
+                else if (BPerfect == true)
+                {
+                    if (!scPlayer.bIsImune)
+                    {
+                        scPlayer.FScore = scPlayer.FScore + 100f;
+                        scPlayer.fNbBeat += 1f;
+                        scPlayer.fScoreDetails[3] += 1f;
+                    }
+                    menuManager.fBeatMusicVolume = menuManager.fBeatVolume[3];
+                    bPlayBad = false;
+                    bPlayGood = false;
+                    bPlayPerfect = true;
+                    if (!scPlayer.BisDetectedByAnyEnemy)
+                    {
+                        scPlayer.FDetectionLevel -= 10f;
+                    }
+                    fFovInstanceMax = fFOVmax;
+                    StartCoroutine(VibrationVfx(0.05f, 0.6f, 1f));
+                }
+                NotesFade();
             }
-            else if (BGood == true)
+            else
             {
-                if (!scPlayer.bIsImune)
-                {
-                    scPlayer.FScore = scPlayer.FScore + 75f;
-                    scPlayer.fNbBeat += 1f;
-                    scPlayer.fScoreDetails[2] += 1f;
-                }
-                menuManager.fBeatMusicVolume = menuManager.fBeatVolume[2];
-                bPlayBad = false;
-                bPlayGood = true;
-                bPlayPerfect = false;
-                if (!scPlayer.BisDetectedByAnyEnemy)
-                {
-                    scPlayer.FDetectionLevel -= 5f;
-                }
-                fFovInstanceMax = fFOVmax * (95f / 100f);
-                StartCoroutine(VibrationVfx(0.05f, 0.3f, 0.6f));
-            }
-            else if (BPerfect == true)
-            {
-                if (!scPlayer.bIsImune)
-                {
-                    scPlayer.FScore = scPlayer.FScore + 100f;
-                    scPlayer.fNbBeat += 1f;
-                    scPlayer.fScoreDetails[3] += 1f;
-                }
-                menuManager.fBeatMusicVolume = menuManager.fBeatVolume[3];
-                bPlayBad = false;
-                bPlayGood = false;
-                bPlayPerfect = true;
-                if (!scPlayer.BisDetectedByAnyEnemy)
-                {
-                    scPlayer.FDetectionLevel -= 10f;
-                }
-                fFovInstanceMax = fFOVmax;
+                scPlayer.CheckForward(scPlayer.lastMoveDirection);
                 StartCoroutine(VibrationVfx(0.05f, 0.6f, 1f));
             }
-            NotesFade();
             scPlayer.bcanRotate = false;
         }
         /*else if (!scPlayer.bcanRotate && scPlayer.bisTuto && scPlayer.canMove && scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered)

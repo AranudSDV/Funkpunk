@@ -29,12 +29,13 @@ public class SC_Player : Singleton<SC_Player>
 {
     public EventSystem _eventSystem;
     public Camera camUIOverlay;
-    public bool bisTuto = false;
     public MenuManager menuManager;
-    public bool bHasController = true;
     public BPM_Manager bpmManager;
     public sc_tuto_generic tutoGen = null;
-    [SerializeField] private CanvasGroup CgInGame;
+    public bool bisTuto = false;
+    public bool bHasController = true;
+    public bool bNoRythm = false;
+    public CanvasGroup CgInGame;
     public GameObject GoCanvasArrow;
 
     //LES CHALLENGES
@@ -268,34 +269,42 @@ public class SC_Player : Singleton<SC_Player>
         CheckControllerStatus();
         if(menuManager!=null && !menuManager.bGameIsPaused && !bisOnScoring)
         {
-            CgInGame.alpha = 1f;
-            if (fNbBeat > 0 && FScore > 0)
+            if(!bNoRythm)
             {
-                fPercentScore = FScore / fNbBeat;
-            }
-            else
-            {
-                fPercentScore = 0;
-            }
-            if (SceneManager.GetActiveScene().name == "Loft" && fNbBeat >= 10f)
-            {
-                FScore = Mathf.Round(fPercentScore);
-                fNbBeat = 1;
-            }
-            TMPScore.SetText(Mathf.Round(fPercentScore).ToString() + "%");
-            if (FDetectionLevel >= fDetectionLevelMax && !bIsEndGame)
-            {
-                StartCoroutine(EndGame(false, menuManager._playerData));
-            }
-            if (FDetectionLevel < 0)
-            {
-                FDetectionLevel = 0;
-                EyeDetection();
+                CgInGame.alpha = 1f;
+                if (fNbBeat > 0 && FScore > 0)
+                {
+                    fPercentScore = FScore / fNbBeat;
+                }
+                else
+                {
+                    fPercentScore = 0;
+                }
+                if (SceneManager.GetActiveScene().name == "Loft" && fNbBeat >= 10f)
+                {
+                    FScore = Mathf.Round(fPercentScore);
+                    fNbBeat = 1;
+                }
+                TMPScore.SetText(Mathf.Round(fPercentScore).ToString() + "%");
+                if (FDetectionLevel >= fDetectionLevelMax && !bIsEndGame)
+                {
+                    StartCoroutine(EndGame(false, menuManager._playerData));
+                }
+                if (FDetectionLevel < 0)
+                {
+                    FDetectionLevel = 0;
+                    EyeDetection();
+                }
             }
             if (bcanRotate == true)
             {
                 UpdateDirAndMovOnJoystickOrPC();
                 bEnsureRotation = false;
+                if(bNoRythm)
+                {
+                    bIsImune = true;
+                    CgInGame.alpha = 0f;
+                }
             }
             else
             {
@@ -303,7 +312,7 @@ public class SC_Player : Singleton<SC_Player>
             }
             EnemieDetection();
         }
-        else if(menuManager != null && menuManager.bGameIsPaused && !bisTuto)
+        else if(menuManager != null && menuManager.bGameIsPaused && !bisTuto && bisOnScoring)
         {
             bIsImune = true;
             CgInGame.alpha = 0f;
@@ -530,7 +539,7 @@ public class SC_Player : Singleton<SC_Player>
                             itagDone += 1;
                             if (ingTag.scFoes != null)
                             {
-                                ingTag.PlaySoundShot();
+                                StartCoroutine(ingTag.PlaySoundShot());
                                 foreach (SC_FieldOfView foe in ingTag.scFoes)
                                 {
                                     foe.bIsDisabled = true;
@@ -728,7 +737,7 @@ public class SC_Player : Singleton<SC_Player>
                             itagDone += 1;
                             if (ingTag.scFoes != null)
                             {
-                                ingTag.PlaySoundShot();
+                                StartCoroutine(ingTag.PlaySoundShot());
                                 foreach (SC_FieldOfView foe in ingTag.scFoes)
                                 {
                                     foe.bIsDisabled = true;
@@ -1352,6 +1361,7 @@ public class SC_Player : Singleton<SC_Player>
             if(bOnFoe)
             {
                 GO_BaitInst.transform.GetComponent<ing_Bait>().bOnFoe = true;
+                GO_BaitInst.transform.GetComponent<ing_Bait>().b_BeenThrownAtFoe = true;
                 SoundManager.Instance.PlayOneShot(sfx_baitStun);
                 StartCoroutine(scFoe.FoeStunOnceVFX());
                 if (scFoe.isBoss)
@@ -1628,6 +1638,8 @@ public class SC_Player : Singleton<SC_Player>
         else
         {
             menuManager.txt_Title.text = "Game Over!";
+
+            menuManager.bGameIsPaused = true;
             //BUTTONS
             UnityEngine.UI.Button[] buttonScorring = new UnityEngine.UI.Button[2];
             TextMeshProUGUI[] txt = new TextMeshProUGUI[2];
@@ -1672,7 +1684,6 @@ public class SC_Player : Singleton<SC_Player>
             bisOnScoring = false;
             bIsReplaying = true;
             bIsEndGame = false;
-
             this.gameObject.transform.position = posLastCheckPoint;
 
             ReStartThings(iPreviousCheckPoint);
@@ -1764,15 +1775,46 @@ public class SC_Player : Singleton<SC_Player>
             foe.bHasHeard = false;
             foe.bIsDisabled = false;
             foe.BIsNear = false;
-            foe.ResetAllVFX();
+            foe.ResetAllVFX(); 
+            if (foe.isBoss)
+            {
+                if (!foe.bFinalPhase)
+                {
+                    foe.iNbTaggsDonePhase1 = 0;
+                    foreach (ing_Tag tag in foe.bossTagsPhase1)
+                    {
+                        foreach (VisualEffect vfx in tag.PS_Sound)
+                        {
+                            vfx.Play();
+                        }
+                        tag.iCompletition = 0;
+                        tag.transform.gameObject.tag = "Tagging";
+                        //tag._renderer.material = tag.untaggedMaterial; //pas de tag
+                        tag.decalProj.material.SetFloat("_ErosionValue", 1f);
+                    }
+                }
+                else
+                {
+                    foe.iNbTaggsDonePhase2 = 0;
+                    foreach (ing_Tag tag in foe.bossTagsPhase2)
+                    {
+                        foreach (VisualEffect vfx in tag.PS_Sound)
+                        {
+                            vfx.Play();
+                        }
+                        tag.iCompletition = 0;
+                        tag.transform.gameObject.tag = "Tagging";
+                        //tag._renderer.material = tag.untaggedMaterial; //pas de tag
+                        tag.decalProj.material.SetFloat("_ErosionValue", 1f);
+                    }
+                }
+            }
         }
         FDetectionLevel = 0f;
         BisDetectedByAnyEnemy = false;
 
-        //RESTART FEEDBACKS ENNEMIES
-
         //RESTART BAITS LVL2
-        if(SceneManager.GetActiveScene().name == "SceneLvl2")
+        if (SceneManager.GetActiveScene().name == "SceneLvl2")
         {
             foreach(ing_Bait bait in ingBaitLvl2)
             {

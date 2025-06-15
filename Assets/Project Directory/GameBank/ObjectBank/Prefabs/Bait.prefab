@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 4390662706543927258}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -50.4, z: 0}
+  m_LocalPosition: {x: 0, y: -0.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -183,8 +183,7 @@ MonoBehaviour:
   fPosBase_smash: {x: 0, y: 1, z: 0}
   Go_vfx_Impact: {fileID: 8668200560565549551}
   fPosBase_impact: {x: 0, y: -0.5, z: 0}
-  Go_vfx_ImpactSound: {fileID: 4390662706543927258}
-  fPosBase_impactSound: {x: 0, y: -0.4, z: 0}
+  PS_impactSound: {fileID: 2606492431278481822}
   Go_vfxTrail: {fileID: 3409577057037563432}
   fPosBase_trail: {x: 0, y: 0, z: -0.394}
   Go_vfxIdle: {fileID: 8903709527033968502}

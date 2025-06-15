@@ -92,8 +92,8 @@ public class SC_FieldOfView : MonoBehaviour
     [Header("Boss")]
     public bool isBoss = false;
     public bool bFinalPhase = false;
-    [SerializeField] private ing_Tag[] bossTagsPhase1;
-    [SerializeField] private ing_Tag[] bossTagsPhase2 = new ing_Tag[4];
+    public ing_Tag[] bossTagsPhase1;
+    public ing_Tag[] bossTagsPhase2 = new ing_Tag[4];
     [SerializeField] private ing_Bait[] bossBaits = new ing_Bait[4];
     public int iRest = 0;
     private List<ing_Tag> listTaggsDone = new List<ing_Tag>();
@@ -700,5 +700,26 @@ public class SC_FieldOfView : MonoBehaviour
             sc_Cone.iBossTagsPhase2 = 0;
             BaitShuffle();
         });
+    }
+    private void RythmDesactivated()
+    {
+        scPlayer.bIsImune = true;
+        scPlayer.bNoRythm = true;
+        scPlayer.CgInGame.alpha = 0f;
+        if (scPlayer.bpmManager.basicLoopInstance.isValid())
+        {
+            scPlayer.bpmManager.basicLoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            scPlayer.bpmManager.basicLoopInstance.release();
+        }
+        if (scPlayer.bpmManager.detectedLoopInstance.isValid())
+        {
+            scPlayer.bpmManager.detectedLoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            scPlayer.bpmManager.detectedLoopInstance.release();
+        }
+        if (scPlayer.bpmManager.beatLoopInstance.isValid())
+        {
+            scPlayer.bpmManager.beatLoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            scPlayer.bpmManager.beatLoopInstance.release();
+        }
     }
 }
