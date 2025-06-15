@@ -138,7 +138,7 @@ Material:
     - _ShadowPatternDensity: 10
     - _ShadowPatternRotator: 0
     - _ShadowSoftness: 1
-    - _ShadowTex_Pow: 1
+    - _ShadowTex_Pow: 0.64
     - _Shadow_FallOffThreshold: 1
     - _Shadow_LitThreshold: 0.8
     - _Shadows_ProceduralOrTexture: 0
@@ -150,6 +150,7 @@ Material:
     - _TriplanarTiling: 10
     - _Using3DMovements: 0
     - _UsingTriplanar: 0
+    - _UsingTriplanar1: 0
     - _WorldDiv: 10
     - _WorldPosDiv: 10
     m_Colors:
