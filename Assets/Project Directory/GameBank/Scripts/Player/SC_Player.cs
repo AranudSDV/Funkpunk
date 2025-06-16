@@ -406,6 +406,7 @@ public class SC_Player : Singleton<SC_Player>
     //CONCERNANT LE BAIT
     public void ShootBait(ing_Bait bait)
     {
+        Debug.Log(lastMoveDirection);
         fThrowMultiplier = CheckForwardBait(lastMoveDirection);
         GO_BaitInst = bait.transform.gameObject;
         Vector3 _spawnpos = new Vector3(this.transform.position.x, this.transform.position.y - 0.5f, this.transform.position.z) + (lastMoveDirection * fThrowMultiplier);
@@ -833,6 +834,7 @@ public class SC_Player : Singleton<SC_Player>
                 {
                     foreach (Collider col in intersecting)
                     {
+                        Debug.Log(col);
                         if (col.transform.CompareTag("Wall") || col.transform.CompareTag("Tagging") || col.transform.CompareTag("Bait"))
                         {
                             bIsBeingAnimated = true;
@@ -844,7 +846,7 @@ public class SC_Player : Singleton<SC_Player>
                             bIsBeingAnimated = true;
                             fThrowMultiplier = floatNumber - 1f;
                             SC_FieldOfView scEnemy = col.transform.gameObject.GetComponent<SC_FieldOfView>();
-                            if (!scEnemy.bIsDisabled)
+                            if (!scEnemy.bIsDisabled || (scEnemy.bIsDisabled && scEnemy.isBoss))
                             {
                                 scEnemy.bIsDisabled = true;
                                 scEnemy.FoeDisabled(scEnemy.bIsDisabled);
@@ -880,19 +882,23 @@ public class SC_Player : Singleton<SC_Player>
                 {
                     foreach (Collider col in intersecting)
                     {
+                        Debug.Log(col);
                         if (col.transform.CompareTag("Wall") || col.transform.CompareTag("Tagging") || col.transform.CompareTag("Bait"))
                         {
+                            Debug.Log("no enemy");
                             bIsBeingAnimated = true;
                             fThrowMultiplier = floatNumber - 1f;
                             ThrowingFeedback(bpmManager.FSPB, false, null);
                         }
                         else if (col.transform.CompareTag("Enemies 1")) //il y a un ennemi devant le joueur
                         {
+                            Debug.Log("is enemy");
                             bIsBeingAnimated = true;
                             fThrowMultiplier = floatNumber - 1f;
                             SC_FieldOfView scEnemy = col.transform.gameObject.GetComponent<SC_FieldOfView>();
-                            if (!scEnemy.bIsDisabled)
+                            if (!scEnemy.bIsDisabled || (scEnemy.bIsDisabled && scEnemy.isBoss))
                             {
+                                Debug.Log("is boss");
                                 scEnemy.bIsDisabled = true;
                                 scEnemy.FoeDisabled(scEnemy.bIsDisabled);
                                 scEnemy.i_EnnemyBeat = -iTimeFoeDisabled;

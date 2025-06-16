@@ -235,6 +235,7 @@ public class ing_Bait : MonoBehaviour
                 scPlayer.tutoGen.StartTutoBait();
                 scPlayer.hasAlreadyBaited = true;
             }
+            Debug.Log("bait");
         }
     }
     private IEnumerator NumSmashVFX(float time)
