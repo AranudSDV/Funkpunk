@@ -267,6 +267,11 @@ public class MenuManager : SingletonManager<MenuManager>
                 Debug.Log("null");
             }
             GoGameChoose[5].transform.GetComponent<UnityEngine.UI.Image>().color = new Color32(255, 255, 255, 0);
+            for (int i = 0; i < trainMenu.progress.Length; i++)
+            {
+                trainMenu.progress[i] = 1f; 
+                trainMenu.pauseTimer[i] = trainMenu.pauseDuration;
+            }
             TrainAndUION();
         }
         if(SceneManager.GetActiveScene().name == "SceneSplash")
@@ -350,6 +355,12 @@ public class MenuManager : SingletonManager<MenuManager>
             trainMenu.cgChildrenCredits[trainMenu.iCredits].alpha = 1f;
             trainMenu.txtChildrenCredits[trainMenu.iCredits].BubbleShowText();
             trainMenu.iCredits += 1;
+        }
+        yield return new WaitForSecondsRealtime(0.6f);
+        for (int i = 0; i < trainMenu.progress.Length; i++)
+        {
+            trainMenu.progress[i] = 1f;
+            trainMenu.pauseTimer[i] = trainMenu.pauseDuration;
         }
     }
     private void TrainSplashLanguage()
