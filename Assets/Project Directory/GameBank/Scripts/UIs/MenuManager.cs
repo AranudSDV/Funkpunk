@@ -74,15 +74,10 @@ public class MenuManager : SingletonManager<MenuManager>
     private bool[] bOnceOptions = new bool[3] { false, false, false };
 
     [Header("Sound")]
-    public FMOD.Studio.VCA music_basic_VCA;
-    public FMOD.Studio.VCA music_detected_VCA;
-    public FMOD.Studio.VCA music_beat_VCA;
+    public FMOD.Studio.VCA music_VCA;
     public FMOD.Studio.VCA sfxVCA;
     public FMOD.Studio.VCA ambianceVCA;
     public float playerMusicVolume = 1f;
-    public float fDetectedVolume = 0f;
-    public float fBeatMusicVolume = 0.7f;
-    public float[] fBeatVolume = new float[4] {0.7f, 0.8f, 0.9f,1f };
     public CanvasGroup CgOptionAudio;
     [SerializeField] private UnityEngine.UI.Slider SfxSlider;
     [SerializeField] private UnityEngine.UI.Slider MusicSlider;
@@ -235,9 +230,7 @@ public class MenuManager : SingletonManager<MenuManager>
     private void Start()
     {
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-        music_basic_VCA = FMODUnity.RuntimeManager.GetVCA("vca:/Music_basic");
-        music_beat_VCA = FMODUnity.RuntimeManager.GetVCA("vca:/Music_beat");
-        music_detected_VCA = FMODUnity.RuntimeManager.GetVCA("vca:/Music_detected");
+        music_VCA = FMODUnity.RuntimeManager.GetVCA("vca:/Music_basic");
         sfxVCA = FMODUnity.RuntimeManager.GetVCA("vca:/SFX");
         ambianceVCA = FMODUnity.RuntimeManager.GetVCA("vca:/Ambiance"); 
         if(SceneManager.GetActiveScene().name == "Gym_GPP")
@@ -805,20 +798,10 @@ public class MenuManager : SingletonManager<MenuManager>
     //SCENE LOADING
     public void LoadScene(string sceneToLoad)
     {
-        if (bpmManager.basicLoopInstance.isValid())
+        if (bpmManager.LoopInstance.isValid())
         {
-            bpmManager.basicLoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-            bpmManager.basicLoopInstance.release();
-        }
-        if (bpmManager.detectedLoopInstance.isValid())
-        {
-            bpmManager.detectedLoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-            bpmManager.detectedLoopInstance.release();
-        }
-        if (bpmManager.beatLoopInstance.isValid())
-        {
-            bpmManager.beatLoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-            bpmManager.beatLoopInstance.release();
+            bpmManager.LoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            bpmManager.LoopInstance.release();
         }
         bpmManager.isPlaying = false;
         if (SceneManager.GetActiveScene().name != "Loft")
@@ -1278,15 +1261,13 @@ public class MenuManager : SingletonManager<MenuManager>
     public void SetMusicVolume()
     {
         playerMusicVolume = MusicSlider.value;
-        if (!music_basic_VCA.isValid() || !music_beat_VCA.isValid() || !music_detected_VCA.isValid())
+        if (!music_VCA.isValid())
         {
             Debug.LogWarning("VCA is not valid! Check FMOD path.");
-            music_basic_VCA = FMODUnity.RuntimeManager.GetVCA("vca:/Music_basic");
-            music_beat_VCA = FMODUnity.RuntimeManager.GetVCA("vca:/Music_beat");
-            music_detected_VCA = FMODUnity.RuntimeManager.GetVCA("vca:/Music_detected");
+            music_VCA = FMODUnity.RuntimeManager.GetVCA("vca:/Music_basic");
             sfxVCA = FMODUnity.RuntimeManager.GetVCA("vca:/SFX");
             ambianceVCA = FMODUnity.RuntimeManager.GetVCA("vca:/Ambiance"); 
-            if (!music_basic_VCA.isValid() || !music_beat_VCA.isValid() || !music_detected_VCA.isValid())
+            if (!music_VCA.isValid())
             {
                 Debug.LogError("VCA is STILL!!!! not valid!");
                 return;
@@ -1294,20 +1275,13 @@ public class MenuManager : SingletonManager<MenuManager>
         }
         if (SceneManager.GetActiveScene().name == "SceneLvl0" || SceneManager.GetActiveScene().name == "SceneLvl1" || SceneManager.GetActiveScene().name == "SceneLvl2" || SceneManager.GetActiveScene().name == "SceneLvl3")
         {
-            fDetectedVolume = (scPlayer.FDetectionLevel / 100f)*0.7f;
-            music_basic_VCA.setVolume(0f);
-            //music_basic_VCA.setVolume((playerMusicVolume - fDetectedVolume)*0.7f);
-            music_detected_VCA.setVolume(0f);
-            //music_detected_VCA.setVolume(fDetectedVolume*0.7f);
-            music_beat_VCA.setVolume(fBeatMusicVolume * playerMusicVolume);
-            music_beat_VCA.getVolume(out float checkVolume);
+            music_VCA.setVolume(playerMusicVolume);
+            music_VCA.getVolume(out float checkVolume);
             //Debug.Log("beat volume is " + checkVolume + " and we set it at " + fBeatMusicVolume);
         }
         else
         {
-            music_basic_VCA.setVolume(playerMusicVolume);
-            music_detected_VCA.setVolume(0f);
-            music_beat_VCA.setVolume(0f);
+            music_VCA.setVolume(playerMusicVolume);
         }
     }
     public void SetAmbianceVolume()
@@ -1327,19 +1301,14 @@ public class MenuManager : SingletonManager<MenuManager>
             //Time.timeScale = 0f;
             if (scPlayer != null && scPlayer.bisTuto == false)
             {
-                music_basic_VCA.getVolume(out float currentVolume); // Get current volume
-                music_basic_VCA.setVolume(currentVolume * 0.8f);
-                music_detected_VCA.getVolume(out float currentVolume_); // Get current volume
-                music_detected_VCA.setVolume(currentVolume_ * 0.8f);
+                music_VCA.getVolume(out float currentVolume); // Get current volume
                 //bpmManager.playerLoopInstance.setParameterByName("fPausedVolume", 0.8f);
             }
         }
         else
         {
             //Time.timeScale = 1f;
-            music_basic_VCA.setVolume(playerMusicVolume - fDetectedVolume);
-            music_detected_VCA.setVolume(fDetectedVolume);
-            music_beat_VCA.setVolume(0f);
+            music_VCA.setVolume(playerMusicVolume);
             if (CgScoring.alpha == 1f)
             {
                 EventSystem.SetSelectedGameObject(GoScoringFirstButtonSelected);

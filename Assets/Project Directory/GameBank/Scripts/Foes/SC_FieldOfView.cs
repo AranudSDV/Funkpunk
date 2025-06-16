@@ -707,20 +707,10 @@ public class SC_FieldOfView : MonoBehaviour
         scPlayer.bIsImune = true;
         scPlayer.bNoRythm = true;
         scPlayer.CgInGame.alpha = 0f;
-        if (scPlayer.bpmManager.basicLoopInstance.isValid())
+        if (scPlayer.bpmManager.LoopInstance.isValid())
         {
-            scPlayer.bpmManager.basicLoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-            scPlayer.bpmManager.basicLoopInstance.release();
-        }
-        if (scPlayer.bpmManager.detectedLoopInstance.isValid())
-        {
-            scPlayer.bpmManager.detectedLoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-            scPlayer.bpmManager.detectedLoopInstance.release();
-        }
-        if (scPlayer.bpmManager.beatLoopInstance.isValid())
-        {
-            scPlayer.bpmManager.beatLoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-            scPlayer.bpmManager.beatLoopInstance.release();
+            scPlayer.bpmManager.LoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            scPlayer.bpmManager.LoopInstance.release();
         }
     }
 }

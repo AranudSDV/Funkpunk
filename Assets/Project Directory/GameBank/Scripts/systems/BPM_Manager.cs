@@ -27,17 +27,15 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
     [Header("Beat")]
     public float[] FBPM;
     [SerializeField] private float fDelayMusic = 0.1f;
+    public float fProgressBPM =0f;
+    private float fTimerFSPB = 0f;
     private float fTimer = 0f;
     //private float FBPS;
     public float FSPB;
     private bool b_more = false;
     private bool b_less = false;
     [SerializeField] private EventReference[] Loop;
-    [SerializeField] private EventReference[] LoopDetected;
-    [SerializeField] private EventReference[] LoopBeat;
-    public FMOD.Studio.EventInstance basicLoopInstance;
-    public FMOD.Studio.EventInstance detectedLoopInstance;
-    public FMOD.Studio.EventInstance beatLoopInstance;
+    public FMOD.Studio.EventInstance LoopInstance;
     public bool isPlaying = false; // Prevent multiple starts
     private int iNowNote = 0;
     private int i_B = 0;
@@ -46,17 +44,7 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
     private FMOD.System coreSystem;
     // Our 3 sounds (programmer instrument style, streaming)
     private FMOD.Sound[] musicSounds = new FMOD.Sound[3];
-    private FMOD.Channel[] musicChannels = new FMOD.Channel[3];
-    private DSP[] pitchShifters = new DSP[3];
-    private float[] baseFrequencies = new float[3];
-    // Paths to your audio files (replace with your actual files)
-    private string[] musicPaths = new string[3]
-    {
-        "Assets/StreamingAssets/FMOD/Music/music_lvl3_basic.ogg",
-        "Assets/StreamingAssets/FMOD/Music/music_lvl3_beat.ogg",
-        "Assets/StreamingAssets/FMOD/Music/music_lvl3_detected.ogg"
-    };
-    RESULT result;
+    private FMOD.Channel musicChannels;
 
     //FEEDBACK ON TIMING
     [Header("Timing Feedbacks")]
@@ -131,9 +119,9 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
     {
         if (!bInitialized[1])
         {
-            if (basicLoopInstance.isValid())
+            if (LoopInstance.isValid())
             {
-                basicLoopInstance.getPlaybackState(out PLAYBACK_STATE state);
+                LoopInstance.getPlaybackState(out PLAYBACK_STATE state);
                 if (state != PLAYBACK_STATE.STOPPED) return;
             }
             bInitialized[1] = true;
@@ -144,23 +132,15 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
             if (bIsOnLvl)
             {
                 Shader.SetGlobalFloat("BPM", FBPM[menuManager.iPreviousLevelPlayed]);
-                basicLoopInstance = RuntimeManager.CreateInstance(Loop[menuManager.iPreviousLevelPlayed]);
-                basicLoopInstance.start();
-                detectedLoopInstance = RuntimeManager.CreateInstance(LoopDetected[menuManager.iPreviousLevelPlayed]);
-                detectedLoopInstance.start();
-                beatLoopInstance = RuntimeManager.CreateInstance(LoopBeat[menuManager.iPreviousLevelPlayed]);
-                beatLoopInstance.start();
+                LoopInstance = RuntimeManager.CreateInstance(Loop[menuManager.iPreviousLevelPlayed]);
+                LoopInstance.start();
                 menuManager.SetMusicVolume();
             }
             else
             {
                 Shader.SetGlobalFloat("BPM", FBPM[4]);
-                basicLoopInstance = RuntimeManager.CreateInstance(Loop[4]);
-                basicLoopInstance.start();
-                detectedLoopInstance = RuntimeManager.CreateInstance(LoopDetected[4]);
-                detectedLoopInstance.start();
-                beatLoopInstance = RuntimeManager.CreateInstance(LoopBeat[4]);
-                beatLoopInstance.start();
+                LoopInstance = RuntimeManager.CreateInstance(Loop[4]);
+                LoopInstance.start();
                 menuManager.SetMusicVolume();
             }
             isPlaying = true; 
@@ -178,55 +158,6 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
             }
             bInitialized[0] = true;
         }
-        /*else if(bSimulateLvl3 || SceneManager.GetActiveScene().name == "SceneLvl3")
-        {
-            if (!bInitialized[1])
-            {
-                StartBPM();
-                StartCoroutine(wait());
-                BMiss = true;
-                Shader.SetGlobalFloat("BPM", FBPM);
-                bInitialized[1] = true;
-                coreSystem = RuntimeManager.CoreSystem; 
-            }
-            fTimer += f_Timer;
-            if (fTimer >= fDelayMusic)
-            {
-                for (int i = 0; i < 3; i++)
-                {
-                    // Create streaming sound (non-blocking recommended for music)
-                    result = coreSystem.createSound(musicPaths[i], MODE.CREATESTREAM, out musicSounds[i]);
-                    if (result != RESULT.OK)
-                    {
-                        UnityEngine.Debug.LogError($"Failed to create sound {musicPaths[i]}: {result}");
-                        continue;
-                    }
-
-                    // Play sound and get channel
-                    result  = coreSystem.playSound(musicSounds[i], default(ChannelGroup), false, out musicChannels[i]);
-                    if (result != RESULT.OK)
-                    {
-                        UnityEngine.Debug.LogError($"Failed to play sound {musicPaths[i]}: {result}");
-                        continue;
-                    }
-
-                    // Get and store base frequency
-                    musicChannels[i].getFrequency(out baseFrequencies[i]);
-
-                    // Create and attach pitch shifter DSP
-                    coreSystem.createDSPByType(DSP_TYPE.PITCHSHIFT, out pitchShifters[i]);
-                    musicChannels[i].addDSP(0, pitchShifters[i]);
-
-                    // Initialize pitch shifter to zero (no shift)
-                    pitchShifters[i].setParameterFloat((int)DSP_PITCHSHIFT.PITCH, 0f);
-                }
-
-                menuManager.SetMusicVolume();
-
-                isPlaying = true;
-                bInitialized[0] = true;
-            }
-        }*/
         fFovInstanceMax = fFOVmax;
     }
     private void Update()
@@ -238,6 +169,11 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
         else if (coreSystem.hasHandle())
         {
             coreSystem.update();
+        }
+        if (bInitialized[0])
+        {
+            fTimerFSPB += Time.unscaledDeltaTime;
+            fProgressBPM = fTimerFSPB / FSPB;
         }
         if (bIsOnLvl || bIsOnLoft)
         {
@@ -292,7 +228,9 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
     //LE TEMPO
     IEnumerator wait()
     {
-        if(scPlayer!=null && !scPlayer.bNoRythm)
+        fProgressBPM = 0f;
+        fTimerFSPB = 0f;
+        if (scPlayer!=null && !scPlayer.bNoRythm)
         {
             if (!menuManager.bGameIsPaused)
             {
@@ -337,7 +275,6 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
                 scPlayer.canMove = false;
                 if (BBad == false && BGood == false && BPerfect == false && scPlayer.bcanRotate == true) // LE JOUEUR MISS
                 {
-                    menuManager.fBeatMusicVolume = menuManager.fBeatVolume[0];
                     if (!scPlayer.bIsImune)
                     {
                         scPlayer.fNbBeat += 1f;
@@ -447,7 +384,6 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
                         scPlayer.fNbBeat += 1f;
                         scPlayer.fScoreDetails[1] += 1f;
                     }
-                    menuManager.fBeatMusicVolume = menuManager.fBeatVolume[1];
                     bPlayBad = true;
                     bPlayGood = false;
                     bPlayPerfect = false;
@@ -466,7 +402,6 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
                         scPlayer.fNbBeat += 1f;
                         scPlayer.fScoreDetails[2] += 1f;
                     }
-                    menuManager.fBeatMusicVolume = menuManager.fBeatVolume[2];
                     bPlayBad = false;
                     bPlayGood = true;
                     bPlayPerfect = false;
@@ -485,7 +420,6 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
                         scPlayer.fNbBeat += 1f;
                         scPlayer.fScoreDetails[3] += 1f;
                     }
-                    menuManager.fBeatMusicVolume = menuManager.fBeatVolume[3];
                     bPlayBad = false;
                     bPlayGood = false;
                     bPlayPerfect = true;
@@ -724,29 +658,6 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
             scPlayer.FOVS.m_Width = fov;
         }
     }
-    public void SetSpeed(float speedMultiplier)
-    {
-        if (speedMultiplier <= 0f)
-        {
-            UnityEngine.Debug.LogWarning("Speed multiplier must be > 0");
-            return;
-        }
-
-        for (int i = 0; i < 3; i++)
-        {
-            // Change playback frequency for speed
-            float newFreq = baseFrequencies[i] * speedMultiplier;
-            musicChannels[i].setFrequency(newFreq);
-
-            // Calculate pitch shift in octaves to preserve pitch
-            float pitchShiftInOctaves = (float)(-Mathf.Log(speedMultiplier, 2));
-            pitchShifters[i].setParameterFloat((int)DSP_PITCHSHIFT.PITCH, pitchShiftInOctaves);
-        }
-        FBPM[Int32.Parse(Regex.Match(SceneManager.GetActiveScene().name, @"\d+").Value)] = FBPM[Int32.Parse(Regex.Match(SceneManager.GetActiveScene().name, @"\d+").Value)] * speedMultiplier;
-        FSPB = 1f / (FBPM[Int32.Parse(Regex.Match(SceneManager.GetActiveScene().name, @"\d+").Value)] / 60f);
-        StartBPMPlayer();
-        Shader.SetGlobalFloat("BPM", FBPM[Int32.Parse(Regex.Match(SceneManager.GetActiveScene().name, @"\d+").Value)]);
-    }
     //FEEDBACK
     public IEnumerator VibrationVfx(float time, float lowFreq, float highFreq)
     {
@@ -764,34 +675,17 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
     }
     private void OnDestroy() // Clean up to prevent memory leaks
     {
+        if (musicChannels.hasHandle())
+            musicChannels.stop();
         for (int i = 0; i < 3; i++)
         {
-            if (musicChannels[i].hasHandle())
-                musicChannels[i].stop();
-
             if (musicSounds[i].hasHandle())
                 musicSounds[i].release();
-
-            if (pitchShifters[i].hasHandle())
-            {
-                pitchShifters[i].release();
-                pitchShifters[i].clearHandle();
-            }
         }
-        if (basicLoopInstance.isValid())
+        if (LoopInstance.isValid())
         {
-            basicLoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-            basicLoopInstance.release();
-        }
-        if(detectedLoopInstance.isValid())
-        {
-            detectedLoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-            detectedLoopInstance.release();
-        }
-        if (beatLoopInstance.isValid())
-        {
-            beatLoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-            beatLoopInstance.release();
+            LoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            LoopInstance.release();
         }
         DOTween.KillAll();
     }

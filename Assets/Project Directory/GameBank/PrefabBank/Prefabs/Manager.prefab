@@ -360,13 +360,6 @@ MonoBehaviour:
     Path: event:/sfx_ui_button_click
   bOnceGrid: 0
   playerMusicVolume: 1
-  fDetectedVolume: 0
-  fBeatMusicVolume: 0.7
-  fBeatVolume:
-  - 0.7
-  - 0.8
-  - 0.9
-  - 1
   CgOptionAudio: {fileID: 198228148456643182}
   SfxSlider: {fileID: 1751299479825783677}
   MusicSlider: {fileID: 1518392053266865558}
@@ -719,100 +712,39 @@ MonoBehaviour:
   - 110
   - 60
   fDelayMusic: 0.1
+  fProgressBPM: 0
   FSPB: 0
   Loop:
   - Guid:
-      Data1: -1638046111
-      Data2: 1126304665
-      Data3: 42771614
-      Data4: 461345490
-    Path: event:/music_Lvl0_basic
+      Data1: 1322035275
+      Data2: 1196465230
+      Data3: 1697539768
+      Data4: -657074632
+    Path: event:/ruelle 90
   - Guid:
-      Data1: -855172880
-      Data2: 1292310818
-      Data3: 1372099762
-      Data4: -238279835
-    Path: event:/music_Lvl1_basic
+      Data1: 1467731535
+      Data2: 1105138591
+      Data3: 1708960943
+      Data4: 262466916
+    Path: event:/rue 110 wav
   - Guid:
-      Data1: -1106908618
-      Data2: 1085781373
-      Data3: 2123370645
-      Data4: 1970198419
-    Path: event:/music_Lvl2_basic
+      Data1: 305474797
+      Data2: 1299659781
+      Data3: 681123759
+      Data4: -711148478
+    Path: event:/Hanagr 110 wav
   - Guid:
-      Data1: 1022555316
-      Data2: 1247501642
-      Data3: -956117874
-      Data4: 464035259
-    Path: event:/music_Lvl3_basic
+      Data1: 305474797
+      Data2: 1299659781
+      Data3: 681123759
+      Data4: -711148478
+    Path: event:/Hanagr 110 wav
   - Guid:
-      Data1: 1904928535
-      Data2: 1230092903
-      Data3: 1550325126
-      Data4: -1636053928
-    Path: event:/music_Loft_basic
-  LoopDetected:
-  - Guid:
-      Data1: -634759269
-      Data2: 1288459858
-      Data3: 769920140
-      Data4: 593955816
-    Path: event:/music_Lvl0_detected
-  - Guid:
-      Data1: -1585719210
-      Data2: 1132696305
-      Data3: -173372259
-      Data4: -458317178
-    Path: event:/music_Lvl1_detected
-  - Guid:
-      Data1: -244467763
-      Data2: 1137594167
-      Data3: 1109074088
-      Data4: -1164362124
-    Path: event:/music_Lvl2_detected
-  - Guid:
-      Data1: -1188899381
-      Data2: 1118512987
-      Data3: -212002926
-      Data4: 2137842970
-    Path: event:/music_Lvl3_Detected
-  - Guid:
-      Data1: 1905251223
-      Data2: 1212071362
-      Data3: 662242964
-      Data4: 1723023356
-    Path: event:/music_Loft_detected
-  LoopBeat:
-  - Guid:
-      Data1: 1077132588
-      Data2: 1081917375
-      Data3: -516681812
-      Data4: -1257341137
-    Path: event:/music_Lvl_0_beat
-  - Guid:
-      Data1: 1072216500
-      Data2: 1258215268
-      Data3: 170872729
-      Data4: -214363761
-    Path: event:/music_Lvl_1_beat
-  - Guid:
-      Data1: -1873236312
-      Data2: 1322861136
-      Data3: 141627065
-      Data4: 150264019
-    Path: event:/music_Lvl_2_beat
-  - Guid:
-      Data1: -1633657236
-      Data2: 1292528207
-      Data3: 203730595
-      Data4: 197608975
-    Path: event:/music_Lvl_3_beat
-  - Guid:
-      Data1: 1733707329
-      Data2: 1337085090
-      Data3: 1359273910
-      Data4: -1267395333
-    Path: event:/music_Loft_beat
+      Data1: 462000897
+      Data2: 1188041383
+      Data3: 397034131
+      Data4: 801002153
+    Path: event:/HUb 60  wav
   isPlaying: 0
   iTimer: 3
   fAllTolerence:
