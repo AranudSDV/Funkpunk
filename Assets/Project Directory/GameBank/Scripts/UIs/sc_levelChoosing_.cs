@@ -22,7 +22,9 @@ public class sc_levelChoosing_ : MonoBehaviour
     private bool bBegin = false;
     [SerializeField] private GameObject[] GoLevels;
     [SerializeField] private UnityEngine.UI.Image imBackground;
+    [SerializeField] private UnityEngine.UI.Image imTel;
     [SerializeField] private Material[] sprites_Background;
+    [SerializeField] private Material[] sprites_Tel;
     private bool[] bNowSelected = new bool[5] { false,false,false,false, false};
     private int iSelected = 0;
 
@@ -82,6 +84,7 @@ public class sc_levelChoosing_ : MonoBehaviour
                     bNowSelected[iSelected] = false;
                     AnimateChara(iSelected, i, 0.8f);
                     bNowSelected[i] = true;
+                    imTel.material = sprites_Tel[i];
                 }
                 else if(menuManager.EventSystem.currentSelectedGameObject != GoLevels[i] && bNowSelected[i])
                 {
