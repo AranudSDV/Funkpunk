@@ -87,7 +87,7 @@ public class MenuManager : SingletonManager<MenuManager>
     [Header("Navigation UX")]
     [SerializeField] private GameObject[] GoGameChoose = new GameObject[6];
     public GameObject[] GoLevelsButton;
-    private GameObject GoLevelBackButton;
+    public GameObject GoLevelBackButton;
     public GameObject[] GoLevelStars;
     public Material material_star_completed;
     public Material material_star_empty;
@@ -741,7 +741,7 @@ public class MenuManager : SingletonManager<MenuManager>
         {
             for (int i = 0; i < GoLevelsButton.Length; i++)
             {
-                GoLevelBackButton.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => LoadScene("Loft"));
+                GoLevelBackButton.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => LoadScene("Scenes/World/Loft"));
                 if ( _playerData.iLevelPlayer >= i) //Pour tous les niveaux faits
                 {
                     int captured = i;
