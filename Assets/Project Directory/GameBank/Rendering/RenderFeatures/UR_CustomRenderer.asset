@@ -41,20 +41,6 @@ MonoBehaviour:
     type: 3}
   m_ssaoShader: {fileID: -6465566751694194690, guid: 64bbdf35d048459489ec2e4fd63a4027,
     type: 3}
---- !u!114 &-6532023907810781725
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e32e72b6a3f58a24c9033e2b9275eea0, type: 3}
-  m_Name: ScreenSpaceShadows
-  m_EditorClassIdentifier: 
-  m_Active: 1
-  m_Shader: {fileID: 4800000, guid: 0f854b35a0cf61a429bd5dcfea30eddd, type: 3}
 --- !u!114 &-2986749047603376439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,11 +110,12 @@ MonoBehaviour:
       type: 3}
     hdrDebugViewPS: {fileID: 4800000, guid: 573620ae32aec764abd4d728906d2587, type: 3}
   m_RendererFeatures:
-  - {fileID: -6532023907810781725}
+  - {fileID: -6970877383528816771}
   - {fileID: -2986749047603376439}
   - {fileID: -7987083340004986732}
-  - {fileID: -6970877383528816771}
-  m_RendererFeatureMap: e355942edd9659a5c94e5dd090ef8cd694f08f07052e28917ddff5f5f377429f
+  - {fileID: 399124611304080930}
+  - {fileID: 7570648660934709849}
+  m_RendererFeatureMap: 7ddff5f5f377429fc94e5dd090ef8cd694f08f07052e28912246e525b8f9890559d24c9ad8581069
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 4deb761f5d869534fb19942c0e6e8c8b, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -171,3 +158,39 @@ MonoBehaviour:
   m_CopyDepthMode: 0
   m_AccurateGbufferNormals: 1
   m_IntermediateTextureMode: 1
+--- !u!114 &399124611304080930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47c544128cf4e7c42bcdaebae34c1848, type: 3}
+  m_Name: PPCustomRendererFeature
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  m_bloomShader: {fileID: 4800000, guid: ad34626e025245c4396ed8f1a1c356e1, type: 3}
+  m_compositeShader: {fileID: -6465566751694194690, guid: 64bbdf35d048459489ec2e4fd63a4027,
+    type: 3}
+  m_ssaoShader: {fileID: -6465566751694194690, guid: 64bbdf35d048459489ec2e4fd63a4027,
+    type: 3}
+--- !u!114 &7570648660934709849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c75607c1a047e22428a583c76deb305e, type: 3}
+  m_Name: CustomPostProcessRendererFeature
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  m_bloomShader: {fileID: 4800000, guid: ad34626e025245c4396ed8f1a1c356e1, type: 3}
+  m_compositeShader: {fileID: -6465566751694194690, guid: 64bbdf35d048459489ec2e4fd63a4027,
+    type: 3}
+  m_ssaoShader: {fileID: 0}
+  m_BlueNoise256Textures: []

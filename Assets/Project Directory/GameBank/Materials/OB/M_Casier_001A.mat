@@ -106,6 +106,7 @@ Material:
     - _FresnelErase_Smoothness: 1.5
     - _FresnelPower: 5
     - _FullShadingHalfShading: 0
+    - _IsDecalMesh: 0
     - _IsEnnemies: 0
     - _IsOutline: 0
     - _LightindDone: 1
@@ -116,7 +117,7 @@ Material:
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _SMH_Pow: 0
-    - _ShadingWhiteMult: 0.1
+    - _ShadingWhiteMult: 0.4
     - _ShadowTex_Pow: 0.27
     - _Shadow_FallOffThreshold: 1
     - _Shadow_LitThreshold: 0.8
