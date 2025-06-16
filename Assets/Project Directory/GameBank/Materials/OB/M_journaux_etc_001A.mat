@@ -13,7 +13,6 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _COLORORTEX_ON
-  - _LIGHTINDDONE_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -106,6 +105,7 @@ Material:
     - _FresnelErase_Smoothness: 1.5
     - _FresnelPower: 5
     - _FullShadingHalfShading: 0
+    - _IsDecalMesh: 0
     - _IsEnnemies: 0
     - _IsOutline: 0
     - _LightindDone: 1
@@ -127,6 +127,7 @@ Material:
     - _TriplanarTiling: 10
     - _Using3DMovements: 0
     - _UsingTriplanar: 0
+    - _UsingTriplanar1: 0
     - _WorldPosDiv: 0
     m_Colors:
     - _ALB: {r: 1, g: 0, b: 0, a: 0}
