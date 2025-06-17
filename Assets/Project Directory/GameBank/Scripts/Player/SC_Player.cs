@@ -1609,16 +1609,19 @@ public class SC_Player : Singleton<SC_Player>
             {
                 menuManager.txt_Title.text = "Congratulation!";
             }
+            RectTransform rectTitle = menuManager.txt_Title.transform.GetComponent<RectTransform>();
+            rectTitle.anchorMin = new Vector2(0.1f, 0.8f);
+            rectTitle.anchorMax = new Vector2(0.721f, 0.9f);
+            rectTitle.offsetMax = new Vector2(0f, 0f);
+            rectTitle.offsetMin = new Vector2(0f, 0f);
             //BUTTONS
-            UnityEngine.UI.Button[] buttonScorring = new UnityEngine.UI.Button[2];
             TextMeshProUGUI[] txt = new TextMeshProUGUI[2];
             for (int i =0; i<2; i++)
             {
-                buttonScorring[i] = menuManager.GoScoringButtons.transform.GetChild(i).GetComponent<UnityEngine.UI.Button>();
-                txt[i] = menuManager.GoScoringButtons.transform.GetChild(i).transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+                txt[i] = menuManager.ButtonsScoring[i].transform.GetChild(1).GetComponent<TextMeshProUGUI>();
             }
-            buttonScorring[0].onClick.AddListener(delegate { EndDialogue(); });
-            buttonScorring[1].onClick.AddListener(delegate { menuManager.LoadScene("retry"); });
+            menuManager.ButtonsScoring[0].onClick.AddListener(delegate { EndDialogue(); });
+            menuManager.ButtonsScoring[1].onClick.AddListener(delegate { menuManager.LoadScene("retry"); });
             if (data.iLanguageNbPlayer == 1)
             {
                 txt[0].text = "Continuer";
@@ -1636,26 +1639,25 @@ public class SC_Player : Singleton<SC_Player>
             menuManager.RtScoringSuccess.anchorMax = new Vector2(1, 1);
             menuManager.RtScoringSuccess.offsetMax = new Vector2(0f, 0f);
             menuManager.RtScoringSuccess.offsetMin = new Vector2(0f, 0f);
-
-            menuManager.RtScoringButtons.anchorMin = new Vector2(0.05f, 0.05f);
-            menuManager.RtScoringButtons.anchorMax = new Vector2(0.95f, 0.3f);
-            menuManager.ImgScoringBackground.sprite = menuManager.spritesScoringBackground[0];
         }
         else
         {
             menuManager.txt_Title.text = "Game Over!";
+            RectTransform rectTitle = menuManager.txt_Title.transform.GetComponent<RectTransform>();
+            rectTitle.anchorMin = new Vector2(0.1f, 0.6f);
+            rectTitle.anchorMax = new Vector2(0.721f, 0.7f);
+            rectTitle.offsetMax = new Vector2(0f, 0f);
+            rectTitle.offsetMin = new Vector2(0f, 0f);
 
             menuManager.bGameIsPaused = true;
             //BUTTONS
-            UnityEngine.UI.Button[] buttonScorring = new UnityEngine.UI.Button[2];
             TextMeshProUGUI[] txt = new TextMeshProUGUI[2];
             for (int i = 0; i < 2; i++)
             {
-                buttonScorring[i] = menuManager.GoScoringButtons.transform.GetChild(i).GetComponent<UnityEngine.UI.Button>();
-                txt[i] = menuManager.GoScoringButtons.transform.GetChild(i).transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+                txt[i] = menuManager.ButtonsScoring[i].transform.GetChild(1).GetComponent<TextMeshProUGUI>();
             }
-            buttonScorring[0].onClick.AddListener(delegate { CheckPoint(true, iCheckPoint); });
-            buttonScorring[1].onClick.AddListener(delegate { menuManager.LoadScene("Scenes/World/LevelChoosing"); });
+            menuManager.ButtonsScoring[0].onClick.AddListener(delegate { CheckPoint(true, iCheckPoint); });
+            menuManager.ButtonsScoring[1].onClick.AddListener(delegate { menuManager.LoadScene("Scenes/World/LevelChoosing"); });
             if (data.iLanguageNbPlayer == 1)
             {
                 txt[0].text = "Réessayer";
@@ -1673,10 +1675,6 @@ public class SC_Player : Singleton<SC_Player>
             menuManager.RtScoringSuccess.anchorMax = new Vector2(1, 2);
             menuManager.RtScoringSuccess.offsetMax = new Vector2(0f, 0f);
             menuManager.RtScoringSuccess.offsetMin = new Vector2(0f, 0f);
-
-            menuManager.RtScoringButtons.anchorMin = new Vector2(0.055f, 0.05f);
-            menuManager.RtScoringButtons.anchorMax = new Vector2(0.95f, 0.3f);
-            menuManager.ImgScoringBackground.sprite = menuManager.spritesScoringBackground[1];
         }
         menuManager.EventSystem.SetSelectedGameObject(menuManager.GoScoringFirstButtonSelected);
         menuManager.GoScoringFirstButtonSelected.GetComponent<UnityEngine.UI.Button>().Select();

@@ -122,13 +122,11 @@ public class MenuManager : SingletonManager<MenuManager>
     public TMP_Text txtScoringScore;
     [Tooltip("Missed, Bad, Good, Perfect")]public TMP_Text[] txtScoringScoreDetails = new TMP_Text[4];
     public CanvasGroup cgScoreDetails;
-    public UnityEngine.UI.Image ImgScoringBackground;
-    public Sprite[] spritesScoringBackground;
     public GameObject GoScoringSuccess;
     public CanvasGroup CgScoringSuccess;
     public RectTransform RtScoringSuccess;
-    public GameObject GoScoringButtons;
-    public RectTransform RtScoringButtons;
+    public UnityEngine.UI.Button[] ButtonsScoring;
+    public UnityEngine.UI.Image[] ImageButtonsScoring;
 
     //END DIALOGUE
     [Header("EndDialogue")]
@@ -516,6 +514,20 @@ public class MenuManager : SingletonManager<MenuManager>
                         _levels[i].img_lvl.material.SetFloat("_NoColorsWhiteValue", 0.1f);
                         GoLevelBackButton.GetComponent<UnityEngine.UI.Image>().material.SetFloat("_NoColorsWhiteValue", 0.1f);
                     }
+                }
+            }
+        }
+        else if(CgScoring.alpha == 1f)
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                if (EventSystem.currentSelectedGameObject == ButtonsScoring[i].gameObject)//&& !bNowSelectedGeneral[i]
+                {
+                    ImageButtonsScoring[i].material.SetFloat("_NoColorsWhiteValue", 1f);
+                }
+                else
+                {
+                    ImageButtonsScoring[i].material.SetFloat("_NoColorsWhiteValue", 0.1f);
                 }
             }
         }
