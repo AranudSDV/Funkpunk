@@ -704,6 +704,7 @@ public class MenuManager : SingletonManager<MenuManager>
                     {
                         trainMenu = GoTargetUI[i].transform.GetComponent< SplineTrainMover_WithSpacing>();
                         EventSystem = trainMenu._eventSystem;
+                        this.GetComponent<Canvas>().worldCamera = trainMenu.camUI;
                         if (bisOnCredits)
                         {
                             trainMenu.cgCredits.alpha = 1f;

@@ -412,7 +412,7 @@ MonoBehaviour:
   CgEndDialogue: {fileID: 4738519578689300175}
   RtEndDialogue: {fileID: 6801879387423613945}
   ImgEndDialogueBackground: {fileID: 3243719424844046227}
-  iWhichCharaToRightToLeft: 010000000000000001000000000000000100000000000000010000000000000001000000000000000100000000000000010000000000000001000000000000000100000000000000010000000000000001000000000000000100000000000000010000000000000001000000000000000100000000000000010000000000000001000000000000000100000000000000010000000000000001000000000000000100000000000000010000000000000001000000000000000100000000000000010000000000000001000000000000000100000000000000010000000000000001000000000000000100000000000000000000000200000001000000000000000100000000000000010000000000000001000000000000000100000000000000ffffffffffffffff02000000000000000100000000000000010000000000000001000000020000000100000002000000010000000200000001000000020000000100000002000000020000000000000001000000000000000100000000000000010000000000000001000000000000000100000000000000010000000000000001000000000000000100000000000000000000000300000001000000030000000100000000000000010000000000000001000000000000000000000001000000010000000000000000000000030000000000000003000000000000000300000000000000030000000300000003000000
+  iWhichCharaToRightToLeft: 010000000000000001000000000000000100000000000000010000000000000001000000000000000100000000000000010000000000000001000000000000000100000000000000010000000000000001000000000000000100000000000000010000000000000001000000000000000100000000000000010000000000000001000000000000000100000000000000010000000000000001000000000000000100000000000000010000000000000001000000000000000100000000000000010000000000000001000000000000000100000000000000010000000000000001000000000000000100000000000000000000000200000001000000000000000100000000000000010000000000000001000000000000000100000000000000ffffffffffffffff0200000000000000020000000000000001000000000000000100000000000000010000000000000001000000000000000100000000000000010000000000000001000000000000000100000000000000ffffffffffffffff020000000000000002000000000000000100000000000000010000000000000001000000000000000100000000000000000000000300000001000000030000000000000003000000000000000300000001000000030000000000000003000000000000000300000001000000030000000000000003000000000000000300000000000000030000000000000003000000ffffffffffffffff
   spritesEndDialogueBackground:
   - {fileID: 21300000, guid: fde9d9a6f2d90134aaf938d62b18dcab, type: 3}
   - {fileID: 21300000, guid: 692dad68630287647987e84522c8de08, type: 3}
@@ -470,10 +470,10 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 25d5f1fe4e652804fa7f41227d397b22, type: 3}
   - {fileID: 21300000, guid: 6fc02cd569a07ef4c90fc90406c7f593, type: 3}
   _sc_textChange: {fileID: 9180304757930173935}
-  iNbDialoguePerLevel: 0c0000000a00000007000000080000000a00000013000000
-  iNbDialoguePerLevelAdd: 0c000000160000001d000000250000002f00000042000000
-  iCharaToSpeakPerTextes: 0000000003000000020000000300000002000000050000000300000001000000040000000100000000000000000000000300000000000000010000000200000005000000050000000500000001000000040000000300000001000000050000000400000001000000020000000500000003000000060000000c0000000500000006000000040000000600000004000000ffffffff070000000500000002000000050000000000000004000000000000000500000000000000ffffffff070000000500000002000000050000000100000005000000080000000b000000100000000800000011000000080000000c0000000e0000000c000000090000000c00000008000000ffffffff
-  iCharaToNotSpeakPerTextes: 03000000000000000300000002000000030000000200000002000000030000000100000003000000030000000300000000000000030000000300000003000000000000000200000001000000030000000000000000000000030000000000000001000000030000000300000000000000000000000b000000060000000200000003000000070000000300000006000000ffffffff030000000200000003000000010000000300000000000000030000000000000003000000ffffffff0300000002000000030000000100000003000000010000000a00000009000000090000000a000000090000000b0000000800000008000000080000000a000000090000000b000000ffffffff
+  iNbDialoguePerLevel: 0c0000000a00000007000000080000000b00000014000000
+  iNbDialoguePerLevelAdd: 0c000000160000001d000000250000003000000044000000
+  iCharaToSpeakPerTextes: 0000000003000000020000000300000002000000050000000300000001000000040000000100000000000000000000000300000000000000010000000200000005000000050000000500000001000000040000000300000001000000050000000400000001000000020000000500000003000000060000000c0000000500000006000000040000000600000005000000ffffffff07000000070000000500000002000000040000000000000004000000000000000500000000000000ffffffff07000000070000000500000002000000040000000100000005000000080000000b000000100000000800000011000000080000000c0000000e0000000c000000090000000c00000008000000ffffffff
+  iCharaToNotSpeakPerTextes: 03000000000000000300000002000000030000000200000002000000030000000100000003000000030000000300000000000000030000000300000003000000000000000200000001000000030000000000000000000000030000000000000001000000030000000300000000000000000000000b000000060000000200000003000000070000000300000006000000ffffffff0f0000000f0000000200000003000000010000000300000000000000030000000000000003000000ffffffff0f0000000f00000002000000030000000100000003000000010000000a00000009000000090000000a000000090000000b0000000800000008000000080000000a000000090000000b000000ffffffff
   sDialogueEnglish:
   - <swing>There</swing>. Now that's a tag they won't forget.
   - <wave a=0.5>Bingo! Awesome!</wave>
@@ -522,57 +522,69 @@ MonoBehaviour:
     of the human world. '
   - <wave a=0.5>If we fail, the music will take over all forms of art, and every
     human will be forced to dance until... <shake a=0.2>DEATH</shake>.</wave>
-  - Ha, so you were here too, Scraffaello. Too bad you chose such a weak partner.
-  - Scraffaello ? How--
-  - No, Jett!
+  - <size=60><color=#7FEF2A><swing>Scraffaello</swing></color></size> ? How--
+  - <size=60><color=#7FEF2A><swing>Scraffaello</swing></color></size> ? How--
+  - <wave a=0.5> No Jett!</wave>
   - Too late.
-  - Scravinsky, you can't rule over the human world! You know that!
+  - <wave a=0.5><size=60><color=#7FEF2A><swing>Scravinsky</swing></color></size>,
+    you can't rule over the human world! You know that!</wave>
   - That's something you could have said... if you hadn't lost. Goodbye, dear friend
     !
-  - Wai--
-  - And that's how Scravinsky and the evil spirits of music ruled over the world
-    for 666 days.
-  - Wait, no Scraffaello! Wai--
-  - "It seems like he\u2019s been sent away. Johnny\u2019s back to his senses...
-    but he\u2019s asleep right now. "
-  - 'Scraffaello ? '
-  - 'Yes, that''s my real name. I didn''t want to hide it from you, I just like "Scraffi"
-    more. '
+  - <wave a=0.5>Wai--</wave>
+  - And that's how <size=60><color=#7FEF2A><swing>Scravinsky</swing></color></size>
+    and the evil spirits of music ruled over the world for 666 days.
+  - That's impossible ! I was about to take over the world ! Get my revenge on the
+    other artforms ! <shake>NOOOOOOO !!!</shake>
+  - <shake>I'll be back, <size=60><color=#7FEF2A><swing>Scraffaello</swing></color></size>
+    !!!</shake>
+  - <wave a=0.5>Our <rainb>punk drive</rainb> defeated him, Jett ! <size=60><color=#7FEF2A><swing>Scravinsky</swing></color></size>
+    will no longer harm humans !</wave>
+  - '<size=60><color=#7FEF2A><swing>Scraffaello</swing></color></size> ? '
+  - <wave a=0.5>Yes, that's my real name. I didn't want to hide it from you, I just
+    like "Scraffi" more. </wave>
   - Well, that's okay. We saved the world !
-  - Indeed. Thanks for everything, pal.
+  - <wave a=0.5>Indeed. Thanks for everything, pal.</wave>
   - I should be the one thanking you. Humanity is free now! I'm so happy I don't
     have to dance anymore.
-  - Well, it's a goodbye then. I'm no longer needed here.
+  - <wave a=0.5>Well, it's a goodbye then. I'm no longer needed here.</wave>
   - Thanks again, all the best !
-  - And that's how Scraffaello and Jett Rush saved the world.
-  - Wait, no Scraffaello! Wai--
-  - "It seems like he\u2019s been sent away. Johnny\u2019s back to his senses...
-    but he\u2019s asleep right now. "
-  - 'Scraffaello ? '
-  - Yes, that's my real name. Also, as a thank-you gift for everything you've done
-    for me, I would like you to meet someone.
+  - And that's how <size=60><color=#7FEF2A><swing>Scraffaello</swing></color></size>
+    and <size=60><rainb><bounce>Jett<waitfor=.5> Rush</bounce></rainb></size> saved
+    the world.
+  - That's impossible ! I was about to take over the world ! Get my revenge on the
+    other artforms ! <shake>NOOOOOOO !!!</shake>
+  - <shake>I'll be back, <size=60><color=#7FEF2A><swing>Scraffaello</swing></color></size>
+    !!!</shake>
+  - <wave a=0.5>Our <rainb>punk drive</rainb> defeated him, Jett ! <size=60><color=#7FEF2A><swing>Scravinsky</swing></color></size>
+    will no longer harm humans !</wave>
+  - '<size=60><color=#7FEF2A><swing>Scraffaello</swing></color></size> ? '
+  - <wave a=0.5>Yes, that's my real name. Also, as a thank-you gift for everything
+    you've done for me, I would like you to meet someone.</wave>
   - We saved the world ! Oh, thank you. Where are we going to meet this someone?
-  - Well... We don't have to go anywhere. He's coming to us.
-  - My, my... Hello, Scraffaello!
+  - <wave a=0.5>Well... We don't have to go anywhere. He's coming to us.</wave>
+  - My, my... Hello, <size=60><color=#7FEF2A><swing>Scraffaello</swing></color></size>!
   - Gosh, he's still there !!
-  - Don't worry Jett, he's not Scravinsky, he's the one I wanted you to meet. Let
-    me introduce you to Screonardo, my boss.
+  - <wave a=0.5>Don't worry Jett, he's not <size=60><color=#7FEF2A><swing>Scravinsky</swing></color></size>,
+    he's the one I wanted you to meet. Let me introduce you to <size=60><color=#7FEF2A><swing>Screonardo</swing></color></size>,
+    my boss.</wave>
   - 'So you''re the hero of the Human world! What was it again? Jeff... something? '
-  - 'I''ve already told you: That''s Jett Rush.'
+  - '<wave a=0.5>I''ve already told you: That''s <size=60><rainb><bounce>Jett<waitfor=.5>
+    Rush</bounce></rainb></size>.</wave>'
   - Yes, yes, thank you, Jeff. Thanks to your tagging spree, I can now be here with
     you both! And soon, all our happy friends...
   - Happy friends ?
-  - Yes, all of the painting spirits are ready to join us on the Human world. We'll
-    finally be able to spread the greatest art form!
+  - <wave a=0.5>Yes, all of the <size=60><color=#7FEF2A><swing>painting spirits</swing></color></size>
+    are ready to join us on the Human world. We'll finally be able to spread the
+    greatest art form!</wave>
   - 'Wait... Isn''t that exactly what we were trying to stop ? '
   - Jeff. I'm a bit disappointed by your comments. I thought you were a diligent
     follower of us?
   - I've just saved the world. And I'm ready to do it again. You've got the wrong
     person.
-  - That's a shame! If you'd acted sooner, maybe you could have stopped what's coming.
-    Goodbye, Jett.
-  - 'And that''s how Scraffaello, Screonardo and the painting spirits ruled over
-    the world for 666 days. '
+  - <wave a=0.5>That's a shame! If you'd acted sooner, maybe you could have stopped
+    what's coming. Goodbye, Jett.</wave>
+  - 'And that''s how <size=60><color=#7FEF2A><swing>Scraffaello, Screonardo and the
+    painting spirits</swing></color></size> ruled over the world for 666 days. '
   sDialogueFrench:
   - "<swing>Voil\xE0</swing>. \xC7a, c'est un tag qu'ils ne vont pas oublier."
   - <wave a=0.5>Trop trop classe !</wave>
@@ -623,63 +635,76 @@ MonoBehaviour:
     d'o\xF9 il vient, c'est-\xE0-dire loin du monde des humains. </wave>"
   - "<wave a=0.5>Si on se plante, la musique va dominer toutes les autres formes
     d'art et chaque humain devra danser... jusqu'\xE0 la <shake a=0.2>MORT</shake>.</wave>"
-  - "Ha, donc tu \xE9tais l\xE0 aussi, Scraffaello. Dommage que tu aies choisi un
-    acolyte si faible."
-  - Scraffaello ? Comment--
-  - Non Jett!
+  - "Ha, donc tu \xE9tais l\xE0 aussi, <size=60><color=#7FEF2A><swing>Scraffaello</swing></color></size>.
+    Dommage que tu aies choisi un acolyte si faible."
+  - <size=60><color=#7FEF2A><swing>Scraffaello</swing></color></size> ? Comment--
+  - <wave a=0.5>Non Jett!</wave>
   - Trop tard.
-  - Scravinsky, tu n'as pas le droit de dominer le monde des humains, tu le sais
-    !
+  - <wave a=0.5><size=60><color=#7FEF2A><swing>Scravinsky</swing></color></size>,
+    tu n'as pas le droit de dominer le monde des humains, tu le sais !</wave>
   - C'est quelque chose que t'aurais pu dire... si tu n'avais pas perdu. Au revoir,
     cher ami !
-  - Atten--
-  - "Et c'est ainsi que Scravinsky et les Malins de la musique domin\xE8rent le monde
-    pendant 666 jours."
-  - Attends, non Scraffaello! Atten--
-  - "On dirait qu'il a \xE9t\xE9 renvoy\xE9 chez lui. Johnny est revenu \xE0 la raison...
-    Mais il dort encore."
-  - 'Scraffaello ? '
-  - "Oui, c'est mon vrai nom. Je ne voulais pas te le cacher, personnellement je
-    pr\xE9f\xE8re \"Scraffi\"."
+  - <wave a=0.5>Atten--</wave>
+  - "Et c'est ainsi que <size=60><color=#7FEF2A><swing>Scravinsky</swing></color></size>
+    et les Malins de la musique domin\xE8rent le monde pendant 666 jours."
+  - "C'est impossible ! J'\xE9tais sur le point de r\xE9ussir, de dominer le monde
+    ! Prendre ma revanche sur tous les arts ! <shake>NOOOOOOON !!!</shake>"
+  - <shake>Je reviendrai, <size=60><color=#7FEF2A><swing>Scraffaello</swing></color></size>
+    !!!</shake>
+  - <wave a=0.5>Notre <rainb>esprit punk</rainb> l'a vaincu, Jett ! <size=60><color=#7FEF2A><swing>Scravinsky</swing></color></size>
+    ne fera plus de mal aux humains !</wave>
+  - '<size=60><color=#7FEF2A><swing>Scraffaello</swing></color></size> ? '
+  - "<wave a=0.5>Oui, c'est mon vrai nom. Je ne voulais pas te le cacher, personnellement
+    je pr\xE9f\xE8re \"Scraffi\".</wave>"
   - "Tout va bien. On a sauv\xE9 le monde, apr\xE8s tout !"
-  - En effet, merci pour tout, mon ami.e.
+  - <wave a=0.5>En effet, merci pour tout, mon ami.e.</wave>
   - "Ca devrait plut\xF4t \xEAtre \xE0 moi de te remercier. Les Humains sont libres
     maintenant ! Quelle joie que de ne plus devoir danser."
-  - Allez, c'est un au revoir. On n'a plus besoin de moi ici maintenant.
+  - <wave a=0.5>Allez, c'est un au revoir. On n'a plus besoin de moi ici maintenant.</wave>
   - Merci encore, bonne continuation !
-  - "Et c'est ainsi que Scraffaello et Jett Rush sauv\xE8rent le monde."
-  - Attends, non Scraffaello! Atten--
-  - "On dirait qu'il a \xE9t\xE9 renvoy\xE9 chez lui. Johnny est revenu \xE0 la raison...
-    Mais il dort encore."
-  - 'Scraffaello ? '
-  - "Oui en fait c'est mon nom. Aussi, comme cadeau de remerciement pour tout ce
-    que t'as fait pour moi, j'aimerais te pr\xE9senter \xE0 quelqu'un."
+  - "Et c'est ainsi que <size=60><color=#7FEF2A><swing>Scraffaello</swing></color></size>
+    et <size=60><rainb><bounce>Jett<waitfor=.5> Rush</bounce></rainb></size> sauv\xE8rent
+    le monde."
+  - "C'est impossible ! J'\xE9tais sur le point de r\xE9ussir, de dominer le monde
+    ! Prendre ma revanche sur tous les arts ! <shake>NOOOOOOON !!!</shake>"
+  - <shake>Je reviendrai, <size=60><color=#7FEF2A><swing>Scraffaello</swing></color></size>
+    !!!</shake>
+  - <wave a=0.5>Notre <rainb>esprit punk</rainb> l'a vaincu, Jett ! <size=60><color=#7FEF2A><swing>Scravinsky</swing></color></size>
+    ne fera plus de mal aux humains !</wave>
+  - '<size=60><color=#7FEF2A><swing>Scraffaello</swing></color></size> ? '
+  - "<wave a=0.5>Oui en fait c'est mon nom. Aussi, comme cadeau de remerciement pour
+    tout ce que t'as fait pour moi, j'aimerais te pr\xE9senter \xE0 quelqu'un.</wave>"
   - "Merci \xE0 toi aussi, on n'aurait pas pu sauver le monde sans toi. O\xF9 alons-nous
     donc pour rencontrer ce quelqu'un ? "
-  - "Nulle part... Il va venir \xE0 nous."
-  - Eh ben dis donc. Salut Scraffaello !
+  - "<wave a=0.5>Nulle part... Il va venir \xE0 nous.</wave>"
+  - Eh ben dis donc. Salut <size=60><color=#7FEF2A><swing>Scraffaello</swing></color></size>
+    !
   - "Diable, il est toujours l\xE0!!"
-  - "Ne t'en fais pas Jett, ce n'est pas Scravinsky. C'est la personne que je voulais
-    te pr\xE9senter. Voici Screonardo, mon chef."
+  - "<wave a=0.5>Ne t'en fais pas Jett, ce n'est pas <size=60><color=#7FEF2A><swing>Scravinsky</swing></color></size>.
+    C'est la personne que je voulais te pr\xE9senter. Voici <size=60><color=#7FEF2A><swing>Screonardo</swing></color></size>,
+    mon chef.</wave>"
   - "C'est donc toi le h\xE9ros du monde des Humains ! Comment c'est d\xE9j\xE0 ?
     Jeff... quelque chose ?"
-  - "Je te l'ai d\xE9j\xE0 dit : Jett Rush. "
+  - "<wave a=0.5>Je te l'ai d\xE9j\xE0 dit : <size=60><rainb><bounce>Jett<waitfor=.5>
+    Rush</bounce></rainb></size>. </wave>"
   - "Oui oui, merci beaucoup Jeff. Gr\xE2ce \xE0 ta fr\xE9n\xE9sie du tag, je peux
     \xEAtre ici avec vous deux. Et bient\xF4t tous nos joyeux amis pourront nous
     rejoindre."
   - Joyeux amis ?
-  - "Oui, tous les Malins de la peinture sont pr\xEAts \xE0 rejoindre le monde des
-    Humains. On va enfin pouvoir r\xE9pandre le plus grand de tous les arts !"
+  - "<wave a=0.5>Oui, tous les <size=60><color=#7FEF2A><swing>Malins de la peinture</swing></color></size>
+    sont pr\xEAts \xE0 rejoindre le monde des Humains. On va enfin pouvoir r\xE9pandre
+    le plus grand de tous les arts !</wave>"
   - "Attendez... Est-ce que ce n'est pas exactement ce qu'on essayait d'emp\xEAcher
     ?"
   - "Jeff. Je suis un peu d\xE9\xE7u de tes remarques. Je pensais que tu \xE9tais
     avec nous sinc\xE8rement ?"
   - Je viens tout juste de sauver le monde et je peux recommencer! Je ne suis pas
     la personne que vous croyez.
-  - "Dommage ! Si t'avais fait quelque chose plus t\xF4t, t'aurais peut-\xEAtre pu
-    \xE9viter ce qui arrive. Au revoir, Jett."
-  - "Et c'est ainsi que Scraffaello, Screonardo et les Malins de la peinture domin\xE8rent
-    le monde pendant 666 jours."
+  - "<wave a=0.5>Dommage ! Si t'avais fait quelque chose plus t\xF4t, t'aurais peut-\xEAtre
+    pu \xE9viter ce qui arrive. Au revoir, Jett.</wave>"
+  - "Et c'est ainsi que <size=60><color=#7FEF2A><swing>Scraffaello, Screonardo et
+    les Malins de la peinture</swing></color></size> domin\xE8rent le monde pendant
+    666 jours."
   bWaitNextDialogue: 0
   M_ImageEndings:
   - {fileID: 2100000, guid: 6cb19f14fd4523144b03936d92811e24, type: 2}
@@ -919,7 +944,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 34.75
+  m_fontSize: 33.1
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1781,8 +1806,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 3913073544357672330}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: -0.05, y: 0.8}
-  m_AnchorMax: {x: 0.25, y: 1.1}
+  m_AnchorMin: {x: -0.2, y: 0.8}
+  m_AnchorMax: {x: 0.1, y: 1.1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2006,7 +2031,7 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 7789220785975016686}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMin: {x: 0.3, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
@@ -2671,8 +2696,8 @@ RectTransform:
   - {fileID: 19241887874066969}
   m_Father: {fileID: 8015505184261164506}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.37}
-  m_AnchorMax: {x: 1, y: 0.44}
+  m_AnchorMin: {x: 0.1, y: 0.37}
+  m_AnchorMax: {x: 0.9, y: 0.44}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3088,7 +3113,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 52.1
+  m_fontSize: 42.4
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3616,7 +3641,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1771719604172920210}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -3.5}
+  m_LocalPosition: {x: 0, y: 0, z: -4.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3685,7 +3710,7 @@ RectTransform:
   m_Father: {fileID: 1530635514749866742}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.4, y: 1}
+  m_AnchorMax: {x: 0.3, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -4730,7 +4755,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 34.75
+  m_fontSize: 30.3
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5463,7 +5488,7 @@ RectTransform:
   m_Father: {fileID: 2231486996373022462}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.4, y: 1}
+  m_AnchorMax: {x: 0.3, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -5756,7 +5781,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3414912503258611567}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -2}
+  m_LocalPosition: {x: 0, y: 0, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5916,7 +5941,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32.4
+  m_fontSize: 25.9
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -6008,7 +6033,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3498886556833193360}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -3}
+  m_LocalPosition: {x: 0, y: 0, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6748,7 +6773,7 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2231486996373022462}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMin: {x: 0.3, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
@@ -7117,7 +7142,7 @@ RectTransform:
   - {fileID: 1530635514749866742}
   m_Father: {fileID: 7736478292053387186}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.02, y: 0.02}
+  m_AnchorMin: {x: 0, y: 0.02}
   m_AnchorMax: {x: 0.51, y: 0.55}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
@@ -7414,7 +7439,7 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1530635514749866742}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMin: {x: 0.3, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
@@ -8899,8 +8924,8 @@ RectTransform:
   - {fileID: 1783050575106415149}
   m_Father: {fileID: 8015505184261164506}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.64}
-  m_AnchorMax: {x: 1, y: 0.71}
+  m_AnchorMin: {x: 0.1, y: 0.64}
+  m_AnchorMax: {x: 0.9, y: 0.71}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -10225,7 +10250,7 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 920174051425172042}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMin: {x: 0.3, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
@@ -11069,8 +11094,8 @@ RectTransform:
   - {fileID: 672785110497922805}
   m_Father: {fileID: 8015505184261164506}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.73}
-  m_AnchorMax: {x: 1, y: 0.8}
+  m_AnchorMin: {x: 0.1, y: 0.73}
+  m_AnchorMax: {x: 0.9, y: 0.8}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -11480,7 +11505,7 @@ RectTransform:
   m_Father: {fileID: 920174051425172042}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.4, y: 1}
+  m_AnchorMax: {x: 0.3, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -11690,7 +11715,7 @@ RectTransform:
   m_Father: {fileID: 7789220785975016686}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.4, y: 1}
+  m_AnchorMax: {x: 0.3, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -11975,8 +12000,8 @@ RectTransform:
   - {fileID: 6926543907303840846}
   m_Father: {fileID: 8015505184261164506}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.55}
-  m_AnchorMax: {x: 1, y: 0.62}
+  m_AnchorMin: {x: 0.1, y: 0.55}
+  m_AnchorMax: {x: 0.9, y: 0.62}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -14046,8 +14071,8 @@ RectTransform:
   - {fileID: 3715788017699620620}
   m_Father: {fileID: 8015505184261164506}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.46}
-  m_AnchorMax: {x: 1, y: 0.53}
+  m_AnchorMin: {x: 0.1, y: 0.46}
+  m_AnchorMax: {x: 0.9, y: 0.53}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}

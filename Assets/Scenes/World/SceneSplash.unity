@@ -2650,10 +2650,10 @@ MonoBehaviour:
   scPlayer: {fileID: 0}
   _playerData: {fileID: 0}
   sTextEnglishAndFrench:
-  - Angelo Lamouraux - UI
-  - Angelo Lamouraux - UI
-  sEnglish: Angelo Lamouraux - UI
-  sFrench: Angelo Lamouraux - UI
+  - Angelo Lamouroux - UI
+  - Angelo Lamouroux - UI
+  sEnglish: Angelo Lamouroux - UI
+  sFrench: Angelo Lamouroux - UI
   bIsOnManager: 0
   bIsDifficulty: 0
   bIsToTip: 0
@@ -9520,6 +9520,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _eventSystem: {fileID: 296628935}
+  camUI: {fileID: 0}
   splineContainer: {fileID: 1172163631}
   cars:
   - {fileID: 1842090345}
@@ -11884,10 +11885,10 @@ MonoBehaviour:
   scPlayer: {fileID: 0}
   _playerData: {fileID: 0}
   sTextEnglishAndFrench:
-  - Maggie Louis Fabre Wagner - GPP, GD, LD, ND
-  - Maggie Louis Fabre Wagner - GPP, GD, LD, ND
-  sEnglish: Maggie Louis Fabre Wagner - GPP, GD, LD, ND
-  sFrench: Maggie Louis Fabre Wagner - GPP, GD, LD, ND
+  - Maggie Louis Fabre Wagner - GPP, GD, LD, ND, Project Manager
+  - Maggie Louis Fabre Wagner - GPP, GD, LD, ND, Project Manager
+  sEnglish: Maggie Louis Fabre Wagner - GPP, GD, LD, ND, Project Manager
+  sFrench: Maggie Louis Fabre Wagner - GPP, GD, LD, ND, Project Manager
   bIsOnManager: 0
   bIsDifficulty: 0
   bIsToTip: 0

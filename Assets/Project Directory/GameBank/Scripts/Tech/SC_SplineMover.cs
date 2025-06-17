@@ -9,6 +9,7 @@ using UnityEngine.EventSystems;
 public class SplineTrainMover_WithSpacing : MonoBehaviour
 {
     public EventSystem _eventSystem;
+    public Camera camUI;
     [Header("Spline Settings")]
     public SplineContainer splineContainer;
 
