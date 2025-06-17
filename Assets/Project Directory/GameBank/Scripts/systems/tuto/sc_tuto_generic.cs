@@ -32,7 +32,7 @@ public class sc_tuto_generic : MonoBehaviour
     [SerializeField] private RectTransform[] RtTuto;
     [SerializeField] private RectTransform[] RtParentTuto;
     private int _y = 0;
-    [SerializeField] private bool[] bTuto;
+    public bool[] bTuto;
     [SerializeField] private float[] fTimer;
     private float _ftimer = 0f;
     private bool[] b_;
@@ -74,6 +74,10 @@ public class sc_tuto_generic : MonoBehaviour
     private float iInput = 0;
     private bool bInputMoreTutoOk = false;
 
+    [Header("Loft")]
+    public GameObject GoCanvasArrow;
+    public GameObject gotutoBeat; 
+    public DG.Tweening.Sequence arrowSequence;
     private void Initialized()
     {
         if(!bIsOnLoft)
@@ -111,6 +115,7 @@ public class sc_tuto_generic : MonoBehaviour
             Time.timeScale = 1f;
             cam_Back.Priority = 0;
             scPlayer.menuManager.bGameIsPaused = false;
+            gotutoBeat.SetActive(false);
         }
         else if(bIsOnLoft && scPlayer.menuManager.gameObject.GetComponent<PlayerData>().iLevelPlayer == 0)
         {
@@ -190,7 +195,14 @@ public class sc_tuto_generic : MonoBehaviour
                         bTuto[1] = true;
                         cameraDone = true;
                         _ftimer = 0f;
+                        gotutoBeat.SetActive(false);
                     }
+                }
+
+                //UPDATE
+                if(bIsOnLoft && bTuto[0])
+                {
+                    GoCanvasArrow.transform.Rotate(new Vector3(0,0,1) * 20f * Time.unscaledDeltaTime);
                 }
 
                 //INPUT

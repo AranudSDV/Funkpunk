@@ -477,9 +477,9 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
     }
     private void CheckNearestNote()
     {
-        if(scPlayer!=null)
+        if (scPlayer != null)
         {
-            float x = scPlayer.goNoteRight[0].anchoredPosition.x - scPlayer.goNoteRight[1].anchoredPosition.x;
+            /*float x = scPlayer.goNoteRight[0].anchoredPosition.x - scPlayer.goNoteRight[1].anchoredPosition.x;
             if (x > 0) //La note 1 est plus proche du centre que la 0
             {
                 float x1 = scPlayer.goNoteRight[1].anchoredPosition.x - scPlayer.goNoteRight[2].anchoredPosition.x;
@@ -504,6 +504,7 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
                     iNowNote = 0;
                 }
             }
+        }*/
         }
     }
     private void MusicNotesMovingStart()
@@ -512,13 +513,22 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
         if(scPlayer != null)
         {
             arrowSequence.Kill();
-            arrowSequence = DOTween.Sequence().SetAutoKill(true);
+            arrowSequence = DOTween.Sequence().SetAutoKill(true).SetUpdate(true);
             arrowSequence.Append(scPlayer.GoCanvasArrow.transform.DOScale(1.27f, 2f*FSPB/3f)
-            .SetEase(Ease.OutCirc));
+            .SetEase(Ease.OutCirc)).SetUpdate(true);
             arrowSequence.Append(scPlayer.GoCanvasArrow.transform.DOScale(0.79f, FSPB / 3f)
-            .SetEase(Ease.InExpo));
+            .SetEase(Ease.InExpo)).SetUpdate(true);
+            if (scPlayer!=null && scPlayer.tutoGen!=null&& scPlayer.tutoGen.bIsOnLoft & scPlayer.tutoGen.bTuto[0])
+            {
+                scPlayer.tutoGen.arrowSequence.Kill();
+                scPlayer.tutoGen.arrowSequence = DOTween.Sequence().SetAutoKill(true).SetUpdate(true);
+                scPlayer.tutoGen.arrowSequence.Append(scPlayer.tutoGen.GoCanvasArrow.transform.DOScale(1.27f, 2f * FSPB / 3f)
+                .SetEase(Ease.OutCirc)).SetUpdate(true);
+                scPlayer.tutoGen.arrowSequence.Append(scPlayer.tutoGen.GoCanvasArrow.transform.DOScale(0.79f, FSPB / 3f)
+                .SetEase(Ease.InExpo)).SetUpdate(true);
+            }
         }
-        if (i_B == 1)
+        /*if (i_B == 1)
         {
             scPlayer.goNoteRight[0].anchoredPosition = new Vector2(newPos.x * (1 + 3 * canvas)+ scPlayer.goNoteLeft[0].rect.width / 4f, 0f);
             scPlayer.goNoteRight[0].localScale = new Vector3(1f,1f,1f);
@@ -632,7 +642,7 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
             sequences[2].Join(scPlayer.goNoteLeft[2].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
             sequences[2].Join(scPlayer.goNoteRight[2].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
             i_B = 1;
-        }
+        }*/
     }
     private void CameraRythm(float f_time, float f_max, float f_min)
     {

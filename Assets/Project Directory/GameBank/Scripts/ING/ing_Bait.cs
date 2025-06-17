@@ -42,10 +42,12 @@ public class ing_Bait : MonoBehaviour
     [SerializeField] private GameObject Go_vfx_Impact;
     [SerializeField] private Vector3 fPosBase_impact;
     private ParticleSystem PS_Impact;
+    [SerializeField] private GameObject Go_vfx_impactSound;
+    [SerializeField] private Vector3 fPosBase_impactSound;
     [SerializeField] private VisualEffect PS_impactSound;
     [SerializeField] private GameObject Go_vfxTrail;
     [SerializeField] private Vector3 fPosBase_trail;
-    private ParticleSystem PS_trail;
+    [SerializeField] private VisualEffect PS_trail;
     [SerializeField] private GameObject Go_vfxIdle;
     [SerializeField] private Vector3 fPosBase_idlel;
 
@@ -59,7 +61,6 @@ public class ing_Bait : MonoBehaviour
     {
         yield return new WaitUntil(() => BPM_Manager.instance != null);
         bpmManager = BPM_Manager.instance;
-        PS_trail = Go_vfxTrail.transform.gameObject.GetComponent<ParticleSystem>();
         PS_smash = Go_vfx_Smash.transform.gameObject.GetComponent<ParticleSystem>();
         PS_Impact = Go_vfx_Impact.transform.gameObject.GetComponent<ParticleSystem>();
         PS_impactSound.Stop();
@@ -255,15 +256,17 @@ public class ing_Bait : MonoBehaviour
     }
     private IEnumerator NumImpactVFX(float time)
     {
-        Go_vfx_Impact.transform.localPosition = fPosBase_impact;
-        Go_vfxTrail.transform.localPosition = new Vector3(fPosBase_trail.x, fPosBase_trail.y, fPosBase_trail.z);
+        Go_vfx_Impact.transform.localPosition = fPosBase_impact; 
+        Go_vfx_impactSound.transform.localPosition = fPosBase_impactSound; 
+        Go_vfxTrail.transform.localPosition = fPosBase_trail;
         PS_Impact.Play();
         PS_impactSound.Play();
         yield return new WaitForSeconds(time * 2/5);
         PS_Impact.Stop();
         PS_impactSound.Stop();
         Go_vfx_Impact.transform.localPosition = new Vector3(fPosBase_impact.x, fPosBase_impact.y-50f, fPosBase_impact.z);
-        if(bOnFoe)
+        Go_vfx_impactSound.transform.localPosition = new Vector3(fPosBase_impactSound.x, fPosBase_impactSound.y - 50f, fPosBase_impactSound.z);
+        if (bOnFoe)
         {
             sc_juice.EndNow();
             this.transform.position = new Vector3(0, -50f, 0);
