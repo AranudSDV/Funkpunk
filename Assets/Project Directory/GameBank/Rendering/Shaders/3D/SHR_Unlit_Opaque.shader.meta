@@ -5,6 +5,8 @@ ShaderImporter:
   defaultTextures:
   - _BackTex: {fileID: 2800000, guid: a2754b2f65443a44386b8be4cbeb4603, type: 3}
   - _MidTex: {fileID: 2800000, guid: a60165a5d9819ba4f8003f56ede1e040, type: 3}
+  - _MainTex: {fileID: 2800000, guid: ab8becf6a0e2c12478471704d810806e, type: 3}
+  - _DissolveTex: {fileID: 2800000, guid: 28e2076c06225f24bae099e114eb9cc3, type: 3}
   nonModifiableTextures: []
   userData: 
   assetBundleName: 

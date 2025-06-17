@@ -6,6 +6,7 @@ Shader "SHR_Unlit_Opaque"
 	{
 		[HideInInspector] _AlphaCutoff("Alpha Cutoff ", Range(0, 1)) = 0.5
 		[HideInInspector] _EmissionColor("Emission Color", Color) = (1,1,1,1)
+		_MainTex("MainTex", 2D) = "white" {}
 		[Toggle(_ISNEON_ON)] _IsNeon("IsNeon?", Float) = 0
 		_BackTex("BackTex", 2D) = "white" {}
 		[HDR]_Back("Back", Color) = (0,1,0.7048147,0)
@@ -15,6 +16,8 @@ Shader "SHR_Unlit_Opaque"
 		[HDR]_Back02("Back02", Color) = (0.5519886,0,1,0)
 		[HDR]_Mid02("Mid02", Color) = (0,1,0.9647675,0)
 		[HDR]_Front02("Front02", Color) = (0.6199214,1,0,0)
+		_DissolveTex("DissolveTex", 2D) = "white" {}
+		_ErosionSmoothness("ErosionSmoothness", Range( 1 , 2)) = 1
 		[HideInInspector] _texcoord( "", 2D ) = "white" {}
 
 
@@ -216,6 +219,7 @@ Shader "SHR_Unlit_Opaque"
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
 				float4 ase_texcoord : TEXCOORD0;
+				float4 ase_texcoord1 : TEXCOORD1;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -232,6 +236,7 @@ Shader "SHR_Unlit_Opaque"
 					float fogFactor : TEXCOORD2;
 				#endif
 				float4 ase_texcoord3 : TEXCOORD3;
+				float4 ase_texcoord4 : TEXCOORD4;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
@@ -245,6 +250,9 @@ Shader "SHR_Unlit_Opaque"
 			float4 _Back02;
 			float4 _Mid02;
 			float4 _Front02;
+			float4 _MainTex_ST;
+			float4 _DissolveTex_ST;
+			float _ErosionSmoothness;
 			#ifdef ASE_TESSELLATION
 				float _TessPhongStrength;
 				float _TessValue;
@@ -257,6 +265,8 @@ Shader "SHR_Unlit_Opaque"
 
 			sampler2D _BackTex;
 			sampler2D _MidTex;
+			sampler2D _MainTex;
+			sampler2D _DissolveTex;
 
 
 			
@@ -268,6 +278,7 @@ Shader "SHR_Unlit_Opaque"
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
 				o.ase_texcoord3.xy = v.ase_texcoord.xy;
+				o.ase_texcoord4 = v.ase_texcoord1;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
 				o.ase_texcoord3.zw = 0;
@@ -317,6 +328,7 @@ Shader "SHR_Unlit_Opaque"
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
 				float4 ase_texcoord : TEXCOORD0;
+				float4 ase_texcoord1 : TEXCOORD1;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -335,6 +347,7 @@ Shader "SHR_Unlit_Opaque"
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
 				o.ase_texcoord = v.ase_texcoord;
+				o.ase_texcoord1 = v.ase_texcoord1;
 				return o;
 			}
 
@@ -374,6 +387,7 @@ Shader "SHR_Unlit_Opaque"
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
 				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
+				o.ase_texcoord1 = patch[0].ase_texcoord1 * bary.x + patch[1].ase_texcoord1 * bary.y + patch[2].ase_texcoord1 * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -426,10 +440,17 @@ Shader "SHR_Unlit_Opaque"
 				float4 lerpResult134 = lerp( lerpResult136 , ( tex2DNode144.b * _Front02 ) , tex2DNode144.b);
 				float4 NeonColors159 = lerpResult134;
 				
+				float2 uv_MainTex = IN.ase_texcoord3.xy * _MainTex_ST.xy + _MainTex_ST.zw;
+				float4 tex2DNode186 = tex2D( _MainTex, uv_MainTex );
+				float2 uv_DissolveTex = IN.ase_texcoord3.xy * _DissolveTex_ST.xy + _DissolveTex_ST.zw;
+				float4 tex2DNode187 = tex2D( _DissolveTex, uv_DissolveTex );
+				float4 texCoord197 = IN.ase_texcoord4;
+				texCoord197.xy = IN.ase_texcoord4.xy * float2( 1,1 ) + float2( 0,0 );
+				float smoothstepResult185 = smoothstep( tex2DNode187.r , ( tex2DNode187.r * _ErosionSmoothness ) , texCoord197.x);
 				#ifdef _ISNEON_ON
 				float staticSwitch196 = 1.0;
 				#else
-				float staticSwitch196 = 0.0;
+				float staticSwitch196 = ( tex2DNode186.r * smoothstepResult185 );
 				#endif
 				
 				float3 BakedAlbedo = 0;
@@ -504,7 +525,8 @@ Shader "SHR_Unlit_Opaque"
 			{
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
-				
+				float4 ase_texcoord : TEXCOORD0;
+				float4 ase_texcoord1 : TEXCOORD1;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -517,7 +539,8 @@ Shader "SHR_Unlit_Opaque"
 				#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR) && defined(ASE_NEEDS_FRAG_SHADOWCOORDS)
 				float4 shadowCoord : TEXCOORD1;
 				#endif
-				
+				float4 ase_texcoord2 : TEXCOORD2;
+				float4 ase_texcoord3 : TEXCOORD3;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
@@ -531,6 +554,9 @@ Shader "SHR_Unlit_Opaque"
 			float4 _Back02;
 			float4 _Mid02;
 			float4 _Front02;
+			float4 _MainTex_ST;
+			float4 _DissolveTex_ST;
+			float _ErosionSmoothness;
 			#ifdef ASE_TESSELLATION
 				float _TessPhongStrength;
 				float _TessValue;
@@ -541,7 +567,9 @@ Shader "SHR_Unlit_Opaque"
 			#endif
 			CBUFFER_END
 
-			
+			sampler2D _MainTex;
+			sampler2D _DissolveTex;
+
 
 			
 			VertexOutput VertexFunction( VertexInput v  )
@@ -551,7 +579,11 @@ Shader "SHR_Unlit_Opaque"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
+				o.ase_texcoord2.xy = v.ase_texcoord.xy;
+				o.ase_texcoord3 = v.ase_texcoord1;
 				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				o.ase_texcoord2.zw = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
@@ -591,7 +623,9 @@ Shader "SHR_Unlit_Opaque"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
-				
+				float4 ase_texcoord : TEXCOORD0;
+				float4 ase_texcoord1 : TEXCOORD1;
+
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -608,7 +642,8 @@ Shader "SHR_Unlit_Opaque"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
-				
+				o.ase_texcoord = v.ase_texcoord;
+				o.ase_texcoord1 = v.ase_texcoord1;
 				return o;
 			}
 
@@ -647,7 +682,8 @@ Shader "SHR_Unlit_Opaque"
 				VertexInput o = (VertexInput) 0;
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
-				
+				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
+				o.ase_texcoord1 = patch[0].ase_texcoord1 * bary.x + patch[1].ase_texcoord1 * bary.y + patch[2].ase_texcoord1 * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -684,10 +720,17 @@ Shader "SHR_Unlit_Opaque"
 					#endif
 				#endif
 
+				float2 uv_MainTex = IN.ase_texcoord2.xy * _MainTex_ST.xy + _MainTex_ST.zw;
+				float4 tex2DNode186 = tex2D( _MainTex, uv_MainTex );
+				float2 uv_DissolveTex = IN.ase_texcoord2.xy * _DissolveTex_ST.xy + _DissolveTex_ST.zw;
+				float4 tex2DNode187 = tex2D( _DissolveTex, uv_DissolveTex );
+				float4 texCoord197 = IN.ase_texcoord3;
+				texCoord197.xy = IN.ase_texcoord3.xy * float2( 1,1 ) + float2( 0,0 );
+				float smoothstepResult185 = smoothstep( tex2DNode187.r , ( tex2DNode187.r * _ErosionSmoothness ) , texCoord197.x);
 				#ifdef _ISNEON_ON
 				float staticSwitch196 = 1.0;
 				#else
-				float staticSwitch196 = 0.0;
+				float staticSwitch196 = ( tex2DNode186.r * smoothstepResult185 );
 				#endif
 				
 
@@ -745,14 +788,16 @@ Shader "SHR_Unlit_Opaque"
 			{
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
-				
+				float4 ase_texcoord : TEXCOORD0;
+				float4 ase_texcoord1 : TEXCOORD1;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
 			struct VertexOutput
 			{
 				float4 clipPos : SV_POSITION;
-				
+				float4 ase_texcoord : TEXCOORD0;
+				float4 ase_texcoord1 : TEXCOORD1;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
@@ -766,6 +811,9 @@ Shader "SHR_Unlit_Opaque"
 			float4 _Back02;
 			float4 _Mid02;
 			float4 _Front02;
+			float4 _MainTex_ST;
+			float4 _DissolveTex_ST;
+			float _ErosionSmoothness;
 			#ifdef ASE_TESSELLATION
 				float _TessPhongStrength;
 				float _TessValue;
@@ -776,7 +824,9 @@ Shader "SHR_Unlit_Opaque"
 			#endif
 			CBUFFER_END
 
-			
+			sampler2D _MainTex;
+			sampler2D _DissolveTex;
+
 
 			
 			int _ObjectId;
@@ -797,7 +847,11 @@ Shader "SHR_Unlit_Opaque"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
+				o.ase_texcoord.xy = v.ase_texcoord.xy;
+				o.ase_texcoord1 = v.ase_texcoord1;
 				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				o.ase_texcoord.zw = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
@@ -826,7 +880,9 @@ Shader "SHR_Unlit_Opaque"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
-				
+				float4 ase_texcoord : TEXCOORD0;
+				float4 ase_texcoord1 : TEXCOORD1;
+
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -843,7 +899,8 @@ Shader "SHR_Unlit_Opaque"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
-				
+				o.ase_texcoord = v.ase_texcoord;
+				o.ase_texcoord1 = v.ase_texcoord1;
 				return o;
 			}
 
@@ -882,7 +939,8 @@ Shader "SHR_Unlit_Opaque"
 				VertexInput o = (VertexInput) 0;
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
-				
+				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
+				o.ase_texcoord1 = patch[0].ase_texcoord1 * bary.x + patch[1].ase_texcoord1 * bary.y + patch[2].ase_texcoord1 * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -904,10 +962,17 @@ Shader "SHR_Unlit_Opaque"
 			{
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 
+				float2 uv_MainTex = IN.ase_texcoord.xy * _MainTex_ST.xy + _MainTex_ST.zw;
+				float4 tex2DNode186 = tex2D( _MainTex, uv_MainTex );
+				float2 uv_DissolveTex = IN.ase_texcoord.xy * _DissolveTex_ST.xy + _DissolveTex_ST.zw;
+				float4 tex2DNode187 = tex2D( _DissolveTex, uv_DissolveTex );
+				float4 texCoord197 = IN.ase_texcoord1;
+				texCoord197.xy = IN.ase_texcoord1.xy * float2( 1,1 ) + float2( 0,0 );
+				float smoothstepResult185 = smoothstep( tex2DNode187.r , ( tex2DNode187.r * _ErosionSmoothness ) , texCoord197.x);
 				#ifdef _ISNEON_ON
 				float staticSwitch196 = 1.0;
 				#else
-				float staticSwitch196 = 0.0;
+				float staticSwitch196 = ( tex2DNode186.r * smoothstepResult185 );
 				#endif
 				
 
@@ -965,14 +1030,16 @@ Shader "SHR_Unlit_Opaque"
 			{
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
-				
+				float4 ase_texcoord : TEXCOORD0;
+				float4 ase_texcoord1 : TEXCOORD1;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
 			struct VertexOutput
 			{
 				float4 clipPos : SV_POSITION;
-				
+				float4 ase_texcoord : TEXCOORD0;
+				float4 ase_texcoord1 : TEXCOORD1;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
@@ -986,6 +1053,9 @@ Shader "SHR_Unlit_Opaque"
 			float4 _Back02;
 			float4 _Mid02;
 			float4 _Front02;
+			float4 _MainTex_ST;
+			float4 _DissolveTex_ST;
+			float _ErosionSmoothness;
 			#ifdef ASE_TESSELLATION
 				float _TessPhongStrength;
 				float _TessValue;
@@ -996,7 +1066,9 @@ Shader "SHR_Unlit_Opaque"
 			#endif
 			CBUFFER_END
 
-			
+			sampler2D _MainTex;
+			sampler2D _DissolveTex;
+
 
 			
 			float4 _SelectionID;
@@ -1017,7 +1089,11 @@ Shader "SHR_Unlit_Opaque"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
+				o.ase_texcoord.xy = v.ase_texcoord.xy;
+				o.ase_texcoord1 = v.ase_texcoord1;
 				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				o.ase_texcoord.zw = 0;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
 				#else
@@ -1041,7 +1117,9 @@ Shader "SHR_Unlit_Opaque"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
-				
+				float4 ase_texcoord : TEXCOORD0;
+				float4 ase_texcoord1 : TEXCOORD1;
+
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1058,7 +1136,8 @@ Shader "SHR_Unlit_Opaque"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
-				
+				o.ase_texcoord = v.ase_texcoord;
+				o.ase_texcoord1 = v.ase_texcoord1;
 				return o;
 			}
 
@@ -1097,7 +1176,8 @@ Shader "SHR_Unlit_Opaque"
 				VertexInput o = (VertexInput) 0;
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
-				
+				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
+				o.ase_texcoord1 = patch[0].ase_texcoord1 * bary.x + patch[1].ase_texcoord1 * bary.y + patch[2].ase_texcoord1 * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -1119,10 +1199,17 @@ Shader "SHR_Unlit_Opaque"
 			{
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 
+				float2 uv_MainTex = IN.ase_texcoord.xy * _MainTex_ST.xy + _MainTex_ST.zw;
+				float4 tex2DNode186 = tex2D( _MainTex, uv_MainTex );
+				float2 uv_DissolveTex = IN.ase_texcoord.xy * _DissolveTex_ST.xy + _DissolveTex_ST.zw;
+				float4 tex2DNode187 = tex2D( _DissolveTex, uv_DissolveTex );
+				float4 texCoord197 = IN.ase_texcoord1;
+				texCoord197.xy = IN.ase_texcoord1.xy * float2( 1,1 ) + float2( 0,0 );
+				float smoothstepResult185 = smoothstep( tex2DNode187.r , ( tex2DNode187.r * _ErosionSmoothness ) , texCoord197.x);
 				#ifdef _ISNEON_ON
 				float staticSwitch196 = 1.0;
 				#else
-				float staticSwitch196 = 0.0;
+				float staticSwitch196 = ( tex2DNode186.r * smoothstepResult185 );
 				#endif
 				
 
@@ -1193,7 +1280,8 @@ Shader "SHR_Unlit_Opaque"
 			{
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
-				
+				float4 ase_texcoord : TEXCOORD0;
+				float4 ase_texcoord1 : TEXCOORD1;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1201,7 +1289,8 @@ Shader "SHR_Unlit_Opaque"
 			{
 				float4 clipPos : SV_POSITION;
 				float3 normalWS : TEXCOORD0;
-				
+				float4 ase_texcoord1 : TEXCOORD1;
+				float4 ase_texcoord2 : TEXCOORD2;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
@@ -1215,6 +1304,9 @@ Shader "SHR_Unlit_Opaque"
 			float4 _Back02;
 			float4 _Mid02;
 			float4 _Front02;
+			float4 _MainTex_ST;
+			float4 _DissolveTex_ST;
+			float _ErosionSmoothness;
 			#ifdef ASE_TESSELLATION
 				float _TessPhongStrength;
 				float _TessValue;
@@ -1225,7 +1317,9 @@ Shader "SHR_Unlit_Opaque"
 			#endif
 			CBUFFER_END
 
-			
+			sampler2D _MainTex;
+			sampler2D _DissolveTex;
+
 
 			
 			struct SurfaceDescription
@@ -1243,7 +1337,11 @@ Shader "SHR_Unlit_Opaque"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
+				o.ase_texcoord1.xy = v.ase_texcoord.xy;
+				o.ase_texcoord2 = v.ase_texcoord1;
 				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				o.ase_texcoord1.zw = 0;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
 				#else
@@ -1274,7 +1372,9 @@ Shader "SHR_Unlit_Opaque"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
-				
+				float4 ase_texcoord : TEXCOORD0;
+				float4 ase_texcoord1 : TEXCOORD1;
+
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1291,7 +1391,8 @@ Shader "SHR_Unlit_Opaque"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
-				
+				o.ase_texcoord = v.ase_texcoord;
+				o.ase_texcoord1 = v.ase_texcoord1;
 				return o;
 			}
 
@@ -1330,7 +1431,8 @@ Shader "SHR_Unlit_Opaque"
 				VertexInput o = (VertexInput) 0;
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
-				
+				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
+				o.ase_texcoord1 = patch[0].ase_texcoord1 * bary.x + patch[1].ase_texcoord1 * bary.y + patch[2].ase_texcoord1 * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -1357,10 +1459,17 @@ Shader "SHR_Unlit_Opaque"
 			{
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 
+				float2 uv_MainTex = IN.ase_texcoord1.xy * _MainTex_ST.xy + _MainTex_ST.zw;
+				float4 tex2DNode186 = tex2D( _MainTex, uv_MainTex );
+				float2 uv_DissolveTex = IN.ase_texcoord1.xy * _DissolveTex_ST.xy + _DissolveTex_ST.zw;
+				float4 tex2DNode187 = tex2D( _DissolveTex, uv_DissolveTex );
+				float4 texCoord197 = IN.ase_texcoord2;
+				texCoord197.xy = IN.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
+				float smoothstepResult185 = smoothstep( tex2DNode187.r , ( tex2DNode187.r * _ErosionSmoothness ) , texCoord197.x);
 				#ifdef _ISNEON_ON
 				float staticSwitch196 = 1.0;
 				#else
-				float staticSwitch196 = 0.0;
+				float staticSwitch196 = ( tex2DNode186.r * smoothstepResult185 );
 				#endif
 				
 
@@ -1490,7 +1599,6 @@ Node;AmplifyShaderEditor.WireNode;180;-4037.694,-4391.351;Inherit;False;1;0;FLOA
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;171;-3987.268,-4418.79;Inherit;True;2;2;0;FLOAT;0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.LerpOp;129;-3748.918,-4440.151;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SamplerNode;145;-4740.545,-4443.2;Inherit;True;Property;_BackTex;BackTex;11;0;Create;True;0;0;0;False;0;False;-1;a2754b2f65443a44386b8be4cbeb4603;a2754b2f65443a44386b8be4cbeb4603;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;1147.961,-936.7804;Float;False;True;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;13;SHR_Unlit_Opaque;2992e84f91cbeb14eab234972e07ea9d;True;Forward;0;1;Forward;8;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Unlit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;1;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForwardOnly;False;False;0;;0;0;Standard;23;Surface;0;638837851146509786;  Blend;0;0;Two Sided;1;638833759080347660;Forward Only;0;0;Cast Shadows;0;638833585900466321;  Use Shadow Threshold;0;0;Receive Shadows;1;0;GPU Instancing;1;0;LOD CrossFade;0;0;Built-in Fog;1;638847210766698160;DOTS Instancing;0;0;Meta Pass;0;0;Extra Pre Pass;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Vertex Position,InvertActionOnDeselection;1;0;0;10;False;True;False;True;False;False;True;True;True;False;False;;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;2;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;13;New Amplify Shader;2992e84f91cbeb14eab234972e07ea9d;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Unlit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;3;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;13;New Amplify Shader;2992e84f91cbeb14eab234972e07ea9d;True;DepthOnly;0;3;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Unlit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;True;1;LightMode=DepthOnly;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;4;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;13;New Amplify Shader;2992e84f91cbeb14eab234972e07ea9d;True;Meta;0;4;Meta;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Unlit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;False;0;;0;0;Standard;0;False;0
@@ -1501,27 +1609,29 @@ Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;8;0,0;Float;False;False;-1;
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;9;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;13;New Amplify Shader;2992e84f91cbeb14eab234972e07ea9d;True;DepthNormalsOnly;0;9;DepthNormalsOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Unlit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=DepthNormalsOnly;False;True;9;d3d11;metal;vulkan;xboxone;xboxseries;playstation;ps4;ps5;switch;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.GetLocalVarNode;161;578.8422,-894.2123;Inherit;False;159;NeonColors;1;0;OBJECT;;False;1;COLOR;0
 Node;AmplifyShaderEditor.StaticSwitch;195;834.5934,-1017.561;Inherit;False;Property;_NeonsOrVFX1;NeonsOrVFX;8;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Reference;84;True;True;All;9;1;COLOR;0,0,0,0;False;0;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;5;COLOR;0,0,0,0;False;6;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;169;601.9983,-779.9273;Inherit;False;Constant;_Float3;Float 3;24;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.StaticSwitch;196;793.3818,-832.863;Inherit;False;Property;_NeonsOrVFX2;NeonsOrVFX;8;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Reference;84;True;True;All;9;1;FLOAT;0;False;0;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT;0;False;7;FLOAT;0;False;8;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SamplerNode;186;-727.517,-1274.083;Inherit;True;Property;_TextureSample0;Texture Sample 0;3;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Instance;72;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.ColorNode;193;-698.5488,-1021.2;Inherit;False;Constant;_Color1;Color 1;22;0;Create;True;0;0;0;False;0;False;1,0,0,0;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;192;-315.3157,-1435.965;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.RangedFloatNode;201;-207.871,-1219.595;Inherit;False;Constant;_Float4;Float 4;23;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.TextureCoordinatesNode;203;-128.1378,-1437.995;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SmoothstepOpNode;185;-526.7311,-169.824;Inherit;True;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SamplerNode;187;-936.6592,-185.6424;Inherit;True;Property;_DissolveTex;DissolveTex;21;0;Create;True;0;0;0;False;0;False;-1;28e2076c06225f24bae099e114eb9cc3;28e2076c06225f24bae099e114eb9cc3;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.TextureCoordinatesNode;197;-1047.417,27.66749;Inherit;False;1;-1;4;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;188;-685.302,69.38612;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.WireNode;198;-645.0928,-0.6645565;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;189;-1046.754,198.1449;Inherit;False;Property;_ErosionSmoothness;ErosionSmoothness;22;0;Create;True;0;0;0;False;0;False;1.396977;1.396977;1;2;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;191;-296.1136,-219.7225;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.ParallaxMappingNode;205;57.6906,-808.368;Inherit;True;Normal;4;0;FLOAT2;0,0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT3;0,0,0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.ParallaxMappingNode;206;72.04074,-517.2678;Inherit;True;Normal;4;0;FLOAT2;0,0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT3;0,0,0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.RangedFloatNode;204;-134.1603,-1117.317;Inherit;False;Constant;_Float5;Float 5;23;0;Create;True;0;0;0;False;0;False;-2.68;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.ParallaxMappingNode;202;47.79564,-1156.705;Inherit;True;Planar;4;0;FLOAT2;0,0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT3;0,0,0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.ViewDirInputsCoordNode;207;-173.3704,-1050.769;Inherit;False;World;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.RangedFloatNode;208;-128.3735,-754.0524;Inherit;False;Constant;_Float6;Float 6;23;0;Create;True;0;0;0;False;0;False;-1.95;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;209;-82.59534,-454.9531;Inherit;False;Constant;_Float7;Float 7;23;0;Create;True;0;0;0;False;0;False;-5.99;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.StaticSwitch;196;812.0641,-423.0779;Inherit;False;Property;_NeonsOrVFX2;NeonsOrVFX;8;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Reference;84;True;True;All;9;1;FLOAT;0;False;0;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT;0;False;7;FLOAT;0;False;8;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;169;638.665,-268.594;Inherit;False;Constant;_Float3;Float 3;24;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.ViewDirInputsCoordNode;207;-707.9492,-832.0267;Inherit;False;World;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.ParallaxMappingNode;205;280.8968,-892.0701;Inherit;True;Normal;4;0;FLOAT2;0,0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT3;0,0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.WireNode;210;4.522034,-863.1707;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.ParallaxMappingNode;206;554.1659,-644.4955;Inherit;True;Normal;4;0;FLOAT2;0,0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT3;0,0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.WireNode;211;198.7115,-749.3355;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.SamplerNode;186;-784.4346,-1317.608;Inherit;True;Property;_TextureSample0;Texture Sample 0;3;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Instance;72;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;1192.177,-853.0016;Float;False;True;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;13;SHR_Unlit_Opaque;2992e84f91cbeb14eab234972e07ea9d;True;Forward;0;1;Forward;8;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Unlit;True;5;True;12;all;0;False;True;1;1;False;;0;False;;1;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForwardOnly;False;False;0;;0;0;Standard;23;Surface;0;638837851146509786;  Blend;0;0;Two Sided;1;638833759080347660;Forward Only;0;0;Cast Shadows;0;638833585900466321;  Use Shadow Threshold;0;0;Receive Shadows;1;0;GPU Instancing;1;0;LOD CrossFade;0;0;Built-in Fog;1;638847210766698160;DOTS Instancing;0;0;Meta Pass;0;0;Extra Pre Pass;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Vertex Position,InvertActionOnDeselection;1;0;0;10;False;True;False;True;False;False;True;True;True;False;False;;False;0
+Node;AmplifyShaderEditor.SamplerNode;187;-1142.562,-188.3697;Inherit;True;Property;_DissolveTex;DissolveTex;21;0;Create;True;0;0;0;False;0;False;-1;28e2076c06225f24bae099e114eb9cc3;28e2076c06225f24bae099e114eb9cc3;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;191;-317.9311,-432.4434;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SmoothstepOpNode;185;-652.1819,-190.2779;Inherit;True;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TextureCoordinatesNode;197;-1083.39,-345.5943;Inherit;False;1;-1;4;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;188;-827.7213,-20.09303;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;189;-1155.841,-2.303578;Inherit;False;Property;_ErosionSmoothness;ErosionSmoothness;22;0;Create;True;0;0;0;False;0;False;1;1.396977;1;2;0;1;FLOAT;0
 WireConnection;130;0;173;0
 WireConnection;130;1;174;0
 WireConnection;130;2;182;0
@@ -1608,31 +1718,33 @@ WireConnection;171;0;145;1
 WireConnection;171;1;148;0
 WireConnection;129;1;171;0
 WireConnection;129;2;180;0
-WireConnection;1;2;161;0
-WireConnection;1;3;196;0
 WireConnection;195;0;161;0
-WireConnection;196;0;169;0
 WireConnection;192;0;186;0
 WireConnection;192;1;193;0
-WireConnection;185;0;187;1
-WireConnection;185;1;198;0
-WireConnection;185;2;188;0
-WireConnection;188;0;197;1
-WireConnection;188;1;189;0
-WireConnection;198;0;197;1
-WireConnection;191;0;186;1
-WireConnection;191;1;185;0
+WireConnection;202;0;203;0
+WireConnection;202;1;186;1
+WireConnection;202;2;204;0
+WireConnection;202;3;210;0
+WireConnection;196;1;191;0
+WireConnection;196;0;169;0
 WireConnection;205;0;202;0
 WireConnection;205;1;186;2
 WireConnection;205;2;208;0
 WireConnection;205;3;207;0
+WireConnection;210;0;207;0
 WireConnection;206;0;205;0
 WireConnection;206;1;186;3
 WireConnection;206;2;209;0
-WireConnection;206;3;207;0
-WireConnection;202;0;203;0
-WireConnection;202;1;186;1
-WireConnection;202;2;204;0
-WireConnection;202;3;207;0
+WireConnection;206;3;211;0
+WireConnection;211;0;207;0
+WireConnection;1;2;161;0
+WireConnection;1;3;196;0
+WireConnection;191;0;186;1
+WireConnection;191;1;185;0
+WireConnection;185;0;197;1
+WireConnection;185;1;187;1
+WireConnection;185;2;188;0
+WireConnection;188;0;187;1
+WireConnection;188;1;189;0
 ASEEND*/
-//CHKSM=7B20802DF220CCC0BAF92937031728A04154F5E8
+//CHKSM=A7CD9E1F6BE83E215802C382744892FDAB226924

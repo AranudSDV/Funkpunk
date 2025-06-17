@@ -1,30 +1,27 @@
 using UnityEngine;
 
-public class TiredLight : MonoBehaviour
+public class LightFlickering : MonoBehaviour
 {
     public Light targetLight;
-    public float minDelay = 0.05f;
-    public float maxDelay = 0.3f;
-    public float minIntensity = 0f;
-    public float maxIntensity = 1f;
+    public float fMinIntensity = 0f;
+    public float fMaxIntensity = 1f;
+    private float fBeatValue = 0f;
+
+    private BPM_Manager manager;
 
     private void Start()
     {
-        if (targetLight == null)
-            targetLight = GetComponent<Light>();
-
-        StartCoroutine(Flicker());
+        manager = FindObjectOfType<BPM_Manager>();
     }
 
-    private System.Collections.IEnumerator Flicker()
+    private void Update()
     {
-        while (true)
-        {
-            // Random delay between flickers
-            float delay = Random.Range(minDelay, maxDelay);
-            // Random intensity to simulate tired flickering
-            targetLight.intensity = Random.Range(minIntensity, maxIntensity);
-            yield return new WaitForSeconds(delay);
-        }
+        Flickering();
+    }
+
+    private void Flickering()
+    {
+        fBeatValue = manager.fProgressBPM;
+        targetLight.intensity = Mathf.Lerp(fMinIntensity, fMaxIntensity, fBeatValue);
     }
 }
