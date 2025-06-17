@@ -681,6 +681,10 @@ MonoBehaviour:
   - "Et c'est ainsi que Scraffaello, Screonardo et les Malins de la peinture domin\xE8rent
     le monde pendant 666 jours."
   bWaitNextDialogue: 0
+  M_ImageEndings:
+  - {fileID: 2100000, guid: 6cb19f14fd4523144b03936d92811e24, type: 2}
+  - {fileID: 2100000, guid: 6b0269b37463b8141a83abcfe0b130b5, type: 2}
+  imageEnding: {fileID: 7662670799264266635}
   sSceneToLoad: Scenes/World/GameChoose
   progressBar: {fileID: 5376875976944638836}
   loadingScreen: {fileID: 815679502645142706}
@@ -5814,7 +5818,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3414912503258611567}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0

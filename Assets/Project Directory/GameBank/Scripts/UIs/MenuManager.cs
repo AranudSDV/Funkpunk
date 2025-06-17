@@ -156,6 +156,8 @@ public class MenuManager : SingletonManager<MenuManager>
     [SerializeField] private string[] sDialogueFrench;
     public bool bWaitNextDialogue = false;
     private int iLevelDialogue;
+    [SerializeField] private Material[] M_ImageEndings;
+    [SerializeField] private UnityEngine.UI.Image imageEnding;
 
     //SCENE LOADING
     [Header("Loading Scene")]
