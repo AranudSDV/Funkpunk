@@ -316,7 +316,7 @@ PrefabInstance:
     - target: {fileID: 8124240449143178172, guid: ffe3a61cd779f284abd783b4ba851c4f,
         type: 3}
       propertyPath: m_VersionIndex
-      value: 380
+      value: 383
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -11213,6 +11213,16 @@ PrefabInstance:
       propertyPath: scPlayer
       value: 
       objectReference: {fileID: 460384137}
+    - target: {fileID: 8380616986897221816, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.y
+      value: -49.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380616986897221816, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.z
+      value: 12.598
+      objectReference: {fileID: 0}
     - target: {fileID: 9117980191710069764, guid: 481679da37c5830468e32f02138b149a,
         type: 3}
       propertyPath: Loop
@@ -33379,12 +33389,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &700393078 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2909813038032978573, guid: 481679da37c5830468e32f02138b149a,
-    type: 3}
-  m_PrefabInstance: {fileID: 1191068190}
-  m_PrefabAsset: {fileID: 0}
 --- !u!43 &701590042
 Mesh:
   m_ObjectHideFlags: 0
@@ -51255,7 +51259,7 @@ PrefabInstance:
         type: 3}
       propertyPath: Go_vfxTrail
       value: 
-      objectReference: {fileID: 700393078}
+      objectReference: {fileID: 0}
     - target: {fileID: 4689554887212002435, guid: 481679da37c5830468e32f02138b149a,
         type: 3}
       propertyPath: b_BeenThrown
@@ -51286,6 +51290,21 @@ PrefabInstance:
       propertyPath: scPlayer
       value: 
       objectReference: {fileID: 460384137}
+    - target: {fileID: 8380616986897221816, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.x
+      value: -5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380616986897221816, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.y
+      value: -49.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380616986897221816, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.z
+      value: -6.393998
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -51471,7 +51490,7 @@ PrefabInstance:
     - target: {fileID: 8124240449143178172, guid: ffe3a61cd779f284abd783b4ba851c4f,
         type: 3}
       propertyPath: m_VersionIndex
-      value: 380
+      value: 383
       objectReference: {fileID: 0}
     - target: {fileID: 9134805210191056752, guid: ffe3a61cd779f284abd783b4ba851c4f,
         type: 3}
@@ -68796,7 +68815,7 @@ VisualEffect:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1472758949}
   m_Enabled: 1
-  m_Asset: {fileID: 8926484042661614526, guid: 5d8b446a6aa60ac4ab02427449daca2d, type: 3}
+  m_Asset: {fileID: 0}
   m_InitialEventName: OnPlay
   m_InitialEventNameOverriden: 0
   m_StartSeed: 0
@@ -68944,6 +68963,21 @@ PrefabInstance:
       propertyPath: scPlayer
       value: 
       objectReference: {fileID: 460384137}
+    - target: {fileID: 8380616986897221816, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.x
+      value: 22.029999
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380616986897221816, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.y
+      value: -49.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380616986897221816, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.z
+      value: 7.656
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -69058,6 +69092,21 @@ PrefabInstance:
       propertyPath: scPlayer
       value: 
       objectReference: {fileID: 460384137}
+    - target: {fileID: 8380616986897221816, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.x
+      value: 6.87
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380616986897221816, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.y
+      value: -49.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380616986897221816, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.z
+      value: -5.3640003
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -69620,7 +69669,7 @@ MonoBehaviour:
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
-  m_Antialiasing: 0
+  m_Antialiasing: 2
   m_AntialiasingQuality: 2
   m_StopNaN: 0
   m_Dithering: 0
@@ -70489,6 +70538,21 @@ PrefabInstance:
       propertyPath: scPlayer
       value: 
       objectReference: {fileID: 460384137}
+    - target: {fileID: 8380616986897221816, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.x
+      value: -2.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380616986897221816, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.y
+      value: -49.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380616986897221816, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.z
+      value: 2.2460003
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -70992,7 +71056,7 @@ PrefabInstance:
     - target: {fileID: 8124240449143178172, guid: ffe3a61cd779f284abd783b4ba851c4f,
         type: 3}
       propertyPath: m_VersionIndex
-      value: 380
+      value: 383
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -98019,6 +98083,21 @@ PrefabInstance:
       propertyPath: scPlayer
       value: 
       objectReference: {fileID: 460384137}
+    - target: {fileID: 8380616986897221816, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.x
+      value: -5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380616986897221816, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.y
+      value: -49.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380616986897221816, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.z
+      value: -8.393998
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -119490,7 +119569,7 @@ PrefabInstance:
     - target: {fileID: 8124240449143178172, guid: ffe3a61cd779f284abd783b4ba851c4f,
         type: 3}
       propertyPath: m_VersionIndex
-      value: 380
+      value: 383
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -119520,6 +119599,8 @@ MonoBehaviour:
   bBossTag: 0
   iCompletition: 0
   vfx_completition: {fileID: 128377203}
+  go_completition: {fileID: 0}
+  vect_completition: {x: 0, y: 0, z: 0}
   bBossDoorTag: 0
   boxColliderBoss: {fileID: 0}
   goBossDoor: {fileID: 0}
@@ -119528,7 +119609,11 @@ MonoBehaviour:
   decalProj: {fileID: 6932983834524348720}
   PS_Sound: []
   PS_SoundShot: []
+  Go_SoundShot: []
+  vect_base_soundShot: []
   PS_SoundWaveStun: {fileID: 0}
+  Go_SoundWaveStun: {fileID: 0}
+  vect_base_soundWaveStun: {x: 0, y: 0, z: 0}
 --- !u!1001 &9151485215247816189
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -40,16 +40,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 111d309e6a3de2a47808284d2580459a, type: 3}
   m_Name: cs_BloomHiJack
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   threshold:
     m_OverrideState: 1
-    m_Value: 0.7
+    m_Value: 0.4
   intensity:
     m_OverrideState: 1
     m_Value: 1
   scatter:
     m_OverrideState: 1
-    m_Value: 0.5
+    m_Value: 0
   clamp:
     m_OverrideState: 0
     m_Value: 65472
@@ -65,47 +65,6 @@ MonoBehaviour:
     m_Value: 80
   Cutoff:
     m_OverrideState: 0
-    m_Value: 0.4
-  scrollDirection:
-    m_OverrideState: 0
-    m_Value: {x: 0, y: 0}
---- !u!114 &-2685925924248541157
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e04d8769a4ef0754a9c2dbc2f5c08390, type: 3}
-  m_Name: BenDayBloomEffectComponent
-  m_EditorClassIdentifier: 
-  active: 1
-  threshold:
-    m_OverrideState: 1
-    m_Value: 0.16
-  intensity:
-    m_OverrideState: 1
-    m_Value: 0.6
-  scatter:
-    m_OverrideState: 1
-    m_Value: 1
-  clamp:
-    m_OverrideState: 1
-    m_Value: 65472
-  maxIterations:
-    m_OverrideState: 1
-    m_Value: 5
-  tint:
-    m_OverrideState: 0
-    m_Value: {r: 1, g: 1, b: 1, a: 1}
-    hdr: 0
-  dotsDensity:
-    m_OverrideState: 1
-    m_Value: 60
-  dotsCutoff:
-    m_OverrideState: 1
     m_Value: 0.4
   scrollDirection:
     m_OverrideState: 0
@@ -150,7 +109,6 @@ MonoBehaviour:
   - {fileID: 3500227186193751258}
   - {fileID: -2185737997073290780}
   - {fileID: -8419423657264052572}
-  - {fileID: -2685925924248541157}
 --- !u!114 &2060177552154037148
 MonoBehaviour:
   m_ObjectHideFlags: 3
