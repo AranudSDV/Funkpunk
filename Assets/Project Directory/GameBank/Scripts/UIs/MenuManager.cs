@@ -249,7 +249,7 @@ public class MenuManager : SingletonManager<MenuManager>
         bpmManager.bInitialized[0] = false;
         bpmManager.bInitialized[1] = false;
 
-        SetMusicVolume();
+        SetMusicVolume(0f);
         SetSFXVolume();
     }
     // Update is called once per frame
@@ -1298,30 +1298,55 @@ public class MenuManager : SingletonManager<MenuManager>
 #endif
         Application.Quit();
     }
-    public void SetMusicVolume()
+    public void SetMusicVolume(float fChanger)
     {
-        playerMusicVolume = MusicSlider.value;
-        if (!music_VCA.isValid())
+        if(fChanger==0f)
         {
-            Debug.LogWarning("VCA is not valid! Check FMOD path.");
-            music_VCA = FMODUnity.RuntimeManager.GetVCA("vca:/Music_basic");
-            sfxVCA = FMODUnity.RuntimeManager.GetVCA("vca:/SFX");
-            ambianceVCA = FMODUnity.RuntimeManager.GetVCA("vca:/Ambiance"); 
+            playerMusicVolume = MusicSlider.value;
             if (!music_VCA.isValid())
             {
-                Debug.LogError("VCA is STILL!!!! not valid!");
-                return;
+                Debug.LogWarning("VCA is not valid! Check FMOD path.");
+                music_VCA = FMODUnity.RuntimeManager.GetVCA("vca:/Music_basic");
+                sfxVCA = FMODUnity.RuntimeManager.GetVCA("vca:/SFX");
+                ambianceVCA = FMODUnity.RuntimeManager.GetVCA("vca:/Ambiance");
+                if (!music_VCA.isValid())
+                {
+                    Debug.LogError("VCA is STILL!!!! not valid!");
+                    return;
+                }
             }
-        }
-        if (SceneManager.GetActiveScene().name == "SceneLvl0" || SceneManager.GetActiveScene().name == "SceneLvl1" || SceneManager.GetActiveScene().name == "SceneLvl2" || SceneManager.GetActiveScene().name == "SceneLvl3")
-        {
-            music_VCA.setVolume(playerMusicVolume);
-            music_VCA.getVolume(out float checkVolume);
-            //Debug.Log("beat volume is " + checkVolume + " and we set it at " + fBeatMusicVolume);
+            if (SceneManager.GetActiveScene().name == "SceneLvl0" || SceneManager.GetActiveScene().name == "SceneLvl1" || SceneManager.GetActiveScene().name == "SceneLvl2" || SceneManager.GetActiveScene().name == "SceneLvl3")
+            {
+                music_VCA.setVolume(playerMusicVolume);
+            }
+            else
+            {
+                music_VCA.setVolume(playerMusicVolume);
+            }
         }
         else
         {
-            music_VCA.setVolume(playerMusicVolume);
+            playerMusicVolume = MusicSlider.value;
+            if (!music_VCA.isValid())
+            {
+                Debug.LogWarning("VCA is not valid! Check FMOD path.");
+                music_VCA = FMODUnity.RuntimeManager.GetVCA("vca:/Music_basic");
+                sfxVCA = FMODUnity.RuntimeManager.GetVCA("vca:/SFX");
+                ambianceVCA = FMODUnity.RuntimeManager.GetVCA("vca:/Ambiance");
+                if (!music_VCA.isValid())
+                {
+                    Debug.LogError("VCA is STILL!!!! not valid!");
+                    return;
+                }
+            }
+            if (SceneManager.GetActiveScene().name == "SceneLvl0" || SceneManager.GetActiveScene().name == "SceneLvl1" || SceneManager.GetActiveScene().name == "SceneLvl2" || SceneManager.GetActiveScene().name == "SceneLvl3")
+            {
+                music_VCA.setVolume(playerMusicVolume* fChanger);
+            }
+            else
+            {
+                music_VCA.setVolume(playerMusicVolume * fChanger);
+            }
         }
     }
     public void SetAmbianceVolume()

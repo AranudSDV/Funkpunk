@@ -1573,17 +1573,20 @@ public class SC_Player : Singleton<SC_Player>
             menuManager.textBravo.color = new Color32(255, 255, 255, 255);
             menuManager.textBravo.transform.localScale = new Vector3(3f, 3f, 3f);
             menuManager.textBravo.transform.DOScale(new Vector3(1f, 1f, 1f), 1f).SetEase(Ease.InOutElastic);
+            menuManager.SetMusicVolume(0.8f);
+            yield return new WaitForSeconds(3f);
         }
         else
         {
             menuManager.textBravo.color = new Color32(255, 255, 255, 0);
             menuManager.textBravo.transform.localScale = new Vector3(3, 3, 3);
+            yield return new WaitForSeconds(1f);
         }
-        yield return new WaitForSeconds(3f);
         if (hasWon)
         {
             menuManager.textBravo.color = new Color32(255, 255, 255, 0);
             menuManager.textBravo.transform.localScale = new Vector3(3, 3, 3);
+            menuManager.SetMusicVolume(0f);
         }
         bIsImune = true;
         //Time.timeScale = 0f;
