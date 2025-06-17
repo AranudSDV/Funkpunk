@@ -96,10 +96,17 @@ public class MenuManager : SingletonManager<MenuManager>
     [SerializeField] private Color32 colorFoes;
     [SerializeField] private Color32 colorPlayer;
     public GameObject GoScoringFirstButtonSelected;
-    private bool bMenuOnTriggered = false;
+
+    //TRAIN SPLASH SCREEN
+    [Header("Train Splash Screen")]
     public SplineTrainMover_WithSpacing trainMenu = null;
+    private bool bMenuOnTriggered = false;
     private bool bWaitTrain = false;
     private bool bTrainIsHere = false;
+    private float fTrainHasAppearedProgress = 0f;
+    private float fTrainHasDisappearedProgress = 0f;
+    private bool bHasAppeared = false;
+    private bool bHasDisappeared = false;
 
     //END DIALOGUE
     [Header("EndGame")]
@@ -260,11 +267,6 @@ public class MenuManager : SingletonManager<MenuManager>
                 Debug.Log("null");
             }
             GoGameChoose[5].transform.GetComponent<UnityEngine.UI.Image>().color = new Color32(255, 255, 255, 0);
-            for (int i = 0; i < trainMenu.progress.Length; i++)
-            {
-                trainMenu.progress[i] = 1f; 
-                trainMenu.pauseTimer[i] = trainMenu.pauseDuration;
-            }
             TrainAndUION();
         }
         if(SceneManager.GetActiveScene().name == "SceneSplash")
@@ -304,9 +306,41 @@ public class MenuManager : SingletonManager<MenuManager>
             {
                 bWaitTrain = true;
                 bTrainIsHere = false;
+                bHasAppeared = false; //fTrainHasDisappearedProgress
+                if (trainMenu.progress[0] > trainMenu.progress[1])
+                {
+                    fTrainHasDisappearedProgress = trainMenu.progress[0];
+                }
+                else
+                {
+                    fTrainHasDisappearedProgress = trainMenu.progress[1];
+                }
+
+                if(fTrainHasDisappearedProgress>fTrainHasAppearedProgress && !bHasDisappeared)
+                {
+                    bHasDisappeared = true;
+                    for (int i = 0; i < trainMenu.progress.Length; i++)
+                    {
+                        trainMenu.progress[i] = 1f;
+                        trainMenu.pauseTimer[i] = trainMenu.pauseDuration;
+                    }
+                }
+                else if(fTrainHasAppearedProgress > fTrainHasDisappearedProgress)
+                {
+                    bHasDisappeared = false;
+                }
             }
-            else if (trainMenu.renderCars[0].isVisible || trainMenu.renderCars[1].isVisible)//le train passe
+            else if ((trainMenu.renderCars[0].isVisible || trainMenu.renderCars[1].isVisible) && !bHasAppeared)//le train passe
             {
+                if (trainMenu.progress[0] > trainMenu.progress[1])
+                {
+                    fTrainHasAppearedProgress = trainMenu.progress[0];
+                }
+                else
+                {
+                    fTrainHasAppearedProgress = trainMenu.progress[1];
+                }
+                bHasAppeared = true;
                 bWaitTrain = false;
                 bTrainIsHere = true;
             }
@@ -348,12 +382,6 @@ public class MenuManager : SingletonManager<MenuManager>
             trainMenu.cgChildrenCredits[trainMenu.iCredits].alpha = 1f;
             trainMenu.txtChildrenCredits[trainMenu.iCredits].BubbleShowText();
             trainMenu.iCredits += 1;
-        }
-        yield return new WaitForSecondsRealtime(0.6f);
-        for (int i = 0; i < trainMenu.progress.Length; i++)
-        {
-            trainMenu.progress[i] = 1f;
-            trainMenu.pauseTimer[i] = trainMenu.pauseDuration;
         }
     }
     private void TrainSplashLanguage()

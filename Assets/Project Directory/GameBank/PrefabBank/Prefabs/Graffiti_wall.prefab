@@ -1148,7 +1148,9 @@ MonoBehaviour:
   scBoss: {fileID: 0}
   bBossTag: 0
   iCompletition: 0
-  vfx_completition: {fileID: 0}
+  vfx_completition: {fileID: 3889696385763183037}
+  go_completition: {fileID: 8448882741808256637}
+  vect_completition: {x: 1.3, y: 1.608, z: -0.01}
   bBossDoorTag: 0
   boxColliderBoss: {fileID: 0}
   goBossDoor: {fileID: 0}
@@ -1163,9 +1165,13 @@ MonoBehaviour:
   - {fileID: 2885344317256220280}
   PS_SoundShot:
   - {fileID: 3483252180348435315}
-  go_SoundWave: {fileID: 4057723593918467544}
+  Go_SoundShot:
+  - {fileID: 788816064719572794}
+  vect_base_soundShot:
+  - {x: 0, y: 0, z: 0}
   PS_SoundWaveStun: {fileID: 8554216447954221066}
-  vectBase_SoundWaveStun: {x: 1.25, y: 0.1, z: 0.5}
+  Go_SoundWaveStun: {fileID: 4057723593918467544}
+  vect_base_soundWaveStun: {x: 1.25, y: 0, z: 0.5}
 --- !u!65 &5445313061218059324
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1591,6 +1597,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1adefe55a20fe244eb98be212d313b52, type: 3}
+--- !u!1 &788816064719572794 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6429630807770086121, guid: 1adefe55a20fe244eb98be212d313b52,
+    type: 3}
+  m_PrefabInstance: {fileID: 6037307501399012819}
+  m_PrefabAsset: {fileID: 0}
 --- !u!2083052967 &3483252180348435315 stripped
 VisualEffect:
   m_CorrespondingSourceObject: {fileID: 7178223545241407136, guid: 1adefe55a20fe244eb98be212d313b52,

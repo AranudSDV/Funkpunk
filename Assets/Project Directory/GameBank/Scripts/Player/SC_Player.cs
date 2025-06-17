@@ -533,7 +533,7 @@ public class SC_Player : Singleton<SC_Player>
                             }
                             StartCoroutine(ingTag.PlayVFXSoundWave());
                             SoundManager.Instance.PlayOneShot(sfx_tag[2]);
-                            ingTag.vfx_completition.Play();
+                            StartCoroutine(ingTag.PlayVFXCompletition());
                             //ingTag._renderer.material = ingTag.taggedMaterial; 
                             ingTag.transform.gameObject.tag = "Wall";
                             ingTag.goArrow.transform.localPosition = new Vector3(ingTag.goArrow.transform.localPosition.x, ingTag.goArrow.transform.localPosition.y - 50f, ingTag.goArrow.transform.localPosition.z);
@@ -731,7 +731,7 @@ public class SC_Player : Singleton<SC_Player>
                             }
                             StartCoroutine(ingTag.PlayVFXSoundWave());
                             SoundManager.Instance.PlayOneShot(sfx_tag[2]);
-                            ingTag.vfx_completition.Play();
+                            StartCoroutine(ingTag.PlayVFXCompletition());
                             //ingTag._renderer.material = ingTag.taggedMaterial; //le joueur tag
                             ingTag.transform.gameObject.tag = "Wall";
                             ingTag.goArrow.transform.localPosition = new Vector3(ingTag.goArrow.transform.localPosition.x, ingTag.goArrow.transform.localPosition.y - 50f, ingTag.goArrow.transform.localPosition.z);

@@ -14,7 +14,9 @@ public class ing_Tag : MonoBehaviour
     public SC_FieldOfView scBoss = null;
     public bool bBossTag = false;
     public int iCompletition = 0;
-    public ParticleSystem vfx_completition;
+    [SerializeField] private VisualEffect vfx_completition;
+    [SerializeField] private GameObject go_completition;
+    [SerializeField] private Vector3 vect_completition;
     public bool bBossDoorTag = false;
     public BoxCollider boxColliderBoss = null;
     public GameObject goBossDoor = null;
@@ -23,7 +25,11 @@ public class ing_Tag : MonoBehaviour
     public DecalProjector decalProj;
     public VisualEffect[] PS_Sound;
     [SerializeField] private VisualEffect[] PS_SoundShot;
+    [SerializeField] private GameObject[] Go_SoundShot;
+    [SerializeField] private Vector3[] vect_base_soundShot;
     [SerializeField]private VisualEffect PS_SoundWaveStun;
+    [SerializeField] private GameObject Go_SoundWaveStun;
+    [SerializeField] private Vector3 vect_base_soundWaveStun;
 
     private void Start()
     {
@@ -31,7 +37,6 @@ public class ing_Tag : MonoBehaviour
         {
             veSound.Stop();
         }
-        PS_SoundWaveStun.Stop();
         decalProj.material.SetFloat("_ErosionValue", 1f);
     }
     private void OnDestroy()
@@ -40,16 +45,31 @@ public class ing_Tag : MonoBehaviour
     }
     public IEnumerator PlayVFXSoundWave()
     {
+        Go_SoundWaveStun.transform.localPosition = vect_base_soundWaveStun;
         PS_SoundWaveStun.Play();
         yield return new WaitForSeconds(1.5f);
         PS_SoundWaveStun.Stop();
+        Go_SoundWaveStun.transform.localPosition = new Vector3(vect_base_soundWaveStun.x, vect_base_soundWaveStun.y - 50f, vect_base_soundWaveStun.z);
     }
     public IEnumerator PlaySoundShot()
     {
-        foreach(VisualEffect veSound in PS_SoundShot)
+        if(Go_SoundShot!=null)
         {
-            veSound.Play();
-            yield return new WaitForSeconds(0.2f);
+            for (int i = 0; i < PS_SoundShot.Length; i++)
+            {
+                Go_SoundShot[i].transform.localPosition = vect_base_soundShot[i];
+                PS_SoundShot[i].Play();
+                yield return new WaitForSeconds(0.2f);
+            }
         }
+    }
+
+    public IEnumerator PlayVFXCompletition()
+    {
+        go_completition.transform.localPosition = vect_completition;
+        vfx_completition.Play();
+        yield return new WaitForSeconds(1.5f);
+        vfx_completition.Stop();
+        go_completition.transform.localPosition = new Vector3(vect_completition.x, vect_completition.y - 50f, vect_completition.z);
     }
 }
