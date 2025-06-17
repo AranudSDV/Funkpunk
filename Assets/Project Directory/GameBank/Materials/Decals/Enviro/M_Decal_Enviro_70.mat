@@ -1,0 +1,113 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: M_Decal_Enviro_70
+  m_Shader: {fileID: 4800000, guid: c65f80e4aa271054e916f540b244c27d, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _GAMEPLAYORENVIRO_ON
+  - _WORLDPOSORSEED_ON
+  - _XZORXY_ON
+  m_InvalidKeywords:
+  - _COLORORTEX_ON
+  - _PLAYERTAGSORENVIRO_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 2050
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpNormal:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ShadowTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _tex:
+        m_Texture: {fileID: 2800000, guid: c3173a3ae94610a40920e624f961555b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AlphaCutoff: 0.5
+    - _AtlasCols: 4
+    - _AtlasRows: 4
+    - _Cels_FallOffThreshold: 1
+    - _Cels_LitThreshold: 1
+    - _ColorOrTex: 1
+    - _DecalAngleFadeSupported: 1
+    - _DecalMeshBiasType: 0
+    - _DecalMeshDepthBias: 0
+    - _DecalMeshViewBias: 0
+    - _DrawOrder: 50
+    - _ErosionValue: 0
+    - _GameplayOrEnviro: 1
+    - _MaxOffset: 0
+    - _MaxOffset_X: 3.11
+    - _MaxOffset_Y: 0.7
+    - _MaxRotation: 0
+    - _MaxScale: 5.08
+    - _MaxScale_X: 3
+    - _MaxScale_Y: 3
+    - _MinOffset: 0
+    - _MinOffset_X: -1.02
+    - _MinOffset_Y: -0.98
+    - _MinRotation: 0
+    - _MinScale: 1
+    - _MinScale_X: 3
+    - _MinScale_Y: 3
+    - _NormalScale: 0
+    - _NumGraffiti: 7
+    - _PlayerTagsOrEnviro: 1
+    - _Seed: 16.1
+    - _SeedMultiplier: 1
+    - _SeedScale: 0
+    - _ShadingWhiteMult: 0.1
+    - _ShadowTex_Pow: 0.27
+    - _Shadow_FallOffThreshold: 1
+    - _Shadow_LitThreshold: 0.8
+    - _Shadows_ProceduralOrTexture: 0
+    - _UsingTriplanar: 0
+    - _UsingTriplanar1: 0
+    - _WorldPosDiv: 0
+    - _WorldPosOrSeed: 1
+    - _WorldZY: 0
+    - _XZorXY: 1
+    m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 0}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _MinOffsetX: {r: -0.4, g: 0.4, b: 0, a: 0}
+    - _MinOffsetY: {r: -0.4, g: 0.4, b: 0, a: 0}
+    - _MinScaleX: {r: 1.2, g: 1.5, b: 0, a: 0}
+    - _MinScaleY: {r: 1.2, g: 1.5, b: 0, a: 0}
+    - _ShadowPatternDensity: {r: 100, g: 100, b: 0, a: 0}
+  m_BuildTextureStacks: []
