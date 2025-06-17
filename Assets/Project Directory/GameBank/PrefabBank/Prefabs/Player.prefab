@@ -500,11 +500,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _eventSystem: {fileID: 0}
   camUIOverlay: {fileID: 0}
-  bisTuto: 1
   menuManager: {fileID: 0}
-  bHasController: 1
   bpmManager: {fileID: 0}
   tutoGen: {fileID: 0}
+  bisTuto: 1
+  bHasController: 1
+  bNoRythm: 0
   CgInGame: {fileID: 0}
   GoCanvasArrow: {fileID: 7324678298293727580}
   bHasNoMiss: 1
@@ -587,6 +588,15 @@ MonoBehaviour:
   - 0
   fNbBeat: 0
   TMPScore: {fileID: 0}
+  VCam_EndingTag: {fileID: 0}
+  bisOnScoring: 0
+  sfx_won:
+    Guid:
+      Data1: -822323164
+      Data2: 1290873946
+      Data3: -423674741
+      Data4: -456267269
+    Path: event:/sfx_won
   FDetectionLevel: 0
   allEnemies:
   - {fileID: 0}
@@ -608,8 +618,6 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 83377a1d38a276447abe04a8c2242fcc, type: 2}
   - {fileID: 2100000, guid: 6f0a342120c31e04eab06c6789eca901, type: 2}
   imgEye: {fileID: 0}
-  VCam_Cinematic: {fileID: 0}
-  fBodyFollowOffset: 10
   taggingRange: 1
   GoVfxTag: {fileID: 766318065870670635}
   vfx_tag: {fileID: 8945544291399188229}

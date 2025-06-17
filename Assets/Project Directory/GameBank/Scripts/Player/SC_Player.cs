@@ -106,6 +106,7 @@ public class SC_Player : Singleton<SC_Player>
     private DG.Tweening.Sequence[] starSequence = new DG.Tweening.Sequence[5];
     [SerializeField] private CinemachineVirtualCamera VCam_EndingTag;
     public bool bisOnScoring = false;
+    [SerializeField] private EventReference sfx_won;
 
     //LE JOYSTICK
     [Header("Joystick")]
@@ -1566,7 +1567,8 @@ public class SC_Player : Singleton<SC_Player>
         bIsImune = true;
         if(hasWon)
         {
-            if(VCam_EndingTag!=null)
+            SoundManager.Instance.PlayOneShot(sfx_won);
+            if (VCam_EndingTag!=null)
             {
                 VCam_EndingTag.Priority = 20;
             }
