@@ -12,14 +12,13 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _GAMEPLAYORENVIRO_ON
-  - _WORLDPOSORSEED_ON
+  - _WORLDZY_ON
   m_InvalidKeywords:
   - _COLORORTEX_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 1950
   stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
@@ -35,7 +34,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _tex:
-        m_Texture: {fileID: 2800000, guid: e0f0197ff3bc4454ca6cdb2f9fd73d47, type: 3}
+        m_Texture: {fileID: 2800000, guid: 54cdc5a282c50734386a91f3ff41a8d6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
@@ -57,8 +56,8 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaCutoff: 0.5
-    - _AtlasCols: 4
-    - _AtlasRows: 4
+    - _AtlasCols: 1
+    - _AtlasRows: 1
     - _Cels_FallOffThreshold: 1
     - _Cels_LitThreshold: 1
     - _ColorOrTex: 1
@@ -66,23 +65,23 @@ Material:
     - _DecalMeshBiasType: 0
     - _DecalMeshDepthBias: 0
     - _DecalMeshViewBias: 0
-    - _DrawOrder: 0
+    - _DrawOrder: -50
     - _ErosionValue: 1
-    - _GameplayOrEnviro: 1
+    - _GameplayOrEnviro: 0
     - _MaxOffset: 0
     - _MaxOffset_X: 0
-    - _MaxOffset_Y: 0.33
+    - _MaxOffset_Y: 0
     - _MaxRotation: 0
     - _MaxScale: 5.08
-    - _MaxScale_X: 1.4
-    - _MaxScale_Y: 1.4
+    - _MaxScale_X: 5
+    - _MaxScale_Y: 5
     - _MinOffset: 0
-    - _MinOffset_X: 0.37
+    - _MinOffset_X: 0
     - _MinOffset_Y: 0
     - _MinRotation: 0
     - _MinScale: 1
-    - _MinScale_X: 1.4
-    - _MinScale_Y: 1.4
+    - _MinScale_X: 5
+    - _MinScale_Y: 5
     - _NormalScale: 0
     - _NumGraffiti: 2
     - _PlayerTagsOrEnviro: 0
@@ -97,8 +96,8 @@ Material:
     - _UsingTriplanar: 0
     - _UsingTriplanar1: 0
     - _WorldPosDiv: 0
-    - _WorldPosOrSeed: 1
-    - _WorldZY: 0
+    - _WorldPosOrSeed: 0
+    - _WorldZY: 1
     - _XZorXY: 0
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 0}
