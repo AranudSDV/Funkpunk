@@ -134,14 +134,14 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
                 Shader.SetGlobalFloat("BPM", FBPM[menuManager.iPreviousLevelPlayed]);
                 LoopInstance = RuntimeManager.CreateInstance(Loop[menuManager.iPreviousLevelPlayed]);
                 LoopInstance.start();
-                menuManager.SetMusicVolume();
+                menuManager.SetMusicVolume(0f);
             }
             else
             {
                 Shader.SetGlobalFloat("BPM", FBPM[4]);
                 LoopInstance = RuntimeManager.CreateInstance(Loop[4]);
                 LoopInstance.start();
-                menuManager.SetMusicVolume();
+                menuManager.SetMusicVolume(0f);
             }
             isPlaying = true; 
             if (bIsOnLvl || bIsOnLoft)
@@ -314,7 +314,7 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
                 }
                 IsImuneCheck();
                 scPlayer.EyeDetection();
-                menuManager.SetMusicVolume();
+                menuManager.SetMusicVolume(0f);
             }
             else if (menuManager.bGameIsPaused && BBad == false && BGood == false && BPerfect == false)
             {
