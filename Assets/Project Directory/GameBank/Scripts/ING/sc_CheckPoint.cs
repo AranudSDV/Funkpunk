@@ -17,7 +17,7 @@ public class sc_CheckPoint : MonoBehaviour
         if (!hasGoneThrough && collision.gameObject.CompareTag("Player"))
         {
             scPlayer.CheckPoint(false, iCheckPoint);
-            vfx_sewerSmoke.SetBool("isChecked", true);
+            vfx_sewerSmoke.SetBool("IsChecked", true);
             Debug.Log("enter");
         }
     }

@@ -1799,10 +1799,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetLight: {fileID: 156863503}
-  minDelay: 0.5
-  maxDelay: 1
-  minIntensity: 2.5
-  maxIntensity: 3
+  fMinIntensity: 0
+  fMaxIntensity: 1
 --- !u!114 &156863502
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4014,10 +4012,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetLight: {fileID: 541023082}
-  minDelay: 0.05
-  maxDelay: 0.3
-  minIntensity: 4
-  maxIntensity: 8
+  fMinIntensity: 0
+  fMaxIntensity: 1
 --- !u!1 &570684968
 GameObject:
   m_ObjectHideFlags: 0
@@ -9787,10 +9783,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetLight: {fileID: 1187511867}
-  minDelay: 0.05
-  maxDelay: 0.3
-  minIntensity: 4
-  maxIntensity: 8
+  fMinIntensity: 0
+  fMaxIntensity: 1
 --- !u!1 &1190616481
 GameObject:
   m_ObjectHideFlags: 0
