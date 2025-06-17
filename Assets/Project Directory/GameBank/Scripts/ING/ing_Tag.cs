@@ -53,11 +53,14 @@ public class ing_Tag : MonoBehaviour
     }
     public IEnumerator PlaySoundShot()
     {
-        for(int i = 0; i < PS_SoundShot.Length; i++)
+        if(Go_SoundShot!=null)
         {
-            Go_SoundShot[i].transform.localPosition = vect_base_soundShot[i];
-            PS_SoundShot[i].Play();
-            yield return new WaitForSeconds(0.2f);
+            for (int i = 0; i < PS_SoundShot.Length; i++)
+            {
+                Go_SoundShot[i].transform.localPosition = vect_base_soundShot[i];
+                PS_SoundShot[i].Play();
+                yield return new WaitForSeconds(0.2f);
+            }
         }
     }
 
