@@ -1493,6 +1493,7 @@ public class MenuManager : SingletonManager<MenuManager>
             if (speakingCharacterIndex != -1)
             {
                 imgCharactersSpace[0].sprite = spritesEndDialogueCharacters[speakingCharacterIndex]; // Le sprite de droite est rempli par le sprite du chara qui est à droite en fonction du lvl
+                Debug.Log(iNbTextNow + " + " + notSpeakingCharacterIndex);
                 imgCharactersSpace[1].sprite = spritesEndDialogueCharactersNotSpeak[notSpeakingCharacterIndex];// Le sprite de gauche est rempli par le sprite du chara qui est à gauche en fonction du lvl
                 imgCharactersSpace[0].color = new Color32(255, 255, 255, 255);
                 imgCharactersSpace[1].color = new Color32(255, 255, 255, 255);
