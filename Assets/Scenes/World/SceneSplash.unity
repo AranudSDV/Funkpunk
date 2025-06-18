@@ -4075,8 +4075,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetLight: {fileID: 541023082}
-  fMinIntensity: 0
-  fMaxIntensity: 1
+  fMinIntensity: 5
+  fMaxIntensity: 15
 --- !u!1 &570684968
 GameObject:
   m_ObjectHideFlags: 0
@@ -10016,8 +10016,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetLight: {fileID: 1187511867}
-  fMinIntensity: 0
-  fMaxIntensity: 1
+  fMinIntensity: 5
+  fMaxIntensity: 15
 --- !u!1 &1190616481
 GameObject:
   m_ObjectHideFlags: 0
