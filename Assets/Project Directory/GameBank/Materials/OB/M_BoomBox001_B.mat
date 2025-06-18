@@ -135,7 +135,7 @@ Material:
     - _Shadows_ProceduralOrTexture: 0
     - _SpecularHighlights: 1
     - _TimeDelay: 0
-    - _TopMask: 0
+    - _TopMask: 0.7
     - _TriplanarTiling: 10
     - _Using3DMovements: 1
     - _UsingTriplanar: 0
@@ -154,6 +154,6 @@ Material:
     - _OutlineColor2: {r: 0.4558116, g: 0, b: 1.498039, a: 0}
     - _SMH: {r: 0, g: 0, b: 0, a: 0}
     - _ShadowPatternDensity: {r: 100, g: 100, b: 0, a: 0}
-    - _TopVertexDelay: {r: 0, g: 0, b: 0, a: 0}
-    - _TopVertexOffsetValue: {r: 0, g: 0, b: 0, a: 0}
+    - _TopVertexDelay: {r: 0.2, g: 0, b: 0, a: 0}
+    - _TopVertexOffsetValue: {r: 0.005, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
