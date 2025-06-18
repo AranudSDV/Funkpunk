@@ -1840,6 +1840,7 @@ public class SC_Player : Singleton<SC_Player>
                 {
                     bait.bOnFoe = false;
                     bait.transform.position = bait.beginVect;
+                    bait.b_BeenThrownAtFoe = false;
                     bait.sc_juice.Restart();
                 }
             }
