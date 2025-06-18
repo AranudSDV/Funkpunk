@@ -11,7 +11,7 @@ public class LightFlickering : MonoBehaviour
 
     private void Start()
     {
-        manager = FindObjectOfType<BPM_Manager>();
+        manager = BPM_Manager.instance;
     }
 
     private void Update()
@@ -22,6 +22,9 @@ public class LightFlickering : MonoBehaviour
     private void Flickering()
     {
         fBeatValue = manager.fProgressBPM;
-        targetLight.intensity = Mathf.Lerp(fMinIntensity, fMaxIntensity, fBeatValue);
+        if(targetLight!=null)
+        {
+            targetLight.intensity = Mathf.Lerp(fMinIntensity, fMaxIntensity, fBeatValue);
+        }
     }
 }

@@ -848,7 +848,6 @@ public class MenuManager : SingletonManager<MenuManager>
     //SCENE LOADING
     public void LoadScene(string sceneToLoad)
     {
-        Debug.Log(sceneToLoad);
         if (bpmManager.LoopInstance.isValid())
         {
             bpmManager.LoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
@@ -1031,10 +1030,10 @@ public class MenuManager : SingletonManager<MenuManager>
             RtControllerWarning.offsetMax = new Vector2(0f, 0f);
             RtControllerWarning.offsetMin = new Vector2(0f, 0f);
         }
-        if(controllerConnected && CgOptionPannel.alpha == 1f)
+        if (controllerConnected && CgOptionPannel.alpha == 1f)
         {
             CheckCurrentSelectable();
-            if (CgOptionAudio.alpha ==1f && !bOnceOptions[0])
+            if (CgOptionAudio.alpha == 1f && !bOnceOptions[0])
             {
                 var navigation = ButtonOptionAudio.navigation;
                 navigation.selectOnUp = SliderOptionAudio[0];
@@ -1051,7 +1050,7 @@ public class MenuManager : SingletonManager<MenuManager>
                 ButtonOptionGeneral.navigation = navigation1;
                 bOnceOptions[0] = true;
             }
-            else if(CgOptionGeneral.alpha == 1f && !bOnceOptions[1])
+            else if (CgOptionGeneral.alpha == 1f && !bOnceOptions[1])
             {
                 var navigation = ButtonOptionAudio.navigation;
                 navigation.selectOnUp = ButtonsOptionAudio_fromGeneral[0];
@@ -1068,9 +1067,9 @@ public class MenuManager : SingletonManager<MenuManager>
                 ButtonOptionGeneral.navigation = navigation1;
                 bOnceOptions[1] = true;
             }
-            else if(CgOptionGeneral.alpha == 1f && !bOnceOptions[2])
+            else if (CgOptionGeneral.alpha == 1f && !bOnceOptions[2])
             {
-                if(_playerData.iLanguageNbPlayer==0) //english
+                if (_playerData.iLanguageNbPlayer == 0) //english
                 {
                     ImageButtonGeneral[0].material = M_materialButtonGeneral[0];
                 }
@@ -1078,11 +1077,11 @@ public class MenuManager : SingletonManager<MenuManager>
                 {
                     ImageButtonGeneral[0].material = M_materialButtonGeneral[1];
                 }
-                if(iDifficulty==0) //hard
+                if (iDifficulty == 0) //hard
                 {
                     ImageButtonGeneral[1].material = M_materialButtonGeneral[2];
                 }
-                else if(iDifficulty == 1) //normal
+                else if (iDifficulty == 1) //normal
                 {
                     ImageButtonGeneral[1].material = M_materialButtonGeneral[3];
                 }
@@ -1093,7 +1092,15 @@ public class MenuManager : SingletonManager<MenuManager>
                 bOnceOptions[2] = true;
             }
         }
-        else if(controllerConnected && CgPauseMenu.alpha == 1f)
+        else if (controllerConnected && CgPauseMenu.alpha == 1f)
+        {
+            CheckCurrentSelectable();
+        }
+        else if (controllerConnected && CgEndDialogue.alpha == 1f)
+        {
+            CheckCurrentSelectable();
+        }
+        else if (controllerConnected && CgScoring.alpha == 1f)
         {
             CheckCurrentSelectable();
         }

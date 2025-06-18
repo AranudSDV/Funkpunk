@@ -240,7 +240,6 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
                 }
                 scPlayer.RotationEnemies();
             }
-            UnityEngine.Debug.Log("wait");
             MusicNotesMovingStart();
         }
         yield return new WaitForSecondsRealtime(FTiming[3]);
@@ -510,11 +509,9 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
     }
     private void MusicNotesMovingStart()
     {
-        UnityEngine.Debug.Log("note start");
         float canvas = (FTiming[3]+ FTiming[0] )/ FSPB;
         if(scPlayer != null)
         {
-            UnityEngine.Debug.Log("moving");
             arrowSequence.Kill();
             arrowSequence = DOTween.Sequence().SetAutoKill(true).SetUpdate(true);
             arrowSequence.Append(scPlayer.GoCanvasArrow.transform.DOScale(1.27f, 2f*FSPB/3f)
@@ -523,7 +520,6 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
             .SetEase(Ease.InExpo)).SetUpdate(true);
             if (scPlayer.tutoGen!=null&& scPlayer.tutoGen.bIsOnLoft & scPlayer.tutoGen.bTuto[0])
             {
-                UnityEngine.Debug.Log("arrow");
                 scPlayer.tutoGen.arrowSequence.Kill();
                 scPlayer.tutoGen.arrowSequence = DOTween.Sequence().SetAutoKill(true).SetUpdate(true);
                 scPlayer.tutoGen.arrowSequence.Append(scPlayer.tutoGen.GoCanvasArrow.transform.DOScale(1.27f, 2f * FSPB / 3f)

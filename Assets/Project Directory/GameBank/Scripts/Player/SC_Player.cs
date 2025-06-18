@@ -2060,7 +2060,6 @@ public class SC_Player : Singleton<SC_Player>
         {
             i = Int32.Parse(Regex.Match(SceneManager.GetActiveScene().name, @"\d+").Value);
         }
-        Debug.Log("le niveau est le " + i);
         if (fPercentScore > data.iScorePerLvlPlayer[i])
         {
             data.iScorePerLvlPlayer[i] = Convert.ToInt32(fPercentScore);
