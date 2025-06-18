@@ -14,6 +14,7 @@ using FMOD.Studio;
 using Unity.Collections.LowLevel.Unsafe;
 //using UnityEditor.SearchService;
 using UnityEngine.Rendering;
+using UnityEditor.SearchService;
 
 public class MenuManager : SingletonManager<MenuManager>
 {
@@ -259,7 +260,7 @@ public class MenuManager : SingletonManager<MenuManager>
     {
         CheckControllerStatus();
         Shader.SetGlobalFloat("UnscaledDT", Time.unscaledDeltaTime);
-        if (!bMenuOnTriggered && controllerConnected && control !=null && control.GamePlay.Move.triggered && SceneManager.GetActiveScene().name == "SceneSplash" && !bisOnCredits)
+        if (!bMenuOnTriggered && controllerConnected && control !=null && control.GamePlay.Move.triggered && (SceneManager.GetActiveScene().name == "SceneSplash"|| SceneManager.GetActiveScene().name == "Scenes/World/SceneSplash") && !bisOnCredits)
         {
             bMenuOnTriggered = true;
             if (GoGameChoose[5] == null)
@@ -273,7 +274,7 @@ public class MenuManager : SingletonManager<MenuManager>
                 trainMenu.bMenuTriggered = true;
             }
         }
-        if(SceneManager.GetActiveScene().name == "SceneSplash")
+        if(SceneManager.GetActiveScene().name == "SceneSplash" || SceneManager.GetActiveScene().name == "Scenes/World/SceneSplash")
         {
             if (bWaitTrain && bMenuOnTriggered)
             {
@@ -436,7 +437,7 @@ public class MenuManager : SingletonManager<MenuManager>
                 }
             }
         }
-        else if (SceneManager.GetActiveScene().name == "LevelChoosing")
+        else if (SceneManager.GetActiveScene().name == "LevelChoosing" || SceneManager.GetActiveScene().name == "Scenes/World/LevelChoosing")
         {
             if (GoLevelsButton != null && _levels != null)
             {
@@ -547,14 +548,14 @@ public class MenuManager : SingletonManager<MenuManager>
         {
             if(CgPauseMenu.alpha == 0f)
             {
-                if (SceneManager.GetActiveScene().name == "LevelChoosing")
+                if (SceneManager.GetActiveScene().name == "LevelChoosing" || SceneManager.GetActiveScene().name == "Scenes/World/LevelChoosing")
                 {
                     if(GoLevelsButton != null && GoLevelsButton[0]!=null)
                     {
                         EventSystem.SetSelectedGameObject(GoLevelsButton[0]);
                     }
                 }
-                else if (SceneManager.GetActiveScene().name == "SceneSplash" && bMenuOnTriggered)
+                else if ((SceneManager.GetActiveScene().name == "SceneSplash" || SceneManager.GetActiveScene().name == "Scenes/World/SceneSplash") && bMenuOnTriggered)
                 {
                     if (GoGameChoose[0] != null)
                     {
@@ -647,7 +648,7 @@ public class MenuManager : SingletonManager<MenuManager>
         GameObject[] GoTargetUI = GameObject.FindGameObjectsWithTag("SceneUITarget");
         if (GoTargetUI != null)
         {
-            if (SceneManager.GetActiveScene().name == "LevelChoosing")
+            if (SceneManager.GetActiveScene().name == "LevelChoosing" || SceneManager.GetActiveScene().name == "Scenes/World/LevelChoosing")
             {
                 GoLevelsButton = new GameObject[GoTargetUI.Length -6];
                 GoLevelStars = new GameObject[4];
@@ -679,7 +680,7 @@ public class MenuManager : SingletonManager<MenuManager>
                 GoGameChoose[0] = null;
                 sSceneToLoad = "SceneLvl";
             }
-            else if (SceneManager.GetActiveScene().name == "SceneSplash")
+            else if (SceneManager.GetActiveScene().name == "SceneSplash" || SceneManager.GetActiveScene().name == "Scenes/World/SceneSplash")
             {
                 GoGameChoose = new GameObject[6];
                 for (int i = 0; i < GoTargetUI.Length; i++)
@@ -740,7 +741,7 @@ public class MenuManager : SingletonManager<MenuManager>
             GoGameChoose[0] = null;
             GoLevelsButton = null;
         }
-        if(SceneManager.GetActiveScene().name == "Scenes/World/SceneSplash")
+        if(SceneManager.GetActiveScene().name == "Scenes/World/SceneSplash" || SceneManager.GetActiveScene().name == "SceneSplash")
         {
             bMenuOnTriggered = false;
             sSceneToLoad = "Scenes/World/Loft";
@@ -783,11 +784,11 @@ public class MenuManager : SingletonManager<MenuManager>
                 }
             }
         }
-        else if(SceneManager.GetActiveScene().name == "Scenes/World/Loft")
+        else if(SceneManager.GetActiveScene().name == "Scenes/World/Loft" || SceneManager.GetActiveScene().name == "Loft")
         {
             sSceneToLoad = "Scenes/World/LevelChoosing";
         }
-        else if(SceneManager.GetActiveScene().name == "Scenes/World/LevelChoosing")
+        else if(SceneManager.GetActiveScene().name == "Scenes/World/LevelChoosing" || SceneManager.GetActiveScene().name == "LevelChoosing")
         {
             for (int i = 0; i < GoLevelsButton.Length; i++)
             {
@@ -848,17 +849,18 @@ public class MenuManager : SingletonManager<MenuManager>
     //SCENE LOADING
     public void LoadScene(string sceneToLoad)
     {
+        Debug.Log(sceneToLoad);
         if (bpmManager.LoopInstance.isValid())
         {
             bpmManager.LoopInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
             bpmManager.LoopInstance.release();
         }
         bpmManager.isPlaying = false;
-        if (SceneManager.GetActiveScene().name != "Loft")
+        if (SceneManager.GetActiveScene().name != "Loft" || SceneManager.GetActiveScene().name != "Scenes/World/Loft")
         {
             ButtonSound();
         }
-        if (sceneToLoad == "SceneLvl0" || sceneToLoad == "SceneLvl1" || sceneToLoad == "SceneLvl2" || sceneToLoad == "SceneLvl3")
+        if (sceneToLoad == "SceneLvl0" || sceneToLoad == "Scenes/World/SceneLvl0" || sceneToLoad == "SceneLvl1" || sceneToLoad == "Scenes/World/SceneLvl1" || sceneToLoad == "SceneLvl2" || sceneToLoad == "Scenes/World/SceneLvl2" || sceneToLoad == "SceneLvl3" || sceneToLoad == "Scenes/World/SceneLvl3")
         {
             StartCoroutine(StartLoad(sceneToLoad));
             for(int i =0; i<4; i++)
@@ -871,10 +873,11 @@ public class MenuManager : SingletonManager<MenuManager>
             bpmManager.bIsOnLvl = true;
             bpmManager.bIsOnLoft = false;
         }
-        else if(sceneToLoad == "Loft")
+        else if(sceneToLoad == "Loft" || sceneToLoad == "Scenes/World/Loft")
         {
             bpmManager.bIsOnLoft = true;
             bpmManager.bIsOnLvl = false;
+            StartCoroutine(StartLoad(sceneToLoad));
         }
         else if (sceneToLoad == "LevelChoosing" || sceneToLoad == "Scenes/World/LevelChoosing")
         {
@@ -998,7 +1001,7 @@ public class MenuManager : SingletonManager<MenuManager>
     //PAUSE AND SETTINGS
     private void UXNavigation()
     {
-        if (controllerConnected && control !=null && control.GamePlay.Pausing.triggered && SceneManager.GetActiveScene().name != "SceneSplash")
+        if (controllerConnected && control !=null && control.GamePlay.Pausing.triggered && (SceneManager.GetActiveScene().name != "SceneSplash"|| SceneManager.GetActiveScene().name != "Scenes/World/SceneSplash"))
         {
             PauseMenu();
         }
@@ -1134,7 +1137,7 @@ public class MenuManager : SingletonManager<MenuManager>
             RtPauseMenu.offsetMax = new Vector2(0f, 0f);
             RtPauseMenu.offsetMin = new Vector2(0f, 0f);
             CloseOptions(false);
-            if ((scPlayer != null && scPlayer.bisTuto == true && SceneManager.GetActiveScene().name != "Loft") || (scPlayer != null && CgScoring.alpha == 1f) || (scPlayer != null && CgEndDialogue.alpha == 1f))
+            if ((scPlayer != null && scPlayer.bisTuto == true && (SceneManager.GetActiveScene().name != "Loft"|| SceneManager.GetActiveScene().name != "Scenes/World/Loft")) || (scPlayer != null && CgScoring.alpha == 1f) || (scPlayer != null && CgEndDialogue.alpha == 1f))
             {
                 bGameIsPaused = true;
             }
@@ -1146,11 +1149,11 @@ public class MenuManager : SingletonManager<MenuManager>
             {
                 EventSystem.SetSelectedGameObject(GoScoringFirstButtonSelected);
             }
-            else if(SceneManager.GetActiveScene().name == "SplashScreen" && bMenuOnTriggered)
+            else if((SceneManager.GetActiveScene().name == "SplashScreen" || SceneManager.GetActiveScene().name == "Scenes/World/SplashScreen")&& bMenuOnTriggered)
             {
                 EventSystem.SetSelectedGameObject(GoGameChoose[0]);
             }
-            else if (SceneManager.GetActiveScene().name == "LevelChoosing")
+            else if (SceneManager.GetActiveScene().name == "LevelChoosing" || SceneManager.GetActiveScene().name == "Scenes/World/LevelChoosing")
             {
                 EventSystem.SetSelectedGameObject(GoLevelsButton[0]);
             }
@@ -1222,7 +1225,7 @@ public class MenuManager : SingletonManager<MenuManager>
     }
     public void CloseOptions(bool bonManager)
     {
-        if (SceneManager.GetActiveScene().name != "SceneSplash" && bonManager)
+        if ((SceneManager.GetActiveScene().name != "SceneSplash" || SceneManager.GetActiveScene().name != "Scenes/World/SceneSplash")&& bonManager)
         {
             CgPauseMenu.alpha = 1f;
             bActif = true;
@@ -1234,7 +1237,7 @@ public class MenuManager : SingletonManager<MenuManager>
             RtPauseMenu.offsetMin = new Vector2(0f, 0f);
             EventSystem.SetSelectedGameObject(GoPausedFirstButtonSelected);
         }
-        else if(SceneManager.GetActiveScene().name == "SceneSplash")
+        else if(SceneManager.GetActiveScene().name == "SceneSplash" || SceneManager.GetActiveScene().name == "Scenes/World/SceneSplash")
         {
             EventSystem.SetSelectedGameObject(GoGameChoose[0]);
         }
@@ -1280,7 +1283,7 @@ public class MenuManager : SingletonManager<MenuManager>
         {
             _playerData.iLanguageNbPlayer = 1;
         }
-        if(SceneManager.GetActiveScene().name == "SceneSplash")
+        if(SceneManager.GetActiveScene().name == "SceneSplash" || SceneManager.GetActiveScene().name == "Scenes/World/SceneSplash")
         {
             TrainSplashLanguage();
         }
@@ -1325,7 +1328,7 @@ public class MenuManager : SingletonManager<MenuManager>
                     return;
                 }
             }
-            if (SceneManager.GetActiveScene().name == "SceneLvl0" || SceneManager.GetActiveScene().name == "SceneLvl1" || SceneManager.GetActiveScene().name == "SceneLvl2" || SceneManager.GetActiveScene().name == "SceneLvl3")
+            if (SceneManager.GetActiveScene().name == "SceneLvl0" || SceneManager.GetActiveScene().name == "Scenes/World/SceneLvl0" || SceneManager.GetActiveScene().name == "SceneLvl1" || SceneManager.GetActiveScene().name == "Scenes/World/SceneLvl1" || SceneManager.GetActiveScene().name == "SceneLvl2" || SceneManager.GetActiveScene().name == "Scenes/World/SceneLvl2" || SceneManager.GetActiveScene().name == "SceneLvl3" || SceneManager.GetActiveScene().name == "Scenes/World/SceneLvl3")
             {
                 music_VCA.setVolume(playerMusicVolume);
             }
@@ -1349,7 +1352,7 @@ public class MenuManager : SingletonManager<MenuManager>
                     return;
                 }
             }
-            if (SceneManager.GetActiveScene().name == "SceneLvl0" || SceneManager.GetActiveScene().name == "SceneLvl1" || SceneManager.GetActiveScene().name == "SceneLvl2" || SceneManager.GetActiveScene().name == "SceneLvl3")
+            if (SceneManager.GetActiveScene().name == "SceneLvl0" || SceneManager.GetActiveScene().name == "Scenes/World/SceneLvl0" || SceneManager.GetActiveScene().name == "SceneLvl1" || SceneManager.GetActiveScene().name == "Scenes/World/SceneLvl1" || SceneManager.GetActiveScene().name == "SceneLvl2" || SceneManager.GetActiveScene().name == "Scenes/World/SceneLvl2" || SceneManager.GetActiveScene().name == "SceneLvl3" || SceneManager.GetActiveScene().name == "Scenes/World/SceneLvl3")
             {
                 music_VCA.setVolume(playerMusicVolume* fChanger);
             }
