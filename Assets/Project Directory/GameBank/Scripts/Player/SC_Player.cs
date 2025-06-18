@@ -478,7 +478,7 @@ public class SC_Player : Singleton<SC_Player>
                                 ingTag.iCompletition += 1;
                                 //PlayCinematicFocus(collider.transform.gameObject, vectDir, bpmManager.FSPB, i+1);
                                 TaggingFeedback(bpmManager.FSPB, vectDir);
-                                StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
+                                //StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
                                 break;
                             }
                             else if (bpmManager.bPlayGood)
@@ -502,14 +502,14 @@ public class SC_Player : Singleton<SC_Player>
                                         ingTag.iCompletition += 2;
                                         //PlayCinematicFocus(collider.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
                                         TaggingFeedback(bpmManager.FSPB, vectDir);
-                                        StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
+                                        //StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
                                     }
                                     else
                                     {
                                         ingTag.iCompletition = 3;
                                         //PlayCinematicFocus(collider.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
                                         TaggingFeedback(bpmManager.FSPB, vectDir);
-                                        StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
+                                        //StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
                                     }
                                     break;
                                 }
@@ -531,7 +531,7 @@ public class SC_Player : Singleton<SC_Player>
                                 ingTag.iCompletition = 3;
                                 //PlayCinematicFocus(collider.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
                                 TaggingFeedback(bpmManager.FSPB, vectDir);
-                                StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
+                                //StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
                                 break;
                             }
                             else if (!bpmManager.bPlayPerfect && !bpmManager.bPlayGood && !bpmManager.bPlayBad)
@@ -543,10 +543,12 @@ public class SC_Player : Singleton<SC_Player>
                         if (ingTag.iCompletition == 1)
                         {
                             SoundManager.Instance.PlayOneShot(sfx_tag[0]);
+                            StartCoroutine(ingTag.PlayVFXCompletition());
                         }
                         else if (ingTag.iCompletition == 2)
                         {
                             SoundManager.Instance.PlayOneShot(sfx_tag[1]);
+                            StartCoroutine(ingTag.PlayVFXCompletition());
                         }
                         else if (ingTag.iCompletition == 3)
                         {
@@ -676,7 +678,7 @@ public class SC_Player : Singleton<SC_Player>
                                 ingTag.iCompletition += 1;
                                 //PlayCinematicFocus(hitInfo.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
                                 TaggingFeedback(bpmManager.FSPB, vectDir);
-                                StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
+                                //StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
                                 break;
                             }
                             else if (bpmManager.bPlayGood)
@@ -700,14 +702,14 @@ public class SC_Player : Singleton<SC_Player>
                                         ingTag.iCompletition += 2;
                                         //PlayCinematicFocus(hitInfo.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
                                         TaggingFeedback(bpmManager.FSPB, vectDir);
-                                        StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
+                                        //StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
                                     }
                                     else
                                     {
                                         ingTag.iCompletition = 3;
                                         //PlayCinematicFocus(hitInfo.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
                                         TaggingFeedback(bpmManager.FSPB, vectDir);
-                                        StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
+                                        //StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
                                     }
                                     break;
                                 }
@@ -729,7 +731,7 @@ public class SC_Player : Singleton<SC_Player>
                                 ingTag.iCompletition = 3;
                                 //PlayCinematicFocus(hitInfo.transform.gameObject, vectDir, bpmManager.FSPB, i + 1);
                                 TaggingFeedback(bpmManager.FSPB, vectDir);
-                                StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
+                                //StartCoroutine(TagFeedback(vectDir, bpmManager.FSPB));
                                 break;
                             }
                             else if (!bpmManager.bPlayPerfect && !bpmManager.bPlayGood && !bpmManager.bPlayBad)
@@ -741,10 +743,12 @@ public class SC_Player : Singleton<SC_Player>
                         if (ingTag.iCompletition == 1)
                         {
                             SoundManager.Instance.PlayOneShot(sfx_tag[0]);
+                            StartCoroutine(ingTag.PlayVFXCompletition());
                         }
                         else if (ingTag.iCompletition == 2)
                         {
                             SoundManager.Instance.PlayOneShot(sfx_tag[1]);
+                            StartCoroutine(ingTag.PlayVFXCompletition());
                         }
                         else if (ingTag.iCompletition == 3)
                         {
@@ -1277,7 +1281,7 @@ public class SC_Player : Singleton<SC_Player>
             });
         }
     }
-    private IEnumerator TagFeedback(Vector3 dir, float time)
+    /*private IEnumerator TagFeedback(Vector3 dir, float time)
     {
         yield return new WaitForSeconds(time * 1 / 6);
         GoVfxTag.transform.localEulerAngles = dir;
@@ -1286,7 +1290,7 @@ public class SC_Player : Singleton<SC_Player>
         yield return new WaitForSeconds(time*4/6);
         vfx_tag.Stop();
         GoVfxTag.transform.localPosition = dir + new Vector3(0f, -50f, 0f);
-    }
+    }*/
     private void GraffitiRenderer(Material mat, float startValue, float targetValue)
     {
         float duration = bpmManager.FSPB; // Duration in seconds
@@ -2038,6 +2042,7 @@ public class SC_Player : Singleton<SC_Player>
                 for (int i = 0; i < ints.Count; i++)
                 {
                     imgStars[i] = menuManager.GoScoringSuccess.transform.GetChild(i).gameObject.transform.GetChild(0).gameObject.GetComponent<UnityEngine.UI.Image>();
+                    imgStars[i].color = new Color32(255, 255, 255, 255);
                     texts[i] = menuManager.GoScoringSuccess.transform.GetChild(i).gameObject.transform.GetChild(1).gameObject.GetComponent<TMP_Text>();
                     if (ints[i] == 1) //vrai
                     {

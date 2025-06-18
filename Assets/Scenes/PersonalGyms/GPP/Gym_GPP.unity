@@ -1415,6 +1415,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3043e623405e03b4fa1e1f70bff1c9be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &120045055 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3447983877167999828, guid: 65f34271cad0dda4d8a49134617b7571,
+    type: 3}
+  m_PrefabInstance: {fileID: 5502365842165218856}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &126622331
 GameObject:
   m_ObjectHideFlags: 0
@@ -3766,6 +3772,12 @@ MonoBehaviour:
   bpmManager: {fileID: 0}
   endValueBounce: {x: 0, y: 0}
   f_bounce: 0
+--- !u!1 &297197766 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4388048679607069220, guid: 65f34271cad0dda4d8a49134617b7571,
+    type: 3}
+  m_PrefabInstance: {fileID: 5502365842165218856}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &309034220
 Mesh:
   m_ObjectHideFlags: 0
@@ -10793,6 +10805,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1865840836}
   m_LocalEulerAnglesHint: {x: 0, y: 60, z: 0}
+--- !u!1 &947952387 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 492468935175872355, guid: 65f34271cad0dda4d8a49134617b7571,
+    type: 3}
+  m_PrefabInstance: {fileID: 5502365842165218856}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &950039611
 GameObject:
   m_ObjectHideFlags: 0
@@ -25220,6 +25238,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
+      propertyPath: go_Grid
+      value: 
+      objectReference: {fileID: 1882944216}
+    - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
       propertyPath: mainCam
       value: 
       objectReference: {fileID: 1636234574}
@@ -25248,6 +25271,11 @@ PrefabInstance:
       propertyPath: posYInit
       value: 1.12
       objectReference: {fileID: 0}
+    - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: goNotesBg
+      value: 
+      objectReference: {fileID: 297197766}
     - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: textTimer
@@ -25407,6 +25435,11 @@ PrefabInstance:
         type: 3}
       propertyPath: bOnControllerConstraint
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: goNoteParent.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
@@ -25573,6 +25606,16 @@ PrefabInstance:
       propertyPath: imNoteRight.Array.data[2]
       value: 
       objectReference: {fileID: 1435197090}
+    - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: goNoteParent.Array.data[0]
+      value: 
+      objectReference: {fileID: 947952387}
+    - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: goNoteParent.Array.data[1]
+      value: 
+      objectReference: {fileID: 120045055}
     - target: {fileID: 7352753680462184229, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: m_Name

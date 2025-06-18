@@ -533,7 +533,13 @@ VisualEffect:
     m_NamedObject:
       m_Array: []
     m_Bool:
-      m_Array: []
+      m_Array:
+      - m_Value: 0
+        m_Name: 2/3
+        m_Overridden: 1
+      - m_Value: 0
+        m_Name: 3/3
+        m_Overridden: 1
 --- !u!73398921 &8527139216598534880
 VFXRenderer:
   serializedVersion: 1

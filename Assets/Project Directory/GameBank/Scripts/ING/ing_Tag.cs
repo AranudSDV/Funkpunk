@@ -66,6 +66,15 @@ public class ing_Tag : MonoBehaviour
 
     public IEnumerator PlayVFXCompletition()
     {
+        if(iCompletition == 2)
+        {
+            vfx_completition.SetBool("2/3", true);
+        }
+        else if(iCompletition == 3)
+        {
+            vfx_completition.SetBool("2/3", true);
+            vfx_completition.SetBool("3/3", true);
+        }
         go_completition.transform.localPosition = vect_completition;
         vfx_completition.Play();
         yield return new WaitForSeconds(1.5f);

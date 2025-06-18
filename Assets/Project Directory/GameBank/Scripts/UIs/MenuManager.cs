@@ -128,6 +128,7 @@ public class MenuManager : SingletonManager<MenuManager>
     public RectTransform RtScoringSuccess;
     public UnityEngine.UI.Button[] ButtonsScoring;
     public UnityEngine.UI.Image[] ImageButtonsScoring;
+    public UnityEngine.UI.Image[] ImageStars;
 
     //END DIALOGUE
     [Header("EndDialogue")]
@@ -525,7 +526,7 @@ public class MenuManager : SingletonManager<MenuManager>
                     }*/
                     ImageButtonGeneral[i].material.SetFloat("_NoColorsWhiteValue", 1f);
                 }
-                else if (EventSystem.currentSelectedGameObject == ButtonsOption[i].gameObject && i< ImageOption.Length)
+                else if (i < ImageOption.Length && EventSystem.currentSelectedGameObject == ButtonsOption[i].gameObject)
                 {
                     ImageOption[i].material.SetFloat("_NoColorsWhiteValue", 1f);
                 }
@@ -1303,10 +1304,12 @@ public class MenuManager : SingletonManager<MenuManager>
         if (bWithNotes)
         {
             bWithNotes = false;
+            ImageButtonGeneral[3].material = M_materialButtonGeneral[8];
         }
         else
         {
             bWithNotes = true;
+            ImageButtonGeneral[3].material = M_materialButtonGeneral[7];
         }
     }
     public void LanguageButton()
@@ -1331,10 +1334,12 @@ public class MenuManager : SingletonManager<MenuManager>
         if(_playerData.iGrid == 1)
         {
             _playerData.iGrid = 0; //false
+            ImageButtonGeneral[2].material = M_materialButtonGeneral[6];
         }
         else
         {
             _playerData.iGrid = 1; //true
+            ImageButtonGeneral[2].material = M_materialButtonGeneral[5];
         }
         bOnceGrid = false;
     }
@@ -1507,6 +1512,10 @@ public class MenuManager : SingletonManager<MenuManager>
         }
         else
         {
+            foreach (UnityEngine.UI.Image stars in ImageStars)
+            {
+                stars.color = new Color32(255, 255, 255, 0);
+            }
             if (iLevel - 1 == -1)
             {
                 iNbTextNow = 0;
@@ -1532,6 +1541,10 @@ public class MenuManager : SingletonManager<MenuManager>
             {
                 imageEnding.color = new Color32(255,255,255,255);
             }
+        }
+        else
+        {
+            imageEnding.color = new Color32(255, 255, 255, 0);
         }
     }
     private void SetSpeaker(int speakingCharacterIndex, int notSpeakingCharacterIndex, int iLevel) //on connait le numero du character mais est-il à gauche ou à droite?
@@ -1667,7 +1680,7 @@ public class MenuManager : SingletonManager<MenuManager>
         RtEndDialogue.offsetMin = new Vector2(0f, 0f);
 
         Time.timeScale = 1f;
-        if (_playerData.iLevelPlayer >= 4)
+        if (_playerData.iLevelPlayer >= 4 && (SceneManager.GetActiveScene().name == "SceneLvl3" || SceneManager.GetActiveScene().name == "Scenes/World/SceneLvl3"))
         {
             LoadScene("Scenes/World/CreditsScene");
             bisOnCredits = true;
