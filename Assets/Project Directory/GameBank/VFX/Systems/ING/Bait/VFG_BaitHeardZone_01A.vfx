@@ -2896,7 +2896,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"r":0.0,"g":0.09986918419599533,"b":1.4980392456054688,"a":1.0}'
+      m_SerializableObject: '{"r":0.0,"g":0.6491504311561585,"b":1.4980392456054688,"a":1.0}'
     m_Space: 2147483647
   m_Property:
     name: _R_Color
@@ -3100,7 +3100,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"r":0.776431143283844,"g":0.22183746099472047,"b":4.237094879150391,"a":0.0}'
+      m_SerializableObject: '{"r":0.27450984716415408,"g":0.0784313827753067,"b":1.4980392456054688,"a":0.0}'
     m_Space: 2147483647
   m_Property:
     name: _G_Color
@@ -3483,7 +3483,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 1
+      m_SerializableObject: 0.2
     m_Space: 2147483647
   m_Property:
     name: _G_OpacityBase
@@ -3521,7 +3521,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"r":766.99609375,"g":0.0,"b":268.44854736328127,"a":1.0}'
+      m_SerializableObject: '{"r":1.4980392456054688,"g":0.0,"b":2.9960784912109377,"a":1.0}'
     m_Space: 2147483647
   m_Property:
     name: _B_Color
@@ -3721,7 +3721,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 18.8
+      m_SerializableObject: 1
     m_Space: 2147483647
   m_Property:
     name: _B_OpacityBase

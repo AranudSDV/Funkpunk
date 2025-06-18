@@ -31,6 +31,14 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _DissolveTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MidTex:
         m_Texture: {fileID: 2800000, guid: b61e6dcda2436cd42a0a22a4eb1aff48, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -58,6 +66,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaCutoff: 0.5
+    - _ErosionSmoothness: 1
     - _IsNeon: 0
     - _QueueControl: 0
     - _QueueOffset: 0
@@ -69,5 +78,5 @@ Material:
     - _Front: {r: 0.056761608, g: 0.2030631, b: 0.04533797, a: 0}
     - _Front02: {r: 0, g: 0, b: 0, a: 0}
     - _Mid02: {r: 0.8687576, g: 2.9960783, b: 0, a: 0}
-    - _Mid1: {r: 0.011764704, g: 0.039215688, b: 0.017591719, a: 0}
+    - _Mid1: {r: 0.76052475, g: 0.9646866, b: 0, a: 0}
   m_BuildTextureStacks: []

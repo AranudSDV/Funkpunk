@@ -11215,6 +11215,11 @@ PrefabInstance:
       objectReference: {fileID: 460384137}
     - target: {fileID: 8380616986897221816, guid: 481679da37c5830468e32f02138b149a,
         type: 3}
+      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380616986897221816, guid: 481679da37c5830468e32f02138b149a,
+        type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.y
       value: -49.5
       objectReference: {fileID: 0}
@@ -63862,6 +63867,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _eventSystem: {fileID: 0}
+  camUI: {fileID: 0}
   splineContainer: {fileID: 1449172869}
   cars: []
   renderCars: []
@@ -63880,6 +63886,7 @@ MonoBehaviour:
   txtChildrenCredits: []
   iCredits: 0
   bOnce: 0
+  bMenuTriggered: 0
 --- !u!1 &1452729516
 GameObject:
   m_ObjectHideFlags: 0

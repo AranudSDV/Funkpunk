@@ -1473,6 +1473,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: OB_P_BoomBox_002B
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3bf36b08ec36f21438ee926179ec1420,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1555,47 +1560,47 @@ PrefabInstance:
     - target: {fileID: 7178223545241407136, guid: 1adefe55a20fe244eb98be212d313b52,
         type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[4].m_Value.x
-      value: 1
+      value: 12.500001
       objectReference: {fileID: 0}
     - target: {fileID: 7178223545241407136, guid: 1adefe55a20fe244eb98be212d313b52,
         type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[4].m_Value.y
-      value: 1.43
+      value: 2.4299998
       objectReference: {fileID: 0}
     - target: {fileID: 7178223545241407136, guid: 1adefe55a20fe244eb98be212d313b52,
         type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[4].m_Value.z
-      value: -3.1752377e-17
+      value: 48.5
       objectReference: {fileID: 0}
     - target: {fileID: 7178223545241407136, guid: 1adefe55a20fe244eb98be212d313b52,
         type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[5].m_Value.x
-      value: 1.9449997
+      value: 12.500001
       objectReference: {fileID: 0}
     - target: {fileID: 7178223545241407136, guid: 1adefe55a20fe244eb98be212d313b52,
         type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[5].m_Value.y
-      value: 2.771
+      value: 3.771
       objectReference: {fileID: 0}
     - target: {fileID: 7178223545241407136, guid: 1adefe55a20fe244eb98be212d313b52,
         type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[5].m_Value.z
-      value: -6.152855e-17
+      value: 49.445
       objectReference: {fileID: 0}
     - target: {fileID: 7178223545241407136, guid: 1adefe55a20fe244eb98be212d313b52,
         type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[6].m_Value.x
-      value: 3.0790005
+      value: 12.500001
       objectReference: {fileID: 0}
     - target: {fileID: 7178223545241407136, guid: 1adefe55a20fe244eb98be212d313b52,
         type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[6].m_Value.y
-      value: 2.262
+      value: 3.262
       objectReference: {fileID: 0}
     - target: {fileID: 7178223545241407136, guid: 1adefe55a20fe244eb98be212d313b52,
         type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[6].m_Value.z
-      value: -5.022649e-17
+      value: 50.579002
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -1704,6 +1709,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: OB_P_BoomBox_001_C
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7bbe1ef385253eb4e98ee876359be2c5,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1797,6 +1807,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: OB_P_BoomBox_001A
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 54ccf37fc8712d34283282191271096e,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
