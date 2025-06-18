@@ -1112,10 +1112,18 @@ public class MenuManager : SingletonManager<MenuManager>
                 }
                 bOnceOptions[2] = true;
             }
+            if(scPlayer!=null && scPlayer.tutoGen!=null && scPlayer.tutoGen.bIsOnBD)
+            {
+                scPlayer.tutoGen.GetComponent<CanvasGroup>().alpha = 0f;
+            }
         }
         else if (controllerConnected && CgPauseMenu.alpha == 1f)
         {
             CheckCurrentSelectable();
+            if (scPlayer != null && scPlayer.tutoGen != null && scPlayer.tutoGen.bIsOnBD)
+            {
+                scPlayer.tutoGen.GetComponent<CanvasGroup>().alpha = 0f;
+            }
         }
         else if (controllerConnected && CgEndDialogue.alpha == 1f)
         {
@@ -1192,6 +1200,10 @@ public class MenuManager : SingletonManager<MenuManager>
             {
                 EventSystem.SetSelectedGameObject(null);
                 SelectionEnsurance();
+            }
+            if (scPlayer != null && scPlayer.tutoGen != null && scPlayer.tutoGen.bIsOnBD)
+            {
+                scPlayer.tutoGen.GetComponent<CanvasGroup>().alpha = 1f;
             }
             StartCoroutine(wait());
             if(scPlayer!=null)

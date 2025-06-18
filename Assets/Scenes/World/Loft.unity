@@ -21020,6 +21020,7 @@ GameObject:
   - component: {fileID: 1739747611}
   - component: {fileID: 1739747613}
   - component: {fileID: 1739747614}
+  - component: {fileID: 1739747615}
   m_Layer: 5
   m_Name: Tutoriel
   m_TagString: Tuto
@@ -21127,6 +21128,18 @@ MonoBehaviour:
   gotutoBeat: {fileID: 1159962947}
   BossCamera: {fileID: 0}
   DoorCamera: {fileID: 0}
+--- !u!225 &1739747615
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1739747610}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1760408895
 GameObject:
   m_ObjectHideFlags: 0

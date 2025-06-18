@@ -221,7 +221,7 @@ public class sc_tuto_generic : MonoBehaviour
                 }
 
                 //INPUT
-                if(scPlayer.bpmManager !=null)
+                if(scPlayer.bpmManager !=null && scPlayer.menuManager!=null&&!scPlayer.menuManager.bGameIsPaused&&scPlayer.menuManager.CgPauseMenu.alpha!=1f&&scPlayer.menuManager.CgOptionPannel.alpha!=1f)
                 {
                     if (!bIsOnLoft)
                     {
