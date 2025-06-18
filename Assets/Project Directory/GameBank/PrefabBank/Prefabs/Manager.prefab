@@ -2335,12 +2335,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 2
+    m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnUp: {fileID: 4785640930153075559}
+    m_SelectOnDown: {fileID: 7734182592106553380}
+    m_SelectOnLeft: {fileID: 4785640930153075559}
+    m_SelectOnRight: {fileID: 7734182592106553380}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.59607846, g: 0.59607846, b: 0.59607846, a: 1}
@@ -2803,12 +2803,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 2
+    m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnUp: {fileID: 4029280696761519072}
+    m_SelectOnDown: {fileID: 4785640930153075559}
+    m_SelectOnLeft: {fileID: 4029280696761519072}
+    m_SelectOnRight: {fileID: 4785640930153075559}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.59607846, g: 0.59607846, b: 0.59607846, a: 1}
@@ -3686,7 +3686,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1771719604172920210}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -7002,12 +7002,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 2
+    m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnUp: {fileID: 8518256833580555983}
+    m_SelectOnDown: {fileID: 7531140146146720017}
+    m_SelectOnLeft: {fileID: 8518256833580555983}
+    m_SelectOnRight: {fileID: 7531140146146720017}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.59607846, g: 0.59607846, b: 0.59607846, a: 1}
@@ -10347,12 +10347,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 2
+    m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnUp: {fileID: 7531140146146720017}
+    m_SelectOnDown: {fileID: 4029280696761519072}
+    m_SelectOnLeft: {fileID: 7531140146146720017}
+    m_SelectOnRight: {fileID: 4029280696761519072}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.59607846, g: 0.59607846, b: 0.59607846, a: 1}
