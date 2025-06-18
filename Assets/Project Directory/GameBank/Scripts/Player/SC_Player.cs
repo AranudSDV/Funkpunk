@@ -2036,13 +2036,9 @@ public class SC_Player : Singleton<SC_Player>
                     else //Faux
                     {
                         imgStars[i].material = menuManager.material_star_empty;
-                        if (i != ints.Count - 1)
+                        if (i != ints.Count)
                         {
                             texts[i].color = new Color32(157, 157, 157, 255);
-                        }
-                        else
-                        {
-                            texts[i].color = new Color32(0, 0, 0, 255);
                         }
                     }
                 }

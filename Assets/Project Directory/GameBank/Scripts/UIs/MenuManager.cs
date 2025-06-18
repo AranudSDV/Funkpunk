@@ -1475,6 +1475,14 @@ public class MenuManager : SingletonManager<MenuManager>
         {
             _sc_textChange.StartWriting(sDialogueFrench[iNbTextNow]);
         }
+        if(iLevelDialogue == 4)
+        {
+            imageEnding.material = M_ImageEndings[1];
+            if (iNbTextNow == iNbDialoguePerLevelAdd[iLevel]-1)
+            {
+                imageEnding.color = new Color32(255,255,255,255);
+            }
+        }
     }
     private void SetSpeaker(int speakingCharacterIndex, int notSpeakingCharacterIndex, int iLevel) //on connait le numero du character mais est-il à gauche ou à droite?
     {
@@ -1488,7 +1496,10 @@ public class MenuManager : SingletonManager<MenuManager>
         //Is right or left character speaking ? 
         if (iWhichCharaToRightToLeft[iNbTextNow*2]== a) //Le sprite de droite est-il celui du chara qui parle ?
         {
-            imgBoxText.sprite = spritesCharactersBoxesRight[a];
+            if (a != -1)
+            {
+                imgBoxText.sprite = spritesCharactersBoxesRight[a];
+            }
             imgBoxText.color = new Color32(255, 255, 255, 255);
             if (speakingCharacterIndex != -1)
             {
@@ -1517,7 +1528,10 @@ public class MenuManager : SingletonManager<MenuManager>
         }
         else
         {
-            imgBoxText.sprite = spritesCharactersBoxesLeft[a];
+            if (a != -1)
+            {
+                imgBoxText.sprite = spritesCharactersBoxesLeft[a];
+            }
             imgBoxText.color = new Color32(255, 255, 255, 255);
             if (notSpeakingCharacterIndex != -1)
             {
