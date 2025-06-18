@@ -18,6 +18,7 @@ public class SC_VisionConeCasting : MonoBehaviour
     [SerializeField] private LayerMask obstructionMask;     // Masque pour détecter les obstacles (murs, etc.)
     [SerializeField] private float guardVerticalOffset = 0f;  // Hauteur du garde (base)
     [SerializeField] private float farPointExtraOffset = 0f;  // Offset additionnel sur le point éloigné (optionnel)
+    [SerializeField] private float GroundHeight = 0f;
 
     [Header("Offset pour la partie interne")]
     [SerializeField] private float offsetAmount = 0f;         // Force d'offset appliquée aux vertices dans la moitié "face au garde"
@@ -74,6 +75,8 @@ public class SC_VisionConeCasting : MonoBehaviour
         // 2. Calcul du farPoint : projection sur le sol via raycast vertical
         float maxDist = scFieldView.FRadius;
         Vector3 tentativeFarPoint = guardPos + transform.forward * maxDist;
+        tentativeFarPoint.y += GroundHeight;
+
         Ray groundRay = new Ray(tentativeFarPoint + Vector3.up * 10f, Vector3.down);
         Vector3 farPoint;
         if (Physics.Raycast(groundRay, out RaycastHit groundHit, 20f, groundMask))
@@ -83,7 +86,7 @@ public class SC_VisionConeCasting : MonoBehaviour
         else
         {
             farPoint = tentativeFarPoint;
-            farPoint.y = 0;
+            farPoint.y = GroundHeight;
         }
         farPoint += transform.forward * farPointExtraOffset;
 
@@ -206,7 +209,7 @@ public class SC_VisionConeCasting : MonoBehaviour
         coneMesh.triangles = triangles;
         coneMesh.uv = uvs;
         coneMesh.RecalculateBounds();
-       
+        coneMesh.RecalculateNormals();
 
     }
 }
