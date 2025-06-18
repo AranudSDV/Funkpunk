@@ -20,7 +20,7 @@ MonoBehaviour:
     m_OverrideState: 1
     m_Value: 1
   scatter:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 0.7
   clamp:
     m_OverrideState: 0
@@ -34,7 +34,7 @@ MonoBehaviour:
     hdr: 0
   Density:
     m_OverrideState: 1
-    m_Value: 80
+    m_Value: 60
   Cutoff:
     m_OverrideState: 0
     m_Value: 0.4
@@ -376,13 +376,13 @@ MonoBehaviour:
   active: 1
   lift:
     m_OverrideState: 1
-    m_Value: {x: 0.9493663, y: 0.9620254, z: 1, w: 0}
+    m_Value: {x: 0.90016174, y: 0.86095655, z: 1, w: 0}
   gamma:
     m_OverrideState: 1
-    m_Value: {x: 1, y: 0.92803586, z: 0.9348851, w: 0}
+    m_Value: {x: 1, y: 0.90928334, z: 0.8870071, w: 0}
   gain:
     m_OverrideState: 1
-    m_Value: {x: 0.9018801, y: 0.8959213, z: 1, w: 0.32395536}
+    m_Value: {x: 0.9018801, y: 0.8959213, z: 1, w: 0.13317637}
 --- !u!114 &5969227582590338906
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -414,7 +414,7 @@ MonoBehaviour:
   active: 1
   mode:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 2
   neutralHDRRangeReductionMode:
     m_OverrideState: 0
     m_Value: 2
