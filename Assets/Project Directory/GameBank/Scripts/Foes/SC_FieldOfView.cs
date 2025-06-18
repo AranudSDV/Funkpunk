@@ -121,6 +121,10 @@ public class SC_FieldOfView : MonoBehaviour
         switch (typeFoe)
         {
             case FoeType.superStatic:
+                if (sc_BossCone[1]!=null && !isBoss)
+                {
+                    sc_BossCone[1].gameObject.SetActive(false);
+                }
                 currentRotation = minRotation;
                 transform.eulerAngles = new Vector3(0, currentRotation, 0);
                 break;
