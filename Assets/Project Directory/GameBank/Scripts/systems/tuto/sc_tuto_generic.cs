@@ -12,6 +12,7 @@ using UnityEngine.Rendering;
 using System.Text.RegularExpressions;
 using System;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 public class sc_tuto_generic : MonoBehaviour
 {
@@ -42,7 +43,8 @@ public class sc_tuto_generic : MonoBehaviour
     [Header("Camera")]
     [SerializeField] private GameObject GoFollowed;
     [SerializeField] private CinemachineBrain cam_Brain;
-    private CinemachineVirtualCamera camBoss;
+    private CinemachineVirtualCamera camBoss; 
+    private CinemachineVirtualCamera camDoor;
     [SerializeField] private CinemachineVirtualCamera cam_Back;
     [SerializeField] private CinemachineVirtualCamera cam_Game;
     [SerializeField] private CinemachinePathBase m_Path;
@@ -78,6 +80,11 @@ public class sc_tuto_generic : MonoBehaviour
     public GameObject GoCanvasArrow;
     public GameObject gotutoBeat; 
     public DG.Tweening.Sequence arrowSequence;
+
+    //BOSS
+    [Header("Boss")]
+    [SerializeField] private CinemachineVirtualCamera BossCamera;
+    [SerializeField] private CinemachineVirtualCamera DoorCamera;
     private void Initialized()
     {
         if(!bIsOnLoft)
@@ -248,7 +255,7 @@ public class sc_tuto_generic : MonoBehaviour
                                 bOnceSkip = false;
                                 bOnceNext = true;
                                 bOnceBubble = false;
-                                EndBossExplication();
+                                EndBossExplication(camBoss, camDoor);
                             }
 
                             if ((!cameraIsTracking && bInputMoreTutoOk) || (!cameraIsTracking && !(_y == intYDetectionTuto || _y == intYBaitTuto)))
@@ -602,12 +609,13 @@ public class sc_tuto_generic : MonoBehaviour
         bIsOnBD = true;
         bWaitNext = false;
     }
-    public void StartBossExplication(CinemachineVirtualCamera cam)
+    public void StartBossExplication(CinemachineVirtualCamera BossCam, CinemachineVirtualCamera Doorcam)
     {
         Debug.Log("debut boss explication");
         bHasClickedSkip = false;
         bOnceSkip = false;
-        camBoss = cam;
+        camBoss = BossCam;
+        camDoor = Doorcam;
         scPlayer.bIsImune = true;
         scPlayer.bisTuto = true;
         bOnceNext = false;
@@ -615,16 +623,23 @@ public class sc_tuto_generic : MonoBehaviour
         bIsOnBD = true;
         bWaitNext = false;
     }
-    private void EndBossExplication()
+    private void EndBossExplication(CinemachineVirtualCamera BossCam, CinemachineVirtualCamera DoorCam)
     {
         //camBoss.Priority = 2; //14, 16,4
-        scPlayer.FOVS = FOVSBoss;
-        scPlayer.bpmManager.fFOVmin = 14f;
-        scPlayer.bpmManager.fFOVmax = 16.4f;
-        bIsOnBD = false;
-        scPlayer.bisTuto = false;
-        scPlayer.menuManager.bGameIsPaused = false;
-        ImuneToTuto(scPlayer.bpmManager);
+        DoorCam.Priority = 2;
+        BossCam.Priority = 20;
+        DG.Tweening.Sequence sequenceDoor2 = DOTween.Sequence();
+        sequenceDoor2.AppendInterval(2f);
+        sequenceDoor2.OnComplete(() =>
+        {
+            scPlayer.FOVS = FOVSBoss;
+            scPlayer.bpmManager.fFOVmin = 14f;
+            scPlayer.bpmManager.fFOVmax = 16.4f;
+            bIsOnBD = false;
+            scPlayer.bisTuto = false;
+            scPlayer.menuManager.bGameIsPaused = false;
+            ImuneToTuto(scPlayer.bpmManager);
+        });
     }
     private void OnTriggerEnter(Collider collision)
     {

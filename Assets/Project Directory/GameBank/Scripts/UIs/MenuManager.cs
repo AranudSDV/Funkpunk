@@ -429,6 +429,42 @@ public class MenuManager : SingletonManager<MenuManager>
                 }
             }
         }
+        else if (SceneManager.GetActiveScene().name == "LevelChoosing")
+        {
+            if (GoLevelsButton != null && _levels != null)
+            {
+                for (int i = 0; i < GoLevelsButton.Length + 1; i++)
+                {
+                    if (EventSystem.currentSelectedGameObject == GoLevelsButton[i])//&& !bNowSelectedGeneral[i]
+                    {
+                        _levels[i].img_lvl.material.SetFloat("_NoColorsWhiteValue", 1f);
+                    }
+                    else if (EventSystem.currentSelectedGameObject == GoLevelBackButton)
+                    {
+                        GoLevelBackButton.GetComponent<UnityEngine.UI.Image>().material.SetFloat("_NoColorsWhiteValue", 1f);
+                    }
+                    else
+                    {
+                        _levels[i].img_lvl.material.SetFloat("_NoColorsWhiteValue", 0.1f);
+                        GoLevelBackButton.GetComponent<UnityEngine.UI.Image>().material.SetFloat("_NoColorsWhiteValue", 0.1f);
+                    }
+                }
+            }
+        }
+        else if (CgScoring.alpha == 1f)
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                if (EventSystem.currentSelectedGameObject == ButtonsScoring[i].gameObject)//&& !bNowSelectedGeneral[i]
+                {
+                    ImageButtonsScoring[i].material.SetFloat("_NoColorsWhiteValue", 1f);
+                }
+                else
+                {
+                    ImageButtonsScoring[i].material.SetFloat("_NoColorsWhiteValue", 0.1f);
+                }
+            }
+        }
         else if (CgOptionAudio.alpha == 1f)
         {
             for (int i = 0; i < 3; i++)
@@ -497,42 +533,6 @@ public class MenuManager : SingletonManager<MenuManager>
                 iSelectedAudio = -1;*/
             }
         }
-        else if(SceneManager.GetActiveScene().name == "LevelChoosing")
-        {
-            if(GoLevelsButton!=null && _levels!=null)
-            {
-                for (int i = 0; i < GoLevelsButton.Length+1; i++)
-                {
-                    if (EventSystem.currentSelectedGameObject == GoLevelsButton[i])//&& !bNowSelectedGeneral[i]
-                    {
-                        _levels[i].img_lvl.material.SetFloat("_NoColorsWhiteValue", 1f);
-                    }
-                    else if (EventSystem.currentSelectedGameObject == GoLevelBackButton)
-                    {
-                        GoLevelBackButton.GetComponent<UnityEngine.UI.Image>().material.SetFloat("_NoColorsWhiteValue", 1f);
-                    }
-                    else
-                    {
-                        _levels[i].img_lvl.material.SetFloat("_NoColorsWhiteValue", 0.1f);
-                        GoLevelBackButton.GetComponent<UnityEngine.UI.Image>().material.SetFloat("_NoColorsWhiteValue", 0.1f);
-                    }
-                }
-            }
-        }
-        else if(CgScoring.alpha == 1f)
-        {
-            for (int i = 0; i < 2; i++)
-            {
-                if (EventSystem.currentSelectedGameObject == ButtonsScoring[i].gameObject)//&& !bNowSelectedGeneral[i]
-                {
-                    ImageButtonsScoring[i].material.SetFloat("_NoColorsWhiteValue", 1f);
-                }
-                else
-                {
-                    ImageButtonsScoring[i].material.SetFloat("_NoColorsWhiteValue", 0.1f);
-                }
-            }
-        }
     }
     private void SelectionEnsurance()
     {
@@ -555,7 +555,15 @@ public class MenuManager : SingletonManager<MenuManager>
                     }
                 }
             }
-            else if(CgPauseMenu.alpha == 0f && CgScoring.alpha == 1f)
+            else if (CgEndDialogue.alpha == 1f)
+            {
+                if (rectBoxTextImage.gameObject != null)
+                {
+                    EventSystem.SetSelectedGameObject(rectBoxTextImage.gameObject);
+                    Debug.Log("ensurance for " + EventSystem.currentSelectedGameObject);
+                }
+            }
+            else if(CgScoring.alpha == 1f)
             {
                 if (GoScoringFirstButtonSelected != null)
                 {
@@ -577,14 +585,6 @@ public class MenuManager : SingletonManager<MenuManager>
                     {
                         EventSystem.SetSelectedGameObject(GoPausedFirstButtonSelected);
                     }
-                }
-            }
-            else if(CgEndDialogue.alpha == 1f)
-            {
-                if (rectBoxTextImage.gameObject != null)
-                {
-                    EventSystem.SetSelectedGameObject(rectBoxTextImage.gameObject);
-                    Debug.Log("ensurance for " + EventSystem.currentSelectedGameObject);
                 }
             }
         }

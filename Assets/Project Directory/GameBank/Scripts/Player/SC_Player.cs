@@ -1061,20 +1061,8 @@ public class SC_Player : Singleton<SC_Player>
             sequenceDoor1.Append(goDoor.transform.DORotate(new Vector3(0, 0, 90), 3f));
             sequenceDoor1.OnComplete(() =>
             {
-                DoorCam.Priority = 2;
-                BossCam.Priority = 20;
-                NextExplicationBoss(BossCam);
+                tutoGen.StartBossExplication(BossCam, DoorCam);
             });
-        });
-    }
-    private void NextExplicationBoss(CinemachineVirtualCamera BossCam)
-    {
-        Debug.Log("next explication");
-        DG.Tweening.Sequence sequenceDoor2 = DOTween.Sequence();
-        sequenceDoor2.AppendInterval(2f);
-        sequenceDoor2.OnComplete(() =>
-        {
-            tutoGen.StartBossExplication(BossCam);
         });
     }
 

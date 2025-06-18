@@ -13,7 +13,8 @@ public class scBossDoor : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            collision.transform.GetComponent<SC_Player>().BossDoorToFoe(goDoor, BossCamera, DoorCamera, this.transform.GetComponent<BoxCollider>());
+            SC_Player scPlayer = collision.transform.GetComponent<SC_Player>();
+            scPlayer.BossDoorToFoe(goDoor, BossCamera, DoorCamera, this.transform.GetComponent<BoxCollider>());
             for (int i = 0; i < allTaggsBeforeBoss.Length; i++)
             {
                 allTaggsBeforeBoss[i].decalProj.material.SetFloat("_ErosionValue", 1f);
