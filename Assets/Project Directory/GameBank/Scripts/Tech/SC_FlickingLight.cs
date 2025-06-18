@@ -24,7 +24,7 @@ public class LightFlickering : MonoBehaviour
         fBeatValue = manager.fProgressBPM;
         if(targetLight!=null)
         {
-            targetLight.intensity = Mathf.Lerp(fMinIntensity, fMaxIntensity, fBeatValue);
+            targetLight.intensity = Mathf.Lerp(fMaxIntensity, fMinIntensity, fBeatValue);
         }
     }
 }
