@@ -103,6 +103,7 @@ Material:
     - _AlphaCutoff: 0.5
     - _BPM: 60
     - _BakedOrRT: 0
+    - _BaseMask: 0
     - _Base_or_Tsample: 1
     - _BlendPow: 1
     - _Cels_FallOffThreshold: 1
@@ -134,8 +135,10 @@ Material:
     - _SpecularHighlights: 1
     - _TimeDelay: 0
     - _TopMask: 0
+    - _TopMask1: 0
     - _TriplanarTiling: 10
     - _Using3DMovements: 1
+    - _Using3DMovements1: 0
     - _UsingTriplanar: 0
     - _UsingTriplanar1: 0
     - _WorldPosDiv: 0
@@ -144,7 +147,7 @@ Material:
     - _AO: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 0}
     - _BaseVertexOffsetDelay: {r: 0.1, g: 0.05, b: 0.01, a: 0}
-    - _BaseVertexOffsetValue: {r: 0.1, g: 0.3, b: 0.3, a: 0}
+    - _BaseVertexOffsetValue: {r: 0.1, g: 0.1, b: 0.1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _MTL: {r: 0, g: 0, b: 0, a: 0}
     - _NRM: {r: 0, g: 0, b: 1, a: 1}
