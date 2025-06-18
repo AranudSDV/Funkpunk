@@ -137,6 +137,7 @@ Material:
     - _TopMask: 0.5
     - _TriplanarTiling: 10
     - _Using3DMovements: 1
+    - _Using3DMovements1: 0
     - _UsingTriplanar: 0
     - _UsingTriplanar1: 0
     - _WorldPosDiv: 0
@@ -144,8 +145,8 @@ Material:
     - _ALB: {r: 1, g: 0, b: 0, a: 0}
     - _AO: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 0}
-    - _BaseVertexOffsetDelay: {r: 0, g: 0, b: 0, a: 0}
-    - _BaseVertexOffsetValue: {r: 0, g: 0.5, b: 0, a: 0}
+    - _BaseVertexOffsetDelay: {r: 0.2, g: 0.2, b: 0, a: 0}
+    - _BaseVertexOffsetValue: {r: -0.2, g: -0.1, b: 0.3, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _MTL: {r: 0, g: 0, b: 0, a: 0}
     - _NRM: {r: 0, g: 0, b: 1, a: 1}
@@ -153,6 +154,6 @@ Material:
     - _OutlineColor2: {r: 0.4558116, g: 0, b: 1.498039, a: 0}
     - _SMH: {r: 0, g: 0, b: 0, a: 0}
     - _ShadowPatternDensity: {r: 100, g: 100, b: 0, a: 0}
-    - _TopVertexDelay: {r: 0, g: 0, b: 0, a: 0}
-    - _TopVertexOffsetValue: {r: 0, g: 0, b: 0.1, a: 0}
+    - _TopVertexDelay: {r: 0.14, g: 0, b: 0, a: 0}
+    - _TopVertexOffsetValue: {r: 0.1, g: 0.1, b: 0.1, a: 0}
   m_BuildTextureStacks: []
