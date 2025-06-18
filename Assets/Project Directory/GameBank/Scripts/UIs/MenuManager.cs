@@ -268,6 +268,10 @@ public class MenuManager : SingletonManager<MenuManager>
             }
             GoGameChoose[5].transform.GetComponent<UnityEngine.UI.Image>().color = new Color32(255, 255, 255, 0);
             TrainAndUION();
+            if(trainMenu!=null)
+            {
+                trainMenu.bMenuTriggered = true;
+            }
         }
         if(SceneManager.GetActiveScene().name == "SceneSplash")
         {
@@ -410,6 +414,9 @@ public class MenuManager : SingletonManager<MenuManager>
                 txt.text = "New Game";
             }
         }
+        sSceneToLoad = "Scenes/World/Loft";
+        UnityEngine.UI.Button btnNewLoad = GoGameChoose[0].GetComponent<UnityEngine.UI.Button>();
+        btnNewLoad.onClick.AddListener(delegate { LoadScene(sSceneToLoad); });
     }
     private void CheckCurrentSelectable()
     {
@@ -717,7 +724,7 @@ public class MenuManager : SingletonManager<MenuManager>
                 //Init Train
                 GoLevelsButton = null;
                 _levels = null;
-                sSceneToLoad = "Loft"; 
+                sSceneToLoad = "Scenes/World/Loft"; 
                 UnityEngine.UI.Button btnNewLoad = GoGameChoose[0].GetComponent<UnityEngine.UI.Button>();
                 btnNewLoad.onClick.AddListener(delegate { LoadScene(sSceneToLoad); });
                 UnityEngine.UI.Button btnCredits = GoGameChoose[2].GetComponent<UnityEngine.UI.Button>();
@@ -733,10 +740,10 @@ public class MenuManager : SingletonManager<MenuManager>
             GoGameChoose[0] = null;
             GoLevelsButton = null;
         }
-        if(SceneManager.GetActiveScene().name == "SceneSplash")
+        if(SceneManager.GetActiveScene().name == "Scenes/World/SceneSplash")
         {
             bMenuOnTriggered = false;
-            sSceneToLoad = "Loft";
+            sSceneToLoad = "Scenes/World/Loft";
             UnityEngine.UI.Button btnNewLoad = GoGameChoose[0].GetComponent<UnityEngine.UI.Button>();
             btnNewLoad.onClick.AddListener(delegate { LoadScene(sSceneToLoad); });
             if (_playerData.iLevelPlayer > 0)
@@ -776,11 +783,11 @@ public class MenuManager : SingletonManager<MenuManager>
                 }
             }
         }
-        else if(SceneManager.GetActiveScene().name == "Loft")
+        else if(SceneManager.GetActiveScene().name == "Scenes/World/Loft")
         {
-            sSceneToLoad = "LevelChoosing";
+            sSceneToLoad = "Scenes/World/LevelChoosing";
         }
-        else if(SceneManager.GetActiveScene().name == "LevelChoosing")
+        else if(SceneManager.GetActiveScene().name == "Scenes/World/LevelChoosing")
         {
             for (int i = 0; i < GoLevelsButton.Length; i++)
             {
