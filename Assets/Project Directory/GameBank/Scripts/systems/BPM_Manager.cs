@@ -479,32 +479,34 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
     {
         if (scPlayer != null)
         {
-            /*float x = scPlayer.goNoteRight[0].anchoredPosition.x - scPlayer.goNoteRight[1].anchoredPosition.x;
-            if (x > 0) //La note 1 est plus proche du centre que la 0
+            if(menuManager.bWithNotes)
             {
-                float x1 = scPlayer.goNoteRight[1].anchoredPosition.x - scPlayer.goNoteRight[2].anchoredPosition.x;
-                if (x1 > 0) //la note 2 est plus proche du centre que la 1
+                float x = scPlayer.goNoteRight[0].anchoredPosition.x - scPlayer.goNoteRight[1].anchoredPosition.x;
+                if (x > 0) //La note 1 est plus proche du centre que la 0
                 {
-                    iNowNote = 2;
+                    float x1 = scPlayer.goNoteRight[1].anchoredPosition.x - scPlayer.goNoteRight[2].anchoredPosition.x;
+                    if (x1 > 0) //la note 2 est plus proche du centre que la 1
+                    {
+                        iNowNote = 2;
+                    }
+                    else
+                    {
+                        iNowNote = 1;
+                    }
                 }
-                else
+                else //la note 0 est plus proche du centre que la 1
                 {
-                    iNowNote = 1;
+                    float x1 = scPlayer.goNoteRight[0].anchoredPosition.x - scPlayer.goNoteRight[2].anchoredPosition.x;
+                    if (x1 > 0) //la note 2 est plus proche du centre que la 0
+                    {
+                        iNowNote = 2;
+                    }
+                    else
+                    {
+                        iNowNote = 0;
+                    }
                 }
             }
-            else //la note 0 est plus proche du centre que la 1
-            {
-                float x1 = scPlayer.goNoteRight[0].anchoredPosition.x - scPlayer.goNoteRight[2].anchoredPosition.x;
-                if (x1 > 0) //la note 2 est plus proche du centre que la 0
-                {
-                    iNowNote = 2;
-                }
-                else
-                {
-                    iNowNote = 0;
-                }
-            }
-        }*/
         }
     }
     private void MusicNotesMovingStart()
@@ -518,7 +520,7 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
             .SetEase(Ease.OutCirc)).SetUpdate(true);
             arrowSequence.Append(scPlayer.GoCanvasArrow.transform.DOScale(0.79f, FSPB / 3f)
             .SetEase(Ease.InExpo)).SetUpdate(true);
-            if (scPlayer.tutoGen!=null&& scPlayer.tutoGen.bIsOnLoft & scPlayer.tutoGen.bTuto[0])
+            if (scPlayer.tutoGen!=null&& scPlayer.tutoGen.bIsOnLoft & scPlayer.tutoGen.bTuto[0] && !scPlayer.menuManager.bWithNotes)
             {
                 scPlayer.tutoGen.arrowSequence.Kill();
                 scPlayer.tutoGen.arrowSequence = DOTween.Sequence().SetAutoKill(true).SetUpdate(true);
@@ -528,121 +530,124 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
                 .SetEase(Ease.InExpo)).SetUpdate(true);
             }
         }
-        /*if (i_B == 1)
+        if(menuManager.bWithNotes)
         {
-            scPlayer.goNoteRight[0].anchoredPosition = new Vector2(newPos.x * (1 + 3 * canvas)+ scPlayer.goNoteLeft[0].rect.width / 4f, 0f);
-            scPlayer.goNoteRight[0].localScale = new Vector3(1f,1f,1f);
-            scPlayer.goNoteLeft[0].anchoredPosition = new Vector2(-newPos.x * (1 + 3 * canvas)- scPlayer.goNoteLeft[0].rect.width / 4f, 0f);
-            scPlayer.goNoteLeft[0].localScale = new Vector3(1f, 1f, 1f);
-            scPlayer.imNoteRight[0].color = new Color32(0, 197, 255, 255);
-            scPlayer.imNoteLeft[0].color = new Color32(0, 197, 255, 255);
-            sequences[0].Kill();
-            sequences[0] = DOTween.Sequence();
-            sequences[0].Append(scPlayer.goNoteRight[0].DOAnchorPos(new Vector2(scPlayer.goNoteLeft[0].rect.width / 2f, 0f), (FSPB * 3)-(FSPB/7), false).SetEase(Ease.Linear)).SetUpdate(true);
-            sequences[0].Join(scPlayer.goNoteLeft[0].DOScale(1.5f, (FSPB * 3) - (FSPB / 7)).SetEase(Ease.InBack)).SetUpdate(true);
-            sequences[0].Join(scPlayer.goNoteRight[0].DOScale(1.5f, (FSPB * 3) - (FSPB / 7)).SetEase(Ease.InBack)).SetUpdate(true);
-            sequences[0].Join(scPlayer.goNoteLeft[0].DOAnchorPos(new Vector2(-scPlayer.goNoteLeft[0].rect.width / 2f, 0f), (FSPB * 3) - (FSPB / 7), false).SetEase(Ease.Linear)).SetUpdate(true);
-            sequences[0].Append(scPlayer.goNoteRight[0].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear)).SetUpdate(true);
-            sequences[0].Join(scPlayer.goNoteLeft[0].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear)).SetUpdate(true);
-            sequences[0].Join(scPlayer.goNoteLeft[0].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
-            sequences[0].Join(scPlayer.goNoteRight[0].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
-            i_B = 2;
-        }
-        else if (i_B == 2)
-        {
-            scPlayer.goNoteRight[1].anchoredPosition = new Vector2(newPos.x * (1 + 3 * canvas)+ scPlayer.goNoteLeft[0].rect.width / 4f, 0f);
-            scPlayer.goNoteLeft[1].anchoredPosition = new Vector2(-newPos.x * (1 + 3 * canvas) - scPlayer.goNoteLeft[0].rect.width / 4f, 0f);
-            scPlayer.goNoteRight[1].localScale = new Vector3(1f, 1f, 1f);
-           scPlayer.goNoteLeft[1].localScale = new Vector3(1f, 1f, 1f);
-            scPlayer.imNoteRight[1].color = new Color32(0, 197, 255, 255);
-            scPlayer.imNoteLeft[1].color = new Color32(0, 197, 255, 255);
-            sequences[1].Kill();
-            sequences[1] = DOTween.Sequence();
-            sequences[1].Append(scPlayer.goNoteRight[1].DOAnchorPos(new Vector2(scPlayer.goNoteLeft[0].rect.width / 2f, 0f), (FSPB * 3) - (FSPB / 7), false).SetEase(Ease.Linear)).SetUpdate(true);
-            sequences[1].Join(scPlayer.goNoteLeft[1].DOScale(1.5f, (FSPB * 3) - (FSPB / 7)).SetEase(Ease.InBack)).SetUpdate(true);
-            sequences[1].Join(scPlayer.goNoteRight[1].DOScale(1.5f, (FSPB * 3) - (FSPB / 7)).SetEase(Ease.InBack)).SetUpdate(true);
-            sequences[1].Join(scPlayer.goNoteLeft[1].DOAnchorPos(new Vector2(-scPlayer.goNoteLeft[0].rect.width / 2f, 0f), (FSPB * 3) - (FSPB / 7), false).SetEase(Ease.Linear)).SetUpdate(true);
-            sequences[1].Append(scPlayer.goNoteRight[1].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear)).SetUpdate(true);
-            sequences[1].Join(scPlayer.goNoteLeft[1].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear)).SetUpdate(true);
-            sequences[1].Join(scPlayer.goNoteLeft[1].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
-            sequences[1].Join(scPlayer.goNoteRight[1].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
-            i_B = 3;
-        }
-        else if (i_B == 3)
-        {
-            scPlayer.goNoteRight[2].anchoredPosition = new Vector2(newPos.x * (1 + 3 * canvas) + scPlayer.goNoteLeft[0].rect.width / 4f, 0f);
-            scPlayer.goNoteLeft[2].anchoredPosition = new Vector2(-newPos.x * (1 + 3 * canvas) - scPlayer.goNoteLeft[0].rect.width / 4f, 0f);
-            scPlayer.goNoteRight[2].localScale = new Vector3(1f, 1f, 1f);
-            scPlayer.goNoteLeft[2].localScale = new Vector3(1f, 1f, 1f);
-            scPlayer.imNoteRight[2].color = new Color32(0, 197, 255, 255);
-            scPlayer.imNoteLeft[2].color = new Color32(0, 197, 255, 255);
-            sequences[2].Kill();
-            sequences[2] = DOTween.Sequence();
-            sequences[2].Append(scPlayer.goNoteRight[2].DOAnchorPos(new Vector2(scPlayer.goNoteLeft[0].rect.width / 2f, 0f), (FSPB * 3) - (FSPB / 7), false).SetEase(Ease.Linear)).SetUpdate(true);
-            sequences[2].Join(scPlayer.goNoteLeft[2].DOScale(1.5f, (FSPB * 3) - (FSPB / 7)).SetEase(Ease.InBack)).SetUpdate(true);
-            sequences[2].Join(scPlayer.goNoteRight[2].DOScale(1.5f, (FSPB * 3) - (FSPB / 7)).SetEase(Ease.InBack)).SetUpdate(true);
-            sequences[2].Join(scPlayer.goNoteLeft[2].DOAnchorPos(new Vector2(-scPlayer.goNoteLeft[0].rect.width / 2f, 0f), (FSPB * 3) - (FSPB / 7), false).SetEase(Ease.Linear)).SetUpdate(true);
-            sequences[2].Append(scPlayer.goNoteRight[2].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear)).SetUpdate(true);
-            sequences[2].Join(scPlayer.goNoteLeft[2].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear)).SetUpdate(true);
-            sequences[2].Join(scPlayer.goNoteLeft[2].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
-            sequences[2].Join(scPlayer.goNoteRight[2].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
-            i_B = 1;
-        }
-        else
-        {
-            iNowNote = 0;
-            scPlayer.goNoteRight[0].anchoredPosition = new Vector2(newPos.x * (1+ canvas)+ scPlayer.goNoteLeft[0].rect.width / 4f, 0f);
-            scPlayer.goNoteLeft[0].anchoredPosition = new Vector2(-newPos.x * (1 + canvas)- scPlayer.goNoteLeft[0].rect.width / 4f, 0f);
-            scPlayer.goNoteRight[0].localScale = new Vector3(1f, 1f, 1f);
-            scPlayer.goNoteLeft[0].localScale = new Vector3(1f, 1f, 1f);
-            scPlayer.imNoteRight[0].color = new Color32(0, 197, 255, 255);
-            scPlayer.imNoteLeft[0].color = new Color32(0, 197, 255, 255);
-            sequences[0].Kill();
-            sequences[0] = DOTween.Sequence();
-            sequences[0].Append(scPlayer.goNoteRight[0].DOAnchorPos(new Vector2(scPlayer.goNoteLeft[0].rect.width / 2f, 0f), FSPB - (FSPB / 7), false).SetEase(Ease.Linear)).SetUpdate(true);
-            sequences[0].Join(scPlayer.goNoteLeft[0].DOScale(1.5f,  FSPB- (FSPB / 7)).SetEase(Ease.InBack)).SetUpdate(true);
-            sequences[0].Join(scPlayer.goNoteRight[0].DOScale(1.5f, FSPB - (FSPB / 7)).SetEase(Ease.InBack)).SetUpdate(true);
-            sequences[0].Join(scPlayer.goNoteLeft[0].DOAnchorPos(new Vector2(-scPlayer.goNoteLeft[0].rect.width / 2f, 0f), FSPB - (FSPB / 7), false).SetEase(Ease.Linear)).SetUpdate(true);
-            sequences[0].Append(scPlayer.goNoteRight[0].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear)).SetUpdate(true);
-            sequences[0].Join(scPlayer.goNoteLeft[0].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear)).SetUpdate(true);
-            sequences[0].Join(scPlayer.goNoteLeft[0].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
-            sequences[0].Join(scPlayer.goNoteRight[0].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
+            if (i_B == 1)
+            {
+                scPlayer.goNoteRight[0].anchoredPosition = new Vector2(newPos.x * (1 + 3 * canvas) + scPlayer.goNoteLeft[0].rect.width / 4f, 0f);
+                scPlayer.goNoteRight[0].localScale = new Vector3(1f, 1f, 1f);
+                scPlayer.goNoteLeft[0].anchoredPosition = new Vector2(-newPos.x * (1 + 3 * canvas) - scPlayer.goNoteLeft[0].rect.width / 4f, 0f);
+                scPlayer.goNoteLeft[0].localScale = new Vector3(1f, 1f, 1f);
+                scPlayer.imNoteRight[0].color = new Color32(0, 197, 255, 255);
+                scPlayer.imNoteLeft[0].color = new Color32(0, 197, 255, 255);
+                sequences[0].Kill();
+                sequences[0] = DOTween.Sequence();
+                sequences[0].Append(scPlayer.goNoteRight[0].DOAnchorPos(new Vector2(scPlayer.goNoteLeft[0].rect.width / 2f, 0f), (FSPB * 3) - (FSPB / 7), false).SetEase(Ease.Linear)).SetUpdate(true);
+                sequences[0].Join(scPlayer.goNoteLeft[0].DOScale(1.5f, (FSPB * 3) - (FSPB / 7)).SetEase(Ease.InBack)).SetUpdate(true);
+                sequences[0].Join(scPlayer.goNoteRight[0].DOScale(1.5f, (FSPB * 3) - (FSPB / 7)).SetEase(Ease.InBack)).SetUpdate(true);
+                sequences[0].Join(scPlayer.goNoteLeft[0].DOAnchorPos(new Vector2(-scPlayer.goNoteLeft[0].rect.width / 2f, 0f), (FSPB * 3) - (FSPB / 7), false).SetEase(Ease.Linear)).SetUpdate(true);
+                sequences[0].Append(scPlayer.goNoteRight[0].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear)).SetUpdate(true);
+                sequences[0].Join(scPlayer.goNoteLeft[0].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear)).SetUpdate(true);
+                sequences[0].Join(scPlayer.goNoteLeft[0].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
+                sequences[0].Join(scPlayer.goNoteRight[0].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
+                i_B = 2;
+            }
+            else if (i_B == 2)
+            {
+                scPlayer.goNoteRight[1].anchoredPosition = new Vector2(newPos.x * (1 + 3 * canvas) + scPlayer.goNoteLeft[0].rect.width / 4f, 0f);
+                scPlayer.goNoteLeft[1].anchoredPosition = new Vector2(-newPos.x * (1 + 3 * canvas) - scPlayer.goNoteLeft[0].rect.width / 4f, 0f);
+                scPlayer.goNoteRight[1].localScale = new Vector3(1f, 1f, 1f);
+                scPlayer.goNoteLeft[1].localScale = new Vector3(1f, 1f, 1f);
+                scPlayer.imNoteRight[1].color = new Color32(0, 197, 255, 255);
+                scPlayer.imNoteLeft[1].color = new Color32(0, 197, 255, 255);
+                sequences[1].Kill();
+                sequences[1] = DOTween.Sequence();
+                sequences[1].Append(scPlayer.goNoteRight[1].DOAnchorPos(new Vector2(scPlayer.goNoteLeft[0].rect.width / 2f, 0f), (FSPB * 3) - (FSPB / 7), false).SetEase(Ease.Linear)).SetUpdate(true);
+                sequences[1].Join(scPlayer.goNoteLeft[1].DOScale(1.5f, (FSPB * 3) - (FSPB / 7)).SetEase(Ease.InBack)).SetUpdate(true);
+                sequences[1].Join(scPlayer.goNoteRight[1].DOScale(1.5f, (FSPB * 3) - (FSPB / 7)).SetEase(Ease.InBack)).SetUpdate(true);
+                sequences[1].Join(scPlayer.goNoteLeft[1].DOAnchorPos(new Vector2(-scPlayer.goNoteLeft[0].rect.width / 2f, 0f), (FSPB * 3) - (FSPB / 7), false).SetEase(Ease.Linear)).SetUpdate(true);
+                sequences[1].Append(scPlayer.goNoteRight[1].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear)).SetUpdate(true);
+                sequences[1].Join(scPlayer.goNoteLeft[1].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear)).SetUpdate(true);
+                sequences[1].Join(scPlayer.goNoteLeft[1].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
+                sequences[1].Join(scPlayer.goNoteRight[1].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
+                i_B = 3;
+            }
+            else if (i_B == 3)
+            {
+                scPlayer.goNoteRight[2].anchoredPosition = new Vector2(newPos.x * (1 + 3 * canvas) + scPlayer.goNoteLeft[0].rect.width / 4f, 0f);
+                scPlayer.goNoteLeft[2].anchoredPosition = new Vector2(-newPos.x * (1 + 3 * canvas) - scPlayer.goNoteLeft[0].rect.width / 4f, 0f);
+                scPlayer.goNoteRight[2].localScale = new Vector3(1f, 1f, 1f);
+                scPlayer.goNoteLeft[2].localScale = new Vector3(1f, 1f, 1f);
+                scPlayer.imNoteRight[2].color = new Color32(0, 197, 255, 255);
+                scPlayer.imNoteLeft[2].color = new Color32(0, 197, 255, 255);
+                sequences[2].Kill();
+                sequences[2] = DOTween.Sequence();
+                sequences[2].Append(scPlayer.goNoteRight[2].DOAnchorPos(new Vector2(scPlayer.goNoteLeft[0].rect.width / 2f, 0f), (FSPB * 3) - (FSPB / 7), false).SetEase(Ease.Linear)).SetUpdate(true);
+                sequences[2].Join(scPlayer.goNoteLeft[2].DOScale(1.5f, (FSPB * 3) - (FSPB / 7)).SetEase(Ease.InBack)).SetUpdate(true);
+                sequences[2].Join(scPlayer.goNoteRight[2].DOScale(1.5f, (FSPB * 3) - (FSPB / 7)).SetEase(Ease.InBack)).SetUpdate(true);
+                sequences[2].Join(scPlayer.goNoteLeft[2].DOAnchorPos(new Vector2(-scPlayer.goNoteLeft[0].rect.width / 2f, 0f), (FSPB * 3) - (FSPB / 7), false).SetEase(Ease.Linear)).SetUpdate(true);
+                sequences[2].Append(scPlayer.goNoteRight[2].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear)).SetUpdate(true);
+                sequences[2].Join(scPlayer.goNoteLeft[2].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear)).SetUpdate(true);
+                sequences[2].Join(scPlayer.goNoteLeft[2].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
+                sequences[2].Join(scPlayer.goNoteRight[2].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
+                i_B = 1;
+            }
+            else
+            {
+                iNowNote = 0;
+                scPlayer.goNoteRight[0].anchoredPosition = new Vector2(newPos.x * (1 + canvas) + scPlayer.goNoteLeft[0].rect.width / 4f, 0f);
+                scPlayer.goNoteLeft[0].anchoredPosition = new Vector2(-newPos.x * (1 + canvas) - scPlayer.goNoteLeft[0].rect.width / 4f, 0f);
+                scPlayer.goNoteRight[0].localScale = new Vector3(1f, 1f, 1f);
+                scPlayer.goNoteLeft[0].localScale = new Vector3(1f, 1f, 1f);
+                scPlayer.imNoteRight[0].color = new Color32(0, 197, 255, 255);
+                scPlayer.imNoteLeft[0].color = new Color32(0, 197, 255, 255);
+                sequences[0].Kill();
+                sequences[0] = DOTween.Sequence();
+                sequences[0].Append(scPlayer.goNoteRight[0].DOAnchorPos(new Vector2(scPlayer.goNoteLeft[0].rect.width / 2f, 0f), FSPB - (FSPB / 7), false).SetEase(Ease.Linear)).SetUpdate(true);
+                sequences[0].Join(scPlayer.goNoteLeft[0].DOScale(1.5f, FSPB - (FSPB / 7)).SetEase(Ease.InBack)).SetUpdate(true);
+                sequences[0].Join(scPlayer.goNoteRight[0].DOScale(1.5f, FSPB - (FSPB / 7)).SetEase(Ease.InBack)).SetUpdate(true);
+                sequences[0].Join(scPlayer.goNoteLeft[0].DOAnchorPos(new Vector2(-scPlayer.goNoteLeft[0].rect.width / 2f, 0f), FSPB - (FSPB / 7), false).SetEase(Ease.Linear)).SetUpdate(true);
+                sequences[0].Append(scPlayer.goNoteRight[0].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear)).SetUpdate(true);
+                sequences[0].Join(scPlayer.goNoteLeft[0].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear)).SetUpdate(true);
+                sequences[0].Join(scPlayer.goNoteLeft[0].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
+                sequences[0].Join(scPlayer.goNoteRight[0].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
 
-            scPlayer.goNoteRight[1].anchoredPosition = new Vector2(newPos.x * (1+2* canvas), 0f);
-            scPlayer.goNoteLeft[1].anchoredPosition = new Vector2(-newPos.x * (1+2* canvas), 0f);
-            scPlayer.goNoteRight[1].localScale = new Vector3(1f, 1f, 1f);
-            scPlayer.goNoteLeft[1].localScale = new Vector3(1f, 1f, 1f);
-            scPlayer.imNoteRight[1].color = new Color32(0, 197, 255, 255);
-            scPlayer.imNoteLeft[1].color = new Color32(0, 197, 255, 255);
-            sequences[1].Kill();
-            sequences[1] = DOTween.Sequence();
-            sequences[1].Append(scPlayer.goNoteRight[1].DOAnchorPos(new Vector2(scPlayer.goNoteLeft[0].rect.width / 2f, 0f), (FSPB * 2) - (FSPB / 7), false).SetEase(Ease.Linear)).SetUpdate(true);
-            sequences[1].Join(scPlayer.goNoteLeft[1].DOScale(1.5f, (FSPB * 2) - (FSPB / 7)).SetEase(Ease.InBack)).SetUpdate(true);
-            sequences[1].Join(scPlayer.goNoteRight[1].DOScale(1.5f, (FSPB * 2) - (FSPB / 7)).SetEase(Ease.InBack)).SetUpdate(true);
-            sequences[1].Join(scPlayer.goNoteLeft[1].DOAnchorPos(new Vector2(-scPlayer.goNoteLeft[0].rect.width / 2f, 0f), (FSPB * 2) - (FSPB / 7), false).SetEase(Ease.Linear)).SetUpdate(true);
-            sequences[1].Append(scPlayer.goNoteRight[1].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear)).SetUpdate(true);
-            sequences[1].Join(scPlayer.goNoteLeft[1].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear)).SetUpdate(true);
-            sequences[1].Join(scPlayer.goNoteLeft[1].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
-            sequences[1].Join(scPlayer.goNoteRight[1].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
+                scPlayer.goNoteRight[1].anchoredPosition = new Vector2(newPos.x * (1 + 2 * canvas), 0f);
+                scPlayer.goNoteLeft[1].anchoredPosition = new Vector2(-newPos.x * (1 + 2 * canvas), 0f);
+                scPlayer.goNoteRight[1].localScale = new Vector3(1f, 1f, 1f);
+                scPlayer.goNoteLeft[1].localScale = new Vector3(1f, 1f, 1f);
+                scPlayer.imNoteRight[1].color = new Color32(0, 197, 255, 255);
+                scPlayer.imNoteLeft[1].color = new Color32(0, 197, 255, 255);
+                sequences[1].Kill();
+                sequences[1] = DOTween.Sequence();
+                sequences[1].Append(scPlayer.goNoteRight[1].DOAnchorPos(new Vector2(scPlayer.goNoteLeft[0].rect.width / 2f, 0f), (FSPB * 2) - (FSPB / 7), false).SetEase(Ease.Linear)).SetUpdate(true);
+                sequences[1].Join(scPlayer.goNoteLeft[1].DOScale(1.5f, (FSPB * 2) - (FSPB / 7)).SetEase(Ease.InBack)).SetUpdate(true);
+                sequences[1].Join(scPlayer.goNoteRight[1].DOScale(1.5f, (FSPB * 2) - (FSPB / 7)).SetEase(Ease.InBack)).SetUpdate(true);
+                sequences[1].Join(scPlayer.goNoteLeft[1].DOAnchorPos(new Vector2(-scPlayer.goNoteLeft[0].rect.width / 2f, 0f), (FSPB * 2) - (FSPB / 7), false).SetEase(Ease.Linear)).SetUpdate(true);
+                sequences[1].Append(scPlayer.goNoteRight[1].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear)).SetUpdate(true);
+                sequences[1].Join(scPlayer.goNoteLeft[1].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear)).SetUpdate(true);
+                sequences[1].Join(scPlayer.goNoteLeft[1].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
+                sequences[1].Join(scPlayer.goNoteRight[1].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
 
-            scPlayer.goNoteRight[2].anchoredPosition = new Vector2(newPos.x * (1+3*canvas)+ scPlayer.goNoteLeft[0].rect.width / 4f, 0f);
-            scPlayer.goNoteLeft[2].anchoredPosition = new Vector2(-newPos.x * (1+3*canvas)- scPlayer.goNoteLeft[0].rect.width / 4f, 0f);
-            scPlayer.goNoteRight[2].localScale = new Vector3(1f, 1f, 1f);
-            scPlayer.goNoteLeft[2].localScale = new Vector3(1f, 1f, 1f);
-            scPlayer.imNoteRight[2].color = new Color32(0, 197, 255, 255);
-            scPlayer.imNoteLeft[2].color = new Color32(0, 197, 255, 255);
-            sequences[2].Kill();
-            sequences[2] = DOTween.Sequence();
-            sequences[2].Append(scPlayer.goNoteRight[2].DOAnchorPos(new Vector2(scPlayer.goNoteLeft[0].rect.width / 2f, 0f), (FSPB * 3) - (FSPB / 7), false).SetEase(Ease.Linear)).SetUpdate(true);
-            sequences[2].Join(scPlayer.goNoteLeft[2].DOScale(1.5f, (FSPB * 3) - (FSPB / 7)).SetEase(Ease.InBack)).SetUpdate(true);
-            sequences[2].Join(scPlayer.goNoteRight[2].DOScale(1.5f, (FSPB * 3) - (FSPB / 7)).SetEase(Ease.InBack)).SetUpdate(true);
-            sequences[2].Join(scPlayer.goNoteLeft[2].DOAnchorPos(new Vector2(-scPlayer.goNoteLeft[0].rect.width / 2f, 0f), (FSPB * 3) - (FSPB / 7), false).SetEase(Ease.Linear)).SetUpdate(true);
-            sequences[2].Append(scPlayer.goNoteRight[2].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear)).SetUpdate(true);
-            sequences[2].Join(scPlayer.goNoteLeft[2].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear)).SetUpdate(true);
-            sequences[2].Join(scPlayer.goNoteLeft[2].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
-            sequences[2].Join(scPlayer.goNoteRight[2].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
-            i_B = 1;
-        }*/
+                scPlayer.goNoteRight[2].anchoredPosition = new Vector2(newPos.x * (1 + 3 * canvas) + scPlayer.goNoteLeft[0].rect.width / 4f, 0f);
+                scPlayer.goNoteLeft[2].anchoredPosition = new Vector2(-newPos.x * (1 + 3 * canvas) - scPlayer.goNoteLeft[0].rect.width / 4f, 0f);
+                scPlayer.goNoteRight[2].localScale = new Vector3(1f, 1f, 1f);
+                scPlayer.goNoteLeft[2].localScale = new Vector3(1f, 1f, 1f);
+                scPlayer.imNoteRight[2].color = new Color32(0, 197, 255, 255);
+                scPlayer.imNoteLeft[2].color = new Color32(0, 197, 255, 255);
+                sequences[2].Kill();
+                sequences[2] = DOTween.Sequence();
+                sequences[2].Append(scPlayer.goNoteRight[2].DOAnchorPos(new Vector2(scPlayer.goNoteLeft[0].rect.width / 2f, 0f), (FSPB * 3) - (FSPB / 7), false).SetEase(Ease.Linear)).SetUpdate(true);
+                sequences[2].Join(scPlayer.goNoteLeft[2].DOScale(1.5f, (FSPB * 3) - (FSPB / 7)).SetEase(Ease.InBack)).SetUpdate(true);
+                sequences[2].Join(scPlayer.goNoteRight[2].DOScale(1.5f, (FSPB * 3) - (FSPB / 7)).SetEase(Ease.InBack)).SetUpdate(true);
+                sequences[2].Join(scPlayer.goNoteLeft[2].DOAnchorPos(new Vector2(-scPlayer.goNoteLeft[0].rect.width / 2f, 0f), (FSPB * 3) - (FSPB / 7), false).SetEase(Ease.Linear)).SetUpdate(true);
+                sequences[2].Append(scPlayer.goNoteRight[2].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear)).SetUpdate(true);
+                sequences[2].Join(scPlayer.goNoteLeft[2].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear)).SetUpdate(true);
+                sequences[2].Join(scPlayer.goNoteLeft[2].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
+                sequences[2].Join(scPlayer.goNoteRight[2].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
+                i_B = 1;
+            }
+        }
     }
     private void CameraRythm(float f_time, float f_max, float f_min)
     {

@@ -82,6 +82,7 @@ public class MenuManager : SingletonManager<MenuManager>
     [SerializeField] private UnityEngine.UI.Slider SfxSlider;
     [SerializeField] private UnityEngine.UI.Slider MusicSlider;
     [SerializeField] private UnityEngine.UI.Slider AmbianceSlider;
+    public bool bWithNotes = true;
 
     //NAVIGATION UX
     [Header("Navigation UX")]
@@ -508,7 +509,7 @@ public class MenuManager : SingletonManager<MenuManager>
         }
         else if (CgOptionGeneral.alpha == 1f)
         {
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < ImageButtonGeneral.Length; i++)
             {
                 if (EventSystem.currentSelectedGameObject == ButtonOptionGeneral_[i].gameObject)//&& !bNowSelectedGeneral[i]
                 {
@@ -524,13 +525,16 @@ public class MenuManager : SingletonManager<MenuManager>
                     }*/
                     ImageButtonGeneral[i].material.SetFloat("_NoColorsWhiteValue", 1f);
                 }
-                else if (EventSystem.currentSelectedGameObject == ButtonsOption[i].gameObject)
+                else if (EventSystem.currentSelectedGameObject == ButtonsOption[i].gameObject && i< ImageOption.Length)
                 {
                     ImageOption[i].material.SetFloat("_NoColorsWhiteValue", 1f);
                 }
                 else
                 {
-                    ImageOption[i].material.SetFloat("_NoColorsWhiteValue", 0.1f);
+                    if(i< ImageOption.Length)
+                    {
+                        ImageOption[i].material.SetFloat("_NoColorsWhiteValue", 0.1f);
+                    }
                     ImageButtonGeneral[i].material.SetFloat("_NoColorsWhiteValue", 0.1f);
                 }
                 /*if (i < bNowSelectedAudio.Length)
@@ -1089,6 +1093,22 @@ public class MenuManager : SingletonManager<MenuManager>
                 {
                     ImageButtonGeneral[1].material = M_materialButtonGeneral[4];
                 }
+                if(_playerData.iGrid==1) //true
+                {
+                    ImageButtonGeneral[2].material = M_materialButtonGeneral[5];
+                }
+                else
+                {
+                    ImageButtonGeneral[2].material = M_materialButtonGeneral[6];
+                }
+                if(bWithNotes)
+                {
+                    ImageButtonGeneral[3].material = M_materialButtonGeneral[7];
+                }
+                else
+                {
+                    ImageButtonGeneral[3].material = M_materialButtonGeneral[8];
+                }
                 bOnceOptions[2] = true;
             }
         }
@@ -1275,6 +1295,18 @@ public class MenuManager : SingletonManager<MenuManager>
         if (scPlayer!=null && scPlayer.bpmManager!=null)
         {
             scPlayer.bpmManager.StartBPMPlayer();
+        }
+    }
+    public void WithNotes()
+    {
+        ButtonSound();
+        if (bWithNotes)
+        {
+            bWithNotes = false;
+        }
+        else
+        {
+            bWithNotes = true;
         }
     }
     public void LanguageButton()

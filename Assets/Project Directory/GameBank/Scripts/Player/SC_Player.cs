@@ -94,6 +94,8 @@ public class SC_Player : Singleton<SC_Player>
     public RectTransform canvasRect;
     public Vector2[] posSeparator = new Vector2[3];
     public TextMeshProUGUI textTimer;
+    public GameObject goNotesBg;
+    public GameObject[] goNoteParent;
 
     //LE SCORE
     [Header("Score")]
@@ -254,6 +256,26 @@ public class SC_Player : Singleton<SC_Player>
         foreach(sc_CheckPoint checkPoint in checkpoints)
         {
             checkPoint.vfx_sewerSmoke.SetFloat("BPM", bpmManager.FBPM[menuManager.iPreviousLevelPlayed]);
+        }
+        if(menuManager.bWithNotes)
+        {
+            goNotesBg.SetActive(true);
+            goNoteParent[0].SetActive(true);
+            goNoteParent[1].SetActive(true);
+        }
+        else
+        {
+            goNotesBg.SetActive(false);
+            goNoteParent[0].SetActive(false);
+            goNoteParent[1].SetActive(false);
+        }
+        if(menuManager._playerData.iGrid==0)//false
+        {
+            go_Grid.SetActive(false);
+        }
+        else
+        {
+            go_Grid.SetActive(true);
         }
         EyeDetection();
         // Your logic here
@@ -1805,8 +1827,8 @@ public class SC_Player : Singleton<SC_Player>
         FDetectionLevel = 0f;
         BisDetectedByAnyEnemy = false;
 
-        //RESTART BAITS LVL2
-        if (SceneManager.GetActiveScene().name == "SceneLvl2")
+        //RESTART BAITS LVL2 && 3
+        if (SceneManager.GetActiveScene().name == "SceneLvl2"|| SceneManager.GetActiveScene().name == "SceneLvl3" || SceneManager.GetActiveScene().name == "Scenes/World/SceneLvl3" || SceneManager.GetActiveScene().name == "Scenes/World/SceneLvl2")
         {
             foreach(ing_Bait bait in ingBaitLvl2)
             {

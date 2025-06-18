@@ -126,6 +126,14 @@ public class sc_tuto_generic : MonoBehaviour
         }
         else if(bIsOnLoft && scPlayer.menuManager.gameObject.GetComponent<PlayerData>().iLevelPlayer == 0)
         {
+            if(scPlayer.menuManager.bWithNotes)
+            {
+                gotutoBeat.SetActive(false);
+            }
+            else
+            {
+                gotutoBeat.SetActive(true);
+            }
             scPlayer.menuManager.bGameIsPaused = true;
             CgGameUI.alpha = 0f;
         }

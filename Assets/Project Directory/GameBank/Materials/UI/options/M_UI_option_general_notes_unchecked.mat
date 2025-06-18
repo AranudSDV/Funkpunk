@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_UI_scoring_tel_button_1
+  m_Name: M_UI_option_general_notes_unchecked
   m_Shader: {fileID: 4800000, guid: 7a05bef0144df2a4bb13a8cb2470e854, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -36,7 +36,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BackTex:
-        m_Texture: {fileID: 2800000, guid: d5144f8bddfb421438d9c8e7ad9b3ce4, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7c9da19f366474241b3a0720ca24034a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DissolveTex:
@@ -82,19 +82,19 @@ Material:
     - _BPM: 110
     - _BaseOpacity: 1
     - _BaseScale: 1
-    - _BaseSizeX: 1.1
-    - _BaseSizeY: 1.1
+    - _BaseSizeX: 0.9
+    - _BaseSizeY: 0.9
     - _Debug: 0
     - _G_BaseOpacity: 0.5109974
     - _G_FadeSmooth: 1
     - _HandleColors: 0
     - _IfNotUsed: 0
     - _IsVerticalOrLateral: 0
-    - _MaxSizeX: 1.5
-    - _MaxSizeY: 1.5
+    - _MaxSizeX: 1.1
+    - _MaxSizeY: 1.1
     - _MaxSizeY1: 1.5
-    - _MinSizeX: 1.05
-    - _MinSizeY: 1.05
+    - _MinSizeX: 1.1
+    - _MinSizeY: 1.1
     - _MinSizeY1: 1
     - _MoveX: 0
     - _NoColorsWhiteValue: 0.1
@@ -105,8 +105,8 @@ Material:
     - _QueueOffset: 0
     - _R_BaseOpacity: 0
     - _R_Fadesmooth: 1.25
-    - _RotaPower: -0.0035
-    - _RotaPower1: 0.01
+    - _RotaPower: 0.005
+    - _RotaPower1: 0.5
     - _Rotater: 0
     - _ScaleX: 1
     - _ScaleY: 1
@@ -119,10 +119,9 @@ Material:
     - _TransformedRota: 0.8
     - _TransformedScaleX: 0.8
     - _TransformedScaleY: 0.8
-    - _TransformedSizeX: 0.99
-    - _TransformedSizeY: 0.99
+    - _TransformedSizeX: 1.4
+    - _TransformedSizeY: 1.4
     - _UI_AutoOrMano: 0
-    - _UI_ManualOrProcedural: 0
     - _UpLorDownR: 0
     - _UsingX: 0
     - _UsingXMove: 0
@@ -135,19 +134,19 @@ Material:
     - _UsingYScale1: 1
     - _VFXorUI: 1
     m_Colors:
-    - _Back: {r: 0.85098046, g: 0.23529413, b: 0.87843144, a: 1}
+    - _Back: {r: 0.7924528, g: 0.25544554, b: 0.25044498, a: 1}
     - _Back02: {r: 1, g: 0, b: 0.043478012, a: 1}
     - _Back03: {r: 1, g: 1, b: 1, a: 1}
-    - _BackGroundColor: {r: 0.8515482, g: 0.23589355, b: 0.8773585, a: 1}
+    - _BackGroundColor: {r: 0.4179827, g: 0.13176396, b: 0.5943396, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Front: {r: 0.5483374, g: 0.16273585, b: 0.6509434, a: 1}
+    - _Front: {r: 0, g: 0.19846152, b: 0.6886792, a: 1}
     - _Front02: {r: 0.31446534, g: 0.31446534, b: 0.31446534, a: 1}
     - _Front03: {r: 0.15222873, g: 0, b: 0.23270428, a: 1}
     - _MainColor: {r: 766.99615, g: 766.99615, b: 766.99615, a: 1}
     - _MainTexTiling: {r: 0, g: 0, b: 0, a: 0}
     - _MaxSize: {r: 1, g: 1, b: 0, a: 0}
     - _MaxSizePos: {r: 0, g: 0, b: 0, a: 0}
-    - _Mid: {r: 1, g: 0.9807784, b: 0.7877358, a: 1}
+    - _Mid: {r: 0.8867924, g: 0.8867924, b: 0.8867924, a: 1}
     - _Mid02: {r: 0.37106913, g: 0.31673288, b: 0.311558, a: 1}
     - _Mid03: {r: 1, g: 1, b: 1, a: 1}
     - _SubColor: {r: 2.670157, g: 0, b: 0, a: 0}
