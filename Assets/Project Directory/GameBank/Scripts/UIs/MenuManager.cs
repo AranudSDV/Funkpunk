@@ -9,12 +9,11 @@ using TMPro;
 using static MenuManager;
 using UnityEngine.EventSystems;
 using FMODUnity;
-using UnityEngine.LowLevel;
+//using UnityEngine.LowLevel;
 using FMOD.Studio;
-using Unity.Collections.LowLevel.Unsafe;
+//using Unity.Collections.LowLevel.Unsafe;
 //using UnityEditor.SearchService;
-using UnityEngine.Rendering;
-using UnityEditor.SearchService;
+//using UnityEngine.Rendering;
 
 public class MenuManager : SingletonManager<MenuManager>
 {
@@ -856,7 +855,7 @@ public class MenuManager : SingletonManager<MenuManager>
             bpmManager.LoopInstance.release();
         }
         bpmManager.isPlaying = false;
-        if (SceneManager.GetActiveScene().name != "Loft" || SceneManager.GetActiveScene().name != "Scenes/World/Loft")
+        if (SceneManager.GetActiveScene().name != "Loft"&& SceneManager.GetActiveScene().name != "Scenes/World/Loft")
         {
             ButtonSound();
         }
@@ -1001,7 +1000,7 @@ public class MenuManager : SingletonManager<MenuManager>
     //PAUSE AND SETTINGS
     private void UXNavigation()
     {
-        if (controllerConnected && control !=null && control.GamePlay.Pausing.triggered && (SceneManager.GetActiveScene().name != "SceneSplash"|| SceneManager.GetActiveScene().name != "Scenes/World/SceneSplash"))
+        if (controllerConnected && control !=null && control.GamePlay.Pausing.triggered && (SceneManager.GetActiveScene().name != "SceneSplash"&& SceneManager.GetActiveScene().name != "Scenes/World/SceneSplash"))
         {
             PauseMenu();
         }
@@ -1137,7 +1136,7 @@ public class MenuManager : SingletonManager<MenuManager>
             RtPauseMenu.offsetMax = new Vector2(0f, 0f);
             RtPauseMenu.offsetMin = new Vector2(0f, 0f);
             CloseOptions(false);
-            if ((scPlayer != null && scPlayer.bisTuto == true && (SceneManager.GetActiveScene().name != "Loft"|| SceneManager.GetActiveScene().name != "Scenes/World/Loft")) || (scPlayer != null && CgScoring.alpha == 1f) || (scPlayer != null && CgEndDialogue.alpha == 1f))
+            if ((scPlayer != null && scPlayer.bisTuto == true && (SceneManager.GetActiveScene().name != "Loft"&& SceneManager.GetActiveScene().name != "Scenes/World/Loft")) || (scPlayer != null && CgScoring.alpha == 1f) || (scPlayer != null && CgEndDialogue.alpha == 1f))
             {
                 bGameIsPaused = true;
             }
@@ -1225,7 +1224,7 @@ public class MenuManager : SingletonManager<MenuManager>
     }
     public void CloseOptions(bool bonManager)
     {
-        if ((SceneManager.GetActiveScene().name != "SceneSplash" || SceneManager.GetActiveScene().name != "Scenes/World/SceneSplash")&& bonManager)
+        if ((SceneManager.GetActiveScene().name != "SceneSplash" && SceneManager.GetActiveScene().name != "Scenes/World/SceneSplash")&& bonManager)
         {
             CgPauseMenu.alpha = 1f;
             bActif = true;
@@ -1364,11 +1363,13 @@ public class MenuManager : SingletonManager<MenuManager>
     }
     public void SetAmbianceVolume()
     {
+        ambianceVCA = FMODUnity.RuntimeManager.GetVCA("vca:/Ambiance");
         float volume = AmbianceSlider.value;
         ambianceVCA.setVolume(volume);
     }
     public void SetSFXVolume()
     {
+        sfxVCA = FMODUnity.RuntimeManager.GetVCA("vca:/SFX");
         float volume = SfxSlider.value;
         sfxVCA.setVolume(volume);
     }

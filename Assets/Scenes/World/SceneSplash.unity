@@ -9714,7 +9714,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _eventSystem: {fileID: 296628935}
-  camUI: {fileID: 0}
+  camUI: {fileID: 676729427}
   splineContainer: {fileID: 1172163631}
   cars:
   - {fileID: 1842090345}
@@ -9753,6 +9753,7 @@ MonoBehaviour:
   - {fileID: 470093633}
   iCredits: 0
   bOnce: 0
+  bMenuTriggered: 0
 --- !u!114 &1172163631
 MonoBehaviour:
   m_ObjectHideFlags: 0
