@@ -15,7 +15,7 @@ MonoBehaviour:
   active: 1
   shadows:
     m_OverrideState: 1
-    m_Value: {x: 1, y: 0.8058269, z: 0.82797253, w: 0}
+    m_Value: {x: 1, y: 0.90971994, z: 0.9407518, w: 0.21197662}
   midtones:
     m_OverrideState: 1
     m_Value: {x: 0.9269744, y: 1, z: 0.8760736, w: 0}
@@ -67,7 +67,7 @@ MonoBehaviour:
   active: 1
   mode:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 2
   neutralHDRRangeReductionMode:
     m_OverrideState: 0
     m_Value: 2

@@ -145,8 +145,8 @@ Material:
     - _ALB: {r: 1, g: 0, b: 0, a: 0}
     - _AO: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 0}
-    - _BaseVertexOffsetDelay: {r: 0.1, g: 0, b: 0.1, a: 0}
-    - _BaseVertexOffsetValue: {r: 0.53, g: 0.1, b: 0.1, a: 0}
+    - _BaseVertexOffsetDelay: {r: 0.1, g: 0.2, b: 0, a: 0}
+    - _BaseVertexOffsetValue: {r: 0.53, g: 0.05, b: 0.2, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _MTL: {r: 0, g: 0, b: 0, a: 0}
     - _NRM: {r: 0, g: 0, b: 1, a: 1}
