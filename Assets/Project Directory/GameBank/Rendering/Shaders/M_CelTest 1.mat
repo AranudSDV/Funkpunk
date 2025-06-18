@@ -97,11 +97,12 @@ Material:
     - _EnvironmentReflections: 1
     - _FallOffThreshold: 3
     - _Float4: 0.6
-    - _FresnelErase: 0.12
+    - _FresnelErase: 0.18
     - _FresnelErase_Smoothness: 1
     - _FresnelPower: 1
     - _FresnelScale: 1
     - _FullShadingHalfShading: 0
+    - _IsDecalMesh: 0
     - _IsEnnemies: 1
     - _IsOutline: 0
     - _LightBoost: 1
@@ -140,8 +141,8 @@ Material:
     - _BaseVertexOffsetDelay: {r: 0, g: 0, b: 0, a: 0}
     - _BaseVertexOffsetValue: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _OutlineColor: {r: 24.052961, g: 31.626795, b: 1.671813, a: 0}
-    - _OutlineColor2: {r: 1.8232466, g: 0, b: 5.9921565, a: 0}
+    - _OutlineColor: {r: 1.1392959, g: 1.4980391, b: 0.079187326, a: 0}
+    - _OutlineColor2: {r: 0.45581165, g: 0, b: 1.4980391, a: 0}
     - _ShadowPatternDensity: {r: 1, g: 1, b: 0, a: 0}
     - _TopVertexDelay: {r: 0, g: 0, b: 0, a: 0}
     - _TopVertexOffsetValue: {r: 0, g: 0, b: 0, a: 0}

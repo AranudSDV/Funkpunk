@@ -115,6 +115,7 @@ Material:
     - _FresnelErase_Smoothness: 1.5
     - _FresnelPower: 5
     - _FullShadingHalfShading: 0
+    - _IsDecalMesh: 0
     - _IsEnnemies: 0
     - _IsOutline: 0
     - _LightindDone: 1
@@ -136,13 +137,14 @@ Material:
     - _TriplanarTiling: 10
     - _Using3DMovements: 1
     - _UsingTriplanar: 0
+    - _UsingTriplanar1: 0
     - _WorldPosDiv: 0
     m_Colors:
     - _ALB: {r: 1, g: 0, b: 0, a: 0}
     - _AO: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 0}
-    - _BaseVertexOffsetDelay: {r: 0, g: 0, b: 0, a: 0}
-    - _BaseVertexOffsetValue: {r: 0, g: 0, b: 0, a: 0}
+    - _BaseVertexOffsetDelay: {r: 0.1, g: 0.05, b: 0.01, a: 0}
+    - _BaseVertexOffsetValue: {r: 0.1, g: 0.3, b: 0.3, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _MTL: {r: 0, g: 0, b: 0, a: 0}
     - _NRM: {r: 0, g: 0, b: 1, a: 1}

@@ -47,12 +47,12 @@ Material:
     m_Ints: []
     m_Floats:
     - _BOOLEAN: 0
-    - _EdgeFallOff: 5.27
-    - _Opacity: 1
+    - _EdgeFallOff: 94.55
+    - _Opacity: 1.26
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Z_Opacity: 0.78
-    - _Z_Smoothnes: 0.46
+    - _Z_Opacity: 0.82
+    - _Z_Smoothnes: 0.5
     m_Colors:
     - _Color: {r: 0.77582246, g: 0.50888145, b: 0.9911022, a: 1}
   m_BuildTextureStacks: []
