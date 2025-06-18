@@ -539,7 +539,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 19235191}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.28561765, y: 0.19064745, z: -0.058089186, w: 0.9373909}
+  m_LocalRotation: {x: 0.28561768, y: 0.1906475, z: -0.058089208, w: 0.9373909}
   m_LocalPosition: {x: 24.68568, y: 5.96, z: -18.132648}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4627,6 +4627,7 @@ MonoBehaviour:
     m_Bits: 128
   guardVerticalOffset: 0
   farPointExtraOffset: 0
+  GroundHeight: 0
   offsetAmount: 2.5
   heightSegments: 3
   smoothThreshold: 3
@@ -9758,6 +9759,7 @@ MonoBehaviour:
     m_Bits: 128
   guardVerticalOffset: 0
   farPointExtraOffset: 0
+  GroundHeight: 0
   offsetAmount: 2.5
   heightSegments: 3
   smoothThreshold: 3
@@ -18206,21 +18208,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 269850063720091022, guid: 45351d2d758839e409953a510c2e4a78,
         type: 3}
-      propertyPath: iWhichCharaToRightToLeft.Array.data[132]
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 269850063720091022, guid: 45351d2d758839e409953a510c2e4a78,
-        type: 3}
-      propertyPath: iWhichCharaToRightToLeft.Array.data[133]
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 269850063720091022, guid: 45351d2d758839e409953a510c2e4a78,
-        type: 3}
-      propertyPath: iWhichCharaToRightToLeft.Array.data[134]
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 269850063720091022, guid: 45351d2d758839e409953a510c2e4a78,
-        type: 3}
       propertyPath: iWhichCharaToRightToLeft.Array.data[135]
       value: 0
       objectReference: {fileID: 0}
@@ -18297,7 +18284,7 @@ PrefabInstance:
     - target: {fileID: 1165491372627732135, guid: 45351d2d758839e409953a510c2e4a78,
         type: 3}
       propertyPath: iStarsPlayer.Array.data[1]
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1165491372627732135, guid: 45351d2d758839e409953a510c2e4a78,
         type: 3}
@@ -18322,7 +18309,7 @@ PrefabInstance:
     - target: {fileID: 1165491372627732135, guid: 45351d2d758839e409953a510c2e4a78,
         type: 3}
       propertyPath: iStarsPlayer.Array.data[6]
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1165491372627732135, guid: 45351d2d758839e409953a510c2e4a78,
         type: 3}
@@ -18347,7 +18334,7 @@ PrefabInstance:
     - target: {fileID: 1165491372627732135, guid: 45351d2d758839e409953a510c2e4a78,
         type: 3}
       propertyPath: iStarsPlayer.Array.data[11]
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1165491372627732135, guid: 45351d2d758839e409953a510c2e4a78,
         type: 3}

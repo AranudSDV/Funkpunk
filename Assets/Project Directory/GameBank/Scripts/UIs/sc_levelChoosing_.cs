@@ -53,7 +53,14 @@ public class sc_levelChoosing_ : MonoBehaviour
         GameObject goMenu = GameObject.FindWithTag("Manager");
         menuManager = goMenu.GetComponent<MenuManager>();
         _playerData = goMenu.GetComponent<PlayerData>();
-        imBackground.material = sprites_Background[_playerData.iLevelPlayer];
+        if(_playerData.iLevelPlayer>=4)
+        {
+            imBackground.material = sprites_Background[3];
+        }
+        else
+        {
+            imBackground.material = sprites_Background[_playerData.iLevelPlayer];
+        }
         menuManager.gameObject.GetComponent<Canvas>().worldCamera = camUIOverlay;
         menuManager.EventSystem = _eventSystem;
         StartCoroutine(WaitAndAnimate());

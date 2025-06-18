@@ -268,6 +268,10 @@ public class MenuManager : SingletonManager<MenuManager>
             }
             GoGameChoose[5].transform.GetComponent<UnityEngine.UI.Image>().color = new Color32(255, 255, 255, 0);
             TrainAndUION();
+            if(trainMenu!=null)
+            {
+                trainMenu.bMenuTriggered = true;
+            }
         }
         if(SceneManager.GetActiveScene().name == "SceneSplash")
         {
@@ -410,6 +414,9 @@ public class MenuManager : SingletonManager<MenuManager>
                 txt.text = "New Game";
             }
         }
+        sSceneToLoad = "Scenes/World/Loft";
+        UnityEngine.UI.Button btnNewLoad = GoGameChoose[0].GetComponent<UnityEngine.UI.Button>();
+        btnNewLoad.onClick.AddListener(delegate { LoadScene(sSceneToLoad); });
     }
     private void CheckCurrentSelectable()
     {
@@ -717,7 +724,7 @@ public class MenuManager : SingletonManager<MenuManager>
                 //Init Train
                 GoLevelsButton = null;
                 _levels = null;
-                sSceneToLoad = "Loft"; 
+                sSceneToLoad = "Scenes/World/Loft"; 
                 UnityEngine.UI.Button btnNewLoad = GoGameChoose[0].GetComponent<UnityEngine.UI.Button>();
                 btnNewLoad.onClick.AddListener(delegate { LoadScene(sSceneToLoad); });
                 UnityEngine.UI.Button btnCredits = GoGameChoose[2].GetComponent<UnityEngine.UI.Button>();
@@ -733,10 +740,10 @@ public class MenuManager : SingletonManager<MenuManager>
             GoGameChoose[0] = null;
             GoLevelsButton = null;
         }
-        if(SceneManager.GetActiveScene().name == "SceneSplash")
+        if(SceneManager.GetActiveScene().name == "Scenes/World/SceneSplash")
         {
             bMenuOnTriggered = false;
-            sSceneToLoad = "Loft";
+            sSceneToLoad = "Scenes/World/Loft";
             UnityEngine.UI.Button btnNewLoad = GoGameChoose[0].GetComponent<UnityEngine.UI.Button>();
             btnNewLoad.onClick.AddListener(delegate { LoadScene(sSceneToLoad); });
             if (_playerData.iLevelPlayer > 0)
@@ -776,11 +783,11 @@ public class MenuManager : SingletonManager<MenuManager>
                 }
             }
         }
-        else if(SceneManager.GetActiveScene().name == "Loft")
+        else if(SceneManager.GetActiveScene().name == "Scenes/World/Loft")
         {
-            sSceneToLoad = "LevelChoosing";
+            sSceneToLoad = "Scenes/World/LevelChoosing";
         }
-        else if(SceneManager.GetActiveScene().name == "LevelChoosing")
+        else if(SceneManager.GetActiveScene().name == "Scenes/World/LevelChoosing")
         {
             for (int i = 0; i < GoLevelsButton.Length; i++)
             {
@@ -1475,6 +1482,14 @@ public class MenuManager : SingletonManager<MenuManager>
         {
             _sc_textChange.StartWriting(sDialogueFrench[iNbTextNow]);
         }
+        if(iLevelDialogue == 4)
+        {
+            imageEnding.material = M_ImageEndings[1];
+            if (iNbTextNow == iNbDialoguePerLevelAdd[iLevel]-1)
+            {
+                imageEnding.color = new Color32(255,255,255,255);
+            }
+        }
     }
     private void SetSpeaker(int speakingCharacterIndex, int notSpeakingCharacterIndex, int iLevel) //on connait le numero du character mais est-il à gauche ou à droite?
     {
@@ -1488,7 +1503,10 @@ public class MenuManager : SingletonManager<MenuManager>
         //Is right or left character speaking ? 
         if (iWhichCharaToRightToLeft[iNbTextNow*2]== a) //Le sprite de droite est-il celui du chara qui parle ?
         {
-            imgBoxText.sprite = spritesCharactersBoxesRight[a];
+            if (a != -1)
+            {
+                imgBoxText.sprite = spritesCharactersBoxesRight[a];
+            }
             imgBoxText.color = new Color32(255, 255, 255, 255);
             if (speakingCharacterIndex != -1)
             {
@@ -1517,7 +1535,10 @@ public class MenuManager : SingletonManager<MenuManager>
         }
         else
         {
-            imgBoxText.sprite = spritesCharactersBoxesLeft[a];
+            if (a != -1)
+            {
+                imgBoxText.sprite = spritesCharactersBoxesLeft[a];
+            }
             imgBoxText.color = new Color32(255, 255, 255, 255);
             if (notSpeakingCharacterIndex != -1)
             {

@@ -44,6 +44,7 @@ public class SplineTrainMover_WithSpacing : MonoBehaviour
     public sc_textChange[] txtChildrenCredits;
     public int iCredits = 0;
     public bool bOnce = false;
+    public bool bMenuTriggered = false;
 
     void Start()
     {
@@ -130,6 +131,14 @@ public class SplineTrainMover_WithSpacing : MonoBehaviour
                 // Update position
                 cars[i].position = splineContainer.EvaluatePosition(progress[i]);
             }
+        }
+        if(cgCredits.alpha == 1f)
+        {
+            pauseDuration = 3f;
+        }
+        else if (bMenuTriggered)
+        {
+            pauseDuration = 0f;
         }
     }
 
