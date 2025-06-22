@@ -283,7 +283,6 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
                     bPlayBad = false;
                     bPlayGood = false;
                     bPlayPerfect = false;
-                    scPlayer.bHasNoMiss = false;
                     if (!scPlayer.BisDetectedByAnyEnemy && SceneManager.GetActiveScene().name != "Loft" && !scPlayer.bIsImune)
                     {
                         scPlayer.FDetectionLevel += 2f;

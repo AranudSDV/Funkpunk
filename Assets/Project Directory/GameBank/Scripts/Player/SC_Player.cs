@@ -40,7 +40,6 @@ public class SC_Player : Singleton<SC_Player>
 
     //LES CHALLENGES
     private bool bHasBeenDetectedOneTime = false;
-    public bool bHasNoMiss = true;
     private int itagDone = 0;
 
     //LE PLAYER ET SES MOUVEMENTS
@@ -101,6 +100,7 @@ public class SC_Player : Singleton<SC_Player>
     [Header("Score")]
     public float FScore;
     [Tooltip("Missed, Bad, Good, Perfect")] public float[] fScoreDetails = new float[4] { 0f,0f,0f,0f};
+    private int iMissedScore = 0;
     public float fNbBeat;
     private float fPercentScore;
     [SerializeField]private TMP_Text TMPScore;
@@ -1586,18 +1586,15 @@ public class SC_Player : Singleton<SC_Player>
             menuManager.textBravo.transform.DOScale(new Vector3(1f, 1f, 1f), 1f).SetEase(Ease.InOutElastic);
             menuManager.SetMusicVolume(0.8f);
             yield return new WaitForSeconds(3f);
+            menuManager.textBravo.color = new Color32(255, 255, 255, 0);
+            menuManager.textBravo.transform.localScale = new Vector3(3, 3, 3);
+            menuManager.SetMusicVolume(0f);
         }
         else
         {
             menuManager.textBravo.color = new Color32(255, 255, 255, 0);
             menuManager.textBravo.transform.localScale = new Vector3(3, 3, 3);
-            yield return new WaitForSeconds(1f);
-        }
-        if (hasWon)
-        {
-            menuManager.textBravo.color = new Color32(255, 255, 255, 0);
-            menuManager.textBravo.transform.localScale = new Vector3(3, 3, 3);
-            menuManager.SetMusicVolume(0f);
+            yield return new WaitForSeconds(2f);
         }
         bIsImune = true;
         //Time.timeScale = 0f;
@@ -1863,7 +1860,7 @@ public class SC_Player : Singleton<SC_Player>
             List.Add(0);
         }
         //CLEAN
-        if (bHasNoMiss) 
+        if (iMissedScore == 0) 
         {
             List.Add(1);
         }
@@ -1989,6 +1986,10 @@ public class SC_Player : Singleton<SC_Player>
                     {
                         menuManager.txtScoringScoreDetails[i].text = Mathf.Round((fScoreDetails[i] / fNbBeat) * 100).ToString() + "%";
                         bDispayedDetails[i] = false;
+                        if(i==0)
+                        {
+                            iMissedScore = (int)Mathf.Round((fScoreDetails[i] / fNbBeat) * 100);
+                        }
                         if(i != 3)
                         {
                             bDispayedDetails[i + 1] = true;
@@ -2097,7 +2098,7 @@ public class SC_Player : Singleton<SC_Player>
         {
             data.iStarsPlayer[1 + 5 * i] = 1;
         }
-        if(bHasNoMiss)
+        if(iMissedScore ==0)
         {
             data.iStarsPlayer[2 + 5 * i] = 1;
         }

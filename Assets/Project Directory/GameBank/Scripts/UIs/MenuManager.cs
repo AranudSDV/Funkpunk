@@ -1133,7 +1133,10 @@ public class MenuManager : SingletonManager<MenuManager>
         {
             CheckCurrentSelectable();
         }
-
+        if(bIsOnEndDialogue)
+        {
+            CgLoadingScreen.alpha = 0f;
+        }
         if (controllerConnected && EventSystem!=null)
         {
             SelectionEnsurance();
