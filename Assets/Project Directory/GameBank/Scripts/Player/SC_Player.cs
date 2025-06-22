@@ -103,7 +103,9 @@ public class SC_Player : Singleton<SC_Player>
     private int iMissedScore = 0;
     public float fNbBeat;
     private float fPercentScore;
-    [SerializeField]private TMP_Text TMPScore;
+    [SerializeField]private TMP_Text TMPWholeScore;
+    public TMP_Text TMPScoreOnce;
+    public DG.Tweening.Sequence scoreSequence;
     private bool bIsEndGame = false;
     private DG.Tweening.Sequence[] starSequence = new DG.Tweening.Sequence[5];
     [SerializeField] private CinemachineVirtualCamera VCam_EndingTag;
@@ -308,7 +310,7 @@ public class SC_Player : Singleton<SC_Player>
                     FScore = Mathf.Round(fPercentScore);
                     fNbBeat = 1;
                 }
-                TMPScore.SetText(Mathf.Round(fPercentScore).ToString() + "%");
+                TMPWholeScore.SetText(Mathf.Round(fPercentScore).ToString() + "%");
                 if (FDetectionLevel >= fDetectionLevelMax && !bIsEndGame)
                 {
                     StartCoroutine(EndGame(false, menuManager._playerData));

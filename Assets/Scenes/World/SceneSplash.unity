@@ -9228,6 +9228,26 @@ PrefabInstance:
       propertyPath: m_Interactable
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2306677319934782389, guid: 45351d2d758839e409953a510c2e4a78,
+        type: 3}
+      propertyPath: colorBad.rgba
+      value: 3870704788
+      objectReference: {fileID: 0}
+    - target: {fileID: 2306677319934782389, guid: 45351d2d758839e409953a510c2e4a78,
+        type: 3}
+      propertyPath: colorGood.rgba
+      value: 4040975226
+      objectReference: {fileID: 0}
+    - target: {fileID: 2306677319934782389, guid: 45351d2d758839e409953a510c2e4a78,
+        type: 3}
+      propertyPath: colorMiss.rgba
+      value: 3696631680
+      objectReference: {fileID: 0}
+    - target: {fileID: 2306677319934782389, guid: 45351d2d758839e409953a510c2e4a78,
+        type: 3}
+      propertyPath: colorPerfect.rgba
+      value: 4292531280
+      objectReference: {fileID: 0}
     - target: {fileID: 2307437532454967113, guid: 45351d2d758839e409953a510c2e4a78,
         type: 3}
       propertyPath: m_Interactable

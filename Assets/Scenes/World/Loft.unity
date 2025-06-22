@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.0024967694, g: 0.0028977427, b: 0.003980814, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -8857,6 +8857,18 @@ CanvasGroup:
     type: 3}
   m_PrefabInstance: {fileID: 2116011447}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &727117633 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3369500289396488277, guid: 65f34271cad0dda4d8a49134617b7571,
+    type: 3}
+  m_PrefabInstance: {fileID: 2116011447}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &727807340
 GameObject:
   m_ObjectHideFlags: 0
@@ -11952,6 +11964,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
+      propertyPath: TMPScoreOnce
+      value: 
+      objectReference: {fileID: 936441509}
+    - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
       propertyPath: _eventSystem
       value: 
       objectReference: {fileID: 488029489}
@@ -11966,6 +11983,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -5819183975530660181, guid: 62c3fb573f41ad94ba3afc5a360faf7f,
         type: 3}
+    - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: TMPWholeScore
+      value: 
+      objectReference: {fileID: 727117633}
     - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: mesh_throwing

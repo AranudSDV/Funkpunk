@@ -279,6 +279,7 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
                     {
                         scPlayer.fNbBeat += 1f;
                         scPlayer.fScoreDetails[0] += 1f;
+                        VFXScoringOnce();
                     }
                     bPlayBad = false;
                     bPlayGood = false;
@@ -386,6 +387,7 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
                     bPlayBad = true;
                     bPlayGood = false;
                     bPlayPerfect = false;
+                    VFXScoringOnce();
                     if (!scPlayer.BisDetectedByAnyEnemy)
                     {
                         scPlayer.FDetectionLevel -= 2f;
@@ -404,6 +406,7 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
                     bPlayBad = false;
                     bPlayGood = true;
                     bPlayPerfect = false;
+                    VFXScoringOnce();
                     if (!scPlayer.BisDetectedByAnyEnemy)
                     {
                         scPlayer.FDetectionLevel -= 5f;
@@ -422,6 +425,7 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
                     bPlayBad = false;
                     bPlayGood = false;
                     bPlayPerfect = true;
+                    VFXScoringOnce();
                     if (!scPlayer.BisDetectedByAnyEnemy)
                     {
                         scPlayer.FDetectionLevel -= 10f;
@@ -685,6 +689,96 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
         else
         {
             UnityEngine.Debug.LogWarning("No gamepad connected");
+        }
+    }
+    private void VFXScoringOnce()
+    {
+        if(scPlayer!=null&& scPlayer.TMPScoreOnce!=null)
+        {
+            if(bPlayBad)
+            {
+                if(menuManager._playerData.iLanguageNbPlayer==0) //english
+                {
+                    scPlayer.TMPScoreOnce.text = "Bad..";
+                }
+                else
+                {
+                    scPlayer.TMPScoreOnce.text = "Mauvais..";
+                }
+                //scPlayer.TMPScoreOnce.text = "35%";
+                scPlayer.TMPScoreOnce.color = colorBad;
+                scPlayer.scoreSequence.Kill();
+                scPlayer.scoreSequence = DOTween.Sequence().SetAutoKill(true).SetUpdate(true);
+                scPlayer.scoreSequence.Append(scPlayer.TMPScoreOnce.transform.DOScale(1.2f, FSPB/2f)
+                .SetEase(Ease.OutElastic)).SetUpdate(true);
+                scPlayer.scoreSequence.OnComplete(() =>
+                {
+                    scPlayer.TMPScoreOnce.transform.localScale = new Vector3(1f, 1f, 1f);
+                });
+            }
+            else if(bPlayGood)
+            {
+                if (menuManager._playerData.iLanguageNbPlayer == 0) //english
+                {
+                    scPlayer.TMPScoreOnce.text = "Good!";
+                }
+                else
+                {
+                    scPlayer.TMPScoreOnce.text = "Bon!";
+                }
+                //scPlayer.TMPScoreOnce.text = "75%";
+                scPlayer.TMPScoreOnce.color = colorGood;
+                scPlayer.scoreSequence.Kill();
+                scPlayer.scoreSequence = DOTween.Sequence().SetAutoKill(true).SetUpdate(true);
+                scPlayer.scoreSequence.Append(scPlayer.TMPScoreOnce.transform.DOScale(1.2f, FSPB / 2f)
+                .SetEase(Ease.OutElastic)).SetUpdate(true);
+                scPlayer.scoreSequence.OnComplete(() =>
+                {
+                    scPlayer.TMPScoreOnce.transform.localScale = new Vector3(1f, 1f, 1f);
+                });
+            }
+            else if(bPlayPerfect)
+            {
+                if (menuManager._playerData.iLanguageNbPlayer == 0) //english
+                {
+                    scPlayer.TMPScoreOnce.text = "Perfect!";
+                }
+                else
+                {
+                    scPlayer.TMPScoreOnce.text = "Parfait!";
+                }
+                //scPlayer.TMPScoreOnce.text = "100%";
+                scPlayer.TMPScoreOnce.color = colorPerfect;
+                scPlayer.scoreSequence.Kill();
+                scPlayer.scoreSequence = DOTween.Sequence().SetAutoKill(true).SetUpdate(true);
+                scPlayer.scoreSequence.Append(scPlayer.TMPScoreOnce.transform.DOScale(1.2f, FSPB / 2f)
+                .SetEase(Ease.OutElastic)).SetUpdate(true);
+                scPlayer.scoreSequence.OnComplete(() =>
+                {
+                    scPlayer.TMPScoreOnce.transform.localScale = new Vector3(1f, 1f, 1f);
+                });
+            }
+            else
+            {
+                if (menuManager._playerData.iLanguageNbPlayer == 0) //english
+                {
+                    scPlayer.TMPScoreOnce.text = "Missed...";
+                }
+                else
+                {
+                    scPlayer.TMPScoreOnce.text = "Raté...";
+                }
+                //scPlayer.TMPScoreOnce.text = "0%";
+                scPlayer.TMPScoreOnce.color = colorMiss;
+                scPlayer.scoreSequence.Kill();
+                scPlayer.scoreSequence = DOTween.Sequence().SetAutoKill(true).SetUpdate(true);
+                scPlayer.scoreSequence.Append(scPlayer.TMPScoreOnce.transform.DOScale(1.2f, FSPB / 2f)
+                .SetEase(Ease.OutElastic)).SetUpdate(true);
+                scPlayer.scoreSequence.OnComplete(() =>
+                {
+                    scPlayer.TMPScoreOnce.transform.localScale = new Vector3(1f, 1f, 1f);
+                });
+            }
         }
     }
     private void OnDestroy() // Clean up to prevent memory leaks
