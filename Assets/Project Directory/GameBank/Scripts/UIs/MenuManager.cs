@@ -1320,11 +1320,23 @@ public class MenuManager : SingletonManager<MenuManager>
         {
             bWithNotes = false;
             ImageButtonGeneral[3].material = M_materialButtonGeneral[8];
+            if(scPlayer!=null && scPlayer.goNotesBg != null && scPlayer.goNoteParent != null)
+            {
+                scPlayer.goNotesBg.SetActive(true);
+                scPlayer.goNoteParent[0].SetActive(true);
+                scPlayer.goNoteParent[1].SetActive(true);
+            }
         }
         else
         {
             bWithNotes = true;
             ImageButtonGeneral[3].material = M_materialButtonGeneral[7];
+            if(scPlayer!=null && scPlayer.goNotesBg!=null && scPlayer.goNoteParent!=null)
+            {
+                scPlayer.goNotesBg.SetActive(false);
+                scPlayer.goNoteParent[0].SetActive(false);
+                scPlayer.goNoteParent[1].SetActive(false);
+            }
         }
     }
     public void LanguageButton()
@@ -1350,11 +1362,19 @@ public class MenuManager : SingletonManager<MenuManager>
         {
             _playerData.iGrid = 0; //false
             ImageButtonGeneral[2].material = M_materialButtonGeneral[6];
+            if(scPlayer!=null && scPlayer.go_Grid != null)
+            {
+                scPlayer.go_Grid.SetActive(false);
+            }
         }
         else
         {
             _playerData.iGrid = 1; //true
             ImageButtonGeneral[2].material = M_materialButtonGeneral[5];
+            if (scPlayer != null && scPlayer.go_Grid!=null)
+            {
+                scPlayer.go_Grid.SetActive(true);
+            }
         }
         bOnceGrid = false;
     }

@@ -154,7 +154,7 @@ public class SC_Player : Singleton<SC_Player>
     private float[] fPreviousNbBeatScoring = new float[4] { 0f, 0f, 0f, 0f};
     public int iCheckPoint = 0;
     public bool bIsReplaying = false;
-    [SerializeField] private GameObject go_Grid;
+    public GameObject go_Grid;
     [SerializeField, Button(nameof(testy))] bool test;
     [ContextMenu("lols")]
     private void testy()
