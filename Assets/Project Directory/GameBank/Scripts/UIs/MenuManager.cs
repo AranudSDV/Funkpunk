@@ -434,7 +434,7 @@ public class MenuManager : SingletonManager<MenuManager>
                 }
                 if (EventSystem.currentSelectedGameObject != buttonsPausePannel[i].gameObject)
                 {
-                    imagesButtonPausePannel[i].material.SetFloat("_NoColorsWhiteValue", 0.1f);
+                    imagesButtonPausePannel[i].material.SetFloat("_NoColorsWhiteValue", 0.3f);
                 }
             }
         }
@@ -454,8 +454,8 @@ public class MenuManager : SingletonManager<MenuManager>
                     }
                     else
                     {
-                        _levels[i].img_lvl.material.SetFloat("_NoColorsWhiteValue", 0.1f);
-                        GoLevelBackButton.GetComponent<UnityEngine.UI.Image>().material.SetFloat("_NoColorsWhiteValue", 0.1f);
+                        _levels[i].img_lvl.material.SetFloat("_NoColorsWhiteValue", 0.3f);
+                        GoLevelBackButton.GetComponent<UnityEngine.UI.Image>().material.SetFloat("_NoColorsWhiteValue", 0.3f);
                     }
                 }
             }
@@ -470,7 +470,7 @@ public class MenuManager : SingletonManager<MenuManager>
                 }
                 else
                 {
-                    ImageButtonsScoring[i].material.SetFloat("_NoColorsWhiteValue", 0.1f);
+                    ImageButtonsScoring[i].material.SetFloat("_NoColorsWhiteValue", 0.3f);
                 }
             }
         }
@@ -498,8 +498,8 @@ public class MenuManager : SingletonManager<MenuManager>
                 }
                 else
                 {
-                    ImageOption[i].material.SetFloat("_NoColorsWhiteValue", 0.1f);
-                    ImageSliderHandlerAudio[i].material.SetFloat("_NoColorsWhiteValue", 0.1f);
+                    ImageOption[i].material.SetFloat("_NoColorsWhiteValue", 0.3f);
+                    ImageSliderHandlerAudio[i].material.SetFloat("_NoColorsWhiteValue", 0.3f);
                 }
                 /*if (i < bNowSelectedGeneral.Length)
                 {
@@ -534,9 +534,9 @@ public class MenuManager : SingletonManager<MenuManager>
                 {
                     if(i< ImageOption.Length)
                     {
-                        ImageOption[i].material.SetFloat("_NoColorsWhiteValue", 0.1f);
+                        ImageOption[i].material.SetFloat("_NoColorsWhiteValue", 0.3f);
                     }
-                    ImageButtonGeneral[i].material.SetFloat("_NoColorsWhiteValue", 0.1f);
+                    ImageButtonGeneral[i].material.SetFloat("_NoColorsWhiteValue", 0.3f);
                 }
                 /*if (i < bNowSelectedAudio.Length)
                 {

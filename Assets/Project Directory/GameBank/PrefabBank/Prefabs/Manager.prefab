@@ -790,6 +790,16 @@ MonoBehaviour:
     Path: event:/HUb 60  wav
   isPlaying: 0
   iTimer: 3
+  arrowSprite_:
+  - {fileID: 21300000, guid: 033774f41dad5234e9f54a0ce7a5484d, type: 3}
+  - {fileID: 21300000, guid: 76125b7c21f42264399050731fec5e57, type: 3}
+  - {fileID: 21300000, guid: 1cd270cdcf99a4f4281fd67f5d4de21e, type: 3}
+  - {fileID: 21300000, guid: 0552c757c2a4b374985a49e83b4cdcfd, type: 3}
+  arrowSprite_reversed:
+  - {fileID: 21300000, guid: 28a787ade52f524479cb96ad9c8cca87, type: 3}
+  - {fileID: 21300000, guid: 028693b6acb1cf64ba88ef1b5bba7e57, type: 3}
+  - {fileID: 21300000, guid: e0f7f01aaa9314149b20f1931fe73189, type: 3}
+  - {fileID: 21300000, guid: 0d3fadaad040b63468758f54c3d6c13d, type: 3}
   fAllTolerence:
   - 2
   - 4
@@ -5053,7 +5063,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "g\xE9n\xE9ral"
+  m_text: General
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 307a3b5810ad054419f04bbef78a4995, type: 2}
   m_sharedMaterial: {fileID: 902448250918626654, guid: 307a3b5810ad054419f04bbef78a4995,
@@ -12510,7 +12520,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 4be9058d94d341b4a82957aa34878951, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 009715af7ded96944b5836746215dcf9, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
