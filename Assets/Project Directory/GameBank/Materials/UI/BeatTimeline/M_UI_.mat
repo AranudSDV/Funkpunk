@@ -43,7 +43,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DissolveTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 54c18782056dbaa4ba7763620293682d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _FrontTex:
@@ -89,7 +89,7 @@ Material:
     - _BaseSizeY: 1
     - _Debug: 0
     - _Float0: 1
-    - _G_BaseOpacity: 0.5109974
+    - _G_BaseOpacity: 1
     - _G_FadeSmooth: 1
     - _HandleColors: 1
     - _IfNotUsed: 0

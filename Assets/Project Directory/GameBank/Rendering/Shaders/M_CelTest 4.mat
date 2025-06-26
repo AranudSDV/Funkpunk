@@ -13,7 +13,6 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _COLORORTEX_ON
-  - _USING3DMOVEMENTS_ON
   m_InvalidKeywords:
   - _DEBUG_ON
   - _SHADOWSFULLCELSHADED_ON
@@ -96,6 +95,7 @@ Material:
     - _FresnelErase_Smoothness: 1.5
     - _FresnelPower: 5
     - _FullShadingHalfShading: 0
+    - _IsDecalMesh: 0
     - _IsEnnemies: 0
     - _IsOutline: 0
     - _LightBoost: 1
@@ -125,8 +125,9 @@ Material:
     - _TimeDelay: 0
     - _TopMask: 0
     - _TriplanarTiling: 10
-    - _Using3DMovements: 1
+    - _Using3DMovements: 0
     - _UsingTriplanar: 0
+    - _UsingTriplanar1: 0
     - _VerticesOffset: 0
     - _WorldPosDiv: 0
     m_Colors:
