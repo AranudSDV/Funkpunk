@@ -64,7 +64,7 @@ public class MenuManager : SingletonManager<MenuManager>
     public CanvasGroup CgOptionPannel;
     public RectTransform RtOptionPannel;
     public CanvasGroup CgOptionGeneral;
-    public int iDifficulty = 0;
+    [Tooltip("hard, normal, easy")] public int iDifficulty = 0;
     [SerializeField] private EventReference[] sfx_ui_button;
     private bool[] bNowSelectedGeneral = new bool[3] { false, false, false };
     private bool[] bNowSelectedAudio = new bool[3] { false, false, false };
@@ -1086,10 +1086,6 @@ public class MenuManager : SingletonManager<MenuManager>
                 {
                     ImageButtonGeneral[1].material = M_materialButtonGeneral[2];
                 }
-                else if (iDifficulty == 1) //normal
-                {
-                    ImageButtonGeneral[1].material = M_materialButtonGeneral[3];
-                }
                 else if (iDifficulty == 2)//easy
                 {
                     ImageButtonGeneral[1].material = M_materialButtonGeneral[4];
@@ -1298,15 +1294,18 @@ public class MenuManager : SingletonManager<MenuManager>
         ButtonSound();
         if (iDifficulty == 0)
         {
-            iDifficulty = 1; 
+            iDifficulty = 1;
+            ImageButtonGeneral[1].material = M_materialButtonGeneral[3];
         }
         else if(iDifficulty == 1)
         {
             iDifficulty = 2;
+            ImageButtonGeneral[1].material = M_materialButtonGeneral[4];
         }
         else
         {
             iDifficulty = 0;
+            ImageButtonGeneral[1].material = M_materialButtonGeneral[2];
         }
         if (scPlayer!=null && scPlayer.bpmManager!=null)
         {

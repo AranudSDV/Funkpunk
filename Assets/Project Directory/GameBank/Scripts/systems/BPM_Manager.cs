@@ -102,9 +102,18 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
                 }
             }
         }
-        scPlayer.posSeparator[0] = new Vector2((scPlayer.canvasRect.rect.width / 2f) * (fTolerence[0]/fFraction)- scPlayer.goSeparator[0].rect.width, 0f);
-        scPlayer.posSeparator[1] = new Vector2((scPlayer.canvasRect.rect.width / 2f)*((fTolerence[0]+ fTolerence[1])/ fFraction) - scPlayer.goSeparator[0].rect.width, 0f);
-        scPlayer.posSeparator[2] = new Vector2((scPlayer.canvasRect.rect.width / 2f) * ((fTolerence[0] + fTolerence[1]+ fTolerence[2])/ fFraction)- scPlayer.goSeparator[0].rect.width, 0f);
+        if(menuManager.iDifficulty!=0)
+        {
+            scPlayer.posSeparator[0] = new Vector2((scPlayer.canvasRect.rect.width / 2f) * ((fTolerence[0] / 4f) / fFraction) + scPlayer.goSeparator[0].rect.width/2f, 0f); //perfect
+            scPlayer.posSeparator[1] = new Vector2((scPlayer.canvasRect.rect.width / 2f) * ((fTolerence[1] + (fTolerence[0] / 4f)) / fFraction) - scPlayer.goSeparator[0].rect.width, 0f); //good
+        }
+        else
+        {
+            scPlayer.posSeparator[0] = new Vector2((scPlayer.canvasRect.rect.width / 2f) * ((fTolerence[0] / 4f) / fFraction) - scPlayer.goSeparator[0].rect.width / 2f, 0f); //perfect
+            scPlayer.posSeparator[1] = new Vector2((scPlayer.canvasRect.rect.width / 2f) * ((fTolerence[1] + (fTolerence[0] / 4f)) / fFraction) - 2*scPlayer.goSeparator[0].rect.width, 0f); //good
+        }
+        scPlayer.posSeparator[2] = new Vector2((scPlayer.canvasRect.rect.width / 2f) * ((fTolerence[2] + (fTolerence[0] / 4f) + fTolerence[1]) / fFraction) - scPlayer.goSeparator[0].rect.width, 0f); //bad
+
         scPlayer.goSeparator[0].anchoredPosition = scPlayer.posSeparator[0];
         scPlayer.goSeparator[1].anchoredPosition = scPlayer.posSeparator[1];
         scPlayer.goSeparator[2].anchoredPosition = scPlayer.posSeparator[2];
@@ -281,7 +290,6 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
                     {
                         scPlayer.fNbBeat += 1f;
                         scPlayer.fScoreDetails[0] += 1f;
-                        VFXScoringOnce();
                     }
                     bPlayBad = false;
                     bPlayGood = false;
@@ -389,7 +397,6 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
                     bPlayBad = true;
                     bPlayGood = false;
                     bPlayPerfect = false;
-                    VFXScoringOnce();
                     if (!scPlayer.BisDetectedByAnyEnemy)
                     {
                         scPlayer.FDetectionLevel -= 2f;
@@ -408,7 +415,6 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
                     bPlayBad = false;
                     bPlayGood = true;
                     bPlayPerfect = false;
-                    VFXScoringOnce();
                     if (!scPlayer.BisDetectedByAnyEnemy)
                     {
                         scPlayer.FDetectionLevel -= 5f;
@@ -427,7 +433,6 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
                     bPlayBad = false;
                     bPlayGood = false;
                     bPlayPerfect = true;
-                    VFXScoringOnce();
                     if (!scPlayer.BisDetectedByAnyEnemy)
                     {
                         scPlayer.FDetectionLevel -= 10f;
@@ -453,271 +458,51 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
     {
         if(scPlayer != null)
         {
+            float fScale = 1.2f;
+            VFXScoringOnce();
             CheckNearestNote();
-            if (iNowNote == 0)
+             sequences[iNowNote].Kill();
+            if (bPlayBad)
             {
-                sequences[0].Kill();
-                if(bPlayBad)
-                {
-                    scPlayer.imNoteRight[0].sprite = arrowSprite_[1];
-                    scPlayer.imNoteLeft[0].sprite = arrowSprite_reversed[1];
-                    scPlayer.imNoteRight[0].color = colorBad;
-                    scPlayer.imNoteLeft[0].color = colorBad;
-                    sequences[0] = DOTween.Sequence().SetAutoKill(true).SetUpdate(true);
-                    sequences[0].Append(scPlayer.goNoteLeft[0].DOScale(1.2f, FSPB / 14f)
-                    .SetEase(Ease.OutElastic)).SetUpdate(true);
-                    sequences[0].Append(scPlayer.goNoteRight[0].DOScale(1.2f, FSPB / 14f)
-                    .SetEase(Ease.OutElastic)).SetUpdate(true);
-                    /*scPlayer.scoreSequence.OnComplete(() =>
-                    {
-                        //scPlayer.imNoteRight[0].color = new Color32(255, 255, 255, 0);
-                        //scPlayer.imNoteLeft[0].color = new Color32(255, 255, 255, 0);
-                        scPlayer.goNoteRight[0].localScale = new Vector3(1f, 1f, 1f);
-                        scPlayer.goNoteLeft[0].localScale = new Vector3(1f, 1f, 1f);
-                        scPlayer.imNoteRight[0].sprite = arrowSprite_[0];
-                        scPlayer.imNoteLeft[0].sprite = arrowSprite_reversed[0];
-                    });*/
-                }
-                else if(bPlayGood)
-                {
-                    scPlayer.imNoteRight[0].sprite = arrowSprite_[2];
-                    scPlayer.imNoteLeft[0].sprite = arrowSprite_reversed[2];
-                    scPlayer.imNoteRight[0].color = colorGood;
-                    scPlayer.imNoteLeft[0].color = colorGood;
-                    sequences[0] = DOTween.Sequence().SetAutoKill(true).SetUpdate(true);
-                    sequences[0].Append(scPlayer.goNoteLeft[0].DOScale(1.2f, FSPB / 14f)
-                    .SetEase(Ease.OutElastic)).SetUpdate(true);
-                    sequences[0].Append(scPlayer.goNoteRight[0].DOScale(1.2f, FSPB / 14f)
-                    .SetEase(Ease.OutElastic)).SetUpdate(true);
-                    /*scPlayer.scoreSequence.OnComplete(() =>
-                    {
-                        //scPlayer.imNoteRight[0].color = new Color32(255, 255, 255, 0);
-                        //scPlayer.imNoteLeft[0].color = new Color32(255, 255, 255, 0);
-                        scPlayer.goNoteRight[0].localScale = new Vector3(1f, 1f, 1f);
-                        scPlayer.goNoteLeft[0].localScale = new Vector3(1f, 1f, 1f);
-                        scPlayer.imNoteRight[0].sprite = arrowSprite_[0];
-                        scPlayer.imNoteLeft[0].sprite = arrowSprite_reversed[0];
-                    });*/
-                }
-                else if(bPlayPerfect)
-                {
-                    scPlayer.imNoteRight[0].sprite = arrowSprite_[3];
-                    scPlayer.imNoteLeft[0].sprite = arrowSprite_reversed[3];
-                    scPlayer.imNoteRight[0].color = colorPerfect;
-                    scPlayer.imNoteLeft[0].color = colorPerfect;
-                    sequences[0] = DOTween.Sequence().SetAutoKill(true).SetUpdate(true);
-                    sequences[0].Append(scPlayer.goNoteLeft[0].DOScale(1.2f, FSPB / 14f)
-                    .SetEase(Ease.OutElastic)).SetUpdate(true);
-                    sequences[0].Append(scPlayer.goNoteRight[0].DOScale(1.2f, FSPB / 14f)
-                    .SetEase(Ease.OutElastic)).SetUpdate(true);
-                    /*scPlayer.scoreSequence.OnComplete(() =>
-                    {
-                        //scPlayer.imNoteRight[0].color = new Color32(255, 255, 255, 0);
-                        //scPlayer.imNoteLeft[0].color = new Color32(255, 255, 255, 0);
-                        scPlayer.goNoteRight[0].localScale = new Vector3(1f, 1f, 1f);
-                        scPlayer.goNoteLeft[0].localScale = new Vector3(1f, 1f, 1f);
-                        scPlayer.imNoteRight[0].sprite = arrowSprite_[0];
-                        scPlayer.imNoteLeft[0].sprite = arrowSprite_reversed[0];
-                    });*/
-                }
-                else
-                {
-                    scPlayer.imNoteRight[0].sprite = arrowSprite_[0];
-                    scPlayer.imNoteLeft[0].sprite = arrowSprite_reversed[0];
-                    scPlayer.imNoteRight[0].color = colorMiss;
-                    scPlayer.imNoteLeft[0].color = colorMiss;
-                    sequences[0] = DOTween.Sequence().SetAutoKill(true).SetUpdate(true);
-                    sequences[0].Append(scPlayer.goNoteLeft[0].DOScale(1.2f, FSPB / 14f)
-                    .SetEase(Ease.OutElastic)).SetUpdate(true);
-                    sequences[0].Append(scPlayer.goNoteRight[0].DOScale(1.2f, FSPB / 14f)
-                    .SetEase(Ease.OutElastic)).SetUpdate(true);
-                    /*scPlayer.scoreSequence.OnComplete(() =>
-                    {
-                        //scPlayer.imNoteRight[0].color = new Color32(255, 255, 255, 0);
-                        //scPlayer.imNoteLeft[0].color = new Color32(255, 255, 255, 0);
-                        scPlayer.goNoteRight[0].localScale = new Vector3(1f, 1f, 1f);
-                        scPlayer.goNoteLeft[0].localScale = new Vector3(1f, 1f, 1f);
-                        scPlayer.imNoteRight[0].sprite = arrowSprite_[0];
-                        scPlayer.imNoteLeft[0].sprite = arrowSprite_reversed[0];
-                    });*/
-                }
+                fScale = 1.2f;
+                scPlayer.imNoteRight[iNowNote].sprite = arrowSprite_[1];
+                scPlayer.imNoteLeft[iNowNote].sprite = arrowSprite_reversed[1];
+                scPlayer.imNoteRight[iNowNote].color = colorBad;
+                scPlayer.imNoteLeft[iNowNote].color = colorBad;
             }
-            else if (iNowNote == 1)
+            else if (bPlayGood)
             {
-                sequences[1].Kill();
-                if (bPlayBad)
-                {
-                    scPlayer.imNoteRight[1].sprite = arrowSprite_[1];
-                    scPlayer.imNoteLeft[1].sprite = arrowSprite_reversed[1];
-                    scPlayer.imNoteRight[1].color = colorBad;
-                    scPlayer.imNoteLeft[1].color = colorBad;
-                    sequences[1] = DOTween.Sequence().SetAutoKill(true).SetUpdate(true);
-                    sequences[1].Append(scPlayer.goNoteLeft[1].DOScale(1.2f, FSPB / 14f)
-                    .SetEase(Ease.OutElastic)).SetUpdate(true);
-                    sequences[1].Append(scPlayer.goNoteRight[1].DOScale(1.2f, FSPB / 14f)
-                    .SetEase(Ease.OutElastic)).SetUpdate(true);
-                    /*scPlayer.scoreSequence.OnComplete(() =>
-                    {
-                        //scPlayer.imNoteRight[1].color = new Color32(255, 255, 255, 0);
-                        //scPlayer.imNoteLeft[1].color = new Color32(255, 255, 255, 0);
-                        scPlayer.goNoteRight[1].localScale = new Vector3(1f, 1f, 1f);
-                        scPlayer.goNoteLeft[1].localScale = new Vector3(1f, 1f, 1f);
-                        scPlayer.imNoteRight[1].sprite = arrowSprite_[0];
-                        scPlayer.imNoteLeft[1].sprite = arrowSprite_reversed[0];
-                    });*/
-                }
-                else if (bPlayGood)
-                {
-                    scPlayer.imNoteRight[1].sprite = arrowSprite_[2];
-                    scPlayer.imNoteLeft[1].sprite = arrowSprite_reversed[2];
-                    scPlayer.imNoteRight[1].color = colorGood;
-                    scPlayer.imNoteLeft[1].color = colorGood;
-                    sequences[1] = DOTween.Sequence().SetAutoKill(true).SetUpdate(true);
-                    sequences[1].Append(scPlayer.goNoteLeft[1].DOScale(1.2f, FSPB / 14f)
-                    .SetEase(Ease.OutElastic)).SetUpdate(true);
-                    sequences[1].Append(scPlayer.goNoteRight[1].DOScale(1.2f, FSPB / 14f)
-                    .SetEase(Ease.OutElastic)).SetUpdate(true);
-                    /*scPlayer.scoreSequence.OnComplete(() =>
-                    {
-                        //scPlayer.imNoteRight[1].color = new Color32(255, 255, 255, 0);
-                        //scPlayer.imNoteLeft[1].color = new Color32(255, 255, 255, 0);
-                        scPlayer.goNoteRight[1].localScale = new Vector3(1f, 1f, 1f);
-                        scPlayer.goNoteLeft[1].localScale = new Vector3(1f, 1f, 1f);
-                        scPlayer.imNoteRight[1].sprite = arrowSprite_[0];
-                        scPlayer.imNoteLeft[1].sprite = arrowSprite_reversed[0];
-                    });*/
-                }
-                else if (bPlayPerfect)
-                {
-                    scPlayer.imNoteRight[1].sprite = arrowSprite_[3];
-                    scPlayer.imNoteLeft[1].sprite = arrowSprite_reversed[3];
-                    scPlayer.imNoteRight[1].color = colorPerfect;
-                    scPlayer.imNoteLeft[1].color = colorPerfect;
-                    sequences[1] = DOTween.Sequence().SetAutoKill(true).SetUpdate(true);
-                    sequences[1].Append(scPlayer.goNoteLeft[1].DOScale(1.2f, FSPB / 14f)
-                    .SetEase(Ease.OutElastic)).SetUpdate(true);
-                    sequences[1].Append(scPlayer.goNoteRight[1].DOScale(1.2f, FSPB / 14f)
-                    .SetEase(Ease.OutElastic)).SetUpdate(true);
-                    /*scPlayer.scoreSequence.OnComplete(() =>
-                    {
-                        //scPlayer.imNoteRight[1].color = new Color32(255, 255, 255, 0);
-                        //scPlayer.imNoteLeft[1].color = new Color32(255, 255, 255, 0);
-                        scPlayer.goNoteRight[1].localScale = new Vector3(1f, 1f, 1f);
-                        scPlayer.goNoteLeft[1].localScale = new Vector3(1f, 1f, 1f);
-                        scPlayer.imNoteRight[1].sprite = arrowSprite_[0];
-                        scPlayer.imNoteLeft[1].sprite = arrowSprite_reversed[0];
-                    });*/
-                }
-                else
-                {
-                    scPlayer.imNoteRight[1].sprite = arrowSprite_[0];
-                    scPlayer.imNoteLeft[1].sprite = arrowSprite_reversed[0];
-                    scPlayer.imNoteRight[1].color = colorMiss;
-                    scPlayer.imNoteLeft[1].color = colorMiss;
-                    sequences[1] = DOTween.Sequence().SetAutoKill(true).SetUpdate(true);
-                    sequences[1].Append(scPlayer.goNoteLeft[1].DOScale(1.2f, FSPB / 14f)
-                    .SetEase(Ease.OutElastic)).SetUpdate(true);
-                    sequences[1].Append(scPlayer.goNoteRight[1].DOScale(1.2f, FSPB / 14f)
-                    .SetEase(Ease.OutElastic)).SetUpdate(true);
-                    /*scPlayer.scoreSequence.OnComplete(() =>
-                    {
-                        //scPlayer.imNoteRight[1].color = new Color32(255, 255, 255, 0);
-                        //scPlayer.imNoteLeft[1].color = new Color32(255, 255, 255, 0);
-                        scPlayer.goNoteRight[1].localScale = new Vector3(1f, 1f, 1f);
-                        scPlayer.goNoteLeft[1].localScale = new Vector3(1f, 1f, 1f);
-                        scPlayer.imNoteRight[1].sprite = arrowSprite_[0];
-                        scPlayer.imNoteLeft[1].sprite = arrowSprite_reversed[0];
-                    });*/
-                }
+                fScale = 1.5f;
+                scPlayer.imNoteRight[iNowNote].sprite = arrowSprite_[2];
+                scPlayer.imNoteLeft[iNowNote].sprite = arrowSprite_reversed[2];
+                scPlayer.imNoteRight[iNowNote].color = colorGood;
+                scPlayer.imNoteLeft[iNowNote].color = colorGood;
             }
-            else if (iNowNote == 2)
+            else if (bPlayPerfect)
             {
-                sequences[2].Kill();
-                if (bPlayBad)
-                {
-                    scPlayer.imNoteRight[2].sprite = arrowSprite_[1];
-                    scPlayer.imNoteLeft[2].sprite = arrowSprite_reversed[1];
-                    scPlayer.imNoteRight[2].color = colorBad;
-                    scPlayer.imNoteLeft[2].color = colorBad;
-                    sequences[2] = DOTween.Sequence().SetAutoKill(true).SetUpdate(true);
-                    sequences[2].Append(scPlayer.goNoteLeft[2].DOScale(1.2f, FSPB / 14f)
-                    .SetEase(Ease.OutElastic)).SetUpdate(true);
-                    sequences[2].Append(scPlayer.goNoteRight[2].DOScale(1.2f, FSPB / 14f)
-                    .SetEase(Ease.OutElastic)).SetUpdate(true);
-                    /*scPlayer.scoreSequence.OnComplete(() =>
-                    {
-                        //scPlayer.imNoteRight[2].color = new Color32(255, 255, 255, 0);
-                        //scPlayer.imNoteLeft[2].color = new Color32(255, 255, 255, 0);
-                        scPlayer.goNoteRight[2].localScale = new Vector3(1f, 1f, 1f);
-                        scPlayer.goNoteLeft[2].localScale = new Vector3(1f, 1f, 1f);
-                        scPlayer.imNoteRight[2].sprite = arrowSprite_[0];
-                        scPlayer.imNoteLeft[2].sprite = arrowSprite_reversed[0];
-                    });*/
-                }
-                else if (bPlayGood)
-                {
-                    scPlayer.imNoteRight[2].sprite = arrowSprite_[2];
-                    scPlayer.imNoteLeft[2].sprite = arrowSprite_reversed[2];
-                    scPlayer.imNoteRight[2].color = colorGood;
-                    scPlayer.imNoteLeft[2].color = colorGood;
-                    sequences[2] = DOTween.Sequence().SetAutoKill(true).SetUpdate(true);
-                    sequences[2].Append(scPlayer.goNoteLeft[2].DOScale(1.2f, FSPB / 14f)
-                    .SetEase(Ease.OutElastic)).SetUpdate(true);
-                    sequences[2].Append(scPlayer.goNoteRight[2].DOScale(1.2f, FSPB / 14f)
-                    .SetEase(Ease.OutElastic)).SetUpdate(true);
-                    /*scPlayer.scoreSequence.OnComplete(() =>
-                    {
-                        //scPlayer.imNoteRight[2].color = new Color32(255, 255, 255, 0);
-                        //scPlayer.imNoteLeft[2].color = new Color32(255, 255, 255, 0);
-                        scPlayer.goNoteRight[2].localScale = new Vector3(1f, 1f, 1f);
-                        scPlayer.goNoteLeft[2].localScale = new Vector3(1f, 1f, 1f);
-                        scPlayer.imNoteRight[2].sprite = arrowSprite_[0];
-                        scPlayer.imNoteLeft[2].sprite = arrowSprite_reversed[0];
-                    });*/
-                }
-                else if (bPlayPerfect)
-                {
-                    scPlayer.imNoteRight[2].sprite = arrowSprite_[3];
-                    scPlayer.imNoteLeft[2].sprite = arrowSprite_reversed[3];
-                    scPlayer.imNoteRight[2].color = colorPerfect;
-                    scPlayer.imNoteLeft[2].color = colorPerfect;
-                    sequences[2] = DOTween.Sequence().SetAutoKill(true).SetUpdate(true);
-                    sequences[2].Append(scPlayer.goNoteLeft[2].DOScale(1.2f, FSPB / 14f)
-                    .SetEase(Ease.OutElastic)).SetUpdate(true);
-                    sequences[2].Append(scPlayer.goNoteRight[2].DOScale(1.2f, FSPB / 14f)
-                    .SetEase(Ease.OutElastic)).SetUpdate(true);
-                    /*scPlayer.scoreSequence.OnComplete(() =>
-                    {
-                        //scPlayer.imNoteRight[2].color = new Color32(255, 255, 255, 0);
-                        //scPlayer.imNoteLeft[2].color = new Color32(255, 255, 255, 0);
-                        scPlayer.goNoteRight[2].localScale = new Vector3(1f, 1f, 1f);
-                        scPlayer.goNoteLeft[2].localScale = new Vector3(1f, 1f, 1f);
-                        scPlayer.imNoteRight[2].sprite = arrowSprite_[0];
-                        scPlayer.imNoteLeft[2].sprite = arrowSprite_reversed[0];
-                    });*/
-                }
-                else
-                {
-                    scPlayer.imNoteRight[2].sprite = arrowSprite_[0];
-                    scPlayer.imNoteLeft[2].sprite = arrowSprite_reversed[0];
-                    scPlayer.imNoteRight[2].color = colorMiss;
-                    scPlayer.imNoteLeft[2].color = colorMiss;
-                    sequences[2] = DOTween.Sequence().SetAutoKill(true).SetUpdate(true);
-                    sequences[2].Append(scPlayer.goNoteLeft[2].DOScale(1.2f, FSPB / 14f)
-                    .SetEase(Ease.OutElastic)).SetUpdate(true);
-                    sequences[2].Append(scPlayer.goNoteRight[2].DOScale(1.2f, FSPB / 14f)
-                    .SetEase(Ease.OutElastic)).SetUpdate(true);
-                    /*scPlayer.scoreSequence.OnComplete(() =>
-                    {
-                        //scPlayer.imNoteRight[2].color = new Color32(255, 255, 255, 0);
-                        //scPlayer.imNoteLeft[2].color = new Color32(255, 255, 255, 0);
-                        scPlayer.goNoteRight[2].localScale = new Vector3(1f, 1f, 1f);
-                        scPlayer.goNoteLeft[2].localScale = new Vector3(1f, 1f, 1f);
-                        scPlayer.imNoteRight[2].sprite = arrowSprite_[0];
-                        scPlayer.imNoteLeft[2].sprite = arrowSprite_reversed[0];
-                    });*/
-                }
+                fScale = 1.8f;
+                scPlayer.imNoteRight[iNowNote].sprite = arrowSprite_[3];
+                scPlayer.imNoteLeft[iNowNote].sprite = arrowSprite_reversed[3];
+                scPlayer.imNoteRight[iNowNote].color = colorPerfect;
+                scPlayer.imNoteLeft[iNowNote].color = colorPerfect;
             }
+            else
+            {
+                fScale = 1f;
+                scPlayer.imNoteRight[iNowNote].sprite = arrowSprite_[0];
+                scPlayer.imNoteLeft[iNowNote].sprite = arrowSprite_reversed[0];
+                scPlayer.imNoteRight[iNowNote].color = colorMiss;
+                scPlayer.imNoteLeft[iNowNote].color = colorMiss;
+            }
+            sequences[iNowNote] = DOTween.Sequence().SetAutoKill(true).SetUpdate(true);
+            sequences[iNowNote].Append(scPlayer.goNoteLeft[iNowNote].DOScale(fScale, FSPB / 10f)
+            .SetEase(Ease.InOutElastic)).SetUpdate(true);
+            sequences[iNowNote].Join(scPlayer.goNoteRight[iNowNote].DOScale(fScale, FSPB / 10f)
+            .SetEase(Ease.InOutElastic)).SetUpdate(true);
+            sequences[iNowNote].Append(scPlayer.goNoteLeft[iNowNote].DOScale(0.1f, FSPB / 10f)
+                .SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
+            sequences[iNowNote].Join(scPlayer.goNoteRight[iNowNote].DOScale(0.1f, FSPB / 10f)
+                .SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
         }
     }
     private void CheckNearestNote()
@@ -777,77 +562,36 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
         }
         if(menuManager.bWithNotes)
         {
-            if (i_B == 1)
+            if (i_B != 0)
             {
-                scPlayer.goNoteRight[0].localScale = new Vector3(1f, 1f, 1f);
-                scPlayer.goNoteLeft[0].localScale = new Vector3(1f, 1f, 1f);
-                scPlayer.imNoteRight[0].sprite = arrowSprite_[0];
-                scPlayer.imNoteLeft[0].sprite = arrowSprite_reversed[0];
-                scPlayer.goNoteRight[0].anchoredPosition = new Vector2(newPos.x * (1 + 3 * canvas) + scPlayer.goNoteLeft[0].rect.width / 4f, 0f);
-                scPlayer.goNoteRight[0].localScale = new Vector3(1f, 1f, 1f);
-                scPlayer.goNoteLeft[0].anchoredPosition = new Vector2(-newPos.x * (1 + 3 * canvas) - scPlayer.goNoteLeft[0].rect.width / 4f, 0f);
-                scPlayer.goNoteLeft[0].localScale = new Vector3(1f, 1f, 1f);
-                scPlayer.imNoteRight[0].color = new Color32(0, 197, 255, 255);
-                scPlayer.imNoteLeft[0].color = new Color32(0, 197, 255, 255);
-                sequences[0].Kill();
-                sequences[0] = DOTween.Sequence();
-                sequences[0].Append(scPlayer.goNoteRight[0].DOAnchorPos(new Vector2(scPlayer.goNoteLeft[0].rect.width / 2f, 0f), (FSPB * 3) - (FSPB / 7), false).SetEase(Ease.Linear)).SetUpdate(true);
-                sequences[0].Join(scPlayer.goNoteLeft[0].DOScale(1.5f, (FSPB * 3) - (FSPB / 7)).SetEase(Ease.InBack)).SetUpdate(true);
-                sequences[0].Join(scPlayer.goNoteRight[0].DOScale(1.5f, (FSPB * 3) - (FSPB / 7)).SetEase(Ease.InBack)).SetUpdate(true);
-                sequences[0].Join(scPlayer.goNoteLeft[0].DOAnchorPos(new Vector2(-scPlayer.goNoteLeft[0].rect.width / 2f, 0f), (FSPB * 3) - (FSPB / 7), false).SetEase(Ease.Linear)).SetUpdate(true);
-                sequences[0].Append(scPlayer.goNoteRight[0].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear)).SetUpdate(true);
-                sequences[0].Join(scPlayer.goNoteLeft[0].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear)).SetUpdate(true);
-                sequences[0].Join(scPlayer.goNoteLeft[0].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
-                sequences[0].Join(scPlayer.goNoteRight[0].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
-                i_B = 2;
-            }
-            else if (i_B == 2)
-            {
-                scPlayer.goNoteRight[1].localScale = new Vector3(1f, 1f, 1f);
-                scPlayer.goNoteLeft[1].localScale = new Vector3(1f, 1f, 1f);
-                scPlayer.imNoteRight[1].sprite = arrowSprite_[0];
-                scPlayer.imNoteLeft[1].sprite = arrowSprite_reversed[0];
-                scPlayer.goNoteRight[1].anchoredPosition = new Vector2(newPos.x * (1 + 3 * canvas) + scPlayer.goNoteLeft[0].rect.width / 4f, 0f);
-                scPlayer.goNoteLeft[1].anchoredPosition = new Vector2(-newPos.x * (1 + 3 * canvas) - scPlayer.goNoteLeft[0].rect.width / 4f, 0f);
-                scPlayer.goNoteRight[1].localScale = new Vector3(1f, 1f, 1f);
-                scPlayer.goNoteLeft[1].localScale = new Vector3(1f, 1f, 1f);
-                scPlayer.imNoteRight[1].color = new Color32(0, 197, 255, 255);
-                scPlayer.imNoteLeft[1].color = new Color32(0, 197, 255, 255);
-                sequences[1].Kill();
-                sequences[1] = DOTween.Sequence();
-                sequences[1].Append(scPlayer.goNoteRight[1].DOAnchorPos(new Vector2(scPlayer.goNoteLeft[0].rect.width / 2f, 0f), (FSPB * 3) - (FSPB / 7), false).SetEase(Ease.Linear)).SetUpdate(true);
-                sequences[1].Join(scPlayer.goNoteLeft[1].DOScale(1.5f, (FSPB * 3) - (FSPB / 7)).SetEase(Ease.InBack)).SetUpdate(true);
-                sequences[1].Join(scPlayer.goNoteRight[1].DOScale(1.5f, (FSPB * 3) - (FSPB / 7)).SetEase(Ease.InBack)).SetUpdate(true);
-                sequences[1].Join(scPlayer.goNoteLeft[1].DOAnchorPos(new Vector2(-scPlayer.goNoteLeft[0].rect.width / 2f, 0f), (FSPB * 3) - (FSPB / 7), false).SetEase(Ease.Linear)).SetUpdate(true);
-                sequences[1].Append(scPlayer.goNoteRight[1].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear)).SetUpdate(true);
-                sequences[1].Join(scPlayer.goNoteLeft[1].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear)).SetUpdate(true);
-                sequences[1].Join(scPlayer.goNoteLeft[1].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
-                sequences[1].Join(scPlayer.goNoteRight[1].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
-                i_B = 3;
-            }
-            else if (i_B == 3)
-            {
-                scPlayer.goNoteRight[2].localScale = new Vector3(1f, 1f, 1f);
-                scPlayer.goNoteLeft[2].localScale = new Vector3(1f, 1f, 1f);
-                scPlayer.imNoteRight[2].sprite = arrowSprite_[0];
-                scPlayer.imNoteLeft[2].sprite = arrowSprite_reversed[0];
-                scPlayer.goNoteRight[2].anchoredPosition = new Vector2(newPos.x * (1 + 3 * canvas) + scPlayer.goNoteLeft[0].rect.width / 4f, 0f);
-                scPlayer.goNoteLeft[2].anchoredPosition = new Vector2(-newPos.x * (1 + 3 * canvas) - scPlayer.goNoteLeft[0].rect.width / 4f, 0f);
-                scPlayer.goNoteRight[2].localScale = new Vector3(1f, 1f, 1f);
-                scPlayer.goNoteLeft[2].localScale = new Vector3(1f, 1f, 1f);
-                scPlayer.imNoteRight[2].color = new Color32(0, 197, 255, 255);
-                scPlayer.imNoteLeft[2].color = new Color32(0, 197, 255, 255);
-                sequences[2].Kill();
-                sequences[2] = DOTween.Sequence();
-                sequences[2].Append(scPlayer.goNoteRight[2].DOAnchorPos(new Vector2(scPlayer.goNoteLeft[0].rect.width / 2f, 0f), (FSPB * 3) - (FSPB / 7), false).SetEase(Ease.Linear)).SetUpdate(true);
-                sequences[2].Join(scPlayer.goNoteLeft[2].DOScale(1.5f, (FSPB * 3) - (FSPB / 7)).SetEase(Ease.InBack)).SetUpdate(true);
-                sequences[2].Join(scPlayer.goNoteRight[2].DOScale(1.5f, (FSPB * 3) - (FSPB / 7)).SetEase(Ease.InBack)).SetUpdate(true);
-                sequences[2].Join(scPlayer.goNoteLeft[2].DOAnchorPos(new Vector2(-scPlayer.goNoteLeft[0].rect.width / 2f, 0f), (FSPB * 3) - (FSPB / 7), false).SetEase(Ease.Linear)).SetUpdate(true);
-                sequences[2].Append(scPlayer.goNoteRight[2].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear)).SetUpdate(true);
-                sequences[2].Join(scPlayer.goNoteLeft[2].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear)).SetUpdate(true);
-                sequences[2].Join(scPlayer.goNoteLeft[2].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
-                sequences[2].Join(scPlayer.goNoteRight[2].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
-                i_B = 1;
+                scPlayer.goNoteRight[i_B-1].localScale = new Vector3(1f, 1f, 1f);
+                scPlayer.goNoteLeft[i_B - 1].localScale = new Vector3(1f, 1f, 1f);
+                scPlayer.imNoteRight[i_B-1].sprite = arrowSprite_[0];
+                scPlayer.imNoteLeft[i_B-1].sprite = arrowSprite_reversed[0];
+                scPlayer.goNoteRight[i_B-1].anchoredPosition = new Vector2(newPos.x * (1 + 3 * canvas) + scPlayer.goNoteLeft[0].rect.width / 4f, 0f);
+                scPlayer.goNoteRight[i_B-1].localScale = new Vector3(1f, 1f, 1f);
+                scPlayer.goNoteLeft[i_B-1].anchoredPosition = new Vector2(-newPos.x * (1 + 3 * canvas) - scPlayer.goNoteLeft[0].rect.width / 4f, 0f);
+                scPlayer.goNoteLeft[i_B-1].localScale = new Vector3(1f, 1f, 1f);
+                scPlayer.imNoteRight[i_B-1].color = new Color32(0, 197, 255, 255);
+                scPlayer.imNoteLeft[i_B-1].color = new Color32(0, 197, 255, 255);
+                sequences[i_B-1].Kill();
+                sequences[i_B-1] = DOTween.Sequence();
+                sequences[i_B-1].Append(scPlayer.goNoteRight[i_B-1].DOAnchorPos(new Vector2(scPlayer.goNoteLeft[0].rect.width / 2f, 0f), (FSPB * 3) - (FSPB / 7), false).SetEase(Ease.Linear)).SetUpdate(true);
+                sequences[i_B-1].Join(scPlayer.goNoteLeft[i_B-1].DOScale(1.5f, (FSPB * 3) - (FSPB / 7)).SetEase(Ease.InBack)).SetUpdate(true);
+                sequences[i_B-1].Join(scPlayer.goNoteRight[i_B-1].DOScale(1.5f, (FSPB * 3) - (FSPB / 7)).SetEase(Ease.InBack)).SetUpdate(true);
+                sequences[i_B-1].Join(scPlayer.goNoteLeft[i_B-1].DOAnchorPos(new Vector2(-scPlayer.goNoteLeft[0].rect.width / 2f, 0f), (FSPB * 3) - (FSPB / 7), false).SetEase(Ease.Linear)).SetUpdate(true);
+                sequences[i_B-1].Append(scPlayer.goNoteRight[i_B-1].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear)).SetUpdate(true);
+                sequences[i_B-1].Join(scPlayer.goNoteLeft[i_B-1].DOAnchorPos(Vector2.zero, FSPB / 7, false).SetEase(Ease.Linear)).SetUpdate(true);
+                sequences[i_B-1].Join(scPlayer.goNoteLeft[i_B-1].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
+                sequences[i_B-1].Join(scPlayer.goNoteRight[i_B-1].DOScale(0.1f, FSPB / 7).SetEase(Ease.InBack).SetAutoKill(true)).SetUpdate(true);
+                if (i_B!=3)
+                {
+                    i_B = i_B+1;
+                }
+                else
+                {
+                    i_B = 1;
+                }
             }
             else
             {
@@ -972,7 +716,10 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
                     scPlayer.TMPScoreOnce.text = "Mauvais..";
                 }
                 //scPlayer.TMPScoreOnce.text = "35%";
-                scPlayer.TMPScoreOnce.color = colorBad;
+                if(!scPlayer.bIsImune)
+                {
+                    scPlayer.TMPScoreOnce.color = colorBad;
+                }
                 scPlayer.scoreSequence.Kill();
                 scPlayer.scoreSequence = DOTween.Sequence().SetAutoKill(true).SetUpdate(true);
                 scPlayer.scoreSequence.Append(scPlayer.TMPScoreOnce.transform.DOScale(1.2f, FSPB/2f)
@@ -993,7 +740,10 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
                     scPlayer.TMPScoreOnce.text = "Bon!";
                 }
                 //scPlayer.TMPScoreOnce.text = "75%";
-                scPlayer.TMPScoreOnce.color = colorGood;
+                if (!scPlayer.bIsImune)
+                {
+                    scPlayer.TMPScoreOnce.color = colorGood;
+                }
                 scPlayer.scoreSequence.Kill();
                 scPlayer.scoreSequence = DOTween.Sequence().SetAutoKill(true).SetUpdate(true);
                 scPlayer.scoreSequence.Append(scPlayer.TMPScoreOnce.transform.DOScale(1.2f, FSPB / 2f)
@@ -1014,7 +764,10 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
                     scPlayer.TMPScoreOnce.text = "Parfait!";
                 }
                 //scPlayer.TMPScoreOnce.text = "100%";
-                scPlayer.TMPScoreOnce.color = colorPerfect;
+                if (!scPlayer.bIsImune)
+                {
+                    scPlayer.TMPScoreOnce.color = colorPerfect;
+                }
                 scPlayer.scoreSequence.Kill();
                 scPlayer.scoreSequence = DOTween.Sequence().SetAutoKill(true).SetUpdate(true);
                 scPlayer.scoreSequence.Append(scPlayer.TMPScoreOnce.transform.DOScale(1.2f, FSPB / 2f)
@@ -1035,7 +788,10 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
                     scPlayer.TMPScoreOnce.text = "Raté...";
                 }
                 //scPlayer.TMPScoreOnce.text = "0%";
-                scPlayer.TMPScoreOnce.color = colorMiss;
+                if (!scPlayer.bIsImune)
+                {
+                    scPlayer.TMPScoreOnce.color = colorMiss;
+                }
                 scPlayer.scoreSequence.Kill();
                 scPlayer.scoreSequence = DOTween.Sequence().SetAutoKill(true).SetUpdate(true);
                 scPlayer.scoreSequence.Append(scPlayer.TMPScoreOnce.transform.DOScale(1.2f, FSPB / 2f)

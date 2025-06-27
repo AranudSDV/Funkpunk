@@ -321,7 +321,7 @@ public class SC_Player : Singleton<SC_Player>
                     EyeDetection();
                 }
             }
-            if (bcanRotate == true)
+            if (bcanRotate)
             {
                 UpdateDirAndMovOnJoystickOrPC();
                 bEnsureRotation = false;
@@ -356,6 +356,14 @@ public class SC_Player : Singleton<SC_Player>
                 }
                 menuManager.bOnceGrid = true;
             }
+            if (menuManager.CgPauseMenu.alpha==1f||menuManager.CgOptionPannel.alpha==1f ||menuManager.CgLoadingScreen.alpha==1f)
+            {
+                CgInGame.alpha = 0f;
+            }
+        }
+        if (bIsImune)
+        {
+            TMPScoreOnce.color = new Color32(0, 0, 0, 0);
         }
     }
     //CONCERNANT LES CONTROLS
