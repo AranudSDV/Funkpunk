@@ -727,7 +727,8 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
         {
             if(bPlayBad)
             {
-                if(menuManager._playerData.iLanguageNbPlayer==0) //english
+                scPlayer.CanvasScoreOnce.sortingOrder = 2;
+                if (menuManager._playerData.iLanguageNbPlayer==0) //english
                 {
                     scPlayer.TMPScoreOnce.text = "Bad..";
                 }
@@ -746,11 +747,13 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
                 .SetEase(Ease.OutElastic)).SetUpdate(true);
                 scPlayer.scoreSequence.OnComplete(() =>
                 {
+                    scPlayer.CanvasScoreOnce.sortingOrder = 0;
                     scPlayer.TMPScoreOnce.transform.localScale = new Vector3(1f, 1f, 1f);
                 });
             }
             else if(bPlayGood)
             {
+                scPlayer.CanvasScoreOnce.sortingOrder = 2;
                 if (menuManager._playerData.iLanguageNbPlayer == 0) //english
                 {
                     scPlayer.TMPScoreOnce.text = "Good!";
@@ -771,10 +774,12 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
                 scPlayer.scoreSequence.OnComplete(() =>
                 {
                     scPlayer.TMPScoreOnce.transform.localScale = new Vector3(1f, 1f, 1f);
+                    scPlayer.CanvasScoreOnce.sortingOrder = 0;
                 });
             }
             else if(bPlayPerfect)
             {
+                scPlayer.CanvasScoreOnce.sortingOrder = 2;
                 if (menuManager._playerData.iLanguageNbPlayer == 0) //english
                 {
                     scPlayer.TMPScoreOnce.text = "Perfect!";
@@ -794,11 +799,13 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
                 .SetEase(Ease.OutElastic)).SetUpdate(true);
                 scPlayer.scoreSequence.OnComplete(() =>
                 {
+                    scPlayer.CanvasScoreOnce.sortingOrder = 0;
                     scPlayer.TMPScoreOnce.transform.localScale = new Vector3(1f, 1f, 1f);
                 });
             }
             else
             {
+                scPlayer.CanvasScoreOnce.sortingOrder = 2;
                 if (menuManager._playerData.iLanguageNbPlayer == 0) //english
                 {
                     scPlayer.TMPScoreOnce.text = "Missed...";
@@ -819,6 +826,7 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
                 scPlayer.scoreSequence.OnComplete(() =>
                 {
                     scPlayer.TMPScoreOnce.transform.localScale = new Vector3(1f, 1f, 1f);
+                    scPlayer.CanvasScoreOnce.sortingOrder = 0;
                 });
             }
         }

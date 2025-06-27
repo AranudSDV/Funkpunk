@@ -11996,6 +11996,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
+      propertyPath: CanvasScoreOnce
+      value: 
+      objectReference: {fileID: 1108640429}
+    - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
       propertyPath: mEye.Array.size
       value: 5
       objectReference: {fileID: 0}
@@ -12148,32 +12153,32 @@ PrefabInstance:
         type: 3}
       propertyPath: goSeparator.Array.data[0]
       value: 
-      objectReference: {fileID: 1771886362}
+      objectReference: {fileID: 1771886360}
     - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: goSeparator.Array.data[1]
       value: 
-      objectReference: {fileID: 1771886361}
+      objectReference: {fileID: 2116011448}
     - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: goSeparator.Array.data[2]
       value: 
-      objectReference: {fileID: 1868471307}
+      objectReference: {fileID: 1868471308}
     - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: goSeparator.Array.data[3]
       value: 
-      objectReference: {fileID: 1771886360}
+      objectReference: {fileID: 1771886362}
     - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: goSeparator.Array.data[4]
       value: 
-      objectReference: {fileID: 2116011448}
+      objectReference: {fileID: 1771886361}
     - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: goSeparator.Array.data[5]
       value: 
-      objectReference: {fileID: 1868471308}
+      objectReference: {fileID: 1868471307}
     - target: {fileID: 6830452445873526929, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: imNoteRight.Array.data[0]
@@ -12773,6 +12778,12 @@ MonoBehaviour:
   shadowmaskGroupID: 0
   directionMode: 0
   maskChannel: -1
+--- !u!223 &1108640429 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 6729649209811738135, guid: 65f34271cad0dda4d8a49134617b7571,
+    type: 3}
+  m_PrefabInstance: {fileID: 2116011447}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1118463257
 GameObject:
   m_ObjectHideFlags: 0
@@ -21146,6 +21157,8 @@ MonoBehaviour:
   intYBoss: 9
   tresholdZ: 0
   bWaitNext: 0
+  iInput: 0
+  bOnceInput: 0
   GoCanvasArrow: {fileID: 502990472}
   gotutoBeat: {fileID: 1159962947}
   BossCamera: {fileID: 0}

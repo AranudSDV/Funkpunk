@@ -105,6 +105,7 @@ public class SC_Player : Singleton<SC_Player>
     private float fPercentScore;
     [SerializeField]private TMP_Text TMPWholeScore;
     public TMP_Text TMPScoreOnce;
+    public Canvas CanvasScoreOnce;
     public DG.Tweening.Sequence scoreSequence;
     private bool bIsEndGame = false;
     private DG.Tweening.Sequence[] starSequence = new DG.Tweening.Sequence[5];
