@@ -13,6 +13,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.Windows;
 //using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 public class BPM_Manager : SingletonManager<BPM_Manager>
@@ -253,6 +254,10 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
             }
             MusicNotesMovingStart();
         }
+        if(scPlayer != null && scPlayer.tutoGen != null && scPlayer.tutoGen.bIsOnLoft && scPlayer.tutoGen.bTuto[0])
+        {
+            scPlayer.tutoGen.bOnceInput = false;
+        }
         yield return new WaitForSecondsRealtime(FTiming[3]);
         StartCoroutine(bad());
     }
@@ -382,12 +387,17 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
     }
     private void CheckIfInputOnTempo()
     {
-        if (scPlayer.bcanRotate && scPlayer.canMove && scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered)
+        if (((scPlayer.bcanRotate && scPlayer.canMove) || (scPlayer.tutoGen != null && scPlayer.tutoGen.bIsOnLoft && scPlayer.tutoGen.bTuto[0] && !scPlayer.tutoGen.bOnceInput)) && scPlayer.control.GamePlay.Move.triggered && scPlayer.bHasController)
         {
             if(!scPlayer.bNoRythm)
             {
                 if (BBad == true)
                 {
+                    if(scPlayer.tutoGen != null && scPlayer.tutoGen.bIsOnLoft && scPlayer.tutoGen.bTuto[0])
+                    {
+                        scPlayer.tutoGen.iInput += 1;
+                        scPlayer.tutoGen.bOnceInput = true;
+                    }
                     if (!scPlayer.bIsImune)
                     {
                         scPlayer.FScore = scPlayer.FScore + 35f;
@@ -406,6 +416,11 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
                 }
                 else if (BGood == true)
                 {
+                    if (scPlayer.tutoGen != null && scPlayer.tutoGen.bIsOnLoft && scPlayer.tutoGen.bTuto[0])
+                    {
+                        scPlayer.tutoGen.iInput += 1;
+                        scPlayer.tutoGen.bOnceInput = true;
+                    }
                     if (!scPlayer.bIsImune)
                     {
                         scPlayer.FScore = scPlayer.FScore + 75f;
@@ -424,6 +439,11 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
                 }
                 else if (BPerfect == true)
                 {
+                    if (scPlayer.tutoGen != null && scPlayer.tutoGen.bIsOnLoft && scPlayer.tutoGen.bTuto[0])
+                    {
+                        scPlayer.tutoGen.iInput += 1;
+                        scPlayer.tutoGen.bOnceInput = true;
+                    }
                     if (!scPlayer.bIsImune)
                     {
                         scPlayer.FScore = scPlayer.FScore + 100f;

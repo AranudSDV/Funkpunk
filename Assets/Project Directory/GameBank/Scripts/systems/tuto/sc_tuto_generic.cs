@@ -73,7 +73,8 @@ public class sc_tuto_generic : MonoBehaviour
     private bool bOnceBubble = false;
     private bool bHasClickedSkip = false;
     private bool bInit = false;
-    private float iInput = 0;
+    public float iInput = 0;
+    public bool bOnceInput = false;
     private bool bInputMoreTutoOk = false;
 
     [Header("Loft")]
@@ -282,7 +283,7 @@ public class sc_tuto_generic : MonoBehaviour
                             bHasClickedSkip = true;
                         }
                     }
-                    else if (bIsOnLoft)
+                    else
                     {
                         if (bTuto[0] && iInput == 0 && !bHasClickedSkip && !bWaitNext && scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered) //TO SKIP
                         {
@@ -292,7 +293,6 @@ public class sc_tuto_generic : MonoBehaviour
                         else if (bTuto[0] && bWaitNext && !bOnceNext && scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered && (scPlayer.bpmManager.BGood || scPlayer.bpmManager.BPerfect) && (scPlayer.bHasController && scPlayer.control.GamePlay.Move.triggered))
                         {
                             StartCoroutine(scPlayer.bpmManager.VibrationVfx(0.05f, 0.6f, 1f));
-                            iInput += 1;
                             float opacity = 1 - iInput / 5;
                             var tempColor = ImBg.color;
                             tempColor.a = opacity;
