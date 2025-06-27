@@ -312,6 +312,14 @@ public class SC_Player : Singleton<SC_Player>
                     fNbBeat = 1;
                 }
                 TMPWholeScore.SetText(Mathf.Round(fPercentScore).ToString() + "%");
+                if(TMPWholeScore.text == "69%")
+                {
+                    TMPWholeScore.color = new Color32(0,229,255,255);
+                }
+                else
+                {
+                    TMPWholeScore.color = new Color32(0, 229, 255, 150);
+                }
                 if (FDetectionLevel >= fDetectionLevelMax && !bIsEndGame)
                 {
                     StartCoroutine(EndGame(false, menuManager._playerData));
