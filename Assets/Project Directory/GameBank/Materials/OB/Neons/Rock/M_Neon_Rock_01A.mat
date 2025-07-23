@@ -24,7 +24,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BackTex:
-        m_Texture: {fileID: 2800000, guid: 3f731cb5dc191d741aa89e77da79be4f, type: 3}
+        m_Texture: {fileID: 2800000, guid: b2f2adc05fe049248b853957844418bd, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BackTex1:
@@ -32,7 +32,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DissolveTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 686d7456dc299f144832d3f39164180b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -40,7 +40,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MidTex:
-        m_Texture: {fileID: 2800000, guid: 94ffd6b67a7df324883dba6d173bcf8d, type: 3}
+        m_Texture: {fileID: 2800000, guid: 686d7456dc299f144832d3f39164180b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MidTex1:
@@ -72,11 +72,11 @@ Material:
     - _QueueOffset: 0
     m_Colors:
     - _Back: {r: 0, g: 0, b: 0, a: 0}
-    - _Back02: {r: 0.285806, g: 2.143547, b: 0, a: 0}
+    - _Back02: {r: 0.19785786, g: 0, b: 1, a: 0}
     - _Color0: {r: 1.498039, g: 0.6673395, b: 0, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Front: {r: 0.02939997, g: 0.88199997, b: 0, a: 0}
-    - _Front02: {r: 0, g: 0, b: 0, a: 0}
-    - _Mid02: {r: 0.18973863, g: 1, b: 0.007843137, a: 0}
-    - _Mid1: {r: 0.13416673, g: 0.805, b: 0, a: 0}
+    - _Front: {r: 0, g: 0, b: 0, a: 0}
+    - _Front02: {r: 0, g: 5.1057377, b: 8, a: 0}
+    - _Mid02: {r: 0.4641739, g: 0.020942448, b: 2, a: 0}
+    - _Mid1: {r: 0.006289184, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

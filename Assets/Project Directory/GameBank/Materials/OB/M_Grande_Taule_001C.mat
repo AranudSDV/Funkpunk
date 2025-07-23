@@ -123,8 +123,8 @@ Material:
     - _BlendModePreserveSpecular: 1
     - _BlendPow: 1
     - _BumpScale: 1
-    - _Cels_FallOffThreshold: 3
-    - _Cels_LitThreshold: 0.6
+    - _Cels_FallOffThreshold: 1
+    - _Cels_LitThreshold: 0
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _ColorOrTex: 1
@@ -144,6 +144,7 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _IsDecalMesh: 0
     - _IsEnnemies: 0
     - _IsOutline: 0
     - _LightindDone: 0
@@ -157,12 +158,12 @@ Material:
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _SMH_Pow: 0
-    - _ShadingWhiteMult: 0.1
+    - _ShadingWhiteMult: 0.4
     - _ShadowPatternRotator: 0
     - _ShadowSoftness: 1
-    - _ShadowTex_Pow: 0.27
-    - _Shadow_FallOffThreshold: 8
-    - _Shadow_LitThreshold: 0.6
+    - _ShadowTex_Pow: 0.64
+    - _Shadow_FallOffThreshold: 1
+    - _Shadow_LitThreshold: 0.8
     - _Shadows_ProceduralOrTexture: 0
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
@@ -175,6 +176,7 @@ Material:
     - _TriplanarTiling: 10
     - _Using3DMovements: 0
     - _UsingTriplanar: 0
+    - _UsingTriplanar1: 0
     - _WorkflowMode: 1
     - _WorldPosDiv: 0
     - _ZWrite: 1
@@ -186,7 +188,7 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _OutlineColor: {r: 0.9937374, g: 1.498039, b: 0, a: 0}
     - _OutlineColor2: {r: 0.4558116, g: 0, b: 1.498039, a: 0}
-    - _ShadowPatternDensity: {r: 10, g: 10, b: 0, a: 0}
+    - _ShadowPatternDensity: {r: 50, g: 50, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _TopVertexDelay: {r: 0, g: 0, b: 0, a: 0}
     - _TopVertexOffsetValue: {r: 0, g: 0, b: 0, a: 0}

@@ -24,15 +24,23 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BackTex:
-        m_Texture: {fileID: 2800000, guid: 467c9d2ead149a2419f2f0ca650a59b6, type: 3}
+        m_Texture: {fileID: 2800000, guid: 38f4512abe5d6d4439f29c2d80229ae9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BackTex1:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _DissolveTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MidTex:
-        m_Texture: {fileID: 2800000, guid: 467c9d2ead149a2419f2f0ca650a59b6, type: 3}
+        m_Texture: {fileID: 2800000, guid: 0b03519c0d2be8f46b484090f387011c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MidTex1:
@@ -58,16 +66,17 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaCutoff: 0.5
+    - _ErosionSmoothness: 1
     - _IsNeon: 0
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - _Back: {r: 0.08021983, g: 0.04091521, b: 0.10702311, a: 0}
-    - _Back02: {r: 0.55686283, g: 0, b: 1, a: 0}
+    - _Back: {r: 0.41019586, g: 0.18431371, b: 0.9372549, a: 0}
+    - _Back02: {r: 1.1999987, g: 0, b: 3.9999995, a: 0}
     - _Color0: {r: 1.498039, g: 0.6673395, b: 0, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Front: {r: 0, g: 0.54088044, b: 0.40179694, a: 0}
+    - _Front: {r: 0.64941114, g: 0, b: 2.164706, a: 0}
     - _Front02: {r: 0, g: 2.9960787, b: 2.8903348, a: 0}
-    - _Mid02: {r: 0, g: 2.9960783, b: 2.9019606, a: 0}
+    - _Mid02: {r: 1.239215, g: 0.48627442, b: 2.9960787, a: 0}
     - _Mid1: {r: 0.029233744, g: 0.013646594, b: 0.03773582, a: 0}
   m_BuildTextureStacks: []
