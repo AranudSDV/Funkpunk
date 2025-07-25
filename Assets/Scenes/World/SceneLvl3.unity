@@ -4400,6 +4400,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 7855620734349004395, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: m_ReceiveGI
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8503984805308755902, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9029692734202393860, guid: f6dccb1b8f1cc9e41806fcc683003cb7,
         type: 3}
       propertyPath: m_LocalRotation.w
@@ -65156,13 +65166,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2559347695758500737, guid: 68808927f9aacd1419714efe98e3e0c5,
         type: 3}
+      propertyPath: startY
+      value: 1.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2559347695758500737, guid: 68808927f9aacd1419714efe98e3e0c5,
+        type: 3}
       propertyPath: bpmManager
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2559347695758500737, guid: 68808927f9aacd1419714efe98e3e0c5,
         type: 3}
       propertyPath: bounceHeight
-      value: 2
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2695163235449102007, guid: 68808927f9aacd1419714efe98e3e0c5,
         type: 3}
@@ -74152,13 +74167,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2559347695758500737, guid: 68808927f9aacd1419714efe98e3e0c5,
         type: 3}
+      propertyPath: startY
+      value: 1.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2559347695758500737, guid: 68808927f9aacd1419714efe98e3e0c5,
+        type: 3}
       propertyPath: bpmManager
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2559347695758500737, guid: 68808927f9aacd1419714efe98e3e0c5,
         type: 3}
       propertyPath: bounceHeight
-      value: 2
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2695163235449102007, guid: 68808927f9aacd1419714efe98e3e0c5,
         type: 3}
@@ -96249,13 +96269,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2559347695758500737, guid: 68808927f9aacd1419714efe98e3e0c5,
         type: 3}
+      propertyPath: startY
+      value: 1.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2559347695758500737, guid: 68808927f9aacd1419714efe98e3e0c5,
+        type: 3}
       propertyPath: bpmManager
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2559347695758500737, guid: 68808927f9aacd1419714efe98e3e0c5,
         type: 3}
       propertyPath: bounceHeight
-      value: 2
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2695163235449102007, guid: 68808927f9aacd1419714efe98e3e0c5,
         type: 3}
@@ -220569,7 +220594,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1787756057}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.41013232, y: -1e-45, z: -0, w: 0.91202605}
+  m_LocalRotation: {x: 0.41013232, y: -1e-45, z: 1e-45, w: 0.91202605}
   m_LocalPosition: {x: 63.25, y: 13, z: 69.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -237071,7 +237096,7 @@ PrefabInstance:
     - target: {fileID: 770920583514855499, guid: 2d01b8763f00ec8478ce3e68a742cd71,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 1e-45
       objectReference: {fileID: 0}
     - target: {fileID: 770920583514855499, guid: 2d01b8763f00ec8478ce3e68a742cd71,
         type: 3}
