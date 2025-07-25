@@ -1004,7 +1004,7 @@ public class MenuManager : SingletonManager<MenuManager>
     //PAUSE AND SETTINGS
     private void UXNavigation()
     {
-        if (controllerConnected && control !=null && control.GamePlay.Pausing.triggered && (SceneManager.GetActiveScene().name != "SceneSplash"&& SceneManager.GetActiveScene().name != "Scenes/World/SceneSplash"))
+        if (controllerConnected && control !=null && control.GamePlay.Pausing.triggered && SceneManager.GetActiveScene().name != "SceneSplash"&& SceneManager.GetActiveScene().name != "Scenes/World/SceneSplash")
         {
             PauseMenu();
         }
