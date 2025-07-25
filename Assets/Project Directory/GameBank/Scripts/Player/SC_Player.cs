@@ -1984,7 +1984,7 @@ public class SC_Player : Singleton<SC_Player>
             {
                 while (bDispayedDetails[i])
                 {
-                    menuManager.txtScoringScoreDetails[i].color = new Color32(255, 255, 255, 255);
+                    menuManager.txtScoringScoreDetails[i].color = new Color32(0, 0, 0, 255);
                     yield return new WaitForSecondsRealtime(0.05f);
                     int difference = actualScoreDetails[i] - displayedScoreDetails[i];
 
@@ -2038,8 +2038,8 @@ public class SC_Player : Singleton<SC_Player>
 
                     menuManager.txtScoringJudgment.text = sJugement(bhasWon, data, displayedScore)[0];
                     menuManager.txtScoringScore.text = sJugement(bhasWon, data, displayedScore)[1];
-                    menuManager.txtScoringJudgment.color = new Color32(255, 255, 255, 255);
-                    menuManager.txtScoringScore.color = new Color32(255, 255, 255, 255);
+                    menuManager.txtScoringJudgment.color = new Color32(0, 0, 0, 255);
+                    menuManager.txtScoringScore.color = new Color32(0, 0, 0, 255);
                     float fDifferenceScale = (100-difference) / 100F;
                     menuManager.txtScoringJudgment.transform.localScale = new Vector3(fDifferenceScale, fDifferenceScale, fDifferenceScale);
                     menuManager.txtScoringScore.transform.localScale = new Vector3(fDifferenceScale, fDifferenceScale, fDifferenceScale);
