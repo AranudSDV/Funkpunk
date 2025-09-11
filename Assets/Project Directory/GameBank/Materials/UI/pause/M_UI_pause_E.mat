@@ -12,16 +12,26 @@ Material:
   m_Parent: {fileID: 2100000, guid: 8a457a0a3de311440bd8333c4c245011, type: 2}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _1TEX_ON
+  - _OFFSETISALTERNATED_ON
+  - _ROTATIONISALTERNATED_ON
+  - _SAMEORNOT_ON
+  - _SCALEISALTERNATED_ON
   - _USINGXSCALE_ON
   - _USINGYMOVE_ON
   - _USINGYSCALE_ON
   - _VFXORUI_ON
   m_InvalidKeywords:
+  - _1TEX_ON
+  - _CURVE_ISMIRRORED_ON
   - _SCALEX_ON
   - _SCALEY_ON
+  - _USINGX1_ON
+  - _USINGXMOVE1_ON
   - _USINGXSCALE1_ON
+  - _USINGXSCALE2_ON
+  - _USINGYMOVE1_ON
   - _USINGYSCALE1_ON
+  - _USINGYSCALE2_ON
   - _USINGY_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0

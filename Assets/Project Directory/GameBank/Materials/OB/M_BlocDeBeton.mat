@@ -12,11 +12,11 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _COLORORTEX_ON
-  - _LIGHTINDDONE_ON
   - _SHADOWS_PROCEDURALORTEXTURE_ON
   - _USINGTRIPLANAR_ON
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - _COLORORTEX_ON
+  - _LIGHTINDDONE_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -125,6 +125,8 @@ Material:
     - _Cels_FallOffThreshold: 1
     - _Cels_LitThreshold: 0
     - _ColorOrTex: 1
+    - _Curve_Weight: 10
+    - _Cycle_Curve: 1
     - _Debug: 0
     - _DebugBPM: 60
     - _DistanceCutoff: 0
@@ -136,6 +138,7 @@ Material:
     - _FresnelErase_Smoothness: 1.5
     - _FresnelPower: 5
     - _FullShadingHalfShading: 0
+    - _IsDecalMesh: 0
     - _IsEnnemies: 0
     - _IsOutline: 0
     - _LightindDone: 1
@@ -153,7 +156,7 @@ Material:
     - _ShadowPatternDensity: 5
     - _ShadowPatternRotator: 0
     - _ShadowSoftness: 1
-    - _ShadowTex_Pow: 0.27
+    - _ShadowTex_Pow: 0.67
     - _Shadow_FallOffThreshold: 1
     - _Shadow_LitThreshold: 0.8
     - _Shadows_ProceduralOrTexture: 1
@@ -161,10 +164,12 @@ Material:
     - _Spec: 0
     - _SpecularHighlights: 1
     - _TimeDelay: 0
+    - _TimeDelay1: 0
     - _TopMask: 0
     - _TriplanarTiling: 10
     - _Using3DMovements: 0
     - _UsingTriplanar: 1
+    - _UsingTriplanar1: 0
     - _WorldPosDiv: 100
     m_Colors:
     - _ALB: {r: 1, g: 0, b: 0, a: 0}
@@ -178,7 +183,7 @@ Material:
     - _OutlineColor: {r: 0.9937374, g: 1.498039, b: 0, a: 0}
     - _OutlineColor2: {r: 0.4558116, g: 0, b: 1.498039, a: 0}
     - _SMH: {r: 0, g: 0, b: 0, a: 0}
-    - _ShadowPatternDensity: {r: 100, g: 100, b: 0, a: 0}
+    - _ShadowPatternDensity: {r: 60, g: 60, b: 0, a: 0}
     - _TopVertexDelay: {r: 0, g: 0, b: 0, a: 0}
     - _TopVertexOffsetValue: {r: 0, g: 0, b: 0, a: 0}
     - _TriplanarTiling: {r: 500, g: 500, b: 0, a: 0}

@@ -71,12 +71,12 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - _Back: {r: 0, g: 0, b: 0, a: 0}
+    - _Back: {r: 0.0065730284, g: 0, b: 0.01, a: 0}
     - _Back02: {r: 1, g: 0.522618, b: 0, a: 0}
     - _Color0: {r: 1.498039, g: 0.6673395, b: 0, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _Front: {r: 0.30432034, g: 0, b: 2, a: 0}
     - _Front02: {r: 0, g: 0, b: 0, a: 0}
     - _Mid02: {r: 5.3403134, g: 0.1847272, b: 1.848698, a: 0}
-    - _Mid1: {r: 0, g: 0, b: 0, a: 0}
+    - _Mid1: {r: 0.0041927914, g: 0, b: 0.006289184, a: 0}
   m_BuildTextureStacks: []

@@ -12,15 +12,25 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _1TEX_ON
+  - _OFFSETISALTERNATED_ON
+  - _ROTATIONISALTERNATED_ON
+  - _SAMEORNOT_ON
+  - _SCALEISALTERNATED_ON
   - _USINGXSCALE_ON
   - _USINGYSCALE_ON
   - _VFXORUI_ON
   m_InvalidKeywords:
+  - _1TEX_ON
+  - _CURVE_ISMIRRORED_ON
   - _SCALEX_ON
   - _SCALEY_ON
+  - _USINGX1_ON
+  - _USINGXMOVE1_ON
   - _USINGXSCALE1_ON
+  - _USINGXSCALE2_ON
+  - _USINGYMOVE1_ON
   - _USINGYSCALE1_ON
+  - _USINGYSCALE2_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -73,22 +83,47 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - BckGrnd_BaseScale: 1
     - _1Tex: 1
     - _2Alphas: 0
     - _2Tex: 0
+    - _2ndMotion_BaseSizeX: 1
+    - _2ndMotion_BaseSizeY: 1
+    - _2ndMotion_Delay: 0.2
+    - _2ndOffsetX_Power: 0
+    - _2ndOffsetY_Power: 0.2
+    - _2ndRotaPower: 0
+    - _2ndStartPosX: 0
+    - _2ndStartPosY: 0
+    - _2nd_TransformedSizeX: 1
+    - _2nd_TransformedSizeY: 1
     - _3Tex: 0
     - _AlphaCutoff: 0.5
     - _Alphacliptresh: 0.1
     - _BPM: 110
     - _BaseOpacity: 1
     - _BaseScale: 1
+    - _BaseScale1: 1
     - _BaseSizeX: 0.9
     - _BaseSizeY: 0.9
+    - _BckGrnd_Offseter: -0.07699616
+    - _BckGrnd_Rotater: -1
+    - _BckGrnd_Scaler: 0
+    - _BckGrnd_TransformedOffsetX: 0.8
+    - _BckGrnd_TransformedOffsetY: 0.8
+    - _BckGrnd_TransformedRota: 0.8
+    - _BckGrnd_TransformedScaleX: 0.8
+    - _BckGrnd_TransformedScaleY: 0.8
+    - _Curve_Cycle: 1
+    - _Curve_Cycle1: 2
+    - _Curve_IsMirrored: 1
+    - _Curve_Weight: 10
     - _Debug: 0
     - _G_BaseOpacity: 0.5109974
     - _G_FadeSmooth: 1
     - _HandleColors: 0
     - _IfNotUsed: 0
+    - _IfNotUsed1: 0
     - _IsVerticalOrLateral: 0
     - _MaxSizeX: 1.1
     - _MaxSizeY: 1.1
@@ -96,43 +131,69 @@ Material:
     - _MinSizeX: 1.1
     - _MinSizeY: 1.1
     - _MinSizeY1: 1
+    - _Motion_Delay: 0
     - _MoveX: 0
     - _NoColorsWhiteValue: 1
+    - _OffsetIsAlternated: 1
     - _OffsetX_Power: 0
+    - _OffsetX_Power1: 0
     - _OffsetY_Power: 0.2
+    - _OffsetY_Power1: 0.2
     - _Offseter: 0
+    - _Offseter1: -0.07699616
     - _QueueControl: 0
     - _QueueOffset: 0
     - _R_BaseOpacity: 0
     - _R_Fadesmooth: 1.25
     - _RotaPower: -0.005
     - _RotaPower1: 0.1
+    - _RotaPower2: 0
     - _Rotater: 0
+    - _Rotater1: -1
+    - _RotationIsAlternated: 1
+    - _SameOrNot: 1
+    - _ScaleIsAlternated: 1
     - _ScaleX: 1
     - _ScaleY: 1
     - _Scaler1: 0
+    - _Scaler2: 0
     - _StartPosX: 0
+    - _StartPosX1: 0
     - _StartPosY: 0
+    - _StartPosY1: 0
+    - _Tex_Nbr: 3
     - _TimeDelay: 0
+    - _TimeDelay1: 0
     - _TransformedOffsetX: 0.8
+    - _TransformedOffsetX1: 0.8
     - _TransformedOffsetY: 0.8
+    - _TransformedOffsetY1: 0.8
     - _TransformedRota: 0.8
+    - _TransformedRota1: 0.8
     - _TransformedScaleX: 0.8
+    - _TransformedScaleX1: 0.8
     - _TransformedScaleY: 0.8
+    - _TransformedScaleY1: 0.8
     - _TransformedSizeX: 1.2
     - _TransformedSizeY: 1.2
     - _UI_AutoOrMano: 0
+    - _UI_AutoOrManual: 0
     - _UI_ManualOrProcedural: 0
     - _UpLorDownR: 0
     - _UsingX: 0
+    - _UsingX1: 1
     - _UsingXMove: 0
+    - _UsingXMove1: 1
     - _UsingXScale: 1
     - _UsingXScale1: 1
+    - _UsingXScale2: 1
     - _UsingY: 0
     - _UsingY1: 0
     - _UsingYMove: 0
+    - _UsingYMove1: 1
     - _UsingYScale: 1
     - _UsingYScale1: 1
+    - _UsingYScale2: 1
     - _VFXorUI: 1
     m_Colors:
     - _Back: {r: 0.85098046, g: 0.23529413, b: 0.87843144, a: 1}

@@ -25,10 +25,12 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _1TEX_ON
   - _HANDLECOLORS_ON
+  - _ROTATIONISALTERNATED_ON
+  - _SAMEORNOT_ON
   - _VFXORUI_ON
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - _1TEX_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -129,9 +131,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - BckGrnd_BaseScale: 1
     - _1Tex: 1
     - _2Alphas: 0
     - _2Tex: 0
+    - _2ndMotion_Delay: 0
     - _3Tex: 0
     - _AlphaClip: 0
     - _AlphaCutoff: 0.5
@@ -141,6 +145,14 @@ Material:
     - _BaseScale: 1
     - _BaseSizeX: 1
     - _BaseSizeY: 1
+    - _BckGrnd_Offseter: -0.07699616
+    - _BckGrnd_Rotater: -1
+    - _BckGrnd_Scaler: 0
+    - _BckGrnd_TransformedOffsetX: 0.8
+    - _BckGrnd_TransformedOffsetY: 0.8
+    - _BckGrnd_TransformedRota: 0.8
+    - _BckGrnd_TransformedScaleX: 0.8
+    - _BckGrnd_TransformedScaleY: 0.8
     - _Blend: 0
     - _BlendModePreserveSpecular: 0
     - _BlendPow: 1
@@ -151,7 +163,10 @@ Material:
     - _ClearCoatSmoothness: 0
     - _ColorOrTex: 1
     - _Cull: 2
+    - _Curve_Weight: 10
     - _Cutoff: 0.5
+    - _Cycle_Alternate: 0
+    - _Cycle_Curve: 1
     - _Debug: 0
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
@@ -174,9 +189,11 @@ Material:
     - _IsOutline: 0
     - _IsVerticalOrLateral: 0
     - _Metallic: 0
+    - _Motion_Delay: 0.1
     - _NoColorsWhiteValue: 1
     - _NormalScale: 0
     - _OcclusionStrength: 1
+    - _OffsetIsAlternated: 0
     - _OffsetX_Power: 0
     - _OffsetY_Power: 0
     - _Offseter: 0
@@ -189,6 +206,9 @@ Material:
     - _ReceiveShadows: 1
     - _RotaPower1: 0
     - _Rotater: 0
+    - _RotationIsAlternated: 1
+    - _SameOrNot: 1
+    - _ScaleIsAlternated: 0
     - _Scaler1: 0
     - _ShadingWhiteMult: 0.1
     - _ShadowTex_Pow: 0.27
@@ -203,6 +223,7 @@ Material:
     - _StartPosX: 0
     - _StartPosY: 0
     - _Surface: 1
+    - _Tex_Nbr: 3
     - _TimeDelay: 0
     - _TopMask: 0
     - _TransformedOffsetX: 0
@@ -214,6 +235,7 @@ Material:
     - _TransformedSizeY: 1
     - _TriplanarTiling: 10
     - _UI_AutoOrMano: 0
+    - _UI_AutoOrManual: 0
     - _UpLorDownR: 0
     - _Using3DMovements: 0
     - _UsingTriplanar: 0
@@ -245,8 +267,13 @@ Material:
     - _Mid: {r: 0.44655848, g: 1, b: 0, a: 0}
     - _Mid02: {r: 0, g: 1, b: 0.9647675, a: 0}
     - _Mid03: {r: 0.6812992, g: 0, b: 1, a: 0}
+    - _Offset1: {r: 0, g: 0, b: 0, a: 0}
+    - _Offset2: {r: 0, g: 0, b: 0, a: 0}
     - _OutlineColor: {r: 0.9937374, g: 1.498039, b: 0, a: 0}
     - _OutlineColor2: {r: 0.4558116, g: 0, b: 1.498039, a: 0}
+    - _RotaPower: {r: 0, g: 0, b: 0, a: 0}
+    - _Scale1: {r: 1, g: 1, b: 1, a: 1}
+    - _Scale2: {r: 1, g: 1, b: 1, a: 1}
     - _ShadowPatternDensity: {r: 100, g: 100, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _SubColor: {r: 2.670157, g: 0, b: 0, a: 0}

@@ -11,9 +11,9 @@ Material:
   m_Shader: {fileID: 4800000, guid: f70e9aaf717abfc4cb8fbc44b4bda019, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _COLORORTEX_ON
+  m_ValidKeywords: []
   m_InvalidKeywords:
+  - _COLORORTEX_ON
   - _LIGHTINDDONE_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -46,7 +46,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ShadowTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 6917475bd7f1fe74da7c1a2641f4106d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ShadowTexture:
@@ -101,8 +101,10 @@ Material:
     - _Base_or_Tsample: 1
     - _BlendPow: 1
     - _Cels_FallOffThreshold: 1
-    - _Cels_LitThreshold: 0
+    - _Cels_LitThreshold: 0.4
     - _ColorOrTex: 1
+    - _Curve_Weight: 10
+    - _Cycle_Curve: 1
     - _Debug: 0
     - _DebugBPM: 60
     - _DistanceCutoff: 0
@@ -113,6 +115,7 @@ Material:
     - _FresnelErase_Smoothness: 1.5
     - _FresnelPower: 5
     - _FullShadingHalfShading: 0
+    - _IsDecalMesh: 0
     - _IsEnnemies: 0
     - _IsOutline: 0
     - _LightindDone: 1
@@ -126,7 +129,7 @@ Material:
     - _ReceiveShadows: 1
     - _SMH_Pow: 0
     - _ShadingMult: 0
-    - _ShadingWhiteMult: 0.4
+    - _ShadingWhiteMult: 0.6
     - _ShadowPatternDensity: 5
     - _ShadowPatternRotator: 0
     - _ShadowSoftness: 1
@@ -138,12 +141,13 @@ Material:
     - _Spec: 0
     - _SpecularHighlights: 1
     - _TimeDelay: 0
+    - _TimeDelay1: 0
     - _TopMask: 0
     - _TriplanarTiling: 10
     - _Using3DMovements: 0
     - _UsingTriplanar: 0
     - _UsingTriplanar1: 0
-    - _WorldPosDiv: 0
+    - _WorldPosDiv: 10
     m_Colors:
     - _ALB: {r: 1, g: 0, b: 0, a: 0}
     - _AO: {r: 0, g: 0, b: 0, a: 0}
@@ -156,7 +160,7 @@ Material:
     - _OutlineColor: {r: 0.9937374, g: 1.498039, b: 0, a: 0}
     - _OutlineColor2: {r: 0.4558116, g: 0, b: 1.498039, a: 0}
     - _SMH: {r: 0, g: 0, b: 0, a: 0}
-    - _ShadowPatternDensity: {r: 50, g: 50, b: 0, a: 0}
+    - _ShadowPatternDensity: {r: 60, g: 60, b: 0, a: 0}
     - _TopVertexDelay: {r: 0, g: 0, b: 0, a: 0}
     - _TopVertexOffsetValue: {r: 0, g: 0, b: 0, a: 0}
     - _Vector4: {r: 10, g: 10, b: 0, a: 0}
