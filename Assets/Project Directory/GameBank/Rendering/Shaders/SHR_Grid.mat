@@ -23,8 +23,20 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _ColliderTex:
+        m_Texture: {fileID: 2800000, guid: 3935fe8372468284fbd580939219ba33, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GridTex:
+        m_Texture: {fileID: 2800000, guid: ab8becf6a0e2c12478471704d810806e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _IllumTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _InteractiveGrid:
-        m_Texture: {fileID: 8400000, guid: 3b5a8f3bdc928d94ab140bad48ca053d, type: 2}
+        m_Texture: {fileID: 8400000, guid: d359f02859aa87d44aee163a43870b68, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _InteractiveGrid1:
@@ -71,6 +83,18 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _VisibilityTex:
+        m_Texture: {fileID: 2800000, guid: ab8becf6a0e2c12478471704d810806e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _VisibilityTex1:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _VisibilityTex2:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _texcoord:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -89,22 +113,40 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Alpha: 0.39
+    - _Alpha: 1
     - _AlphaCutoff: 0.5
     - _Alphaclip: 0.001
     - _BlurSharpness: -38.05
+    - _ColliderSmoothing: 0
+    - _ColliderSmoothing1: 0
+    - _ColliderStyle: 2
+    - _ColliderStyle1: 1
+    - _DiagSize: 0.82
+    - _DiagSmoothing: 0.95
     - _DiagonalSize: 0.95
     - _Float0: 0
+    - _GridStyle: 3
+    - _IllumSmoothing: 0
+    - _IllumStyle: 1
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ShapeSize: 0.96
+    - _SquareSize: 0.57
+    - _SquareSmoothing: 1.67
     - _SubSquareSize: 0.99
     - _TrueSquareSize: 0.95
+    - _VisibilitySmoothing: 0
     m_Colors:
     - _BaseColor: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColore: {r: 0.72327036, g: 0.72327036, b: 0.72327036, a: 0}
+    - _ColliderTexDensity: {r: 200, g: 200, b: 0, a: 0}
+    - _ColliderTexDensity1: {r: 10, g: 10, b: 0, a: 0}
     - _Color0: {r: 0, g: 1, b: 0.7394278, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _GridTexDensity: {r: 80, g: 80, b: 0, a: 0}
+    - _IllumTexDensity: {r: 200, g: 200, b: 0, a: 0}
     - _OffsetThickness: {r: 5.45, g: 10, b: 0, a: 0}
     - _PlayerColor: {r: 0, g: 2.9960785, b: 1.5900087, a: 0}
+    - _PlayerColor1: {r: 1, g: 0.003110439, b: 0, a: 0}
+    - _VisibilityTexDensity: {r: 181, g: 181, b: 1.2, a: 0}
   m_BuildTextureStacks: []

@@ -7,27 +7,19 @@ Shader  "SHR_DecalMaster2"
         [HideInInspector] _EmissionColor("Emission Color", Color) = (1,1,1,1)
         [HideInInspector] _AlphaCutoff("Alpha Cutoff ", Range(0, 1)) = 0.5
         _tex("tex", 2D) = "white" {}
-        _AtlasCols("AtlasCols", Int) = 4
-        _AtlasRows("AtlasRows", Int) = 4
-        _MinRotation("MinRotation", Float) = 0
-        _MaxRotation("MaxRotation", Float) = 0
         _NumGraffiti("NumGraffiti", Int) = 0
         _SeedMultiplier("SeedMultiplier", Float) = 0
         _SeedScale("SeedScale", Float) = 1
-        _MinOffset_X("MinOffset_X", Float) = 0
-        _MaxOffset_X("MaxOffset_X", Float) = 0
-        _MinOffset_Y("MinOffset_Y", Float) = 0
-        _MaxOffset_Y("MaxOffset_Y", Float) = 0
-        _MinScale_X("MinScale_X", Float) = 0
-        _MaxScale_X("MaxScale_X", Float) = 0
-        _MinScale_Y("MinScale_Y", Float) = 0
-        _MaxScale_Y("MaxScale_Y", Float) = 0
         [Toggle(_XZORXY_ON)] _XZorXY("XZorXY", Float) = 0
         [Toggle(_WORLDZY_ON)] _WorldZY("WorldZY", Float) = 0
         [Toggle(_GAMEPLAYORENVIRO_ON)] _GameplayOrEnviro("GameplayOrEnviro", Float) = 1
         _ErosionValue("ErosionValue", Float) = 0.31
         [Toggle(_WORLDPOSORSEED_ON)] _WorldPosOrSeed("WorldPosOrSeed", Float) = 0
         _Seed("Seed", Int) = 0
+        _AtlasSize("AtlasSize", Vector) = (0,0,0,0)
+        _RotaRange("RotaRange", Vector) = (0,0,0,0)
+        _ScaleRangeStretchRange("ScaleRangeStretchRange", Vector) = (0,0,0,0)
+        _OffsetRange("OffsetRange", Vector) = (0,0,0,0)
         [HideInInspector] _texcoord( "", 2D ) = "white" {}
 
 
@@ -164,9 +156,14 @@ Shader  "SHR_DecalMaster2"
 			};
 
             CBUFFER_START(UnityPerMaterial)
+			float4 _ScaleRangeStretchRange;
+			float4 _OffsetRange;
+			float2 _AtlasSize;
+			float2 _RotaRange;
 			float _ErosionValue;
 			float _SeedScale;
 			float _SeedMultiplier;
+			int _NumGraffiti;
 			float _DrawOrder;
 			float _DecalMeshBiasType;
 			float _DecalMeshDepthBias;
@@ -180,19 +177,6 @@ Shader  "SHR_DecalMaster2"
 			UNITY_INSTANCING_BUFFER_START(SHR_DecalMaster2)
 				UNITY_DEFINE_INSTANCED_PROP(float4, _tex_ST)
 				UNITY_DEFINE_INSTANCED_PROP(int, _Seed)
-				UNITY_DEFINE_INSTANCED_PROP(int, _NumGraffiti)
-				UNITY_DEFINE_INSTANCED_PROP(int, _AtlasCols)
-				UNITY_DEFINE_INSTANCED_PROP(int, _AtlasRows)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MinScale_X)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MaxScale_X)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MinScale_Y)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MaxScale_Y)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MinRotation)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MaxRotation)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MinOffset_X)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MaxOffset_X)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MinOffset_Y)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MaxOffset_Y)
 			UNITY_INSTANCING_BUFFER_END(SHR_DecalMaster2)
 
 
@@ -421,33 +405,18 @@ Shader  "SHR_DecalMaster2"
 				#endif
 				float2 seed2D25 = staticSwitch105;
 				sampler2D tex25 = _tex;
-				int _NumGraffiti_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_NumGraffiti);
-				float NumGraffiti25 = (float)_NumGraffiti_Instance;
-				int _AtlasCols_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_AtlasCols);
-				float AtlasCols25 = (float)_AtlasCols_Instance;
-				int _AtlasRows_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_AtlasRows);
-				float AtlasRows25 = (float)_AtlasRows_Instance;
-				float _MinScale_X_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MinScale_X);
-				float MinScaleX25 = _MinScale_X_Instance;
-				float _MaxScale_X_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MaxScale_X);
-				float MaxScaleX25 = _MaxScale_X_Instance;
-				float _MinScale_Y_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MinScale_Y);
-				float MinScaleY25 = _MinScale_Y_Instance;
-				float _MaxScale_Y_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MaxScale_Y);
-				float MaxScaleY25 = _MaxScale_Y_Instance;
-				float _MinRotation_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MinRotation);
-				float MinRota25 = _MinRotation_Instance;
-				float _MaxRotation_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MaxRotation);
-				float MaxRota25 = _MaxRotation_Instance;
-				float _MinOffset_X_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MinOffset_X);
-				float MinOffsetX25 = _MinOffset_X_Instance;
-				float _MaxOffset_X_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MaxOffset_X);
-				float MaxOffsetX25 = _MaxOffset_X_Instance;
-				float _MinOffset_Y_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MinOffset_Y);
-				float MinOffsetY25 = _MinOffset_Y_Instance;
-				float _MaxOffset_Y_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MaxOffset_Y);
-				float MaxOffsetY25 = _MaxOffset_Y_Instance;
-				float4 localSampleGraffitis25 = SampleGraffitis( uv25 , seed2D25 , tex25 , NumGraffiti25 , AtlasCols25 , AtlasRows25 , MinScaleX25 , MaxScaleX25 , MinScaleY25 , MaxScaleY25 , MinRota25 , MaxRota25 , MinOffsetX25 , MaxOffsetX25 , MinOffsetY25 , MaxOffsetY25 );
+				float NumGraffiti25 = (float)_NumGraffiti;
+				float2 AtlasSize25 = _AtlasSize;
+				float2 appendResult126 = (float2(_ScaleRangeStretchRange.x , _ScaleRangeStretchRange.y));
+				float2 ScaleRange25 = appendResult126;
+				float2 appendResult127 = (float2(_ScaleRangeStretchRange.z , _ScaleRangeStretchRange.w));
+				float2 StretchRange25 = appendResult127;
+				float2 RotaRange25 = _RotaRange;
+				float2 appendResult128 = (float2(_OffsetRange.x , _OffsetRange.y));
+				float2 OffsetRangeX25 = appendResult128;
+				float2 appendResult129 = (float2(_OffsetRange.z , _OffsetRange.w));
+				float2 OffsetRangeY25 = appendResult129;
+				float4 localSampleGraffitis25 = SampleGraffitis( uv25 , seed2D25 , tex25 , NumGraffiti25 , AtlasSize25 , ScaleRange25 , StretchRange25 , RotaRange25 , OffsetRangeX25 , OffsetRangeY25 );
 				#ifdef _GAMEPLAYORENVIRO_ON
 				float4 staticSwitch83 = localSampleGraffitis25;
 				#else
@@ -598,9 +567,14 @@ Shader  "SHR_DecalMaster2"
 			};
 
             CBUFFER_START(UnityPerMaterial)
+			float4 _ScaleRangeStretchRange;
+			float4 _OffsetRange;
+			float2 _AtlasSize;
+			float2 _RotaRange;
 			float _ErosionValue;
 			float _SeedScale;
 			float _SeedMultiplier;
+			int _NumGraffiti;
 			float _DrawOrder;
 			float _DecalMeshBiasType;
 			float _DecalMeshDepthBias;
@@ -614,19 +588,6 @@ Shader  "SHR_DecalMaster2"
 			UNITY_INSTANCING_BUFFER_START(SHR_DecalMaster2)
 				UNITY_DEFINE_INSTANCED_PROP(float4, _tex_ST)
 				UNITY_DEFINE_INSTANCED_PROP(int, _Seed)
-				UNITY_DEFINE_INSTANCED_PROP(int, _NumGraffiti)
-				UNITY_DEFINE_INSTANCED_PROP(int, _AtlasCols)
-				UNITY_DEFINE_INSTANCED_PROP(int, _AtlasRows)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MinScale_X)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MaxScale_X)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MinScale_Y)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MaxScale_Y)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MinRotation)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MaxRotation)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MinOffset_X)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MaxOffset_X)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MinOffset_Y)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MaxOffset_Y)
 			UNITY_INSTANCING_BUFFER_END(SHR_DecalMaster2)
 
 
@@ -929,33 +890,18 @@ Shader  "SHR_DecalMaster2"
 				#endif
 				float2 seed2D25 = staticSwitch105;
 				sampler2D tex25 = _tex;
-				int _NumGraffiti_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_NumGraffiti);
-				float NumGraffiti25 = (float)_NumGraffiti_Instance;
-				int _AtlasCols_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_AtlasCols);
-				float AtlasCols25 = (float)_AtlasCols_Instance;
-				int _AtlasRows_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_AtlasRows);
-				float AtlasRows25 = (float)_AtlasRows_Instance;
-				float _MinScale_X_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MinScale_X);
-				float MinScaleX25 = _MinScale_X_Instance;
-				float _MaxScale_X_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MaxScale_X);
-				float MaxScaleX25 = _MaxScale_X_Instance;
-				float _MinScale_Y_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MinScale_Y);
-				float MinScaleY25 = _MinScale_Y_Instance;
-				float _MaxScale_Y_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MaxScale_Y);
-				float MaxScaleY25 = _MaxScale_Y_Instance;
-				float _MinRotation_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MinRotation);
-				float MinRota25 = _MinRotation_Instance;
-				float _MaxRotation_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MaxRotation);
-				float MaxRota25 = _MaxRotation_Instance;
-				float _MinOffset_X_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MinOffset_X);
-				float MinOffsetX25 = _MinOffset_X_Instance;
-				float _MaxOffset_X_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MaxOffset_X);
-				float MaxOffsetX25 = _MaxOffset_X_Instance;
-				float _MinOffset_Y_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MinOffset_Y);
-				float MinOffsetY25 = _MinOffset_Y_Instance;
-				float _MaxOffset_Y_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MaxOffset_Y);
-				float MaxOffsetY25 = _MaxOffset_Y_Instance;
-				float4 localSampleGraffitis25 = SampleGraffitis( uv25 , seed2D25 , tex25 , NumGraffiti25 , AtlasCols25 , AtlasRows25 , MinScaleX25 , MaxScaleX25 , MinScaleY25 , MaxScaleY25 , MinRota25 , MaxRota25 , MinOffsetX25 , MaxOffsetX25 , MinOffsetY25 , MaxOffsetY25 );
+				float NumGraffiti25 = (float)_NumGraffiti;
+				float2 AtlasSize25 = _AtlasSize;
+				float2 appendResult126 = (float2(_ScaleRangeStretchRange.x , _ScaleRangeStretchRange.y));
+				float2 ScaleRange25 = appendResult126;
+				float2 appendResult127 = (float2(_ScaleRangeStretchRange.z , _ScaleRangeStretchRange.w));
+				float2 StretchRange25 = appendResult127;
+				float2 RotaRange25 = _RotaRange;
+				float2 appendResult128 = (float2(_OffsetRange.x , _OffsetRange.y));
+				float2 OffsetRangeX25 = appendResult128;
+				float2 appendResult129 = (float2(_OffsetRange.z , _OffsetRange.w));
+				float2 OffsetRangeY25 = appendResult129;
+				float4 localSampleGraffitis25 = SampleGraffitis( uv25 , seed2D25 , tex25 , NumGraffiti25 , AtlasSize25 , ScaleRange25 , StretchRange25 , RotaRange25 , OffsetRangeX25 , OffsetRangeY25 );
 				#ifdef _GAMEPLAYORENVIRO_ON
 				float4 staticSwitch83 = localSampleGraffitis25;
 				#else
@@ -1128,9 +1074,14 @@ Shader  "SHR_DecalMaster2"
 			};
 
             CBUFFER_START(UnityPerMaterial)
+			float4 _ScaleRangeStretchRange;
+			float4 _OffsetRange;
+			float2 _AtlasSize;
+			float2 _RotaRange;
 			float _ErosionValue;
 			float _SeedScale;
 			float _SeedMultiplier;
+			int _NumGraffiti;
 			float _DrawOrder;
 			float _DecalMeshBiasType;
 			float _DecalMeshDepthBias;
@@ -1144,19 +1095,6 @@ Shader  "SHR_DecalMaster2"
 			UNITY_INSTANCING_BUFFER_START(SHR_DecalMaster2)
 				UNITY_DEFINE_INSTANCED_PROP(float4, _tex_ST)
 				UNITY_DEFINE_INSTANCED_PROP(int, _Seed)
-				UNITY_DEFINE_INSTANCED_PROP(int, _NumGraffiti)
-				UNITY_DEFINE_INSTANCED_PROP(int, _AtlasCols)
-				UNITY_DEFINE_INSTANCED_PROP(int, _AtlasRows)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MinScale_X)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MaxScale_X)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MinScale_Y)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MaxScale_Y)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MinRotation)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MaxRotation)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MinOffset_X)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MaxOffset_X)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MinOffset_Y)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MaxOffset_Y)
 			UNITY_INSTANCING_BUFFER_END(SHR_DecalMaster2)
 
 
@@ -1453,33 +1391,18 @@ Shader  "SHR_DecalMaster2"
 				#endif
 				float2 seed2D25 = staticSwitch105;
 				sampler2D tex25 = _tex;
-				int _NumGraffiti_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_NumGraffiti);
-				float NumGraffiti25 = (float)_NumGraffiti_Instance;
-				int _AtlasCols_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_AtlasCols);
-				float AtlasCols25 = (float)_AtlasCols_Instance;
-				int _AtlasRows_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_AtlasRows);
-				float AtlasRows25 = (float)_AtlasRows_Instance;
-				float _MinScale_X_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MinScale_X);
-				float MinScaleX25 = _MinScale_X_Instance;
-				float _MaxScale_X_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MaxScale_X);
-				float MaxScaleX25 = _MaxScale_X_Instance;
-				float _MinScale_Y_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MinScale_Y);
-				float MinScaleY25 = _MinScale_Y_Instance;
-				float _MaxScale_Y_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MaxScale_Y);
-				float MaxScaleY25 = _MaxScale_Y_Instance;
-				float _MinRotation_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MinRotation);
-				float MinRota25 = _MinRotation_Instance;
-				float _MaxRotation_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MaxRotation);
-				float MaxRota25 = _MaxRotation_Instance;
-				float _MinOffset_X_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MinOffset_X);
-				float MinOffsetX25 = _MinOffset_X_Instance;
-				float _MaxOffset_X_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MaxOffset_X);
-				float MaxOffsetX25 = _MaxOffset_X_Instance;
-				float _MinOffset_Y_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MinOffset_Y);
-				float MinOffsetY25 = _MinOffset_Y_Instance;
-				float _MaxOffset_Y_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MaxOffset_Y);
-				float MaxOffsetY25 = _MaxOffset_Y_Instance;
-				float4 localSampleGraffitis25 = SampleGraffitis( uv25 , seed2D25 , tex25 , NumGraffiti25 , AtlasCols25 , AtlasRows25 , MinScaleX25 , MaxScaleX25 , MinScaleY25 , MaxScaleY25 , MinRota25 , MaxRota25 , MinOffsetX25 , MaxOffsetX25 , MinOffsetY25 , MaxOffsetY25 );
+				float NumGraffiti25 = (float)_NumGraffiti;
+				float2 AtlasSize25 = _AtlasSize;
+				float2 appendResult126 = (float2(_ScaleRangeStretchRange.x , _ScaleRangeStretchRange.y));
+				float2 ScaleRange25 = appendResult126;
+				float2 appendResult127 = (float2(_ScaleRangeStretchRange.z , _ScaleRangeStretchRange.w));
+				float2 StretchRange25 = appendResult127;
+				float2 RotaRange25 = _RotaRange;
+				float2 appendResult128 = (float2(_OffsetRange.x , _OffsetRange.y));
+				float2 OffsetRangeX25 = appendResult128;
+				float2 appendResult129 = (float2(_OffsetRange.z , _OffsetRange.w));
+				float2 OffsetRangeY25 = appendResult129;
+				float4 localSampleGraffitis25 = SampleGraffitis( uv25 , seed2D25 , tex25 , NumGraffiti25 , AtlasSize25 , ScaleRange25 , StretchRange25 , RotaRange25 , OffsetRangeX25 , OffsetRangeY25 );
 				#ifdef _GAMEPLAYORENVIRO_ON
 				float4 staticSwitch83 = localSampleGraffitis25;
 				#else
@@ -1662,9 +1585,14 @@ Shader  "SHR_DecalMaster2"
 			};
 
             CBUFFER_START(UnityPerMaterial)
+			float4 _ScaleRangeStretchRange;
+			float4 _OffsetRange;
+			float2 _AtlasSize;
+			float2 _RotaRange;
 			float _ErosionValue;
 			float _SeedScale;
 			float _SeedMultiplier;
+			int _NumGraffiti;
 			float _DrawOrder;
 			float _DecalMeshBiasType;
 			float _DecalMeshDepthBias;
@@ -1675,19 +1603,6 @@ Shader  "SHR_DecalMaster2"
 			UNITY_INSTANCING_BUFFER_START(SHR_DecalMaster2)
 				UNITY_DEFINE_INSTANCED_PROP(float4, _tex_ST)
 				UNITY_DEFINE_INSTANCED_PROP(int, _Seed)
-				UNITY_DEFINE_INSTANCED_PROP(int, _NumGraffiti)
-				UNITY_DEFINE_INSTANCED_PROP(int, _AtlasCols)
-				UNITY_DEFINE_INSTANCED_PROP(int, _AtlasRows)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MinScale_X)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MaxScale_X)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MinScale_Y)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MaxScale_Y)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MinRotation)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MaxRotation)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MinOffset_X)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MaxOffset_X)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MinOffset_Y)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MaxOffset_Y)
 			UNITY_INSTANCING_BUFFER_END(SHR_DecalMaster2)
 
 
@@ -1906,33 +1821,18 @@ Shader  "SHR_DecalMaster2"
 				#endif
 				float2 seed2D25 = staticSwitch105;
 				sampler2D tex25 = _tex;
-				int _NumGraffiti_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_NumGraffiti);
-				float NumGraffiti25 = (float)_NumGraffiti_Instance;
-				int _AtlasCols_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_AtlasCols);
-				float AtlasCols25 = (float)_AtlasCols_Instance;
-				int _AtlasRows_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_AtlasRows);
-				float AtlasRows25 = (float)_AtlasRows_Instance;
-				float _MinScale_X_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MinScale_X);
-				float MinScaleX25 = _MinScale_X_Instance;
-				float _MaxScale_X_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MaxScale_X);
-				float MaxScaleX25 = _MaxScale_X_Instance;
-				float _MinScale_Y_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MinScale_Y);
-				float MinScaleY25 = _MinScale_Y_Instance;
-				float _MaxScale_Y_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MaxScale_Y);
-				float MaxScaleY25 = _MaxScale_Y_Instance;
-				float _MinRotation_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MinRotation);
-				float MinRota25 = _MinRotation_Instance;
-				float _MaxRotation_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MaxRotation);
-				float MaxRota25 = _MaxRotation_Instance;
-				float _MinOffset_X_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MinOffset_X);
-				float MinOffsetX25 = _MinOffset_X_Instance;
-				float _MaxOffset_X_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MaxOffset_X);
-				float MaxOffsetX25 = _MaxOffset_X_Instance;
-				float _MinOffset_Y_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MinOffset_Y);
-				float MinOffsetY25 = _MinOffset_Y_Instance;
-				float _MaxOffset_Y_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MaxOffset_Y);
-				float MaxOffsetY25 = _MaxOffset_Y_Instance;
-				float4 localSampleGraffitis25 = SampleGraffitis( uv25 , seed2D25 , tex25 , NumGraffiti25 , AtlasCols25 , AtlasRows25 , MinScaleX25 , MaxScaleX25 , MinScaleY25 , MaxScaleY25 , MinRota25 , MaxRota25 , MinOffsetX25 , MaxOffsetX25 , MinOffsetY25 , MaxOffsetY25 );
+				float NumGraffiti25 = (float)_NumGraffiti;
+				float2 AtlasSize25 = _AtlasSize;
+				float2 appendResult126 = (float2(_ScaleRangeStretchRange.x , _ScaleRangeStretchRange.y));
+				float2 ScaleRange25 = appendResult126;
+				float2 appendResult127 = (float2(_ScaleRangeStretchRange.z , _ScaleRangeStretchRange.w));
+				float2 StretchRange25 = appendResult127;
+				float2 RotaRange25 = _RotaRange;
+				float2 appendResult128 = (float2(_OffsetRange.x , _OffsetRange.y));
+				float2 OffsetRangeX25 = appendResult128;
+				float2 appendResult129 = (float2(_OffsetRange.z , _OffsetRange.w));
+				float2 OffsetRangeY25 = appendResult129;
+				float4 localSampleGraffitis25 = SampleGraffitis( uv25 , seed2D25 , tex25 , NumGraffiti25 , AtlasSize25 , ScaleRange25 , StretchRange25 , RotaRange25 , OffsetRangeX25 , OffsetRangeY25 );
 				#ifdef _GAMEPLAYORENVIRO_ON
 				float4 staticSwitch83 = localSampleGraffitis25;
 				#else
@@ -2095,9 +1995,14 @@ Shader  "SHR_DecalMaster2"
 			};
 
             CBUFFER_START(UnityPerMaterial)
+			float4 _ScaleRangeStretchRange;
+			float4 _OffsetRange;
+			float2 _AtlasSize;
+			float2 _RotaRange;
 			float _ErosionValue;
 			float _SeedScale;
 			float _SeedMultiplier;
+			int _NumGraffiti;
 			float _DrawOrder;
 			float _DecalMeshBiasType;
 			float _DecalMeshDepthBias;
@@ -2108,19 +2013,6 @@ Shader  "SHR_DecalMaster2"
 			UNITY_INSTANCING_BUFFER_START(SHR_DecalMaster2)
 				UNITY_DEFINE_INSTANCED_PROP(float4, _tex_ST)
 				UNITY_DEFINE_INSTANCED_PROP(int, _Seed)
-				UNITY_DEFINE_INSTANCED_PROP(int, _NumGraffiti)
-				UNITY_DEFINE_INSTANCED_PROP(int, _AtlasCols)
-				UNITY_DEFINE_INSTANCED_PROP(int, _AtlasRows)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MinScale_X)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MaxScale_X)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MinScale_Y)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MaxScale_Y)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MinRotation)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MaxRotation)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MinOffset_X)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MaxOffset_X)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MinOffset_Y)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MaxOffset_Y)
 			UNITY_INSTANCING_BUFFER_END(SHR_DecalMaster2)
 
 
@@ -2416,33 +2308,18 @@ Shader  "SHR_DecalMaster2"
 				#endif
 				float2 seed2D25 = staticSwitch105;
 				sampler2D tex25 = _tex;
-				int _NumGraffiti_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_NumGraffiti);
-				float NumGraffiti25 = (float)_NumGraffiti_Instance;
-				int _AtlasCols_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_AtlasCols);
-				float AtlasCols25 = (float)_AtlasCols_Instance;
-				int _AtlasRows_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_AtlasRows);
-				float AtlasRows25 = (float)_AtlasRows_Instance;
-				float _MinScale_X_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MinScale_X);
-				float MinScaleX25 = _MinScale_X_Instance;
-				float _MaxScale_X_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MaxScale_X);
-				float MaxScaleX25 = _MaxScale_X_Instance;
-				float _MinScale_Y_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MinScale_Y);
-				float MinScaleY25 = _MinScale_Y_Instance;
-				float _MaxScale_Y_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MaxScale_Y);
-				float MaxScaleY25 = _MaxScale_Y_Instance;
-				float _MinRotation_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MinRotation);
-				float MinRota25 = _MinRotation_Instance;
-				float _MaxRotation_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MaxRotation);
-				float MaxRota25 = _MaxRotation_Instance;
-				float _MinOffset_X_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MinOffset_X);
-				float MinOffsetX25 = _MinOffset_X_Instance;
-				float _MaxOffset_X_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MaxOffset_X);
-				float MaxOffsetX25 = _MaxOffset_X_Instance;
-				float _MinOffset_Y_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MinOffset_Y);
-				float MinOffsetY25 = _MinOffset_Y_Instance;
-				float _MaxOffset_Y_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MaxOffset_Y);
-				float MaxOffsetY25 = _MaxOffset_Y_Instance;
-				float4 localSampleGraffitis25 = SampleGraffitis( uv25 , seed2D25 , tex25 , NumGraffiti25 , AtlasCols25 , AtlasRows25 , MinScaleX25 , MaxScaleX25 , MinScaleY25 , MaxScaleY25 , MinRota25 , MaxRota25 , MinOffsetX25 , MaxOffsetX25 , MinOffsetY25 , MaxOffsetY25 );
+				float NumGraffiti25 = (float)_NumGraffiti;
+				float2 AtlasSize25 = _AtlasSize;
+				float2 appendResult126 = (float2(_ScaleRangeStretchRange.x , _ScaleRangeStretchRange.y));
+				float2 ScaleRange25 = appendResult126;
+				float2 appendResult127 = (float2(_ScaleRangeStretchRange.z , _ScaleRangeStretchRange.w));
+				float2 StretchRange25 = appendResult127;
+				float2 RotaRange25 = _RotaRange;
+				float2 appendResult128 = (float2(_OffsetRange.x , _OffsetRange.y));
+				float2 OffsetRangeX25 = appendResult128;
+				float2 appendResult129 = (float2(_OffsetRange.z , _OffsetRange.w));
+				float2 OffsetRangeY25 = appendResult129;
+				float4 localSampleGraffitis25 = SampleGraffitis( uv25 , seed2D25 , tex25 , NumGraffiti25 , AtlasSize25 , ScaleRange25 , StretchRange25 , RotaRange25 , OffsetRangeX25 , OffsetRangeY25 );
 				#ifdef _GAMEPLAYORENVIRO_ON
 				float4 staticSwitch83 = localSampleGraffitis25;
 				#else
@@ -2628,9 +2505,14 @@ Shader  "SHR_DecalMaster2"
 			};
 
             CBUFFER_START(UnityPerMaterial)
+			float4 _ScaleRangeStretchRange;
+			float4 _OffsetRange;
+			float2 _AtlasSize;
+			float2 _RotaRange;
 			float _ErosionValue;
 			float _SeedScale;
 			float _SeedMultiplier;
+			int _NumGraffiti;
 			float _DrawOrder;
 			float _DecalMeshBiasType;
 			float _DecalMeshDepthBias;
@@ -2641,19 +2523,6 @@ Shader  "SHR_DecalMaster2"
 			UNITY_INSTANCING_BUFFER_START(SHR_DecalMaster2)
 				UNITY_DEFINE_INSTANCED_PROP(float4, _tex_ST)
 				UNITY_DEFINE_INSTANCED_PROP(int, _Seed)
-				UNITY_DEFINE_INSTANCED_PROP(int, _NumGraffiti)
-				UNITY_DEFINE_INSTANCED_PROP(int, _AtlasCols)
-				UNITY_DEFINE_INSTANCED_PROP(int, _AtlasRows)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MinScale_X)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MaxScale_X)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MinScale_Y)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MaxScale_Y)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MinRotation)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MaxRotation)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MinOffset_X)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MaxOffset_X)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MinOffset_Y)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MaxOffset_Y)
 			UNITY_INSTANCING_BUFFER_END(SHR_DecalMaster2)
 
 
@@ -2947,33 +2816,18 @@ Shader  "SHR_DecalMaster2"
 				#endif
 				float2 seed2D25 = staticSwitch105;
 				sampler2D tex25 = _tex;
-				int _NumGraffiti_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_NumGraffiti);
-				float NumGraffiti25 = (float)_NumGraffiti_Instance;
-				int _AtlasCols_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_AtlasCols);
-				float AtlasCols25 = (float)_AtlasCols_Instance;
-				int _AtlasRows_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_AtlasRows);
-				float AtlasRows25 = (float)_AtlasRows_Instance;
-				float _MinScale_X_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MinScale_X);
-				float MinScaleX25 = _MinScale_X_Instance;
-				float _MaxScale_X_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MaxScale_X);
-				float MaxScaleX25 = _MaxScale_X_Instance;
-				float _MinScale_Y_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MinScale_Y);
-				float MinScaleY25 = _MinScale_Y_Instance;
-				float _MaxScale_Y_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MaxScale_Y);
-				float MaxScaleY25 = _MaxScale_Y_Instance;
-				float _MinRotation_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MinRotation);
-				float MinRota25 = _MinRotation_Instance;
-				float _MaxRotation_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MaxRotation);
-				float MaxRota25 = _MaxRotation_Instance;
-				float _MinOffset_X_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MinOffset_X);
-				float MinOffsetX25 = _MinOffset_X_Instance;
-				float _MaxOffset_X_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MaxOffset_X);
-				float MaxOffsetX25 = _MaxOffset_X_Instance;
-				float _MinOffset_Y_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MinOffset_Y);
-				float MinOffsetY25 = _MinOffset_Y_Instance;
-				float _MaxOffset_Y_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MaxOffset_Y);
-				float MaxOffsetY25 = _MaxOffset_Y_Instance;
-				float4 localSampleGraffitis25 = SampleGraffitis( uv25 , seed2D25 , tex25 , NumGraffiti25 , AtlasCols25 , AtlasRows25 , MinScaleX25 , MaxScaleX25 , MinScaleY25 , MaxScaleY25 , MinRota25 , MaxRota25 , MinOffsetX25 , MaxOffsetX25 , MinOffsetY25 , MaxOffsetY25 );
+				float NumGraffiti25 = (float)_NumGraffiti;
+				float2 AtlasSize25 = _AtlasSize;
+				float2 appendResult126 = (float2(_ScaleRangeStretchRange.x , _ScaleRangeStretchRange.y));
+				float2 ScaleRange25 = appendResult126;
+				float2 appendResult127 = (float2(_ScaleRangeStretchRange.z , _ScaleRangeStretchRange.w));
+				float2 StretchRange25 = appendResult127;
+				float2 RotaRange25 = _RotaRange;
+				float2 appendResult128 = (float2(_OffsetRange.x , _OffsetRange.y));
+				float2 OffsetRangeX25 = appendResult128;
+				float2 appendResult129 = (float2(_OffsetRange.z , _OffsetRange.w));
+				float2 OffsetRangeY25 = appendResult129;
+				float4 localSampleGraffitis25 = SampleGraffitis( uv25 , seed2D25 , tex25 , NumGraffiti25 , AtlasSize25 , ScaleRange25 , StretchRange25 , RotaRange25 , OffsetRangeX25 , OffsetRangeY25 );
 				#ifdef _GAMEPLAYORENVIRO_ON
 				float4 staticSwitch83 = localSampleGraffitis25;
 				#else
@@ -3118,9 +2972,14 @@ Shader  "SHR_DecalMaster2"
 			};
 
             CBUFFER_START(UnityPerMaterial)
+			float4 _ScaleRangeStretchRange;
+			float4 _OffsetRange;
+			float2 _AtlasSize;
+			float2 _RotaRange;
 			float _ErosionValue;
 			float _SeedScale;
 			float _SeedMultiplier;
+			int _NumGraffiti;
 			float _DrawOrder;
 			float _DecalMeshBiasType;
 			float _DecalMeshDepthBias;
@@ -3131,19 +2990,6 @@ Shader  "SHR_DecalMaster2"
 			UNITY_INSTANCING_BUFFER_START(SHR_DecalMaster2)
 				UNITY_DEFINE_INSTANCED_PROP(float4, _tex_ST)
 				UNITY_DEFINE_INSTANCED_PROP(int, _Seed)
-				UNITY_DEFINE_INSTANCED_PROP(int, _NumGraffiti)
-				UNITY_DEFINE_INSTANCED_PROP(int, _AtlasCols)
-				UNITY_DEFINE_INSTANCED_PROP(int, _AtlasRows)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MinScale_X)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MaxScale_X)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MinScale_Y)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MaxScale_Y)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MinRotation)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MaxRotation)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MinOffset_X)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MaxOffset_X)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MinOffset_Y)
-				UNITY_DEFINE_INSTANCED_PROP(float, _MaxOffset_Y)
 			UNITY_INSTANCING_BUFFER_END(SHR_DecalMaster2)
 
 
@@ -3260,33 +3106,18 @@ Shader  "SHR_DecalMaster2"
 				#endif
 				float2 seed2D25 = staticSwitch105;
 				sampler2D tex25 = _tex;
-				int _NumGraffiti_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_NumGraffiti);
-				float NumGraffiti25 = (float)_NumGraffiti_Instance;
-				int _AtlasCols_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_AtlasCols);
-				float AtlasCols25 = (float)_AtlasCols_Instance;
-				int _AtlasRows_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_AtlasRows);
-				float AtlasRows25 = (float)_AtlasRows_Instance;
-				float _MinScale_X_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MinScale_X);
-				float MinScaleX25 = _MinScale_X_Instance;
-				float _MaxScale_X_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MaxScale_X);
-				float MaxScaleX25 = _MaxScale_X_Instance;
-				float _MinScale_Y_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MinScale_Y);
-				float MinScaleY25 = _MinScale_Y_Instance;
-				float _MaxScale_Y_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MaxScale_Y);
-				float MaxScaleY25 = _MaxScale_Y_Instance;
-				float _MinRotation_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MinRotation);
-				float MinRota25 = _MinRotation_Instance;
-				float _MaxRotation_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MaxRotation);
-				float MaxRota25 = _MaxRotation_Instance;
-				float _MinOffset_X_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MinOffset_X);
-				float MinOffsetX25 = _MinOffset_X_Instance;
-				float _MaxOffset_X_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MaxOffset_X);
-				float MaxOffsetX25 = _MaxOffset_X_Instance;
-				float _MinOffset_Y_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MinOffset_Y);
-				float MinOffsetY25 = _MinOffset_Y_Instance;
-				float _MaxOffset_Y_Instance = UNITY_ACCESS_INSTANCED_PROP(SHR_DecalMaster2,_MaxOffset_Y);
-				float MaxOffsetY25 = _MaxOffset_Y_Instance;
-				float4 localSampleGraffitis25 = SampleGraffitis( uv25 , seed2D25 , tex25 , NumGraffiti25 , AtlasCols25 , AtlasRows25 , MinScaleX25 , MaxScaleX25 , MinScaleY25 , MaxScaleY25 , MinRota25 , MaxRota25 , MinOffsetX25 , MaxOffsetX25 , MinOffsetY25 , MaxOffsetY25 );
+				float NumGraffiti25 = (float)_NumGraffiti;
+				float2 AtlasSize25 = _AtlasSize;
+				float2 appendResult126 = (float2(_ScaleRangeStretchRange.x , _ScaleRangeStretchRange.y));
+				float2 ScaleRange25 = appendResult126;
+				float2 appendResult127 = (float2(_ScaleRangeStretchRange.z , _ScaleRangeStretchRange.w));
+				float2 StretchRange25 = appendResult127;
+				float2 RotaRange25 = _RotaRange;
+				float2 appendResult128 = (float2(_OffsetRange.x , _OffsetRange.y));
+				float2 OffsetRangeX25 = appendResult128;
+				float2 appendResult129 = (float2(_OffsetRange.z , _OffsetRange.w));
+				float2 OffsetRangeY25 = appendResult129;
+				float4 localSampleGraffitis25 = SampleGraffitis( uv25 , seed2D25 , tex25 , NumGraffiti25 , AtlasSize25 , ScaleRange25 , StretchRange25 , RotaRange25 , OffsetRangeX25 , OffsetRangeY25 );
 				#ifdef _GAMEPLAYORENVIRO_ON
 				float4 staticSwitch83 = localSampleGraffitis25;
 				#else
@@ -3308,7 +3139,7 @@ Shader  "SHR_DecalMaster2"
 }
 /*ASEBEGIN
 Version=19200
-Node;AmplifyShaderEditor.CommentaryNode;112;-1587.502,-20.06267;Inherit;False;1423.573;1106.836;;21;105;95;24;13;14;51;52;50;53;17;18;58;56;55;57;25;106;102;103;110;104;Graffs;0.7623053,0.5880502,1,1;0;0
+Node;AmplifyShaderEditor.CommentaryNode;112;-1587.502,-20.06267;Inherit;False;1423.573;1106.836;;24;105;95;24;25;106;102;103;110;104;114;115;118;120;122;126;127;128;129;130;131;132;133;134;137;Graffs;0.7623053,0.5880502,1,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;108;-1311.602,-744.4436;Inherit;False;1155.182;571.0426;;9;84;90;89;88;87;85;86;91;96;Gameplay;1,1,1,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;107;-2475.855,-1399.019;Inherit;False;1682.66;420.5434;;13;79;60;21;73;26;70;27;76;74;28;78;77;109;WorldPos;1,1,1,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;99;-2464.449,-951.6037;Inherit;False;533.1865;277;Tex;2;22;94;;1,1,1,1;0;0
@@ -3325,41 +3156,26 @@ Node;AmplifyShaderEditor.DynamicAppendNode;76;-2030.696,-1164.122;Inherit;False;
 Node;AmplifyShaderEditor.DynamicAppendNode;74;-2036.579,-1349.018;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.DynamicAppendNode;28;-2031.162,-1257.258;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.ObjectToWorldTransfNode;78;-2425.855,-1298.458;Inherit;False;1;0;FLOAT4;0,0,0,1;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.StaticSwitch;70;-1858.792,-1279.895;Inherit;False;Property;_XZorXY;XZorXY;16;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;FLOAT2;0,0;False;0;FLOAT2;0,0;False;2;FLOAT2;0,0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT2;0,0;False;6;FLOAT2;0,0;False;7;FLOAT2;0,0;False;8;FLOAT2;0,0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.StaticSwitch;73;-1621.926,-1184.563;Inherit;False;Property;_WorldZY;WorldZY;17;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;FLOAT2;0,0;False;0;FLOAT2;0,0;False;2;FLOAT2;0,0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT2;0,0;False;6;FLOAT2;0,0;False;7;FLOAT2;0,0;False;8;FLOAT2;0,0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.RangedFloatNode;26;-1624.447,-1089.655;Inherit;False;Property;_SeedScale;SeedScale;7;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.StaticSwitch;70;-1858.792,-1279.895;Inherit;False;Property;_XZorXY;XZorXY;4;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;FLOAT2;0,0;False;0;FLOAT2;0,0;False;2;FLOAT2;0,0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT2;0,0;False;6;FLOAT2;0,0;False;7;FLOAT2;0,0;False;8;FLOAT2;0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.StaticSwitch;73;-1621.926,-1184.563;Inherit;False;Property;_WorldZY;WorldZY;5;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;FLOAT2;0,0;False;0;FLOAT2;0,0;False;2;FLOAT2;0,0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT2;0,0;False;6;FLOAT2;0,0;False;7;FLOAT2;0,0;False;8;FLOAT2;0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.RangedFloatNode;26;-1624.447,-1089.655;Inherit;False;Property;_SeedScale;SeedScale;3;0;Create;True;0;0;0;False;0;False;1;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;60;-1395.488,-1183.462;Inherit;False;2;2;0;FLOAT2;0,0;False;1;FLOAT;0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.RangedFloatNode;21;-1410.952,-1087.839;Inherit;False;Property;_SeedMultiplier;SeedMultiplier;6;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;21;-1410.952,-1087.839;Inherit;False;Property;_SeedMultiplier;SeedMultiplier;2;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.FractNode;79;-1240.508,-1182.364;Inherit;False;1;0;FLOAT2;0,0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;77;-1112.498,-1105.117;Inherit;False;2;2;0;FLOAT2;0,0;False;1;FLOAT;0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;94;-2175.2,-901.673;Inherit;False;MainTex;-1;True;1;0;SAMPLER2D;;False;1;SAMPLER2D;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;109;-970.0576,-1099.26;Inherit;False;Seeding;-1;True;1;0;FLOAT2;0,0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;7;477.6711,13.5073;Float;False;False;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;14;New Amplify Shader;c2a467ab6d5391a4ea692226d82ffefd;True;DecalGBufferMesh;0;7;DecalGBufferMesh;1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;True;False;False;False;False;0;False;;False;True;True;True;True;False;0;False;;False;True;True;True;True;False;0;False;;False;False;False;True;2;False;;False;False;True;1;LightMode=DecalGBufferMesh;False;True;4;d3d11;glcore;gles;gles3;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.StaticSwitch;83;-158.0605,-151.5934;Inherit;False;Property;_GameplayOrEnviro;GameplayOrEnviro;18;0;Create;True;0;0;0;False;0;False;0;1;1;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;COLOR;0,0,0,0;False;0;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;5;COLOR;0,0,0,0;False;6;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.StaticSwitch;83;-158.0605,-151.5934;Inherit;False;Property;_GameplayOrEnviro;GameplayOrEnviro;6;0;Create;True;0;0;0;False;0;False;0;1;1;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;COLOR;0,0,0,0;False;0;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;5;COLOR;0,0,0,0;False;6;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;2;475.4376,-150.4437;Float;False;True;-1;2;UnityEditor.Rendering.Universal.DecalShaderGraphGUI;0;14;SHR_DecalMaster2;c2a467ab6d5391a4ea692226d82ffefd;True;DecalScreenSpaceProjector;0;2;DecalScreenSpaceProjector;9;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;5;RenderPipeline=UniversalPipeline;PreviewType=Plane;DisableBatching=LODFading=DisableBatching;ShaderGraphShader=true;ShaderGraphTargetId=UniversalDecalSubTarget;True;3;True;12;all;0;False;True;2;5;False;;10;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;True;2;False;;False;True;1;LightMode=DecalScreenSpaceProjector;False;True;4;d3d11;glcore;gles;gles3;0;;0;0;Standard;7;Affect BaseColor;1;0;Affect Normal;1;0;Blend;1;0;Affect MAOS;0;0;Affect Emission;0;0;Support LOD CrossFade;0;0;Angle Fade;1;0;0;9;True;False;True;True;True;False;True;True;True;False;;False;0
 Node;AmplifyShaderEditor.BreakToComponentsNode;9;180.4707,-73.65933;Inherit;True;COLOR;1;0;COLOR;0,0,0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
 Node;AmplifyShaderEditor.TextureCoordinatesNode;11;-1624.838,-545.688;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.StaticSwitch;105;-1003.971,54.64266;Inherit;False;Property;_WorldPosOrSeed;WorldPosOrSeed;20;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;FLOAT2;0,0;False;0;FLOAT2;0,0;False;2;FLOAT2;0,0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT2;0,0;False;6;FLOAT2;0,0;False;7;FLOAT2;0,0;False;8;FLOAT2;0,0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.GetLocalVarNode;95;-695.9861,126.4287;Inherit;False;94;MainTex;1;0;OBJECT;;False;1;SAMPLER2D;0
-Node;AmplifyShaderEditor.IntNode;106;-1178.324,144.8298;Inherit;False;InstancedProperty;_Seed;Seed;21;0;Create;True;0;0;0;False;0;False;0;0;True;0;1;INT;0
+Node;AmplifyShaderEditor.StaticSwitch;105;-1003.971,54.64266;Inherit;False;Property;_WorldPosOrSeed;WorldPosOrSeed;8;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;FLOAT2;0,0;False;0;FLOAT2;0,0;False;2;FLOAT2;0,0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT2;0,0;False;6;FLOAT2;0,0;False;7;FLOAT2;0,0;False;8;FLOAT2;0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.IntNode;106;-1178.324,144.8298;Inherit;False;InstancedProperty;_Seed;Seed;9;0;Create;True;0;0;0;False;0;False;0;0;True;0;1;INT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;102;-1331.746,55.08813;Inherit;False;2;2;0;FLOAT2;0,0;False;1;FLOAT;0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.RangedFloatNode;103;-1537.502,139.7637;Inherit;False;Constant;_Rounding;Rounding;20;0;Create;True;0;0;0;False;0;False;1000;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;110;-1526.446,55.13668;Inherit;False;109;Seeding;1;0;OBJECT;;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.RoundOpNode;104;-1170.224,54.52318;Inherit;False;1;0;FLOAT2;0,0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.IntNode;24;-710.5591,196.5424;Inherit;False;InstancedProperty;_NumGraffiti;NumGraffiti;5;0;Create;True;0;0;0;False;0;False;0;0;True;0;1;INT;0
-Node;AmplifyShaderEditor.IntNode;13;-689.2482,268.8008;Inherit;False;InstancedProperty;_AtlasCols;AtlasCols;1;0;Create;True;0;0;0;False;0;False;4;0;True;0;1;INT;0
-Node;AmplifyShaderEditor.IntNode;14;-690.6312,329.7169;Inherit;False;InstancedProperty;_AtlasRows;AtlasRows;2;0;Create;True;0;0;0;False;0;False;4;0;True;0;1;INT;0
-Node;AmplifyShaderEditor.RangedFloatNode;51;-717.6641,389.5893;Inherit;False;InstancedProperty;_MinScale_X;MinScale_X;12;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;52;-720.1301,451.9219;Inherit;False;InstancedProperty;_MaxScale_X;MaxScale_X;13;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;50;-729.2631,506.9221;Inherit;False;InstancedProperty;_MinScale_Y;MinScale_Y;14;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;53;-724.3972,573.7222;Inherit;False;InstancedProperty;_MaxScale_Y;MaxScale_Y;15;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;17;-727.2001,634.9135;Inherit;False;InstancedProperty;_MinRotation;MinRotation;3;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;18;-727.4551,701.4776;Inherit;False;InstancedProperty;_MaxRotation;MaxRotation;4;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;58;-730.0281,767.0969;Inherit;False;InstancedProperty;_MinOffset_X;MinOffset_X;8;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;56;-735.2501,839.3483;Inherit;False;InstancedProperty;_MaxOffset_X;MaxOffset_X;9;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;55;-734.013,907.3975;Inherit;False;InstancedProperty;_MinOffset_Y;MinOffset_Y;10;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;57;-740.2352,974.1072;Inherit;False;InstancedProperty;_MaxOffset_Y;MaxOffset_Y;11;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.CustomExpressionNode;25;-405.9286,29.93739;Float;False;return tex2D(tex, uv)@;4;File;16;True;uv;FLOAT2;0,0;In;;Inherit;False;True;seed2D;FLOAT2;0,0;In;;Inherit;False;True;tex;SAMPLER2D;_Sampler210;In;;Inherit;False;True;NumGraffiti;FLOAT;0;In;;Inherit;False;True;AtlasCols;FLOAT;0;In;;Inherit;False;True;AtlasRows;FLOAT;0;In;;Inherit;False;True;MinScaleX;FLOAT;0;In;;Inherit;False;True;MaxScaleX;FLOAT;0;In;;Inherit;False;True;MinScaleY;FLOAT;0;In;;Inherit;False;True;MaxScaleY;FLOAT;0;In;;Inherit;False;True;MinRota;FLOAT;0;In;;Inherit;False;True;MaxRota;FLOAT;0;In;;Inherit;False;True;MinOffsetX;FLOAT;0;In;;Inherit;False;True;MaxOffsetX;FLOAT;0;In;;Inherit;False;True;MinOffsetY;FLOAT;0;In;;Inherit;False;True;MaxOffsetY;FLOAT;0;In;;Inherit;False;SampleGraffitis;False;False;0;6471f0035b765b445a9787e379b162a0;False;16;0;FLOAT2;0,0;False;1;FLOAT2;0,0;False;2;SAMPLER2D;_Sampler210;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT;0;False;7;FLOAT;0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;11;FLOAT;0;False;12;FLOAT;0;False;13;FLOAT;0;False;14;FLOAT;0;False;15;FLOAT;0;False;1;FLOAT4;0
 Node;AmplifyShaderEditor.WireNode;113;-1423.769,-133.2457;Inherit;False;1;0;FLOAT2;0,0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.WireNode;98;-453.6546,-66.05214;Inherit;False;1;0;FLOAT2;0,0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.SamplerNode;89;-963.5994,-400.4013;Inherit;True;Property;_TextureSample0;Texture Sample 0;19;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
@@ -3368,10 +3184,32 @@ Node;AmplifyShaderEditor.SimpleMultiplyOpNode;88;-389.7528,-428.7407;Inherit;Tru
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;90;-783.8039,-528.5751;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;85;-1006.653,-510.1114;Inherit;False;Constant;_ErosionSmoothness;ErosionSmoothness;19;0;Create;True;0;0;0;False;0;False;1.64;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.ComponentMaskNode;87;-1261.602,-688.0648;Inherit;True;False;True;True;True;1;0;FLOAT2;0,0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;86;-996.1995,-617.14;Inherit;False;Property;_ErosionValue;ErosionValue;19;0;Create;True;0;0;0;False;0;False;0.31;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;86;-996.1995,-617.14;Inherit;False;Property;_ErosionValue;ErosionValue;7;0;Create;True;0;0;0;False;0;False;0.31;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.OneMinusNode;91;-979.8565,-688.739;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.WireNode;111;-1404.279,-636.7076;Inherit;False;1;0;FLOAT2;0,0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.SmoothstepOpNode;84;-568.6083,-694.4436;Inherit;True;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.CustomExpressionNode;25;-404.5952,29.93739;Float;False;return tex2D(tex, uv)@;4;File;10;True;uv;FLOAT2;0,0;In;;Inherit;False;True;seed2D;FLOAT2;0,0;In;;Inherit;False;True;tex;SAMPLER2D;_Sampler210;In;;Inherit;False;True;NumGraffiti;FLOAT;0;In;;Inherit;False;True;AtlasSize;FLOAT2;0,0;In;;Inherit;False;True;ScaleRange;FLOAT2;0,0;In;;Inherit;False;True;StretchRange;FLOAT2;0,0;In;;Inherit;False;True;RotaRange;FLOAT2;0,0;In;;Inherit;False;True;OffsetRangeX;FLOAT2;0,0;In;;Inherit;False;True;OffsetRangeY;FLOAT2;0,0;In;;Inherit;False;SampleGraffitis;False;False;0;6471f0035b765b445a9787e379b162a0;False;10;0;FLOAT2;0,0;False;1;FLOAT2;0,0;False;2;SAMPLER2D;_Sampler210;False;3;FLOAT;0;False;4;FLOAT2;0,0;False;5;FLOAT2;0,0;False;6;FLOAT2;0,0;False;7;FLOAT2;0,0;False;8;FLOAT2;0,0;False;9;FLOAT2;0,0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.GetLocalVarNode;95;-737.3195,110.4287;Inherit;False;94;MainTex;1;0;OBJECT;;False;1;SAMPLER2D;0
+Node;AmplifyShaderEditor.DynamicAppendNode;129;-924.2557,875.5087;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.DynamicAppendNode;128;-919.0407,745.1433;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.DynamicAppendNode;126;-921.9456,431.2523;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.DynamicAppendNode;127;-921.5574,529.1327;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.WireNode;118;-555.274,827.7032;Inherit;False;1;0;FLOAT2;0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.WireNode;120;-601.4857,732.6319;Inherit;False;1;0;FLOAT2;0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.WireNode;131;-600.8138,627.3755;Inherit;False;1;0;FLOAT2;0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.WireNode;132;-630.1572,509.6741;Inherit;False;1;0;FLOAT2;0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.WireNode;122;-701.0049,433.9281;Inherit;False;1;0;FLOAT2;0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.WireNode;137;-476.4558,352.8421;Inherit;False;1;0;FLOAT2;0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.WireNode;136;-502.1559,349.3375;Inherit;False;1;0;FLOAT2;0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.WireNode;135;-526.6884,349.3375;Inherit;False;1;0;FLOAT2;0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.WireNode;138;-557.0627,347.0014;Inherit;False;1;0;FLOAT2;0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.WireNode;139;-590.94,328.3102;Inherit;False;1;0;FLOAT2;0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.WireNode;134;-647.3449,305.9037;Inherit;False;1;0;FLOAT2;0,0;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.Vector2Node;133;-921.1176,308.5818;Inherit;False;Property;_AtlasSize;AtlasSize;10;0;Create;True;0;0;0;False;0;False;0,0;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
+Node;AmplifyShaderEditor.Vector4Node;115;-1206.794,429.6516;Inherit;False;Property;_ScaleRangeStretchRange;ScaleRangeStretchRange;12;0;Create;True;0;0;0;False;0;False;0,0,0,0;0,0,0,0;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.IntNode;24;-739.6067,187.8122;Inherit;False;Property;_NumGraffiti;NumGraffiti;1;0;Create;True;0;0;0;False;0;False;0;0;True;0;1;INT;0
+Node;AmplifyShaderEditor.Vector2Node;130;-918.215,623.2778;Inherit;False;Property;_RotaRange;RotaRange;11;0;Create;True;0;0;0;False;0;False;0,0;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
+Node;AmplifyShaderEditor.Vector4Node;114;-1154.521,777.5471;Inherit;False;Property;_OffsetRange;OffsetRange;13;0;Create;True;0;0;0;False;0;False;0,0,0,0;0,0,0,0;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 WireConnection;27;0;78;0
 WireConnection;76;0;27;2
 WireConnection;76;1;27;1
@@ -3401,22 +3239,6 @@ WireConnection;105;0;106;0
 WireConnection;102;0;110;0
 WireConnection;102;1;103;0
 WireConnection;104;0;102;0
-WireConnection;25;0;98;0
-WireConnection;25;1;105;0
-WireConnection;25;2;95;0
-WireConnection;25;3;24;0
-WireConnection;25;4;13;0
-WireConnection;25;5;14;0
-WireConnection;25;6;51;0
-WireConnection;25;7;52;0
-WireConnection;25;8;50;0
-WireConnection;25;9;53;0
-WireConnection;25;10;17;0
-WireConnection;25;11;18;0
-WireConnection;25;12;58;0
-WireConnection;25;13;56;0
-WireConnection;25;14;55;0
-WireConnection;25;15;57;0
 WireConnection;113;0;11;0
 WireConnection;98;0;113;0
 WireConnection;89;0;96;0
@@ -3430,5 +3252,34 @@ WireConnection;111;0;11;0
 WireConnection;84;0;91;0
 WireConnection;84;1;86;0
 WireConnection;84;2;90;0
+WireConnection;25;0;98;0
+WireConnection;25;1;105;0
+WireConnection;25;2;95;0
+WireConnection;25;3;24;0
+WireConnection;25;4;134;0
+WireConnection;25;5;139;0
+WireConnection;25;6;138;0
+WireConnection;25;7;135;0
+WireConnection;25;8;136;0
+WireConnection;25;9;137;0
+WireConnection;129;0;114;3
+WireConnection;129;1;114;4
+WireConnection;128;0;114;1
+WireConnection;128;1;114;2
+WireConnection;126;0;115;1
+WireConnection;126;1;115;2
+WireConnection;127;0;115;3
+WireConnection;127;1;115;4
+WireConnection;118;0;129;0
+WireConnection;120;0;128;0
+WireConnection;131;0;130;0
+WireConnection;132;0;127;0
+WireConnection;122;0;126;0
+WireConnection;137;0;118;0
+WireConnection;136;0;120;0
+WireConnection;135;0;131;0
+WireConnection;138;0;132;0
+WireConnection;139;0;122;0
+WireConnection;134;0;133;0
 ASEEND*/
-//CHKSM=2CC16B4CF5C397ABAF554029C0A394179D7E2A50
+//CHKSM=16EBF4AB0EDB9857A9A2ACB5DA7BC501912A14D5

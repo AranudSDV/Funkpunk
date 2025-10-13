@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 4db5829d741595e47b35c79b32d49ddb
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - gridCompute: {fileID: 7200000, guid: c1da3224d243901439a335329322da79, type: 3}
+  - maskRT: {fileID: 8400000, guid: 88d96f053c62af442b4cdb1c80f618d0, type: 2}
+  - collisionRT: {fileID: 8400000, guid: d359f02859aa87d44aee163a43870b68, type: 2}
+  - player: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -72,16 +72,22 @@ Material:
     - _MinScale: 1
     - _MinScale_X: 6
     - _MinScale_Y: 6
-    - _NumGraffiti: 13
+    - _NumGraffiti: 46.9
     - _PlayerTagsOrEnviro: 1
+    - _Seed: 0
     - _SeedMultiplier: 1
     - _SeedScale: 1
+    - _WorldPosOrSeed: 0
     - _WorldZY: 0
     - _XZorXY: 1
     m_Colors:
+    - _AtlasSize: {r: 4, g: 4, b: 0, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _MinOffsetX: {r: -0.4, g: 0.4, b: 0, a: 0}
     - _MinOffsetY: {r: -0.4, g: 0.4, b: 0, a: 0}
     - _MinScaleX: {r: 1.2, g: 1.5, b: 0, a: 0}
     - _MinScaleY: {r: 1.2, g: 1.5, b: 0, a: 0}
+    - _OffsetRange: {r: -0.3, g: 0.28, b: -0.42, a: -0.04}
+    - _RotaRange: {r: -60, g: 60, b: 0, a: 0}
+    - _ScaleRangeStretchRange: {r: 0.2, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
