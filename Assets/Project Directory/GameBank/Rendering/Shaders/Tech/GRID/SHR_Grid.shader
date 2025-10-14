@@ -6,31 +6,31 @@ Shader "SHR_Grid"
 	{
 		[HideInInspector] _EmissionColor("Emission Color", Color) = (1,1,1,1)
 		[HideInInspector] _AlphaCutoff("Alpha Cutoff ", Range(0, 1)) = 0.5
+		[HDR][NoScaleOffset]_InteractiveGrid("InteractiveGrid", 2D) = "white" {}
+		_SquareSize("SquareSize", Float) = 1.18
+		_SquareSmoothing("SquareSmoothing", Float) = 2.58
+		_DiagSize("DiagSize", Float) = 1
+		_DiagSmoothing("DiagSmoothing", Float) = 3.54
 		_Alpha("Alpha", Float) = 0.1
 		_Alphaclip("Alphaclip", Float) = 0.01
-		[HDR]_BaseColor("BaseColor", Color) = (0,0,0,0)
-		[HDR][NoScaleOffset]_InteractiveGrid("InteractiveGrid", 2D) = "white" {}
-		[HDR]_PlayerColor("PlayerColor", Color) = (0,1,0.7394278,0)
-		[HDR]_PlayerColor1("PlayerColor", Color) = (1,0.003110439,0,0)
-		_ColliderSmoothing1("ColliderSmoothing", Float) = 0
-		_ColliderSmoothing("ColliderSmoothing", Float) = 0
-		_ColliderTexDensity("ColliderTexDensity", Vector) = (10,10,0,0)
-		_VisibilityTexDensity("VisibilityTexDensity", Vector) = (10,10,0,0)
-		_IllumTexDensity("IllumTexDensity", Vector) = (10,10,0,0)
-		_VisibilitySmoothing("VisibilitySmoothing", Float) = 0
-		_IllumSmoothing("IllumSmoothing", Float) = 0
-		_DiagSmoothing("DiagSmoothing", Float) = 3.54
-		_DiagSize("DiagSize", Float) = 1
-		_SquareSmoothing("SquareSmoothing", Float) = 2.58
-		_SquareSize("SquareSize", Float) = 1.18
-		_GridTexDensity("GridTexDensity", Vector) = (10,10,0,0)
-		_VisibilityTex("VisibilityTex", 2D) = "white" {}
-		_ColliderTex("ColliderTex", 2D) = "white" {}
-		_GridTex("GridTex", 2D) = "white" {}
-		_IllumTex("IllumTex", 2D) = "white" {}
-		_IllumStyle("IllumStyle", Range( 1 , 3)) = 1
-		_ColliderStyle("ColliderStyle", Range( 1 , 3)) = 1
+		[HDR]_GridColor("GridColor", Color) = (0,0,0,0)
 		_GridStyle("GridStyle", Range( 1 , 3)) = 1
+		_GridTex("GridTex", 2D) = "white" {}
+		_GridTexDensity("GridTexDensity", Vector) = (10,10,0,0)
+		_GridSmoothing("GridSmoothing", Float) = 0
+		[HDR]_IllumColor("IllumColor", Color) = (0,1,0.7394278,0)
+		_IllumStyle("IllumStyle", Range( 1 , 3)) = 1
+		_IllumTex("IllumTex", 2D) = "white" {}
+		_IllumTexDensity("IllumTexDensity", Vector) = (10,10,0,0)
+		_IllumSmoothing("IllumSmoothing", Float) = 0
+		_ColliderStyle("ColliderStyle", Range( 1 , 3)) = 1
+		_ColliderTex("ColliderTex", 2D) = "white" {}
+		_ColliderTexDensity("ColliderTexDensity", Vector) = (10,10,0,0)
+		_ColliderSmoothing("ColliderSmoothing", Float) = 0
+		_VisibilityStyle("VisibilityStyle", Range( 1 , 3)) = 1
+		_VisibilityTex("VisibilityTex", 2D) = "white" {}
+		_VisibilityTexDensity("VisibilityTexDensity", Vector) = (10,10,0,0)
+		_VisibilitySmoothing("VisibilitySmoothing", Float) = 0
 		[HideInInspector] _texcoord( "", 2D ) = "white" {}
 
 
@@ -252,25 +252,25 @@ Shader "SHR_Grid"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _BaseColor;
-			float4 _PlayerColor;
-			float4 _IllumTexDensity;
+			float4 _GridColor;
 			float4 _VisibilityTexDensity;
-			float4 _PlayerColor1;
 			float4 _ColliderTexDensity;
 			float4 _GridTexDensity;
-			float _VisibilitySmoothing;
-			float _DiagSmoothing;
-			float _DiagSize;
-			float _SquareSmoothing;
-			float _SquareSize;
+			float4 _IllumColor;
+			float4 _IllumTexDensity;
+			float _IllumSmoothing;
+			float _ColliderStyle;
+			float _IllumStyle;
+			float _ColliderSmoothing;
 			float _GridStyle;
 			float _Alpha;
-			float _ColliderSmoothing;
-			float _ColliderStyle;
-			float _IllumSmoothing;
-			float _IllumStyle;
-			float _ColliderSmoothing1;
+			float _GridSmoothing;
+			float _SquareSize;
+			float _SquareSmoothing;
+			float _DiagSize;
+			float _DiagSmoothing;
+			float _VisibilityStyle;
+			float _VisibilitySmoothing;
 			float _Alphaclip;
 			#ifdef ASE_TESSELLATION
 				float _TessPhongStrength;
@@ -496,7 +496,8 @@ Shader "SHR_Grid"
 				else if( _IllumStyle < 2.0 )
 				ifLocalVar508 = smoothstepResult512;
 				float IllumFinal514 = ifLocalVar508;
-				float4 lerpResult241 = lerp( _BaseColor , _PlayerColor , IllumFinal514);
+				float4 lerpResult241 = lerp( _GridColor , _IllumColor , IllumFinal514);
+				float4 color574 = IsGammaSpace() ? float4(0,0,0,0) : float4(0,0,0,0);
 				float2 appendResult546 = (float2(_ColliderTexDensity.x , _ColliderTexDensity.y));
 				float2 appendResult547 = (float2(_ColliderTexDensity.z , _ColliderTexDensity.w));
 				float2 texCoord537 = IN.ase_texcoord3.xy * appendResult546 + appendResult547;
@@ -514,7 +515,7 @@ Shader "SHR_Grid"
 				else if( _ColliderStyle < 2.0 )
 				ifLocalVar543 = smoothstepResult542;
 				float ColliderFinal535 = ifLocalVar543;
-				float4 lerpResult566 = lerp( lerpResult241 , _PlayerColor1 , ColliderFinal535);
+				float4 lerpResult566 = lerp( lerpResult241 , color574 , ColliderFinal535);
 				
 				float2 appendResult558 = (float2(_GridTexDensity.x , _GridTexDensity.y));
 				float2 appendResult559 = (float2(_GridTexDensity.z , _GridTexDensity.w));
@@ -537,10 +538,10 @@ Shader "SHR_Grid"
 				float temp_output_480_0 = max( length( break208.x ) , length( break208.y ) );
 				float smoothstepResult490 = smoothstep( _DiagSize , ( _DiagSize + _DiagSmoothing ) , ( distance( temp_output_480_0 , temp_output_497_0 ) * temp_output_480_0 ));
 				float Shape502 = max( smoothstepResult483 , smoothstepResult490 );
-				float smoothstepResult553 = smoothstep( tex2DNode560.r , ( tex2DNode560.r + _ColliderSmoothing1 ) , Shape502);
+				float smoothstepResult553 = smoothstep( tex2DNode560.r , ( tex2DNode560.r + _GridSmoothing ) , Shape502);
 				float2 uv555 = 0;
 				float3 unityVoronoy555 = UnityVoronoi(texCoord551,0.0,1.0,uv555);
-				float smoothstepResult556 = smoothstep( unityVoronoy555.x , ( unityVoronoy555.x + _ColliderSmoothing1 ) , Shape502);
+				float smoothstepResult556 = smoothstep( unityVoronoy555.x , ( unityVoronoy555.x + _GridSmoothing ) , Shape502);
 				float ifLocalVar557 = 0;
 				if( _GridStyle > 2.0 )
 				ifLocalVar557 = smoothstepResult553;
@@ -559,19 +560,18 @@ Shader "SHR_Grid"
 				float3 unityVoronoy526 = UnityVoronoi(texCoord519,0.0,1.0,uv526);
 				float smoothstepResult527 = smoothstep( unityVoronoy526.x , ( unityVoronoy526.x + _VisibilitySmoothing ) , Visibility457);
 				float ifLocalVar528 = 0;
-				if( 1.0 > 2.0 )
+				if( _VisibilityStyle > 2.0 )
 				ifLocalVar528 = smoothstepResult522;
-				else if( 1.0 == 2.0 )
+				else if( _VisibilityStyle == 2.0 )
 				ifLocalVar528 = Visibility457;
-				else if( 1.0 < 2.0 )
+				else if( _VisibilityStyle < 2.0 )
 				ifLocalVar528 = smoothstepResult527;
 				float VisibilityFinal529 = ifLocalVar528;
-				float temp_output_222_0 = ( ShapeFinal564 * VisibilityFinal529 * _Alpha );
 				
 				float3 BakedAlbedo = 0;
 				float3 BakedEmission = 0;
 				float3 Color = lerpResult566.rgb;
-				float Alpha = temp_output_222_0;
+				float Alpha = ( ( ShapeFinal564 * VisibilityFinal529 * _Alpha ) - ColliderFinal535 );
 				float AlphaClipThreshold = _Alphaclip;
 				float AlphaClipThresholdShadow = 0.5;
 
@@ -663,25 +663,25 @@ Shader "SHR_Grid"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _BaseColor;
-			float4 _PlayerColor;
-			float4 _IllumTexDensity;
+			float4 _GridColor;
 			float4 _VisibilityTexDensity;
-			float4 _PlayerColor1;
 			float4 _ColliderTexDensity;
 			float4 _GridTexDensity;
-			float _VisibilitySmoothing;
-			float _DiagSmoothing;
-			float _DiagSize;
-			float _SquareSmoothing;
-			float _SquareSize;
+			float4 _IllumColor;
+			float4 _IllumTexDensity;
+			float _IllumSmoothing;
+			float _ColliderStyle;
+			float _IllumStyle;
+			float _ColliderSmoothing;
 			float _GridStyle;
 			float _Alpha;
-			float _ColliderSmoothing;
-			float _ColliderStyle;
-			float _IllumSmoothing;
-			float _IllumStyle;
-			float _ColliderSmoothing1;
+			float _GridSmoothing;
+			float _SquareSize;
+			float _SquareSmoothing;
+			float _DiagSize;
+			float _DiagSmoothing;
+			float _VisibilityStyle;
+			float _VisibilitySmoothing;
 			float _Alphaclip;
 			#ifdef ASE_TESSELLATION
 				float _TessPhongStrength;
@@ -696,6 +696,7 @@ Shader "SHR_Grid"
 			sampler2D _GridTex;
 			sampler2D _VisibilityTex;
 			sampler2D _InteractiveGrid;
+			sampler2D _ColliderTex;
 
 
 			inline float2 UnityVoronoiRandomVector( float2 UV, float offset )
@@ -917,10 +918,10 @@ Shader "SHR_Grid"
 				float temp_output_480_0 = max( length( break208.x ) , length( break208.y ) );
 				float smoothstepResult490 = smoothstep( _DiagSize , ( _DiagSize + _DiagSmoothing ) , ( distance( temp_output_480_0 , temp_output_497_0 ) * temp_output_480_0 ));
 				float Shape502 = max( smoothstepResult483 , smoothstepResult490 );
-				float smoothstepResult553 = smoothstep( tex2DNode560.r , ( tex2DNode560.r + _ColliderSmoothing1 ) , Shape502);
+				float smoothstepResult553 = smoothstep( tex2DNode560.r , ( tex2DNode560.r + _GridSmoothing ) , Shape502);
 				float2 uv555 = 0;
 				float3 unityVoronoy555 = UnityVoronoi(texCoord551,0.0,1.0,uv555);
-				float smoothstepResult556 = smoothstep( unityVoronoy555.x , ( unityVoronoy555.x + _ColliderSmoothing1 ) , Shape502);
+				float smoothstepResult556 = smoothstep( unityVoronoy555.x , ( unityVoronoy555.x + _GridSmoothing ) , Shape502);
 				float ifLocalVar557 = 0;
 				if( _GridStyle > 2.0 )
 				ifLocalVar557 = smoothstepResult553;
@@ -941,17 +942,33 @@ Shader "SHR_Grid"
 				float3 unityVoronoy526 = UnityVoronoi(texCoord519,0.0,1.0,uv526);
 				float smoothstepResult527 = smoothstep( unityVoronoy526.x , ( unityVoronoy526.x + _VisibilitySmoothing ) , Visibility457);
 				float ifLocalVar528 = 0;
-				if( 1.0 > 2.0 )
+				if( _VisibilityStyle > 2.0 )
 				ifLocalVar528 = smoothstepResult522;
-				else if( 1.0 == 2.0 )
+				else if( _VisibilityStyle == 2.0 )
 				ifLocalVar528 = Visibility457;
-				else if( 1.0 < 2.0 )
+				else if( _VisibilityStyle < 2.0 )
 				ifLocalVar528 = smoothstepResult527;
 				float VisibilityFinal529 = ifLocalVar528;
-				float temp_output_222_0 = ( ShapeFinal564 * VisibilityFinal529 * _Alpha );
+				float2 appendResult546 = (float2(_ColliderTexDensity.x , _ColliderTexDensity.y));
+				float2 appendResult547 = (float2(_ColliderTexDensity.z , _ColliderTexDensity.w));
+				float2 texCoord537 = IN.ase_texcoord2.xy * appendResult546 + appendResult547;
+				float4 tex2DNode549 = tex2D( _ColliderTex, texCoord537 );
+				float Colliders458 = tex2DNode228.b;
+				float smoothstepResult539 = smoothstep( tex2DNode549.r , ( tex2DNode549.r + _ColliderSmoothing ) , Colliders458);
+				float2 uv541 = 0;
+				float3 unityVoronoy541 = UnityVoronoi(texCoord537,0.0,1.0,uv541);
+				float smoothstepResult542 = smoothstep( unityVoronoy541.x , ( unityVoronoy541.x + _ColliderSmoothing ) , Colliders458);
+				float ifLocalVar543 = 0;
+				if( _ColliderStyle > 2.0 )
+				ifLocalVar543 = smoothstepResult539;
+				else if( _ColliderStyle == 2.0 )
+				ifLocalVar543 = Colliders458;
+				else if( _ColliderStyle < 2.0 )
+				ifLocalVar543 = smoothstepResult542;
+				float ColliderFinal535 = ifLocalVar543;
 				
 
-				float Alpha = temp_output_222_0;
+				float Alpha = ( ( ShapeFinal564 * VisibilityFinal529 * _Alpha ) - ColliderFinal535 );
 				float AlphaClipThreshold = _Alphaclip;
 				float AlphaClipThresholdShadow = 0.5;
 
@@ -1024,25 +1041,25 @@ Shader "SHR_Grid"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _BaseColor;
-			float4 _PlayerColor;
-			float4 _IllumTexDensity;
+			float4 _GridColor;
 			float4 _VisibilityTexDensity;
-			float4 _PlayerColor1;
 			float4 _ColliderTexDensity;
 			float4 _GridTexDensity;
-			float _VisibilitySmoothing;
-			float _DiagSmoothing;
-			float _DiagSize;
-			float _SquareSmoothing;
-			float _SquareSize;
+			float4 _IllumColor;
+			float4 _IllumTexDensity;
+			float _IllumSmoothing;
+			float _ColliderStyle;
+			float _IllumStyle;
+			float _ColliderSmoothing;
 			float _GridStyle;
 			float _Alpha;
-			float _ColliderSmoothing;
-			float _ColliderStyle;
-			float _IllumSmoothing;
-			float _IllumStyle;
-			float _ColliderSmoothing1;
+			float _GridSmoothing;
+			float _SquareSize;
+			float _SquareSmoothing;
+			float _DiagSize;
+			float _DiagSmoothing;
+			float _VisibilityStyle;
+			float _VisibilitySmoothing;
 			float _Alphaclip;
 			#ifdef ASE_TESSELLATION
 				float _TessPhongStrength;
@@ -1057,6 +1074,7 @@ Shader "SHR_Grid"
 			sampler2D _GridTex;
 			sampler2D _VisibilityTex;
 			sampler2D _InteractiveGrid;
+			sampler2D _ColliderTex;
 
 
 			inline float2 UnityVoronoiRandomVector( float2 UV, float offset )
@@ -1258,10 +1276,10 @@ Shader "SHR_Grid"
 				float temp_output_480_0 = max( length( break208.x ) , length( break208.y ) );
 				float smoothstepResult490 = smoothstep( _DiagSize , ( _DiagSize + _DiagSmoothing ) , ( distance( temp_output_480_0 , temp_output_497_0 ) * temp_output_480_0 ));
 				float Shape502 = max( smoothstepResult483 , smoothstepResult490 );
-				float smoothstepResult553 = smoothstep( tex2DNode560.r , ( tex2DNode560.r + _ColliderSmoothing1 ) , Shape502);
+				float smoothstepResult553 = smoothstep( tex2DNode560.r , ( tex2DNode560.r + _GridSmoothing ) , Shape502);
 				float2 uv555 = 0;
 				float3 unityVoronoy555 = UnityVoronoi(texCoord551,0.0,1.0,uv555);
-				float smoothstepResult556 = smoothstep( unityVoronoy555.x , ( unityVoronoy555.x + _ColliderSmoothing1 ) , Shape502);
+				float smoothstepResult556 = smoothstep( unityVoronoy555.x , ( unityVoronoy555.x + _GridSmoothing ) , Shape502);
 				float ifLocalVar557 = 0;
 				if( _GridStyle > 2.0 )
 				ifLocalVar557 = smoothstepResult553;
@@ -1282,17 +1300,33 @@ Shader "SHR_Grid"
 				float3 unityVoronoy526 = UnityVoronoi(texCoord519,0.0,1.0,uv526);
 				float smoothstepResult527 = smoothstep( unityVoronoy526.x , ( unityVoronoy526.x + _VisibilitySmoothing ) , Visibility457);
 				float ifLocalVar528 = 0;
-				if( 1.0 > 2.0 )
+				if( _VisibilityStyle > 2.0 )
 				ifLocalVar528 = smoothstepResult522;
-				else if( 1.0 == 2.0 )
+				else if( _VisibilityStyle == 2.0 )
 				ifLocalVar528 = Visibility457;
-				else if( 1.0 < 2.0 )
+				else if( _VisibilityStyle < 2.0 )
 				ifLocalVar528 = smoothstepResult527;
 				float VisibilityFinal529 = ifLocalVar528;
-				float temp_output_222_0 = ( ShapeFinal564 * VisibilityFinal529 * _Alpha );
+				float2 appendResult546 = (float2(_ColliderTexDensity.x , _ColliderTexDensity.y));
+				float2 appendResult547 = (float2(_ColliderTexDensity.z , _ColliderTexDensity.w));
+				float2 texCoord537 = IN.ase_texcoord2.xy * appendResult546 + appendResult547;
+				float4 tex2DNode549 = tex2D( _ColliderTex, texCoord537 );
+				float Colliders458 = tex2DNode228.b;
+				float smoothstepResult539 = smoothstep( tex2DNode549.r , ( tex2DNode549.r + _ColliderSmoothing ) , Colliders458);
+				float2 uv541 = 0;
+				float3 unityVoronoy541 = UnityVoronoi(texCoord537,0.0,1.0,uv541);
+				float smoothstepResult542 = smoothstep( unityVoronoy541.x , ( unityVoronoy541.x + _ColliderSmoothing ) , Colliders458);
+				float ifLocalVar543 = 0;
+				if( _ColliderStyle > 2.0 )
+				ifLocalVar543 = smoothstepResult539;
+				else if( _ColliderStyle == 2.0 )
+				ifLocalVar543 = Colliders458;
+				else if( _ColliderStyle < 2.0 )
+				ifLocalVar543 = smoothstepResult542;
+				float ColliderFinal535 = ifLocalVar543;
 				
 
-				float Alpha = temp_output_222_0;
+				float Alpha = ( ( ShapeFinal564 * VisibilityFinal529 * _Alpha ) - ColliderFinal535 );
 				float AlphaClipThreshold = _Alphaclip;
 
 				#ifdef _ALPHATEST_ON
@@ -1358,25 +1392,25 @@ Shader "SHR_Grid"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _BaseColor;
-			float4 _PlayerColor;
-			float4 _IllumTexDensity;
+			float4 _GridColor;
 			float4 _VisibilityTexDensity;
-			float4 _PlayerColor1;
 			float4 _ColliderTexDensity;
 			float4 _GridTexDensity;
-			float _VisibilitySmoothing;
-			float _DiagSmoothing;
-			float _DiagSize;
-			float _SquareSmoothing;
-			float _SquareSize;
+			float4 _IllumColor;
+			float4 _IllumTexDensity;
+			float _IllumSmoothing;
+			float _ColliderStyle;
+			float _IllumStyle;
+			float _ColliderSmoothing;
 			float _GridStyle;
 			float _Alpha;
-			float _ColliderSmoothing;
-			float _ColliderStyle;
-			float _IllumSmoothing;
-			float _IllumStyle;
-			float _ColliderSmoothing1;
+			float _GridSmoothing;
+			float _SquareSize;
+			float _SquareSmoothing;
+			float _DiagSize;
+			float _DiagSmoothing;
+			float _VisibilityStyle;
+			float _VisibilitySmoothing;
 			float _Alphaclip;
 			#ifdef ASE_TESSELLATION
 				float _TessPhongStrength;
@@ -1391,6 +1425,7 @@ Shader "SHR_Grid"
 			sampler2D _GridTex;
 			sampler2D _VisibilityTex;
 			sampler2D _InteractiveGrid;
+			sampler2D _ColliderTex;
 
 
 			inline float2 UnityVoronoiRandomVector( float2 UV, float offset )
@@ -1577,10 +1612,10 @@ Shader "SHR_Grid"
 				float temp_output_480_0 = max( length( break208.x ) , length( break208.y ) );
 				float smoothstepResult490 = smoothstep( _DiagSize , ( _DiagSize + _DiagSmoothing ) , ( distance( temp_output_480_0 , temp_output_497_0 ) * temp_output_480_0 ));
 				float Shape502 = max( smoothstepResult483 , smoothstepResult490 );
-				float smoothstepResult553 = smoothstep( tex2DNode560.r , ( tex2DNode560.r + _ColliderSmoothing1 ) , Shape502);
+				float smoothstepResult553 = smoothstep( tex2DNode560.r , ( tex2DNode560.r + _GridSmoothing ) , Shape502);
 				float2 uv555 = 0;
 				float3 unityVoronoy555 = UnityVoronoi(texCoord551,0.0,1.0,uv555);
-				float smoothstepResult556 = smoothstep( unityVoronoy555.x , ( unityVoronoy555.x + _ColliderSmoothing1 ) , Shape502);
+				float smoothstepResult556 = smoothstep( unityVoronoy555.x , ( unityVoronoy555.x + _GridSmoothing ) , Shape502);
 				float ifLocalVar557 = 0;
 				if( _GridStyle > 2.0 )
 				ifLocalVar557 = smoothstepResult553;
@@ -1601,17 +1636,33 @@ Shader "SHR_Grid"
 				float3 unityVoronoy526 = UnityVoronoi(texCoord519,0.0,1.0,uv526);
 				float smoothstepResult527 = smoothstep( unityVoronoy526.x , ( unityVoronoy526.x + _VisibilitySmoothing ) , Visibility457);
 				float ifLocalVar528 = 0;
-				if( 1.0 > 2.0 )
+				if( _VisibilityStyle > 2.0 )
 				ifLocalVar528 = smoothstepResult522;
-				else if( 1.0 == 2.0 )
+				else if( _VisibilityStyle == 2.0 )
 				ifLocalVar528 = Visibility457;
-				else if( 1.0 < 2.0 )
+				else if( _VisibilityStyle < 2.0 )
 				ifLocalVar528 = smoothstepResult527;
 				float VisibilityFinal529 = ifLocalVar528;
-				float temp_output_222_0 = ( ShapeFinal564 * VisibilityFinal529 * _Alpha );
+				float2 appendResult546 = (float2(_ColliderTexDensity.x , _ColliderTexDensity.y));
+				float2 appendResult547 = (float2(_ColliderTexDensity.z , _ColliderTexDensity.w));
+				float2 texCoord537 = IN.ase_texcoord.xy * appendResult546 + appendResult547;
+				float4 tex2DNode549 = tex2D( _ColliderTex, texCoord537 );
+				float Colliders458 = tex2DNode228.b;
+				float smoothstepResult539 = smoothstep( tex2DNode549.r , ( tex2DNode549.r + _ColliderSmoothing ) , Colliders458);
+				float2 uv541 = 0;
+				float3 unityVoronoy541 = UnityVoronoi(texCoord537,0.0,1.0,uv541);
+				float smoothstepResult542 = smoothstep( unityVoronoy541.x , ( unityVoronoy541.x + _ColliderSmoothing ) , Colliders458);
+				float ifLocalVar543 = 0;
+				if( _ColliderStyle > 2.0 )
+				ifLocalVar543 = smoothstepResult539;
+				else if( _ColliderStyle == 2.0 )
+				ifLocalVar543 = Colliders458;
+				else if( _ColliderStyle < 2.0 )
+				ifLocalVar543 = smoothstepResult542;
+				float ColliderFinal535 = ifLocalVar543;
 				
 
-				surfaceDescription.Alpha = temp_output_222_0;
+				surfaceDescription.Alpha = ( ( ShapeFinal564 * VisibilityFinal529 * _Alpha ) - ColliderFinal535 );
 				surfaceDescription.AlphaClipThreshold = _Alphaclip;
 
 				#if _ALPHATEST_ON
@@ -1677,25 +1728,25 @@ Shader "SHR_Grid"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _BaseColor;
-			float4 _PlayerColor;
-			float4 _IllumTexDensity;
+			float4 _GridColor;
 			float4 _VisibilityTexDensity;
-			float4 _PlayerColor1;
 			float4 _ColliderTexDensity;
 			float4 _GridTexDensity;
-			float _VisibilitySmoothing;
-			float _DiagSmoothing;
-			float _DiagSize;
-			float _SquareSmoothing;
-			float _SquareSize;
+			float4 _IllumColor;
+			float4 _IllumTexDensity;
+			float _IllumSmoothing;
+			float _ColliderStyle;
+			float _IllumStyle;
+			float _ColliderSmoothing;
 			float _GridStyle;
 			float _Alpha;
-			float _ColliderSmoothing;
-			float _ColliderStyle;
-			float _IllumSmoothing;
-			float _IllumStyle;
-			float _ColliderSmoothing1;
+			float _GridSmoothing;
+			float _SquareSize;
+			float _SquareSmoothing;
+			float _DiagSize;
+			float _DiagSmoothing;
+			float _VisibilityStyle;
+			float _VisibilitySmoothing;
 			float _Alphaclip;
 			#ifdef ASE_TESSELLATION
 				float _TessPhongStrength;
@@ -1710,6 +1761,7 @@ Shader "SHR_Grid"
 			sampler2D _GridTex;
 			sampler2D _VisibilityTex;
 			sampler2D _InteractiveGrid;
+			sampler2D _ColliderTex;
 
 
 			inline float2 UnityVoronoiRandomVector( float2 UV, float offset )
@@ -1891,10 +1943,10 @@ Shader "SHR_Grid"
 				float temp_output_480_0 = max( length( break208.x ) , length( break208.y ) );
 				float smoothstepResult490 = smoothstep( _DiagSize , ( _DiagSize + _DiagSmoothing ) , ( distance( temp_output_480_0 , temp_output_497_0 ) * temp_output_480_0 ));
 				float Shape502 = max( smoothstepResult483 , smoothstepResult490 );
-				float smoothstepResult553 = smoothstep( tex2DNode560.r , ( tex2DNode560.r + _ColliderSmoothing1 ) , Shape502);
+				float smoothstepResult553 = smoothstep( tex2DNode560.r , ( tex2DNode560.r + _GridSmoothing ) , Shape502);
 				float2 uv555 = 0;
 				float3 unityVoronoy555 = UnityVoronoi(texCoord551,0.0,1.0,uv555);
-				float smoothstepResult556 = smoothstep( unityVoronoy555.x , ( unityVoronoy555.x + _ColliderSmoothing1 ) , Shape502);
+				float smoothstepResult556 = smoothstep( unityVoronoy555.x , ( unityVoronoy555.x + _GridSmoothing ) , Shape502);
 				float ifLocalVar557 = 0;
 				if( _GridStyle > 2.0 )
 				ifLocalVar557 = smoothstepResult553;
@@ -1915,17 +1967,33 @@ Shader "SHR_Grid"
 				float3 unityVoronoy526 = UnityVoronoi(texCoord519,0.0,1.0,uv526);
 				float smoothstepResult527 = smoothstep( unityVoronoy526.x , ( unityVoronoy526.x + _VisibilitySmoothing ) , Visibility457);
 				float ifLocalVar528 = 0;
-				if( 1.0 > 2.0 )
+				if( _VisibilityStyle > 2.0 )
 				ifLocalVar528 = smoothstepResult522;
-				else if( 1.0 == 2.0 )
+				else if( _VisibilityStyle == 2.0 )
 				ifLocalVar528 = Visibility457;
-				else if( 1.0 < 2.0 )
+				else if( _VisibilityStyle < 2.0 )
 				ifLocalVar528 = smoothstepResult527;
 				float VisibilityFinal529 = ifLocalVar528;
-				float temp_output_222_0 = ( ShapeFinal564 * VisibilityFinal529 * _Alpha );
+				float2 appendResult546 = (float2(_ColliderTexDensity.x , _ColliderTexDensity.y));
+				float2 appendResult547 = (float2(_ColliderTexDensity.z , _ColliderTexDensity.w));
+				float2 texCoord537 = IN.ase_texcoord.xy * appendResult546 + appendResult547;
+				float4 tex2DNode549 = tex2D( _ColliderTex, texCoord537 );
+				float Colliders458 = tex2DNode228.b;
+				float smoothstepResult539 = smoothstep( tex2DNode549.r , ( tex2DNode549.r + _ColliderSmoothing ) , Colliders458);
+				float2 uv541 = 0;
+				float3 unityVoronoy541 = UnityVoronoi(texCoord537,0.0,1.0,uv541);
+				float smoothstepResult542 = smoothstep( unityVoronoy541.x , ( unityVoronoy541.x + _ColliderSmoothing ) , Colliders458);
+				float ifLocalVar543 = 0;
+				if( _ColliderStyle > 2.0 )
+				ifLocalVar543 = smoothstepResult539;
+				else if( _ColliderStyle == 2.0 )
+				ifLocalVar543 = Colliders458;
+				else if( _ColliderStyle < 2.0 )
+				ifLocalVar543 = smoothstepResult542;
+				float ColliderFinal535 = ifLocalVar543;
 				
 
-				surfaceDescription.Alpha = temp_output_222_0;
+				surfaceDescription.Alpha = ( ( ShapeFinal564 * VisibilityFinal529 * _Alpha ) - ColliderFinal535 );
 				surfaceDescription.AlphaClipThreshold = _Alphaclip;
 
 				#if _ALPHATEST_ON
@@ -2005,25 +2073,25 @@ Shader "SHR_Grid"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _BaseColor;
-			float4 _PlayerColor;
-			float4 _IllumTexDensity;
+			float4 _GridColor;
 			float4 _VisibilityTexDensity;
-			float4 _PlayerColor1;
 			float4 _ColliderTexDensity;
 			float4 _GridTexDensity;
-			float _VisibilitySmoothing;
-			float _DiagSmoothing;
-			float _DiagSize;
-			float _SquareSmoothing;
-			float _SquareSize;
+			float4 _IllumColor;
+			float4 _IllumTexDensity;
+			float _IllumSmoothing;
+			float _ColliderStyle;
+			float _IllumStyle;
+			float _ColliderSmoothing;
 			float _GridStyle;
 			float _Alpha;
-			float _ColliderSmoothing;
-			float _ColliderStyle;
-			float _IllumSmoothing;
-			float _IllumStyle;
-			float _ColliderSmoothing1;
+			float _GridSmoothing;
+			float _SquareSize;
+			float _SquareSmoothing;
+			float _DiagSize;
+			float _DiagSmoothing;
+			float _VisibilityStyle;
+			float _VisibilitySmoothing;
 			float _Alphaclip;
 			#ifdef ASE_TESSELLATION
 				float _TessPhongStrength;
@@ -2038,6 +2106,7 @@ Shader "SHR_Grid"
 			sampler2D _GridTex;
 			sampler2D _VisibilityTex;
 			sampler2D _InteractiveGrid;
+			sampler2D _ColliderTex;
 
 
 			inline float2 UnityVoronoiRandomVector( float2 UV, float offset )
@@ -2228,10 +2297,10 @@ Shader "SHR_Grid"
 				float temp_output_480_0 = max( length( break208.x ) , length( break208.y ) );
 				float smoothstepResult490 = smoothstep( _DiagSize , ( _DiagSize + _DiagSmoothing ) , ( distance( temp_output_480_0 , temp_output_497_0 ) * temp_output_480_0 ));
 				float Shape502 = max( smoothstepResult483 , smoothstepResult490 );
-				float smoothstepResult553 = smoothstep( tex2DNode560.r , ( tex2DNode560.r + _ColliderSmoothing1 ) , Shape502);
+				float smoothstepResult553 = smoothstep( tex2DNode560.r , ( tex2DNode560.r + _GridSmoothing ) , Shape502);
 				float2 uv555 = 0;
 				float3 unityVoronoy555 = UnityVoronoi(texCoord551,0.0,1.0,uv555);
-				float smoothstepResult556 = smoothstep( unityVoronoy555.x , ( unityVoronoy555.x + _ColliderSmoothing1 ) , Shape502);
+				float smoothstepResult556 = smoothstep( unityVoronoy555.x , ( unityVoronoy555.x + _GridSmoothing ) , Shape502);
 				float ifLocalVar557 = 0;
 				if( _GridStyle > 2.0 )
 				ifLocalVar557 = smoothstepResult553;
@@ -2252,17 +2321,33 @@ Shader "SHR_Grid"
 				float3 unityVoronoy526 = UnityVoronoi(texCoord519,0.0,1.0,uv526);
 				float smoothstepResult527 = smoothstep( unityVoronoy526.x , ( unityVoronoy526.x + _VisibilitySmoothing ) , Visibility457);
 				float ifLocalVar528 = 0;
-				if( 1.0 > 2.0 )
+				if( _VisibilityStyle > 2.0 )
 				ifLocalVar528 = smoothstepResult522;
-				else if( 1.0 == 2.0 )
+				else if( _VisibilityStyle == 2.0 )
 				ifLocalVar528 = Visibility457;
-				else if( 1.0 < 2.0 )
+				else if( _VisibilityStyle < 2.0 )
 				ifLocalVar528 = smoothstepResult527;
 				float VisibilityFinal529 = ifLocalVar528;
-				float temp_output_222_0 = ( ShapeFinal564 * VisibilityFinal529 * _Alpha );
+				float2 appendResult546 = (float2(_ColliderTexDensity.x , _ColliderTexDensity.y));
+				float2 appendResult547 = (float2(_ColliderTexDensity.z , _ColliderTexDensity.w));
+				float2 texCoord537 = IN.ase_texcoord1.xy * appendResult546 + appendResult547;
+				float4 tex2DNode549 = tex2D( _ColliderTex, texCoord537 );
+				float Colliders458 = tex2DNode228.b;
+				float smoothstepResult539 = smoothstep( tex2DNode549.r , ( tex2DNode549.r + _ColliderSmoothing ) , Colliders458);
+				float2 uv541 = 0;
+				float3 unityVoronoy541 = UnityVoronoi(texCoord537,0.0,1.0,uv541);
+				float smoothstepResult542 = smoothstep( unityVoronoy541.x , ( unityVoronoy541.x + _ColliderSmoothing ) , Colliders458);
+				float ifLocalVar543 = 0;
+				if( _ColliderStyle > 2.0 )
+				ifLocalVar543 = smoothstepResult539;
+				else if( _ColliderStyle == 2.0 )
+				ifLocalVar543 = Colliders458;
+				else if( _ColliderStyle < 2.0 )
+				ifLocalVar543 = smoothstepResult542;
+				float ColliderFinal535 = ifLocalVar543;
 				
 
-				surfaceDescription.Alpha = temp_output_222_0;
+				surfaceDescription.Alpha = ( ( ShapeFinal564 * VisibilityFinal529 * _Alpha ) - ColliderFinal535 );
 				surfaceDescription.AlphaClipThreshold = _Alphaclip;
 
 				#if _ALPHATEST_ON
@@ -2343,10 +2428,9 @@ Node;AmplifyShaderEditor.GetLocalVarNode;504;1388.947,-2619.233;Inherit;False;45
 Node;AmplifyShaderEditor.SimpleAddOpNode;513;1392.038,-2518.026;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SmoothstepOpNode;512;1608.608,-2483.376;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.ConditionalIfNode;508;1947.197,-2923.756;Inherit;False;False;5;0;FLOAT;0;False;1;FLOAT;2;False;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.Vector4Node;453;363.6822,-2663.837;Inherit;False;Property;_IllumTexDensity;IllumTexDensity;10;0;Create;True;0;0;0;False;0;False;10,10,0,0;10,10,0,0;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RangedFloatNode;448;1115.461,-2633.795;Inherit;False;Property;_IllumSmoothing;IllumSmoothing;12;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SamplerNode;446;1045.638,-2877.958;Inherit;True;Property;_IllumTex;IllumTex;21;0;Create;True;0;0;0;False;0;False;-1;1b8eb9a6dc68a9f4eaff42068bb79eee;1b8eb9a6dc68a9f4eaff42068bb79eee;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RangedFloatNode;509;1602.723,-2954.389;Inherit;False;Property;_IllumStyle;IllumStyle;22;0;Create;True;0;0;0;False;0;False;1;1;1;3;0;1;FLOAT;0
+Node;AmplifyShaderEditor.Vector4Node;453;363.6822,-2663.837;Inherit;False;Property;_IllumTexDensity;IllumTexDensity;15;0;Create;True;0;0;0;False;0;False;10,10,0,0;10,10,0,0;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;448;1115.461,-2633.795;Inherit;False;Property;_IllumSmoothing;IllumSmoothing;16;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;509;1602.723,-2954.389;Inherit;False;Property;_IllumStyle;IllumStyle;13;0;Create;True;0;0;0;False;0;False;1;1;1;3;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;514;2130.807,-2922.66;Inherit;False;IllumFinal;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.BreakToComponentsNode;162;-289.6525,-4090.144;Inherit;False;FLOAT2;1;0;FLOAT2;0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
 Node;AmplifyShaderEditor.AbsOpNode;475;-290.0056,-3367.98;Inherit;False;1;0;FLOAT2;0,0;False;1;FLOAT2;0
@@ -2365,7 +2449,6 @@ Node;AmplifyShaderEditor.GetLocalVarNode;524;-752.8859,-1529.148;Inherit;False;4
 Node;AmplifyShaderEditor.DynamicAppendNode;515;-1508.654,-1581.166;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.DynamicAppendNode;516;-1504.871,-1455.423;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.CommentaryNode;534;401.3753,-1995.804;Inherit;False;2008.823;910.8511;;15;549;548;547;546;545;544;543;542;541;540;539;538;537;536;535;Collider;0,0.02717464,0.3215686,1;0;0
-Node;AmplifyShaderEditor.RangedFloatNode;518;-501.3381,-1920.964;Inherit;False;Constant;_VisibilityStyle;VisibilityStyle;13;0;Create;True;0;0;0;False;0;False;1;0;1;3;0;1;FLOAT;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;2;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;13;New Amplify Shader;2992e84f91cbeb14eab234972e07ea9d;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Unlit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;3;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;13;New Amplify Shader;2992e84f91cbeb14eab234972e07ea9d;True;DepthOnly;0;3;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Unlit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;False;False;True;1;LightMode=DepthOnly;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;4;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;13;New Amplify Shader;2992e84f91cbeb14eab234972e07ea9d;True;Meta;0;4;Meta;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Unlit;True;5;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;False;0;;0;0;Standard;0;False;0
@@ -2384,10 +2467,9 @@ Node;AmplifyShaderEditor.ConditionalIfNode;543;1984.172,-1858.511;Inherit;False;
 Node;AmplifyShaderEditor.DynamicAppendNode;546;670.1561,-1606.006;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.DynamicAppendNode;547;673.9391,-1480.263;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.GetLocalVarNode;544;1426.789,-1553.988;Inherit;False;458;Colliders;1;0;OBJECT;;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;548;1152.436,-1568.55;Inherit;False;Property;_ColliderSmoothing;ColliderSmoothing;7;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.Vector4Node;545;451.3755,-1593.837;Inherit;False;Property;_ColliderTexDensity;ColliderTexDensity;8;0;Create;True;0;0;0;False;0;False;10,10,0,0;10,10,0,0;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;548;1152.436,-1568.55;Inherit;False;Property;_ColliderSmoothing;ColliderSmoothing;20;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.Vector4Node;545;451.3755,-1593.837;Inherit;False;Property;_ColliderTexDensity;ColliderTexDensity;19;0;Create;True;0;0;0;False;0;False;10,10,0,0;10,10,0,0;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.RegisterLocalVarNode;535;2168.199,-1858.883;Inherit;False;ColliderFinal;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;536;1677.471,-1945.804;Inherit;False;Property;_ColliderStyle;ColliderStyle;23;0;Create;True;0;0;0;False;0;False;1;1;1;3;0;1;FLOAT;0
 Node;AmplifyShaderEditor.CommentaryNode;550;-1770.988,-3011.652;Inherit;False;2008.823;910.8511;;15;565;564;563;562;561;560;559;558;557;556;555;554;553;552;551;Grid;0.3144653,0.3144653,0.3144653,1;0;0
 Node;AmplifyShaderEditor.TextureCoordinatesNode;551;-1329.777,-2596.645;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleAddOpNode;552;-748.8207,-2705.523;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
@@ -2399,41 +2481,44 @@ Node;AmplifyShaderEditor.ConditionalIfNode;557;-188.1901,-2874.359;Inherit;False
 Node;AmplifyShaderEditor.DynamicAppendNode;558;-1502.207,-2621.855;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.DynamicAppendNode;559;-1498.424,-2496.112;Inherit;False;FLOAT2;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;564;-4.163723,-2874.731;Inherit;False;ShapeFinal;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SamplerNode;228;-975.7171,-3754.621;Inherit;True;Property;_InteractiveGrid;InteractiveGrid;3;2;[HDR];[NoScaleOffset];Create;True;0;0;0;True;0;False;-1;3b5a8f3bdc928d94ab140bad48ca053d;3b5a8f3bdc928d94ab140bad48ca053d;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SamplerNode;560;-1089.749,-2828.563;Inherit;True;Property;_GridTex;GridTex;20;0;Create;True;0;0;0;False;0;False;-1;1b8eb9a6dc68a9f4eaff42068bb79eee;1b8eb9a6dc68a9f4eaff42068bb79eee;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SamplerNode;520;-1096.195,-1788.541;Inherit;True;Property;_VisibilityTex;VisibilityTex;18;0;Create;True;0;0;0;False;0;False;-1;1b8eb9a6dc68a9f4eaff42068bb79eee;1b8eb9a6dc68a9f4eaff42068bb79eee;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SamplerNode;549;1082.614,-1812.714;Inherit;True;Property;_ColliderTex;ColliderTex;19;0;Create;True;0;0;0;False;0;False;-1;1b8eb9a6dc68a9f4eaff42068bb79eee;1b8eb9a6dc68a9f4eaff42068bb79eee;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.ColorNode;225;2135.074,-3984.112;Inherit;False;Property;_BaseColor;BaseColor;2;1;[HDR];Create;True;0;0;0;False;0;False;0,0,0,0;2,2,2,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.GetLocalVarNode;464;2263.254,-3230.331;Inherit;False;535;ColliderFinal;1;0;OBJECT;;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SamplerNode;228;-975.7171,-3754.621;Inherit;True;Property;_InteractiveGrid;InteractiveGrid;0;2;[HDR];[NoScaleOffset];Create;True;0;0;0;True;0;False;-1;3b5a8f3bdc928d94ab140bad48ca053d;3b5a8f3bdc928d94ab140bad48ca053d;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;560;-1089.749,-2828.563;Inherit;True;Property;_GridTex;GridTex;9;0;Create;True;0;0;0;False;0;False;-1;1b8eb9a6dc68a9f4eaff42068bb79eee;1b8eb9a6dc68a9f4eaff42068bb79eee;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;520;-1096.195,-1788.541;Inherit;True;Property;_VisibilityTex;VisibilityTex;22;0;Create;True;0;0;0;False;0;False;-1;1b8eb9a6dc68a9f4eaff42068bb79eee;1b8eb9a6dc68a9f4eaff42068bb79eee;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;549;1082.614,-1812.714;Inherit;True;Property;_ColliderTex;ColliderTex;18;0;Create;True;0;0;0;False;0;False;-1;1b8eb9a6dc68a9f4eaff42068bb79eee;1b8eb9a6dc68a9f4eaff42068bb79eee;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;222;2265.889,-3439.619;Inherit;True;3;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;461;1999.48,-3372.65;Inherit;False;529;VisibilityFinal;1;0;OBJECT;;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;223;2063.684,-3301.728;Inherit;False;Property;_Alpha;Alpha;0;0;Create;True;0;0;0;False;0;False;0.1;0.12;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;223;2063.684,-3301.728;Inherit;False;Property;_Alpha;Alpha;5;0;Create;True;0;0;0;False;0;False;0.1;0.12;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;530;2151.74,-3643.734;Inherit;False;514;IllumFinal;1;0;OBJECT;;False;1;FLOAT;0
 Node;AmplifyShaderEditor.LerpOp;241;2491.834,-3708.612;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.LerpOp;566;2815.334,-3666.439;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.ColorNode;254;2142.725,-3822.002;Inherit;False;Property;_PlayerColor;PlayerColor;4;1;[HDR];Create;True;0;0;0;False;0;False;0,1,0.7394278,0;0,1,0.7394278,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.ColorNode;568;2530,-3912.439;Inherit;False;Property;_PlayerColor1;PlayerColor;5;1;[HDR];Create;True;0;0;0;False;0;False;1,0.003110439,0,0;0,1,0.7394278,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleSubtractOpNode;250;2522.796,-3491.354;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;503;2028.718,-3438.79;Inherit;False;564;ShapeFinal;1;0;OBJECT;;False;1;FLOAT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;561;-739.367,-2579.588;Inherit;False;502;Shape;1;0;OBJECT;;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;502;1668.058,-3751.571;Inherit;False;Shape;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;3051.361,-3471.52;Float;False;True;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;13;SHR_Grid;2992e84f91cbeb14eab234972e07ea9d;True;Forward;0;1;Forward;8;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;UniversalMaterialType=Unlit;True;5;True;12;all;0;False;True;1;5;False;;10;False;;1;1;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForwardOnly;False;False;0;;0;0;Standard;23;Surface;1;638760089737395429;  Blend;0;638796515255660564;Two Sided;1;0;Forward Only;0;0;Cast Shadows;1;0;  Use Shadow Threshold;0;0;Receive Shadows;1;0;GPU Instancing;1;0;LOD CrossFade;0;0;Built-in Fog;0;0;DOTS Instancing;0;0;Meta Pass;0;0;Extra Pre Pass;0;0;Tessellation;0;638798776018827474;  Phong;0;638798775793944862;  Strength;0.5,False,;0;  Type;0;0;  Tess;1,False,;638798775913661033;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Vertex Position,InvertActionOnDeselection;1;0;0;10;False;True;True;True;False;False;True;True;True;False;False;;False;0
-Node;AmplifyShaderEditor.RangedFloatNode;221;2607.449,-3346.072;Inherit;False;Property;_Alphaclip;Alphaclip;1;0;Create;True;0;0;0;False;0;False;0.01;0.1;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;485;831.0656,-3929.933;Inherit;False;Property;_SquareSmoothing;SquareSmoothing;15;0;Create;True;0;0;0;False;0;False;2.58;2.58;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;484;858.4011,-4028.432;Inherit;False;Property;_SquareSize;SquareSize;16;0;Create;True;0;0;0;False;0;False;1.18;1.18;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;489;849.1959,-3333.988;Inherit;False;Property;_DiagSmoothing;DiagSmoothing;13;0;Create;True;0;0;0;False;0;False;3.54;3.54;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;488;799.8732,-3429.263;Inherit;False;Property;_DiagSize;DiagSize;14;0;Create;True;0;0;0;False;0;False;1;1.06;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;562;-1019.927,-2584.399;Inherit;False;Property;_ColliderSmoothing1;ColliderSmoothing;6;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;523;-1026.373,-1543.71;Inherit;False;Property;_VisibilitySmoothing;VisibilitySmoothing;11;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.Vector4Node;517;-1727.434,-1568.997;Inherit;False;Property;_VisibilityTexDensity;VisibilityTexDensity;9;0;Create;True;0;0;0;False;0;False;10,10,0,0;10,10,0,0;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;221;2607.449,-3346.072;Inherit;False;Property;_Alphaclip;Alphaclip;6;0;Create;True;0;0;0;False;0;False;0.01;0.1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;485;831.0656,-3929.933;Inherit;False;Property;_SquareSmoothing;SquareSmoothing;2;0;Create;True;0;0;0;False;0;False;2.58;2.58;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;484;858.4011,-4028.432;Inherit;False;Property;_SquareSize;SquareSize;1;0;Create;True;0;0;0;False;0;False;1.18;1.18;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;489;849.1959,-3333.988;Inherit;False;Property;_DiagSmoothing;DiagSmoothing;4;0;Create;True;0;0;0;False;0;False;3.54;3.54;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;488;799.8732,-3429.263;Inherit;False;Property;_DiagSize;DiagSize;3;0;Create;True;0;0;0;False;0;False;1;1.06;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;523;-1026.373,-1543.71;Inherit;False;Property;_VisibilitySmoothing;VisibilitySmoothing;24;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.Vector4Node;517;-1727.434,-1568.997;Inherit;False;Property;_VisibilityTexDensity;VisibilityTexDensity;23;0;Create;True;0;0;0;False;0;False;10,10,0,0;10,10,0,0;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.ObjectScaleNode;217;-1689.363,-3711.93;Inherit;False;True;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
-Node;AmplifyShaderEditor.Vector4Node;563;-1720.987,-2609.686;Inherit;False;Property;_GridTexDensity;GridTexDensity;17;0;Create;True;0;0;0;False;0;False;10,10,0,0;10,10,0,0;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.Vector4Node;563;-1720.987,-2609.686;Inherit;False;Property;_GridTexDensity;GridTexDensity;10;0;Create;True;0;0;0;False;0;False;10,10,0,0;10,10,0,0;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.AbsOpNode;477;-406.2783,-4083.197;Inherit;False;1;0;FLOAT2;0,0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.LengthOpNode;570;-178.8305,-4143.701;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.LengthOpNode;571;-193.5423,-3984.132;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.LengthOpNode;572;-62.8309,-3536.545;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.LengthOpNode;573;-77.54269,-3376.976;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;565;-494.8921,-2963.061;Inherit;False;Property;_GridStyle;GridStyle;24;0;Create;True;0;0;0;False;0;False;1;1;1;3;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;565;-494.8921,-2963.061;Inherit;False;Property;_GridStyle;GridStyle;8;0;Create;True;0;0;0;False;0;False;1;1;1;3;0;1;FLOAT;0
+Node;AmplifyShaderEditor.LerpOp;566;2846.025,-3722.844;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RangedFloatNode;562;-1019.927,-2584.399;Inherit;False;Property;_GridSmoothing;GridSmoothing;11;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SamplerNode;446;1045.638,-2877.958;Inherit;True;Property;_IllumTex;IllumTex;14;0;Create;True;0;0;0;False;0;False;-1;1b8eb9a6dc68a9f4eaff42068bb79eee;1b8eb9a6dc68a9f4eaff42068bb79eee;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;225;2135.074,-3984.112;Inherit;False;Property;_GridColor;GridColor;7;1;[HDR];Create;True;0;0;0;False;0;False;0,0,0,0;2,2,2,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;254;2142.725,-3822.002;Inherit;False;Property;_IllumColor;IllumColor;12;1;[HDR];Create;True;0;0;0;False;0;False;0,1,0.7394278,0;0,1,0.7394278,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.GetLocalVarNode;464;2263.254,-3230.331;Inherit;False;535;ColliderFinal;1;0;OBJECT;;False;1;FLOAT;0
+Node;AmplifyShaderEditor.ColorNode;574;2537.624,-3901.424;Inherit;False;Constant;_ColliderColor;ColliderColor;24;0;Create;True;0;0;0;False;0;False;0,0,0,0;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;536;1677.471,-1945.804;Inherit;False;Property;_ColliderStyle;ColliderStyle;17;0;Create;True;0;0;0;False;0;False;1;1;1;3;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;518;-501.3381,-1920.964;Inherit;False;Property;_VisibilityStyle;VisibilityStyle;21;0;Create;True;0;0;0;False;0;False;1;1;1;3;0;1;FLOAT;0
 WireConnection;480;0;572;0
 WireConnection;480;1;573;0
 WireConnection;133;0;218;0
@@ -2494,7 +2579,6 @@ WireConnection;508;0;509;0
 WireConnection;508;2;449;0
 WireConnection;508;3;504;0
 WireConnection;508;4;512;0
-WireConnection;446;1;450;0
 WireConnection;514;0;508;0
 WireConnection;162;0;207;0
 WireConnection;475;0;161;0
@@ -2575,19 +2659,20 @@ WireConnection;222;2;223;0
 WireConnection;241;0;225;0
 WireConnection;241;1;254;0
 WireConnection;241;2;530;0
-WireConnection;566;0;241;0
-WireConnection;566;1;568;0
-WireConnection;566;2;464;0
 WireConnection;250;0;222;0
 WireConnection;250;1;464;0
 WireConnection;502;0;495;0
 WireConnection;1;2;566;0
-WireConnection;1;3;222;0
+WireConnection;1;3;250;0
 WireConnection;1;4;221;0
 WireConnection;477;0;207;0
 WireConnection;570;0;162;0
 WireConnection;571;0;162;1
 WireConnection;572;0;208;0
 WireConnection;573;0;208;1
+WireConnection;566;0;241;0
+WireConnection;566;1;574;0
+WireConnection;566;2;464;0
+WireConnection;446;1;450;0
 ASEEND*/
-//CHKSM=B57629D95A985221EE6D603E129C629647CAE3E5
+//CHKSM=2D7A557189B5D2B4B40EAC6869C6F2442879A615

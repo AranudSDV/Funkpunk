@@ -1,37 +1,44 @@
 using UnityEngine;
-using System.Collections.Generic;
 
+[ExecuteAlways]
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class SC_VisionConeCasting : MonoBehaviour
 {
     public bool bOnlyMeshable = false;
     public int iBossTagsPhase2 = 0;
+
     [Header("Matériau & Paramètres du Field of View")]
     [SerializeField] private Material mVisionCone;
-    [SerializeField] private SC_FieldOfView scFieldView; // Contient FAngle (en degrés) et FRadius (distance max)
+    [SerializeField] private SC_FieldOfView scFieldView;
     [SerializeField] private Material mDetectedCone;
     [SerializeField] private Material mHeardCone;
 
     [Header("Parameters")]
-    [SerializeField] private int coneResolution = 30;       // Nombre de segments pour le cercle
-    [SerializeField] private LayerMask groundMask;          // Masque pour identifier le sol
-    [SerializeField] private LayerMask obstructionMask;     // Masque pour détecter les obstacles (murs, etc.)
-    [SerializeField] private float guardVerticalOffset = 0f;  // Hauteur du garde (base)
-    [SerializeField] private float farPointExtraOffset = 0f;  // Offset additionnel sur le point éloigné (optionnel)
+    [SerializeField] private int coneResolution = 30;
+    [SerializeField] private LayerMask groundMask;
+    [SerializeField] private LayerMask obstructionMask;
+    [SerializeField] private float guardVerticalOffset = 0f;
+    [SerializeField] private float farPointExtraOffset = 0f;
     [SerializeField] private float GroundHeight = 0f;
 
     [Header("Offset pour la partie interne")]
-    [SerializeField] private float offsetAmount = 0f;         // Force d'offset appliquée aux vertices dans la moitié "face au garde"
+    [SerializeField] private float offsetAmount = 0f;
 
     [Header("Subdivision")]
-    [SerializeField] private int heightSegments = 3;          // Nombre d'anneaux entre le garde et le farPoint
+    [SerializeField] private int heightSegments = 3;
 
     [Header("Lissage des bords")]
-    [SerializeField] private float smoothThreshold = 0.5f;    // Seuil de différence de hauteur pour lisser les bords
+    [SerializeField] private float smoothThreshold = 0.5f;
 
     private Mesh coneMesh;
     private MeshFilter meshFilter;
     public MeshRenderer ConeRenderer;
+
+    // Buffers internes
+    private Vector3[] baseVertices;    // Cône “idéal” sans collisions
+    private Vector3[] workingVertices; // Copie runtime
+    private Vector2[] uvs;
+    private int[] triangles;
 
     private void Awake()
     {
@@ -39,18 +46,23 @@ public class SC_VisionConeCasting : MonoBehaviour
         ConeRenderer = GetComponent<MeshRenderer>();
         coneMesh = new Mesh();
         meshFilter.mesh = coneMesh;
+
         if (mVisionCone != null)
             ConeRenderer.material = mVisionCone;
+
+        PreloadConeMesh();
     }
 
     private void Update()
     {
-        BuildCone();
+        UpdateConeVertices();
+
         if (!bOnlyMeshable)
         {
             CheckStatus();
         }
     }
+
     private void CheckStatus()
     {
         if (scFieldView.BCanSee)
@@ -67,36 +79,25 @@ public class SC_VisionConeCasting : MonoBehaviour
         }
     }
 
-    private void BuildCone()
+    // -------------------
+    // MESH BASE (STATIC)
+    // -------------------
+    private void PreloadConeMesh()
     {
-        // 1. Position du garde (base)
+        // 1. Base positions
         Vector3 guardPos = transform.position + Vector3.up * guardVerticalOffset;
-
-        // 2. Calcul du farPoint : projection sur le sol via raycast vertical
         float maxDist = scFieldView.FRadius;
-        Vector3 tentativeFarPoint = guardPos + transform.forward * maxDist;
-        tentativeFarPoint.y += GroundHeight;
-
-        Ray groundRay = new Ray(tentativeFarPoint + Vector3.up * 10f, Vector3.down);
-        Vector3 farPoint;
-        if (Physics.Raycast(groundRay, out RaycastHit groundHit, 20f, groundMask))
-        {
-            farPoint = groundHit.point;
-        }
-        else
-        {
-            farPoint = tentativeFarPoint;
-            farPoint.y = GroundHeight;
-        }
+        Vector3 farPoint = guardPos + transform.forward * maxDist;
+        farPoint.y = GroundHeight;
         farPoint += transform.forward * farPointExtraOffset;
 
-        // 3. Calcul du rayon maximal via FAngle
+        // 2. Angle & rayon max
         float totalDistance = Vector3.Distance(guardPos, farPoint);
         float halfAngleRad = scFieldView.FAngle * Mathf.Deg2Rad / 2f;
         float farRadius = totalDistance * Mathf.Tan(halfAngleRad);
         farRadius = Mathf.Clamp(farRadius, 0f, 100f);
 
-        // 4. Construction du cercle de vertices (farCircle) autour du farPoint, déformé pour garder la forme de cercle déformé
+        // 3. Far circle (sans collisions)
         Vector3[] farCircle = new Vector3[coneResolution];
         Vector3 right = transform.right;
         Vector3 forward = transform.forward;
@@ -107,28 +108,13 @@ public class SC_VisionConeCasting : MonoBehaviour
             float angle = 2f * Mathf.PI * i / coneResolution;
             Vector3 dir = (right * Mathf.Cos(angle) + forward * Mathf.Sin(angle)).normalized;
 
-            // Angle between vertex direction and forward direction
-            float angleFromForward = Mathf.Acos(Vector3.Dot(dir, forward)); // 0 to PI
-
-            // Scale radius based on angleFromForward to keep a deformed circle shape
-            float scale = 0f;
-            if (angleFromForward <= halfAngleRad)
-            {
-                scale = 1f;
-            }
-            else
-            {
-                float diff = angleFromForward - halfAngleRad;
-                float maxDiff = Mathf.PI - halfAngleRad;
-                scale = Mathf.Clamp01(Mathf.Cos(diff / maxDiff * Mathf.PI * 0.5f));
-            }
-
+            float angleFromForward = Mathf.Acos(Vector3.Dot(dir, forward));
+            float scale = angleFromForward <= halfAngleRad ? 1f : Mathf.Clamp01(Mathf.Cos((angleFromForward - halfAngleRad) / (Mathf.PI - halfAngleRad) * Mathf.PI * 0.5f));
             float deformedRadius = farRadius * scale;
-            Vector3 baseOffset = dir * deformedRadius;
 
-            Vector3 basePoint = farPoint + baseOffset;
+            Vector3 basePoint = farPoint + dir * deformedRadius;
 
-            // Offset sur la moitié "face au garde"
+            // Offset interne
             float dot = Vector3.Dot((basePoint - farPoint).normalized, offsetDir);
             if (dot > 0)
             {
@@ -136,37 +122,13 @@ public class SC_VisionConeCasting : MonoBehaviour
                 basePoint = new Vector3(basePoint.x, farPoint.y, basePoint.z);
             }
 
-            // Raycast vers basePoint pour collision
-            Ray rayToPoint = new Ray(guardPos, (basePoint - guardPos).normalized);
-            if (Physics.Raycast(rayToPoint, out RaycastHit pointHit, maxDist, obstructionMask))
-            {
-                farCircle[i] = pointHit.point;
-            }
-            else
-            {
-                farCircle[i] = basePoint;
-            }
+            farCircle[i] = basePoint;
         }
 
-        // 4bis. Lissage vertical des y entre vertices adjacents pour éviter les trous
-        for (int i = 0; i < coneResolution; i++)
-        {
-            int next = (i + 1) % coneResolution;
-            float diffY = Mathf.Abs(farCircle[i].y - farCircle[next].y);
-            if (diffY > smoothThreshold)
-            {
-                float avgY = (farCircle[i].y + farCircle[next].y) / 2f;
-                if (farCircle[i].y < farCircle[next].y)
-                    farCircle[i].y = avgY;
-                else
-                    farCircle[next].y = avgY;
-            }
-        }
-
-        // 5. Subdivision verticale entre farCircle (anneau 0) et garde (anneau final)
+        // 4. Subdivision verticale
         int rings = heightSegments;
-        Vector3[] vertices = new Vector3[rings * coneResolution];
-        Vector2[] uvs = new Vector2[vertices.Length];
+        baseVertices = new Vector3[rings * coneResolution];
+        uvs = new Vector2[baseVertices.Length];
 
         for (int ring = 0; ring < rings; ring++)
         {
@@ -175,13 +137,13 @@ public class SC_VisionConeCasting : MonoBehaviour
             {
                 Vector3 interpPos = Vector3.Lerp(farCircle[j], guardPos, t);
                 int index = ring * coneResolution + j;
-                vertices[index] = transform.InverseTransformPoint(interpPos);
+                baseVertices[index] = transform.InverseTransformPoint(interpPos);
                 uvs[index] = new Vector2((float)j / (coneResolution - 1), t);
             }
         }
 
-        // 6. Construction des triangles
-        int[] triangles = new int[(rings - 1) * coneResolution * 6];
+        // 5. Triangles
+        triangles = new int[(rings - 1) * coneResolution * 6];
         int triIndex = 0;
         for (int ring = 0; ring < rings - 1; ring++)
         {
@@ -203,13 +165,55 @@ public class SC_VisionConeCasting : MonoBehaviour
             }
         }
 
-        // 7. Application au mesh
+        // 6. Assign au mesh
         coneMesh.Clear();
-        coneMesh.vertices = vertices;
+        coneMesh.vertices = baseVertices;
         coneMesh.triangles = triangles;
         coneMesh.uv = uvs;
         coneMesh.RecalculateBounds();
         coneMesh.RecalculateNormals();
 
+        // Initialise le buffer runtime
+        workingVertices = new Vector3[baseVertices.Length];
     }
+
+    // -------------------
+    // UPDATE RUNTIME
+    // -------------------
+    private void UpdateConeVertices()
+    {
+        if (baseVertices == null || baseVertices.Length == 0) return;
+
+        baseVertices.CopyTo(workingVertices, 0);
+
+        int rings = heightSegments;
+        float maxDist = scFieldView.FRadius;
+        Vector3 guardPos = transform.position + Vector3.up * guardVerticalOffset;
+
+        // On modifie uniquement l’anneau “farCircle” (ring = 0)
+        for (int j = 0; j < coneResolution; j++)
+        {
+            int index = j; // ring 0
+            Vector3 worldPoint = transform.TransformPoint(baseVertices[index]);
+
+            Ray rayToPoint = new Ray(guardPos, (worldPoint - guardPos).normalized);
+            if (Physics.Raycast(rayToPoint, out RaycastHit hit, maxDist, obstructionMask))
+            {
+                worldPoint = hit.point;
+            }
+
+            workingVertices[index] = transform.InverseTransformPoint(worldPoint);
+
+            // Mise à jour UV proportionnelle à la distance réelle
+            float distRatio = Vector3.Distance(guardPos, worldPoint) / maxDist;
+            uvs[index].y = distRatio;
+        }
+
+        // Réapplique uniquement les vertices
+        coneMesh.vertices = workingVertices;
+        coneMesh.uv = uvs;
+
+
+    }
+
 }
