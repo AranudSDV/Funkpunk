@@ -12,6 +12,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.Windows;
 //using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
@@ -236,7 +237,280 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
             }
         }
     }
-
+    private bool bOnceTempo = false;
+    private float fTime = 0f;
+    private JudgmentType judgmentType;
+    private void TempoUpdate()
+    {
+        fTime += Time.unscaledDeltaTime;
+        switch (judgmentType)
+        {
+            case JudgmentType.Miss:
+                if (!bOnceTempo)
+                {
+                    bOnceTempo = true;
+                    fProgressBPM = 0f;
+                    fTimerFSPB = 0f;
+                    if (scPlayer != null && !scPlayer.bNoRythm)
+                    {
+                        if (!menuManager.bGameIsPaused)
+                        {
+                            if (!scPlayer.bisTuto)
+                            {
+                                scPlayer.bcanRotate = true;
+                            }
+                            scPlayer.RotationEnemies();
+                        }
+                        MusicNotesMovingStart();
+                    }
+                    if (scPlayer != null && scPlayer.tutoGen != null && scPlayer.tutoGen.bIsOnLoft && scPlayer.tutoGen.bTuto[0])
+                    {
+                        scPlayer.tutoGen.bOnceInput = false;
+                    }
+                }
+                if (fTime >= FTiming[3])
+                {
+                    judgmentType = JudgmentType.Bad;
+                    bOnceTempo = false;
+                    fTime = 0f;
+                }
+                break;
+            case JudgmentType.Bad:
+                if (!bOnceTempo)
+                {
+                    bOnceTempo = true;
+                    if (!menuManager.bGameIsPaused && scPlayer != null && !scPlayer.bNoRythm)
+                    {
+                        scPlayer.canMove = true;
+                    }
+                    BBad = true;
+                }
+                if (fTime >= FTiming[2])
+                {
+                    judgmentType = JudgmentType.Good;
+                    bOnceTempo = false;
+                    BBad = false;
+                    fTime = 0f;
+                }
+                break;
+            case JudgmentType.Good:
+                if (!bOnceTempo)
+                {
+                    bOnceTempo = true;
+                    BGood = true;
+                }
+                if (fTime >= FTiming[3])
+                {
+                    judgmentType = JudgmentType.Perfect;
+                    bOnceTempo = false;
+                    BGood = false;
+                    fTime = 0f;
+                }
+                break;
+            case JudgmentType.Perfect:
+                if (!bOnceTempo)
+                {
+                    bOnceTempo = true;
+                    BPerfect = true;
+                }
+                if (fTime >= FTiming[4])
+                {
+                    judgmentType = JudgmentType.Miss;
+                    bOnceTempo = false;
+                    BPerfect = false;
+                    if (scPlayer != null && !scPlayer.bNoRythm)
+                    {
+                        if (!menuManager.bGameIsPaused)
+                        {
+                            scPlayer.canMove = false;
+                            if (BBad == false && BGood == false && BPerfect == false && scPlayer.bcanRotate == true) // LE JOUEUR MISS
+                            {
+                                if (!scPlayer.bIsImune)
+                                {
+                                    scPlayer.fNbBeat += 1f;
+                                    scPlayer.fScoreDetails[0] += 1f;
+                                }
+                                bPlayBad = false;
+                                bPlayGood = false;
+                                bPlayPerfect = false;
+                                if (!scPlayer.BisDetectedByAnyEnemy && SceneManager.GetActiveScene().name != "Loft" && !scPlayer.bIsImune)
+                                {
+                                    scPlayer.FDetectionLevel += 2f;
+                                }
+                                fFovInstanceMax = fFOVmax * (80f / 100f);
+                                NotesFade();
+                            }
+                            if (scPlayer.BisDetectedByAnyEnemy && !scPlayer.bIsImune)
+                            {
+                                scPlayer.FDetectionLevel += 20f;
+                            }
+                            if (scPlayer.bIsReplaying)
+                            {
+                                iReplaying -= 1;
+                                menuManager.progressBar.value = (iReplaying - 3) / 3;
+                                if (iReplaying <= 0)
+                                {
+                                    menuManager.CgLoadingScreen.alpha = 0f;
+                                    menuManager.RtLoadingScreen.anchorMin = new Vector2(0, 1);
+                                    menuManager.RtLoadingScreen.anchorMax = new Vector2(1, 2);
+                                    menuManager.RtLoadingScreen.offsetMax = new Vector2(0f, 0f);
+                                    menuManager.RtLoadingScreen.offsetMin = new Vector2(0f, 0f);
+                                    StartCoroutine(menuManager.ImuneToPause(this));
+                                    scPlayer.bIsReplaying = false;
+                                    iReplaying = 3;
+                                    menuManager.progressBar.value = (iReplaying - 3) / 3;
+                                }
+                            }
+                            IsImuneCheck();
+                            scPlayer.EyeDetection();
+                            menuManager.SetMusicVolume(0f);
+                        }
+                        else if (menuManager.bGameIsPaused && BBad == false && BGood == false && BPerfect == false)
+                        {
+                            NotesFade();
+                        }
+                    }
+                    fTime = 0f;
+                }
+                break;
+        }
+        /*if (bTempo[0])
+        {
+            if (!bOnceTempo)
+            {
+                bOnceTempo = true;
+                fProgressBPM = 0f;
+                fTimerFSPB = 0f;
+                if (scPlayer != null && !scPlayer.bNoRythm)
+                {
+                    if (!menuManager.bGameIsPaused)
+                    {
+                        if (!scPlayer.bisTuto)
+                        {
+                            scPlayer.bcanRotate = true;
+                        }
+                        scPlayer.RotationEnemies();
+                    }
+                    MusicNotesMovingStart();
+                }
+                if (scPlayer != null && scPlayer.tutoGen != null && scPlayer.tutoGen.bIsOnLoft && scPlayer.tutoGen.bTuto[0])
+                {
+                    scPlayer.tutoGen.bOnceInput = false;
+                }
+            }
+            if(fTime >= FTiming[3])
+            {
+                bTempo[1] = true;
+                bTempo[0] = false;
+                bOnceTempo = false;
+                fTime = 0f;
+            }
+        }
+        else if(bTempo[1])
+        {
+            if(!bOnceTempo)
+            {
+                bOnceTempo = true;
+                if (!menuManager.bGameIsPaused && scPlayer != null && !scPlayer.bNoRythm)
+                {
+                    scPlayer.canMove = true;
+                }
+                BBad = true;
+            }
+            if (fTime >= FTiming[2])
+            {
+                bTempo[2] = true;
+                bTempo[1] = false;
+                bOnceTempo = false;
+                BBad = false;
+                fTime = 0f;
+            }
+        }
+        else if(bTempo[2])
+        {
+            if(!bOnceTempo)
+            {
+                bOnceTempo = true;
+                BGood = true;
+            }
+            if (fTime >= FTiming[3])
+            {
+                bTempo[3] = true;
+                bTempo[2] = false;
+                bOnceTempo = false;
+                BGood = false;
+                fTime = 0f;
+            }
+        }
+        else if(bTempo[3])
+        {
+            if (!bOnceTempo)
+            {
+                bOnceTempo = true;
+                BPerfect = true;
+            }
+            if (fTime >= FTiming[4])
+            {
+                bTempo[0] = true;
+                bTempo[3] = false;
+                bOnceTempo = false;
+                BPerfect = false;
+                if (scPlayer != null && !scPlayer.bNoRythm)
+                {
+                    if (!menuManager.bGameIsPaused)
+                    {
+                        scPlayer.canMove = false;
+                        if (BBad == false && BGood == false && BPerfect == false && scPlayer.bcanRotate == true) // LE JOUEUR MISS
+                        {
+                            if (!scPlayer.bIsImune)
+                            {
+                                scPlayer.fNbBeat += 1f;
+                                scPlayer.fScoreDetails[0] += 1f;
+                            }
+                            bPlayBad = false;
+                            bPlayGood = false;
+                            bPlayPerfect = false;
+                            if (!scPlayer.BisDetectedByAnyEnemy && SceneManager.GetActiveScene().name != "Loft" && !scPlayer.bIsImune)
+                            {
+                                scPlayer.FDetectionLevel += 2f;
+                            }
+                            fFovInstanceMax = fFOVmax * (80f / 100f);
+                            NotesFade();
+                        }
+                        if (scPlayer.BisDetectedByAnyEnemy && !scPlayer.bIsImune)
+                        {
+                            scPlayer.FDetectionLevel += 20f;
+                        }
+                        if (scPlayer.bIsReplaying)
+                        {
+                            iReplaying -= 1;
+                            menuManager.progressBar.value = (iReplaying - 3) / 3;
+                            if (iReplaying <= 0)
+                            {
+                                menuManager.CgLoadingScreen.alpha = 0f;
+                                menuManager.RtLoadingScreen.anchorMin = new Vector2(0, 1);
+                                menuManager.RtLoadingScreen.anchorMax = new Vector2(1, 2);
+                                menuManager.RtLoadingScreen.offsetMax = new Vector2(0f, 0f);
+                                menuManager.RtLoadingScreen.offsetMin = new Vector2(0f, 0f);
+                                StartCoroutine(menuManager.ImuneToPause(this));
+                                scPlayer.bIsReplaying = false;
+                                iReplaying = 3;
+                                menuManager.progressBar.value = (iReplaying - 3) / 3;
+                            }
+                        }
+                        IsImuneCheck();
+                        scPlayer.EyeDetection();
+                        menuManager.SetMusicVolume(0f);
+                    }
+                    else if (menuManager.bGameIsPaused && BBad == false && BGood == false && BPerfect == false)
+                    {
+                        NotesFade();
+                    }
+                }
+                fTime = 0f;
+            }
+        }*/
+    }
     //LE TEMPO
     IEnumerator wait()
     {
