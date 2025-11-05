@@ -27,8 +27,6 @@ public class SC_VisionConeCasting : MonoBehaviour
     [Header("Subdivision")]
     [SerializeField] private int heightSegments = 3;
 
-    [Header("Lissage des bords")]
-    [SerializeField] private float smoothThreshold = 0.5f;
 
     private Mesh coneMesh;
     private MeshFilter meshFilter;

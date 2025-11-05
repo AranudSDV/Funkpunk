@@ -5,9 +5,9 @@ ShaderImporter:
   defaultTextures:
   - _IllumTex: {fileID: 2800000, guid: 1b8eb9a6dc68a9f4eaff42068bb79eee, type: 3}
   - _InteractiveGrid: {fileID: 8400000, guid: 3b5a8f3bdc928d94ab140bad48ca053d, type: 2}
-  - _ColliderTex: {fileID: 2800000, guid: 1b8eb9a6dc68a9f4eaff42068bb79eee, type: 3}
   - _GridTex: {fileID: 2800000, guid: 1b8eb9a6dc68a9f4eaff42068bb79eee, type: 3}
   - _VisibilityTex: {fileID: 2800000, guid: 1b8eb9a6dc68a9f4eaff42068bb79eee, type: 3}
+  - _ColliderTex: {fileID: 2800000, guid: 1b8eb9a6dc68a9f4eaff42068bb79eee, type: 3}
   nonModifiableTextures: []
   userData: 
   assetBundleName: 

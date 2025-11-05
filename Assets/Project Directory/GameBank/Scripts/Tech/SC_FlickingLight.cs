@@ -7,11 +7,11 @@ public class LightFlickering : MonoBehaviour
     public float fMaxIntensity = 1f;
     private float fBeatValue = 0f;
 
-    private BPM_Manager manager;
+    public BPM_Manager manager;
 
     private void Start()
     {
-        manager = BPM_Manager.instance;
+    
     }
 
     private void Update()

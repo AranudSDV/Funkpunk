@@ -142,7 +142,7 @@ Material:
     - _ShadowPatternRotator: 1.72
     - _ShadowSoftness: 1
     - _ShadowTex_Pow: 0.64
-    - _Shadow_FallOffThreshold: 1
+    - _Shadow_FallOffThreshold: 1.8
     - _Shadow_LitThreshold: 0.8
     - _Shadows_ProceduralOrTexture: 0
     - _Smoothness: 0

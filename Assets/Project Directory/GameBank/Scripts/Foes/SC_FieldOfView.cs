@@ -21,8 +21,8 @@ public class SC_FieldOfView : MonoBehaviour
     }
 
     [SerializeField] private SC_Player scPlayer = null;
-    [SerializeField] private SC_VisionConeCasting sc_Cone;
-    [SerializeField] private SC_VisionConeCasting[] sc_BossCone = new SC_VisionConeCasting[2];
+    [SerializeField] private SC_VisionConeGPU sc_Cone;
+    [SerializeField] private SC_VisionConeGPU[] sc_BossCone = new SC_VisionConeGPU[2];
 
     //LE DEPLACEMENT
     [Header("Deplacement")]
@@ -167,7 +167,7 @@ public class SC_FieldOfView : MonoBehaviour
             bHasHeard = false;
             BIsNear = false;
             i_EnnemyBeat = 0;
-            foreach(SC_VisionConeCasting cone in sc_BossCone)
+            foreach(SC_VisionConeGPU cone in sc_BossCone)
             {
                 cone.enabled = false;
             }

@@ -1,0 +1,35 @@
+#pragma kernel VisionCone
+
+RWStructuredBuffer<float3> vertices;
+RWStructuredBuffer<float2> uvs;
+RWStructuredBuffer<float3> normals;
+RWStructuredBuffer<float3> farCircleLocal;
+
+uint resolution;
+int heightSegments;
+float3 guardLocal;
+float maxDist;
+
+[numthreads(64, 1, 1)]
+void VisionCone(uint id : SV_DispatchThreadID)
+{
+    if (id >= resolution)
+        return;
+
+    float3 farLocal = farCircleLocal[id];
+
+    for (int ring = 0; ring < heightSegments; ring++)
+    {
+        uint index = ring * resolution + id;
+        float t = (float) ring / (heightSegments - 1);
+
+        float3 interpLocal = lerp(farLocal, guardLocal, t);
+        vertices[index] = interpLocal;
+
+        float dist = length(interpLocal - guardLocal);
+        float2 uv = uvs[index];
+        uv.y = (maxDist > 0.0) ? saturate(dist / maxDist) : 0.0;
+        uvs[index] = uv;
+
+    }
+}

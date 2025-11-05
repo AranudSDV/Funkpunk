@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Splines;
 using System.Collections.Generic;
 
+[ExecuteAlways]
 public class SplineTrainMover : MonoBehaviour
 {
     [Header("Spline Settings")]

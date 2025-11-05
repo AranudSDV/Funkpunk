@@ -47,14 +47,20 @@ Material:
     m_Ints: []
     m_Floats:
     - _BOOLEAN: 0
-    - _EdgeFallOff: 0.7
-    - _Opacity: 0.29
+    - _BorderOpacity: 0.9
+    - _BorderSmoothness: 0.18
+    - _EdgeFallOff: 0
+    - _IntersectionDepth: 0.18
+    - _IntersectionSmoothness: 0.05
+    - _Opacity: 0.1
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Z_Opacity: 0
-    - _Z_Smoothnes: 0
+    - _X_Opacity: 0
+    - _X_Smoothness: 0
+    - _Z_Opacity: -0.61
+    - _Z_Smoothnes: 2.03
     m_Colors:
-    - _Color: {r: 0.73945326, g: 0.74901956, b: 0, a: 1}
+    - _Color: {r: 1.4980391, g: 1.4802419, b: 0, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &1863592366323824527
 MonoBehaviour:

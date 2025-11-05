@@ -116,6 +116,8 @@ Material:
     - _Curve_Cycle1: 2
     - _Curve_IsMirrored: 1
     - _Curve_Weight: 10
+    - _Cycle_Alternate: 0
+    - _Cycle_Curve: 1
     - _Debug: 0
     - _G_BaseOpacity: 0.5109974
     - _G_FadeSmooth: 1
@@ -210,6 +212,11 @@ Material:
     - _Mid: {r: 1, g: 0.9807784, b: 0.7877358, a: 1}
     - _Mid02: {r: 0.37106913, g: 0.31673288, b: 0.311558, a: 1}
     - _Mid03: {r: 1, g: 1, b: 1, a: 1}
+    - _Offset1: {r: 0, g: 0, b: 0, a: 0}
+    - _Offset2: {r: 0, g: 0, b: 0, a: 0}
+    - _RotaPower: {r: 0, g: 0, b: 0, a: 0}
+    - _Scale1: {r: 1, g: 1, b: 1, a: 1}
+    - _Scale2: {r: 1, g: 1, b: 1, a: 1}
     - _SubColor: {r: 2.670157, g: 0, b: 0, a: 0}
     - _SubColor1: {r: 0, g: 2.670157, b: 1.011534, a: 0}
   m_BuildTextureStacks: []

@@ -13,7 +13,10 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _HANDLECOLORS_ON
+  - _OFFSETISALTERNATED_ON
+  - _ROTATIONISALTERNATED_ON
   - _SAMEORNOT_ON
+  - _SCALEISALTERNATED_ON
   - _USINGXMOVE_ON
   - _USINGXSCALE_ON
   - _USINGYMOVE_ON
@@ -119,6 +122,8 @@ Material:
     - _Curve_IsMirrored: 1
     - _Curve_PeakNb: 1
     - _Curve_Weight: 10
+    - _Cycle_Alternate: 0
+    - _Cycle_Curve: 1
     - _Debug: 0
     - _G_BaseOpacity: 0
     - _G_FadeSmooth: 1
@@ -135,6 +140,7 @@ Material:
     - _Motion_Delay: 0.05
     - _MoveX: 0
     - _NoColorsWhiteValue: 1
+    - _OffsetIsAlternated: 1
     - _OffsetX_Power: -0.01
     - _OffsetX_Power1: 0.01
     - _OffsetY_Power: 0.01
@@ -149,7 +155,9 @@ Material:
     - _RotaPower2: 0.2
     - _Rotater: 0
     - _Rotater1: -1
+    - _RotationIsAlternated: 1
     - _SameOrNot: 1
+    - _ScaleIsAlternated: 1
     - _ScaleX: 1
     - _ScaleY: 1
     - _Scaler1: 0
@@ -210,6 +218,11 @@ Material:
     - _Mid: {r: 0.026615381, g: 0.173, b: 0.046576902, a: 1}
     - _Mid02: {r: 0.0069733895, g: 0.044, b: 0, a: 1}
     - _Mid03: {r: 0.13725491, g: 0.0627451, b: 0.0627451, a: 1}
+    - _Offset1: {r: 0, g: 0, b: 0, a: 0}
+    - _Offset2: {r: 0, g: 0, b: 0, a: 0}
+    - _RotaPower: {r: 0, g: 0, b: 0, a: 0}
+    - _Scale1: {r: 1, g: 1, b: 1, a: 1}
+    - _Scale2: {r: 1, g: 1, b: 1, a: 1}
     - _SubColor: {r: 2.670157, g: 0, b: 0, a: 0}
     - _SubColor1: {r: 0, g: 2.670157, b: 1.011534, a: 0}
   m_BuildTextureStacks: []

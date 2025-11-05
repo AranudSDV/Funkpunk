@@ -1,47 +1,44 @@
 #pragma kernel BakeCollision
 #pragma kernel GridCompute
 
-// Outputs
-RWTexture2D<float4> Result; // Grid result: R=illum, G=vis, B=collision, A=1
+RWTexture2D<float4> Result; // R=illum, G=vis, B=collision, A=1
 RWTexture2D<float4> CollisionRT; // BakeCollision writes here (G channel)
 
-// Inputs for GridCompute
 Texture2D<float4> CollisionMask;
 
-float4 PlayerPos; // x = world X, y = plane axis (Y), z = world Z
-float4 PlayerForward; // x = forward.x, y = forward.y (plane), z = forward.z
+float4 PlayerPos; // x=worldX, z=worldZ (we'll use .x and .z)
+float4 PlayerForward; // x=forwardX, z=forwardZ
+
 float GridPosX;
 float GridPosZ;
 float VisibilityRadius;
 float VisibilityEdgeStart;
-float PlayerCellEdgeSmooth;
+float PlayerCellEdgeSmooth; // 0..1
 float WorldSubW;
 int Subdiv;
 float PlayerIllumBleed;
 
-// Inputs for BakeCollision
-StructuredBuffer<float4> Colliders; // x=center.x, y=center.z, z=halfExt.x, w=halfExt.y
+// front cell provided from C#
+int FrontCellX;
+int FrontCellY;
+
+// Bake inputs
+StructuredBuffer<float4> Colliders; // x=centerX, y=centerZ, z=halfExtX, w=halfExtZ
 int ColliderCount;
 float ColliderBleed;
-float ColliderEdgeSmooth;
+float ColliderEdgeSmooth; // 0..1
 
-////////////////////////////////////////////////////////////
-//  COLLISION
-////////////////////////////////////////////////////////////
 [numthreads(8, 8, 1)]
 void BakeCollision(uint3 id : SV_DispatchThreadID)
 {
     uint2 px = id.xy;
-    uint width, height;
-    CollisionRT.GetDimensions(width, height);
-    if (px.x >= width || px.y >= height)
+    uint w, h;
+    CollisionRT.GetDimensions(w, h);
+    if (px.x >= w || px.y >= h)
         return;
 
-    float2 gridOrigin = float2(GridPosX, GridPosZ);
-    float2 worldPos = float2(
-        (px.x + 0.5) * WorldSubW + gridOrigin.x,
-        (px.y + 0.5) * WorldSubW + gridOrigin.y
-    );
+    float2 origin = float2(GridPosX, GridPosZ);
+    float2 worldPos = float2((px.x + 0.5) * WorldSubW + origin.x, (px.y + 0.5) * WorldSubW + origin.y);
 
     float maxVal = 0.0;
 
@@ -51,15 +48,17 @@ void BakeCollision(uint3 id : SV_DispatchThreadID)
         float2 center = float2(c.x, c.y);
         float2 halfExt = float2(c.z, c.w);
 
+        // distance from center
         float2 delta = abs(worldPos - center);
 
-        // distance normalisée jusqu'à la limite du bleed
-        float2 normDelta = delta / (halfExt + ColliderBleed);
-        float maxDelta = saturate(max(normDelta.x, normDelta.y));
+        // normalized distance to bleed boundary (0=center .. 1=at (halfExt+bleed))
+        float2 nd = delta / (halfExt + ColliderBleed);
+        float n = saturate(max(nd.x, nd.y));
 
-        // applique smoothing depuis le centre
-        float t = saturate((maxDelta - (1.0 - ColliderEdgeSmooth)) / ColliderEdgeSmooth);
-        float val = 1.0 - t; // 1 au centre, 0 à la limite du bleed
+        // shift smoothing start using ColliderEdgeSmooth (0..1)
+        float start = max(0.0, 1.0 - ColliderEdgeSmooth); // e.g. Smooth=0.2 => start=0.8
+        float t = saturate((n - start) / (1.0 - start + 1e-6));
+        float val = 1.0 - t;
 
         maxVal = max(maxVal, val);
         if (maxVal >= 1.0)
@@ -69,63 +68,60 @@ void BakeCollision(uint3 id : SV_DispatchThreadID)
     CollisionRT[px] = float4(0.0, maxVal, 0.0, 1.0);
 }
 
-////////////////////////////////////////////////////////////
-//  GRID COMPUTE
-////////////////////////////////////////////////////////////
+
 [numthreads(8, 8, 1)]
 void GridCompute(uint3 id : SV_DispatchThreadID)
 {
     uint2 px = id.xy;
-    uint width, height;
-    Result.GetDimensions(width, height);
-    if (px.x >= width || px.y >= height)
+    uint w, h;
+    Result.GetDimensions(w, h);
+    if (px.x >= w || px.y >= h)
         return;
 
-    float2 gridOrigin = float2(GridPosX, GridPosZ);
-    float2 worldPos = float2(
-        (px.x + 0.5) * WorldSubW + gridOrigin.x,
-        (px.y + 0.5) * WorldSubW + gridOrigin.y
-    );
+    float2 origin = float2(GridPosX, GridPosZ);
+    float2 worldPos = float2((px.x + 0.5) * WorldSubW + origin.x,
+                             (px.y + 0.5) * WorldSubW + origin.y);
 
-    // --- Player infos ---
-    float2 playerPos2D = float2(PlayerPos.x, PlayerPos.z);
-    float2 flatForward = normalize(float2(PlayerForward.x, PlayerForward.z));
-    if (all(flatForward == float2(0.0, 0.0)))
-        flatForward = float2(0.0, 1.0);
+    // --- PLAYER ILLUMINATION ---
+    int2 frontCell = int2(FrontCellX, FrontCellY);
+    float2 center = (float2(frontCell) + 0.5) * Subdiv * WorldSubW + origin;
 
-    // --- Calcul cellule devant ---
-    float2 playerLocal = (playerPos2D - gridOrigin) / WorldSubW;
-    int2 playerCell = int2(floor(playerLocal / Subdiv));
-
-    int2 frontOffset = int2(0, 0);
-    if (abs(flatForward.x) > abs(flatForward.y))
-        frontOffset.x = (flatForward.x > 0) ? 1 : -1;
-    else
-        frontOffset.y = (flatForward.y > 0) ? 1 : -1;
-
-    int2 frontCell = playerCell + frontOffset;
-
-    // --- Centre de la cellule devant (en monde) ---
-    float2 frontCenterWorld = (float2(frontCell) + 0.5) * Subdiv * WorldSubW + gridOrigin;
+    float halfCell = (Subdiv * 0.5) * WorldSubW;
+    float bleedMax = halfCell + PlayerIllumBleed;
 
     // distance du pixel au centre
-    float2 delta = abs(worldPos - frontCenterWorld);
+    float2 delta = abs(worldPos - center);
 
-    // distance normalisée jusqu'à la limite du bleed
-    float2 normDelta = delta / ((Subdiv * 0.5 * WorldSubW) + PlayerIllumBleed);
-    float maxDelta = saturate(max(normDelta.x, normDelta.y));
+    // zone bleed binaire : si pixel dans la zone bleed
+    
+    
+        // distance normalisée pour le smoothing (0=center, 1=limite bleed)
+        float n = max(delta.x / bleedMax, delta.y / bleedMax);
 
-    // applique smoothing depuis le centre
-    float t = saturate((maxDelta - (1.0 - PlayerCellEdgeSmooth)) / PlayerCellEdgeSmooth);
-    float illum = 1.0 - t;
+        // décalage start du smoothing
+        float start = saturate(1.0 - PlayerCellEdgeSmooth);
 
-    // --- Visibility ---
-    float dist = distance(worldPos, playerPos2D);
-    float vis = 1.0 - smoothstep(VisibilityEdgeStart, VisibilityRadius, dist);
+        // illum : 1 au centre, 0 au bord du bleed
+        float t = saturate((n - start) / (1.0 - start + 1e-6));
+        float illum = 1.0 - t;
 
-    // --- Collision ---
-    int3 coord = int3(px.x, px.y, 0);
-    float col = CollisionMask.Load(coord).g;
+        // --- VISIBILITY ---
+        float2 player2D = float2(PlayerPos.x, PlayerPos.z);
+        float dist = distance(worldPos, player2D);
+        float vis = 1.0 - smoothstep(VisibilityEdgeStart, VisibilityRadius, dist);
 
-    Result[px] = float4(illum, vis, col, 1.0);
+        // --- COLLISION ---
+        int3 coord = int3(px.x, px.y, 0);
+        float col = CollisionMask.Load(coord).g;
+
+        Result[px] = float4(illum, vis, col, 1.0);
+    
+
 }
+
+
+
+
+
+
+

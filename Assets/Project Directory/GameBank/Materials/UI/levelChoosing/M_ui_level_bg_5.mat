@@ -12,12 +12,16 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _1TEX_ON
+  - _OFFSETISALTERNATED_ON
+  - _ROTATIONISALTERNATED_ON
+  - _SAMEORNOT_ON
+  - _SCALEISALTERNATED_ON
   - _USINGXSCALE_ON
   - _USINGYMOVE_ON
   - _USINGYSCALE_ON
   - _VFXORUI_ON
   m_InvalidKeywords:
+  - _1TEX_ON
   - _SCALEX_ON
   - _SCALEY_ON
   - _USINGXSCALE1_ON
@@ -75,9 +79,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - BckGrnd_BaseScale: 1
     - _1Tex: 1
     - _2Alphas: 0
     - _2Tex: 0
+    - _2ndMotion_Delay: 0
     - _3Tex: 0
     - _AlphaCutoff: 0.5
     - _Alphacliptresh: 0.1
@@ -86,6 +92,17 @@ Material:
     - _BaseScale: 1
     - _BaseSizeX: 0.99
     - _BaseSizeY: 0.99
+    - _BckGrnd_Offseter: -0.07699616
+    - _BckGrnd_Rotater: -1
+    - _BckGrnd_Scaler: 0
+    - _BckGrnd_TransformedOffsetX: 0.8
+    - _BckGrnd_TransformedOffsetY: 0.8
+    - _BckGrnd_TransformedRota: 0.8
+    - _BckGrnd_TransformedScaleX: 0.8
+    - _BckGrnd_TransformedScaleY: 0.8
+    - _Curve_Weight: 10
+    - _Cycle_Alternate: 0
+    - _Cycle_Curve: 1
     - _Debug: 0
     - _G_BaseOpacity: 0.5109974
     - _G_FadeSmooth: 1
@@ -98,8 +115,10 @@ Material:
     - _MinSizeX: 1.1
     - _MinSizeY: 1.02
     - _MinSizeY1: 1
+    - _Motion_Delay: 0.1
     - _MoveX: 0
     - _NoColorsWhiteValue: 1
+    - _OffsetIsAlternated: 1
     - _OffsetX_Power: 0
     - _OffsetY_Power: 0.2
     - _Offseter: 0
@@ -110,11 +129,15 @@ Material:
     - _RotaPower: -0.001
     - _RotaPower1: -0.1
     - _Rotater: 0
+    - _RotationIsAlternated: 1
+    - _SameOrNot: 1
+    - _ScaleIsAlternated: 1
     - _ScaleX: 1
     - _ScaleY: 1
     - _Scaler1: 0
     - _StartPosX: 0
     - _StartPosY: -0.02
+    - _Tex_Nbr: 3
     - _TimeDelay: 0
     - _TransformedOffset: 0.8
     - _TransformedOffsetX: 0.8
@@ -126,6 +149,7 @@ Material:
     - _TransformedSizeX: 1.1
     - _TransformedSizeY: 1.1
     - _UI_AutoOrMano: 0
+    - _UI_AutoOrManual: 0
     - _UI_ManualOrProcedural: 0
     - _UpLorDownR: 0
     - _UsingX: 0
@@ -154,6 +178,11 @@ Material:
     - _Mid: {r: 1, g: 0.9807784, b: 0.7877358, a: 1}
     - _Mid02: {r: 0.37106913, g: 0.31673288, b: 0.311558, a: 1}
     - _Mid03: {r: 1, g: 1, b: 1, a: 1}
+    - _Offset1: {r: 0, g: 0, b: 0, a: 0}
+    - _Offset2: {r: 0, g: 0, b: 0, a: 0}
+    - _RotaPower: {r: 0, g: 0, b: 0, a: 0}
+    - _Scale1: {r: 1, g: 1, b: 1, a: 1}
+    - _Scale2: {r: 1, g: 1, b: 1, a: 1}
     - _SubColor: {r: 2.670157, g: 0, b: 0, a: 0}
     - _SubColor1: {r: 0, g: 2.670157, b: 1.011534, a: 0}
   m_BuildTextureStacks: []

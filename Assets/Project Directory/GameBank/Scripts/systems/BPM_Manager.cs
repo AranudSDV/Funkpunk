@@ -575,14 +575,14 @@ public class BPM_Manager : SingletonManager<BPM_Manager>
                     bPlayPerfect = false;
                     if (!scPlayer.BisDetectedByAnyEnemy && SceneManager.GetActiveScene().name != "Loft" && !scPlayer.bIsImune)
                     {
-                        scPlayer.FDetectionLevel += 2f;
+                        scPlayer.FDetectionLevel += 0f;
                     }
                     fFovInstanceMax = fFOVmax * (80f / 100f);
                     NotesFade();
                 }
                 if (scPlayer.BisDetectedByAnyEnemy && !scPlayer.bIsImune)
                 {
-                    scPlayer.FDetectionLevel += 20f;
+                    scPlayer.FDetectionLevel += 0f;
                 }
                 if (scPlayer.bIsReplaying)
                 {
